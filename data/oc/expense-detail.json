@@ -1,0 +1,28 @@
+[
+	{
+		"accountName": "OfficeClip LLC",
+        "accountSid": "3M6RSUYV6GRX3USRFC5Q",
+		"amount": 73476,
+		"billable": true,
+		"comments": "This is to test comments for expenses.",
+		"description": "Ea earum aspernatur ratione tempora.",
+		"employeeFullName": "Sudhakar Gundu",
+		"employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
+		"expenseDate": "2020-05-27 18:30:00Z",
+		"expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
+        "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ",
+		"expenseTypeName": "AIRTRAVEL",
+		"expenseCategoryName": "",
+		"expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
+		"projectName": "",
+        "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
+		"tax": 12345,
+		"paymentType": "Cash",
+		"airTravelExpense": {
+			"arrivalAirport": "Hyderabad",
+			"arrivalDate": "12-06-2020",
+			"departureAirport": "Mumbai",
+			"departureDate": "13-06-2020"
+		}
+	}
+]

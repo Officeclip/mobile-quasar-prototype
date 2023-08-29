@@ -1,0 +1,22 @@
+[
+    {
+        "name": "High",
+        "id": "1",
+        "isDefault": true
+    },
+    {
+        "name": "Medium",
+        "id": "2",
+        "isDefault": false
+    },
+    {
+        "name": "Low",
+        "id": "3",
+        "isDefault": false
+    },
+    {
+        "name": "Other",
+        "id": "4",
+        "isDefault": false
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "name": "To Do",
+        "id": "1",
+        "isDefault": true
+    },
+    {
+        "name": "Telephone",
+        "id": "2",
+        "isDefault": false
+    },
+    {
+        "name": "Email",
+        "id": "3",
+        "isDefault": false
+    },
+    {
+        "name": "Other",
+        "id": "4",
+        "isDefault": false
+    }
+]

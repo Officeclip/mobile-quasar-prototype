@@ -1,0 +1,86 @@
+<!-- cleaned up with google bard with minor correction -->
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
+import { useNotesStore } from '../../stores/NotesStore';
+import { useRoute } from 'vue-router';
+
+const notesStore = useNotesStore();
+const isPrivate = ref<string>();
+
+const id = ref<string | string[]>('0');
+
+const note = computed(() => {
+  return notesStore.Note;
+});
+
+onMounted(() => {
+  const route = useRoute();
+  console.log('id=', route.params.id);
+  id.value = route.params.id;
+  notesStore.getNote(Number(route.params.id));
+});
+
+isPrivate.value = note.value?.isPrivate ? 'Yes' : 'No';
+</script>
+
+<template>
+  <q-layout view="lHh Lpr lFf">
+    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
+      <q-toolbar>
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
+        </q-btn>
+        <q-toolbar-title> Note details </q-toolbar-title>
+
+        <q-btn
+          :to="{ name: 'editNote', params: { id: id } }"
+          flat
+          round
+          dense
+          color="white"
+          icon="edit"
+        />
+        <q-btn
+          @click="notesStore.deleteNote(note?.id); $router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="delete"
+        />
+      </q-toolbar>
+    </q-header>
+
+    <q-page-container>
+      <q-card class="relative-position card-example" flat bordered>
+        <q-card-section class="q-pb-none">
+          <q-list>
+            <q-item>
+              <q-item-section>
+                <q-item-label caption>Title</q-item-label>
+                <q-item-label class="q-mb-sm">{{ note?.title }}</q-item-label>
+
+                <q-item-label caption>Description</q-item-label>
+                <!-- <div v-html="note?.description"> </div> -->
+                <q-item-label class="q-mb-sm">
+                  <div v-html="note?.description"> </div>
+                </q-item-label>
+
+                <q-item-label caption>Private</q-item-label>
+                <q-item-label class="q-mb-sm">{{ isPrivate }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+      </q-card>
+    </q-page-container>
+  </q-layout>
+</template>
+
+<style></style>

@@ -1,0 +1,27 @@
+[
+    {
+        "name": "In Progress",
+        "id": "1",
+        "isDefault": true
+    },
+    {
+        "name": "Completed",
+        "id": "2",
+        "isDefault": false
+    },
+    {
+        "name": "Pending",
+        "id": "3",
+        "isDefault": false
+    },
+    {
+        "name": "Waiting",
+        "id": "4",
+        "isDefault": false
+    },
+    {
+        "name": "Other",
+        "id": "5",
+        "isDefault": false
+    }
+]

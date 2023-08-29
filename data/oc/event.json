@@ -1,0 +1,35 @@
+{
+    "sid": "H49BN6FDDBYWN7WXGC5Q",
+    "createdDate": "2020-03-05 15:01:17Z",
+    "createdGroupId": "YZMX3M9D4BLNXA9S545Q",
+    "createdUserSid": "N4VRXBADAZHRSGHFYD5Q",
+    "parentServiceType": "-1",
+    "parentSid": "JCJR6NA526TKYKTCUD5Q",
+    "eventType": "2",
+    "eventName": "Testing event",
+    "eventDescription": "",
+    "startDateTime": "2020-03-04 18:30:00Z",
+    "endDateTime": "2020-03-04 19:00:00Z",
+    "isAllDayEvent": false,
+    "eventUserSid": "-1",
+    "isRsvp": false,
+    "eventLocation": "hyd",
+    "meetingAttendees": [
+        {
+            "name": "Narsimha",
+            "email": "knr@officeclip.com"
+        },
+        {
+            "name": "Oc, Demo",
+            "email": "ocdemo@officeclip.com"
+        },
+        {
+            "name": "Prakash",
+            "email": "prakash@gmail.com"
+        }
+    ],
+    "repeatInfoText": "",
+    "modifiedDate": "2020-03-05 15:01:17Z",
+    "modifiedUserSid": "N4VRXBADAZHRSGHFYD5Q",
+    "timezoneId": 42
+}

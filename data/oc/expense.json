@@ -1,0 +1,22 @@
+[
+	{
+		"sid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ",
+		"employeeId": "1212",
+		"createdByUserName": "Rao, Narsimha",
+		"fromDate": "2020-05-25 08:41:01Z",
+		"toDate": "2020-05-31 08:41:01Z",
+		"totalAmount": "255.00",
+		"currency": "USD",
+		"status": "Pending"
+	}, 
+	{
+		"sid": "WRFDFZNCXXGEJBTQSSVM6",
+		"employeeId": "1213",
+		"createdByUserName": "Prakash Reddy, Bhanu",
+		"fromDate": "2020-05-25 08:41:01Z",
+		"toDate": "2020-05-31 08:41:01Z",
+		"totalAmount": "200.00",
+		"currency": "USD",
+		"status": "Pending"
+	}
+]
