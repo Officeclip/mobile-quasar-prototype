@@ -1,4 +1,4 @@
-# OfficeClip Mobile (mobile)
+# OfficeClip Mobile (mobile) 
 
 Quasar Prototype of OfficeClip Mobile
 
