@@ -1601,7 +1601,7 @@
               "metaId": 110,
               "visibleName": "Street Address",
               "type": "string",
-              "visible": false,
+              "visible": true,
               "editable": false,
               "value": "158 Katlynn Landing"
             },
