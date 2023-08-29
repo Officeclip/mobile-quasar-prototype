@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, onMounted } from 'vue';
+import { defineProps, ref, onMounted, onUpdated } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/TimesheetListStore';
 
@@ -24,20 +24,30 @@ dateOptions.value = [
 ]
 
 
-const customerProjectOptions = ref('')
+const sampleModel = ref(null)
+const sampleModel2 = ref('')
+
 const timesheetListStore = useTimesheetListStore();
+
 onMounted(() => {
-timesheetListStore.getTimesheetsList('CustomerProjects')
-timesheetListStore.getTimesheetsList('ServiceItems')
+timesheetListStore.getTimesheetListAll()
 })
 
-const customerProjectsList = timesheetListStore.CustomerProjectsList
-// customerProjectOptions.value = Object.keys(data).map(key => data[key]);
-customerProjectOptions.value = customerProjectsList
+onUpdated(() =>{
+  const selectedValue = sampleModel.value.id
+  console.log('getting the id from option:', selectedValue)
+})
 
-const taskOptions = ref('')
-const serviceItemsList = timesheetListStore.ServiceItemsList
-taskOptions.value = serviceItemsList
+const customerProjectOptions = ref('')
+customerProjectOptions.value = timesheetListStore.CustomerProjectsList;
+
+const serviceItemsOptions = ref('')
+// serviceItemsOptions.value = timesheetListStore.ServiceItemsList
+
+const handleSelectChange = (sampleModel) => {
+        console.log('Selected value:', sampleModel.id);
+        serviceItemsOptions.value = timesheetListStore.getServiceItemsBycustomerProjectId(sampleModel.id)
+    };
 
 
 const billableOptions = ref([]);
@@ -85,25 +95,24 @@ taskDate.value = 'July 20(Thu)'
           map-options
           emit-label
         />
-        <pre>{{ props.timesheet.accountName }}</pre>
+        <pre>{{ sampleModel }}</pre>
          <q-select
           label="Customer: Project"
-          v-model="props.timesheet.accountName"
+          v-model="sampleModel"
           :options="customerProjectOptions"
           option-label="name"
           option-value="id"
           map-options
-          emit-label
+          @update:model-value="handleSelectChange"
         />
 
         <q-select
-          label="Task"
-          v-model="props.timesheet.serviceItemName"
-          :options="taskOptions"
+          label="ServiceItems"
+          v-model="sampleModel2"
+          :options="serviceItemsOptions"
           option-label="name"
           option-value="id"
           map-options
-          emit-label
         />
 
         <q-select

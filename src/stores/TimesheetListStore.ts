@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia';
-import { Timesheet } from '../models/timesheet';
+import { CustomerProject } from '../models/Timesheet/customerProject';
+import { ServiceItems } from '../models/Timesheet/serviceItems';
 import axios from 'axios';
 
 export const useTimesheetListStore = defineStore('timesheetListStore', {
   state: () => ({
-    customerProjectsList: [] as Timesheet[],
-    serviceItemsList: [] as Timesheet[],
+    customerProjectsList: [] as CustomerProject[],
+    serviceItemsList: [] as ServiceItems[],
   }),
 
   getters: {
@@ -15,6 +16,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
 
   actions: {
     // getting all the timesheets for testing only, probably no where this use
+
     async getTimesheetsList(name: string) {
       try {
         const response = await axios.get(
@@ -33,6 +35,21 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
       } catch (error) {
         console.error(error);
       }
+    },
+    async getTimesheetListAll() {
+      await this.getTimesheetsList('CustomerProjects');
+      await this.getTimesheetsList('ServiceItems');
+    },
+
+    getServiceItemsBycustomerProjectId(customerProjectId: string) {
+      console.log('customerProject Id: ', customerProjectId);
+      const newItems: ServiceItems[] = this.serviceItemsList.filter((t) => {
+        return (
+          t.customerProjectId === '' ||
+          t.customerProjectId === customerProjectId
+        );
+      });
+      return newItems;
     },
   },
 });

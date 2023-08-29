@@ -24,9 +24,23 @@ const timesheet = ref({
 
 function onSubmit(e: any) {
   e.preventDefault()
-  console.log(`onSubmit Timesheet Value: ${timesheet.value}`);
 
-  
+  const newTimesheet = {
+    accountName: timesheet.value.accountName,
+    accountId: '',
+    createdDate: timesheet.value.createdDate,
+    createdUserId: '',
+    description: timesheet.value.description,
+    isBillable: timesheet.value.isBillable,
+    payrollName: '',
+    projectName: '',
+    projectId: '',
+    serviceItemName: timesheet.value.serviceItemName,
+    timeDuration: timesheet.value.timeDuration
+
+  }
+  console.log(`onSubmit Timesheet Value: ${{newTimesheet}}`);
+
   router.push('/')
 }
 

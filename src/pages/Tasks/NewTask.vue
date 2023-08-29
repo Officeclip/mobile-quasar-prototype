@@ -30,7 +30,6 @@ function onSubmit(e: any) {
   const formData = new FormData(e.target);
   const newDueDate = formData.get('dueDate');
   const newStartDate = formData.get('startDate')
-  console.log(`onSubmit Task Value: ${task.value}`);
 
  // note.value.isPrivate = (note.value.isPrivate === 'Yes')
 
