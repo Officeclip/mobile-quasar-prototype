@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { parse } from 'date-fns';
 
 const extractDateFromUtc = (utcDateTime: string) =>
   utcDateTime.substring(0, 10);
@@ -28,9 +29,16 @@ const extractMonthFromUtc = (utcDateTime: string) => {
   return formattedDate;
 };
 
+const convertGeneralToUtc = (generalDateTime: string) => {
+  // Converts "2023-07-27 12:00 am" to 2023-07-27T00:00:00Z
+  const dateTime = parse(generalDateTime, 'yyyy-MM-dd p', new Date());
+  return format(dateTime, "yyyy-MM-dd'T'HH:mm:ss'Z'");
+};
+
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
   extractTimeFromUtcForQTime,
   extractMonthFromUtc,
+  convertGeneralToUtc,
 };
