@@ -1571,7 +1571,7 @@
               "metaId": 102,
               "visibleName": "Last Name",
               "type": "string",
-              "visible": true,
+              "visible": false,
               "editable": true,
               "value": "Swift"
             },
