@@ -15,8 +15,8 @@ const pageSize = ref(10); // number of items in one page
 const numItems = ref<number>(0); // total number of items in the list
 const text = ref('');
 
-const batchNumber = ref(1); // the current number of batches loaded using infinite scroll
-const batchSize = ref(10); // number of contacts to load in each batch
+const reachedEnd = ref(false); // indicate if all contacts have been loaded
+const batchSize = ref(25); // number of contacts to load in each batch
 
 const contacts = computed(() => {
   return contactsStore.Contacts;
@@ -24,18 +24,22 @@ const contacts = computed(() => {
 
 onMounted(() => {
   contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
-  contactsStore.getContacts1(batchSize.value, batchNumber.value);
-  batchNumber.value++;
+  // contactsStore.getContacts1(batchSize.value, batchNumber.value);
   // contactsStore.getContacts();
   //contacts.value = contactsStore.Contacts;
   console.log(`onMounted: Contacts - ${contactsStore.Contacts}`);
 });
+
 const loadMore = (index: any, done: () => void) => {
+  const contactsSizeBeforeCall = contacts.value.length;
   setTimeout(() => {
-    contactsStore.getContacts1(batchSize.value, batchNumber.value);
-    batchNumber.value++;
-    done();
-  }, 1000)
+    contactsStore.getContacts1(batchSize.value, index).then(()=>{
+      done();
+      const contactsAfterCall = contacts.value.length;
+      reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
+    })
+  }, 500);
+
 }
 
 const totalPages = computed(() => {
@@ -56,7 +60,7 @@ const getData = computed(() => {
       });
   //console.log(`getData - contacts length: ${contacts.length}, filteredContacts length: ${filteredContacts.length}`)
 
-  //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
+  //FIXME: Remove the lint suppress line from here. See: https://stackoverflow.com/a/54535439
   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
   numItems.value = filteredContacts.length;
 
@@ -110,7 +114,7 @@ const getData = computed(() => {
           </template>
         </q-input>
 
-        <q-infinite-scroll :offset="250" @load="loadMore">
+        <q-infinite-scroll :disable="reachedEnd" :offset="250" @load="loadMore">
           <q-item
             v-for="contact in getData"
             :key="contact.id"
@@ -136,6 +140,7 @@ const getData = computed(() => {
           <template v-slot:loading>
             <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
           </template>
+          <p v-if="reachedEnd">All Contacts Loaded</p>
         </q-infinite-scroll>
         <div>
           <q-page-sticky :offset="[18, 18]" position="bottom-right">
