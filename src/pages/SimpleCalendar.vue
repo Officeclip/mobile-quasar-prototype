@@ -90,10 +90,9 @@ function getEventType(event: Event) {
 
     <q-page-container>
       <q-page>
-        <div class="q-pa-md">
-          <div class="q-gutter-md">
+        <div class="q-ma-md">
+          <div>
             <q-date
-              style="width: unset"
               landscape
               today-btn
               v-model="date"
