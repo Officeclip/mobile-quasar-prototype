@@ -35,10 +35,17 @@ const convertGeneralToUtc = (generalDateTime: string) => {
   return format(dateTime, "yyyy-MM-dd'T'HH:mm:ss'Z'");
 };
 
+const convertDateToUtc = (generalDate: string) => {
+  // Converts "2023-07-27 12:00 am" to 2023-07-27T00:00:00Z
+  const dateTime = parse(generalDate, 'yyyy-MM-dd', new Date());
+  return format(dateTime, "yyyy-MM-dd'T'00:00:00'Z'");
+};
+
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
   extractTimeFromUtcForQTime,
   extractMonthFromUtc,
   convertGeneralToUtc,
+  convertDateToUtc,
 };
