@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, onMounted, onUpdated } from 'vue';
+import { defineProps, ref, onBeforeMount, onUpdated, computed } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/TimesheetListStore';
 
@@ -29,7 +29,7 @@ const sampleModel2 = ref('')
 
 const timesheetListStore = useTimesheetListStore();
 
-onMounted(() => {
+onBeforeMount(() => {
 timesheetListStore.getTimesheetListAll()
 })
 
@@ -38,8 +38,7 @@ onUpdated(() =>{
   console.log('getting the id from option:', selectedValue)
 })
 
-const customerProjectOptions = ref('')
-customerProjectOptions.value = timesheetListStore.CustomerProjectsList;
+const customerProjectOptions = timesheetListStore.CustomerProjectsList;
 
 const serviceItemsOptions = ref('')
 // serviceItemsOptions.value = timesheetListStore.ServiceItemsList
