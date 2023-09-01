@@ -18,7 +18,9 @@ const userName = ref('');
 const userEmail = ref('');
 //const homeIcons = ref<HomeIcon[]>([]);
 //const organizationItems = ref<string[]>([]);
-const model = ref(null);
+// const model = ref(null);
+
+const model = ref('OfficeClip Work');
 
 const homeIcons = computed(() => {
   return homeIconStore.HomeIcons;
@@ -45,9 +47,14 @@ onBeforeMount(() => {
   homeIconStore.getHomeIcons();
   fetchUserIcon();
   fetchUserData();
+  homeIconStore.getOrganizationItems();
   //homeIcons.value = homeIconStore.HomeIcons;
   //organizationItems.value = homeIconStore.OrganizationItems;
 });
+
+function getOrgApplications(){
+  homeIconStore.getHomeIcons();
+}
 
 const leftDrawerOpen = ref(false);
 
@@ -93,7 +100,7 @@ function getClass(url: string) {
 
 function goToApp(url: string) {
   if (url !== '') {
-    router.push({path: url});
+    router.push({ path: url });
   }
 }
 </script>
@@ -166,6 +173,8 @@ function goToApp(url: string) {
           <q-select
             v-model="model"
             :options="organizationItems"
+            @update:model-value="getOrgApplications"
+            option-label="name"
             label="Select Organization"
             outlined
           />
@@ -173,7 +182,7 @@ function goToApp(url: string) {
         <div>
           <div class="row">
             <div
-              v-for="item in homeIcons"
+              v-for="item in filteredHomeIcons"
               :key="item.name"
               class="col-4 q-pa-xl text-center itemsCenter"
               style="height: 150px"
