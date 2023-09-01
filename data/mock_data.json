@@ -2807,12 +2807,12 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": "1,2,3,4,5,6"
+      "applicationIds": [1,2,3,4,5,6]
     }
   ],
   "generalUserProfile": [
     {
-      "userIcon": "",
+      "userIcon": "https://cdn-icons-png.flaticon.com/256/5556/5556468.png",
       "userPhoto": ""
     }
   ],

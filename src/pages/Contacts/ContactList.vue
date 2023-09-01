@@ -140,8 +140,8 @@ const getData = computed(() => {
           <template v-slot:loading>
             <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
           </template>
-          <p v-if="reachedEnd">All Contacts Loaded</p>
         </q-infinite-scroll>
+        <q-separator color="orange" inset />
         <div>
           <q-page-sticky :offset="[18, 18]" position="bottom-right">
             <q-btn

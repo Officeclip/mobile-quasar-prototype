@@ -7,11 +7,15 @@
 import {ref, onBeforeMount, computed} from 'vue';
 import {useHomeIconsStore} from 'stores/HomeIconStore';
 import {useRouter} from 'vue-router';
+import {useSessionStore} from 'stores/SessionStore';
 //import { HomeIcon } from '../models/homeIcon';
 
 const router = useRouter();
 const homeIconStore = useHomeIconsStore();
-
+const sessionStore = useSessionStore();
+const userIcon = ref("");
+const userName = ref("");
+const userEmail = ref("");
 //const homeIcons = ref<HomeIcon[]>([]);
 //const organizationItems = ref<string[]>([]);
 const model = ref(null);
@@ -20,18 +24,59 @@ const homeIcons = computed(() => {
   return homeIconStore.HomeIcons;
 });
 
+const filteredHomeIcons = computed(() => {
+  return homeIconStore.homeIcons.filter(item => {
+    return sessionStore.Sessions[0].applicationIds.includes(item.id);
+  })
+});
+
+const sessions = computed(() => {
+  return sessionStore.Sessions;
+})
+
 const organizationItems = computed(() => {
   return homeIconStore.OrganizationItems;
 });
 
 onBeforeMount(() => {
   // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
+  sessionStore.getSessions();
   homeIconStore.getHomeIcons();
+  fetchUserIcon();
+  fetchUserData();
   //homeIcons.value = homeIconStore.HomeIcons;
   //organizationItems.value = homeIconStore.OrganizationItems;
 });
 
 const leftDrawerOpen = ref(false);
+
+function fetchUserIcon() {
+  // Make an HTTP request to your API
+  fetch("http://localhost:4000/generalUserProfile")
+    .then((response) => response.json())
+    .then((data) => {
+      // Set the userIcon data from the API response
+      userIcon.value = data[0].userIcon;
+      console.log(userIcon.value);
+    })
+    .catch((error) => {
+      console.error("Error fetching userIcon:", error);
+    });
+}
+
+function fetchUserData() {
+  fetch("http://localhost:4000/session")
+    .then((response) => {
+      response.json()
+        .then((data) => {
+          userName.value = data[0].userName;
+          userEmail.value = data[0].userEmail;
+        })
+    })
+    .catch((error) => {
+      console.error("Error fetching userDetails:", error);
+    });
+}
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -74,33 +119,44 @@ function goToApp(url: string) {
       class="bg-grey-2"
       show-if-above
     >
-      <q-list>
-        <q-item-label header>Test Links</q-item-label>
-        <div v-for="item in homeIcons" :key="item.name">
-          <q-item clickable @click="goToApp(item.url)">
-            <q-item-section avatar>
-              <q-icon
-                :class="getClass(item.url)"
-                :color="getColor(item.url)"
-                :name="item.icon"
-                size="md"
-              ></q-icon>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{item.name}}</q-item-label>
-            </q-item-section>
-          </q-item>
+      <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
+        <q-list>
+          <!--                  <q-item-label header>{{sessions[0].userName}}</q-item-label>-->
+          <div v-for="item in filteredHomeIcons" :key="item.name">
+            <q-item clickable @click="goToApp(item.url)">
+              <q-item-section avatar>
+                <q-icon
+                  :class="getClass(item.url)"
+                  :color="getColor(item.url)"
+                  :name="item.icon"
+                  size="md"
+                ></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ item.name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </div>
+          <!--        <q-item clickable to="/simpleCalendar">-->
+          <!--          <q-item-section avatar>-->
+          <!--            <q-icon name="calendar_today"/>-->
+          <!--          </q-item-section>-->
+          <!--          <q-item-section>-->
+          <!--            <q-item-label>Simple Calendar</q-item-label>-->
+          <!--            <q-item-label caption>calendar using q-date</q-item-label>-->
+          <!--          </q-item-section>-->
+          <!--        </q-item>-->
+        </q-list>
+      </q-scroll-area>
+      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
+        <div class="absolute-bottom bg-transparent">
+          <q-avatar class="q-mb-sm" size="56px">
+            <img :src="userIcon">
+          </q-avatar>
+          <div class="text-weight-bold">{{ userName }}</div>
+          <div>{{ userEmail }}</div>
         </div>
-<!--        <q-item clickable to="/simpleCalendar">-->
-<!--          <q-item-section avatar>-->
-<!--            <q-icon name="calendar_today"/>-->
-<!--          </q-item-section>-->
-<!--          <q-item-section>-->
-<!--            <q-item-label>Simple Calendar</q-item-label>-->
-<!--            <q-item-label caption>calendar using q-date</q-item-label>-->
-<!--          </q-item-section>-->
-<!--        </q-item>-->
-      </q-list>
+      </q-img>
     </q-drawer>
 
     <q-page-container>
