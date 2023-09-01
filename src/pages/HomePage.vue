@@ -3,10 +3,10 @@
   FIXME: sg: organization drop down should work [30]
  -->
 
-<script setup lang="ts">
-import { ref, onBeforeMount, computed } from 'vue';
-import { useHomeIconsStore } from 'stores/HomeIconStore';
-import { useRouter } from 'vue-router';
+<script lang="ts" setup>
+import {ref, onBeforeMount, computed} from 'vue';
+import {useHomeIconsStore} from 'stores/HomeIconStore';
+import {useRouter} from 'vue-router';
 //import { HomeIcon } from '../models/homeIcon';
 
 const router = useRouter();
@@ -47,7 +47,7 @@ function getClass(url: string) {
 
 function goToApp(url: string) {
   if (url !== '') {
-    router.push({ path: url });
+    router.push({path: url});
   }
 }
 </script>
@@ -56,35 +56,50 @@ function goToApp(url: string) {
     <q-header elevated>
       <q-toolbar>
         <q-btn
-          flat
+          aria-label="Menu"
           dense
+          flat
+          icon="menu"
           round
           @click="toggleLeftDrawer"
-          aria-label="Menu"
-          icon="menu"
         />
-        <q-toolbar-title> OfficeClip Suite </q-toolbar-title>
+        <q-toolbar-title> OfficeClip Suite</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <!-- see: https://forum.quasar-framework.org/topic/2911/width-attribute-on-q-layout-drawer-giving-error-in-browser-console/3 -->
     <q-drawer
       v-model="leftDrawerOpen"
-      show-if-above
+      :width="240"
       bordered
       class="bg-grey-2"
-      :width="240"
+      show-if-above
     >
       <q-list>
         <q-item-label header>Test Links</q-item-label>
-        <q-item clickable to="/simpleCalendar">
-          <q-item-section avatar>
-            <q-icon name="calendar_today" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Simple Calendar</q-item-label>
-            <q-item-label caption>calendar using q-date</q-item-label>
-          </q-item-section>
-        </q-item>
+        <div v-for="item in homeIcons" :key="item.name">
+          <q-item clickable @click="goToApp(item.url)">
+            <q-item-section avatar>
+              <q-icon
+                :class="getClass(item.url)"
+                :color="getColor(item.url)"
+                :name="item.icon"
+                size="md"
+              ></q-icon>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{item.name}}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
+<!--        <q-item clickable to="/simpleCalendar">-->
+<!--          <q-item-section avatar>-->
+<!--            <q-icon name="calendar_today"/>-->
+<!--          </q-item-section>-->
+<!--          <q-item-section>-->
+<!--            <q-item-label>Simple Calendar</q-item-label>-->
+<!--            <q-item-label caption>calendar using q-date</q-item-label>-->
+<!--          </q-item-section>-->
+<!--        </q-item>-->
       </q-list>
     </q-drawer>
 
@@ -92,26 +107,26 @@ function goToApp(url: string) {
       <q-page>
         <div class="q-pa-lg text-center">
           <q-select
-            outlined
             v-model="model"
             :options="organizationItems"
             label="Select Organization"
+            outlined
           />
         </div>
         <div>
           <div class="row">
             <div
-              class="col-4 q-pa-xl text-center itemsCenter"
               v-for="item in homeIcons"
               :key="item.name"
+              class="col-4 q-pa-xl text-center itemsCenter"
               style="height: 150px"
             >
               <div>
                 <q-icon
-                  size="lg"
-                  :color="getColor(item.url)"
                   :class="getClass(item.url)"
+                  :color="getColor(item.url)"
                   :name="item.icon"
+                  size="lg"
                   @click="goToApp(item.url)"
                 ></q-icon>
                 <div>{{ item.name }}</div>
