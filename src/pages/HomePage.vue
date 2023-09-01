@@ -4,18 +4,18 @@
  -->
 
 <script lang="ts" setup>
-import {ref, onBeforeMount, computed} from 'vue';
+import {ref, onBeforeMount, computed, ComputedRef} from 'vue';
 import {useHomeIconsStore} from 'stores/HomeIconStore';
 import {useRouter} from 'vue-router';
 import {useSessionStore} from 'stores/SessionStore';
-//import { HomeIcon } from '../models/homeIcon';
+import { Session } from '../models/session';
 
 const router = useRouter();
 const homeIconStore = useHomeIconsStore();
 const sessionStore = useSessionStore();
-const userIcon = ref("");
-const userName = ref("");
-const userEmail = ref("");
+const userIcon = ref('');
+const userName = ref('');
+const userEmail = ref('');
 //const homeIcons = ref<HomeIcon[]>([]);
 //const organizationItems = ref<string[]>([]);
 const model = ref(null);
@@ -26,12 +26,13 @@ const homeIcons = computed(() => {
 
 const filteredHomeIcons = computed(() => {
   return homeIconStore.homeIcons.filter(item => {
-    return sessionStore.Sessions[0].applicationIds.includes(item.id);
+    return session.value.applicationIds.includes(item.id);
   })
 });
 
-const sessions = computed(() => {
-  return sessionStore.Sessions;
+const session: ComputedRef<Session> = computed(() => {
+  console.log("Sessions stores", sessionStore.Sessions[0]);
+  return sessionStore.Sessions[0];
 })
 
 const organizationItems = computed(() => {
@@ -121,7 +122,7 @@ function goToApp(url: string) {
     >
       <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
         <q-list>
-          <!--                  <q-item-label header>{{sessions[0].userName}}</q-item-label>-->
+          <q-item-label header>{{session?.userEmail}}</q-item-label>
           <div v-for="item in filteredHomeIcons" :key="item.name">
             <q-item clickable @click="goToApp(item.url)">
               <q-item-section avatar>

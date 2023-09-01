@@ -16,7 +16,7 @@ export const useSessionStore = defineStore('sessionStore', {
       try {
         const data = await axios.get('http://localhost:4000/session');
         this.sessions = data.data;
-        console.log(data.data);
+        console.log("Test: " , data.data);
       } catch (error) {
         alert(error);
         console.log(error);
