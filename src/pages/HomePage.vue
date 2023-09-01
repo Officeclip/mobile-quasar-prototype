@@ -12,9 +12,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const homeIconStore = useHomeIconsStore();
 
-//const homeIcons = ref<HomeIcon[]>([]);
-//const organizationItems = ref<string[]>([]);
-const model = ref(null);
+const model = ref('OfficeClip Work');
 
 const homeIcons = computed(() => {
   return homeIconStore.HomeIcons;
@@ -27,6 +25,7 @@ const organizationItems = computed(() => {
 onBeforeMount(() => {
   // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
   homeIconStore.getHomeIcons();
+  homeIconStore.getOrganizationItems();
   //homeIcons.value = homeIconStore.HomeIcons;
   //organizationItems.value = homeIconStore.OrganizationItems;
 });
@@ -95,6 +94,7 @@ function goToApp(url: string) {
             outlined
             v-model="model"
             :options="organizationItems"
+            option-label="name"
             label="Select Organization"
           />
         </div>
