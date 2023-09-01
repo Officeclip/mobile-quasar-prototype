@@ -30,6 +30,10 @@ onBeforeMount(() => {
   //organizationItems.value = homeIconStore.OrganizationItems;
 });
 
+function getOrgApplications(){
+  homeIconStore.getHomeIcons();
+}
+
 const leftDrawerOpen = ref(false);
 
 function toggleLeftDrawer() {
@@ -94,6 +98,7 @@ function goToApp(url: string) {
             outlined
             v-model="model"
             :options="organizationItems"
+            @update:model-value="getOrgApplications"
             option-label="name"
             label="Select Organization"
           />
