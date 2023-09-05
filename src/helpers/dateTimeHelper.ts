@@ -12,6 +12,11 @@ const extractTimeFromUtc = (utcDateTime: string) => {
   //console.log(`extractTimeFromUtc - formattedTime: ${formattedTime}`)
   return formattedTime;
 };
+const extractDateandTimeFromUtc = (utcDateTime: string) => {
+  const utcDate = new Date(utcDateTime);
+  const formattedTime = format(utcDate, 'MMM dd, yyyy hh:mm aaa');
+  return formattedTime;
+};
 
 const extractTimeFromUtcForQTime = (utcDateTime: string) => {
   const utcDate = new Date(utcDateTime);
@@ -44,6 +49,7 @@ const convertDateToUtc = (generalDate: string) => {
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
+  extractDateandTimeFromUtc,
   extractTimeFromUtcForQTime,
   extractMonthFromUtc,
   convertGeneralToUtc,

@@ -52,7 +52,7 @@ export const useEventsStore = defineStore('eventsStore', {
           this.event = response.data[0];
         }
         console.log(
-          `ContactsStore: getContacts - length - ${response.data.length}, ${this.event}`
+          `EventsStore: getEventsDetailsbyId - length - ${response.data.length}, ${this.event}`
         );
       } catch (error) {
         alert(error);
