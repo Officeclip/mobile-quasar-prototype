@@ -20,7 +20,7 @@ onBeforeMount(() => {
   eventsStore.getEventDetails(Number(route.params.id));
 });
 
-function displayDateAndTime(x: string) {
+function displayDateorBoth(x: string) {
   if(event.value?.isAllDayEvent) {
     return dateTimeHelper.extractDateFromUtc(x);
   } else{
@@ -89,14 +89,14 @@ function displayDateAndTime(x: string) {
                 <q-item-label caption>Start Date</q-item-label>
                 <q-item-label class="q-mb-sm">{{
                   event?.startDateTime
-                    ? displayDateAndTime(event?.startDateTime)
+                    ? displayDateorBoth(event?.startDateTime)
                     : 'YYYY'
                 }}</q-item-label>
 
                 <q-item-label caption>End Date</q-item-label>
                 <q-item-label class="q-mb-sm">{{
                   event?.endDateTime
-                    ? displayDateAndTime(event?.endDateTime)
+                    ? displayDateorBoth(event?.endDateTime)
                     : 'YYYY'
                 }}</q-item-label>
 
