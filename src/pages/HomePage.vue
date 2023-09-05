@@ -33,7 +33,7 @@ const filteredHomeIcons = computed(() => {
 });
 
 const session: ComputedRef<Session> = computed(() => {
-  console.log("Sessions stores", sessionStore.Sessions[0]);
+  console.log('Sessions stores', sessionStore.Sessions[0]);
   return sessionStore.Sessions[0];
 })
 
@@ -60,7 +60,7 @@ const leftDrawerOpen = ref(false);
 
 function fetchUserIcon() {
   // Make an HTTP request to your API
-  fetch("http://localhost:4000/generalUserProfile")
+  fetch('http://localhost:4000/generalUserProfile')
     .then((response) => response.json())
     .then((data) => {
       // Set the userIcon data from the API response
@@ -68,12 +68,12 @@ function fetchUserIcon() {
       console.log(userIcon.value);
     })
     .catch((error) => {
-      console.error("Error fetching userIcon:", error);
+      console.error('Error fetching userIcon:', error);
     });
 }
 
 function fetchUserData() {
-  fetch("http://localhost:4000/session")
+  fetch('http://localhost:4000/session')
     .then((response) => {
       response.json()
         .then((data) => {
@@ -82,7 +82,7 @@ function fetchUserData() {
         })
     })
     .catch((error) => {
-      console.error("Error fetching userDetails:", error);
+      console.error('Error fetching userDetails:', error);
     });
 }
 
