@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useEventsStore } from '../../stores/EventsStore';
 import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
+import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { Event } from '../../models/event';
 
 const eventsStore = useEventsStore();
@@ -29,17 +30,25 @@ function onSubmit(e: any) {
   const start = formData.get('startDateTime');
   const end = formData.get('endDateTime');
   console.log(`EditEvent: startDateTime: ${start}, ${end}`);
+
+  const newStartDate = event.value?.isAllDayEvent
+  ? dateTimeHelper.convertDateToUtc(start)
+  : dateTimeHelper.convertGeneralToUtc(start)
+
+  const newEndDate = event.value?.isAllDayEvent
+  ? dateTimeHelper.convertDateToUtc(end)
+  : dateTimeHelper.convertGeneralToUtc(end)
   // console.log(
   //   `onSubmit Event Value: ${event.value?.startDateTime}, ${event.value?.endDateTime}`
   // );
-const newEvent = {
+const newEvent: any = {
   id: event.value?.id,
   parentObjectServiceType: event.value?.parentObjectServiceType,
   eventType: event.value?.eventType,
   eventName: event.value?.eventName,
   eventDescription: event.value?.eventDescription,
-  startDateTime: start,
-  endDateTime: end,
+  startDateTime: newStartDate,
+  endDateTime: newEndDate,
   isAllDayEvent: event.value?.isAllDayEvent,
   eventLocation: event.value?.eventLocation
 

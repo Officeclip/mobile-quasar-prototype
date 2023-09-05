@@ -2675,8 +2675,8 @@
       "eventType": 1,
       "eventName": "1:Senior Interactions Analyst",
       "eventDescription": "Non ipsa provident qui laborum quas enim unde ea qui.",
-      "startDateTime": "2023-07-30 02:30 pm",
-      "endDateTime": "2023-07-30 02:30 pm",
+      "startDateTime": "2023-08-31T14:30:00Z",
+      "endDateTime": "2023-08-31T16:30:00Z",
       "isAllDayEvent": false,
       "eventLocation": "Delhi"
     },
@@ -2707,12 +2707,11 @@
     {
       "id": 5,
       "parentObjectServiceType": 14,
-      "parentObjectId": 4,
       "eventType": 1,
       "eventName": "5:Testing the All day event",
       "eventDescription": "Quo aliquid impedit fugiat voluptatem hic ex.",
-      "startDateTime": "2023-06-27T10:43:32.203Z",
-      "endDateTime": "2023-06-27T21:43:32.203Z",
+      "startDateTime": "2023-08-23T00:00:00Z",
+      "endDateTime": "2023-08-23T00:00:00Z",
       "isAllDayEvent": true,
       "eventLocation": "Pune"
     },
@@ -2807,12 +2806,12 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": "1,2,3,4,5,6"
+      "applicationIds": [1,2,3,4,5,6,8]
     }
   ],
   "generalUserProfile": [
     {
-      "userIcon": "",
+      "userIcon": "https://cdn-icons-png.flaticon.com/256/5556/5556468.png",
       "userPhoto": ""
     }
   ],

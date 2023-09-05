@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useEventsStore } from '../../stores/EventsStore';
 import { useRoute } from 'vue-router';
-import { onMounted } from 'vue';
+import { onBeforeMount } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 
 const eventsStore = useEventsStore();
@@ -13,12 +13,22 @@ const event = computed(() => {
   return eventsStore.Event;
 });
 
-onMounted(() => {
+onBeforeMount(() => {
   const route = useRoute();
   console.log('id=', route.params.id);
   id.value = route.params.id;
   eventsStore.getEventDetails(Number(route.params.id));
 });
+
+function displayDateorBoth(x: string) {
+  if(event.value?.isAllDayEvent) {
+    return dateTimeHelper.extractDateFromUtc(x);
+  } else{
+  return dateTimeHelper.extractDateandTimeFromUtc(x);
+}
+}
+
+
 </script>
 
 <template>
@@ -79,14 +89,14 @@ onMounted(() => {
                 <q-item-label caption>Start Date</q-item-label>
                 <q-item-label class="q-mb-sm">{{
                   event?.startDateTime
-                    ? dateTimeHelper.extractDateFromUtc(event.startDateTime)
+                    ? displayDateorBoth(event?.startDateTime)
                     : 'YYYY'
                 }}</q-item-label>
 
                 <q-item-label caption>End Date</q-item-label>
                 <q-item-label class="q-mb-sm">{{
                   event?.endDateTime
-                    ? dateTimeHelper.extractDateFromUtc(event?.endDateTime)
+                    ? displayDateorBoth(event?.endDateTime)
                     : 'YYYY'
                 }}</q-item-label>
 
