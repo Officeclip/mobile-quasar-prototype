@@ -5,12 +5,11 @@
 
 <script lang="ts" setup>
 import {useContactsStore} from 'stores/ContactsStore';
-import {onMounted} from 'vue';
-import {ref, computed} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 
 const contactsStore = useContactsStore();
 
-// const currentPage = ref(1); // the current page number
+const currentPage = ref(1); // the current page number
 // const pageSize = ref(10); // number of items in one page
 const numItems = ref<number>(0); // total number of items in the list
 const text = ref('');
@@ -24,7 +23,7 @@ const contacts = computed(() => {
 
 onMounted(() => {
   contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
-  contactsStore.getContactsByBatch(batchSize.value, 1);
+  contactsStore.getContactsByBatch(batchSize.value, currentPage.value).then(()=>currentPage.value++);
   // contactsStore.getContacts();
   //contacts.value = contactsStore.Contacts;
   // console.log(`onMounted: Contacts - ${contactsStore.Contacts}`);
@@ -33,8 +32,9 @@ onMounted(() => {
 const loadMore = (index: any, done: () => void) => {
   const contactsSizeBeforeCall = contacts.value.length;
   setTimeout(() => {
-    contactsStore.getContactsByBatch(batchSize.value, index).then(()=>{
+    contactsStore.getContactsByBatch(batchSize.value, currentPage.value).then(() => {
       done();
+      currentPage.value++;
       const contactsAfterCall = contacts.value.length;
       reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
     })
@@ -132,7 +132,7 @@ const getData = computed(() => {
             <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
           </template>
         </q-infinite-scroll>
-        <q-separator color="orange" inset />
+        <q-separator color="orange" inset/>
         <div>
           <q-page-sticky :offset="[18, 18]" position="bottom-right">
             <q-btn

@@ -40,7 +40,7 @@ const session: ComputedRef<Session> = computed(() => {
   return sessionStore.Sessions[0];
 })
 
-const userProfile: ComputedRef<UserProfile> = computed(()=>{
+const userProfile: ComputedRef<UserProfile> = computed(() => {
   console.log('UserProfile store', userProfileStore.UserProfiles[0]);
   return userProfileStore.UserProfiles[0];
 })
@@ -124,7 +124,7 @@ function goToApp(url: string) {
 
         </q-list>
       </q-scroll-area>
-      <q-img class="absolute-top" :src=userProfile?.background style="height: 150px">
+      <q-img :src=userProfile?.background class="absolute-top" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar class="q-mb-sm" size="56px">
             <img :src=userProfile?.userIcon>
