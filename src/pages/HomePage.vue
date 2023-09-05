@@ -4,27 +4,30 @@
  -->
 
 <script lang="ts" setup>
-import {ref, onBeforeMount, computed, ComputedRef} from 'vue';
+import {computed, ComputedRef, onBeforeMount, ref} from 'vue';
 import {useHomeIconsStore} from 'stores/HomeIconStore';
 import {useRouter} from 'vue-router';
 import {useSessionStore} from 'stores/SessionStore';
-import { Session } from '../models/session';
+import {Session} from '../models/session';
+import {useUserProfileStore} from "stores/UserProfileStore";
+import {UserProfile} from "src/models/UserProfile";
 
 const router = useRouter();
 const homeIconStore = useHomeIconsStore();
 const sessionStore = useSessionStore();
-const userIcon = ref('');
-const userName = ref('');
-const userEmail = ref('');
+const userProfileStore = useUserProfileStore();
+// const userIcon = ref('');
+// const userName = ref('');
+// const userEmail = ref('');
 //const homeIcons = ref<HomeIcon[]>([]);
 //const organizationItems = ref<string[]>([]);
 // const model = ref(null);
 
 const model = ref('OfficeClip Work');
 
-const homeIcons = computed(() => {
-  return homeIconStore.HomeIcons;
-});
+// const homeIcons = computed(() => {
+//   return homeIconStore.HomeIcons;
+// });
 
 const filteredHomeIcons = computed(() => {
   return homeIconStore.homeIcons.filter(item => {
@@ -37,6 +40,11 @@ const session: ComputedRef<Session> = computed(() => {
   return sessionStore.Sessions[0];
 })
 
+const userProfile: ComputedRef<UserProfile> = computed(()=>{
+  console.log('UserProfile store', userProfileStore.userProfiles[0]);
+  return userProfileStore.userProfiles[0];
+})
+
 const organizationItems = computed(() => {
   return homeIconStore.OrganizationItems;
 });
@@ -45,46 +53,15 @@ onBeforeMount(() => {
   // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
   sessionStore.getSessions();
   homeIconStore.getHomeIcons();
-  fetchUserIcon();
-  fetchUserData();
+  userProfileStore.getUserProfiles();
   homeIconStore.getOrganizationItems();
-  //homeIcons.value = homeIconStore.HomeIcons;
-  //organizationItems.value = homeIconStore.OrganizationItems;
 });
 
-function getOrgApplications(){
+function getOrgApplications() {
   homeIconStore.getHomeIcons();
 }
 
 const leftDrawerOpen = ref(false);
-
-function fetchUserIcon() {
-  // Make an HTTP request to your API
-  fetch('http://localhost:4000/generalUserProfile')
-    .then((response) => response.json())
-    .then((data) => {
-      // Set the userIcon data from the API response
-      userIcon.value = data[0].userIcon;
-      console.log(userIcon.value);
-    })
-    .catch((error) => {
-      console.error('Error fetching userIcon:', error);
-    });
-}
-
-function fetchUserData() {
-  fetch('http://localhost:4000/session')
-    .then((response) => {
-      response.json()
-        .then((data) => {
-          userName.value = data[0].userName;
-          userEmail.value = data[0].userEmail;
-        })
-    })
-    .catch((error) => {
-      console.error('Error fetching userDetails:', error);
-    });
-}
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -100,7 +77,7 @@ function getClass(url: string) {
 
 function goToApp(url: string) {
   if (url !== '') {
-    router.push({ path: url });
+    router.push({path: url});
   }
 }
 </script>
@@ -129,7 +106,6 @@ function goToApp(url: string) {
     >
       <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
         <q-list>
-          <q-item-label header>{{session?.userEmail}}</q-item-label>
           <div v-for="item in filteredHomeIcons" :key="item.name">
             <q-item clickable @click="goToApp(item.url)">
               <q-item-section avatar>
@@ -145,24 +121,16 @@ function goToApp(url: string) {
               </q-item-section>
             </q-item>
           </div>
-          <!--        <q-item clickable to="/simpleCalendar">-->
-          <!--          <q-item-section avatar>-->
-          <!--            <q-icon name="calendar_today"/>-->
-          <!--          </q-item-section>-->
-          <!--          <q-item-section>-->
-          <!--            <q-item-label>Simple Calendar</q-item-label>-->
-          <!--            <q-item-label caption>calendar using q-date</q-item-label>-->
-          <!--          </q-item-section>-->
-          <!--        </q-item>-->
+
         </q-list>
       </q-scroll-area>
-      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
+      <q-img class="absolute-top" :src=userProfile?.background style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar class="q-mb-sm" size="56px">
-            <img :src="userIcon">
+            <img :src=userProfile?.userIcon>
           </q-avatar>
-          <div class="text-weight-bold">{{ userName }}</div>
-          <div>{{ userEmail }}</div>
+          <div class="text-weight-bold">{{ session?.userName }}</div>
+          <div>{{ session?.userEmail }}</div>
         </div>
       </q-img>
     </q-drawer>
@@ -173,10 +141,10 @@ function goToApp(url: string) {
           <q-select
             v-model="model"
             :options="organizationItems"
-            @update:model-value="getOrgApplications"
-            option-label="name"
             label="Select Organization"
+            option-label="name"
             outlined
+            @update:model-value="getOrgApplications"
           />
         </div>
         <div>
@@ -204,7 +172,6 @@ function goToApp(url: string) {
     </q-page-container>
   </q-layout>
 </template>
-
 <style scoped>
 .pointer:hover {
   cursor: pointer;
