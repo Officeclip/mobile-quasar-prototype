@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { HomeIcon } from '../models/homeIcon';
 import axios from 'axios';
+import { endPointUrl } from './Constants';
 
 export const useHomeIconsStore = defineStore('homeIconStore', {
   state: () => ({
@@ -16,7 +17,8 @@ export const useHomeIconsStore = defineStore('homeIconStore', {
   actions: {
     async getOrganizationItems() {
       try {
-        const data = await axios.get('http://localhost:4000/orgs');
+        console.log(`Endpoint is: ${endPointUrl}`);
+        const data = await axios.get(`${endPointUrl}/orgs`);
         this.orgItems = data.data;
       } catch (error) {
         alert(error);
