@@ -4,13 +4,13 @@
  -->
 
 <script lang="ts" setup>
-import {computed, ComputedRef, onBeforeMount, ref} from 'vue';
-import {useHomeIconsStore} from 'stores/HomeIconStore';
-import {useRouter} from 'vue-router';
-import {useSessionStore} from 'stores/SessionStore';
-import {Session} from '../models/session';
-import {useUserProfileStore} from "stores/UserProfileStore";
-import {UserProfile} from "src/models/UserProfile";
+import { computed, ComputedRef, onBeforeMount, ref } from 'vue';
+import { useHomeIconsStore } from 'stores/HomeIconStore';
+import { useRouter } from 'vue-router';
+import { useSessionStore } from 'stores/SessionStore';
+import { Session } from '../models/session';
+import { useUserProfileStore } from 'stores/UserProfileStore';
+import { UserProfile } from 'src/models/UserProfile';
 
 const router = useRouter();
 const homeIconStore = useHomeIconsStore();
@@ -30,20 +30,20 @@ const model = ref('OfficeClip Work');
 // });
 
 const filteredHomeIcons = computed(() => {
-  return homeIconStore.homeIcons.filter(item => {
+  return homeIconStore.homeIcons.filter((item) => {
     return session.value.applicationIds.includes(item.id);
-  })
+  });
 });
 
 const session: ComputedRef<Session> = computed(() => {
   console.log('Sessions stores', sessionStore.Sessions[0]);
   return sessionStore.Sessions[0];
-})
+});
 
 const userProfile: ComputedRef<UserProfile> = computed(() => {
   console.log('UserProfile store', userProfileStore.UserProfiles[0]);
   return userProfileStore.UserProfiles[0];
-})
+});
 
 const organizationItems = computed(() => {
   return homeIconStore.OrganizationItems;
@@ -77,7 +77,7 @@ function getClass(url: string) {
 
 function goToApp(url: string) {
   if (url !== '') {
-    router.push({path: url});
+    router.push({ path: url });
   }
 }
 </script>
@@ -104,7 +104,13 @@ function goToApp(url: string) {
       class="bg-grey-2"
       show-if-above
     >
-      <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
+      <q-scroll-area
+        style="
+          height: calc(100% - 150px);
+          margin-top: 150px;
+          border-right: 1px solid #ddd;
+        "
+      >
         <q-list>
           <div v-for="item in filteredHomeIcons" :key="item.name">
             <q-item clickable @click="goToApp(item.url)">
@@ -121,13 +127,16 @@ function goToApp(url: string) {
               </q-item-section>
             </q-item>
           </div>
-
         </q-list>
       </q-scroll-area>
-      <q-img :src=userProfile?.background class="absolute-top" style="height: 150px">
+      <q-img
+        :src="userProfile?.background"
+        class="absolute-top"
+        style="height: 150px"
+      >
         <div class="absolute-bottom bg-transparent">
           <q-avatar class="q-mb-sm" size="56px">
-            <img :src=userProfile?.userIcon>
+            <img :src="userProfile?.userIcon" />
           </q-avatar>
           <div class="text-weight-bold">{{ session?.userName }}</div>
           <div>{{ session?.userEmail }}</div>
