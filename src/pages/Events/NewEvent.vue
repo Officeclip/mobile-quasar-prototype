@@ -1,29 +1,3 @@
-<template>
-    <q-layout view="lHh Lpr lFf">
-        <q-header>
-            <q-toolbar>
-                <q-btn
-                @click="$router.go(-1)"
-                flat
-                round
-                dense
-                color="white"
-                icon="arrow_back">
-                </q-btn>
-                <q-toolbar-title> New Event</q-toolbar-title>
-            </q-toolbar>
-        </q-header>
-        <q-page-container>
-            <q-form @submit="onSubmit" class="q-gutter-md">
-                <div>
-                    <EventForm :event="event" />
-                    <q-btn class="q-ml-md q-mb-md q-mt-md" label="Submit" type="submit" color="primary"></q-btn>
-                    <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
-                </div>
-            </q-form>
-        </q-page-container>
-    </q-layout>
-</template>
 <script setup>
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { useEventsStore } from '../../stores/EventsStore';
@@ -32,6 +6,7 @@ import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
 const route = useRoute()
+const tab = ref('');
 //const parentObjectId = ref()
 
 const parentObjectId = route.params.id
@@ -91,4 +66,41 @@ function onSubmit(e) {
 
 
 </script>
+<template>
+    <q-layout view="lHh Lpr lFf">
+        <q-header>
+            <q-toolbar>
+                <q-btn
+                @click="$router.go(-1)"
+                flat
+                round
+                dense
+                color="white"
+                icon="arrow_back">
+                </q-btn>
+                <q-toolbar-title> New Event</q-toolbar-title>
+            </q-toolbar>
+        </q-header>
+        <q-page-container>
+            <q-form @submit="onSubmit" class="q-gutter-md">
+                <div>
+                    <EventForm :event="event" />
+                    <q-btn class="q-ml-md" label="Save" type="submit" color="primary"></q-btn>
+                    <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
+                </div>
+            </q-form>
+            <pre>{{ tab }}</pre>
+        </q-page-container>
+
+        <q-footer bordered class="bg-grey-3 text-primary">
+        <q-tabs dense no-caps active-color="primary" class="text-grey-8" v-model="tab">
+          <q-tab name="Group" label="Group"></q-tab>
+          <q-tab name="Meeting" label="Meeting"></q-tab>
+          <q-tab name="Private" label="Private"></q-tab>
+        </q-tabs>
+      </q-footer>
+
+    </q-layout>
+</template>
+
 <style scoped></style>
