@@ -6,6 +6,14 @@ const props = defineProps(['event']);
 
 const startDateTime = ref('');
 const endDateTime = ref('');
+const timezone = ref('');
+const location = ref('');
+const regardings = ref('');
+const names = ref('')
+const dialog = ref(false);
+const dialogmodelMultiple = ref([])
+const dialogoptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
+// const cancelEnabled = ref(false)
 
 // eslint-disable-next-line vue/no-setup-props-destructure
 startDateTime.value = props.event.startDateTime;
@@ -51,6 +59,21 @@ const maskDateTime = computed(() => {
     return 'YYYY-MM-DD HH:mm';
   }
 });
+
+const timeZoneOptions = [
+  {
+    timezoneId: 1,
+    label: 'sample data 1'
+    },
+    {
+    timezoneId: 2,
+    label: 'sample data 2'
+    },
+    {
+    timezoneId: 3,
+    label: 'sample data 3'
+    }
+          ]
 </script>
 
 <template>
@@ -67,17 +90,12 @@ const maskDateTime = computed(() => {
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Please type something']">
         </q-input>
-        <q-input
-        name="eventDescription"
-        class="q-mt-none"
-        v-model="event.eventDescription"
-        label="Description"
-        placeholder="enter description"></q-input>
-        <q-input
+
+        <!-- <q-input
         name="eventLocation"
         v-model="event.eventLocation"
         label="Location"
-        placeholder="enter location"></q-input>
+        placeholder="enter location"></q-input> -->
         <!-- <pre>{{ event.isAllDayEvent }}</pre> -->
         <!-- <q-select
         v-model="event.isAllDayEvent"
@@ -153,64 +171,116 @@ const maskDateTime = computed(() => {
           </template>
         </q-input>
 
-        <!-- <q-input filled v-model="newDateTime">
-          <template v-slot:prepend>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy
-                cover
-                transition-show="scale"
-                transition-hide="scale"
-              >
-                <q-date v-model="startDate" mask="YYYY-MM-DD HH:mm">
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
+        <q-select name="newcreatedDate" label="Timezone" v-model="timezone" :options="timeZoneOptions" map-options emit-label />
 
-          <template v-if="!props.event.isAllDayEvent" v-slot:append>
-            <q-icon name="access_time" class="cursor-pointer">
-              <q-popup-proxy
-                cover
-                transition-show="scale"
-                transition-hide="scale"
-              >
-                <q-time
-                  v-model="startDateTime"
-                  mask="YYYY-MM-DD HH:mm"
-                  format24h
-                >
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat />
-                  </div>
-                </q-time>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input> -->
+        <q-input  bottom-slots v-model="location" label="Location">
+        <template v-slot:prepend>
+          <q-icon name="place"></q-icon>
+        </template>
+      </q-input>
 
-        <!-- <div class="row">
-          <div class="col col-md-5">
-            <q-input
-              v-model="startDate"
-              type="date"
-              label="Start Date"
-              placeholder="enter start date"
-            ></q-input>
+        <q-item
+         clickable
+            v-ripple
+        >
+          <q-item-section avatar>
+            <q-icon name="repeat" size="sm" color="primary"></q-icon>
+          </q-item-section>
+          <q-item-section> Does not repeat </q-item-section>
+          <q-item-section side>
+        <q-icon color="primary" name="chevron_right" />
+      </q-item-section>
+        </q-item>
+
+        <q-item
+            clickable
+            v-ripple
+        >
+          <q-item-section avatar>
+            <q-icon name="alarm" size="sm" color="primary"></q-icon>
+          </q-item-section>
+          <q-item-section> Remind 30 minutes before </q-item-section>
+          <q-item-section side>
+        <q-icon color="primary" name="chevron_right" />
+      </q-item-section>
+        </q-item>
+
+        <q-input
+        name="eventDescription"
+        class="q-mt-none"
+        v-model="event.eventDescription"
+        label="Event Note"
+        placeholder="enter event note"></q-input>
+
+        <div class="q-mt-lg"><label>Regarding:</label></div>
+        <q-item class="q-mt-none">
+          <q-item-section class="q-mr-sm" >
+            <q-item-label>
+              <q-select label="Contact" v-model="regardings" :options="timeZoneOptions" map-options emit-label />
+            </q-item-label>
+          </q-item-section>
+          <q-item-section class="q-mr-sm">
+            <q-item-label>
+              <q-select label="Name" v-model="names" :options="timeZoneOptions" map-options emit-label />
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+        <q-icon color="primary" name="attach_file" />
+      </q-item-section>
+        </q-item>
+
+        <q-item>
+        <q-item-section avatar>
+          <q-icon color="primary" name="group_add"></q-icon>
+        </q-item-section>
+
+        <!-- added a dialog section for add icon button  -->
+        <q-item-section>
+          <div>
+            Attendees:
+            <q-btn round size="sm" >
+            <q-avatar color="primary" text-color="white" icon="add" size="sm" @click="dialog = true"></q-avatar>
+          </q-btn>
           </div>
-          <div class="col col-md-2"></div>
-          <div class="col col-md-5">
-            <q-input
-              v-if="hideTime"
-              v-model="startTime"
-              type="time"
-              label="Start Time"
-              placeholder="enter start time"
-            ></q-input>
-          </div>
-        </div> -->
+        </q-item-section>
+
+      </q-item>
+
+      <div>
+        <!-- impmenting dialog content here -->
+        <q-dialog v-model="dialog" persistent>
+      <q-card style="width: calc(100vw - 100px)">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">Select attendees </div>
+          <q-space></q-space>
+          <q-btn icon="close" flat round dense v-close-popup></q-btn>
+        </q-card-section>
+        <q-card-section>
+          <q-badge color="secondary" class="q-mb-md">
+          Model: {{ dialogmodelMultiple || '[]' }}
+        </q-badge>
+          <q-select
+          filled
+          v-model="dialogmodelMultiple"
+          multiple
+          :options="dialogoptions"
+          use-chips
+          stack-label
+          label="Multiple selection"
+        ></q-select>
+        </q-card-section>
+        <!-- <q-card-section class="row items-center">
+          <q-toggle v-model="cancelEnabled" label="Cancel button enabled"></q-toggle>
+        </q-card-section> -->
+
+        <!-- Notice v-close-popup -->
+        <!-- <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup="cancelEnabled" :disable="!cancelEnabled"></q-btn>
+          <q-btn flat label="Turn on Wifi" color="primary" v-close-popup></q-btn>
+        </q-card-actions> -->
+      </q-card>
+    </q-dialog>
+      </div>
       </div>
     </div>
   </div>

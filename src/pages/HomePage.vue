@@ -3,21 +3,46 @@
   FIXME: sg: organization drop down should work [30]
  -->
 
-<script setup lang="ts">
-import { ref, onBeforeMount, computed } from 'vue';
+<script lang="ts" setup>
+import { computed, ComputedRef, onBeforeMount, ref } from 'vue';
 import { useHomeIconsStore } from 'stores/HomeIconStore';
 import { useRouter } from 'vue-router';
-//import { HomeIcon } from '../models/homeIcon';
+import { useSessionStore } from 'stores/SessionStore';
+import { Session } from '../models/session';
+import { useUserProfileStore } from 'stores/UserProfileStore';
+import { UserProfile } from 'src/models/UserProfile';
 
 const router = useRouter();
 const homeIconStore = useHomeIconsStore();
-
+const sessionStore = useSessionStore();
+const userProfileStore = useUserProfileStore();
+// const userIcon = ref('');
+// const userName = ref('');
+// const userEmail = ref('');
 //const homeIcons = ref<HomeIcon[]>([]);
 //const organizationItems = ref<string[]>([]);
-const model = ref(null);
+// const model = ref(null);
 
-const homeIcons = computed(() => {
-  return homeIconStore.HomeIcons;
+const model = ref('OfficeClip Work');
+
+// const homeIcons = computed(() => {
+//   return homeIconStore.HomeIcons;
+// });
+
+const filteredHomeIcons = computed(() => {
+  return homeIconStore.homeIcons.filter((item) => {
+    return session.value.applicationIds.includes(item.id);
+  });
+});
+
+const session: ComputedRef<Session> = computed(() => {
+  console.log('Sessions stores', sessionStore.Sessions[0]);
+  return sessionStore.Sessions[0];
+});
+
+const userProfile: ComputedRef<UserProfile> = computed(() => {
+  console.log('UserProfile store', userProfileStore.UserProfiles[0]);
+  return userProfileStore.UserProfiles[0];
 });
 
 const organizationItems = computed(() => {
@@ -26,10 +51,15 @@ const organizationItems = computed(() => {
 
 onBeforeMount(() => {
   // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
+  sessionStore.getSessions();
   homeIconStore.getHomeIcons();
-  //homeIcons.value = homeIconStore.HomeIcons;
-  //organizationItems.value = homeIconStore.OrganizationItems;
+  userProfileStore.getUserProfiles();
+  homeIconStore.getOrganizationItems();
 });
+
+function getOrgApplications() {
+  homeIconStore.getHomeIcons();
+}
 
 const leftDrawerOpen = ref(false);
 
@@ -56,62 +86,90 @@ function goToApp(url: string) {
     <q-header elevated>
       <q-toolbar>
         <q-btn
-          flat
+          aria-label="Menu"
           dense
+          flat
+          icon="menu"
           round
           @click="toggleLeftDrawer"
-          aria-label="Menu"
-          icon="menu"
         />
-        <q-toolbar-title> OfficeClip Suite </q-toolbar-title>
+        <q-toolbar-title> OfficeClip Suite</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <!-- see: https://forum.quasar-framework.org/topic/2911/width-attribute-on-q-layout-drawer-giving-error-in-browser-console/3 -->
     <q-drawer
       v-model="leftDrawerOpen"
-      show-if-above
+      :width="240"
       bordered
       class="bg-grey-2"
-      :width="240"
+      show-if-above
     >
-      <q-list>
-        <q-item-label header>Test Links</q-item-label>
-        <q-item clickable to="/simpleCalendar">
-          <q-item-section avatar>
-            <q-icon name="calendar_today" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Simple Calendar</q-item-label>
-            <q-item-label caption>calendar using q-date</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+      <q-scroll-area
+        style="
+          height: calc(100% - 150px);
+          margin-top: 150px;
+          border-right: 1px solid #ddd;
+        "
+      >
+        <q-list>
+          <div v-for="item in filteredHomeIcons" :key="item.name">
+            <q-item clickable @click="goToApp(item.url)">
+              <q-item-section avatar>
+                <q-icon
+                  :class="getClass(item.url)"
+                  :color="getColor(item.url)"
+                  :name="item.icon"
+                  size="md"
+                ></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ item.name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </div>
+        </q-list>
+      </q-scroll-area>
+      <q-img
+        :src="userProfile?.background"
+        class="absolute-top"
+        style="height: 150px"
+      >
+        <div class="absolute-bottom bg-transparent">
+          <q-avatar class="q-mb-sm" size="56px">
+            <img :src="userProfile?.userIcon" />
+          </q-avatar>
+          <div class="text-weight-bold">{{ session?.userName }}</div>
+          <div>{{ session?.userEmail }}</div>
+        </div>
+      </q-img>
     </q-drawer>
 
     <q-page-container>
       <q-page>
         <div class="q-pa-lg text-center">
           <q-select
-            outlined
             v-model="model"
             :options="organizationItems"
             label="Select Organization"
+            option-label="name"
+            outlined
+            @update:model-value="getOrgApplications"
           />
         </div>
         <div>
           <div class="row">
             <div
-              class="col-4 q-pa-xl text-center itemsCenter"
-              v-for="item in homeIcons"
+              v-for="item in filteredHomeIcons"
               :key="item.name"
+              class="col-4 q-pa-xl text-center itemsCenter"
               style="height: 150px"
             >
               <div>
                 <q-icon
-                  size="lg"
-                  :color="getColor(item.url)"
                   :class="getClass(item.url)"
+                  :color="getColor(item.url)"
                   :name="item.icon"
+                  size="lg"
                   @click="goToApp(item.url)"
                 ></q-icon>
                 <div>{{ item.name }}</div>
@@ -123,7 +181,6 @@ function goToApp(url: string) {
     </q-page-container>
   </q-layout>
 </template>
-
 <style scoped>
 .pointer:hover {
   cursor: pointer;

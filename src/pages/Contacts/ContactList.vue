@@ -4,14 +4,13 @@
  -->
 
 <script lang="ts" setup>
-import {useContactsStore} from '../../stores/ContactsStore';
-import {onMounted} from 'vue';
-import {ref, computed} from 'vue';
+import {useContactsStore} from 'stores/ContactsStore';
+import {computed, onMounted, ref} from 'vue';
 
 const contactsStore = useContactsStore();
 
 const currentPage = ref(1); // the current page number
-const pageSize = ref(10); // number of items in one page
+// const pageSize = ref(10); // number of items in one page
 const numItems = ref<number>(0); // total number of items in the list
 const text = ref('');
 
@@ -24,17 +23,18 @@ const contacts = computed(() => {
 
 onMounted(() => {
   contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
-  // contactsStore.getContacts1(batchSize.value, batchNumber.value);
+  contactsStore.getContactsByBatch(batchSize.value, currentPage.value).then(()=>currentPage.value++);
   // contactsStore.getContacts();
   //contacts.value = contactsStore.Contacts;
-  console.log(`onMounted: Contacts - ${contactsStore.Contacts}`);
+  // console.log(`onMounted: Contacts - ${contactsStore.Contacts}`);
 });
 
 const loadMore = (index: any, done: () => void) => {
   const contactsSizeBeforeCall = contacts.value.length;
   setTimeout(() => {
-    contactsStore.getContacts1(batchSize.value, index).then(()=>{
+    contactsStore.getContactsByBatch(batchSize.value, currentPage.value).then(() => {
       done();
+      currentPage.value++;
       const contactsAfterCall = contacts.value.length;
       reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
     })
@@ -42,10 +42,10 @@ const loadMore = (index: any, done: () => void) => {
 
 }
 
-const totalPages = computed(() => {
-  //console.log(`totalPages: ${numItems.value}/${pageSize.value}`);
-  return Math.ceil(numItems.value / pageSize.value);
-});
+// const totalPages = computed(() => {
+//   //console.log(`totalPages: ${numItems.value}/${pageSize.value}`);
+//   return Math.ceil(numItems.value / pageSize.value);
+// });
 
 const getData = computed(() => {
   if (contacts.value.length === 0) {
@@ -63,15 +63,6 @@ const getData = computed(() => {
   //FIXME: Remove the lint suppress line from here. See: https://stackoverflow.com/a/54535439
   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
   numItems.value = filteredContacts.length;
-
-  // console.log(
-  //   `getData- numItems:${numItems.value}, currentPage:${currentPage.value}, totalPages:${totalPages.value}`
-  // );
-  // const firstIndex = (currentPage.value - 1) * pageSize.value;
-  // const lastIndex = firstIndex + pageSize.value;
-  // console.log(`getData- firstIndex:${firstIndex}, lastIndex:${lastIndex}`);
-  // const contactsInPage = filteredContacts.slice(firstIndex, lastIndex);
-  // return contactsInPage;
   return filteredContacts;
 });
 </script>
@@ -140,8 +131,8 @@ const getData = computed(() => {
           <template v-slot:loading>
             <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
           </template>
-          <p v-if="reachedEnd">All Contacts Loaded</p>
         </q-infinite-scroll>
+        <q-separator color="orange" inset/>
         <div>
           <q-page-sticky :offset="[18, 18]" position="bottom-right">
             <q-btn

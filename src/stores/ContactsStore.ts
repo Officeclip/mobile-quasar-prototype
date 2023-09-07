@@ -87,7 +87,7 @@ export const useContactsStore = defineStore('contactsStore', {
       }
     },
 
-    async getContacts1(limit: number, page: number) {
+    async getContactsByBatch(limit: number, page: number) {
       // FIXME: put correct type
       const callStr = `http://localhost:4000/contacts?_limit=${limit}&_page=${page}`;
       //console.log(`callStr: ${callStr}`)

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+//console.log('API EndPoint: ', import.meta.env.VITE_API_ENDPOINT);
+
 const form = ref({
   email: {
     value: '',
@@ -64,43 +66,47 @@ const submitLogin = () => {
               <q-btn color="indigo" label="Login" @click="submitLogin" />
             </div>
 
-        <div class="column">
-          <q-btn :to="{ name: 'homePage' }" color="primary" label="Goto Home" />
-        </div>
-        <div class="column m-t-md">
-          <q-btn
-            :to="{
-              name: 'testMe',
-              params: {
-                id: 1,
-              },
-            }"
-            label="Test Me"
-          />
-        </div>
-        <div class="column m-t-md">
-          <q-btn
-            :to="{
-              name: 'timesheetL',
-              params: {
-                id: 1,
-              },
-            }"
-            label="Timesheet List"
-          />
-        </div>
-        <div class="column m-t-md">
-          <q-btn
-            :to="{
-              name: 'incrementalLoading',
-              // params: {
-              //   id: 1,
-              // },
-            }"
-            label="Incremental List"
-          />
-        </div>
-      </div>
+            <div class="column">
+              <q-btn
+                :to="{ name: 'homePage' }"
+                color="primary"
+                label="Goto Home"
+              />
+            </div>
+            <div class="column m-t-md">
+              <q-btn
+                :to="{
+                  name: 'testMe',
+                  params: {
+                    id: 1,
+                  },
+                }"
+                label="Test Me"
+              />
+            </div>
+            <div class="column m-t-md">
+              <q-btn
+                :to="{
+                  name: 'timesheetL',
+                  params: {
+                    id: 1,
+                  },
+                }"
+                label="Timesheet List"
+              />
+            </div>
+            <div class="column m-t-md">
+              <q-btn
+                :to="{
+                  name: 'incrementalLoading',
+                  // params: {
+                  //   id: 1,
+                  // },
+                }"
+                label="Incremental List"
+              />
+            </div>
+          </div>
         </div>
       </q-page>
     </q-page-container>
