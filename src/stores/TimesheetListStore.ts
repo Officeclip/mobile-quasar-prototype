@@ -1,13 +1,18 @@
 import { defineStore } from 'pinia';
-import { CustomerProject } from '../models/Timesheet/customerProject';
+/* import { CustomerProject } from '../models/Timesheet/customerProject';
 import { ServiceItems } from '../models/Timesheet/serviceItems';
-import { Period } from '../models/Timesheet/periods';
+import { Period } from '../models/Timesheet/periods'; */
+import {
+  CustomerProject,
+  ServiceItem,
+  Period,
+} from '../models/Timesheet/timesheetList';
 import axios from 'axios';
 
 export const useTimesheetListStore = defineStore('timesheetListStore', {
   state: () => ({
     customerProjectsList: [] as CustomerProject[],
-    serviceItemsList: [] as ServiceItems[],
+    serviceItemsList: [] as ServiceItem[],
     periodList: [] as Period[],
   }),
 
@@ -48,21 +53,14 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
         const response = await axios.get(
           'http://localhost:4000/timesheet-List'
         );
-        const data = response.data[0].items;
-        const newData = Object.keys(data).map((key) => data[key]);
-        //const jsonObject = JSON.parse(newData.toString());
-        const periods = newData.filter(
-          (jsonData) => jsonData.name == 'Periods'
+        const timesheetList = response.data;
+        //debugger;
+        this.periodList = timesheetList[0].periods;
+        this.customerProjectsList = timesheetList[1].customerProjects;
+        this.serviceItemsList = timesheetList[2].serviceItems;
+        console.log(
+          `getTimesheetsList1: customerProjectsList: ${this.customerProjectsList[0].name}`
         );
-        this.periodList = periods;
-        const serviceItems = newData.filter(
-          (jsonData) => jsonData.name == 'ServiceItems'
-        );
-        this.serviceItemsList = serviceItems;
-        const customerProjectsList = newData.filter(
-          (jsonData) => jsonData.name == 'CustomerProjectsList'
-        );
-        this.customerProjectsList = customerProjectsList;
       } catch (error) {
         console.error(error);
       }
@@ -75,13 +73,18 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
     },
 
     getServiceItemsBycustomerProjectId(customerProjectId: string) {
-      console.log('customerProject Id: ', customerProjectId);
-      const newItems: ServiceItems[] = this.serviceItemsList.filter((t) => {
+      console.log(
+        'getServiceItemsBycustomerProjectId: input:',
+        customerProjectId,
+        this.serviceItemsList
+      );
+      const newItems: ServiceItem[] = this.serviceItemsList.filter((t) => {
         return (
           t.customerProjectId === '' ||
           t.customerProjectId === customerProjectId
         );
       });
+      console.log('getServiceItemsBycustomerProjectId: output:', newItems);
       return newItems;
     },
   },
