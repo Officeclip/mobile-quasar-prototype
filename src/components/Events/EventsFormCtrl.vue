@@ -11,6 +11,8 @@ const location = ref('');
 const regardings = ref('');
 const names = ref('')
 const dialog = ref(false);
+const dialogmodelMultiple = ref([])
+const dialogoptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 // const cancelEnabled = ref(false)
 
 // eslint-disable-next-line vue/no-setup-props-destructure
@@ -232,25 +234,40 @@ const timeZoneOptions = [
           <q-icon color="primary" name="group_add"></q-icon>
         </q-item-section>
 
+        <!-- added a dialog section for add icon button  -->
         <q-item-section>
           <div>
-            Attendiees:
-            <q-avatar color="primary" text-color="white" icon="add" size="sm" class="q-ml-sm" @click="dialog = true"></q-avatar>
+            Attendees:
+            <q-btn round size="sm" >
+            <q-avatar color="primary" text-color="white" icon="add" size="sm" @click="dialog = true"></q-avatar>
+          </q-btn>
           </div>
         </q-item-section>
 
       </q-item>
 
       <div>
+        <!-- impmenting dialog content here -->
         <q-dialog v-model="dialog" persistent>
-      <q-card>
+      <q-card style="width: calc(100vw - 100px)">
         <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Close icon</div>
+          <div class="text-h6">Select attendees </div>
           <q-space></q-space>
           <q-btn icon="close" flat round dense v-close-popup></q-btn>
         </q-card-section>
         <q-card-section>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <q-badge color="secondary" class="q-mb-md">
+          Model: {{ dialogmodelMultiple || '[]' }}
+        </q-badge>
+          <q-select
+          filled
+          v-model="dialogmodelMultiple"
+          multiple
+          :options="dialogoptions"
+          use-chips
+          stack-label
+          label="Multiple selection"
+        ></q-select>
         </q-card-section>
         <!-- <q-card-section class="row items-center">
           <q-toggle v-model="cancelEnabled" label="Cancel button enabled"></q-toggle>
