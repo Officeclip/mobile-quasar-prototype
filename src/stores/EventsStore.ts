@@ -1,26 +1,46 @@
 import { defineStore } from 'pinia';
 import dateTimeHelper from '../helpers/dateTimeHelper.js';
 import { Event } from '../models/event';
+import { MeetingAttendees } from '../models/meetingAttendees.js';
 import axios from 'axios';
 
 export const useEventsStore = defineStore('eventsStore', {
   state: () => ({
     events: [] as Event[],
     event: undefined as Event | undefined, // for single event access
+    meetingAttendees: [] as MeetingAttendees[],
   }),
 
   getters: {
     Events: (state) => state.events,
     Event: (state) => state.event,
+    MeetingAttendees: (state) => state.meetingAttendees,
   },
 
   actions: {
+    // for getting meeting attendees from separate json
+    async getAllMeetingAttendees() {
+      try {
+        const response = await axios.get(
+          'http://localhost:4000/meetingAttendees'
+        );
+
+        this.meetingAttendees = response.data;
+        console.log(
+          `EventsStore: getAllMeetingAttendees - length - ${response.data.length}, ${this.meetingAttendees}`
+        );
+      } catch (error) {
+        alert(error);
+        console.log(error);
+      }
+    },
+
     async getAllEvents() {
       try {
         const response = await axios.get('http://localhost:4000/events');
         this.events = response.data;
         console.log(
-          `ContactsStore: getContacts - length - ${response.data.length}, ${this.events}`
+          `EventsStore: getEvents - length - ${response.data.length}, ${this.events}`
         );
       } catch (error) {
         alert(error);
