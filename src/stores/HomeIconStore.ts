@@ -17,7 +17,7 @@ export const useHomeIconsStore = defineStore('homeIconStore', {
   actions: {
     async getOrganizationItems() {
       try {
-        console.log(`Endpoint is: ${Constants.endPointUrl}`);
+        //console.log(`Endpoint is: ${Constants.endPointUrl}`);
         const data = await axios.get(`${Constants.endPointUrl}/orgs`);
         this.orgItems = data.data;
       } catch (error) {
