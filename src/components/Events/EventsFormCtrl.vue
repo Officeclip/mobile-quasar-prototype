@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
+import{ useEventsStore } from '../../stores/EventsStore'
 
 const props = defineProps(['event']);
 
@@ -11,6 +12,20 @@ const location = ref('');
 const regardings = ref('');
 const names = ref('')
 const dialog = ref(false);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const meeetingAttendees: any = ref([])
+
+const sampleData = ref([{id: 1, name: 'test1'},
+{id: 2, name: 'test2'}])
+const icecream = ref(true)
+
+const eventsStore = useEventsStore();
+onMounted(() => {
+  eventsStore.getAllMeetingAttendees()
+  console.log('YYYYYYYYYYYY', eventsStore.MeetingAttendees)
+});
+
+const dialogoptions = eventsStore.MeetingAttendees
 // const cancelEnabled = ref(false)
 
 // eslint-disable-next-line vue/no-setup-props-destructure
@@ -232,35 +247,73 @@ const timeZoneOptions = [
           <q-icon color="primary" name="group_add"></q-icon>
         </q-item-section>
 
+        <!-- added a dialog section for add icon button  -->
         <q-item-section>
           <div>
-            Attendiees:
-            <q-avatar color="primary" text-color="white" icon="add" size="sm" class="q-ml-sm" @click="dialog = true"></q-avatar>
+            Attendees:
+            <q-btn round size="sm" >
+            <q-avatar color="primary" text-color="white" icon="add" size="sm" @click="dialog = true"></q-avatar>
+          </q-btn>
           </div>
         </q-item-section>
-
       </q-item>
 
+       <!--  print the selected attendees from dialog screen -->
+       <div v-if="meeetingAttendees.length >= 1">
+      <q-list dense v-for="item in meeetingAttendees" :key="item">
+          <q-item >
+            {{ item.name }}
+          </q-item>
+      </q-list>
+    </div>
+
+
+    <!-- display attendees names using chips but how to delete? the attendee -->
+
+    <!-- <div v-if="meeetingAttendees.length >=1">
+      <div v-for="item in meeetingAttendees" :key="item.id">
+      <q-chip removable v-model="icecream">
+            {{ item.name }}
+      </q-chip>
+    </div>
+    </div> -->
+
       <div>
+
+
+        <!-- impmenting dialog content here -->
         <q-dialog v-model="dialog" persistent>
-      <q-card>
+      <q-card style="width: calc(100vw - 100px); height: 70vh;">
         <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Close icon</div>
+          <div class="text-h6">Select attendees </div>
           <q-space></q-space>
           <q-btn icon="close" flat round dense v-close-popup></q-btn>
         </q-card-section>
         <q-card-section>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <!-- <q-badge color="secondary" class="q-mb-md">
+          Model: {{ meeetingAttendees || '[]' }}
+        </q-badge> -->
+          <q-select
+          filled
+          v-model="meeetingAttendees"
+          multiple
+          :options="dialogoptions"
+          option-label="name"
+          option-value="email"
+          use-chips
+          stack-label
+          label="Select one or more attendees"
+        ></q-select>
         </q-card-section>
         <!-- <q-card-section class="row items-center">
           <q-toggle v-model="cancelEnabled" label="Cancel button enabled"></q-toggle>
         </q-card-section> -->
 
         <!-- Notice v-close-popup -->
-        <!-- <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="primary" v-close-popup="cancelEnabled" :disable="!cancelEnabled"></q-btn>
-          <q-btn flat label="Turn on Wifi" color="primary" v-close-popup></q-btn>
-        </q-card-actions> -->
+        <q-card-actions align="right">
+          <!-- <q-btn flat label="Cancel" color="primary" v-close-popup="cancelEnabled" :disable="!cancelEnabled"></q-btn> -->
+          <q-btn flat label="Add" color="primary" v-close-popup></q-btn>
+        </q-card-actions>
       </q-card>
     </q-dialog>
       </div>

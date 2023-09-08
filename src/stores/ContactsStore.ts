@@ -3,6 +3,7 @@ import { Contact } from '../models/contact';
 import { ContactDetail } from '../models/contactDetail';
 import { State } from '../models/state';
 import axios from 'axios';
+import { Constants } from './Constants';
 
 export const useContactsStore = defineStore('contactsStore', {
   state: () => ({
@@ -23,7 +24,7 @@ export const useContactsStore = defineStore('contactsStore', {
   actions: {
     async getContacts() {
       try {
-        const response = await axios.get('http://localhost:4000/contacts');
+        const response = await axios.get(`${Constants.endPointUrl}/contacts`);
         this.contacts = response.data;
         //console.log(`ContactsStore: getContacts - ${this.contacts}`);
       } catch (error) {
@@ -34,7 +35,7 @@ export const useContactsStore = defineStore('contactsStore', {
 
     async getStates() {
       try {
-        const response = await axios.get('http://localhost:4000/states');
+        const response = await axios.get(`${Constants.endPointUrl}/states`);
         this.states = response.data;
         //console.log(`getStates: ${this.states}`)
       } catch (error) {
@@ -47,7 +48,7 @@ export const useContactsStore = defineStore('contactsStore', {
     async getContactSummary(id: number) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/contacts?id=${id}`
+          `${Constants.endPointUrl}/contacts?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.contact = response.data[0];
@@ -65,7 +66,7 @@ export const useContactsStore = defineStore('contactsStore', {
       console.log(`ContactsStore: getContactDetail: id: ${id}`);
       try {
         const response = await axios.get(
-          `http://localhost:4000/contactDetails?id=${id}`
+          `${Constants.endPointUrl}/contactDetails?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           // console.log(
@@ -89,7 +90,7 @@ export const useContactsStore = defineStore('contactsStore', {
 
     async getContactsByBatch(limit: number, page: number) {
       // FIXME: put correct type
-      const callStr = `http://localhost:4000/contacts?_limit=${limit}&_page=${page}`;
+      const callStr = `${Constants.endPointUrl}/contacts?_limit=${limit}&_page=${page}`;
       //console.log(`callStr: ${callStr}`)
       const res = await fetch(callStr);
       const data = await res.json();
@@ -99,7 +100,7 @@ export const useContactsStore = defineStore('contactsStore', {
 
     async getContactsWithFilter(limit: number, page: number, filter: string) {
       // FIXME: put correct type
-      const callStr = `http://localhost:4000/contacts?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
+      const callStr = `${Constants.endPointUrl}/contacts?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
       console.log(`callStr: ${callStr}`);
       const res = await fetch(callStr);
       const data = await res.json();
@@ -108,20 +109,23 @@ export const useContactsStore = defineStore('contactsStore', {
     },
 
     async editContact(contact: Contact) {
-      const res = await fetch(`http://localhost:4000/contacts/${contact.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(contact),
-      });
+      const res = await fetch(
+        `${Constants.endPointUrl}/contacts/${contact.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(contact),
+        }
+      );
       const data = await res.json();
     },
 
     async addContact(contact: Contact) {
       this.contacts.push(contact);
 
-      const res = await fetch('http://localhost:4000/contacts', {
+      const res = await fetch(`${Constants.endPointUrl}/contacts`, {
         //TODO: Change to axios api
         method: 'POST',
         body: JSON.stringify(contact),
@@ -138,7 +142,7 @@ export const useContactsStore = defineStore('contactsStore', {
         return t.id === id;
       });
 
-      const res = await fetch('http://localhost:4000/contacts/' + id, {
+      const res = await fetch(`${Constants.endPointUrl}/contacts/` + id, {
         method: 'DELETE',
       });
     },
