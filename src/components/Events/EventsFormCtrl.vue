@@ -240,14 +240,28 @@ const timeZoneOptions = [
         </q-item-section>
       </q-item>
 
+      <q-select
+          dense
+          filled
+          v-model="meeetingAttendees"
+          multiple
+          :options="dialogoptions"
+          option-label="name"
+          option-value="email"
+          use-chips
+          stack-label
+          label="Select one or more attendees"
+        ></q-select>
+
+
        <!--  print the selected attendees from dialog screen -->
-       <div v-if="meeetingAttendees.length >= 1">
+       <!-- <div v-if="meeetingAttendees.length >= 1">
       <q-list dense v-for="item in meeetingAttendees" :key="item">
           <q-item >
             {{ item.name }}
           </q-item>
       </q-list>
-    </div>
+    </div> -->
 
 
     <!-- display attendees names using chips but how to delete? the attendee -->
@@ -260,10 +274,9 @@ const timeZoneOptions = [
     </div>
     </div> -->
 
-      <div>
-
 
         <!-- impmenting dialog content here -->
+      <!-- <div>
         <q-dialog v-model="dialog" persistent>
       <q-card style="width: calc(100vw - 100px); height: 70vh;">
         <q-card-section class="row items-center q-pb-none">
@@ -287,18 +300,13 @@ const timeZoneOptions = [
           label="Select one or more attendees"
         ></q-select>
         </q-card-section>
-        <!-- <q-card-section class="row items-center">
-          <q-toggle v-model="cancelEnabled" label="Cancel button enabled"></q-toggle>
-        </q-card-section> -->
 
-        <!-- Notice v-close-popup -->
         <q-card-actions align="right">
-          <!-- <q-btn flat label="Cancel" color="primary" v-close-popup="cancelEnabled" :disable="!cancelEnabled"></q-btn> -->
           <q-btn flat label="Add" color="primary" v-close-popup></q-btn>
         </q-card-actions>
       </q-card>
     </q-dialog>
-      </div>
+      </div> -->
       </div>
     </div>
   </div>
