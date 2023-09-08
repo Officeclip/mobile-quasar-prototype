@@ -95,7 +95,7 @@ const handleNoteCount = (value: string) => {
         <q-toolbar-title> Contact details </q-toolbar-title>
 
         <q-btn
-          :to="{ name: 'editcontact', params: { id: id } }"
+          :to="{ name: 'editContactSummary', params: { id: id } }"
           flat
           round
           dense
@@ -104,7 +104,10 @@ const handleNoteCount = (value: string) => {
         />
 
         <q-btn
-          @click="contactsStore.deleteContact(contact?.id); $router.go(-1)"
+          @click="
+            contactsStore.deleteContact(contact?.id);
+            $router.go(-1);
+          "
           flat
           round
           dense

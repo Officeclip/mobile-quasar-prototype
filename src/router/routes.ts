@@ -28,9 +28,9 @@ const routes: RouteRecordRaw[] = [
     //params: true,
   },
   {
-    path: '/editcontact/:id',
-    name: 'editcontact',
-    component: () => import('pages/Contacts/EditContact.vue'),
+    path: '/editContactSummary/:id',
+    name: 'editContactSummary',
+    component: () => import('pages/Contacts/EditContactSummary.vue'),
     //params: true,
   },
   {
