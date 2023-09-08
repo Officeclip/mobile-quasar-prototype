@@ -3200,9 +3200,7 @@
           "name": "Sep 3, 2023 - Sep 10, 2023",
           "start": "2023-09-03T00:00:00.0Z"
         }
-      ]
-    },
-    {
+      ],
       "customerProjects": [
         {
           "id": "1",
@@ -3212,9 +3210,7 @@
           "id": "1:1",
           "name": "OfficeClip:Project-1"
         }
-      ]
-    },
-    {
+      ],
       "serviceItems": [
         {
           "code": "S1",
@@ -3230,9 +3226,7 @@
           "isBillable": "No",
           "name": "Service-2"
         }
-      ]
-    },
-    {
+      ],
       "payroll": [
         {
           "name": "Payroll-1",
@@ -3246,9 +3240,7 @@
           "name": "Payroll-3",
           "id": 3
         }
-      ]
-    },
-    {
+      ],
       "customFields": [
         {
           "fieldType": "Custom-Timesheet",

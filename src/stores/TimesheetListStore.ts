@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import { ServiceItems } from '../models/Timesheet/serviceItems';
 import { Period } from '../models/Timesheet/periods'; */
 import {
+  TimesheetList,
   CustomerProject,
   ServiceItem,
   Period,
@@ -11,6 +12,7 @@ import axios from 'axios';
 
 export const useTimesheetListStore = defineStore('timesheetListStore', {
   state: () => ({
+    // timesheetList: undefined as TimesheetList | undefined,
     customerProjectsList: [] as CustomerProject[],
     serviceItemsList: [] as ServiceItem[],
     periodList: [] as Period[],
@@ -18,8 +20,11 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
 
   getters: {
     CustomerProjectsList: (state) => state.customerProjectsList,
+    //CustomerProjectsList: (state) => state.timesheetList?.customerProjects,
     ServiceItemsList: (state) => state.serviceItemsList,
+    // ServiceItemsList: (state) => state.timesheetList?.serviceItems,
     PeriodList: (state) => state.periodList,
+    // PeriodList: (state) => state.timesheetList?.periods,
   },
 
   actions: {
@@ -53,11 +58,12 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
         const response = await axios.get(
           'http://localhost:4000/timesheet-List'
         );
-        const timesheetList = response.data;
+        const timesheetList = response.data[0];
+        //this.timesheetList = timesheetList;
         //debugger;
-        this.periodList = timesheetList[0].periods;
-        this.customerProjectsList = timesheetList[1].customerProjects;
-        this.serviceItemsList = timesheetList[2].serviceItems;
+        this.periodList = timesheetList.periods;
+        this.customerProjectsList = timesheetList.customerProjects;
+        this.serviceItemsList = timesheetList.serviceItems;
         console.log(
           `getTimesheetsList1: customerProjectsList: ${this.customerProjectsList[0].name}`
         );
@@ -76,7 +82,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
       console.log(
         'getServiceItemsBycustomerProjectId: input:',
         customerProjectId,
-        this.serviceItemsList
+        this.ServiceItemsList
       );
       const newItems: ServiceItem[] = this.serviceItemsList.filter((t) => {
         return (
