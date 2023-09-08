@@ -16,13 +16,20 @@ const dialog = ref(false);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const meeetingAttendees: any = ref([])
 
+const showSection = ref(false);
+const toggleSelection = () => {
+  showSection.value = !showSection.value;
+}
+
 const eventsStore = useEventsStore();
 onMounted(() => {
   eventsStore.getAllMeetingAttendees()
   console.log('YYYYYYYYYYYY', eventsStore.MeetingAttendees)
 });
 
-const dialogoptions = eventsStore.MeetingAttendees
+const meetingAttendees = computed(() => {
+  return eventsStore.MeetingAttendees
+})
 // const cancelEnabled = ref(false)
 
 startDateTime.value = props.event.startDateTime;
@@ -224,34 +231,31 @@ const timeZoneOptions = [
       </q-item-section>
         </q-item>
 
-        <q-item>
-        <q-item-section avatar>
-          <q-icon color="primary" name="group_add"></q-icon>
-        </q-item-section>
 
-        <!-- added a dialog section for add icon button  -->
-        <q-item-section>
-          <div>
-            Attendees:
-            <q-btn round size="sm" >
-            <q-avatar color="primary" text-color="white" icon="add" size="sm" @click="dialog = true"></q-avatar>
-          </q-btn>
-          </div>
-        </q-item-section>
-      </q-item>
-
+        <q-btn
+        @click="toggleSelection"
+         flat
+         rounded
+         color="primary"
+         label="Add Attendees"
+         no-caps
+         icon-right="add"
+         align="left"
+         size="md"></q-btn>
+         
+      <div v-if="showSection">
       <q-select
           dense
           filled
           v-model="meeetingAttendees"
           multiple
-          :options="dialogoptions"
+          :options="meetingAttendees"
           option-label="name"
           option-value="email"
           use-chips
           stack-label
           label="Select one or more attendees"
-        ></q-select>
+        ></q-select></div>
 
 
        <!--  print the selected attendees from dialog screen -->
