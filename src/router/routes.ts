@@ -152,6 +152,24 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Timesheets/EditTimesheet.vue'),
     // params: true,
   },
+  {
+    path: '/expensesAll',
+    name: 'expensesAll',
+    component: () => import('../pages/Expenses/ExpensesAll.vue'),
+    // params: true,
+  },
+  {
+    path: '/expenseList/:id/:status',
+    name: 'expenseList',
+    component: () => import('../pages/Expenses/ExpenseList.vue'),
+    // params: true,
+  },
+  {
+    path: '/newExpense/:id',
+    name: 'newExpense',
+    component: () => import('../pages/Expenses/NewExpense.vue'),
+    // params: true,
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

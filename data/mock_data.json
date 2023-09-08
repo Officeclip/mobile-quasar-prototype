@@ -2769,7 +2769,7 @@
       "id": 7,
       "icon": "card_travel",
       "name": "Expenses",
-      "url": ""
+      "url": "/expensesAll"
     },
     {
       "id": 8,
@@ -2806,16 +2806,7 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        8,
-        10
-      ]
+      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
     }
   ],
   "generalUserProfile": [
@@ -3325,6 +3316,150 @@
           "id": 2
         }
       ]
+    }
+  ],
+  "expense": [
+    {
+      "createdByUserName": "Nagesh Kulkarni",
+      "employeeId": "OCHYD-005",
+      "id": 1,
+      "status": "Saved",
+      "totalAmount": "255.00",
+      "fromDate": "2020-11-02T10:43:32.203Z"
+    },
+    {
+      "createdByUserName": "Nagesh Kulkarni",
+      "employeeId": "OCHYD-005",
+      "id": 2,
+      "status": "Saved",
+      "totalAmount": "9999.00",
+      "fromDate": "2020-09-14T10:43:32.203Z"
+    },
+    {
+      "createdByUserName": "Nagesh Kulkarni",
+      "employeeId": "OCHYD-005",
+      "id": 3,
+      "status": "Approved",
+      "totalAmount": "10000.00",
+      "fromDate": "2020-07-06T10:43:32.203Z"
+    },
+    {
+      "createdByUserName": "Nagesh Kulkarni",
+      "employeeId": "OCHYD-005",
+      "id": 4,
+      "status": "Rejected",
+      "totalAmount": "12000.00",
+      "fromDate": "2020-06-15T10:43:32.203Z"
+    }
+  ],
+  "expense-details": [
+    {
+      "accountName": "OfficeClip LLC",
+      "accountSid": "3M6RSUYV6GRX3USRFC5Q",
+      "amount": 73476,
+      "billable": true,
+      "comments": "This is to test comments for expenses.",
+      "description": "Ea earum aspernatur ratione tempora.",
+      "employeeFullName": "Nagesh Kulkarni",
+      "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
+      "expenseDate": "2020-05-27 18:30:00Z",
+      "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ",
+      "expenseTypeName": "AIRTRAVEL",
+      "expenseCategoryName": "",
+      "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
+      "projectName": "",
+      "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
+      "tax": 12345,
+      "paymentType": "Cash",
+      "airTravelExpense": {
+        "arrivalAirport": "Hyderabad",
+        "arrivalDate": "12-06-2020",
+        "departureAirport": "Mumbai",
+        "departureDate": "13-06-2020"
+      },
+      "id": "1"
+    },
+    {
+      "accountName": "OfficeClip LLC",
+      "accountSid": "3M6RSUYV6GRX3USRFC5Q",
+      "amount": 73476,
+      "billable": true,
+      "comments": "This is to test comments for expenses.",
+      "description": "Ea earum aspernatur ratione tempora.",
+      "employeeFullName": "Nagesh Kulkarni",
+      "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
+      "expenseDate": "2020-05-27 18:30:00Z",
+      "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ",
+      "expenseTypeName": "AIRTRAVEL",
+      "expenseCategoryName": "",
+      "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
+      "projectName": "",
+      "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
+      "tax": 12345,
+      "paymentType": "Cash",
+      "airTravelExpense": {
+        "arrivalAirport": "Hyderabad",
+        "arrivalDate": "12-06-2020",
+        "departureAirport": "Mumbai",
+        "departureDate": "13-06-2020"
+      },
+      "id": "2"
+    },
+    {
+      "accountName": "OfficeClip LLC",
+      "accountSid": "3M6RSUYV6GRX3USRFC5Q",
+      "amount": 73476,
+      "billable": true,
+      "comments": "This is to test comments for expenses.",
+      "description": "Ea earum aspernatur ratione tempora.",
+      "employeeFullName": "Nagesh Kulkarni",
+      "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
+      "expenseDate": "2020-05-27 18:30:00Z",
+      "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ",
+      "expenseTypeName": "AIRTRAVEL",
+      "expenseCategoryName": "",
+      "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
+      "projectName": "",
+      "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
+      "tax": 12345,
+      "paymentType": "Cash",
+      "airTravelExpense": {
+        "arrivalAirport": "Hyderabad",
+        "arrivalDate": "12-06-2020",
+        "departureAirport": "Mumbai",
+        "departureDate": "13-06-2020"
+      },
+      "id": "3"
+    },
+    {
+      "accountName": "OfficeClip LLC",
+      "accountSid": "3M6RSUYV6GRX3USRFC5Q",
+      "amount": 73476,
+      "billable": true,
+      "comments": "This is to test comments for expenses.",
+      "description": "Ea earum aspernatur ratione tempora.",
+      "employeeFullName": "Nagesh Kulkarni",
+      "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
+      "expenseDate": "2020-05-27 18:30:00Z",
+      "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ",
+      "expenseTypeName": "AIRTRAVEL",
+      "expenseCategoryName": "",
+      "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
+      "projectName": "",
+      "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
+      "tax": 12345,
+      "paymentType": "Cash",
+      "airTravelExpense": {
+        "arrivalAirport": "Hyderabad",
+        "arrivalDate": "12-06-2020",
+        "departureAirport": "Mumbai",
+        "departureDate": "13-06-2020"
+      },
+      "id": "4"
     }
   ]
 }
