@@ -1,4 +1,4 @@
-export interface TimesheetList {
+export interface ExpenseList {
   id: number;
   first_name: string;
   name: string;

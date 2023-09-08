@@ -6,7 +6,7 @@ import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
 const route = useRoute()
-const tab = ref('');
+const tab = ref('Group');
 //const parentObjectId = ref()
 
 const parentObjectId = route.params.id

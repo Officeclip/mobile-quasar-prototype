@@ -2,11 +2,24 @@
 // import { yearsToMonths } from 'date-fns/esm';
 import TestForm from '../components/TestForm.vue';
 import dateTimeHelper from '../helpers/dateTimeHelper';
+import { useTimesheetListStore } from '../stores/TimesheetListStore';
+import { onMounted, ref } from 'vue';
+
+const timesheetListStore = useTimesheetListStore();
+
+onMounted(() => {
+  timesheetListStore.getTimesheetsList1();
+});
+
+const periods = ref('');
+periods.value = timesheetListStore.PeriodList;
+console.log(`TestMe: Periods: ${periods.value[0].name}`);
 
 console.log(
   'Testing the date Format Conversion',
   dateTimeHelper.convertGeneralToUtc('2023-07-27 12:00 am')
 );
+
 const testObject1 = {
   id: 1,
   visibleName: 'First Name',
