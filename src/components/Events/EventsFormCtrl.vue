@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
@@ -15,10 +16,6 @@ const dialog = ref(false);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const meeetingAttendees: any = ref([])
 
-const sampleData = ref([{id: 1, name: 'test1'},
-{id: 2, name: 'test2'}])
-const icecream = ref(true)
-
 const eventsStore = useEventsStore();
 onMounted(() => {
   eventsStore.getAllMeetingAttendees()
@@ -28,9 +25,7 @@ onMounted(() => {
 const dialogoptions = eventsStore.MeetingAttendees
 // const cancelEnabled = ref(false)
 
-// eslint-disable-next-line vue/no-setup-props-destructure
 startDateTime.value = props.event.startDateTime;
-// eslint-disable-next-line vue/no-setup-props-destructure
 endDateTime.value = props.event.endDateTime;
 
 const formattedStartDateTime = computed(() => {
@@ -103,19 +98,6 @@ const timeZoneOptions = [
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Please type something']">
         </q-input>
-
-        <!-- <q-input
-        name="eventLocation"
-        v-model="event.eventLocation"
-        label="Location"
-        placeholder="enter location"></q-input> -->
-        <!-- <pre>{{ event.isAllDayEvent }}</pre> -->
-        <!-- <q-select
-        v-model="event.isAllDayEvent"
-        :options="options"
-        map-options
-        emit-value
-        label="All Day event" /> -->
 
         <q-toggle
         name="isAllDayEvent"
@@ -290,9 +272,9 @@ const timeZoneOptions = [
           <q-btn icon="close" flat round dense v-close-popup></q-btn>
         </q-card-section>
         <q-card-section>
-          <!-- <q-badge color="secondary" class="q-mb-md">
+          <q-badge color="secondary" class="q-mb-md">
           Model: {{ meeetingAttendees || '[]' }}
-        </q-badge> -->
+        </q-badge>
           <q-select
           filled
           v-model="meeetingAttendees"
