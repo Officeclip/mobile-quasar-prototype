@@ -12,7 +12,6 @@ const timezone = ref('');
 const location = ref('');
 const regardings = ref('');
 const names = ref('')
-const dialog = ref(false);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const meeetingAttendees: any = ref([])
 
@@ -24,7 +23,6 @@ const toggleSelection = () => {
 const eventsStore = useEventsStore();
 onMounted(() => {
   eventsStore.getAllMeetingAttendees()
-  console.log('YYYYYYYYYYYY', eventsStore.MeetingAttendees)
 });
 
 const meetingAttendees = computed(() => {
@@ -231,7 +229,6 @@ const timeZoneOptions = [
       </q-item-section>
         </q-item>
 
-
         <q-btn
         @click="toggleSelection"
          flat
@@ -242,7 +239,7 @@ const timeZoneOptions = [
          icon-right="add"
          align="left"
          size="md"></q-btn>
-         
+
       <div v-if="showSection">
       <q-select
           dense
@@ -255,62 +252,9 @@ const timeZoneOptions = [
           use-chips
           stack-label
           label="Select one or more attendees"
-        ></q-select></div>
-
-
-       <!--  print the selected attendees from dialog screen -->
-       <!-- <div v-if="meeetingAttendees.length >= 1">
-      <q-list dense v-for="item in meeetingAttendees" :key="item">
-          <q-item >
-            {{ item.name }}
-          </q-item>
-      </q-list>
-    </div> -->
-
-
-    <!-- display attendees names using chips but how to delete? the attendee -->
-
-    <!-- <div v-if="meeetingAttendees.length >=1">
-      <div v-for="item in meeetingAttendees" :key="item.id">
-      <q-chip removable v-model="icecream">
-            {{ item.name }}
-      </q-chip>
-    </div>
-    </div> -->
-
-
-        <!-- impmenting dialog content here -->
-      <!-- <div>
-        <q-dialog v-model="dialog" persistent>
-      <q-card style="width: calc(100vw - 100px); height: 70vh;">
-        <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Select attendees </div>
-          <q-space></q-space>
-          <q-btn icon="close" flat round dense v-close-popup></q-btn>
-        </q-card-section>
-        <q-card-section>
-          <q-badge color="secondary" class="q-mb-md">
-          Model: {{ meeetingAttendees || '[]' }}
-        </q-badge>
-          <q-select
-          filled
-          v-model="meeetingAttendees"
-          multiple
-          :options="dialogoptions"
-          option-label="name"
-          option-value="email"
-          use-chips
-          stack-label
-          label="Select one or more attendees"
-        ></q-select>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat label="Add" color="primary" v-close-popup></q-btn>
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-      </div> -->
+        >
+      </q-select>
+      </div>
       </div>
     </div>
   </div>
