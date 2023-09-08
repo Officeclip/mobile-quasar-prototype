@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
@@ -15,10 +16,6 @@ const dialog = ref(false);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const meeetingAttendees: any = ref([])
 
-const sampleData = ref([{id: 1, name: 'test1'},
-{id: 2, name: 'test2'}])
-const icecream = ref(true)
-
 const eventsStore = useEventsStore();
 onMounted(() => {
   eventsStore.getAllMeetingAttendees()
@@ -28,9 +25,7 @@ onMounted(() => {
 const dialogoptions = eventsStore.MeetingAttendees
 // const cancelEnabled = ref(false)
 
-// eslint-disable-next-line vue/no-setup-props-destructure
 startDateTime.value = props.event.startDateTime;
-// eslint-disable-next-line vue/no-setup-props-destructure
 endDateTime.value = props.event.endDateTime;
 
 const formattedStartDateTime = computed(() => {
@@ -103,19 +98,6 @@ const timeZoneOptions = [
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Please type something']">
         </q-input>
-
-        <!-- <q-input
-        name="eventLocation"
-        v-model="event.eventLocation"
-        label="Location"
-        placeholder="enter location"></q-input> -->
-        <!-- <pre>{{ event.isAllDayEvent }}</pre> -->
-        <!-- <q-select
-        v-model="event.isAllDayEvent"
-        :options="options"
-        map-options
-        emit-value
-        label="All Day event" /> -->
 
         <q-toggle
         name="isAllDayEvent"
@@ -258,14 +240,28 @@ const timeZoneOptions = [
         </q-item-section>
       </q-item>
 
+      <q-select
+          dense
+          filled
+          v-model="meeetingAttendees"
+          multiple
+          :options="dialogoptions"
+          option-label="name"
+          option-value="email"
+          use-chips
+          stack-label
+          label="Select one or more attendees"
+        ></q-select>
+
+
        <!--  print the selected attendees from dialog screen -->
-       <div v-if="meeetingAttendees.length >= 1">
+       <!-- <div v-if="meeetingAttendees.length >= 1">
       <q-list dense v-for="item in meeetingAttendees" :key="item">
           <q-item >
             {{ item.name }}
           </q-item>
       </q-list>
-    </div>
+    </div> -->
 
 
     <!-- display attendees names using chips but how to delete? the attendee -->
@@ -278,10 +274,9 @@ const timeZoneOptions = [
     </div>
     </div> -->
 
-      <div>
-
 
         <!-- impmenting dialog content here -->
+      <!-- <div>
         <q-dialog v-model="dialog" persistent>
       <q-card style="width: calc(100vw - 100px); height: 70vh;">
         <q-card-section class="row items-center q-pb-none">
@@ -290,9 +285,9 @@ const timeZoneOptions = [
           <q-btn icon="close" flat round dense v-close-popup></q-btn>
         </q-card-section>
         <q-card-section>
-          <!-- <q-badge color="secondary" class="q-mb-md">
+          <q-badge color="secondary" class="q-mb-md">
           Model: {{ meeetingAttendees || '[]' }}
-        </q-badge> -->
+        </q-badge>
           <q-select
           filled
           v-model="meeetingAttendees"
@@ -305,18 +300,13 @@ const timeZoneOptions = [
           label="Select one or more attendees"
         ></q-select>
         </q-card-section>
-        <!-- <q-card-section class="row items-center">
-          <q-toggle v-model="cancelEnabled" label="Cancel button enabled"></q-toggle>
-        </q-card-section> -->
 
-        <!-- Notice v-close-popup -->
         <q-card-actions align="right">
-          <!-- <q-btn flat label="Cancel" color="primary" v-close-popup="cancelEnabled" :disable="!cancelEnabled"></q-btn> -->
           <q-btn flat label="Add" color="primary" v-close-popup></q-btn>
         </q-card-actions>
       </q-card>
     </q-dialog>
-      </div>
+      </div> -->
       </div>
     </div>
   </div>
