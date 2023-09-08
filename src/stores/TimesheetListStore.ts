@@ -9,6 +9,7 @@ import {
   Period,
 } from '../models/Timesheet/timesheetList';
 import axios from 'axios';
+import { Constants } from './Constants';
 
 export const useTimesheetListStore = defineStore('timesheetListStore', {
   state: () => ({
@@ -33,7 +34,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
     async getTimesheetsList(name: string) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/timesheet-List?name=${name}`
+          `${Constants.endPointUrl}timesheet-List?name=${name}`
         );
         console.log('Response', response);
         const data = response.data[0].items;
@@ -56,7 +57,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
     async getTimesheetsList1() {
       try {
         const response = await axios.get(
-          'http://localhost:4000/timesheet-List'
+          `${Constants.endPointUrl}/timesheet-List`
         );
         const timesheetList = response.data[0];
         //this.timesheetList = timesheetList;
@@ -64,9 +65,9 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
         this.periodList = timesheetList.periods;
         this.customerProjectsList = timesheetList.customerProjects;
         this.serviceItemsList = timesheetList.serviceItems;
-        console.log(
+        /*       console.log(
           `getTimesheetsList1: customerProjectsList: ${this.customerProjectsList[0].name}`
-        );
+        ); */
       } catch (error) {
         console.error(error);
       }
