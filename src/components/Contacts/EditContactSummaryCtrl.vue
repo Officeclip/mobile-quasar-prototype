@@ -1,144 +1,104 @@
-<!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup>
-import { ref, computed } from 'vue';
-import dateTimeHelper from '../../helpers/dateTimeHelper';
+import { defineProps, ref, onMounted, computed } from 'vue';
+import { useContactsStore } from '../../stores/ContactsStore';
 
-const props = defineProps(['testProps']);
+defineProps(['contact']);
 
-const newValue = ref('');
-newValue.value = props.testProps.value;
+const dense = ref(false);
 
-const dateTime = ref('');
-dateTime.value = props.testProps.value;
+const usecontactStore = useContactsStore();
 
-const formattedDateTime = computed(() => {
-  let dateValue = dateTimeHelper.extractDateFromUtc(dateTime.value);
-  let timeValue = dateTimeHelper.extractTimeFromUtc(dateTime.value);
-  return `${dateValue} ${timeValue}`;
+usecontactStore.getStates();
+
+onMounted(() => {
+  // not defined
 });
 
-const multiSelect = ref('');
-multiSelect.value = props.testProps.value;
-
-const getType = computed(() => props.testProps.type);
-const labelName = props.testProps.visibleName;
+const getStateNames = computed(() => {
+  const names = usecontactStore.states.map((a) => a.name);
+  return names;
+});
 </script>
 
 <template>
+  <!-- FIXME: remove the warning -->
   <!-- eslint-disable vue/no-mutating-props -->
-  <q-input
-    v-if="getType === 'string'"
-    name="stringnewValue"
-    class="min-width"
-    type="text"
-    :label="labelName"
-    placeholder="enter task subject"
-    v-model="newValue"
-  />
+  <div>
+    <div class="q-pa-md">
+      <div class="q-gutter-y-md column">
+        <q-input
+          v-model="contact.first_name"
+          label="First Name *"
+          placeholder="enter first name"
+          :dense="dense"
+          lazy-rules
+          :rules="[
+            (val) => (val && val.length > 0) || 'Please enter your first name',
+          ]"
+        ></q-input>
+        <q-input
+          v-model="contact.last_name"
+          label="Last Name"
+          placeholder="enter last name"
+          :dense="dense"
+        ></q-input>
+        <q-input
+          v-model="contact.title"
+          label="Title"
+          placeholder="enter title"
+          :dense="dense"
+        ></q-input>
+        <q-input
+          v-model="contact.email"
+          label="Email"
+          placeholder="enter email address"
+          :dense="dense"
+        ></q-input>
 
-  <q-input
-    v-if="getType === 'numeric'"
-    name="numericnewValue"
-    class="min-width"
-    type="number"
-    label="Number type Input"
-    placeholder="enter task subject"
-    v-model="newValue"
-  />
-
-  <q-input
-    v-if="getType === 'date'"
-    name="dateValue"
-    class="min-width"
-    filled
-    v-model="newValue"
-    mask="date"
-    :rules="['date']"
-  >
-    <template v-slot:append>
-      <q-icon name="event" class="cursor-pointer">
-        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-          <q-date v-model="newValue">
-            <div class="row items-center justify-end">
-              <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
-            </div>
-          </q-date>
-        </q-popup-proxy>
-      </q-icon>
-    </template>
-  </q-input>
-  <!-- -------------- -->
-  <q-input
-    v-if="getType === 'datetime'"
-    name="dateTime"
-    v-model="formattedDateTime"
-    label="Date and Time"
-  >
-    <template v-slot:prepend>
-      <q-icon name="event" class="cursor-pointer">
-        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-          <q-date v-model="dateTime" mask="YYYY-MM-DD HH:mm">
-            <div class="row items-center justify-end">
-              <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
-            </div>
-          </q-date>
-        </q-popup-proxy>
-      </q-icon>
-    </template>
-
-    <template v-slot:append>
-      <q-icon name="access_time" class="cursor-pointer">
-        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-          <q-time v-model="dateTime" mask="YYYY-MM-DD HH:mm">
-            <div class="row items-center justify-end">
-              <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
-            </div>
-          </q-time>
-        </q-popup-proxy>
-      </q-icon>
-    </template>
-  </q-input>
-
-  <!-- --------------------- -->
-
-  <q-select
-    v-if="getType === 'select'"
-    name="selectnewValue"
-    map-options
-    class="min-width"
-    v-model="newValue"
-    :options="testProps.options"
-    option-label="name"
-    label="Single Option Select"
-  />
-
-  <q-toggle
-    v-if="getType === 'boolean'"
-    name="selectbooleanValue"
-    :false-value="false"
-    :label="`Model is ${newValue} (flipped boolean)`"
-    :true-value="true"
-    color="primary"
-    keep-color
-    v-model="newValue"
-  ></q-toggle>
-
-  <!-- <pre>{{ multiSelect }}</pre> -->
-  <q-select
-    v-if="getType === 'multi-select'"
-    name="multi-selectnewvalue"
-    map-options
-    multiple
-    class="min-width"
-    v-model="multiSelect"
-    :options="testProps.options"
-    option-label="name"
-    label="Multi Option Select"
-  />
+        <q-input
+          v-model="contact.country"
+          label="Country"
+          placeholder="enter Country name"
+          :dense="dense"
+        ></q-input>
+        <q-input
+          v-model="contact.work_phone"
+          label="Work Phone"
+          placeholder="work phone"
+          :dense="dense"
+        ></q-input>
+        <q-input
+          v-model="contact.home_phone"
+          label="Home Phone"
+          placeholder="home phone"
+          :dense="dense"
+        ></q-input>
+        <q-input
+          v-model="contact.street_address"
+          label="Address"
+          placeholder="street address"
+          :dense="dense"
+        ></q-input>
+        <q-input
+          v-model="contact.city"
+          label="City"
+          placeholder="City"
+          :dense="dense"
+        ></q-input>
+        <q-select
+          v-model="contact.state"
+          :options="getStateNames"
+          label="State"
+          placeholder="State"
+          :dense="dense"
+        />
+        <q-input
+          v-model="contact.postal_code"
+          label="Postal Code"
+          placeholder="postal code"
+          :dense="dense"
+        ></q-input>
+      </div>
+    </div>
+  </div>
 </template>
-
-<style scoped>
-.min-width {
-  min-width: 250px;
-}
-</style>
