@@ -1,6 +1,6 @@
 <script setup>
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
-import { useEventsStore } from '../../stores/EventsStore';
+import { useEventsStore } from 'stores/EventsStore';
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router';
 
@@ -24,7 +24,6 @@ const event = ref({
     parentObjectServiceType: '14',
     parentObjectId: newparentObjectId,
     eventType: '2'
-
 });
 
 function onSubmit(e) {
