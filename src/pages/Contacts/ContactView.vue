@@ -95,7 +95,11 @@ const handleNoteCount = (value: string) => {
         <q-toolbar-title> Contact details </q-toolbar-title>
 
         <q-btn
-          :to="{ name: 'editContactSummary', params: { id: id } }"
+          @click="
+            model === '1'
+              ? $router.push({ name: 'editContactSummary', params: { id: id } })
+              : $router.push({ name: 'editContactDetail', params: { id: id } })
+          "
           flat
           round
           dense

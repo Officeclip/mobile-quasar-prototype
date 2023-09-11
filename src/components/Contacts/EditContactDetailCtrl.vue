@@ -1,5 +1,60 @@
+<script setup lang="ts">
+console.log('Components/EditContactDetails: Setup');
+import { onMounted, computed } from 'vue';
+import { useContactsStore } from '../../stores/ContactsStore';
+import ContactDetailsEditItem from '../../components/Contacts/ContactDetailsEditItem.vue';
+import { useRoute } from 'vue-router';
+const contactsStore = useContactsStore();
+// const props = defineProps(['params']);
+
+// const contactId = computed(() => props.params.parentObjectId);
+
+const route = useRoute();
+
+const contactDetails = computed(() => {
+  return contactsStore.ContactDetails;
+});
+
+onMounted(() => {
+  contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
+  contactsStore.getContactDetail(Number(route.params.id));
+  console.log(`onMounted: Contacts - ${contactsStore.ContactDetails}`);
+});
+</script>
+
+<template>
+  <q-card
+    v-for="(section, index) in contactDetails?.sections"
+    :key="index"
+    flat
+    bordered
+    class="relative-position card-example"
+  >
+    <q-card-section class="q-pb-none">
+      <div class="text-h6">{{ section.sectionName }}</div>
+    </q-card-section>
+    <q-card-section class="q-pb-none">
+      <q-list>
+        <q-item>
+          <q-item-section class="rowItems align-content-left">
+            <!-- From: https://stackoverflow.com/a/62785796/89256 -->
+            <div v-for="(sectionEntry, i) in section.sectionEntries" :key="i">
+              <ContactDetailsEditItem :params="sectionEntry" />
+            </div>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-card-section>
+  </q-card>
+  <q-card>
+    <div>
+      <!-- <pre>{{ contactDetails }}</pre> -->
+    </div>
+  </q-card>
+</template>
+
 <!-- eslint-disable vue/no-setup-props-destructure -->
-<script setup>
+<!-- <script setup>
 import { ref, computed } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 
@@ -22,10 +77,10 @@ multiSelect.value = props.testProps.value;
 
 const getType = computed(() => props.testProps.type);
 const labelName = props.testProps.visibleName;
-</script>
+</script> -->
 
-<template>
-  <!-- eslint-disable vue/no-mutating-props -->
+<!-- <template>
+   eslint-disable vue/no-mutating-props
   <q-input
     v-if="getType === 'string'"
     name="stringnewValue"
@@ -67,7 +122,7 @@ const labelName = props.testProps.visibleName;
       </q-icon>
     </template>
   </q-input>
-  <!-- -------------- -->
+
   <q-input
     v-if="getType === 'datetime'"
     name="dateTime"
@@ -99,8 +154,6 @@ const labelName = props.testProps.visibleName;
     </template>
   </q-input>
 
-  <!-- --------------------- -->
-
   <q-select
     v-if="getType === 'select'"
     name="selectnewValue"
@@ -123,7 +176,7 @@ const labelName = props.testProps.visibleName;
     v-model="newValue"
   ></q-toggle>
 
-  <!-- <pre>{{ multiSelect }}</pre> -->
+
   <q-select
     v-if="getType === 'multi-select'"
     name="multi-selectnewvalue"
@@ -135,10 +188,10 @@ const labelName = props.testProps.visibleName;
     option-label="name"
     label="Multi Option Select"
   />
-</template>
+</template> -->
 
 <style scoped>
-.min-width {
+/* .min-width {
   min-width: 250px;
-}
+} */
 </style>
