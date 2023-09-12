@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import {ref, computed, onMounted} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useEventsStore} from 'stores/EventsStore'
 import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue";
@@ -90,6 +90,12 @@ const timeZoneOptions = [
 ]
 
 const alert = ref(false);
+
+function handleRRuleGenerated(rruleString: string) {
+  // You can now use the rruleString in your parent component
+  console.log('Received RRule:', rruleString);
+  // Do whatever you need with the RRule string, e.g., pass it to another screen or component.
+}
 </script>
 
 <template>
@@ -260,9 +266,11 @@ const alert = ref(false);
           >
           </q-select>
         </div>
+
         <q-dialog v-model="alert">
-          <EventsRecurrenceDialog></EventsRecurrenceDialog>
+          <EventsRecurrenceDialog @rrule-generated="handleRRuleGenerated"/>
         </q-dialog>
+
       </div>
     </div>
   </div>

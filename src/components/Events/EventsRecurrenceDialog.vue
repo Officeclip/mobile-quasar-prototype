@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+const emit = defineEmits(['rrule-generated'])
 
 import {ref} from "vue";
 
@@ -143,6 +144,7 @@ const generateRecurrenceRule = () => {
   const rule = new RRule(ruleOptions);
   console.log(rule.toString());
   generatedRRule.value = rule.toString();
+  emit('rrule-generated', generatedRRule.value);
 
 };
 const generatedRRule = ref('');
@@ -199,7 +201,6 @@ const parseRRule = () => {
   }
 };
 
-
 </script>
 
 <template>
@@ -207,7 +208,7 @@ const parseRRule = () => {
     <div class="q-pa-md">
       <q-item class="flex-center q-gutter-md row">
         Frequency:
-        <q-select standout v-model="selectedOption" :options="recurrenceOptions" emit-value map-options/>
+        <q-select standout v-model="selectedOption" :options="recurrenceOptions" emit-value/>
       </q-item>
       <div v-if="selectedOption === 'daily'" class="column">
         <q-radio v-model="dailyChoice" val="daily-option1">
@@ -225,19 +226,18 @@ const parseRRule = () => {
           Recur every
           <q-input v-model="weeklyWeeks" type="number"/>
           weeks
-          <q-select standout v-model="weeklyChosenDays" :options="weekdays" emit-value map-options multiple/>
+          <q-select standout v-model="weeklyChosenDays" :options="weekdays" emit-value multiple/>
         </q-item>
       </div>
 
       <div v-else-if="selectedOption === 'monthly'">
         <div class="q-radio-group">
-
           <q-radio v-model="monthlyChoice" val="monthly-option1">
             <q-item class="flex-center q-gutter-md row">
               Day
-              <q-select standout v-model="monthlyDayNumber" :options="numberOfDaysOfMonth" emit-value map-options/>
+              <q-select standout v-model="monthlyDayNumber" :options="numberOfDaysOfMonth" emit-value/>
               of every
-              <q-select standout v-model="monthlyMonthNumber" :options="numberOfMonthsOfYear" emit-value map-options/>
+              <q-select standout v-model="monthlyMonthNumber" :options="numberOfMonthsOfYear" emit-value/>
               months
               {{ monthlyMonthNumber }}
             </q-item>
@@ -246,10 +246,10 @@ const parseRRule = () => {
             <q-item class="flex-center q-gutter-md row">
 
               The
-              <q-select standout v-model="monthlyOccurrence" :options="occurrences" emit-value map-options/>
-              <q-select standout v-model="monthlyWeekDay" :options="weekdays" emit-value map-options/>
+              <q-select standout v-model="monthlyOccurrence" :options="occurrences" emit-value/>
+              <q-select standout v-model="monthlyWeekDay" :options="weekdays" emit-value/>
               of every
-              <q-select standout v-model="monthlyMonthNumber2" :options="numberOfMonthsOfYear" emit-value map-options/>
+              <q-select standout v-model="monthlyMonthNumber2" :options="numberOfMonthsOfYear" emit-value/>
               months
             </q-item>
           </q-radio>
@@ -261,18 +261,17 @@ const parseRRule = () => {
           <q-radio v-model="yearlyChoice" val="yearly-option1">
             <q-item class="flex-center q-gutter-md row">
               Every
-              <q-select standout v-model="yearlyMonth" :options="monthsOfYear" emit-value map-options/>
-              <q-select standout v-model="yearlyDay" :options="numberOfDaysOfMonth" emit-value map-options/>
+              <q-select standout v-model="yearlyMonth" :options="monthsOfYear" emit-value/>
+              <q-select standout v-model="yearlyDay" :options="numberOfDaysOfMonth" emit-value/>
             </q-item>
           </q-radio>
           <q-radio v-model="yearlyChoice" val="yearly-option2">
             <q-item class="flex-center q-gutter-md row">
-
               The
-              <q-select standout v-model="yearlyOccurrence" :options="occurrences" emit-value map-options/>
-              <q-select standout v-model="yearlyWeekday" :options="weekdays" emit-value map-options/>
+              <q-select standout v-model="yearlyOccurrence" :options="occurrences" emit-value/>
+              <q-select standout v-model="yearlyWeekday" :options="weekdays" emit-value/>
               of
-              <q-select standout v-model="yearlyMonth2" :options="monthsOfYear" emit-value map-options/>
+              <q-select standout v-model="yearlyMonth2" :options="monthsOfYear" emit-value/>
             </q-item>
           </q-radio>
         </div>
@@ -281,7 +280,6 @@ const parseRRule = () => {
       <div class="q-radio-group">
         <q-radio v-model="dateOrCount" val="count">
           <q-item class="flex-center q-gutter-md row">
-
             End after
             <q-input v-model="count" type="number"/>
             occurrences
@@ -289,7 +287,6 @@ const parseRRule = () => {
         </q-radio>
         <q-radio v-model="dateOrCount" val="date">
           <q-item class="flex-center q-gutter-md row">
-
             End by
             <q-date v-model="selectedEndDate"/>
           </q-item>
