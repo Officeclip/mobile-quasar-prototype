@@ -27,8 +27,7 @@ onMounted(() => {
 
 const meetingAttendees = computed(() => {
   return eventsStore.MeetingAttendees
-})
-// const cancelEnabled = ref(false)
+});
 
 startDateTime.value = props.event.startDateTime;
 endDateTime.value = props.event.endDateTime;
@@ -244,6 +243,10 @@ const timeZoneOptions = [
       <q-select
           dense
           filled
+          outlined
+          transition-show="scale"
+          transition-hide="scale"
+          color="purple-12"
           v-model="meeetingAttendees"
           multiple
           :options="meetingAttendees"
@@ -251,7 +254,7 @@ const timeZoneOptions = [
           option-value="email"
           use-chips
           stack-label
-          label="Select one or more attendees"
+          label="Select from dropdown"
         >
       </q-select>
       </div>

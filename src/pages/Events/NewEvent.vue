@@ -68,7 +68,7 @@ function onSubmit(e) {
 </script>
 <template>
     <q-layout view="lHh Lpr lFf">
-        <q-header>
+        <q-header class="bg-cyan">
             <q-toolbar>
                 <q-btn
                 @click="$router.go(-1)"
@@ -79,6 +79,15 @@ function onSubmit(e) {
                 icon="arrow_back">
                 </q-btn>
                 <q-toolbar-title> New Event</q-toolbar-title>
+                <q-btn
+                outline
+                rounded
+                dense
+                label="Save"
+                no-caps
+                type="submit"
+                @submit="onSubmit"
+                class="q-px-md"></q-btn>
             </q-toolbar>
         </q-header>
         <q-page-container>
