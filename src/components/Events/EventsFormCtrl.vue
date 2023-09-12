@@ -9,7 +9,7 @@ const props = defineProps(['event']);
 const startDateTime = ref('');
 const endDateTime = ref('');
 const timezone = ref('');
-const location = ref('');
+// const location = ref('');
 const regardings = ref('');
 const names = ref('')
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -170,9 +170,9 @@ const timeZoneOptions = [
           </template>
         </q-input>
 
-        <q-select name="newcreatedDate" label="Timezone" v-model="timezone" :options="timeZoneOptions" map-options emit-label />
+        <q-select name="timeZone" label="Timezone" v-model="timezone" :options="timeZoneOptions" map-options emit-label />
 
-        <q-input  bottom-slots v-model="location" label="Location">
+        <q-input  bottom-slots v-model="event.location" label="Location">
         <template v-slot:prepend>
           <q-icon name="place"></q-icon>
         </template>
