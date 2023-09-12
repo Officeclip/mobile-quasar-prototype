@@ -240,6 +240,7 @@ const timeZoneOptions = [
          size="md"></q-btn>
 
       <div v-if="showSection">
+        <pre>{{ meeetingAttendees }}</pre>
       <q-select
           dense
           filled
@@ -253,7 +254,6 @@ const timeZoneOptions = [
           option-label="name"
           option-value="email"
           use-chips
-          stack-label
           label="Select from dropdown"
         >
       </q-select>

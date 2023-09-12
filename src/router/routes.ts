@@ -124,9 +124,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/CustomerProjectList.vue'),
   },
   {
-    path: '/incrementalLoading',
-    name: 'incrementalLoading',
-    component: () => import('../pages/IncrementalList.vue'),
+    path: '/formData',
+    name: 'formData',
+    component: () => import('../pages/ParentComponent.vue'),
   },
   {
     path: '/timesheetsAll',
