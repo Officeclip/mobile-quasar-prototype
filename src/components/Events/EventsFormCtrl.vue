@@ -6,6 +6,7 @@ import {useEventsStore} from 'stores/EventsStore'
 import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue";
 
 const props = defineProps(['event']);
+const emit = defineEmits(['rrule-generated'])
 
 const startDateTime = ref('');
 const endDateTime = ref('');
@@ -15,7 +16,7 @@ const regardings = ref('');
 const names = ref('')
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const meeetingAttendees: any = ref([])
-
+const recurrenceString = ref('');
 const showSection = ref(false);
 const toggleSelection = () => {
   showSection.value = !showSection.value;
@@ -94,7 +95,8 @@ const alert = ref(false);
 function handleRRuleGenerated(rruleString: string) {
   // You can now use the rruleString in your parent component
   console.log('Received RRule:', rruleString);
-  // Do whatever you need with the RRule string, e.g., pass it to another screen or component.
+  emit('rrule-generated', rruleString);
+
 }
 </script>
 
