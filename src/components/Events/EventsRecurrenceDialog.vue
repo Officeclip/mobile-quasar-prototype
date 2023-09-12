@@ -3,7 +3,6 @@ const emit = defineEmits(['rrule-generated'])
 
 import {ref} from "vue";
 
-import '@vuepic/vue-datepicker/dist/main.css';
 import {RRule} from 'rrule'
 
 
@@ -143,7 +142,7 @@ const generateRecurrenceRule = () => {
 
   const rule = new RRule(ruleOptions);
   console.log(rule.toString());
-  generatedRRule.value = rule.toString();
+  generatedRRule.value = rule.toString() ;
   emit('rrule-generated', generatedRRule.value);
 
 };
@@ -226,7 +225,7 @@ const parseRRule = () => {
           Recur every
           <q-input v-model="weeklyWeeks" type="number"/>
           weeks
-          <q-select standout v-model="weeklyChosenDays" :options="weekdays" emit-value multiple/>
+          <q-select standout v-model="weeklyChosenDays" :options="weekdays" multiple/>
         </q-item>
       </div>
 
@@ -239,17 +238,15 @@ const parseRRule = () => {
               of every
               <q-select standout v-model="monthlyMonthNumber" :options="numberOfMonthsOfYear" emit-value/>
               months
-              {{ monthlyMonthNumber }}
             </q-item>
           </q-radio>
           <q-radio v-model="monthlyChoice" val="monthly-option2">
             <q-item class="flex-center q-gutter-md row">
-
               The
-              <q-select standout v-model="monthlyOccurrence" :options="occurrences" emit-value/>
-              <q-select standout v-model="monthlyWeekDay" :options="weekdays" emit-value/>
+              <q-select standout v-model="monthlyOccurrence" :options="occurrences" emit-value map-options/>
+              <q-select standout v-model="monthlyWeekDay" :options="weekdays" emit-value map-options/>
               of every
-              <q-select standout v-model="monthlyMonthNumber2" :options="numberOfMonthsOfYear" emit-value/>
+              <q-select standout v-model="monthlyMonthNumber2" :options="numberOfMonthsOfYear" emit-value map-options/>
               months
             </q-item>
           </q-radio>
@@ -261,17 +258,17 @@ const parseRRule = () => {
           <q-radio v-model="yearlyChoice" val="yearly-option1">
             <q-item class="flex-center q-gutter-md row">
               Every
-              <q-select standout v-model="yearlyMonth" :options="monthsOfYear" emit-value/>
-              <q-select standout v-model="yearlyDay" :options="numberOfDaysOfMonth" emit-value/>
+              <q-select standout v-model="yearlyMonth" :options="monthsOfYear" emit-value map-options />
+              <q-select standout v-model="yearlyDay" :options="numberOfDaysOfMonth" emit-value map-options/>
             </q-item>
           </q-radio>
           <q-radio v-model="yearlyChoice" val="yearly-option2">
             <q-item class="flex-center q-gutter-md row">
               The
-              <q-select standout v-model="yearlyOccurrence" :options="occurrences" emit-value/>
-              <q-select standout v-model="yearlyWeekday" :options="weekdays" emit-value/>
+              <q-select standout v-model="yearlyOccurrence" :options="occurrences" emit-value map-options/>
+              <q-select standout v-model="yearlyWeekday" :options="weekdays" emit-value map-options/>
               of
-              <q-select standout v-model="yearlyMonth2" :options="monthsOfYear" emit-value/>
+              <q-select standout v-model="yearlyMonth2" :options="monthsOfYear" emit-value map-options/>
             </q-item>
           </q-radio>
         </div>
