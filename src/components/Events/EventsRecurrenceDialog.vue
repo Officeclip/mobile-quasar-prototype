@@ -295,7 +295,7 @@ const parseRRule = () => {
         </q-radio>
       </div>
 
-      <q-btn color="primary" @click="generateRecurrenceRule">GENERATE</q-btn>
+      <q-btn color="primary" @click="generateRecurrenceRule">Save</q-btn>
       <div v-if="generatedRRule">
         <code>{{ generatedRRule }}</code>
       </div>
