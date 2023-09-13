@@ -1590,6 +1590,22 @@
               "visible": true,
               "editable": true,
               "value": "(170) 034-4852"
+            },
+            {
+              "metaId": 105,
+              "visibleName": "Age",
+              "type": "number",
+              "visible": true,
+              "editable": true,
+              "value": "39"
+            },
+            {
+              "metaId": 106,
+              "visibleName": "Is First Time?",
+              "type": "boolean",
+              "visible": true,
+              "editable": true,
+              "value": "true"
             }
           ]
         },
@@ -3454,8 +3470,8 @@
           "fieldType": "TimesheetRow",
           "id": "4",
           "items": [
-            "",
-            "One",
+
+            "", "One",
             "Two",
             "Three"
           ],

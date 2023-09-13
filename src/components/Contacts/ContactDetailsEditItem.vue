@@ -6,25 +6,47 @@ const newValue = ref('');
 newValue.value = props.params?.value;
 const getType = computed(() => props.params?.type);
 const labelName = computed(() => props.params?.visibleName);
+const controlName = computed(() => `name_${props.params?.metaId}`);
 </script>
 
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
-  <q-item-label caption>
-    {{ props.params?.visibleName }}
-  </q-item-label>
+
   <div v-if="props.params?.editable" class="q-mb-md">
     <q-input
       v-if="getType === 'string'"
-      name="stringnewValue"
+      :name="controlName"
       class="min-width"
       type="text"
       :label="labelName"
-      placeholder="enter task subject"
       v-model="newValue"
     />
+    <q-input
+      v-if="getType === 'number'"
+      name="controlName"
+      class="min-width"
+      type="number"
+      :label="labelName"
+      v-model="newValue"
+    />
+    <q-toggle
+      v-if="getType === 'boolean'"
+      name="controlName"
+      :label="labelName"
+      :false-value="false"
+      :true-value="true"
+      color="primary"
+      keep-color
+      v-model="newValue"
+    ></q-toggle>
   </div>
   <div v-else caption class="q-mb-md text-italic">
+    <q-item-label caption>
+      {{ labelName }}
+    </q-item-label>
+    <q-item-label class="q-mb-sm">
+      {{ newValue }}
+    </q-item-label>
     <q-icon name="hide_source" /> You do not permission to edit this item
   </div>
 </template>
