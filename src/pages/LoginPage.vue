@@ -98,12 +98,13 @@ const submitLogin = () => {
             <div class="column m-t-md">
               <q-btn
                 :to="{
-                  name: 'incrementalLoading',
+                  name: 'formData',
                   // params: {
                   //   id: 1,
                   // },
                 }"
-                label="Incremental List"
+                label="Form Data"
+                no-caps
               />
             </div>
           </div>

@@ -1,20 +1,22 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
-<script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+<script lang="ts" setup>
+import {computed, onMounted, ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import{ useEventsStore } from '../../stores/EventsStore'
+import {useEventsStore} from 'stores/EventsStore'
+import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue";
 
 const props = defineProps(['event']);
+const emit = defineEmits(['rrule-generated'])
 
 const startDateTime = ref('');
 const endDateTime = ref('');
 const timezone = ref('');
-const location = ref('');
+// const location = ref('');
 const regardings = ref('');
 const names = ref('')
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const meeetingAttendees: any = ref([])
-
+const recurrenceString = ref('');
 const showSection = ref(false);
 const toggleSelection = () => {
   showSection.value = !showSection.value;
@@ -27,8 +29,7 @@ onMounted(() => {
 
 const meetingAttendees = computed(() => {
   return eventsStore.MeetingAttendees
-})
-// const cancelEnabled = ref(false)
+});
 
 startDateTime.value = props.event.startDateTime;
 endDateTime.value = props.event.endDateTime;
@@ -77,16 +78,25 @@ const timeZoneOptions = [
   {
     timezoneId: 1,
     label: 'sample data 1'
-    },
-    {
+  },
+  {
     timezoneId: 2,
     label: 'sample data 2'
-    },
-    {
+  },
+  {
     timezoneId: 3,
     label: 'sample data 3'
-    }
-          ]
+  }
+]
+
+const alert = ref(false);
+
+function handleRRuleGenerated(rruleString: string) {
+  // You can now use the rruleString in your parent component
+  console.log('Received RRule:', rruleString);
+  emit('rrule-generated', rruleString);
+
+}
 </script>
 
 <template>
@@ -96,33 +106,33 @@ const timeZoneOptions = [
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
         <q-input
-        name="eventName"
-        v-model="event.eventName"
-        label="Event Name"
-        placeholder="enter event name"
-        lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']">
+          v-model="event.eventName"
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+          label="Event Name"
+          lazy-rules
+          name="eventName"
+          placeholder="enter event name">
         </q-input>
 
         <q-toggle
-        name="isAllDayEvent"
-        :false-value= 'false'
-        label="All Day Event"
-        :true-value= 'true'
-        color="primary"
-        keep-color
-        v-model="event.isAllDayEvent"></q-toggle>
+          v-model="event.isAllDayEvent"
+          :false-value='false'
+          :true-value='true'
+          color="primary"
+          keep-color
+          label="All Day Event"
+          name="isAllDayEvent"></q-toggle>
 
         <q-input
-        name="startDateTime"
-        v-model="formattedStartDateTime2"
-        label="Start Date">
+          v-model="formattedStartDateTime2"
+          label="Start Date"
+          name="startDateTime">
           <template v-slot:prepend>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+            <q-icon class="cursor-pointer" name="event">
+              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-date v-model="startDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -130,11 +140,11 @@ const timeZoneOptions = [
           </template>
 
           <template v-if="!props.event.isAllDayEvent" v-slot:append>
-            <q-icon name="access_time" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+            <q-icon class="cursor-pointer" name="access_time">
+              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-time v-if="!props.event.isAllDayEvent" v-model="startDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
                   </div>
                 </q-time>
               </q-popup-proxy>
@@ -143,15 +153,15 @@ const timeZoneOptions = [
         </q-input>
 
         <q-input
-        name="endDateTime"
-        v-model="formattedEndDateTime2"
-        label="End Date">
+          v-model="formattedEndDateTime2"
+          label="End Date"
+          name="endDateTime">
           <template v-slot:prepend>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+            <q-icon class="cursor-pointer" name="event">
+              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-date v-model="endDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -159,11 +169,11 @@ const timeZoneOptions = [
           </template>
 
           <template v-if="!props.event.isAllDayEvent" v-slot:append>
-            <q-icon name="access_time" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+            <q-icon class="cursor-pointer" name="access_time">
+              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-time v-model="endDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
                   </div>
                 </q-time>
               </q-popup-proxy>
@@ -171,90 +181,99 @@ const timeZoneOptions = [
           </template>
         </q-input>
 
-        <q-select name="newcreatedDate" label="Timezone" v-model="timezone" :options="timeZoneOptions" map-options emit-label />
+        <q-select name="timeZone" label="Timezone" v-model="timezone" :options="timeZoneOptions" map-options emit-label />
 
-        <q-input  bottom-slots v-model="location" label="Location">
-        <template v-slot:prepend>
-          <q-icon name="place"></q-icon>
-        </template>
-      </q-input>
+        <q-input v-model="event.location" bottom-slots label="Location">
+          <template v-slot:prepend>
+            <q-icon name="place"></q-icon>
+          </template>
+        </q-input>
 
         <q-item
-         clickable
-            v-ripple
+          v-ripple
+          clickable
+          @click="alert = true"
         >
           <q-item-section avatar>
-            <q-icon name="repeat" size="sm" color="primary"></q-icon>
+            <q-icon color="primary" name="repeat" size="sm"></q-icon>
           </q-item-section>
-          <q-item-section> Does not repeat </q-item-section>
+          <q-item-section> Does not repeat</q-item-section>
           <q-item-section side>
-        <q-icon color="primary" name="chevron_right" />
-      </q-item-section>
+            <q-icon color="primary" name="chevron_right"/>
+          </q-item-section>
         </q-item>
 
         <q-item
-            clickable
-            v-ripple
+          v-ripple
+          clickable
         >
           <q-item-section avatar>
-            <q-icon name="alarm" size="sm" color="primary"></q-icon>
+            <q-icon color="primary" name="alarm" size="sm"></q-icon>
           </q-item-section>
-          <q-item-section> Remind 30 minutes before </q-item-section>
+          <q-item-section> Remind 30 minutes before</q-item-section>
           <q-item-section side>
-        <q-icon color="primary" name="chevron_right" />
-      </q-item-section>
+            <q-icon color="primary" name="chevron_right"/>
+          </q-item-section>
         </q-item>
 
         <q-input
-        name="eventDescription"
-        class="q-mt-none"
-        v-model="event.eventDescription"
-        label="Event Note"
-        placeholder="enter event note"></q-input>
+          v-model="event.eventDescription"
+          class="q-mt-none"
+          label="Event Note"
+          name="eventDescription"
+          placeholder="enter event note"></q-input>
 
         <div class="q-mt-lg"><label>Regarding:</label></div>
         <q-item class="q-mt-none">
-          <q-item-section class="q-mr-sm" >
+          <q-item-section class="q-mr-sm">
             <q-item-label>
-              <q-select label="Contact" v-model="regardings" :options="timeZoneOptions" map-options emit-label />
+              <q-select v-model="regardings" :options="timeZoneOptions" emit-label label="Contact" map-options/>
             </q-item-label>
           </q-item-section>
           <q-item-section class="q-mr-sm">
             <q-item-label>
-              <q-select label="Name" v-model="names" :options="timeZoneOptions" map-options emit-label />
+              <q-select v-model="names" :options="timeZoneOptions" emit-label label="Name" map-options/>
             </q-item-label>
           </q-item-section>
           <q-item-section side>
-        <q-icon color="primary" name="attach_file" />
-      </q-item-section>
+            <q-icon color="primary" name="attach_file"/>
+          </q-item-section>
         </q-item>
 
         <q-btn
-        @click="toggleSelection"
-         flat
-         rounded
-         color="primary"
-         label="Add Attendees"
-         no-caps
-         icon-right="add"
-         align="left"
-         size="md"></q-btn>
+          align="left"
+          color="primary"
+          flat
+          icon-right="add"
+          label="Add Attendees"
+          no-caps
+          rounded
+          size="md"
+          @click="toggleSelection"></q-btn>
 
       <div v-if="showSection">
+        <pre>{{ meeetingAttendees }}</pre>
       <q-select
           dense
           filled
+          outlined
+          transition-show="scale"
+          transition-hide="scale"
+          color="purple-12"
           v-model="meeetingAttendees"
           multiple
           :options="meetingAttendees"
           option-label="name"
           option-value="email"
           use-chips
-          stack-label
-          label="Select one or more attendees"
+          label="Select from dropdown"
         >
       </q-select>
       </div>
+        <q-dialog v-model="alert">
+          <EventsRecurrenceDialog @rrule-generated="handleRRuleGenerated"/>
+        </q-dialog>
+
       </div>
     </div>
   </div>

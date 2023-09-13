@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useEventsStore } from '../../stores/EventsStore';
+import { useEventsStore } from 'stores/EventsStore';
 import { computed, onBeforeMount } from 'vue';
 
 const props = defineProps(['params']);

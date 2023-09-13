@@ -4,8 +4,8 @@
  -->
 
 <script lang="ts" setup>
-import {useContactsStore} from 'stores/ContactsStore';
-import {computed, onMounted, ref} from 'vue';
+import { useContactsStore } from 'stores/ContactsStore';
+import { computed, onMounted, ref } from 'vue';
 
 const contactsStore = useContactsStore();
 
@@ -23,7 +23,9 @@ const contacts = computed(() => {
 
 onMounted(() => {
   contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
-  contactsStore.getContactsByBatch(batchSize.value, currentPage.value).then(()=>currentPage.value++);
+  contactsStore
+    .getContactsByBatch(batchSize.value, currentPage.value)
+    .then(() => currentPage.value++);
   // contactsStore.getContacts();
   //contacts.value = contactsStore.Contacts;
   // console.log(`onMounted: Contacts - ${contactsStore.Contacts}`);
@@ -32,15 +34,16 @@ onMounted(() => {
 const loadMore = (index: any, done: () => void) => {
   const contactsSizeBeforeCall = contacts.value.length;
   setTimeout(() => {
-    contactsStore.getContactsByBatch(batchSize.value, currentPage.value).then(() => {
-      done();
-      currentPage.value++;
-      const contactsAfterCall = contacts.value.length;
-      reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
-    })
+    contactsStore
+      .getContactsByBatch(batchSize.value, currentPage.value)
+      .then(() => {
+        done();
+        currentPage.value++;
+        const contactsAfterCall = contacts.value.length;
+        reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
+      });
   }, 500);
-
-}
+};
 
 // const totalPages = computed(() => {
 //   //console.log(`totalPages: ${numItems.value}/${pageSize.value}`);
@@ -56,8 +59,8 @@ const getData = computed(() => {
     text.value.length === 0
       ? contacts.value
       : contacts.value.filter((t) => {
-        return t.first_name.toLowerCase().includes(text.value.toLowerCase());
-      });
+          return t.first_name.toLowerCase().includes(text.value.toLowerCase());
+        });
   //console.log(`getData - contacts length: ${contacts.length}, filteredContacts length: ${filteredContacts.length}`)
 
   //FIXME: Remove the lint suppress line from here. See: https://stackoverflow.com/a/54535439
@@ -81,7 +84,7 @@ const getData = computed(() => {
         >
         </q-btn>
         <q-toolbar-title> Contact List</q-toolbar-title>
-        <q-space/>
+        <q-space />
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -95,7 +98,7 @@ const getData = computed(() => {
           placeholder="Search for contact, locations & sources"
         >
           <template v-slot:prepend>
-            <q-icon v-if="text === ''" name="search"/>
+            <q-icon v-if="text === ''" name="search" />
             <q-icon
               v-else
               class="cursor-pointer"
@@ -111,7 +114,7 @@ const getData = computed(() => {
             :key="contact.id"
             v-ripple
             :to="{
-              name: 'contactDetails',
+              name: 'contactView',
               params: {
                 id: contact.id,
               },
@@ -120,19 +123,19 @@ const getData = computed(() => {
           >
             <q-item-section side>
               <q-avatar color="grey-4">
-                <img v-bind:src="contact.thumbnail"/>
+                <img v-bind:src="contact.thumbnail" />
               </q-avatar>
             </q-item-section>
             <q-item-section>{{ contact.first_name }}</q-item-section>
             <q-item-section side>
-              <q-icon color="primary" name="chevron_right"/>
+              <q-icon color="primary" name="chevron_right" />
             </q-item-section>
           </q-item>
           <template v-slot:loading>
             <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
           </template>
         </q-infinite-scroll>
-        <q-separator color="orange" inset/>
+        <q-separator color="orange" inset />
         <div>
           <q-page-sticky :offset="[18, 18]" position="bottom-right">
             <q-btn

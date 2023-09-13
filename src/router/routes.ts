@@ -22,15 +22,21 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/Contacts/ContactList.vue'),
   },
   {
-    path: '/contactDetails/:id',
-    name: 'contactDetails',
-    component: () => import('pages/Contacts/ContactDetails.vue'),
+    path: '/contactView/:id',
+    name: 'contactView',
+    component: () => import('pages/Contacts/ContactView.vue'),
     //params: true,
   },
   {
     path: '/editContactSummary/:id',
     name: 'editContactSummary',
     component: () => import('pages/Contacts/EditContactSummary.vue'),
+    //params: true,
+  },
+  {
+    path: '/editContactDetail/:id',
+    name: 'editContactDetail',
+    component: () => import('pages/Contacts/EditContactDetail.vue'),
     //params: true,
   },
   {
@@ -118,9 +124,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/CustomerProjectList.vue'),
   },
   {
-    path: '/incrementalLoading',
-    name: 'incrementalLoading',
-    component: () => import('../pages/IncrementalList.vue'),
+    path: '/formData',
+    name: 'formData',
+    component: () => import('../pages/ParentComponent.vue'),
   },
   {
     path: '/timesheetsAll',
