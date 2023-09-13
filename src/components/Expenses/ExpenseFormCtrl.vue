@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref, onMounted, onUpdated } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import { useTimesheetListStore } from '../../stores/TimesheetListStore';
+import { useExpenseListStore } from '../../stores/ExpenseListStore';
 
 
 // const periodOptions = ref([])
@@ -25,12 +25,12 @@ dateOptions.value = [
 
 
 const sampleModel = ref(null)
-const sampleModel2 = ref('')
+const sampleModel2 = ref(null)
 
-const timesheetListStore = useTimesheetListStore();
+const expenseListStore = useExpenseListStore();
 
 onMounted(() => {
-  timesheetListStore.getTimesheetListAll()
+  expenseListStore.getExpenseListAll()
 })
 
 onUpdated(() => {
@@ -39,19 +39,10 @@ onUpdated(() => {
 })
 
 const periodOptions = ref('')
-periodOptions.value = timesheetListStore.periodList;
+periodOptions.value = expenseListStore.periodList;
 
 const customerProjectOptions = ref('')
-customerProjectOptions.value = timesheetListStore.CustomerProjectsList;
-
-const serviceItemsOptions = ref('')
-// serviceItemsOptions.value = timesheetListStore.ServiceItemsList
-
-const handleSelectChange = (sampleModel) => {
-  console.log('Selected value:', sampleModel.id);
-  serviceItemsOptions.value = timesheetListStore.getServiceItemsBycustomerProjectId(sampleModel.id)
-};
-
+customerProjectOptions.value = expenseListStore.CustomerProjectsList;
 
 const billableOptions = ref([]);
 billableOptions.value = [
@@ -81,10 +72,10 @@ paymentMethod.value = [
   }
 ]
 
-const props = defineProps(['timesheet']);
+const props = defineProps(['expense']);
 
 const createdDate = ref('')
-createdDate.value = dateTimeHelper.extractDateFromUtc(props.timesheet.createdDate)
+createdDate.value = dateTimeHelper.extractDateFromUtc(props.expense.createdDate)
 
 const taskDate = ref('')
 taskDate.value = 'July 20(Thu)'
@@ -106,26 +97,22 @@ taskDate.value = 'July 20(Thu)'
         <q-select label="Customer: Project" v-model="sampleModel" :options="customerProjectOptions" option-label="name"
           option-value="id" map-options @update:model-value="handleSelectChange" />
 
-        <q-select label="Expense Type" v-model="sampleModel2" :options="serviceItemsOptions" option-label="name"
+        <q-select label="Payment Method" v-model="sampleModel2" :options="paymentMethod" option-label="name"
           option-value="id" map-options />
 
-        <q-select label="Payment Method" v-model="sampleModel3" :options="paymentMethod" option-label="name"
-          option-value="id" map-options />
-
-        <q-select label="Billable" v-model="props.timesheet.isBillable" :options="billableOptions" map-options
-          emit-value />
-        <q-input label="Amount" v-model="props.timesheet.timeDuration" placeholder="enter here..." lazy-rules
+        <q-select label="Billable" v-model="props.expense.isBillable" :options="billableOptions" map-options emit-value />
+        <q-input label="Amount" v-model="props.expense.totalAmount" placeholder="enter here..." lazy-rules
           :rules="[(val) => (val && val.length > 0) || 'Please type something']">
         </q-input>
 
-        <q-input label="Tax" v-model="props.timesheet.description" placeholder="enter here...">
+        <q-input label="Tax" v-model="props.expense.tax" placeholder="enter here...">
         </q-input>
 
-        <q-input label="Description" v-model="props.timesheet.description" placeholder="enter here..." lazy-rules
+        <q-input label="Description" v-model="props.expense.description" placeholder="enter here..." lazy-rules
           :rules="[(val) => (val && val.length > 0) || 'Please type something']">
         </q-input>
 
-        <q-input label="Comments" v-model="props.timesheet.description" placeholder="enter here...">
+        <q-input label="Comments" v-model="props.expense.comments" placeholder="enter here...">
         </q-input>
       </div>
     </div>

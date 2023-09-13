@@ -170,6 +170,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Expenses/NewExpense.vue'),
     // params: true,
   },
+  {
+    path: '/editExpense/:id',
+    name: 'editExpense',
+    component: () => import('../pages/Expenses/EditExpense.vue'),
+    // params: true,
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
