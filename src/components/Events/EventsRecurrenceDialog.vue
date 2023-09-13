@@ -211,7 +211,7 @@ const parseRRule = () => {
         <q-radio v-model="dailyChoice" val="daily-option1">
           <q-item class="flex-center q-gutter-md row">
             <q-item-label>Repeat once every</q-item-label>
-            <q-input v-model="dailyDays" type="number"/>
+            <q-input v-model="dailyDays" type="number" @click.stop/>
             <q-item-label>days</q-item-label>
           </q-item>
         </q-radio>
@@ -225,7 +225,7 @@ const parseRRule = () => {
       <div v-else-if="selectedOption === 'weekly'">
         <q-item class="flex-center q-gutter-md row">
           <q-item-label>Recur once every</q-item-label>
-          <q-input v-model="weeklyWeeks" type="number"/>
+          <q-input v-model="weeklyWeeks" type="number" @click.stop/>
           <q-item-label>weeks on</q-item-label>
           <q-select v-model="weeklyChosenDays" :options="weekdays" emit-value map-options multiple standout/>
         </q-item>
@@ -282,15 +282,15 @@ const parseRRule = () => {
         <q-radio v-model="dateOrCount" val="count">
           <q-item class="flex-center q-gutter-md row">
             <q-item-label>End after</q-item-label>
-            <q-input v-model="numberOfOccurrences" type="number"/>
+            <q-input v-model="numberOfOccurrences" type="number" @click.stop/>
             <q-item-label>occurrences</q-item-label>
           </q-item>
         </q-radio>
 
-        <q-radio v-model="dateOrCount" val="date">
+        <q-radio v-model="dateOrCount" val="date" >
           <q-item class="flex-center q-gutter-md row">
-            <q-item-label>End by</q-item-label>
-            <q-input v-model="selectedEndDate" clearable type="date"/>
+            <q-item-section>End by</q-item-section>
+            <q-input v-model="selectedEndDate" clearable type="date" @click.stop/>
           </q-item>
         </q-radio>
       </div>
