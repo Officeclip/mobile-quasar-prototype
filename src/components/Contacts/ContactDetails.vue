@@ -13,8 +13,9 @@ const contactDetails = computed(() => {
   return contactsStore.ContactDetails;
 });
 onMounted(() => {
-  contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
-  contactsStore.getContactDetail(Number(contactId.value));
+  //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
+  //debugger;
+  contactsStore.getContactDetail(Number(contactId.value), true);
   console.log(`onMounted: Contacts - ${contactsStore.ContactDetails}`);
 });
 </script>

@@ -63,7 +63,7 @@ export const useContactsStore = defineStore('contactsStore', {
       }
     },
 
-    async addOptionToContactDetail() {
+    /* async addOptionToContactDetail() {
       // add options from the metalist
       // Iterate through the sections in the contact detail
       const metaListStore = useMetaListStore();
@@ -87,9 +87,9 @@ export const useContactsStore = defineStore('contactsStore', {
           }
         }
       }
-    },
+    }, */
 
-    async fixValueForSelectForReadOnly() {
+    async fixValuesForSelect(isReadOnly: boolean) {
       // the json returned has got the value for readonly, in order to show on the
       // screen we need to get the text from the value.
       const metaListStore = useMetaListStore();
@@ -108,16 +108,20 @@ export const useContactsStore = defineStore('contactsStore', {
 
           // If found, replace the value from the list items
           if (listItem) {
-            debugger;
-            sectionEntry.value = listItem.listItems.find(
-              (item: any) => item.value == sectionEntry.value
-            )?.name;
+            if (isReadOnly) {
+              sectionEntry.value = listItem.listItems.find(
+                (item: any) => item.value == sectionEntry.value
+              )?.name;
+            } else {
+              sectionEntry.options = listItem.listItems;
+            }
           }
         }
       }
     },
 
-    async getContactDetail(id: number) {
+    async getContactDetail(id: number, isReadOnly: boolean) {
+      //debugger;
       console.log(`ContactsStore: getContactDetail: id: ${id}`);
       try {
         const response = await axios.get(
@@ -126,7 +130,7 @@ export const useContactsStore = defineStore('contactsStore', {
         if (response.data && response.data.length > 0) {
           this.contactDetail = response.data[0];
           //this.addOptionToContactDetail();
-          this.fixValueForSelectForReadOnly();
+          this.fixValuesForSelect(isReadOnly);
         }
         console.log(
           `ContactsStore: getContactDetail - ${JSON.stringify(
