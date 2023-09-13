@@ -97,7 +97,7 @@ function onSubmit(e) {
                 label="Save"
                 no-caps
                 type="submit"
-                @submit="onSubmit"
+                @click="onSubmit"
                 class="q-px-md"></q-btn>
       </q-toolbar>
     </q-header>
@@ -105,8 +105,8 @@ function onSubmit(e) {
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
           <EventForm :event="event" @rrule-generated="handleRRule"/>
-          <q-btn class="q-ml-md" color="primary" label="Save" type="submit"></q-btn>
-          <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset"></q-btn>
+          <q-btn class="q-ml-md" color="primary" label="Save" type="submit" no-caps></q-btn>
+          <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset" no-caps></q-btn>
         </div>
       </q-form>
       <pre>{{ tab }}</pre>

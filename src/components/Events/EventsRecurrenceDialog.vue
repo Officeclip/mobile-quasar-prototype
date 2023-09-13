@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import {ref} from 'vue';
 import {RRule} from 'rrule'
 
 const emit = defineEmits(['rrule-string-generated', 'rrule-text-generated'])

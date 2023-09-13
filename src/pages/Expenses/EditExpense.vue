@@ -21,7 +21,7 @@ const expense = computed(() => {
 function onSubmit(e: any) {
   e.preventDefault();
   const formData = new FormData(e.target);
-  const createdDate = formData.get('newcreatedDate');
+  const expenseDate = formData.get('newcreatedDate');
   const taskDate = formData.get('newtaskDate');
 
   const newExpense: any = {
@@ -30,7 +30,7 @@ function onSubmit(e: any) {
     projectName: expense.value?.projectName,
     isBillable: expense.value?.billable,
     description: expense.value?.description,
-    createdDate: createdDate,
+    expenseDate: expenseDate,
     taskDate: taskDate,
     totalAmount: expense.value?.amount
   }
