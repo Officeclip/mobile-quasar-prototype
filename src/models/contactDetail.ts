@@ -1,7 +1,8 @@
 // Generated from: https://app.quicktype.io/#l=TypeScript
 //
+import { ListItem } from '././metaList';
+
 export interface ContactDetail {
-  // value(value: any): unknown;
   id: number;
   sections: Section[];
 }
@@ -19,4 +20,5 @@ export interface SectionEntry {
   visible: boolean;
   editable: boolean;
   value: string;
+  options: ListItem[];
 }

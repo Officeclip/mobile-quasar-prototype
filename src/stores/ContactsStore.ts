@@ -4,6 +4,7 @@ import { ContactDetail } from '../models/contactDetail';
 import { State } from '../models/state';
 import axios from 'axios';
 import { Constants } from './Constants';
+import { useMetaListStore } from './MetaListStore';
 
 export const useContactsStore = defineStore('contactsStore', {
   state: () => ({
@@ -62,6 +63,23 @@ export const useContactsStore = defineStore('contactsStore', {
       }
     },
 
+    addOptionToContactDetail() {
+      // add options from the metalist
+      // Iterate through the sections in the contact detail
+      /* for (const section of contactDetail.sections) {
+  // Iterate through the section entries in the section
+  for (const sectionEntry of section.sectionEntries) {
+    // Find the matching list item in the meta list
+    const listItem = metaList.listItems.find((item) => item.metaId === sectionEntry.metaId);
+
+    // If found, populate the options array of the section entry
+    if (listItem) {
+      sectionEntry.options = listItem.listItems;
+    }
+  }
+} */
+    },
+
     async getContactDetail(id: number) {
       console.log(`ContactsStore: getContactDetail: id: ${id}`);
       try {
@@ -69,13 +87,7 @@ export const useContactsStore = defineStore('contactsStore', {
           `${Constants.endPointUrl}/contactDetails?id=${id}`
         );
         if (response.data && response.data.length > 0) {
-          // console.log(
-          //   `ContactsStore: getContactDetail-1: json stringify: ${JSON.stringify(
-          //     response.data
-          //   )}`
-          // );
           this.contactDetail = response.data[0];
-          //this.contactDetail = Convert.toContactDetails(jsonObject);
         }
         console.log(
           `ContactsStore: getContactDetail - ${JSON.stringify(
