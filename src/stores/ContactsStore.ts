@@ -66,18 +66,23 @@ export const useContactsStore = defineStore('contactsStore', {
     addOptionToContactDetail() {
       // add options from the metalist
       // Iterate through the sections in the contact detail
-      /* for (const section of contactDetail.sections) {
-  // Iterate through the section entries in the section
-  for (const sectionEntry of section.sectionEntries) {
-    // Find the matching list item in the meta list
-    const listItem = metaList.listItems.find((item) => item.metaId === sectionEntry.metaId);
+      /*       const metaList = useMetaListStore().MetaLists;
+      console.log(this.contactDetail?.sections)
+      const contactDetail: any = this.contactDetail;
+      for (const section of contactDetail.sections) {
+        // Iterate through the section entries in the section
+        for (const sectionEntry of section.sectionEntries) {
+          // Find the matching list item in the meta list
+          const listItem = metaList.listItems.find(
+            (item) => item.metaId === sectionEntry.metaId
+          );
 
-    // If found, populate the options array of the section entry
-    if (listItem) {
-      sectionEntry.options = listItem.listItems;
-    }
-  }
-} */
+          // If found, populate the options array of the section entry
+          if (listItem) {
+            sectionEntry.options = listItem.listItems;
+          }
+        }
+      } */
     },
 
     async getContactDetail(id: number) {
