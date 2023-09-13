@@ -3,7 +3,7 @@
 import {computed, onMounted, ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useEventsStore} from 'stores/EventsStore'
-import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue";
+import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 
 const props = defineProps(['event']);
 const emit = defineEmits(['rrule-generated'])
@@ -16,11 +16,23 @@ const regardings = ref('');
 const names = ref('')
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const meeetingAttendees: any = ref([])
+const labels = ref('Meeting')
+const url = ref('')
 const recurrenceString = ref('');
 const repeatString = ref('Does not repeat');
-const showSection = ref(false);
-const toggleSelection = () => {
-  showSection.value = !showSection.value;
+const showAttendees = ref(false);
+const showOptions = ref(false)
+
+const toggleIcon = ref('add')
+
+const toggleAttendees = () => {
+  showAttendees.value = !showAttendees.value;
+  toggleIcon.value = showAttendees.value == true? 'remove' : 'add'
+}
+
+const toggleOptions = () => {
+  showOptions.value = !showOptions.value;
+  toggleIcon.value = showOptions.value == true? 'remove' : 'add'
 }
 
 const eventsStore = useEventsStore();
@@ -78,16 +90,24 @@ const maskDateTime = computed(() => {
 const timeZoneOptions = [
   {
     timezoneId: 1,
-    label: 'sample data 1'
+    label: 'GMT+0530(India Standard Time)'
   },
   {
     timezoneId: 2,
-    label: 'sample data 2'
+    label: 'GMT+0600(Central Asia Standard Time)'
   },
   {
     timezoneId: 3,
-    label: 'sample data 3'
+    label: 'GMT-0500(US Eastern Standard Time)'
   }
+]
+
+const labelOptions = [
+  {label: 'None'},
+  {label: 'Meeting'},
+  {label: 'Picnic'},
+  {label: 'Birthday'},
+  {label: 'Testing'}
 ]
 
 const alert = ref(false);
@@ -186,14 +206,17 @@ function handleRRuleText(rruleText: string) {
           </template>
         </q-input>
 
-        <q-select v-model="timezone" :options="timeZoneOptions" emit-label label="Timezone" map-options
-                  name="timeZone"/>
-
         <q-input v-model="event.location" bottom-slots label="Location">
           <template v-slot:prepend>
             <q-icon name="place"/>
           </template>
         </q-input>
+        <q-input
+            v-model="event.eventDescription"
+            class="q-mt-none"
+            label="Event Note"
+            name="eventDescription"
+            placeholder="enter event note"/>
 
         <q-item
             v-ripple
@@ -222,42 +245,18 @@ function handleRRuleText(rruleText: string) {
           </q-item-section>
         </q-item>
 
-        <q-input
-            v-model="event.eventDescription"
-            class="q-mt-none"
-            label="Event Note"
-            name="eventDescription"
-            placeholder="enter event note"/>
-
-        <div class="q-mt-lg"><label>Regarding:</label></div>
-        <q-item class="q-mt-none">
-          <q-item-section class="q-mr-sm">
-            <q-item-label>
-              <q-select v-model="regardings" :options="timeZoneOptions" emit-label label="Contact" map-options/>
-            </q-item-label>
-          </q-item-section>
-          <q-item-section class="q-mr-sm">
-            <q-item-label>
-              <q-select v-model="names" :options="timeZoneOptions" emit-label label="Name" map-options/>
-            </q-item-label>
-          </q-item-section>
-          <q-item-section side>
-            <q-icon color="primary" name="attach_file"/>
-          </q-item-section>
-        </q-item>
-
         <q-btn
             align="left"
             color="primary"
             flat
-            icon-right="add"
+            :icon-right= toggleIcon
             label="Add Attendees"
             no-caps
             rounded
             size="md"
-            @click="toggleSelection"></q-btn>
+            @click="toggleAttendees"></q-btn>
 
-        <div v-if="showSection">
+        <div v-if="showAttendees">
           <pre>{{ meeetingAttendees }}</pre>
           <q-select
               v-model="meeetingAttendees"
@@ -276,6 +275,61 @@ function handleRRuleText(rruleText: string) {
           >
           </q-select>
         </div>
+
+        <!-- toggle options here -->
+        <q-btn
+            align="left"
+            color="primary"
+            flat
+            :icon-right= toggleIcon
+            label="Options"
+            no-caps
+            rounded
+            size="md"
+            @click="toggleOptions"></q-btn>
+        <div v-if="showOptions">
+
+        <q-select v-model="timezone"
+        :options="timeZoneOptions"
+        emit-label
+        label="Timezone"
+        map-options
+        name="timeZone"/>
+
+        <q-select v-model="labels"
+        :options="labelOptions"
+        map-options
+        emit-label
+        label="Label"
+        name="label"/>
+
+        <q-input v-model="url"
+        label="Url"
+        map-options
+        name="Url"/>
+
+        </div>
+        <div v-if="showAttendees || showOptions">
+          <q-separator/>
+        </div>
+
+
+        <div class="q-mt-lg"><label>Regarding:</label></div>
+        <q-item class="q-mt-none">
+          <q-item-section class="q-mr-sm">
+            <q-item-label>
+              <q-select v-model="regardings" :options="timeZoneOptions" emit-label label="Contact" map-options/>
+            </q-item-label>
+          </q-item-section>
+          <q-item-section class="q-mr-sm">
+            <q-item-label>
+              <q-select v-model="names" :options="timeZoneOptions" emit-label label="Name" map-options/>
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-icon color="primary" name="attach_file"/>
+          </q-item-section>
+        </q-item>
         <q-dialog v-model="alert">
           <EventsRecurrenceDialog @rrule-string-generated="handleRRuleString" @rrule-text-generated="handleRRuleText"/>
         </q-dialog>
