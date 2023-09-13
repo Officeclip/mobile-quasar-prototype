@@ -10,15 +10,15 @@ const emit = defineEmits(['rrule-generated'])
 
 const startDateTime = ref('');
 const endDateTime = ref('');
-const timezone = ref('');
+// const timezone = ref('');
 // const location = ref('');
 const regardings = ref('');
 const names = ref('')
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const meeetingAttendees: any = ref([])
-const labels = ref('Meeting')
-const url = ref('')
-const recurrenceString = ref('');
+// const labels = ref('Meeting')
+// const url = ref('')
+// const recurrenceString = ref('');
 const repeatString = ref('Does not repeat');
 const showAttendees = ref(false);
 const showOptions = ref(false)
@@ -219,7 +219,7 @@ function handleRRuleText(rruleText: string) {
             class="q-mt-none"
             label="Event Note"
             name="eventDescription"
-            placeholder="enter event note"/>
+            placeholder="enter event description"/>
 
         <q-item
             v-ripple
@@ -261,7 +261,7 @@ function handleRRuleText(rruleText: string) {
 
         <div v-if="showAttendees">
           <q-select
-              v-model="meeetingAttendees"
+              v-model="event.meetingAttendees"
               :options="meetingAttendees"
               dense
               filled
@@ -290,21 +290,21 @@ function handleRRuleText(rruleText: string) {
             @click="toggleOptions"></q-btn>
         <div v-if="showOptions">
 
-        <q-select v-model="timezone"
+        <q-select v-model="event.timezone"
         :options="timeZoneOptions"
         emit-label
         label="Timezone"
         map-options
         name="timeZone"/>
 
-        <q-select v-model="labels"
+        <q-select v-model="event.label"
         :options="labelOptions"
         map-options
         emit-label
         label="Label"
         name="label"/>
 
-        <q-input v-model="url"
+        <q-input v-model="event.url"
         label="Url"
         map-options
         name="Url">
