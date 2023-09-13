@@ -3,23 +3,39 @@
 import {computed, onMounted, ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useEventsStore} from 'stores/EventsStore'
-import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue";
+import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 
 const props = defineProps(['event']);
 const emit = defineEmits(['rrule-generated'])
 
 const startDateTime = ref('');
 const endDateTime = ref('');
-const timezone = ref('');
+// const timezone = ref('');
 // const location = ref('');
 const regardings = ref('');
 const names = ref('')
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const meeetingAttendees: any = ref([])
-const recurrenceString = ref('');
-const showSection = ref(false);
-const toggleSelection = () => {
-  showSection.value = !showSection.value;
+// const labels = ref('Meeting')
+// const url = ref('')
+// const recurrenceString = ref('');
+const repeatString = ref('Does not repeat');
+const showAttendees = ref(false);
+const showOptions = ref(false)
+
+const iconName1 = ref('add');
+const iconName2 = ref('add');
+
+
+const toggleAttendees = () => {
+  iconName1.value = showAttendees.value ? 'add' : 'remove'
+  showAttendees.value = !showAttendees.value;
+  showAttendees.value ? meeetingAttendees.value = [] : meeetingAttendees.value
+}
+
+const toggleOptions = () => {
+  iconName2.value = showOptions.value ? 'add' : 'remove'
+  showOptions.value = !showOptions.value;
 }
 
 const eventsStore = useEventsStore();
@@ -46,9 +62,9 @@ const formattedStartDateTime = computed(() => {
 });
 
 const formattedStartDateTime2 =
-  startDateTime.value
-    ? formattedStartDateTime
-    : startDateTime
+    startDateTime.value
+        ? formattedStartDateTime
+        : startDateTime
 
 const formattedEndDateTime = computed(() => {
   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
@@ -62,9 +78,9 @@ const formattedEndDateTime = computed(() => {
 });
 
 const formattedEndDateTime2 =
-  endDateTime.value
-    ? formattedEndDateTime
-    : endDateTime
+    endDateTime.value
+        ? formattedEndDateTime
+        : endDateTime
 
 const maskDateTime = computed(() => {
   if (props.event.isAllDayEvent) {
@@ -77,25 +93,37 @@ const maskDateTime = computed(() => {
 const timeZoneOptions = [
   {
     timezoneId: 1,
-    label: 'sample data 1'
+    label: 'GMT+0530(India Standard Time)'
   },
   {
     timezoneId: 2,
-    label: 'sample data 2'
+    label: 'GMT+0600(Central Asia Standard Time)'
   },
   {
     timezoneId: 3,
-    label: 'sample data 3'
+    label: 'GMT-0500(US Eastern Standard Time)'
   }
+]
+
+const labelOptions = [
+  {label: 'None'},
+  {label: 'Meeting'},
+  {label: 'Picnic'},
+  {label: 'Birthday'},
+  {label: 'Testing'}
 ]
 
 const alert = ref(false);
 
-function handleRRuleGenerated(rruleString: string) {
+function handleRRuleString(rruleString: string) {
   // You can now use the rruleString in your parent component
   console.log('Received RRule:', rruleString);
   emit('rrule-generated', rruleString);
+}
 
+function handleRRuleText(rruleText: string) {
+  console.log('Received RRule Text:', rruleText);
+  repeatString.value = rruleText;
 }
 </script>
 
@@ -106,27 +134,27 @@ function handleRRuleGenerated(rruleString: string) {
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
         <q-input
-          v-model="event.eventName"
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-          label="Event Name"
-          lazy-rules
-          name="eventName"
-          placeholder="enter event name">
+            v-model="event.eventName"
+            :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+            label="Event Name"
+            lazy-rules
+            name="eventName"
+            placeholder="enter event name">
         </q-input>
 
         <q-toggle
-          v-model="event.isAllDayEvent"
-          :false-value='false'
-          :true-value='true'
-          color="primary"
-          keep-color
-          label="All Day Event"
-          name="isAllDayEvent"></q-toggle>
+            v-model="event.isAllDayEvent"
+            :false-value='false'
+            :true-value='true'
+            color="primary"
+            keep-color
+            label="All Day Event"
+            name="isAllDayEvent"></q-toggle>
 
         <q-input
-          v-model="formattedStartDateTime2"
-          label="Start Date"
-          name="startDateTime">
+            v-model="formattedStartDateTime2"
+            label="Start Date"
+            name="startDateTime">
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
@@ -153,9 +181,9 @@ function handleRRuleGenerated(rruleString: string) {
         </q-input>
 
         <q-input
-          v-model="formattedEndDateTime2"
-          label="End Date"
-          name="endDateTime">
+            v-model="formattedEndDateTime2"
+            label="End Date"
+            name="endDateTime">
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
@@ -181,34 +209,38 @@ function handleRRuleGenerated(rruleString: string) {
           </template>
         </q-input>
 
-        <q-select name="timeZone" label="Timezone" v-model="timezone" :options="timeZoneOptions" map-options emit-label />
-
         <q-input v-model="event.location" bottom-slots label="Location">
           <template v-slot:prepend>
-            <q-icon name="place"></q-icon>
+            <q-icon name="place"/>
           </template>
         </q-input>
+        <q-input
+            v-model="event.eventDescription"
+            class="q-mt-none"
+            label="Event Note"
+            name="eventDescription"
+            placeholder="enter event description"/>
 
         <q-item
-          v-ripple
-          clickable
-          @click="alert = true"
+            v-ripple
+            clickable
+            @click="alert = true"
         >
           <q-item-section avatar>
-            <q-icon color="primary" name="repeat" size="sm"></q-icon>
+            <q-icon color="primary" name="repeat" size="sm"/>
           </q-item-section>
-          <q-item-section> Does not repeat</q-item-section>
+          <q-item-section> {{ repeatString }}</q-item-section>
           <q-item-section side>
             <q-icon color="primary" name="chevron_right"/>
           </q-item-section>
         </q-item>
 
         <q-item
-          v-ripple
-          clickable
+            v-ripple
+            clickable
         >
           <q-item-section avatar>
-            <q-icon color="primary" name="alarm" size="sm"></q-icon>
+            <q-icon color="primary" name="alarm" size="sm"/>
           </q-item-section>
           <q-item-section> Remind 30 minutes before</q-item-section>
           <q-item-section side>
@@ -216,12 +248,81 @@ function handleRRuleGenerated(rruleString: string) {
           </q-item-section>
         </q-item>
 
-        <q-input
-          v-model="event.eventDescription"
-          class="q-mt-none"
-          label="Event Note"
-          name="eventDescription"
-          placeholder="enter event note"></q-input>
+        <q-btn
+            align="left"
+            color="primary"
+            flat
+            :icon-right= iconName1
+            label="Add Attendees"
+            no-caps
+            rounded
+            size="md"
+            @click="toggleAttendees"></q-btn>
+
+        <div v-if="showAttendees">
+          <q-select
+              v-model="event.meetingAttendees"
+              :options="meetingAttendees"
+              dense
+              filled
+              label="Select from dropdown"
+              multiple
+              option-label="name"
+              option-value="email"
+              outlined
+              transition-hide="scale"
+              transition-show="scale"
+              use-chips
+          >
+          </q-select>
+        </div>
+
+        <!-- toggle options here -->
+        <q-btn
+            align="left"
+            color="primary"
+            flat
+            :icon-right= iconName2
+            label="Options"
+            no-caps
+            rounded
+            size="md"
+            @click="toggleOptions"></q-btn>
+        <div v-if="showOptions">
+
+        <q-select v-model="event.timezone"
+        :options="timeZoneOptions"
+        emit-label
+        label="Timezone"
+        map-options
+        name="timeZone"/>
+
+        <q-select v-model="event.label"
+        :options="labelOptions"
+        map-options
+        emit-label
+        label="Label"
+        name="label"/>
+
+        <q-input v-model="event.url"
+        label="Url"
+        map-options
+        name="Url">
+        <template v-slot:append>
+          <q-btn
+          flat
+          dense
+          no-caps
+          color="primary"
+          label="test url"></q-btn>
+        </template>
+      </q-input>
+
+        </div>
+        <!-- <div v-if="showAttendees || showOptions">
+          <q-separator/>
+        </div> -->
+
 
         <div class="q-mt-lg"><label>Regarding:</label></div>
         <q-item class="q-mt-none">
@@ -239,39 +340,8 @@ function handleRRuleGenerated(rruleString: string) {
             <q-icon color="primary" name="attach_file"/>
           </q-item-section>
         </q-item>
-
-        <q-btn
-          align="left"
-          color="primary"
-          flat
-          icon-right="add"
-          label="Add Attendees"
-          no-caps
-          rounded
-          size="md"
-          @click="toggleSelection"></q-btn>
-
-      <div v-if="showSection">
-        <pre>{{ meeetingAttendees }}</pre>
-      <q-select
-          dense
-          filled
-          outlined
-          transition-show="scale"
-          transition-hide="scale"
-          color="purple-12"
-          v-model="meeetingAttendees"
-          multiple
-          :options="meetingAttendees"
-          option-label="name"
-          option-value="email"
-          use-chips
-          label="Select from dropdown"
-        >
-      </q-select>
-      </div>
         <q-dialog v-model="alert">
-          <EventsRecurrenceDialog @rrule-generated="handleRRuleGenerated"/>
+          <EventsRecurrenceDialog @rrule-string-generated="handleRRuleString" @rrule-text-generated="handleRRuleText"/>
         </q-dialog>
 
       </div>

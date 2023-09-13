@@ -1,8 +1,8 @@
-<script lang="ts" setup>
+<script setup>
 import {ref} from "vue";
 import {RRule} from 'rrule'
 
-const emit = defineEmits(['rrule-generated'])
+const emit = defineEmits(['rrule-string-generated','rrule-text-generated'])
 
 const selectedOption = ref('daily');
 
@@ -13,27 +13,27 @@ const recurrenceOptions = ref([
   {label: 'Yearly', value: 'yearly'}
 ])
 const weekdays = [
-  {label: 'Sunday', value: RRule.SU},
-  {label: 'Monday', value: RRule.MO},
-  {label: 'Tuesday', value: RRule.TU},
-  {label: 'Wednesday', value: RRule.WE},
-  {label: 'Thursday', value: RRule.TH},
-  {label: 'Friday', value: RRule.FR},
-  {label: 'Saturday', value: RRule.SA},
+  {label: 'Sunday', value: 1},
+  {label: 'Monday', value: 2},
+  {label: 'Tuesday', value: 3},
+  {label: 'Wednesday', value: 4},
+  {label: 'Thursday', value: 5},
+  {label: 'Friday', value: 6},
+  {label: 'Saturday', value: 7},
 ];
 const monthsOfYear = [
-  {label: 'January', value: 'January'},
-  {label: 'February', value: 'February'},
-  {label: 'March', value: 'March'},
-  {label: 'April', value: 'April'},
-  {label: 'May', value: 'May'},
-  {label: 'June', value: 'June'},
-  {label: 'July', value: 'July'},
-  {label: 'August', value: 'August'},
-  {label: 'September', value: 'September'},
-  {label: 'October', value: 'October'},
-  {label: 'November', value: 'November'},
-  {label: 'December', value: 'December'},
+  {label: 'January', value: 1},
+  {label: 'February', value: 2},
+  {label: 'March', value: 3},
+  {label: 'April', value: 4},
+  {label: 'May', value: 5},
+  {label: 'June', value: 6},
+  {label: 'July', value: 7},
+  {label: 'August', value: 8},
+  {label: 'September', value: 9},
+  {label: 'October', value: 10},
+  {label: 'November', value: 11},
+  {label: 'December', value: 12},
 ];
 const numberOfDaysOfMonth = ref(Array.from({length: 31}, (_, index) => {
   const day = index + 1; // Parse as an integer
@@ -55,25 +55,25 @@ const dailyDays = ref(1);
 const dailyChoice = ref('daily-option1');
 
 const weeklyWeeks = ref(1);
-const weeklyChosenDays = ref([]);
+const weeklyChosenDays = ref([1]);
 
 const monthlyDayNumber = ref(1);
 const monthlyMonthNumber = ref(1);
 const monthlyOccurrence = ref(1);
-const monthlyWeekDay = ref(RRule.MO);
+const monthlyWeekDay = ref(2);
 const monthlyMonthNumber2 = ref(1);
 const monthlyChoice = ref('monthly-option1');
 
-const yearlyMonth = ref('January');
+const yearlyMonth = ref(1);
 const yearlyDay = ref(1);
 const yearlyChoice = ref('yearly-option1');
 
 const yearlyOccurrence = ref(1);
-const yearlyWeekday = ref(RRule.MO);
-const yearlyMonth2 = ref('January');
+const yearlyWeekday = ref(2);
+const yearlyMonth2 = ref(1);
 
 const dateOrCount = ref('count')
-const count = ref(1);
+const numberOfOccurrences = ref(1);
 const selectedEndDate = ref(null);
 
 const generateRecurrenceRule = () => {
@@ -132,15 +132,15 @@ const generateRecurrenceRule = () => {
   }
 
   if (dateOrCount.value === 'count') {
-    ruleOptions.count = count.value;
+    ruleOptions.count = numberOfOccurrences.value;
   } else if (dateOrCount.value === 'date') {
     ruleOptions.until = selectedEndDate.value; // Use selectedEndDate as the end date
   }
 
   const rule = new RRule(ruleOptions);
-  console.log(rule.toString());
   generatedRRule.value = rule.toString();
-  emit('rrule-generated', generatedRRule.value);
+  emit('rrule-string-generated', rule.toString());
+  emit('rrule-text-generated', rule.toText());
 
 };
 const generatedRRule = ref('');
@@ -211,7 +211,7 @@ const parseRRule = () => {
         <q-radio v-model="dailyChoice" val="daily-option1">
           <q-item class="flex-center q-gutter-md row">
             <q-item-label>Repeat once every</q-item-label>
-            <q-input v-model="dailyDays" type="number"/>
+            <q-input v-model="dailyDays" type="number" @click.stop/>
             <q-item-label>days</q-item-label>
           </q-item>
         </q-radio>
@@ -225,7 +225,7 @@ const parseRRule = () => {
       <div v-else-if="selectedOption === 'weekly'">
         <q-item class="flex-center q-gutter-md row">
           <q-item-label>Recur once every</q-item-label>
-          <q-input v-model="weeklyWeeks" type="number"/>
+          <q-input v-model="weeklyWeeks" type="number" @click.stop/>
           <q-item-label>weeks on</q-item-label>
           <q-select v-model="weeklyChosenDays" :options="weekdays" emit-value map-options multiple standout/>
         </q-item>
@@ -282,20 +282,22 @@ const parseRRule = () => {
         <q-radio v-model="dateOrCount" val="count">
           <q-item class="flex-center q-gutter-md row">
             <q-item-label>End after</q-item-label>
-            <q-input v-model="count" type="number"/>
+            <q-input v-model="numberOfOccurrences" type="number" @click.stop/>
             <q-item-label>occurrences</q-item-label>
           </q-item>
         </q-radio>
 
-        <q-radio v-model="dateOrCount" val="date">
+        <q-radio v-model="dateOrCount" val="date" >
           <q-item class="flex-center q-gutter-md row">
-            <q-item-label>End by</q-item-label>
-            <q-input v-model="selectedEndDate" clearable type="date"/>
+            <q-item-section>End by</q-item-section>
+            <q-input v-model="selectedEndDate" clearable type="date" @click.stop/>
           </q-item>
         </q-radio>
       </div>
 
-      <q-btn color="primary" @click="generateRecurrenceRule">Save</q-btn>
+      <q-card-actions>
+        <q-btn color="primary" @click="generateRecurrenceRule" label="Save" v-close-popup/>
+      </q-card-actions>
       <div v-if="generatedRRule">
         <code>{{ generatedRRule }}</code>
       </div>
