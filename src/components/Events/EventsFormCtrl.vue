@@ -23,16 +23,19 @@ const repeatString = ref('Does not repeat');
 const showAttendees = ref(false);
 const showOptions = ref(false)
 
-const toggleIcon = ref('add')
+const iconName1 = ref('add');
+const iconName2 = ref('add');
+
 
 const toggleAttendees = () => {
+  iconName1.value = showAttendees.value ? 'add' : 'remove'
   showAttendees.value = !showAttendees.value;
-  toggleIcon.value = showAttendees.value == true? 'remove' : 'add'
+  showAttendees.value ? meeetingAttendees.value = [] : meeetingAttendees.value
 }
 
 const toggleOptions = () => {
+  iconName2.value = showOptions.value ? 'add' : 'remove'
   showOptions.value = !showOptions.value;
-  toggleIcon.value = showOptions.value == true? 'remove' : 'add'
 }
 
 const eventsStore = useEventsStore();
@@ -249,7 +252,7 @@ function handleRRuleText(rruleText: string) {
             align="left"
             color="primary"
             flat
-            :icon-right= toggleIcon
+            :icon-right= iconName1
             label="Add Attendees"
             no-caps
             rounded
@@ -257,11 +260,9 @@ function handleRRuleText(rruleText: string) {
             @click="toggleAttendees"></q-btn>
 
         <div v-if="showAttendees">
-          <pre>{{ meeetingAttendees }}</pre>
           <q-select
               v-model="meeetingAttendees"
               :options="meetingAttendees"
-              color="purple-12"
               dense
               filled
               label="Select from dropdown"
@@ -281,7 +282,7 @@ function handleRRuleText(rruleText: string) {
             align="left"
             color="primary"
             flat
-            :icon-right= toggleIcon
+            :icon-right= iconName2
             label="Options"
             no-caps
             rounded
@@ -306,12 +307,21 @@ function handleRRuleText(rruleText: string) {
         <q-input v-model="url"
         label="Url"
         map-options
-        name="Url"/>
+        name="Url">
+        <template v-slot:append>
+          <q-btn
+          flat
+          dense
+          no-caps
+          color="primary"
+          label="test url"></q-btn>
+        </template>
+      </q-input>
 
         </div>
-        <div v-if="showAttendees || showOptions">
+        <!-- <div v-if="showAttendees || showOptions">
           <q-separator/>
-        </div>
+        </div> -->
 
 
         <div class="q-mt-lg"><label>Regarding:</label></div>
