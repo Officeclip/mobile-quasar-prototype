@@ -13,7 +13,7 @@ console.log('expense Id:', expenseId)
 
 // const timesheetStore = useTimesheetsStore()
 const expense = ref({
-  createdDate: '',
+  expenseDate: '',
   accountName: '',
   isBillable: true,
   totalAmount: Number(),
@@ -28,11 +28,10 @@ function onSubmit(e: any) {
   const newExpense = {
     accountName: expense.value.accountName,
     accountId: '',
-    createdDate: expense.value.createdDate,
+    expenseDate: expense.value.expenseDate,
     createdUserId: '',
     description: expense.value.description,
     isBillable: expense.value.isBillable,
-    payrollName: '',
     projectName: '',
     projectId: '',
     totalAmount: expense.value.totalAmount

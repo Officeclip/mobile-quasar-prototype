@@ -15,7 +15,7 @@ const endDateTime = ref('');
 const regardings = ref('');
 const names = ref('')
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const meeetingAttendees: any = ref([])
+// const meeetingAttendees: any = ref([])
 // const labels = ref('Meeting')
 // const url = ref('')
 // const recurrenceString = ref('');
@@ -30,7 +30,9 @@ const iconName2 = ref('add');
 const toggleAttendees = () => {
   iconName1.value = showAttendees.value ? 'add' : 'remove'
   showAttendees.value = !showAttendees.value;
-  showAttendees.value ? meeetingAttendees.value = [] : meeetingAttendees.value
+  // showAttendees.value ? meeetingAttendees.value = [] : meeetingAttendees.value
+  // eslint-disable-next-line vue/no-mutating-props
+  // showAttendees.value ? props.event.meeetingAttendees.value = [] : props.event.meeetingAttendees
 }
 
 const toggleOptions = () => {
