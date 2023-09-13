@@ -1635,7 +1635,7 @@
               "type": "select",
               "visible": true,
               "editable": true,
-              "value": "Arkansas"
+              "value": "2"
             },
             {
               "metaId": 113,
@@ -1651,7 +1651,7 @@
               "type": "select",
               "visible": true,
               "editable": true,
-              "value": "Malawi"
+              "value": "2"
             }
           ]
         }

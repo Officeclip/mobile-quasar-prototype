@@ -63,18 +63,22 @@ export const useContactsStore = defineStore('contactsStore', {
       }
     },
 
-    addOptionToContactDetail() {
+    async addOptionToContactDetail() {
       // add options from the metalist
       // Iterate through the sections in the contact detail
-      /*       const metaList = useMetaListStore().MetaLists;
-      console.log(this.contactDetail?.sections)
+      const metaListStore = useMetaListStore();
+      await metaListStore.getMetaLists();
+      const metaLists = metaListStore.MetaLists;
+      //console.log(this.contactDetail?.sections);
       const contactDetail: any = this.contactDetail;
+      //debugger;
       for (const section of contactDetail.sections) {
         // Iterate through the section entries in the section
         for (const sectionEntry of section.sectionEntries) {
           // Find the matching list item in the meta list
-          const listItem = metaList.listItems.find(
-            (item) => item.metaId === sectionEntry.metaId
+
+          const listItem = metaLists.find(
+            (item: any) => item.metaId === sectionEntry.metaId
           );
 
           // If found, populate the options array of the section entry
@@ -82,7 +86,35 @@ export const useContactsStore = defineStore('contactsStore', {
             sectionEntry.options = listItem.listItems;
           }
         }
-      } */
+      }
+    },
+
+    async fixValueForSelectForReadOnly() {
+      // the json returned has got the value for readonly, in order to show on the
+      // screen we need to get the text from the value.
+      const metaListStore = useMetaListStore();
+      await metaListStore.getMetaLists();
+      const metaLists = metaListStore.MetaLists;
+      const contactDetail: any = this.contactDetail;
+
+      for (const section of contactDetail.sections) {
+        // Iterate through the section entries in the section
+        for (const sectionEntry of section.sectionEntries) {
+          // Find the matching list item in the meta list
+
+          const listItem = metaLists.find(
+            (item: any) => item.metaId === sectionEntry.metaId
+          );
+
+          // If found, replace the value from the list items
+          if (listItem) {
+            debugger;
+            sectionEntry.value = listItem.listItems.find(
+              (item: any) => item.value == sectionEntry.value
+            )?.name;
+          }
+        }
+      }
     },
 
     async getContactDetail(id: number) {
@@ -93,10 +125,12 @@ export const useContactsStore = defineStore('contactsStore', {
         );
         if (response.data && response.data.length > 0) {
           this.contactDetail = response.data[0];
+          //this.addOptionToContactDetail();
+          this.fixValueForSelectForReadOnly();
         }
         console.log(
           `ContactsStore: getContactDetail - ${JSON.stringify(
-            this.contactDetail
+            this.ContactDetails
           )}`
         );
       } catch (error) {
