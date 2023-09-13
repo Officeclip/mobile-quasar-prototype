@@ -3469,12 +3469,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-
-            "", "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },
@@ -3645,6 +3640,100 @@
         "departureDate": "13-06-2020"
       },
       "id": "4"
+    }
+  ],
+  "expense-list": [
+    {
+      "periods": [
+        {
+          "end": "2023-07-02T00:00:00+05:30",
+          "name": "Jun 19, 2023 - Jul 02, 2023",
+          "start": "2023-06-19T00:00:00+05:30"
+        },
+        {
+          "end": "2023-06-18T00:00:00+05:30",
+          "name": "Jun 05, 2023 - Jun 18, 2023",
+          "start": "2023-06-05T00:00:00+05:30"
+        },
+        {
+          "end": "2023-06-04T00:00:00+05:30",
+          "name": "May 22, 2023 - Jun 04, 2023",
+          "start": "2023-05-22T00:00:00+05:30"
+        },
+        {
+          "end": "2023-05-21T00:00:00+05:30",
+          "name": "May 08, 2023 - May 21, 2023",
+          "start": "2023-05-08T00:00:00+05:30"
+        },
+        {
+          "end": "2023-05-07T00:00:00+05:30",
+          "name": "Apr 24, 2023 - May 07, 2023",
+          "start": "2023-04-24T00:00:00+05:30"
+        },
+        {
+          "end": "2023-04-23T00:00:00+05:30",
+          "name": "Apr 10, 2023 - Apr 23, 2023",
+          "start": "2023-04-10T00:00:00+05:30"
+        }
+      ],
+      "customerProjects": [
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
+          "name": "OfficeClip LLC"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:7ANXN3JV2CJE7T9XH8GLB8FDBDUMNJSR3M9M6LQ",
+          "name": "OfficeClip LLC:Bug Fixes Q3"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:4DTKY6JXNBNCXXSDH2VUYJYEB8RX6YS4V89M6LQ",
+          "name": "OfficeClip LLC:Create OfficeClip for Amazon AMI"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:HA6Z2WHE54FR7BJXHAHXNMQFHAJTS4SCJJJM6LQ",
+          "name": "OfficeClip LLC:Enhancement Q3 2022"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:66TTW8QDG88Z2DGFG4GTSC9EVBRMYJUDYM9M6LQ",
+          "name": "OfficeClip LLC:Enhancements Q2-2022"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:G4RQ7MEE26BRSNHE6CHB7MW56C6YXXA4UM9M6LQ",
+          "name": "OfficeClip LLC:Finish Google Sync"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:XMGV73HXD6YB7XJRY8KMWA9CAZNYWJS35CTM6LQ",
+          "name": "OfficeClip LLC:Fix Current Mobile Issues"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:W6YVXB9R4GBCWHA4EM4X6ZFFCB9E2Y9SBDYM6LQ",
+          "name": "OfficeClip LLC:General"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:JA6WH7KX4BYCYNA4WM6THTDVX6FV37HVJDTM6LQ",
+          "name": "OfficeClip LLC:Improve Integration"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:JMUCXYGV3BBB2KRV4J8T66D4YZGX6EGF4DTM6LQ",
+          "name": "OfficeClip LLC:Make OfficeClip Faster"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:M4VW6MQ34MHRSJYFR84Q32D5GD6X3FD5ZMJM6LQ",
+          "name": "OfficeClip LLC:Make officeclip more usable"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:J68NX6HFBBHZ6QJDNDLYX4JFS2FENG9FTDTM6LQ",
+          "name": "OfficeClip LLC:Monitor"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:FMUB6JE5BZNZNMKRGD6T2J9VSZKNX3ACB4TM6LQ",
+          "name": "OfficeClip LLC:Officeclip DashBoard"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:566W3RHFGDVMWKYVR2MWWCJV388ZHAFCCCYM6LQ",
+          "name": "OfficeClip LLC:Release 11.2.3"
+        }
+      ]
     }
   ]
 }

@@ -15,11 +15,11 @@ console.log('expense Id:', expenseId)
 const expense = ref({
   createdDate: '',
   accountName: '',
-  serviceItemName: '',
   isBillable: true,
-  timeDuration: Number(),
+  totalAmount: Number(),
+  tax: '',
   description: '',
-
+  comments: ''
 });
 
 function onSubmit(e: any) {
@@ -35,8 +35,7 @@ function onSubmit(e: any) {
     payrollName: '',
     projectName: '',
     projectId: '',
-    serviceItemName: expense.value.serviceItemName,
-    timeDuration: expense.value.timeDuration
+    totalAmount: expense.value.totalAmount
 
   }
   console.log(`onSubmit Expense Value: ${{ newExpense }}`);
