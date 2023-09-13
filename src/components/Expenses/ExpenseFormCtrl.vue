@@ -74,8 +74,8 @@ paymentMethod.value = [
 
 const props = defineProps(['expense']);
 
-const createdDate = ref('')
-createdDate.value = dateTimeHelper.extractDateFromUtc(props.expense.createdDate)
+const expenseDate = ref('')
+expenseDate.value = dateTimeHelper.extractDateFromUtc(props.expense.expenseDate)
 
 const taskDate = ref('')
 taskDate.value = 'July 20(Thu)'
@@ -88,7 +88,7 @@ taskDate.value = 'July 20(Thu)'
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
-        <q-select name="newcreatedDate" label="Period" v-model="createdDate" :options="periodOptions" map-options
+        <q-select name="newcreatedDate" label="Period" v-model="expenseDate" :options="periodOptions" map-options
           option-label="name" emit-label />
 
         <q-select name="newtaskDate" label="Expense Date" v-model="taskDate" :options="dateOptions" map-options
@@ -97,8 +97,7 @@ taskDate.value = 'July 20(Thu)'
         <q-select label="Customer: Project" v-model="sampleModel" :options="customerProjectOptions" option-label="name"
           option-value="id" map-options @update:model-value="handleSelectChange" />
 
-        <q-select label="Payment Method" v-model="sampleModel2" :options="paymentMethod" option-label="name"
-          option-value="id" map-options />
+        <q-select label="Payment Method" v-model="props.expense.paymentMethod" :options="paymentMethod" map-options />
 
         <q-select label="Billable" v-model="props.expense.isBillable" :options="billableOptions" map-options emit-value />
         <q-input label="Amount" v-model="props.expense.totalAmount" placeholder="enter here..." lazy-rules
