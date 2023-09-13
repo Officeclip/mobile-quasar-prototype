@@ -117,13 +117,14 @@ const alert = ref(false);
 
 function handleRRuleString(rruleString: string) {
   // You can now use the rruleString in your parent component
-  console.log('Received RRule:', rruleString);
+  console.log('Received RRule String:', rruleString);
   emit('rrule-generated', rruleString);
 }
 
 function handleRRuleText(rruleText: string) {
-  console.log('Received RRule Text:', rruleText);
-  repeatString.value = rruleText;
+  console.log('Received RRule Plain Text:', rruleText);
+  const capitalizedText= rruleText.charAt(0).toUpperCase() + rruleText.slice(1);
+  repeatString.value = capitalizedText;
 }
 </script>
 
