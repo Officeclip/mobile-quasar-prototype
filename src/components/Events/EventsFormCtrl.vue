@@ -49,6 +49,28 @@ const meetingAttendees = computed(() => {
   return eventsStore.MeetingAttendees
 });
 
+const extarctMeetingAttendeesNames =
+   meetingAttendees.value.map(item => (item.name));
+
+const moptions = ref(extarctMeetingAttendeesNames)
+
+//build new array of objects with specific properties from all properties
+// const nameAndEmailArray = meetingAttendees.value.map(item => ({ name: item.name, email: item.email }));
+
+
+function filterFn (val: string, update: (arg0: () => void) => void, abort: any) {
+        update(() => {
+          const needle = val.toLocaleLowerCase()
+          moptions.value = extarctMeetingAttendeesNames.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
+        })
+      }
+function setModel (val: any) {
+  // eslint-disable-next-line vue/no-mutating-props
+  props.event.meetingAttendees = val
+      }
+
+
+
 startDateTime.value = props.event.startDateTime;
 endDateTime.value = props.event.endDateTime;
 
@@ -108,11 +130,7 @@ const timeZoneOptions = [
 ]
 
 const labelOptions = [
-  {label: 'None'},
-  {label: 'Meeting'},
-  {label: 'Picnic'},
-  {label: 'Birthday'},
-  {label: 'Testing'}
+'Meeting', 'Picnic', 'Birthday', 'Payments', 'Testing'
 ]
 
 const alert = ref(false);
@@ -137,7 +155,7 @@ function handleRRuleText(rruleText: string) {
       <div class="q-gutter-y-md column">
         <q-input
             v-model="event.eventName"
-            :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+            :rules="[(val: string | any[]) => (val && val.length > 0) || 'Please type something']"
             label="Event Name"
             lazy-rules
             name="eventName"
@@ -262,18 +280,19 @@ function handleRRuleText(rruleText: string) {
             @click="toggleAttendees"></q-btn>
 
         <div v-if="showAttendees">
+          <pre>{{ event.meetingAttendees }}</pre>
           <q-select
-              v-model="event.meetingAttendees"
-              :options="meetingAttendees"
+              :model-value="event.meetingAttendees"
+              :options="moptions"
+              use-input
+              hide-selected
+              fill-input
+              input-debounce="0"
+              @filter="filterFn"
+              @input-value="setModel"
               dense
               filled
               label="Select from dropdown"
-              multiple
-              option-label="name"
-              option-value="email"
-              outlined
-              transition-hide="scale"
-              transition-show="scale"
               use-chips
           >
           </q-select>
@@ -301,8 +320,6 @@ function handleRRuleText(rruleText: string) {
 
         <q-select v-model="event.label"
         :options="labelOptions"
-        map-options
-        emit-label
         label="Label"
         name="label"/>
 
