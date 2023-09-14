@@ -63,33 +63,20 @@ export const useContactsStore = defineStore('contactsStore', {
       }
     },
 
-    async addOptionToContactDetail() {
-      // add options from the metalist
-      // Iterate through the sections in the contact detail
-      const metaListStore = useMetaListStore();
-      await metaListStore.getMetaLists();
-      const metaLists = metaListStore.MetaLists;
-      //console.log(this.contactDetail?.sections);
-      const contactDetail: any = this.contactDetail;
-      //debugger;
-      for (const section of contactDetail.sections) {
-        // Iterate through the section entries in the section
-        for (const sectionEntry of section.sectionEntries) {
-          // Find the matching list item in the meta list
-
-          const listItem = metaLists.find(
-            (item: any) => item.metaId === sectionEntry.metaId
-          );
-
-          // If found, populate the options array of the section entry
-          if (listItem) {
-            sectionEntry.options = listItem.listItems;
-          }
+    replaceIds(ids: string, values: any) {
+      const idArray = ids.split(',');
+      const names: string[] = [];
+      for (let i = 0; i < idArray.length; i++) {
+        const id = idArray[i];
+        const listItem = values.find((item: any) => item.value === id);
+        if (listItem) {
+          names.push(listItem.name);
         }
       }
+      return names.join(',');
     },
 
-    async fixValueForSelectForReadOnly() {
+    async fixValuesForSelect(isReadOnly: boolean) {
       // the json returned has got the value for readonly, in order to show on the
       // screen we need to get the text from the value.
       const metaListStore = useMetaListStore();
@@ -108,16 +95,31 @@ export const useContactsStore = defineStore('contactsStore', {
 
           // If found, replace the value from the list items
           if (listItem) {
-            debugger;
-            sectionEntry.value = listItem.listItems.find(
-              (item: any) => item.value == sectionEntry.value
-            )?.name;
+            if (isReadOnly) {
+              // This is for reading so we will replace the value with the text
+              if (sectionEntry.type === 'select') {
+                sectionEntry.value = listItem.listItems.find(
+                  (item: any) => item.value == sectionEntry.value
+                )?.name;
+              } else {
+                //TODO: Change this to switch statement for easy understanding
+                // otherwise it is a multi-select
+                sectionEntry.value = this.replaceIds(
+                  sectionEntry.value,
+                  listItem.listItems
+                );
+              }
+            } else {
+              // This is for edit so we will just add the options
+              sectionEntry.options = listItem.listItems;
+            }
           }
         }
       }
     },
 
-    async getContactDetail(id: number) {
+    async getContactDetail(id: number, isReadOnly: boolean) {
+      //debugger;
       console.log(`ContactsStore: getContactDetail: id: ${id}`);
       try {
         const response = await axios.get(
@@ -126,7 +128,7 @@ export const useContactsStore = defineStore('contactsStore', {
         if (response.data && response.data.length > 0) {
           this.contactDetail = response.data[0];
           //this.addOptionToContactDetail();
-          this.fixValueForSelectForReadOnly();
+          this.fixValuesForSelect(isReadOnly);
         }
         console.log(
           `ContactsStore: getContactDetail - ${JSON.stringify(

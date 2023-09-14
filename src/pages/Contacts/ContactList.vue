@@ -22,7 +22,7 @@ const contacts = computed(() => {
 });
 
 onMounted(() => {
-  contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
+  //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
   contactsStore
     .getContactsByBatch(batchSize.value, currentPage.value)
     .then(() => currentPage.value++);

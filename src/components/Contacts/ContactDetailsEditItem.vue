@@ -39,6 +39,16 @@ const controlName = computed(() => `name_${props.params?.metaId}`);
       keep-color
       v-model="newValue"
     ></q-toggle>
+    <q-select
+      v-if="getType === 'select'"
+      name="controlName"
+      map-options
+      class="min-width"
+      v-model="newValue"
+      :options="props.params?.options"
+      option-label="name"
+      :label="labelName"
+    />
   </div>
   <div v-else caption class="q-mb-md text-italic">
     <q-item-label caption>

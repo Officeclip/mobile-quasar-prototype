@@ -16,8 +16,8 @@ const contactDetails = computed(() => {
 });
 
 onMounted(() => {
-  contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
-  contactsStore.getContactDetail(Number(route.params.id));
+  //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
+  contactsStore.getContactDetail(Number(route.params.id), false);
   console.log(`onMounted: Contacts - ${contactsStore.ContactDetails}`);
 });
 </script>
