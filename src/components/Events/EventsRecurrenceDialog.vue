@@ -6,20 +6,20 @@ const emit = defineEmits(['rrule-string-generated', 'rrule-text-generated'])
 
 const selectedOption = ref('daily');
 
-const recurrenceOptions = ref([
+const recurrenceOptions = [
   {label: 'Daily', value: 'daily'},
   {label: 'Weekly', value: 'weekly'},
   {label: 'Monthly', value: 'monthly'},
   {label: 'Yearly', value: 'yearly'}
-])
+]
 const weekdays = [
-  { label: 'Monday', value: 0 },
-  { label: 'Tuesday', value: 1 },
-  { label: 'Wednesday', value: 2 },
-  { label: 'Thursday', value: 3 },
-  { label: 'Friday', value: 4 },
-  { label: 'Saturday', value: 5 },
-  { label: 'Sunday', value: 6 },
+  {label: 'Monday', value: 0},
+  {label: 'Tuesday', value: 1},
+  {label: 'Wednesday', value: 2},
+  {label: 'Thursday', value: 3},
+  {label: 'Friday', value: 4},
+  {label: 'Saturday', value: 5},
+  {label: 'Sunday', value: 6},
 ];
 
 const monthsOfYear = [
@@ -37,7 +37,7 @@ const monthsOfYear = [
   {label: 'December', value: 12},
 ];
 
-const numberOfDaysOfMonth = ref(Array.from({length: 31}, (_, index) => {
+const numberOfDaysOfMonth = Array.from({length: 31}, (_, index) => {
   const day = index + 1; // Parse as an integer
 
   // Determine the suffix based on the last digit of the day
@@ -54,12 +54,12 @@ const numberOfDaysOfMonth = ref(Array.from({length: 31}, (_, index) => {
   }
   const label = `${day}${suffix}`;
   return {label, value: day};
-}));
+});
 
-const numberOfMonthsOfYear = ref(Array.from({length: 12}, (_, index) => {
+const numberOfMonthsOfYear = Array.from({length: 12}, (_, index) => {
   const month = index + 1; // Parse as an integer
   return {label: month.toString(), value: month};
-}));
+});
 
 // const numberOfDaysOfMonth = ref(Array.from({length: 31}, (_, index) => {
 //   const day = index + 1; // Parse as an integer
@@ -97,7 +97,7 @@ const dailyDays = ref(1);
 const dailyChoice = ref('daily-option1');
 
 const weeklyWeeks = ref(1);
-const weeklyChosenDays = ref([0]);
+const weeklyChosenDays = ref([0, 2]);
 
 const monthlyDayNumber = ref(1);
 const monthlyMonthNumber = ref(1);
@@ -272,7 +272,7 @@ const parseRRule = () => {
           <q-item-label>Recur once every</q-item-label>
           <q-input v-model="weeklyWeeks" type="number" @click.stop/>
           <q-item-label>week(s) on</q-item-label>
-          <q-select v-model="weeklyChosenDays" :options="weekdays" emit-value map-options multiple standout/>
+          <q-select v-model="weeklyChosenDays" :options="weekdays" clearable emit-value map-options multiple standout/>
         </q-item>
       </div>
 
