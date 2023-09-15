@@ -7,7 +7,7 @@ import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue
 import EventsReminderDialog from "components/Events/EventsReminderDialog.vue";
 
 const props = defineProps(['event']);
-const emit = defineEmits(['rrule-generated'])
+const emit = defineEmits(['rrule-generated', 'reminder-generated'])
 
 const startDateTime = ref('');
 const endDateTime = ref('');
@@ -21,6 +21,8 @@ const names = ref('')
 // const url = ref('')
 // const recurrenceString = ref('');
 const repeatString = ref('Does not repeat');
+const reminderString = ref('Choose Reminder');
+
 const showAttendees = ref(false);
 const showOptions = ref(false)
 
@@ -51,7 +53,7 @@ const meetingAttendees = computed(() => {
 });
 
 const extarctMeetingAttendeesNames =
-   meetingAttendees.value.map(item => (item.name));
+  meetingAttendees.value.map(item => (item.name));
 
 const moptions = ref(extarctMeetingAttendeesNames)
 
@@ -59,17 +61,17 @@ const moptions = ref(extarctMeetingAttendeesNames)
 // const nameAndEmailArray = meetingAttendees.value.map(item => ({ name: item.name, email: item.email }));
 
 
-function filterFn (val: string, update: (arg0: () => void) => void, abort: any) {
-        update(() => {
-          const needle = val.toLocaleLowerCase()
-          moptions.value = extarctMeetingAttendeesNames.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
-        })
-      }
-function setModel (val: any) {
+function filterFn(val: string, update: (arg0: () => void) => void, abort: any) {
+  update(() => {
+    const needle = val.toLocaleLowerCase()
+    moptions.value = extarctMeetingAttendeesNames.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
+  })
+}
+
+function setModel(val: any) {
   // eslint-disable-next-line vue/no-mutating-props
   props.event.meetingAttendees = val
-      }
-
+}
 
 
 startDateTime.value = props.event.startDateTime;
@@ -131,7 +133,7 @@ const timeZoneOptions = [
 ]
 
 const labelOptions = [
-'Meeting', 'Picnic', 'Birthday', 'Payments', 'Testing'
+  'Meeting', 'Picnic', 'Birthday', 'Payments', 'Testing'
 ]
 
 const recurrenceDialogOpened = ref(false);
@@ -145,9 +147,20 @@ function handleRRuleString(rruleString: string) {
 
 function handleRRuleText(rruleText: string) {
   console.log('Received RRule Plain Text:', rruleText);
-  const capitalizedText = rruleText.charAt(0).toUpperCase() + rruleText.slice(1);
-  repeatString.value = capitalizedText;
+  repeatString.value = rruleText.charAt(0).toUpperCase() + rruleText.slice(1); //capitalize first letter
 }
+
+function handleReminderString(reminderString: string) {
+  // You can now use the rruleString in your parent component
+  console.log('Received Reminder String:', reminderString);
+  emit('reminder-generated', reminderString);
+}
+
+function handleReminderText(reminderText: string) {
+  console.log('Received reminder Plain Text:', reminderText);
+  reminderString.value = reminderText;
+}
+
 </script>
 
 <template>
@@ -266,7 +279,7 @@ function handleRRuleText(rruleText: string) {
           <q-item-section avatar>
             <q-icon color="primary" name="alarm" size="sm"/>
           </q-item-section>
-          <q-item-section> Remind 30 minutes before</q-item-section>
+          <q-item-section>{{ reminderString }}</q-item-section>
           <q-item-section side>
             <q-icon color="primary" name="chevron_right"/>
           </q-item-section>
@@ -288,16 +301,16 @@ function handleRRuleText(rruleText: string) {
           <q-select
             :model-value="event.meetingAttendees"
             :options="moptions"
-            use-input
-            hide-selected
-            fill-input
-            input-debounce="0"
-            @filter="filterFn"
-            @input-value="setModel"
             dense
+            fill-input
             filled
+            hide-selected
+            input-debounce="0"
             label="Select from dropdown"
             use-chips
+            use-input
+            @filter="filterFn"
+            @input-value="setModel"
           >
           </q-select>
         </div>
@@ -322,10 +335,10 @@ function handleRRuleText(rruleText: string) {
                     map-options
                     name="timeZone"/>
 
-        <q-select v-model="event.label"
-        :options="labelOptions"
-        label="Label"
-        name="label"/>
+          <q-select v-model="event.label"
+                    :options="labelOptions"
+                    label="Label"
+                    name="label"/>
 
           <q-input v-model="event.url"
                    label="Url"
@@ -367,7 +380,8 @@ function handleRRuleText(rruleText: string) {
           <EventsRecurrenceDialog @rrule-string-generated="handleRRuleString" @rrule-text-generated="handleRRuleText"/>
         </q-dialog>
         <q-dialog v-model="reminderDialogOpened">
-          <EventsReminderDialog/>
+          <EventsReminderDialog @reminderTextGenerated="handleReminderText"
+                                @reminder-string-generated="handleReminderString"/>
         </q-dialog>
 
       </div>
