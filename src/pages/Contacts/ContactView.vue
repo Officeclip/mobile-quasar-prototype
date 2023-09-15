@@ -48,7 +48,7 @@ const params = computed(() => {
 });
 
 onMounted(() => {
-  contactsStore.$reset;
+  //contactsStore.$reset;
   contactsStore.getContactSummary(Number(route.params.id));
   contactsStore.getStates();
   console.log(`ContactDetails: params: ${params.value}`);
