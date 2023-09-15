@@ -29,7 +29,10 @@
         }
     ],
     "repeatInfoText": "",
+    "recurrenceRule": "",
     "modifiedDate": "2020-03-05 15:01:17Z",
     "modifiedUserSid": "N4VRXBADAZHRSGHFYD5Q",
-    "timezoneId": 42
+    "timezoneId": 42,
+    "remindTo": "Me",
+    "remindBeforeMinutes": 3600
 }
