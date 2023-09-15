@@ -4,7 +4,7 @@ import {computed, onMounted, ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useEventsStore} from 'stores/EventsStore'
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
-import EventsReminderDialog from "components/Events/EventsReminderDialog.vue";
+import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 
 const props = defineProps(['event']);
 const emit = defineEmits(['rrule-generated', 'reminder-generated'])
@@ -14,7 +14,8 @@ const endDateTime = ref('');
 // const timezone = ref('');
 // const location = ref('');
 const regardings = ref('');
-const names = ref('')
+const names = ref('');
+const showTimeAs = ref('Free')
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 // const meeetingAttendees: any = ref([])
 // const labels = ref('Meeting')
@@ -134,6 +135,9 @@ const timeZoneOptions = [
 
 const labelOptions = [
   'Meeting', 'Picnic', 'Birthday', 'Payments', 'Testing'
+]
+const ShowTimeOptions = [
+  'Busy', 'Free', 'Tentative', 'Out of Office'
 ]
 
 const recurrenceDialogOpened = ref(false);
@@ -311,6 +315,7 @@ function handleReminderText(reminderText: string) {
             use-input
             @filter="filterFn"
             @input-value="setModel"
+           
           >
           </q-select>
         </div>
@@ -334,12 +339,6 @@ function handleReminderText(reminderText: string) {
                     label="Timezone"
                     map-options
                     name="timeZone"/>
-
-          <q-select v-model="event.label"
-                    :options="labelOptions"
-                    label="Label"
-                    name="label"/>
-
           <q-input v-model="event.url"
                    label="Url"
                    map-options
@@ -353,6 +352,22 @@ function handleReminderText(reminderText: string) {
                 no-caps></q-btn>
             </template>
           </q-input>
+          <q-item>
+            <q-item-section class="q-pr-xl">
+              <q-select v-model="showTimeAs"
+                  :options="ShowTimeOptions"
+                  label="Show Time As"
+                  name="Show time as"/>
+            </q-item-section>
+            <q-item-section>
+              <q-select v-model="event.label"
+              popup-content-style="backgroundColor: '#ff0000"
+                :options="labelOptions"
+                label="Label"
+                name="label"/>
+            </q-item-section>
+          </q-item>
+
 
         </div>
         <!-- <div v-if="showAttendees || showOptions">
@@ -373,7 +388,7 @@ function handleReminderText(reminderText: string) {
             </q-item-label>
           </q-item-section>
           <q-item-section side>
-            <q-icon color="primary" name="attach_file"/>
+            <q-icon color="primary" name="switch_access_shortcut"/>
           </q-item-section>
         </q-item>
         <q-dialog v-model="recurrenceDialogOpened">

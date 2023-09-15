@@ -2066,7 +2066,17 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
+      "applicationIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10
+      ]
     }
   ],
   "generalUserProfile": [
@@ -2211,6 +2221,20 @@
       "createdDate": "0001-01-01T00:00:00.0000000Z",
       "modifiedByUserSid": "UABCHHS5NAJQHC9XUD5Q",
       "modifiedDate": "0001-01-01T00:00:00.0000000Z"
+    },
+    {
+      "id": 3,
+      "subject": "test",
+      "description": "",
+      "taskTypeName": "",
+      "taskPriorityName": "",
+      "startDate": "2023-09-01",
+      "dueDate": "2023-09-30",
+      "taskStatusName": "",
+      "isPrivate": false,
+      "taskOwnerName": "test",
+      "parentObjectServiceType": 14,
+      "parentObjectId": -1
     }
   ],
   "testMes": [
@@ -2690,7 +2714,12 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": ["", "One", "Two", "Three"],
+          "items": [
+            "",
+            "One",
+            "Two",
+            "Three"
+          ],
           "name": "Custom Row",
           "uiType": "List"
         },
@@ -3044,6 +3073,32 @@
         {
           "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:566W3RHFGDVMWKYVR2MWWCJV388ZHAFCCCYM6LQ",
           "name": "OfficeClip LLC:Release 11.2.3"
+        }
+      ],
+      "expenseType": [
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
+          "name": "AUTORENTAL"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
+          "name": "AIRTRAVEL"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
+          "name": "HOTEL"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
+          "name": "MILEAGE"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
+          "name": "TELEPHONE"
+        },
+        {
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
+          "name": "TAXI"
         }
       ]
     }

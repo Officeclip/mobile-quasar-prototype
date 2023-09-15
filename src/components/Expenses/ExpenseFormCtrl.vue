@@ -2,6 +2,8 @@
 import { defineProps, ref, onMounted, onUpdated } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useExpenseListStore } from '../../stores/ExpenseListStore';
+import ExpenseForm from '../../models/Expense/expenseDetail';
+import AirTravelExpense from '../../components/Expenses/AirTravelFormCtrl.vue';
 
 
 // const periodOptions = ref([])
@@ -81,6 +83,14 @@ const taskDate = ref('')
 taskDate.value = 'July 20(Thu)'
 
 
+
+const airTravel = ref({
+  arrivalAirport: '',
+  arrivalDate: '',
+  departureAirport: '',
+  departureDate: '',
+});
+
 </script>
 
 <template>
@@ -96,6 +106,8 @@ taskDate.value = 'July 20(Thu)'
         <pre>{{ sampleModel }}</pre>
         <q-select label="Customer: Project" v-model="sampleModel" :options="customerProjectOptions" option-label="name"
           option-value="id" map-options @update:model-value="handleSelectChange" />
+
+        <!-- <AirTravelExpense :air-travel="airTravel" /> -->
 
         <q-select label="Payment Method" v-model="props.expense.paymentMethod" :options="paymentMethod" map-options />
 
