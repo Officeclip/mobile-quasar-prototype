@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { Contact } from '../models/contact';
-import { ContactDetail } from '../models/contactDetail';
+import { ItemDetail } from '../models/itemDetail';
 import { State } from '../models/state';
 import axios from 'axios';
 import { Constants } from './Constants';
@@ -12,7 +12,7 @@ export const useContactsStore = defineStore('contactsStore', {
     states: [] as State[],
     contact: undefined as Contact | undefined, // we kept it separate because we will make a
     // separate call to get this
-    contactDetail: undefined as ContactDetail | undefined,
+    contactDetail: undefined as ItemDetail | undefined,
   }),
 
   getters: {
@@ -125,7 +125,7 @@ export const useContactsStore = defineStore('contactsStore', {
       console.log(`ContactsStore: getContactDetail: id: ${id}`);
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/contact-details?id=${id}`
+          `${Constants.endPointUrl}/meta-details?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.contactDetail = response.data[0];

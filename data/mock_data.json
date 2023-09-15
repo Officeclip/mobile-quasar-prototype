@@ -794,9 +794,10 @@
       "picture": "https://robohash.org/4.png?size=250x250"
     }
   ],
-  "contact-details": [
+  "meta-details": [
     {
       "id": 4,
+      "entityId": 2,
       "sections": [
         {
           "sectionId": 1,
@@ -2753,12 +2754,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-            "",
-            "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },

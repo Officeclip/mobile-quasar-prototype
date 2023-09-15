@@ -1,8 +1,9 @@
 // Generated from: https://app.quicktype.io/#l=TypeScript
 //
-import { ListItem } from '././metaList';
+import { ListItem } from './metaList';
 
-export interface ContactDetail {
+export interface ItemDetail {
+  entityId: number;
   id: number;
   sections: Section[];
 }
