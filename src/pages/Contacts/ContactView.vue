@@ -4,7 +4,7 @@ TODO: skd: Implement child events the same way as implemented in OfficeClip. Do 
 -->
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onBeforeMount, computed } from 'vue';
 import { useContactsStore } from '../../stores/ContactsStore';
 //import { useEventsStore } from 'src/stores/EventsStore';
 import { useRoute } from 'vue-router';
@@ -14,6 +14,8 @@ import TasksList from '../../components/Tasks/TasksListCtrl.vue';
 import ContactSummary from '../../components/Contacts/ContactSummary.vue';
 import ContactDetails from '../../components/Contacts/ContactDetails.vue';
 
+
+console.log('TESTING CONTACTVIEW: Setup')
 const model = ref('1');
 const contactsStore = useContactsStore();
 //const eventsStore = useEventsStore();
@@ -47,8 +49,10 @@ const params = computed(() => {
   };
 });
 
-onMounted(() => {
+onBeforeMount(() => {
   //contactsStore.$reset;
+  console.log('TESTING CONTACTVIEW: onBeforeMount')
+  console.log('Contactstorevarialble testing:', contactsStore)
   contactsStore.getContactSummary(Number(route.params.id));
   contactsStore.getStates();
   console.log(`ContactDetails: params: ${params.value}`);

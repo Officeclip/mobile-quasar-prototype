@@ -49,6 +49,7 @@ export const useContactsStore = defineStore('contactsStore', {
 
     //   ----getting single user details by id----
     async getContactSummary(id: number) {
+      console.log('TESTING: ContactStore.getcontactsummery');
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/contact-summary?id=${id}`
