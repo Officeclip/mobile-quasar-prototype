@@ -1,5 +1,6 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup lang="ts">
+import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { ref, computed } from 'vue';
 const props = defineProps(['params']);
 const newValue = ref('');
@@ -7,6 +8,12 @@ newValue.value = props.params?.value;
 const getType = computed(() => props.params?.type);
 const labelName = computed(() => props.params?.visibleName);
 const controlName = computed(() => `name_${props.params?.metaId}`);
+
+const formattedDateTime = computed(() => {
+  let dateValue = dateTimeHelper.extractDateFromUtc(newValue.value);
+  let timeValue = dateTimeHelper.extractTimeFromUtc(newValue.value);
+  return `${dateValue} ${timeValue}`;
+});
 </script>
 
 <template>
@@ -71,6 +78,37 @@ const controlName = computed(() => `name_${props.params?.metaId}`);
                 <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
               </div>
             </q-date>
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+    </q-input>
+
+    <q-input
+      v-if="getType === 'datetime'"
+      name="controlName"
+      v-model="formattedDateTime"
+      :label="labelName"
+    >
+      <template v-slot:prepend>
+        <q-icon name="event" class="cursor-pointer">
+          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+            <q-date v-model="newValue" mask="YYYY-MM-DD HH:mm">
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
+              </div>
+            </q-date>
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+
+      <template v-slot:append>
+        <q-icon name="access_time" class="cursor-pointer">
+          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+            <q-time v-model="newValue" mask="YYYY-MM-DD HH:mm">
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
+              </div>
+            </q-time>
           </q-popup-proxy>
         </q-icon>
       </template>

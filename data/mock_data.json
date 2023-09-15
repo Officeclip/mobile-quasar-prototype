@@ -858,6 +858,14 @@
               "visible": true,
               "editable": true,
               "value": "2023-06-26T09:43:32.203Z"
+            },
+            {
+              "metaId": 108,
+              "visibleName": "Sample Date/Time",
+              "type": "datetime",
+              "visible": true,
+              "editable": true,
+              "value": "2023-06-26T09:43:32.203Z"
             }
           ]
         },
