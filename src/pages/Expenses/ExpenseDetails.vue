@@ -29,7 +29,8 @@ const expenseDetails = computed(() => {
     </q-header>
 
     <q-page-container class="q-ma-sm">
-      <q-list v-for="expenseDetail in expenseDetails" :key="expenseDetail.id" class="rounded-borders q-my-md bg-grey-3">
+      <q-list v-for="expenseDetail in expenseDetails" :key="expenseDetail.expenseDetailSid"
+        class="rounded-borders q-my-md bg-grey-3">
         <q-expansion-item expand-separator expand-icon-class="text-primary">
           <template v-slot:header>
             <q-item-section>
@@ -49,7 +50,7 @@ const expenseDetails = computed(() => {
                 <q-btn :to="{
                   name: 'editExpense',
                   params: {
-                    id: expenseDetail?.id,
+                    id: expenseDetail?.expenseDetailSid,
                   },
                 }" size="sm" flat round dense icon="edit" class="q-ml-sm">
                 </q-btn>
@@ -82,8 +83,8 @@ const expenseDetails = computed(() => {
           </q-item-section>
           <q-item-section side flex>
             <q-item-label>
-              <q-btn @click="expensesStore.deleteExpense(expenseDetail?.id); $router.go(-1)" size="sm" flat round dense
-                icon="delete" class="q-mr-sm q-mb-sm"></q-btn>
+              <q-btn @click="expensesStore.deleteExpense(expenseDetail?.expenseDetailSid); $router.go(-1)" size="sm" flat
+                round dense icon="delete" class="q-mr-sm q-mb-sm"></q-btn>
             </q-item-label>
           </q-item-section>
         </q-expansion-item>

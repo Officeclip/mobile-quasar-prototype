@@ -1,5 +1,5 @@
 export interface Expense {
-  id: number;
+  expenseSid: string;
   totalAmount: number;
   createdByUserName: string;
   employeeId: string;

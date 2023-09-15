@@ -2783,11 +2783,11 @@
       ]
     }
   ],
-  "expense": [
+  "expense-summary": [
     {
       "createdByUserName": "Nagesh Kulkarni",
       "employeeId": "OCHYD-005",
-      "id": 1,
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
       "status": "Saved",
       "totalAmount": "255.00",
       "fromDate": "2020-11-02T10:43:32.203Z"
@@ -2795,7 +2795,7 @@
     {
       "createdByUserName": "Nagesh Kulkarni",
       "employeeId": "OCHYD-005",
-      "id": 2,
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
       "status": "Saved",
       "totalAmount": "9999.00",
       "fromDate": "2020-09-14T10:43:32.203Z"
@@ -2803,7 +2803,7 @@
     {
       "createdByUserName": "Nagesh Kulkarni",
       "employeeId": "OCHYD-005",
-      "id": 3,
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
       "status": "Approved",
       "totalAmount": "10000.00",
       "fromDate": "2020-07-06T10:43:32.203Z"
@@ -2811,7 +2811,7 @@
     {
       "createdByUserName": "Nagesh Kulkarni",
       "employeeId": "OCHYD-005",
-      "id": 4,
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
       "status": "Rejected",
       "totalAmount": "12000.00",
       "fromDate": "2020-06-15T10:43:32.203Z"
@@ -2827,23 +2827,45 @@
       "description": "Ea earum aspernatur ratione tempora.",
       "employeeFullName": "Nagesh Kulkarni",
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
-      "expenseDate": "2020-05-27 18:30:00Z",
+      "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ",
-      "expenseTypeName": "AIRTRAVEL",
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
+      "expenseTypeName": "AUTORENTAL",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
       "projectName": "",
       "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
       "tax": 12345,
       "paymentType": "Cash",
+      "autoRentalExpense": {
+        "rentalAgency": "Zoom Car",
+        "city": "Hyderabad",
+        "fromDate": "10-06-2020",
+        "toDate": "13-06-2020"
+      },
       "airTravelExpense": {
         "arrivalAirport": "Hyderabad",
         "arrivalDate": "12-06-2020",
         "departureAirport": "Mumbai",
         "departureDate": "13-06-2020"
       },
-      "id": "1"
+      "hotelExpense": {
+        "hotelName": "Oyo Rooms",
+        "city": "Hyderabad",
+        "fromDate": "11-06-2020",
+        "toDate": "13-06-2020"
+      },
+      "mileageExpense": {
+        "mileage": "10.00"
+      },
+      "telephoneExpense": {
+        "phoneNumber": "9966722755",
+        "city": "Hyderabad"
+      },
+      "taxiExpense": {
+        "city": "Hyderabad",
+        "taxiLineName": "Ola Cabs"
+      }
     },
     {
       "accountName": "OfficeClip LLC",
@@ -2854,23 +2876,23 @@
       "description": "Ea earum aspernatur ratione tempora.",
       "employeeFullName": "Nagesh Kulkarni",
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
-      "expenseDate": "2020-05-27 18:30:00Z",
+      "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ",
-      "expenseTypeName": "AIRTRAVEL",
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
+      "expenseTypeName": "AUTORENTAL",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
       "projectName": "",
       "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
       "tax": 12345,
       "paymentType": "Cash",
-      "airTravelExpense": {
-        "arrivalAirport": "Hyderabad",
-        "arrivalDate": "12-06-2020",
-        "departureAirport": "Mumbai",
-        "departureDate": "13-06-2020"
+      "autoRentalExpense": {
+        "rentalAgency": "Zoom Car",
+        "city": "Hyderabad",
+        "fromDate": "10-06-2020",
+        "toDate": "13-06-2020"
       },
-      "id": "2"
+      "airTravelExpense": null
     },
     {
       "accountName": "OfficeClip LLC",
@@ -2881,9 +2903,9 @@
       "description": "Ea earum aspernatur ratione tempora.",
       "employeeFullName": "Nagesh Kulkarni",
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
-      "expenseDate": "2020-05-27 18:30:00Z",
+      "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ",
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
       "expenseTypeName": "AIRTRAVEL",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -2896,8 +2918,7 @@
         "arrivalDate": "12-06-2020",
         "departureAirport": "Mumbai",
         "departureDate": "13-06-2020"
-      },
-      "id": "3"
+      }
     },
     {
       "accountName": "OfficeClip LLC",
@@ -2908,23 +2929,93 @@
       "description": "Ea earum aspernatur ratione tempora.",
       "employeeFullName": "Nagesh Kulkarni",
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
-      "expenseDate": "2020-05-27 18:30:00Z",
+      "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ",
-      "expenseTypeName": "AIRTRAVEL",
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
+      "expenseTypeName": "HOTEL",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
       "projectName": "",
       "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
       "tax": 12345,
       "paymentType": "Cash",
-      "airTravelExpense": {
-        "arrivalAirport": "Hyderabad",
-        "arrivalDate": "12-06-2020",
-        "departureAirport": "Mumbai",
-        "departureDate": "13-06-2020"
-      },
-      "id": "4"
+      "hotelExpense": {
+        "hotelName": "Oyo Rooms",
+        "city": "Hyderabad",
+        "fromDate": "11-06-2020",
+        "toDate": "13-06-2020"
+      }
+    },
+    {
+      "accountName": "OfficeClip LLC",
+      "accountSid": "3M6RSUYV6GRX3USRFC5Q",
+      "amount": 73476,
+      "billable": true,
+      "comments": "This is to test comments for expenses.",
+      "description": "Ea earum aspernatur ratione tempora.",
+      "employeeFullName": "Nagesh Kulkarni",
+      "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
+      "expenseDate": "2020-11-02T10:43:32.203Z",
+      "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
+      "expenseTypeName": "MILEAGE",
+      "expenseCategoryName": "",
+      "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
+      "projectName": "",
+      "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
+      "tax": 12345,
+      "paymentType": "Cash",
+      "mileageExpense": {
+        "mileage": "10.00"
+      }
+    },
+    {
+      "accountName": "OfficeClip LLC",
+      "accountSid": "3M6RSUYV6GRX3USRFC5Q",
+      "amount": 73476,
+      "billable": true,
+      "comments": "This is to test comments for expenses.",
+      "description": "Ea earum aspernatur ratione tempora.",
+      "employeeFullName": "Nagesh Kulkarni",
+      "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
+      "expenseDate": "2020-11-02T10:43:32.203Z",
+      "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
+      "expenseTypeName": "TELEPHONE",
+      "expenseCategoryName": "",
+      "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
+      "projectName": "",
+      "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
+      "tax": 12345,
+      "paymentType": "Cash",
+      "telephoneExpense": {
+        "phoneNumber": "9966722755",
+        "city": "Hyderabad"
+      }
+    },
+    {
+      "accountName": "OfficeClip LLC",
+      "accountSid": "3M6RSUYV6GRX3USRFC5Q",
+      "amount": 73476,
+      "billable": true,
+      "comments": "This is to test comments for expenses.",
+      "description": "Ea earum aspernatur ratione tempora.",
+      "employeeFullName": "Nagesh Kulkarni",
+      "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
+      "expenseDate": "2020-11-02T10:43:32.203Z",
+      "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
+      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
+      "expenseTypeName": "TAXI",
+      "expenseCategoryName": "",
+      "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
+      "projectName": "",
+      "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
+      "tax": 12345,
+      "paymentType": "Cash",
+      "taxiExpense": {
+        "city": "Hyderabad",
+        "taxiLineName": "Ola Cabs"
+      }
     }
   ],
   "expense-list": [

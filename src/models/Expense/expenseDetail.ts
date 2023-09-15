@@ -15,7 +15,7 @@ export interface ExpenseDetail {
   description: string;
   employeeFullName: string;
   employeeSid: string;
-  expenseDate: Date;
+  expenseDate: string;
   expenseDetailSid: string;
   expenseSid: string;
   expenseTypeName: string;
