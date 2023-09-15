@@ -12,14 +12,14 @@ export const useContactsStore = defineStore('contactsStore', {
     states: [] as State[],
     contact: undefined as Contact | undefined, // we kept it separate because we will make a
     // separate call to get this
-    contactDetail: undefined as ItemDetail | undefined,
+    itemDetail: undefined as ItemDetail | undefined,
   }),
 
   getters: {
     Contacts: (state) => state.contacts,
     States: (state) => state.states,
     Contact: (state) => state.contact,
-    ContactDetails: (state) => state.contactDetail,
+    ItemDetails: (state) => state.itemDetail,
   },
 
   actions: {
@@ -84,7 +84,7 @@ export const useContactsStore = defineStore('contactsStore', {
       const metaListStore = useMetaListStore();
       await metaListStore.getMetaLists();
       const metaLists = metaListStore.MetaLists;
-      const contactDetail: any = this.contactDetail;
+      const contactDetail: any = this.itemDetail;
 
       for (const section of contactDetail.sections) {
         // Iterate through the section entries in the section
@@ -120,7 +120,7 @@ export const useContactsStore = defineStore('contactsStore', {
       }
     },
 
-    async getContactDetail(id: number, isReadOnly: boolean) {
+    async getMetaDetail(id: number, isReadOnly: boolean) {
       //debugger;
       console.log(`ContactsStore: getContactDetail: id: ${id}`);
       try {
@@ -128,13 +128,13 @@ export const useContactsStore = defineStore('contactsStore', {
           `${Constants.endPointUrl}/meta-details?id=${id}`
         );
         if (response.data && response.data.length > 0) {
-          this.contactDetail = response.data[0];
+          this.itemDetail = response.data[0];
           //this.addOptionToContactDetail();
           this.fixValuesForSelect(isReadOnly);
         }
         console.log(
           `ContactsStore: getContactDetail - ${JSON.stringify(
-            this.ContactDetails
+            this.ItemDetails
           )}`
         );
       } catch (error) {
