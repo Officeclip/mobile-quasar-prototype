@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia';
 import { Contact } from '../models/contact';
-import { MetaDetail } from '../models/metaDetail';
 import { State } from '../models/state';
 import axios from 'axios';
 import { Constants } from './Constants';
-import { useMetaListStore } from './MetaListStore';
 
 export const useContactsStore = defineStore('contactsStore', {
   state: () => ({
