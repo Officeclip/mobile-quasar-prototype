@@ -1,15 +1,15 @@
-import { ContactDetail, SectionEntry } from '../models/contactDetail';
+import { ItemDetail, SectionEntry } from '../models/itemDetail';
 
-export class contactHelper {
-  contactDetail: ContactDetail;
-  constructor(_contactDetail: ContactDetail) {
-    this.contactDetail = _contactDetail;
+export class itemHelper {
+  itemDetail: ItemDetail;
+  constructor(_itemDetail: ItemDetail) {
+    this.itemDetail = _itemDetail;
   }
 
   getSectionEntries(sectionId: number, isOdd: boolean): SectionEntry[] {
     const _sectionEntries: SectionEntry[] = [];
     //debugger;
-    for (const section of this.contactDetail.sections) {
+    for (const section of this.itemDetail.sections) {
       if (section.sectionId != sectionId) continue;
       const indexStart = isOdd ? 1 : 0;
       for (

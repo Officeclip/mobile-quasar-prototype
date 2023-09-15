@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { Contact } from '../models/contact';
-import { ContactDetail } from '../models/contactDetail';
+import { ItemDetail } from '../models/itemDetail';
 import { State } from '../models/state';
 import axios from 'axios';
 import { Constants } from './Constants';
@@ -12,20 +12,22 @@ export const useContactsStore = defineStore('contactsStore', {
     states: [] as State[],
     contact: undefined as Contact | undefined, // we kept it separate because we will make a
     // separate call to get this
-    contactDetail: undefined as ContactDetail | undefined,
+    itemDetail: undefined as ItemDetail | undefined,
   }),
 
   getters: {
     Contacts: (state) => state.contacts,
     States: (state) => state.states,
     Contact: (state) => state.contact,
-    ContactDetails: (state) => state.contactDetail,
+    ItemDetails: (state) => state.itemDetail,
   },
 
   actions: {
     async getContacts() {
       try {
-        const response = await axios.get(`${Constants.endPointUrl}/contacts`);
+        const response = await axios.get(
+          `${Constants.endPointUrl}/contact-list`
+        );
         this.contacts = response.data;
         //console.log(`ContactsStore: getContacts - ${this.contacts}`);
       } catch (error) {
@@ -49,7 +51,7 @@ export const useContactsStore = defineStore('contactsStore', {
     async getContactSummary(id: number) {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/contacts?id=${id}`
+          `${Constants.endPointUrl}/contact-summary?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.contact = response.data[0];
@@ -82,7 +84,7 @@ export const useContactsStore = defineStore('contactsStore', {
       const metaListStore = useMetaListStore();
       await metaListStore.getMetaLists();
       const metaLists = metaListStore.MetaLists;
-      const contactDetail: any = this.contactDetail;
+      const contactDetail: any = this.itemDetail;
 
       for (const section of contactDetail.sections) {
         // Iterate through the section entries in the section
@@ -118,21 +120,21 @@ export const useContactsStore = defineStore('contactsStore', {
       }
     },
 
-    async getContactDetail(id: number, isReadOnly: boolean) {
+    async getMetaDetail(id: number, isReadOnly: boolean) {
       //debugger;
       console.log(`ContactsStore: getContactDetail: id: ${id}`);
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/contactDetails?id=${id}`
+          `${Constants.endPointUrl}/meta-details?id=${id}`
         );
         if (response.data && response.data.length > 0) {
-          this.contactDetail = response.data[0];
+          this.itemDetail = response.data[0];
           //this.addOptionToContactDetail();
           this.fixValuesForSelect(isReadOnly);
         }
         console.log(
           `ContactsStore: getContactDetail - ${JSON.stringify(
-            this.ContactDetails
+            this.ItemDetails
           )}`
         );
       } catch (error) {
@@ -143,7 +145,7 @@ export const useContactsStore = defineStore('contactsStore', {
 
     async getContactsByBatch(limit: number, page: number) {
       // FIXME: put correct type
-      const callStr = `${Constants.endPointUrl}/contacts?_limit=${limit}&_page=${page}`;
+      const callStr = `${Constants.endPointUrl}/contact-list?_limit=${limit}&_page=${page}`;
       //console.log(`callStr: ${callStr}`)
       const res = await fetch(callStr);
       const data = await res.json();
@@ -153,7 +155,7 @@ export const useContactsStore = defineStore('contactsStore', {
 
     async getContactsWithFilter(limit: number, page: number, filter: string) {
       // FIXME: put correct type
-      const callStr = `${Constants.endPointUrl}/contacts?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
+      const callStr = `${Constants.endPointUrl}/contact-list?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
       console.log(`callStr: ${callStr}`);
       const res = await fetch(callStr);
       const data = await res.json();
@@ -163,7 +165,7 @@ export const useContactsStore = defineStore('contactsStore', {
 
     async editContact(contact: Contact) {
       const res = await fetch(
-        `${Constants.endPointUrl}/contacts/${contact.id}`,
+        `${Constants.endPointUrl}/contact-summary/${contact.id}`,
         {
           method: 'PUT',
           headers: {
@@ -178,7 +180,7 @@ export const useContactsStore = defineStore('contactsStore', {
     async addContact(contact: Contact) {
       this.contacts.push(contact);
 
-      const res = await fetch(`${Constants.endPointUrl}/contacts`, {
+      const res = await fetch(`${Constants.endPointUrl}/contact-summary`, {
         //TODO: Change to axios api
         method: 'POST',
         body: JSON.stringify(contact),
@@ -195,9 +197,12 @@ export const useContactsStore = defineStore('contactsStore', {
         return t.id === id;
       });
 
-      const res = await fetch(`${Constants.endPointUrl}/contacts/` + id, {
-        method: 'DELETE',
-      });
+      const res = await fetch(
+        `${Constants.endPointUrl}/contact-summary/` + id,
+        {
+          method: 'DELETE',
+        }
+      );
     },
   },
 });

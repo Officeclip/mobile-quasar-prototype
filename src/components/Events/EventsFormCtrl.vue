@@ -4,6 +4,7 @@ import {computed, onMounted, ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useEventsStore} from 'stores/EventsStore'
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
+import EventsReminderDialog from "components/Events/EventsReminderDialog.vue";
 
 const props = defineProps(['event']);
 const emit = defineEmits(['rrule-generated'])
@@ -49,6 +50,28 @@ const meetingAttendees = computed(() => {
   return eventsStore.MeetingAttendees
 });
 
+const extarctMeetingAttendeesNames =
+   meetingAttendees.value.map(item => (item.name));
+
+const moptions = ref(extarctMeetingAttendeesNames)
+
+//build new array of objects with specific properties from all properties
+// const nameAndEmailArray = meetingAttendees.value.map(item => ({ name: item.name, email: item.email }));
+
+
+function filterFn (val: string, update: (arg0: () => void) => void, abort: any) {
+        update(() => {
+          const needle = val.toLocaleLowerCase()
+          moptions.value = extarctMeetingAttendeesNames.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
+        })
+      }
+function setModel (val: any) {
+  // eslint-disable-next-line vue/no-mutating-props
+  props.event.meetingAttendees = val
+      }
+
+
+
 startDateTime.value = props.event.startDateTime;
 endDateTime.value = props.event.endDateTime;
 
@@ -64,9 +87,9 @@ const formattedStartDateTime = computed(() => {
 });
 
 const formattedStartDateTime2 =
-    startDateTime.value
-        ? formattedStartDateTime
-        : startDateTime
+  startDateTime.value
+    ? formattedStartDateTime
+    : startDateTime
 
 const formattedEndDateTime = computed(() => {
   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
@@ -80,9 +103,9 @@ const formattedEndDateTime = computed(() => {
 });
 
 const formattedEndDateTime2 =
-    endDateTime.value
-        ? formattedEndDateTime
-        : endDateTime
+  endDateTime.value
+    ? formattedEndDateTime
+    : endDateTime
 
 const maskDateTime = computed(() => {
   if (props.event.isAllDayEvent) {
@@ -108,24 +131,22 @@ const timeZoneOptions = [
 ]
 
 const labelOptions = [
-  {label: 'None'},
-  {label: 'Meeting'},
-  {label: 'Picnic'},
-  {label: 'Birthday'},
-  {label: 'Testing'}
+'Meeting', 'Picnic', 'Birthday', 'Payments', 'Testing'
 ]
 
-const alert = ref(false);
+const recurrenceDialogOpened = ref(false);
+const reminderDialogOpened = ref(false);
 
 function handleRRuleString(rruleString: string) {
   // You can now use the rruleString in your parent component
-  console.log('Received RRule:', rruleString);
+  console.log('Received RRule String:', rruleString);
   emit('rrule-generated', rruleString);
 }
 
 function handleRRuleText(rruleText: string) {
-  console.log('Received RRule Text:', rruleText);
-  repeatString.value = rruleText;
+  console.log('Received RRule Plain Text:', rruleText);
+  const capitalizedText = rruleText.charAt(0).toUpperCase() + rruleText.slice(1);
+  repeatString.value = capitalizedText;
 }
 </script>
 
@@ -136,27 +157,27 @@ function handleRRuleText(rruleText: string) {
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
         <q-input
-            v-model="event.eventName"
-            :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-            label="Event Name"
-            lazy-rules
-            name="eventName"
-            placeholder="enter event name">
+          v-model="event.eventName"
+          :rules="[(val: string | any[]) => (val && val.length > 0) || 'Please type something']"
+          label="Event Name"
+          lazy-rules
+          name="eventName"
+          placeholder="enter event name">
         </q-input>
 
         <q-toggle
-            v-model="event.isAllDayEvent"
-            :false-value='false'
-            :true-value='true'
-            color="primary"
-            keep-color
-            label="All Day Event"
-            name="isAllDayEvent"></q-toggle>
+          v-model="event.isAllDayEvent"
+          :false-value='false'
+          :true-value='true'
+          color="primary"
+          keep-color
+          label="All Day Event"
+          name="isAllDayEvent"></q-toggle>
 
         <q-input
-            v-model="formattedStartDateTime2"
-            label="Start Date"
-            name="startDateTime">
+          v-model="formattedStartDateTime2"
+          label="Start Date"
+          name="startDateTime">
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
@@ -183,9 +204,9 @@ function handleRRuleText(rruleText: string) {
         </q-input>
 
         <q-input
-            v-model="formattedEndDateTime2"
-            label="End Date"
-            name="endDateTime">
+          v-model="formattedEndDateTime2"
+          label="End Date"
+          name="endDateTime">
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
@@ -217,16 +238,16 @@ function handleRRuleText(rruleText: string) {
           </template>
         </q-input>
         <q-input
-            v-model="event.eventDescription"
-            class="q-mt-none"
-            label="Event Note"
-            name="eventDescription"
-            placeholder="enter event description"/>
+          v-model="event.eventDescription"
+          class="q-mt-none"
+          label="Event Note"
+          name="eventDescription"
+          placeholder="enter event description"/>
 
         <q-item
-            v-ripple
-            clickable
-            @click="alert = true"
+          v-ripple
+          clickable
+          @click="recurrenceDialogOpened = true"
         >
           <q-item-section avatar>
             <q-icon color="primary" name="repeat" size="sm"/>
@@ -238,8 +259,9 @@ function handleRRuleText(rruleText: string) {
         </q-item>
 
         <q-item
-            v-ripple
-            clickable
+          v-ripple
+          clickable
+          @click="reminderDialogOpened = true"
         >
           <q-item-section avatar>
             <q-icon color="primary" name="alarm" size="sm"/>
@@ -251,74 +273,73 @@ function handleRRuleText(rruleText: string) {
         </q-item>
 
         <q-btn
-            align="left"
-            color="primary"
-            flat
-            :icon-right= iconName1
-            label="Add Attendees"
-            no-caps
-            rounded
-            size="md"
-            @click="toggleAttendees"></q-btn>
+          :icon-right=iconName1
+          align="left"
+          color="primary"
+          flat
+          label="Add Attendees"
+          no-caps
+          rounded
+          size="md"
+          @click="toggleAttendees"></q-btn>
 
         <div v-if="showAttendees">
+          <pre>{{ event.meetingAttendees }}</pre>
           <q-select
-              v-model="event.meetingAttendees"
-              :options="meetingAttendees"
-              dense
-              filled
-              label="Select from dropdown"
-              multiple
-              option-label="name"
-              option-value="email"
-              outlined
-              transition-hide="scale"
-              transition-show="scale"
-              use-chips
+            :model-value="event.meetingAttendees"
+            :options="moptions"
+            use-input
+            hide-selected
+            fill-input
+            input-debounce="0"
+            @filter="filterFn"
+            @input-value="setModel"
+            dense
+            filled
+            label="Select from dropdown"
+            use-chips
           >
           </q-select>
         </div>
 
         <!-- toggle options here -->
         <q-btn
-            align="left"
-            color="primary"
-            flat
-            :icon-right= iconName2
-            label="Options"
-            no-caps
-            rounded
-            size="md"
-            @click="toggleOptions"></q-btn>
+          :icon-right=iconName2
+          align="left"
+          color="primary"
+          flat
+          label="Options"
+          no-caps
+          rounded
+          size="md"
+          @click="toggleOptions"></q-btn>
         <div v-if="showOptions">
 
-        <q-select v-model="event.timezone"
-        :options="timeZoneOptions"
-        emit-label
-        label="Timezone"
-        map-options
-        name="timeZone"/>
+          <q-select v-model="event.timezone"
+                    :options="timeZoneOptions"
+                    emit-label
+                    label="Timezone"
+                    map-options
+                    name="timeZone"/>
 
         <q-select v-model="event.label"
         :options="labelOptions"
-        map-options
-        emit-label
         label="Label"
         name="label"/>
 
-        <q-input v-model="event.url"
-        label="Url"
-        map-options
-        name="Url">
-        <template v-slot:append>
-          <q-btn
-          flat
-          dense
-          no-caps
-          color="primary"
-          label="test url"></q-btn>
-        </template>
-      </q-input>
+          <q-input v-model="event.url"
+                   label="Url"
+                   map-options
+                   name="Url">
+            <template v-slot:append>
+              <q-btn
+                color="primary"
+                dense
+                flat
+                label="test url"
+                no-caps></q-btn>
+            </template>
+          </q-input>
 
         </div>
         <!-- <div v-if="showAttendees || showOptions">
@@ -342,8 +363,11 @@ function handleRRuleText(rruleText: string) {
             <q-icon color="primary" name="attach_file"/>
           </q-item-section>
         </q-item>
-        <q-dialog v-model="alert">
+        <q-dialog v-model="recurrenceDialogOpened">
           <EventsRecurrenceDialog @rrule-string-generated="handleRRuleString" @rrule-text-generated="handleRRuleText"/>
+        </q-dialog>
+        <q-dialog v-model="reminderDialogOpened">
+          <EventsReminderDialog/>
         </q-dialog>
 
       </div>

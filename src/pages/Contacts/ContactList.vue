@@ -4,10 +4,10 @@
  -->
 
 <script lang="ts" setup>
-import { useContactsStore } from 'stores/ContactsStore';
+import { useContactListStore } from 'stores/ContactListStore';
 import { computed, onMounted, ref } from 'vue';
 
-const contactsStore = useContactsStore();
+const contactListStore = useContactListStore();
 
 const currentPage = ref(1); // the current page number
 // const pageSize = ref(10); // number of items in one page
@@ -18,13 +18,13 @@ const reachedEnd = ref(false); // indicate if all contacts have been loaded
 const batchSize = ref(25); // number of contacts to load in each batch
 
 const contacts = computed(() => {
-  return contactsStore.Contacts;
+  return contactListStore.ContactList;
 });
 
 onMounted(() => {
   //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
-  contactsStore
-    .getContactsByBatch(batchSize.value, currentPage.value)
+  contactListStore
+    .getContactListByBatch(batchSize.value, currentPage.value)
     .then(() => currentPage.value++);
   // contactsStore.getContacts();
   //contacts.value = contactsStore.Contacts;
@@ -34,8 +34,8 @@ onMounted(() => {
 const loadMore = (index: any, done: () => void) => {
   const contactsSizeBeforeCall = contacts.value.length;
   setTimeout(() => {
-    contactsStore
-      .getContactsByBatch(batchSize.value, currentPage.value)
+    contactListStore
+      .getContactListByBatch(batchSize.value, currentPage.value)
       .then(() => {
         done();
         currentPage.value++;
@@ -58,7 +58,7 @@ const getData = computed(() => {
   const filteredContacts =
     text.value.length === 0
       ? contacts.value
-      : contacts.value.filter((t) => {
+      : contacts.value.filter((t: any) => {
           return t.first_name.toLowerCase().includes(text.value.toLowerCase());
         });
   //console.log(`getData - contacts length: ${contacts.length}, filteredContacts length: ${filteredContacts.length}`)
