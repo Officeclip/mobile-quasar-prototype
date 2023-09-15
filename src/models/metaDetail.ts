@@ -2,7 +2,7 @@
 //
 import { ListItem } from './metaList';
 
-export interface ItemDetail {
+export interface MetaDetail {
   entityId: number;
   id: number;
   sections: Section[];

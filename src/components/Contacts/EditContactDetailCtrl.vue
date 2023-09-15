@@ -1,10 +1,10 @@
 <script setup lang="ts">
 console.log('Components/EditContactDetails: Setup');
 import { onMounted, computed } from 'vue';
-import { useContactsStore } from '../../stores/ContactsStore';
+import { useMetaDetailStore } from 'stores/MetaDetailStore';
 import ContactDetailsEditItem from '../../components/Contacts/ContactDetailsEditItem.vue';
 import { useRoute } from 'vue-router';
-const contactsStore = useContactsStore();
+const metaDetailStore = useMetaDetailStore();
 // const props = defineProps(['params']);
 
 // const contactId = computed(() => props.params.parentObjectId);
@@ -12,13 +12,13 @@ const contactsStore = useContactsStore();
 const route = useRoute();
 
 const contactDetails = computed(() => {
-  return contactsStore.ItemDetails;
+  return metaDetailStore.MetaDetail;
 });
 
 onMounted(() => {
   //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
-  contactsStore.getMetaDetail(Number(route.params.id), false);
-  console.log(`onMounted: Contacts - ${contactsStore.ItemDetails}`);
+  metaDetailStore.getMetaDetail(Number(route.params.id), false);
+  console.log(`onMounted: Contacts - ${metaDetailStore.MetaDetail}`);
 });
 </script>
 

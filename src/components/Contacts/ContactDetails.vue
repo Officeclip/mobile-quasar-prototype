@@ -1,22 +1,22 @@
 <script setup lang="ts">
 console.log('Components/ContactDetails: Setup');
 import { onMounted, computed } from 'vue';
-import { useContactsStore } from '../../stores/ContactsStore';
+import { useMetaDetailStore } from 'stores/MetaDetailStore';
 import ContactDetailsViewItem from '../../components/Contacts/ContactDetailsViewItem.vue';
 
-const contactsStore = useContactsStore();
+const metaDetailStore = useMetaDetailStore();
 const props = defineProps(['params']);
 
 const contactId = computed(() => props.params.parentObjectId);
 
 const contactDetails = computed(() => {
-  return contactsStore.ItemDetails;
+  return metaDetailStore.MetaDetail;
 });
 onMounted(() => {
   //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
   //debugger;
-  contactsStore.getMetaDetail(Number(contactId.value), true);
-  console.log(`onMounted: Contacts - ${contactsStore.ItemDetails}`);
+  metaDetailStore.getMetaDetail(Number(contactId.value), true);
+  console.log(`onMounted: Contacts - ${metaDetailStore.MetaDetail}`);
 });
 </script>
 

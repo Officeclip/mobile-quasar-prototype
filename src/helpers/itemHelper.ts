@@ -1,8 +1,8 @@
-import { ItemDetail, SectionEntry } from '../models/itemDetail';
+import { MetaDetail, SectionEntry } from '../models/metaDetail';
 
 export class itemHelper {
-  itemDetail: ItemDetail;
-  constructor(_itemDetail: ItemDetail) {
+  itemDetail: MetaDetail;
+  constructor(_itemDetail: MetaDetail) {
     this.itemDetail = _itemDetail;
   }
 
