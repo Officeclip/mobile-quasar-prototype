@@ -850,6 +850,14 @@
               "visible": true,
               "editable": true,
               "value": "true"
+            },
+            {
+              "metaId": 107,
+              "visibleName": "Date of Birth",
+              "type": "date",
+              "visible": true,
+              "editable": true,
+              "value": "2023-06-26T09:43:32.203Z"
             }
           ]
         },
@@ -2066,17 +2074,7 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        10
-      ]
+      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
     }
   ],
   "generalUserProfile": [
@@ -2714,12 +2712,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-            "",
-            "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },
