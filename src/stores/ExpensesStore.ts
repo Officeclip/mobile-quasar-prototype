@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { Expense } from '../models/expense';
-import { ExpenseDetails } from '../models/expenseDetails';
+//import { ExpenseDetails } from '../models/expenseDetails';
+import { ExpenseDetail } from '../models/Expense/expenseDetail';
 import axios from 'axios';
 
 export const useExpensesStore = defineStore('expensesStore', {
@@ -8,8 +9,8 @@ export const useExpensesStore = defineStore('expensesStore', {
     expenses: [] as Expense[],
     expense: undefined as Expense | undefined,
 
-    expenseDetails: [] as ExpenseDetails[],
-    expenseDetail: undefined as ExpenseDetails | undefined,
+    expenseDetails: [] as ExpenseDetail[],
+    expenseDetail: undefined as ExpenseDetail | undefined,
   }),
 
   getters: {
@@ -24,8 +25,11 @@ export const useExpensesStore = defineStore('expensesStore', {
     // getting all the timesheets for testing only, probably no where this use
     async getExpenses() {
       try {
-        const response = await axios.get('http://localhost:4000/expense');
+        const response = await axios.get(
+          'http://localhost:4000/expense-summary'
+        );
         this.expenses = response.data;
+        console.log(this.expense);
       } catch (error) {
         console.error(error);
       }
@@ -46,8 +50,8 @@ export const useExpensesStore = defineStore('expensesStore', {
     async getExpensesByStatus(status: string) {
       const callStr =
         status != ''
-          ? `http://localhost:4000/expense?status=${status}`
-          : 'http://localhost:4000/expense';
+          ? `http://localhost:4000/expense-summary?status=${status}`
+          : 'http://localhost:4000/expense-summary';
 
       try {
         const response = await axios.get(callStr);
@@ -57,22 +61,22 @@ export const useExpensesStore = defineStore('expensesStore', {
       }
     },
 
-    async getExpenseDetails(id: number) {
+    async getExpenseDetails(id: string) {
       try {
         const response = await axios.get(
           `http://localhost:4000/expense-details?id=${id}`
         );
         this.expenseDetails = response.data;
+        console.log(this.expenseDetails);
       } catch (error) {
         console.error(error);
       }
     },
-    async editExpense(expenseDetail: ExpenseDetails) {
-      console.log(`editExpense 1: ${this.expenseDetail?.id}`);
-      // not added yet
+
+    async addExpense(expenseDetail: ExpenseDetail) {
       try {
-        const response = await axios.put(
-          `http://localhost:4000/expense-details/${expenseDetail.id}`,
+        const response = await axios.post(
+          'http://localhost:4000/expense-details',
           expenseDetail
         );
         if (response.status === 200) {
@@ -83,7 +87,24 @@ export const useExpensesStore = defineStore('expensesStore', {
         console.error(`editExpense Error: ${error}`);
       }
     },
-    async deleteExpense(id: number | undefined) {
+
+    async editExpense(expenseDetail: ExpenseDetail) {
+      console.log(`editExpense 1: ${this.expenseDetail?.expenseDetailSid}`);
+      // not added yet
+      try {
+        const response = await axios.put(
+          `http://localhost:4000/expense-details/${expenseDetail.expenseDetailSid}`,
+          expenseDetail
+        );
+        if (response.status === 200) {
+          //debugger;
+          this.expenseDetail = response.data;
+        }
+      } catch (error) {
+        console.error(`editExpense Error: ${error}`);
+      }
+    },
+    async deleteExpense(id: string | undefined) {
       try {
         const response = await axios.delete(
           `http://localhost:4000/expense-details/${id}`
