@@ -16,7 +16,7 @@ export const useMetaListStore = defineStore('metaListStore', {
   actions: {
     async getMetaLists() {
       try {
-        const data = await axios.get('http://localhost:4000/metaList');
+        const data = await axios.get('http://localhost:4000/meta-list');
         this.metaLists = data.data;
         console.log(`MetaList: ${this.metaLists}`);
       } catch (error) {

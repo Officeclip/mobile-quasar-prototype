@@ -23,11 +23,11 @@ const getExpenses = computed(() => {
 
 </script>
 <template>
-  <q-list v-for="expense in getExpenses" :key="expense.id">
+  <q-list v-for="expense in getExpenses" :key="expense.expenseSid">
     <q-item :to="{
       name: 'expenseDetails',
       params: {
-        id: expense.id,
+        id: expense.expenseSid,
       },
     }" clickable v-ripple>
       <q-item-section>

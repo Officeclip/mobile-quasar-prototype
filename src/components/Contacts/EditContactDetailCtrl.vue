@@ -12,13 +12,13 @@ const contactsStore = useContactsStore();
 const route = useRoute();
 
 const contactDetails = computed(() => {
-  return contactsStore.ContactDetails;
+  return contactsStore.ItemDetails;
 });
 
 onMounted(() => {
   //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
-  contactsStore.getContactDetail(Number(route.params.id), false);
-  console.log(`onMounted: Contacts - ${contactsStore.ContactDetails}`);
+  contactsStore.getMetaDetail(Number(route.params.id), false);
+  console.log(`onMounted: Contacts - ${contactsStore.ItemDetails}`);
 });
 </script>
 
