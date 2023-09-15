@@ -1,7 +1,10 @@
 import { defineStore } from 'pinia';
 import { Expense } from '../models/expense';
 //import { ExpenseDetails } from '../models/expenseDetails';
-import { ExpenseDetail } from '../models/Expense/expenseDetail';
+import {
+  AirTravelExpense,
+  ExpenseDetail,
+} from '../models/Expense/expenseDetail';
 import axios from 'axios';
 
 export const useExpensesStore = defineStore('expensesStore', {
@@ -11,6 +14,8 @@ export const useExpensesStore = defineStore('expensesStore', {
 
     expenseDetails: [] as ExpenseDetail[],
     expenseDetail: undefined as ExpenseDetail | undefined,
+
+    airTravelExpense: undefined as AirTravelExpense | undefined,
   }),
 
   getters: {
@@ -68,6 +73,17 @@ export const useExpensesStore = defineStore('expensesStore', {
         );
         this.expenseDetails = response.data;
         console.log(this.expenseDetails);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async getAirTravelExpenseType(airTravelExpense: AirTravelExpense) {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/expense-details?expenseType=${airTravelExpense}`
+        );
+        this.airTravelExpense = response.data;
       } catch (error) {
         console.error(error);
       }
