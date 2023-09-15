@@ -1,21 +1,21 @@
 <script setup>
 import { defineProps, ref, onMounted, computed } from 'vue';
-import { useContactsStore } from '../../stores/ContactsStore';
+import { useContactDetailsStore } from 'stores/ContactDetailsStore';
 
-defineProps(['contact']);
+defineProps(['contactDetails']);
 
 const dense = ref(false);
 
-const usecontactStore = useContactsStore();
+const usecontactDetailsStore = useContactDetailsStore();
 
-usecontactStore.getStates();
+usecontactDetailsStore.getStates();
 
 onMounted(() => {
   // not defined
 });
 
 const getStateNames = computed(() => {
-  const names = usecontactStore.states.map((a) => a.name);
+  const names = usecontactDetailsStore.states.map((a) => a.name);
   return names;
 });
 </script>
@@ -27,7 +27,7 @@ const getStateNames = computed(() => {
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
         <q-input
-          v-model="contact.first_name"
+          v-model="contactDetails.first_name"
           label="First Name *"
           placeholder="enter first name"
           :dense="dense"
@@ -37,63 +37,63 @@ const getStateNames = computed(() => {
           ]"
         ></q-input>
         <q-input
-          v-model="contact.last_name"
+          v-model="contactDetails.last_name"
           label="Last Name"
           placeholder="enter last name"
           :dense="dense"
         ></q-input>
         <q-input
-          v-model="contact.title"
+          v-model="contactDetails.title"
           label="Title"
           placeholder="enter title"
           :dense="dense"
         ></q-input>
         <q-input
-          v-model="contact.email"
+          v-model="contactDetails.email"
           label="Email"
           placeholder="enter email address"
           :dense="dense"
         ></q-input>
 
         <q-input
-          v-model="contact.country"
+          v-model="contactDetails.country"
           label="Country"
           placeholder="enter Country name"
           :dense="dense"
         ></q-input>
         <q-input
-          v-model="contact.work_phone"
+          v-model="contactDetails.work_phone"
           label="Work Phone"
           placeholder="work phone"
           :dense="dense"
         ></q-input>
         <q-input
-          v-model="contact.home_phone"
+          v-model="contactDetails.home_phone"
           label="Home Phone"
           placeholder="home phone"
           :dense="dense"
         ></q-input>
         <q-input
-          v-model="contact.street_address"
+          v-model="contactDetails.street_address"
           label="Address"
           placeholder="street address"
           :dense="dense"
         ></q-input>
         <q-input
-          v-model="contact.city"
+          v-model="contactDetails.city"
           label="City"
           placeholder="City"
           :dense="dense"
         ></q-input>
         <q-select
-          v-model="contact.state"
+          v-model="contactDetails.state"
           :options="getStateNames"
           label="State"
           placeholder="State"
           :dense="dense"
         />
         <q-input
-          v-model="contact.postal_code"
+          v-model="contactDetails.postal_code"
           label="Postal Code"
           placeholder="postal code"
           :dense="dense"

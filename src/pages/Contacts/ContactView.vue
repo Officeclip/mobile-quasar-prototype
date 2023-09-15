@@ -5,8 +5,7 @@ TODO: skd: Implement child events the same way as implemented in OfficeClip. Do 
 
 <script setup lang="ts">
 import { ref, onBeforeMount, computed } from 'vue';
-import { useContactsStore } from '../../stores/ContactsStore';
-//import { useEventsStore } from 'src/stores/EventsStore';
+import { useContactDetailsStore } from '../../stores/ContactDetailsStore';
 import { useRoute } from 'vue-router';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import EventsList from '../../components/Events/EventsListCtrl.vue';
@@ -14,28 +13,27 @@ import TasksList from '../../components/Tasks/TasksListCtrl.vue';
 import ContactSummary from '../../components/Contacts/ContactSummary.vue';
 import ContactDetails from '../../components/Contacts/ContactDetails.vue';
 
-
-console.log('TESTING CONTACTVIEW: Setup')
+console.log('TESTING CONTACTVIEW: Setup');
 const model = ref('1');
-const contactsStore = useContactsStore();
+const contactDetailsStore = useContactDetailsStore();
 //const eventsStore = useEventsStore();
 //const allEvents = eventsStore.getEventsById(-1,-1)
 const route = useRoute();
 
-const contact = computed(() => {
-  return contactsStore.Contact;
+const contactDetails = computed(() => {
+  return contactDetailsStore.ContactDetails;
 });
 
 const fullName = computed(() => {
-  return `${contact.value?.first_name} ${contact.value?.last_name}`;
+  return `${contactDetails.value?.first_name} ${contactDetails.value?.last_name}`;
 });
 
 const id = ref<string | string[]>('0');
 id.value = route.params.id;
 
 const stateName = computed(() => {
-  const item = contactsStore.States.find(
-    (state) => state.code === contact.value?.state
+  const item = contactDetailsStore.States.find(
+    (state) => state.code === contactDetails.value?.state
   );
   const stateItem = item ? item.name : '';
   //console.log("state name: ", stateItem);
@@ -44,17 +42,17 @@ const stateName = computed(() => {
 
 const params = computed(() => {
   return {
-    contact: contact.value,
+    contactDetails: contactDetails.value,
     stateName: stateName.value,
   };
 });
 
 onBeforeMount(() => {
   //contactsStore.$reset;
-  console.log('TESTING CONTACTVIEW: onBeforeMount')
-  console.log('Contactstorevarialble testing:', contactsStore)
-  contactsStore.getContactSummary(Number(route.params.id));
-  contactsStore.getStates();
+  console.log('TESTING CONTACTVIEW: onBeforeMount');
+  console.log('Contactstorevarialble testing:', contactDetailsStore);
+  contactDetailsStore.getContactDetails(Number(route.params.id));
+  contactDetailsStore.getStates();
   console.log(`ContactDetails: params: ${params.value}`);
 });
 
@@ -113,7 +111,7 @@ const handleNoteCount = (value: string) => {
 
         <q-btn
           @click="
-            contactsStore.deleteContact(contact?.id);
+            contactDetailsStore.deleteContactDetails(contactDetails?.id);
             $router.go(-1);
           "
           flat
@@ -130,7 +128,7 @@ const handleNoteCount = (value: string) => {
         <q-card-section class="q-pb-none">
           <div class="center">
             <q-avatar color="grey-3" size="200px" class="q-mb-sm">
-              <img :src="contact?.picture" alt="{{ fullName }}" />
+              <img :src="contactDetails?.picture" alt="{{ fullName }}" />
             </q-avatar>
             <div class="q-mt-md">
               <q-btn-toggle
@@ -173,7 +171,7 @@ const handleNoteCount = (value: string) => {
                     :to="{
                       name: 'newNotes',
                       params: {
-                        id: contact?.id,
+                        id: contactDetails?.id,
                       },
                     }"
                     size="sm"
@@ -212,7 +210,7 @@ const handleNoteCount = (value: string) => {
                     :to="{
                       name: 'newEvent',
                       params: {
-                        id: contact?.id,
+                        id: contactDetails?.id,
                       },
                     }"
                     size="sm"
@@ -250,7 +248,7 @@ const handleNoteCount = (value: string) => {
                     :to="{
                       name: 'newTask',
                       params: {
-                        id: contact?.id,
+                        id: contactDetails?.id,
                       },
                     }"
                     size="sm"
