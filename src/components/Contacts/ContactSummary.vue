@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Contact } from '../../models/contact';
-
 const props = defineProps(['params']);
 const contact = computed(() => props.params.contact);
 const stateName = computed(() => props.params.stateName);
