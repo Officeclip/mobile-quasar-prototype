@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { MetaDetails } from '../models/Meta/metaDetails';
 import axios from 'axios';
 import { Constants } from './Constants';
-import { useMetaListStore } from './MetaListStore';
+import { useMetaListsStore } from './MetaListsStore';
 
 export const useMetaDetailsStore = defineStore('metaDetailsStore', {
   state: () => ({
@@ -30,9 +30,9 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
     async fixValuesForSelect(isReadOnly: boolean) {
       // the json returned has got the value for readonly, in order to show on the
       // screen we need to get the text from the value.
-      const metaListStore = useMetaListStore();
-      await metaListStore.getMetaLists();
-      const metaLists = metaListStore.MetaLists;
+      const metaListsStore = useMetaListsStore();
+      await metaListsStore.getMetaLists();
+      const metaLists = metaListsStore.MetaLists;
       const contactDetail: any = this.metaDetails;
 
       for (const section of contactDetail.sections) {
