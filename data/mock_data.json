@@ -785,13 +785,37 @@
       "email": "csich3@google.pl",
       "street_address": "56 Pawling Drive",
       "city": "Tuanjie",
-      "state": "AL",
+      "state": "GA",
       "postal_code": null,
-      "country": "China",
+      "country": "US",
       "work_phone": "714-364-3586",
       "home_phone": "990-228-6350",
       "thumbnail": "https://robohash.org/4.png?size=50x50",
       "picture": "https://robohash.org/4.png?size=250x250"
+    }
+  ],
+  "contact-list": [
+    {
+      "states": [
+        {
+          "name": "Alabama",
+          "code": "AL"
+        },
+        {
+          "name": "Georgia",
+          "code": "GA"
+        }
+      ],
+      "countries": [
+        {
+          "name": "India",
+          "code": "IN"
+        },
+        {
+          "name": "United States",
+          "code": "US"
+        }
+      ]
     }
   ],
   "meta-details": [
