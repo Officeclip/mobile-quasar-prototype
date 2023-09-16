@@ -21,7 +21,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
     async getContacts() {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/contact-list`
+          `${Constants.endPointUrl}/contact-summary`
         );
         this.contactDetailsList = response.data;
         //console.log(`ContactsStore: getContacts - ${this.contacts}`);
@@ -62,7 +62,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
 
     async getContactsByBatch(limit: number, page: number) {
       // FIXME: put correct type
-      const callStr = `${Constants.endPointUrl}/contact-list?_limit=${limit}&_page=${page}`;
+      const callStr = `${Constants.endPointUrl}/contact-summary?_limit=${limit}&_page=${page}`;
       //console.log(`callStr: ${callStr}`)
       const res = await fetch(callStr);
       const data = await res.json();
@@ -72,7 +72,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
 
     async getContactsWithFilter(limit: number, page: number, filter: string) {
       // FIXME: put correct type
-      const callStr = `${Constants.endPointUrl}/contact-list?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
+      const callStr = `${Constants.endPointUrl}/contact-summary?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
       console.log(`callStr: ${callStr}`);
       const res = await fetch(callStr);
       const data = await res.json();

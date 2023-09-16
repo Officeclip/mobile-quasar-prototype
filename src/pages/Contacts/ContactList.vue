@@ -4,10 +4,10 @@
  -->
 
 <script lang="ts" setup>
-import { useContactListStore } from 'stores/ContactListStore';
+import { useContactSummaryStore } from 'stores/ContactSummaryStore';
 import { computed, onMounted, ref } from 'vue';
 
-const contactListStore = useContactListStore();
+const contactSummaryStore = useContactSummaryStore();
 
 const currentPage = ref(1); // the current page number
 // const pageSize = ref(10); // number of items in one page
@@ -18,12 +18,12 @@ const reachedEnd = ref(false); // indicate if all contacts have been loaded
 const batchSize = ref(25); // number of contacts to load in each batch
 
 const contacts = computed(() => {
-  return contactListStore.ContactList;
+  return contactSummaryStore.ContactList;
 });
 
 onMounted(() => {
   //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
-  contactListStore
+  contactSummaryStore
     .getContactListByBatch(batchSize.value, currentPage.value)
     .then(() => currentPage.value++);
   // contactsStore.getContacts();
@@ -34,7 +34,7 @@ onMounted(() => {
 const loadMore = (index: any, done: () => void) => {
   const contactsSizeBeforeCall = contacts.value.length;
   setTimeout(() => {
-    contactListStore
+    contactSummaryStore
       .getContactListByBatch(batchSize.value, currentPage.value)
       .then(() => {
         done();
