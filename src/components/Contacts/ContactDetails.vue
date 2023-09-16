@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-console.log('TESTING ContactSummary:Setup');
+console.log('TESTING ContactDetails:Setup');
 const props = defineProps(['params']);
 const contactDetails = computed(() => props.params.contactDetails);
 const stateName = computed(() => props.params.stateName);

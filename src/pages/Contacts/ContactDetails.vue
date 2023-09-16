@@ -10,7 +10,7 @@ import { useRoute } from 'vue-router';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import EventsList from '../../components/Events/EventsListCtrl.vue';
 import TasksList from '../../components/Tasks/TasksListCtrl.vue';
-import ContactSummary from '../../components/Contacts/ContactSummary.vue';
+import ContactDetails from '../../components/Contacts/ContactDetails.vue';
 import MetaDetails from '../../components/Meta/MetaDetails.vue';
 
 console.log('TESTING CONTACTVIEW: Setup');
@@ -148,7 +148,7 @@ const handleNoteCount = (value: string) => {
             </div>
           </div>
         </q-card-section>
-        <ContactSummary v-if="model === '1'" :params="params" />
+        <ContactDetails v-if="model === '1'" :params="params" />
         <MetaDetails v-if="model === '2'" :params="parent" />
         <!-- Notes Starts -->
         <q-card-section>
