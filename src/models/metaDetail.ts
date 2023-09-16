@@ -1,6 +1,6 @@
 // Generated from: https://app.quicktype.io/#l=TypeScript
 //
-import { ListItem } from './metaList';
+import { ListItem } from './metaLists';
 
 export interface MetaDetail {
   entityId: number;

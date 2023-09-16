@@ -1,4 +1,4 @@
-export interface MetaList {
+export interface MetaLists {
   metaId: number;
   listItems: ListItem[];
 }

@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-import { MetaList } from '../models/metaList';
+import { MetaLists } from '../models/metaLists';
 import axios from 'axios';
 
 export const useMetaListStore = defineStore('metaListStore', {
   state: () => ({
-    metaLists: [] as MetaList[],
+    metaLists: [] as MetaLists[],
   }),
 
   getters: {
