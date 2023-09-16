@@ -18,13 +18,13 @@ const reachedEnd = ref(false); // indicate if all contacts have been loaded
 const batchSize = ref(25); // number of contacts to load in each batch
 
 const contacts = computed(() => {
-  return contactSummaryStore.ContactList;
+  return contactSummaryStore.ContactSummary;
 });
 
 onMounted(() => {
   //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
   contactSummaryStore
-    .getContactListByBatch(batchSize.value, currentPage.value)
+    .getContactSummaryByBatch(batchSize.value, currentPage.value)
     .then(() => currentPage.value++);
   // contactsStore.getContacts();
   //contacts.value = contactsStore.Contacts;
@@ -35,7 +35,7 @@ const loadMore = (index: any, done: () => void) => {
   const contactsSizeBeforeCall = contacts.value.length;
   setTimeout(() => {
     contactSummaryStore
-      .getContactListByBatch(batchSize.value, currentPage.value)
+      .getContactSummaryByBatch(batchSize.value, currentPage.value)
       .then(() => {
         done();
         currentPage.value++;
