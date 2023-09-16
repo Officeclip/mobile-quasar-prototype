@@ -7,7 +7,7 @@ code and not the name [1.5h]
 import { onMounted, computed } from 'vue';
 import { useContactDetailsStore } from 'stores/ContactDetailsStore';
 import { useRouter } from 'vue-router';
-import EditContactSummaryCtrl from '../../components/Contacts/EditContactSummaryCtrl.vue';
+import EditContactDetailsCtrl from '../../components/Contacts/EditContactDetailsCtrl.vue';
 import { useRoute } from 'vue-router';
 //import { Contact } from '../models/contact';
 
@@ -56,7 +56,7 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <EditContactSummaryCtrl :contactDetails="contactDetails" />
+          <EditContactDetailsCtrl :contactDetails="contactDetails" />
           <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"
