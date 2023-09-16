@@ -1,4 +1,4 @@
-import { MetaDetail, SectionEntry } from '../models/metaDetail';
+import { MetaDetail, SectionEntry } from '../models/Meta/metaDetail';
 
 export class itemHelper {
   itemDetail: MetaDetail;

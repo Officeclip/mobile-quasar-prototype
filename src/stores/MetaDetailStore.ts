@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { MetaDetail } from '../models/metaDetail';
+import { MetaDetail } from '../models/Meta/metaDetail';
 import axios from 'axios';
 import { Constants } from './Constants';
 import { useMetaListStore } from './MetaListStore';
