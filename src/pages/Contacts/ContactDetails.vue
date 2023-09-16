@@ -99,7 +99,7 @@ const handleNoteCount = (value: string) => {
         <q-btn
           @click="
             model === '1'
-              ? $router.push({ name: 'editContactSummary', params: { id: id } })
+              ? $router.push({ name: 'editContactDetails', params: { id: id } })
               : $router.push({ name: 'editMetaDetail', params: { id: id } })
           "
           flat
