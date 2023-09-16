@@ -1,16 +1,16 @@
 import { defineStore } from 'pinia';
-import { MetaDetail } from '../models/Meta/metaDetail';
+import { MetaDetails } from '../models/Meta/metaDetails';
 import axios from 'axios';
 import { Constants } from './Constants';
 import { useMetaListStore } from './MetaListStore';
 
 export const useMetaDetailStore = defineStore('metaDetailStore', {
   state: () => ({
-    metaDetail: undefined as MetaDetail | undefined,
+    metaDetails: undefined as MetaDetails | undefined,
   }),
 
   getters: {
-    MetaDetail: (state) => state.metaDetail,
+    MetaDetails: (state) => state.metaDetails,
   },
 
   actions: {
@@ -33,7 +33,7 @@ export const useMetaDetailStore = defineStore('metaDetailStore', {
       const metaListStore = useMetaListStore();
       await metaListStore.getMetaLists();
       const metaLists = metaListStore.MetaLists;
-      const contactDetail: any = this.metaDetail;
+      const contactDetail: any = this.metaDetails;
 
       for (const section of contactDetail.sections) {
         // Iterate through the section entries in the section
@@ -77,12 +77,14 @@ export const useMetaDetailStore = defineStore('metaDetailStore', {
           `${Constants.endPointUrl}/meta-details?id=${id}`
         );
         if (response.data && response.data.length > 0) {
-          this.metaDetail = response.data[0];
+          this.metaDetails = response.data[0];
           //this.addOptionToContactDetail();
           this.fixValuesForSelect(isReadOnly);
         }
         console.log(
-          `ContactsStore: getContactDetail - ${JSON.stringify(this.MetaDetail)}`
+          `ContactsStore: getContactDetail - ${JSON.stringify(
+            this.MetaDetails
+          )}`
         );
       } catch (error) {
         alert(error);

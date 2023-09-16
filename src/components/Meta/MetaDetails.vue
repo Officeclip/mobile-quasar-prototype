@@ -10,13 +10,13 @@ const props = defineProps(['params']);
 const contactId = computed(() => props.params.parentObjectId);
 
 const contactDetails = computed(() => {
-  return metaDetailStore.MetaDetail;
+  return metaDetailStore.MetaDetails;
 });
 onMounted(() => {
   //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
   //debugger;
   metaDetailStore.getMetaDetail(Number(contactId.value), true);
-  console.log(`onMounted: Contacts - ${metaDetailStore.MetaDetail}`);
+  console.log(`onMounted: Contacts - ${metaDetailStore.MetaDetails}`);
 });
 </script>
 

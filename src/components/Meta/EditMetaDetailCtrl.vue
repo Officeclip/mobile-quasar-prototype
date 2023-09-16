@@ -12,13 +12,13 @@ const metaDetailStore = useMetaDetailStore();
 const route = useRoute();
 
 const contactDetails = computed(() => {
-  return metaDetailStore.MetaDetail;
+  return metaDetailStore.MetaDetails;
 });
 
 onMounted(() => {
   //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
   metaDetailStore.getMetaDetail(Number(route.params.id), false);
-  console.log(`onMounted: Contacts - ${metaDetailStore.MetaDetail}`);
+  console.log(`onMounted: Contacts - ${metaDetailStore.MetaDetails}`);
 });
 </script>
 
