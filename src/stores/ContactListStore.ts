@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { State, Country } from '../models/Contact/contactList';
+import { State, Country } from '../models/Contact/contactsList';
 import axios from 'axios';
 import { Constants } from './Constants';
 
@@ -21,7 +21,7 @@ export const useContactListStore = defineStore('contactListStore', {
     async getContactList() {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/contact-List`
+          `${Constants.endPointUrl}/contact-lists`
         );
         const contactList = response.data[0];
         //this.timesheetList = timesheetList;

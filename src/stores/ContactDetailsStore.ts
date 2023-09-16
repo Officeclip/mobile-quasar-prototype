@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ContactDetails } from '../models/Contact/contactDetails';
-import { State, Country } from '../models/Contact/contactList';
+import { State, Country } from '../models/Contact/contactsList';
 import axios from 'axios';
 import { Constants } from './Constants';
 import { useContactListStore } from './ContactListStore';

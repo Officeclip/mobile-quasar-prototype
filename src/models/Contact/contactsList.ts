@@ -1,4 +1,4 @@
-export interface ContactList {
+export interface ContactLists {
   states: State[];
   countries: Country[];
 }
