@@ -2,7 +2,7 @@
 console.log('Components/ContactDetails: Setup');
 import { onMounted, computed } from 'vue';
 import { useMetaDetailStore } from 'stores/MetaDetailStore';
-import ContactDetailsViewItem from '../../components/Contacts/ContactDetailsViewItem.vue';
+import MetaDetailsViewItem from '../../components/Contacts/MetaDetailsViewItem.vue';
 
 const metaDetailStore = useMetaDetailStore();
 const props = defineProps(['params']);
@@ -38,14 +38,14 @@ onMounted(() => {
             <!-- From: https://stackoverflow.com/a/62785796/89256 -->
             <div v-for="(sectionEntry, i) in section.sectionEntries" :key="i">
               <div v-if="!(i % 2)">
-                <ContactDetailsViewItem :params="sectionEntry" />
+                <MetaDetailsViewItem :params="sectionEntry" />
               </div>
             </div>
           </q-item-section>
           <q-item-section class="rowItems align-content-right">
             <div v-for="(sectionEntry, i) in section.sectionEntries" :key="i">
               <div v-if="i % 2">
-                <ContactDetailsViewItem :params="sectionEntry" />
+                <MetaDetailsViewItem :params="sectionEntry" />
               </div>
             </div>
           </q-item-section>

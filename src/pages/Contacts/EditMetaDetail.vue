@@ -3,15 +3,15 @@
 // import dateTimeHelper from '../helpers/dateTimeHelper';
 // import { useContactsStore } from '../../stores/ContactsStore';
 import { onMounted, computed } from 'vue';
-import EditContactDetailCtrl from '../../components/Contacts/EditContactDetailCtrl.vue';
-console.log('Routed to EditContactDetail: setup');
+import EditMetaDetailCtrl from '../../components/Contacts/EditMetaDetailCtrl.vue';
+console.log('Routed to EditMetaDetail: setup');
 // const contactsStore = useContactsStore();
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
 onMounted(() => {
-  // console.log(`EditContactDetail: id= ${route.params.id}`);
+  // console.log(`EditMetaDetail: id= ${route.params.id}`);
   // contactsStore.getContactDetail(Number(route.params.id));
 });
 
@@ -190,7 +190,7 @@ function onSubmit(e) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <EditContactDetailCtrl :id="contactId" />
+          <EditMetaDetailCtrl :id="contactId" />
           <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"

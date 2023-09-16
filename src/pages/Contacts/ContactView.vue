@@ -11,7 +11,7 @@ import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import EventsList from '../../components/Events/EventsListCtrl.vue';
 import TasksList from '../../components/Tasks/TasksListCtrl.vue';
 import ContactSummary from '../../components/Contacts/ContactSummary.vue';
-import ContactDetails from '../../components/Contacts/ContactDetails.vue';
+import MetaDetails from '../../components/Contacts/MetaDetails.vue';
 
 console.log('TESTING CONTACTVIEW: Setup');
 const model = ref('1');
@@ -100,7 +100,7 @@ const handleNoteCount = (value: string) => {
           @click="
             model === '1'
               ? $router.push({ name: 'editContactSummary', params: { id: id } })
-              : $router.push({ name: 'editContactDetail', params: { id: id } })
+              : $router.push({ name: 'editMetaDetail', params: { id: id } })
           "
           flat
           round
@@ -149,7 +149,7 @@ const handleNoteCount = (value: string) => {
           </div>
         </q-card-section>
         <ContactSummary v-if="model === '1'" :params="params" />
-        <ContactDetails v-if="model === '2'" :params="parent" />
+        <MetaDetails v-if="model === '2'" :params="parent" />
         <!-- Notes Starts -->
         <q-card-section>
           <q-list bordered class="rounded-borders">

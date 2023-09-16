@@ -34,9 +34,9 @@ const routes: RouteRecordRaw[] = [
     //params: true,
   },
   {
-    path: '/editContactDetail/:id',
-    name: 'editContactDetail',
-    component: () => import('pages/Contacts/EditContactDetail.vue'),
+    path: '/editMetaDetail/:id',
+    name: 'editMetaDetail',
+    component: () => import('pages/Contacts/EditMetaDetail.vue'),
     //params: true,
   },
   {

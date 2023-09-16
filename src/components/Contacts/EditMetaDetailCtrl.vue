@@ -2,7 +2,7 @@
 console.log('Components/EditContactDetails: Setup');
 import { onMounted, computed } from 'vue';
 import { useMetaDetailStore } from 'stores/MetaDetailStore';
-import ContactDetailsEditItem from '../../components/Contacts/ContactDetailsEditItem.vue';
+import MetaDetailsEditItem from '../../components/Contacts/MetaDetailsEditItem.vue';
 import { useRoute } from 'vue-router';
 const metaDetailStore = useMetaDetailStore();
 // const props = defineProps(['params']);
@@ -39,7 +39,7 @@ onMounted(() => {
           <q-item-section class="rowItems align-content-left">
             <!-- From: https://stackoverflow.com/a/62785796/89256 -->
             <div v-for="(sectionEntry, i) in section.sectionEntries" :key="i">
-              <ContactDetailsEditItem :params="sectionEntry" />
+              <MetaDetailsEditItem :params="sectionEntry" />
             </div>
           </q-item-section>
         </q-item>
