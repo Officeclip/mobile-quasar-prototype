@@ -8,7 +8,7 @@ const dense = ref(false);
 
 const usecontactDetailsStore = useContactDetailsStore();
 
-usecontactDetailsStore.getStates();
+usecontactDetailsStore.getContactLists();
 
 onMounted(() => {
   // not defined

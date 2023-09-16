@@ -52,7 +52,7 @@ onBeforeMount(() => {
   console.log('TESTING CONTACTVIEW: onBeforeMount');
   console.log('Contactstorevarialble testing:', contactDetailsStore);
   contactDetailsStore.getContactDetails(Number(route.params.id));
-  contactDetailsStore.getStates();
+  contactDetailsStore.getContactLists();
   console.log(`ContactDetails: params: ${params.value}`);
 });
 

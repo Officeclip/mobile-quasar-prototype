@@ -1,19 +1,22 @@
 import { defineStore } from 'pinia';
 import { ContactDetails } from '../models/Contact/contactDetails';
-import { State } from '../models/state';
+import { State, Country } from '../models/Contact/contactList';
 import axios from 'axios';
 import { Constants } from './Constants';
+import { useContactListStore } from './ContactListStore';
 
 export const useContactDetailsStore = defineStore('contactDetailsStore', {
   state: () => ({
     contactDetailsList: [] as ContactDetails[],
     states: [] as State[],
+    countries: [] as Country[],
     contactDetails: undefined as ContactDetails | undefined, // we kept it separate because we will make a
   }),
 
   getters: {
     ContactDetailsList: (state) => state.contactDetailsList,
     States: (state) => state.states,
+    Countries: (state) => state.countries,
     ContactDetails: (state) => state.contactDetails,
   },
 
@@ -31,11 +34,12 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
       }
     },
 
-    async getStates() {
+    async getContactLists() {
       try {
-        const response = await axios.get(`${Constants.endPointUrl}/states`);
-        this.states = response.data;
-        //console.log(`getStates: ${this.states}`)
+        const contactListStore = useContactListStore();
+        await contactListStore.getContactList('states');
+        this.states = contactListStore.State;
+        this.countries = contactListStore.Countries;
       } catch (error) {
         alert(error);
         console.log(error);
