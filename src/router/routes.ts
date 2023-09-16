@@ -22,9 +22,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/Contacts/ContactSummary.vue'),
   },
   {
-    path: '/contactView/:id',
-    name: 'contactView',
-    component: () => import('pages/Contacts/ContactView.vue'),
+    path: '/contactDetails/:id',
+    name: 'contactDetails',
+    component: () => import('pages/Contacts/ContactDetails.vue'),
     //params: true,
   },
   {

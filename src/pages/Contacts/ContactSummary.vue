@@ -114,7 +114,7 @@ const getData = computed(() => {
             :key="contact.id"
             v-ripple
             :to="{
-              name: 'contactView',
+              name: 'contactDetails',
               params: {
                 id: contact.id,
               },
