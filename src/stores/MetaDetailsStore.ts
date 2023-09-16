@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Constants } from './Constants';
 import { useMetaListStore } from './MetaListStore';
 
-export const useMetaDetailStore = defineStore('metaDetailStore', {
+export const useMetaDetailsStore = defineStore('metaDetailsStore', {
   state: () => ({
     metaDetails: undefined as MetaDetails | undefined,
   }),
