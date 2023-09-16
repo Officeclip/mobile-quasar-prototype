@@ -1,8 +1,8 @@
 <script setup lang="ts">
 console.log('Components/ContactDetails: Setup');
 import { onMounted, computed } from 'vue';
-import { useMetaDetailStore } from 'stores/MetaDetailStore';
-import MetaDetailsViewItem from '../../components/Contacts/MetaDetailsViewItem.vue';
+import { useMetaDetailStore } from '../../stores/MetaDetailStore';
+import MetaDetailsViewItem from '../../components/Meta/MetaDetailsViewItem.vue';
 
 const metaDetailStore = useMetaDetailStore();
 const props = defineProps(['params']);

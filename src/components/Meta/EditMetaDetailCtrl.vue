@@ -1,8 +1,8 @@
 <script setup lang="ts">
 console.log('Components/EditContactDetails: Setup');
 import { onMounted, computed } from 'vue';
-import { useMetaDetailStore } from 'stores/MetaDetailStore';
-import MetaDetailsEditItem from '../../components/Contacts/MetaDetailsEditItem.vue';
+import { useMetaDetailStore } from '../../stores/MetaDetailStore';
+import MetaDetailsEditItem from '../../components/Meta/MetaDetailsEditItem.vue';
 import { useRoute } from 'vue-router';
 const metaDetailStore = useMetaDetailStore();
 // const props = defineProps(['params']);

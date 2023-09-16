@@ -3,7 +3,7 @@
 // import dateTimeHelper from '../helpers/dateTimeHelper';
 // import { useContactsStore } from '../../stores/ContactsStore';
 import { onMounted, computed } from 'vue';
-import EditMetaDetailCtrl from '../../components/Contacts/EditMetaDetailCtrl.vue';
+import EditMetaDetailCtrl from '../../components/Meta/EditMetaDetailCtrl.vue';
 console.log('Routed to EditMetaDetail: setup');
 // const contactsStore = useContactsStore();
 import { useRoute } from 'vue-router';

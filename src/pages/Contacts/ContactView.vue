@@ -11,7 +11,7 @@ import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import EventsList from '../../components/Events/EventsListCtrl.vue';
 import TasksList from '../../components/Tasks/TasksListCtrl.vue';
 import ContactSummary from '../../components/Contacts/ContactSummary.vue';
-import MetaDetails from '../../components/Contacts/MetaDetails.vue';
+import MetaDetails from '../../components/Meta/MetaDetails.vue';
 
 console.log('TESTING CONTACTVIEW: Setup');
 const model = ref('1');

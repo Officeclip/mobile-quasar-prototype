@@ -36,7 +36,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/editMetaDetail/:id',
     name: 'editMetaDetail',
-    component: () => import('pages/Contacts/EditMetaDetail.vue'),
+    component: () => import('pages/Meta/EditMetaDetail.vue'),
     //params: true,
   },
   {

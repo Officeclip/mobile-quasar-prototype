@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup lang="ts">
-import dateTimeHelper from 'src/helpers/dateTimeHelper';
+import dateTimeHelper from '../../../src/helpers/dateTimeHelper';
 import { ref, computed } from 'vue';
 const props = defineProps(['params']);
 const newValue = ref('');
