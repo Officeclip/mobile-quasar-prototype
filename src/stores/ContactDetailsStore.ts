@@ -37,8 +37,8 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
     async getContactLists() {
       try {
         const contactListStore = useContactListStore();
-        await contactListStore.getContactList('states');
-        this.states = contactListStore.State;
+        await contactListStore.getContactList();
+        this.states = contactListStore.States;
         this.countries = contactListStore.Countries;
       } catch (error) {
         alert(error);
