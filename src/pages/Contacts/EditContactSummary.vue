@@ -33,7 +33,7 @@ function onSubmit(e: any) {
   //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   contactDetailsStore.editContactDetails(contactDetails.value!);
-  route1.push('/contactList');
+  route1.push('/contactSummary');
 }
 </script>
 

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ContactSummary } from '../models/contactList';
+import { ContactSummary } from '../models/contactSummary';
 import axios from 'axios';
 import { Constants } from './Constants';
 

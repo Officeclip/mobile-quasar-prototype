@@ -2015,7 +2015,7 @@
       "id": 2,
       "name": "Contacts",
       "icon": "person",
-      "url": "/contactList"
+      "url": "/contactSummary"
     },
     {
       "id": 3,
