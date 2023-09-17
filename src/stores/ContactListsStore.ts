@@ -3,7 +3,7 @@ import { State, Country } from '../models/Contact/contactsList';
 import axios from 'axios';
 import { Constants } from './Constants';
 
-export const useContactListStore = defineStore('contactListStore', {
+export const useContactListsStore = defineStore('contactListsStore', {
   state: () => ({
     // timesheetList: undefined as TimesheetList | undefined,
     states: [] as State[],

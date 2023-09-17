@@ -3,7 +3,7 @@ import { ContactDetails } from '../models/Contact/contactDetails';
 import { State, Country } from '../models/Contact/contactsList';
 import axios from 'axios';
 import { Constants } from './Constants';
-import { useContactListStore } from './ContactListStore';
+import { useContactListsStore } from './ContactListsStore';
 
 export const useContactDetailsStore = defineStore('contactDetailsStore', {
   state: () => ({
@@ -36,10 +36,10 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
 
     async getContactLists() {
       try {
-        const contactListStore = useContactListStore();
-        await contactListStore.getContactList();
-        this.states = contactListStore.States;
-        this.countries = contactListStore.Countries;
+        const contactListsStore = useContactListsStore();
+        await contactListsStore.getContactList();
+        this.states = contactListsStore.States;
+        this.countries = contactListsStore.Countries;
       } catch (error) {
         alert(error);
         console.log(error);
