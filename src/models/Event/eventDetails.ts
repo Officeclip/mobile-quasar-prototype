@@ -1,4 +1,4 @@
-export interface EventDetails {
+export interface eventDetails {
   sid: string;
   createdDate: string;
   createdGroupSId: string;

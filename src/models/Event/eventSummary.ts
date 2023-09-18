@@ -1,4 +1,4 @@
-export interface EventSummary {
+export interface eventSummary {
   sid: string;
   eventType: number;
   eventName: string;
