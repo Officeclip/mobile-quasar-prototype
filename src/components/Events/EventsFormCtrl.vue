@@ -7,7 +7,7 @@ import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 
 const props = defineProps(['event']);
-const emit = defineEmits(['rrule-generated', 'reminder-generated'])
+const emit = defineEmits(['rrule-generated', 'reminder-generated','rrule-text-generated'])
 
 const startDateTime = ref('');
 const endDateTime = ref('');
@@ -22,7 +22,7 @@ const showTimeAs = ref('Free')
 // const url = ref('')
 // const recurrenceString = ref('');
 const repeatString = ref('Does not repeat');
-const reminderString = ref('Choose Reminder');
+const reminderTextInfo = ref('Choose Reminder');
 
 const showAttendees = ref(false);
 const showOptions = ref(false)
@@ -151,10 +151,13 @@ function handleRRuleString(rruleString: string) {
 
 function handleRRuleText(rruleText: string) {
   console.log('Received RRule Plain Text:', rruleText);
-  repeatString.value = rruleText.charAt(0).toUpperCase() + rruleText.slice(1); //capitalize first letter
+  const repeatText = rruleText.charAt(0).toUpperCase() + rruleText.slice(1);//capitalize first letter
+  repeatString.value =  repeatText;
+  emit('rrule-text-generated', repeatText);
+
 }
 
-function handleReminderString(reminderString: string) {
+function handleReminderData(reminderString: []) {
   // You can now use the rruleString in your parent component
   console.log('Received Reminder String:', reminderString);
   emit('reminder-generated', reminderString);
@@ -162,7 +165,7 @@ function handleReminderString(reminderString: string) {
 
 function handleReminderText(reminderText: string) {
   console.log('Received reminder Plain Text:', reminderText);
-  reminderString.value = reminderText;
+  reminderTextInfo.value = reminderText;
 }
 
 </script>
@@ -287,7 +290,7 @@ function handleReminderText(reminderText: string) {
           <q-item-section avatar>
             <q-icon color="primary" name="alarm" size="sm"/>
           </q-item-section>
-          <q-item-section>{{ reminderString }}</q-item-section>
+          <q-item-section>{{ reminderTextInfo }}</q-item-section>
           <q-item-section side>
             <q-icon color="primary" name="chevron_right"/>
           </q-item-section>
@@ -398,8 +401,8 @@ function handleReminderText(reminderText: string) {
           <EventsRecurrenceDialog @rrule-string-generated="handleRRuleString" @rrule-text-generated="handleRRuleText"/>
         </q-dialog>
         <q-dialog v-model="reminderDialogOpened">
-          <EventsReminderDialog @reminderTextGenerated="handleReminderText"
-                                @reminder-string-generated="handleReminderString"/>
+          <EventsReminderDialog @reminder-text-generated="handleReminderText"
+                                @reminder-data-generated="handleReminderData"/>
         </q-dialog>
 
       </div>
