@@ -189,18 +189,20 @@ function handleReminderText(reminderText: string) {
           color="primary"
           keep-color
           label="All Day Event"
-          name="isAllDayEvent"></q-toggle>
+          name="isAllDayEvent"/>
 
         <q-input
           v-model="formattedStartDateTime2"
+          :rules="[(val) => !!val || 'Start Date is required']"
           label="Start Date"
-          name="startDateTime">
+          name="startDateTime"
+        >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-date v-model="startDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -212,7 +214,7 @@ function handleReminderText(reminderText: string) {
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-time v-if="!props.event.isAllDayEvent" v-model="startDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-time>
               </q-popup-proxy>
@@ -222,14 +224,16 @@ function handleReminderText(reminderText: string) {
 
         <q-input
           v-model="formattedEndDateTime2"
+          :rules="[(val) => !!val || 'End Date is required']"
           label="End Date"
           name="endDateTime">
+
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-date v-model="endDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -241,7 +245,7 @@ function handleReminderText(reminderText: string) {
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-time v-model="endDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-time>
               </q-popup-proxy>
@@ -298,7 +302,7 @@ function handleReminderText(reminderText: string) {
           no-caps
           rounded
           size="md"
-          @click="toggleAttendees"></q-btn>
+          @click="toggleAttendees"/>
 
         <div v-if="showAttendees">
           <pre>{{ event.meetingAttendees }}</pre>
@@ -315,7 +319,7 @@ function handleReminderText(reminderText: string) {
             use-input
             @filter="filterFn"
             @input-value="setModel"
-           
+
           >
           </q-select>
         </div>
@@ -330,7 +334,7 @@ function handleReminderText(reminderText: string) {
           no-caps
           rounded
           size="md"
-          @click="toggleOptions"></q-btn>
+          @click="toggleOptions"/>
         <div v-if="showOptions">
 
           <q-select v-model="event.timezone"
@@ -349,22 +353,22 @@ function handleReminderText(reminderText: string) {
                 dense
                 flat
                 label="test url"
-                no-caps></q-btn>
+                no-caps/>
             </template>
           </q-input>
           <q-item>
             <q-item-section class="q-pr-xl">
               <q-select v-model="showTimeAs"
-                  :options="ShowTimeOptions"
-                  label="Show Time As"
-                  name="Show time as"/>
+                        :options="ShowTimeOptions"
+                        label="Show Time As"
+                        name="Show time as"/>
             </q-item-section>
             <q-item-section>
               <q-select v-model="event.label"
-              popup-content-style="backgroundColor: '#ff0000"
-                :options="labelOptions"
-                label="Label"
-                name="label"/>
+                        :options="labelOptions"
+                        label="Label"
+                        name="label"
+                        popup-content-style="backgroundColor: '#ff0000"/>
             </q-item-section>
           </q-item>
 
