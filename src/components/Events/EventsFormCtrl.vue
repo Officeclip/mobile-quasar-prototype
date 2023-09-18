@@ -7,7 +7,7 @@ import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 
 const props = defineProps(['event']);
-const emit = defineEmits(['rrule-generated', 'reminder-generated'])
+const emit = defineEmits(['rrule-generated', 'reminder-generated','rrule-text-generated'])
 
 const startDateTime = ref('');
 const endDateTime = ref('');
@@ -22,7 +22,7 @@ const showTimeAs = ref('Free')
 // const url = ref('')
 // const recurrenceString = ref('');
 const repeatString = ref('Does not repeat');
-const reminderString = ref('Choose Reminder');
+const reminderTextInfo = ref('Choose Reminder');
 
 const showAttendees = ref(false);
 const showOptions = ref(false)
@@ -151,10 +151,13 @@ function handleRRuleString(rruleString: string) {
 
 function handleRRuleText(rruleText: string) {
   console.log('Received RRule Plain Text:', rruleText);
-  repeatString.value = rruleText.charAt(0).toUpperCase() + rruleText.slice(1); //capitalize first letter
+  const repeatText = rruleText.charAt(0).toUpperCase() + rruleText.slice(1);//capitalize first letter
+  repeatString.value =  repeatText;
+  emit('rrule-text-generated', repeatText);
+
 }
 
-function handleReminderString(reminderString: string) {
+function handleReminderData(reminderString: []) {
   // You can now use the rruleString in your parent component
   console.log('Received Reminder String:', reminderString);
   emit('reminder-generated', reminderString);
@@ -162,7 +165,7 @@ function handleReminderString(reminderString: string) {
 
 function handleReminderText(reminderText: string) {
   console.log('Received reminder Plain Text:', reminderText);
-  reminderString.value = reminderText;
+  reminderTextInfo.value = reminderText;
 }
 
 </script>
@@ -189,18 +192,20 @@ function handleReminderText(reminderText: string) {
           color="primary"
           keep-color
           label="All Day Event"
-          name="isAllDayEvent"></q-toggle>
+          name="isAllDayEvent"/>
 
         <q-input
           v-model="formattedStartDateTime2"
+          :rules="[(val) => !!val || 'Start Date is required']"
           label="Start Date"
-          name="startDateTime">
+          name="startDateTime"
+        >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-date v-model="startDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -212,7 +217,7 @@ function handleReminderText(reminderText: string) {
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-time v-if="!props.event.isAllDayEvent" v-model="startDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-time>
               </q-popup-proxy>
@@ -222,14 +227,16 @@ function handleReminderText(reminderText: string) {
 
         <q-input
           v-model="formattedEndDateTime2"
+          :rules="[(val) => !!val || 'End Date is required']"
           label="End Date"
           name="endDateTime">
+
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-date v-model="endDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -241,7 +248,7 @@ function handleReminderText(reminderText: string) {
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-time v-model="endDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-time>
               </q-popup-proxy>
@@ -283,7 +290,7 @@ function handleReminderText(reminderText: string) {
           <q-item-section avatar>
             <q-icon color="primary" name="alarm" size="sm"/>
           </q-item-section>
-          <q-item-section>{{ reminderString }}</q-item-section>
+          <q-item-section>{{ reminderTextInfo }}</q-item-section>
           <q-item-section side>
             <q-icon color="primary" name="chevron_right"/>
           </q-item-section>
@@ -298,10 +305,9 @@ function handleReminderText(reminderText: string) {
           no-caps
           rounded
           size="md"
-          @click="toggleAttendees"></q-btn>
+          @click="toggleAttendees"/>
 
         <div v-if="showAttendees">
-          <pre>{{ event.meetingAttendees }}</pre>
           <q-select
             :model-value="event.meetingAttendees"
             :options="moptions"
@@ -315,7 +321,7 @@ function handleReminderText(reminderText: string) {
             use-input
             @filter="filterFn"
             @input-value="setModel"
-           
+
           >
           </q-select>
         </div>
@@ -330,7 +336,7 @@ function handleReminderText(reminderText: string) {
           no-caps
           rounded
           size="md"
-          @click="toggleOptions"></q-btn>
+          @click="toggleOptions"/>
         <div v-if="showOptions">
 
           <q-select v-model="event.timezone"
@@ -349,22 +355,22 @@ function handleReminderText(reminderText: string) {
                 dense
                 flat
                 label="test url"
-                no-caps></q-btn>
+                no-caps/>
             </template>
           </q-input>
           <q-item>
             <q-item-section class="q-pr-xl">
               <q-select v-model="showTimeAs"
-                  :options="ShowTimeOptions"
-                  label="Show Time As"
-                  name="Show time as"/>
+                        :options="ShowTimeOptions"
+                        label="Show Time As"
+                        name="Show time as"/>
             </q-item-section>
             <q-item-section>
               <q-select v-model="event.label"
-              popup-content-style="backgroundColor: '#ff0000"
-                :options="labelOptions"
-                label="Label"
-                name="label"/>
+                        :options="labelOptions"
+                        label="Label"
+                        name="label"
+                        popup-content-style="backgroundColor: '#ff0000"/>
             </q-item-section>
           </q-item>
 
@@ -395,8 +401,8 @@ function handleReminderText(reminderText: string) {
           <EventsRecurrenceDialog @rrule-string-generated="handleRRuleString" @rrule-text-generated="handleRRuleText"/>
         </q-dialog>
         <q-dialog v-model="reminderDialogOpened">
-          <EventsReminderDialog @reminderTextGenerated="handleReminderText"
-                                @reminder-string-generated="handleReminderString"/>
+          <EventsReminderDialog @reminder-text-generated="handleReminderText"
+                                @reminder-data-generated="handleReminderData"/>
         </q-dialog>
 
       </div>

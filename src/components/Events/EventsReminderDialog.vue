@@ -2,8 +2,8 @@
 import {ref} from 'vue';
 
 const reminderOptions = [
-  {label: 'Remind Me', value: 'remindMe'},
-  {label: 'Remind Everybody', value: 'remindAll'}
+  {label: 'Remind Me', value: 'me'},
+  {label: 'Remind Everybody', value: 'everyone'}
 ];
 
 const reminderTimes = [
@@ -33,9 +33,9 @@ const reminderTimes = [
   {label: '2 weeks', value: 20160}
 ];
 
-const selectedReminderOption = ref('remindMe');
+const selectedReminderOption = ref('me');
 const selectedReminderTime = ref(60);
-const emit = defineEmits(['reminder-string-generated', 'reminder-text-generated'])
+const emit = defineEmits(['reminder-data-generated', 'reminder-text-generated'])
 
 function generateReminder(){
   // Find the selected reminder option and time based on refs
@@ -44,13 +44,13 @@ function generateReminder(){
 
   if (selectedOption && selectedTime) {
     // Create the reminder string with values only
-    const reminderString = `${selectedOption.value}-${selectedTime.value}`;
+    const reminderData = [selectedOption.value,selectedTime.value];
 
     // Create the human-readable string
     const humanReadableString = `${selectedOption.label} ${selectedTime.label} before`;
 
     // Emit the reminder and human-readable strings
-    emit('reminder-string-generated', reminderString);
+    emit('reminder-data-generated', reminderData);
     emit('reminder-text-generated', humanReadableString);
   }
 }

@@ -28,11 +28,24 @@ const event = ref({
   parentObjectServiceType: '14',
   parentObjectId: newparentObjectId,
   eventType: '2',
-  recurrenceString:''
+  recurrenceRule: '',
+  repeatInfoText: '',
+  remindTo: 'Me',
+  remindBeforeMinutes: 3600
+
 });
 
-function handleRRule(rrule){
+function handleRRule(rrule) {
   event.value.recurrenceString = rrule;
+}
+
+function handleRRuleText(rruleText) {
+  event.value.repeatInfoText = rruleText;
+}
+
+function handleReminder(reminder) {
+  event.value.remindTo = reminder[0];
+  event.value.remindBeforeMinutes = reminder[1];
 }
 
 function onSubmit(e) {
@@ -68,7 +81,10 @@ function onSubmit(e) {
     parentObjectServiceType: event.value.parentObjectServiceType,
     parentObjectId: event.value.parentObjectId,
     eventType: event.value.eventType,
-    recurrence: event.value.recurrenceString
+    recurrenceRule: event.value.recurrenceString,
+    repeatInfoText: event.value.repeatInfoText,
+    remindTo: event.value.remindTo,
+    remindBeforeMinutes: event.value.remindBeforeMinutes
   }
   console.log('new event form values: ', newEvent)
   eventsStore.addEvent(newEvent);
@@ -90,23 +106,24 @@ function onSubmit(e) {
           @click="$router.go(-1)">
         </q-btn>
         <q-toolbar-title> New Event</q-toolbar-title>
-                <q-btn
-                outline
-                rounded
-                dense
-                label="Save"
-                no-caps
-                type="submit"
-                @click="onSubmit"
-                class="q-px-md"></q-btn>
+        <q-btn
+          class="q-px-md"
+          dense
+          label="Save"
+          no-caps
+          outline
+          rounded
+          type="submit"
+          @click="onSubmit"></q-btn>
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <EventForm :event="event" @rrule-generated="handleRRule"/>
-          <q-btn class="q-ml-md" color="primary" label="Save" type="submit" no-caps></q-btn>
-          <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset" no-caps></q-btn>
+          <EventForm :event="event" @rrule-generated="handleRRule" @rrule-text-generated="handleRRuleText"
+                     @reminder-generated="handleReminder"/>
+          <q-btn class="q-ml-md" color="primary" label="Save" no-caps type="submit"></q-btn>
+          <q-btn class="q-ml-sm" color="primary" flat label="Reset" no-caps type="reset"></q-btn>
         </div>
       </q-form>
       <pre>{{ tab }}</pre>
