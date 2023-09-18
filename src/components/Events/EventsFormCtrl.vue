@@ -305,7 +305,6 @@ function handleReminderText(reminderText: string) {
           @click="toggleAttendees"/>
 
         <div v-if="showAttendees">
-          <pre>{{ event.meetingAttendees }}</pre>
           <q-select
             :model-value="event.meetingAttendees"
             :options="moptions"
