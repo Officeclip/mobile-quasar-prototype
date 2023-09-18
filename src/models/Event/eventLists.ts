@@ -1,14 +1,14 @@
-export interface ContactLists {
-  meetingAttendees: MeetingAttendee[];
-  labels: Label[];
+export interface eventLists {
+  meetingAttendees: meetingAttendee[];
+  labels: label[];
 }
 
-export interface MeetingAttendee {
+export interface meetingAttendee {
   name: string;
   email: string;
 }
 
-export interface Label {
+export interface label {
   id: number;
   name: string;
   color: string;
