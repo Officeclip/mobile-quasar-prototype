@@ -301,7 +301,6 @@ function handleReminderText(reminderText: string) {
           @click="toggleAttendees"></q-btn>
 
         <div v-if="showAttendees">
-          <pre>{{ event.meetingAttendees }}</pre>
           <q-select
             :model-value="event.meetingAttendees"
             :options="moptions"
@@ -315,7 +314,7 @@ function handleReminderText(reminderText: string) {
             use-input
             @filter="filterFn"
             @input-value="setModel"
-           
+
           >
           </q-select>
         </div>
