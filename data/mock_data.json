@@ -1132,78 +1132,6 @@
       "endDateTime": "2023-06-30T21:43:32.203Z",
       "isAllDayEvent": false,
       "eventLocation": "Delhi"
-    },
-    {
-      "eventName": "Test evetn 5",
-      "eventDescription": "",
-      "eventLocation": "",
-      "startDateTime": "",
-      "endDateTime": "",
-      "isAllDayEvent": true,
-      "meetingAttendees": [],
-      "timezone": "",
-      "label": "",
-      "url": "",
-      "parentObjectServiceType": "14",
-      "parentObjectId": "-1",
-      "eventType": "2",
-      "recurrence": "",
-      "id": 7
-    },
-    {
-      "eventName": "New Event",
-      "eventDescription": "",
-      "eventLocation": "",
-      "startDateTime": "2023-09-27 00:00",
-      "endDateTime": "2023-09-28 00:00",
-      "isAllDayEvent": false,
-      "meetingAttendees": [],
-      "timezone": "",
-      "label": "",
-      "url": "",
-      "parentObjectServiceType": "14",
-      "parentObjectId": "-1",
-      "eventType": "2",
-      "recurrence": "DTSTART:20230918T153429Z\nRRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR;COUNT=1",
-      "id": 8
-    },
-    {
-      "eventName": "1146",
-      "eventDescription": "",
-      "eventLocation": "",
-      "startDateTime": "2023-09-29",
-      "endDateTime": "2023-09-30",
-      "isAllDayEvent": true,
-      "meetingAttendees": [],
-      "timezone": "",
-      "label": "",
-      "url": "",
-      "parentObjectServiceType": "14",
-      "parentObjectId": "-1",
-      "eventType": "2",
-      "recurrenceRule": "DTSTART:20230918T154649Z\nRRULE:FREQ=DAILY;INTERVAL=3;COUNT=12",
-      "repeatInfoText": "Every 3 days for 12 times",
-      "id": 9
-    },
-    {
-      "eventName": "Next Event",
-      "eventDescription": "",
-      "eventLocation": "",
-      "startDateTime": "2023-09-28 00:00",
-      "endDateTime": "2023-09-29 00:00",
-      "isAllDayEvent": false,
-      "meetingAttendees": [],
-      "timezone": "",
-      "label": "",
-      "url": "",
-      "parentObjectServiceType": "14",
-      "parentObjectId": "-1",
-      "eventType": "2",
-      "recurrenceRule": "DTSTART:20230918T155745Z\nRRULE:FREQ=MONTHLY;INTERVAL=1;BYDAY=MO;BYSETPOS=1;COUNT=12",
-      "repeatInfoText": "Every month on Monday for 12 times",
-      "remindTo": "everyone",
-      "remindBeforeMinutes": 120,
-      "id": 10
     }
   ],
   "homeIcons": [
@@ -1344,12 +1272,6 @@
       "eventId": 3,
       "name": "Sudhakar Gundu",
       "email": "sudhakar@officeclip.com"
-    },
-    {
-      "id": 4,
-      "eventId": 4,
-      "name": "Narsimha Rao Karanam",
-      "email": "narsimha@officeclip.com"
     }
   ],
   "notes": [

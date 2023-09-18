@@ -53,10 +53,10 @@ const meetingAttendees = computed(() => {
   return eventsStore.MeetingAttendees
 });
 
-const extarctMeetingAttendeesNames =
+const extractMeetingAttendeesNames =
   meetingAttendees.value.map(item => (item.name));
 
-const moptions = ref(extarctMeetingAttendeesNames)
+const moptions = ref(extractMeetingAttendeesNames)
 
 //build new array of objects with specific properties from all properties
 // const nameAndEmailArray = meetingAttendees.value.map(item => ({ name: item.name, email: item.email }));
@@ -65,7 +65,7 @@ const moptions = ref(extarctMeetingAttendeesNames)
 function filterFn(val: string, update: (arg0: () => void) => void, abort: any) {
   update(() => {
     const needle = val.toLocaleLowerCase()
-    moptions.value = extarctMeetingAttendeesNames.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
+    moptions.value = extractMeetingAttendeesNames.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
   })
 }
 

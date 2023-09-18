@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import {computed, onBeforeMount, ref} from 'vue';
 import {useEventsStore} from '../../stores/EventsStore';
-import {useRoute} from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 
 const eventsStore = useEventsStore();
+
+const router = useRouter();
 
 const id = ref<string | string[]>('0');
 
@@ -27,7 +29,18 @@ function displayDateorBoth(x: string) {
   }
 }
 
+const showConfirmationDialog = ref(false);
 
+function displayConfirmationDialog() {
+  showConfirmationDialog.value = true;
+}
+
+function confirmDeleteEvent() {
+  eventsStore.deleteEvent(event.value?.id).then(() => {
+    showConfirmationDialog.value = false;
+    router.go(-1);
+  });
+}
 </script>
 
 <template>
@@ -41,8 +54,7 @@ function displayDateorBoth(x: string) {
           icon="arrow_back"
           round
           @click="$router.go(-1)"
-        >
-        </q-btn>
+        />
         <q-toolbar-title> Event details</q-toolbar-title>
 
         <q-btn
@@ -59,7 +71,7 @@ function displayDateorBoth(x: string) {
           flat
           icon="delete"
           round
-          @click="eventsStore.deleteEvent(event?.id); $router.go(-1)"
+          @click="displayConfirmationDialog"
         />
       </q-toolbar>
     </q-header>
@@ -116,4 +128,25 @@ function displayDateorBoth(x: string) {
       </q-card>
     </q-page-container>
   </q-layout>
+
+  <q-dialog v-model="showConfirmationDialog">
+    <q-card>
+      <q-card-section>
+        <q-item-label>Confirm</q-item-label>
+        <q-item-label>Are you sure you want to delete this event?</q-item-label>
+        <q-card-actions align="right">
+          <q-btn
+            color="primary"
+            label="Cancel"
+            @click="showConfirmationDialog = false"
+          />
+          <q-btn
+            color="negative"
+            label="Delete"
+            @click="confirmDeleteEvent"
+          />
+        </q-card-actions>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
