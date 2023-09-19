@@ -4,7 +4,7 @@ import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import { eventDetails } from '../../models/Event/eventDetails'
+import { eventDetails } from '../../models/event/eventDetails';
 // import { eventDetails } from '../../models/event/eventDetails';
 
 const eventDetailsStore = useEventDetailsStore();
@@ -39,7 +39,6 @@ function onSubmit(e: any) {
     : dateTimeHelper.convertGeneralToUtc(end);
 
   console.log(`EditEvent: startDateTime: ${start}, ${end}`);
-
 
   // need to fix the model properties in this object
   const newEvent: eventDetails = {

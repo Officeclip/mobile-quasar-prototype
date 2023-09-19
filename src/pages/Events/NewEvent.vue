@@ -1,20 +1,21 @@
-<script setup>
+<script lang="ts" setup>
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
-import {useEventDetailsStore} from '../../stores/event/eventDetailsStore';
-import {ref} from 'vue'
-import {useRoute, useRouter} from 'vue-router';
+import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
+import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { eventDetails } from '../../models/event/eventDetails';
 
 const router = useRouter();
-const route = useRoute()
+const route = useRoute();
 const tab = ref('Group');
 //const parentObjectId = ref()
 
-const parentObjectId = route.params.id
+const parentObjectId = route.params.id;
 
-const newparentObjectId = parentObjectId ? parentObjectId : -1
+const newparentObjectId = parentObjectId ? parentObjectId : -1;
 
-const eventsDetailsStore = useEventDetailsStore()
-const event = ref({
+const eventsDetailsStore = useEventDetailsStore();
+const event: eventDetails = {
   eventName: '',
   eventDescription: '',
   eventLocation: '',
@@ -27,13 +28,12 @@ const event = ref({
   url: '',
   parentObjectServiceType: '14',
   parentObjectId: newparentObjectId,
-  eventType: '2',
+  eventType: 2,
   recurrenceRule: '',
   repeatInfoText: '',
   remindTo: 'Me',
-  remindBeforeMinutes: 3600
-
-});
+  remindBeforeMinutes: 3600,
+};
 
 function handleRRule(rrule) {
   event.value.recurrenceString = rrule;
@@ -49,7 +49,7 @@ function handleReminder(reminder) {
 }
 
 function onSubmit(e) {
-  e.preventDefault()
+  e.preventDefault();
   const formData = new FormData(e.target);
   // const data = [];
   // for (const [name, value] of formData.entries()){
@@ -63,11 +63,11 @@ function onSubmit(e) {
   console.log(`EditEvent: startDateTime: ${start}, ${end}`);
 
   if (!event.value.eventName) {
-    alert('Please add text')
-    return
+    alert('Please add text');
+    return;
   }
 
-  const newEvent = {
+  const newEvent: eventDetails = {
     eventName: event.value.eventName,
     eventDescription: event.value.eventDescription,
     eventLocation: event.value.eventLocation,
@@ -84,14 +84,12 @@ function onSubmit(e) {
     recurrenceRule: event.value.recurrenceString,
     repeatInfoText: event.value.repeatInfoText,
     remindTo: event.value.remindTo,
-    remindBeforeMinutes: event.value.remindBeforeMinutes
-  }
-  console.log('new event form values: ', newEvent)
+    remindBeforeMinutes: event.value.remindBeforeMinutes,
+  };
+  console.log('new event form values: ', newEvent);
   eventsDetailsStore.addEventDetails(newEvent);
-  router.push('/simpleCalendar')
+  router.push('/simpleCalendar');
 }
-
-
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -103,7 +101,8 @@ function onSubmit(e) {
           flat
           icon="arrow_back"
           round
-          @click="$router.go(-1)">
+          @click="$router.go(-1)"
+        >
         </q-btn>
         <q-toolbar-title> New Event</q-toolbar-title>
         <q-btn
@@ -114,29 +113,52 @@ function onSubmit(e) {
           outline
           rounded
           type="submit"
-          @click="onSubmit"></q-btn>
+          @click="onSubmit"
+        ></q-btn>
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <EventForm :event="event" @rrule-generated="handleRRule" @rrule-text-generated="handleRRuleText"
-                     @reminder-generated="handleReminder"/>
-          <q-btn class="q-ml-md" color="primary" label="Save" no-caps type="submit"></q-btn>
-          <q-btn class="q-ml-sm" color="primary" flat label="Reset" no-caps type="reset"></q-btn>
+          <EventForm
+            :event="event"
+            @rrule-generated="handleRRule"
+            @rrule-text-generated="handleRRuleText"
+            @reminder-generated="handleReminder"
+          />
+          <q-btn
+            class="q-ml-md"
+            color="primary"
+            label="Save"
+            no-caps
+            type="submit"
+          ></q-btn>
+          <q-btn
+            class="q-ml-sm"
+            color="primary"
+            flat
+            label="Reset"
+            no-caps
+            type="reset"
+          ></q-btn>
         </div>
       </q-form>
       <pre>{{ tab }}</pre>
     </q-page-container>
 
     <q-footer bordered class="bg-grey-3 text-primary">
-      <q-tabs v-model="tab" active-color="primary" class="text-grey-8" dense no-caps>
+      <q-tabs
+        v-model="tab"
+        active-color="primary"
+        class="text-grey-8"
+        dense
+        no-caps
+      >
         <q-tab label="Group" name="Group"></q-tab>
         <q-tab label="Meeting" name="Meeting"></q-tab>
         <q-tab label="Private" name="Private"></q-tab>
       </q-tabs>
     </q-footer>
-
   </q-layout>
 </template>
 
