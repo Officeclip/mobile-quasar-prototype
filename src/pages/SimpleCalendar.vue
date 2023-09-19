@@ -3,14 +3,15 @@ TODO: sg: Show the details of multi day event in the text(Event timing) [45]
 -->
 
 <script setup lang="ts">
-import { useEventsStore } from '../stores/EventsStore';
+// import { useEventsStore } from '../stores/EventsStore';
 import { onMounted } from 'vue';
 import { ref, computed } from 'vue';
 import dateTimeHelper from '../helpers/dateTimeHelper.js';
 import { format } from 'date-fns';
-import { Event } from '../models/event';
+import { eventSummary } from '../models/Event/eventSummary';
+import { useEventSummaryStore } from '../stores/event/eventSummaryStore'
 
-const eventsStore = useEventsStore();
+const eventsStore = useEventSummaryStore();
 //const events = ref<Event[]>([]);
 
 //const eventStore = ref([]);
@@ -22,16 +23,16 @@ const date = ref('');
 date.value = format(new Date(), 'yyyy/MM/dd');
 
 const events = computed(() => {
-  return eventsStore.Events;
+  return eventsStore.EventSummary;
 });
 
 onMounted(() => {
-  eventsStore.getAllEvents();
+  eventsStore.getAllEventSummary();
   //events.value = eventsStore.Events;
 });
 
 const eventDates = computed(() => {
-  return eventsStore.getEventDates();
+  return eventsStore.getEventSummaryDates();
 });
 
 function getEventIcon(type: any) {
@@ -41,22 +42,22 @@ function getEventIcon(type: any) {
 }
 
 const eventsForADay = computed(() => {
-  const myEvents = eventsStore.events; // FIXME: skd: Not implemented correctly... should be fixed! [45]
+  const myEvents = eventsStore.eventSummary; // FIXME: skd: Not implemented correctly... should be fixed! [45]
   if (myEvents.length === 0) {
-    eventsStore.getAllEvents();
+    eventsStore.getAllEventSummary();
   }
-  let events = eventsStore.getEventsForADay(date.value);
+  let events = eventsStore.getEventSummaryForADay(date.value);
   return events;
 });
 
-function getFromToDate(event: Event) {
+function getFromToDate(event: eventSummary) {
   const from = dateTimeHelper.extractTimeFromUtc(event.startDateTime);
   const to = dateTimeHelper.extractTimeFromUtc(event.endDateTime);
   console.log('TTTTTTTTTTT', from);
   return `${from} - ${to}`;
 }
 
-function getEventType(event: Event) {
+function getEventType(event: eventSummary) {
   const fromDate = dateTimeHelper.extractDateFromUtc(event.startDateTime);
   const toDate = dateTimeHelper.extractDateFromUtc(event.endDateTime);
   const time = getFromToDate(event);
@@ -103,10 +104,10 @@ function getEventType(event: Event) {
           <q-list bordered>
             <q-item
               v-for="event in eventsForADay"
-              :key="event.id"
+              :key="event.sid"
               :to="{
                 name: 'eventDetails',
-                params: { id: event.id },
+                params: { id: event.sid },
               }"
               clickable
               v-ripple
