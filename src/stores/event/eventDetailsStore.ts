@@ -33,7 +33,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     //   ----getting single user details by id----
-    async getEventDetailsById(id: any) {
+    async getEventDetailsById(id: string) {
       try {
         const response = await axios.get(
           `http://localhost:4000/eventDetails?id=${id}`
@@ -50,7 +50,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       }
     },
 
-    async editEvent(event: eventDetails) {
+    async editEventDetails(event: eventDetails) {
       console.log(`editEvent 1: ${this.eventDetails?.sid}`);
       // not added yet
       try {
@@ -67,7 +67,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       }
     },
 
-    async addEvent(event: eventDetails) {
+    async addEventDetails(event: eventDetails) {
       const res = await fetch('http://localhost:4000/eventDetails', {
         method: 'POST',
         body: JSON.stringify(event),
@@ -76,7 +76,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       console.log(this.eventDetails);
     },
 
-    async deleteEvent(sid: string | undefined) {
+    async deleteEventDetails(sid: string | undefined) {
       try {
         const response = await axios.delete(
           `http://localhost:4000/events/${sid}`

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import {computed, onBeforeMount, ref} from 'vue';
-import {useEventsStore} from '../../stores/EventsStore';
-import {useRoute, useRouter} from 'vue-router';
+import { computed, onBeforeMount, ref } from 'vue';
+import { useEventsStore } from '../../stores/EventsStore';
+import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-
+console.log('setup: EventDetails.vue');
 const eventsStore = useEventsStore();
 
 const router = useRouter();
@@ -83,25 +83,23 @@ function confirmDeleteEvent() {
             <q-item>
               <q-item-section>
                 <q-item-label caption>Event Name</q-item-label>
-                <q-item-label class="q-mb-sm">{{
-                    event?.eventName
-                  }}
+                <q-item-label class="q-mb-sm"
+                  >{{ event?.eventName }}
                 </q-item-label>
 
                 <q-item-label caption>Description</q-item-label>
-                <q-item-label class="q-mb-sm">{{
-                    event?.eventDescription
-                  }}
+                <q-item-label class="q-mb-sm"
+                  >{{ event?.eventDescription }}
                 </q-item-label>
 
                 <q-item-label caption>Event Location</q-item-label>
-                <q-item-label class="q-mb-sm">{{
-                    event?.eventLocation
-                  }}
+                <q-item-label class="q-mb-sm"
+                  >{{ event?.eventLocation }}
                 </q-item-label>
 
                 <q-item-label caption>Start Date</q-item-label>
-                <q-item-label class="q-mb-sm">{{
+                <q-item-label class="q-mb-sm"
+                  >{{
                     event?.startDateTime
                       ? displayDateorBoth(event?.startDateTime)
                       : 'YYYY'
@@ -109,7 +107,8 @@ function confirmDeleteEvent() {
                 </q-item-label>
 
                 <q-item-label caption>End Date</q-item-label>
-                <q-item-label class="q-mb-sm">{{
+                <q-item-label class="q-mb-sm"
+                  >{{
                     event?.endDateTime
                       ? displayDateorBoth(event?.endDateTime)
                       : 'YYYY'
@@ -117,9 +116,8 @@ function confirmDeleteEvent() {
                 </q-item-label>
 
                 <q-item-label caption>Is All Day Event ?</q-item-label>
-                <q-item-label class="q-mb-sm">{{
-                    event?.isAllDayEvent ? 'Yes' : 'No'
-                  }}
+                <q-item-label class="q-mb-sm"
+                  >{{ event?.isAllDayEvent ? 'Yes' : 'No' }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -140,11 +138,7 @@ function confirmDeleteEvent() {
             label="Cancel"
             @click="showConfirmationDialog = false"
           />
-          <q-btn
-            color="negative"
-            label="Delete"
-            @click="confirmDeleteEvent"
-          />
+          <q-btn color="negative" label="Delete" @click="confirmDeleteEvent" />
         </q-card-actions>
       </q-card-section>
     </q-card>

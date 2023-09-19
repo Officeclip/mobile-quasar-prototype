@@ -34,14 +34,20 @@ const extractMonthFromUtc = (utcDateTime: string) => {
   return formattedDate;
 };
 
-const convertGeneralToUtc = (generalDateTime: string) => {
+const convertGeneralToUtc = (generalDateTime: string | null) => {
   // Converts "2023-07-27 12:00 am" to 2023-07-27T00:00:00Z
+  if (generalDateTime === null) {
+    return '';
+  }
   const dateTime = parse(generalDateTime, 'yyyy-MM-dd p', new Date());
   return format(dateTime, "yyyy-MM-dd'T'HH:mm:ss'Z'");
 };
 
-const convertDateToUtc = (generalDate: string) => {
+const convertDateToUtc = (generalDate: string | null) => {
   // Converts "2023-07-27 12:00 am" to 2023-07-27T00:00:00Z
+  if (generalDate === null) {
+    return '';
+  }
   const dateTime = parse(generalDate, 'yyyy-MM-dd', new Date());
   return format(dateTime, "yyyy-MM-dd'T'00:00:00'Z'");
 };

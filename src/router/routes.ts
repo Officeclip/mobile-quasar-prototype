@@ -46,9 +46,9 @@ const routes: RouteRecordRaw[] = [
     //params: true,
   },
   {
-    path: '/simpleCalendar',
-    name: 'simpleCalendar',
-    component: () => import('pages/SimpleCalendar.vue'),
+    path: '/eventSummary',
+    name: 'eventSummary',
+    component: () => import('pages/Events/eventSummary.vue'),
   },
   {
     path: '/eventDetails/:id',

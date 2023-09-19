@@ -1,61 +1,56 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { useEventsStore } from '../../stores/EventsStore';
+import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import { Event } from '../../models/event';
+import { eventDetails } from '../../models/event/eventDetails';
 
-const eventsStore = useEventsStore();
+const eventDetailsStore = useEventDetailsStore();
 const route1 = useRouter();
-
-//const isAllDayEvent = filterValue[0].isAllDayEvent ? 'Yes' : 'No'
 
 const id = ref<string | string[]>('0');
 
 const event = computed(() => {
-  return eventsStore.Event;
+  return eventDetailsStore.EventDetails;
 });
 
 onMounted(() => {
   const route = useRoute();
   console.log('id=', route.params.id);
   id.value = route.params.id;
-  eventsStore.getEventDetails(Number(route.params.id));
+  eventDetailsStore.getEventDetailsById(route.params.id);
 });
 
 function onSubmit(e: any) {
   e.preventDefault();
-  const formData = new FormData(e.target);
+  // from https://stackoverflow.com/a/70276438
+  const formData: any = new FormData(e.target);
+
   const start = formData.get('startDateTime');
+  const newStartDate = event.value?.isAllDayEvent
+    ? dateTimeHelper.convertDateToUtc(start)
+    : dateTimeHelper.convertGeneralToUtc(start);
+
   const end = formData.get('endDateTime');
+  const newEndDate = event.value?.isAllDayEvent
+    ? dateTimeHelper.convertDateToUtc(end)
+    : dateTimeHelper.convertGeneralToUtc(end);
+
   console.log(`EditEvent: startDateTime: ${start}, ${end}`);
 
-  const newStartDate = event.value?.isAllDayEvent
-  ? dateTimeHelper.convertDateToUtc(start)
-  : dateTimeHelper.convertGeneralToUtc(start)
-
-  const newEndDate = event.value?.isAllDayEvent
-  ? dateTimeHelper.convertDateToUtc(end)
-  : dateTimeHelper.convertGeneralToUtc(end)
-  // console.log(
-  //   `onSubmit Event Value: ${event.value?.startDateTime}, ${event.value?.endDateTime}`
-  // );
-const newEvent: any = {
-  id: event.value?.id,
-  parentObjectServiceType: event.value?.parentObjectServiceType,
-  eventType: event.value?.eventType,
-  eventName: event.value?.eventName,
-  eventDescription: event.value?.eventDescription,
-  startDateTime: newStartDate,
-  endDateTime: newEndDate,
-  isAllDayEvent: event.value?.isAllDayEvent,
-  eventLocation: event.value?.eventLocation
-
-
-
-}
-  eventsStore.editEvent(newEvent);
+  const newEvent: any = {
+    id: event.value?.sid,
+    parentObjectServiceType: event.value?.parentServiceType,
+    eventType: event.value?.eventType,
+    eventName: event.value?.eventName,
+    eventDescription: event.value?.eventDescription,
+    startDateTime: newStartDate,
+    endDateTime: newEndDate,
+    isAllDayEvent: event.value?.isAllDayEvent,
+    eventLocation: event.value?.eventLocation,
+  };
+  eventDetailsStore.editEventDetails(newEvent);
   route1.push('/simpleCalendar');
 }
 </script>

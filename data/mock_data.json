@@ -984,7 +984,7 @@
       "isAllDayEvent": false
     },
     {
-      "id": "2",
+      "sid": "2",
       "eventType": 2,
       "eventName": "3: Testing another events",
       "startDateTime": "2023-06-26T10:43:32.203Z",
@@ -992,7 +992,7 @@
       "isAllDayEvent": false
     },
     {
-      "id": "3",
+      "sid": "3",
       "eventType": 2,
       "eventName": "2:Forward Usability Planner",
       "startDateTime": "2023-06-27T10:43:32.203Z",
@@ -1000,7 +1000,7 @@
       "isAllDayEvent": false
     },
     {
-      "id": "5",
+      "sid": "5",
       "eventType": 1,
       "eventName": "5:Testing the All day event",
       "startDateTime": "2023-08-23T00:00:00Z",
@@ -1020,7 +1020,7 @@
   ],
   "event-details": [
     {
-      "sid": "H49BN6FDDBYWN7WXGC5Q",
+      "sid": "5",
       "createdDate": "2020-03-05T15:01:17Z",
       "createdGroupSId": "YZMX3M9D4BLNXA9S545Q",
       "createdUserSid": "N4VRXBADAZHRSGHFYD5Q",
@@ -1139,7 +1139,7 @@
       "id": 1,
       "name": "Calendar",
       "icon": "calendar_month",
-      "url": "/simpleCalendar"
+      "url": "/eventSummary"
     },
     {
       "id": 2,
@@ -1212,17 +1212,7 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        10
-      ]
+      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
     }
   ],
   "generalUserProfile": [
@@ -1854,12 +1844,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-            "",
-            "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },
