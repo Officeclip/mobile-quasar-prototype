@@ -8,8 +8,8 @@ import { onMounted } from 'vue';
 import { ref, computed } from 'vue';
 import dateTimeHelper from '../helpers/dateTimeHelper.js';
 import { format } from 'date-fns';
-import { eventSummary } from '../models/Event/eventSummary';
-import { useEventSummaryStore } from '../stores/event/eventSummaryStore'
+import { eventSummary } from '../models/event/eventSummary';
+import { useEventSummaryStore } from '../stores/event/eventSummaryStore';
 
 const eventsStore = useEventSummaryStore();
 //const events = ref<Event[]>([]);
@@ -93,12 +93,7 @@ function getEventType(event: eventSummary) {
       <q-page>
         <div class="q-ma-md">
           <div>
-            <q-date
-              landscape
-              today-btn
-              v-model="date"
-              :events="eventDates"
-            />
+            <q-date landscape today-btn v-model="date" :events="eventDates" />
           </div>
           <div class="text-subtitle1 q-pt-md">Events for: {{ date }}</div>
           <q-list bordered>
@@ -128,22 +123,25 @@ function getEventType(event: eventSummary) {
             </q-item>
           </q-list>
           <q-list>
-            <q-item class="flex items-center">Legends:
-                <q-icon color="primary" name= 'person' class="q-ml-md"/> <div class="q-ml-sm text-caption">Personal</div>
-                <q-icon color="primary" name= 'group' class="q-ml-md"/> <div class="q-ml-sm text-caption">Meeting</div>
-                <q-icon color="primary" name= 'groups' class="q-ml-md"/> <div class="q-ml-sm text-caption">Group</div>
+            <q-item class="flex items-center"
+              >Legends: <q-icon color="primary" name="person" class="q-ml-md" />
+              <div class="q-ml-sm text-caption">Personal</div>
+              <q-icon color="primary" name="group" class="q-ml-md" />
+              <div class="q-ml-sm text-caption">Meeting</div>
+              <q-icon color="primary" name="groups" class="q-ml-md" />
+              <div class="q-ml-sm text-caption">Group</div>
             </q-item>
           </q-list>
-
         </div>
         <div>
           <q-page-sticky position="bottom-right" :offset="[18, 18]">
             <q-btn
-              :to="{ name: 'newEvent',
-                   params: {
-                        id: -1,
-                      },
-            }"
+              :to="{
+                name: 'newEvent',
+                params: {
+                  id: -1,
+                },
+              }"
               fab
               icon="add"
               color="accent"

@@ -3,12 +3,12 @@ TODO: sg: Show the details of multi day event in the text(Event timing) [45]
 -->
 
 <script setup lang="ts">
+import { eventSummary } from '../../models/event/eventSummary';
 import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import { onMounted } from 'vue';
 import { ref, computed } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper.js';
 import { format } from 'date-fns';
-import { eventSummary } from '../../models/event/eventSummary';
 
 const eventSummaryStore = useEventSummaryStore();
 
