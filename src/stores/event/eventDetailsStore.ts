@@ -33,7 +33,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     //   ----getting single user details by id----
-    async getEventDetailsById(id: string) {
+    async getEventDetailsById(id: string | string[]) {
       try {
         const response = await axios.get(
           `http://localhost:4000/eventDetails?id=${id}`
