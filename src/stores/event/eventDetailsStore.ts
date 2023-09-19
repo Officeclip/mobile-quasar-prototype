@@ -55,7 +55,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       // not added yet
       try {
         const response = await axios.put(
-          `http://localhost:4000/event-details/${event.sid}`,
+          `http://localhost:4000/event-details?sid=${event.sid}`,
           event
         );
         if (response.status === 200) {
@@ -79,7 +79,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     async deleteEventDetails(sid: string | undefined) {
       try {
         const response = await axios.delete(
-          `http://localhost:4000/event-details/${sid}`
+          `http://localhost:4000/event-details?sid=${sid}`
         );
         if (response.status === 200) {
           //debugger;

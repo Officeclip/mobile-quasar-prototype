@@ -40,7 +40,7 @@ function onSubmit(e: any) {
   console.log(`EditEvent: startDateTime: ${start}, ${end}`);
 
   const newEvent: any = {
-    id: event.value?.sid,
+    sid: event.value?.sid,
     parentObjectServiceType: event.value?.parentServiceType,
     eventType: event.value?.eventType,
     eventName: event.value?.eventName,

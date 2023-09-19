@@ -36,6 +36,7 @@ function displayConfirmationDialog() {
 }
 
 function confirmDeleteEvent() {
+  console.log('deleted event sid is :', event.value?.sid)
   eventDetailsStore.deleteEventDetails(event.value?.sid).then(() => {
     showConfirmationDialog.value = false;
     router.go(-1);

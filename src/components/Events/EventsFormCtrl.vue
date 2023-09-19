@@ -11,16 +11,9 @@ const emit = defineEmits(['rrule-generated', 'reminder-generated','rrule-text-ge
 
 const startDateTime = ref('');
 const endDateTime = ref('');
-// const timezone = ref('');
-// const location = ref('');
 const regardings = ref('');
 const names = ref('');
 const showTimeAs = ref('Free')
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-// const meeetingAttendees: any = ref([])
-// const labels = ref('Meeting')
-// const url = ref('')
-// const recurrenceString = ref('');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Choose Reminder');
 
@@ -34,46 +27,12 @@ const iconName2 = ref('add');
 const toggleAttendees = () => {
   iconName1.value = showAttendees.value ? 'add' : 'remove'
   showAttendees.value = !showAttendees.value;
-  // showAttendees.value ? meeetingAttendees.value = [] : meeetingAttendees.value
-  // eslint-disable-next-line vue/no-mutating-props
-  // showAttendees.value ? props.event.meeetingAttendees.value = [] : props.event.meeetingAttendees
 }
 
 const toggleOptions = () => {
   iconName2.value = showOptions.value ? 'add' : 'remove'
   showOptions.value = !showOptions.value;
 }
-
-// const eventsStore = useEventsStore();
-// onMounted(() => {
-//   eventsStore.getAllMeetingAttendees()
-// });
-
-// const meetingAttendees = computed(() => {
-//   return eventsStore.MeetingAttendees
-// });
-
-// const extractMeetingAttendeesNames =
-//   meetingAttendees.value.map(item => (item.name));
-
-// const moptions = ref(extractMeetingAttendeesNames)
-
-//build new array of objects with specific properties from all properties
-// const nameAndEmailArray = meetingAttendees.value.map(item => ({ name: item.name, email: item.email }));
-
-
-// function filterFn(val: string, update: (arg0: () => void) => void, abort: any) {
-//   update(() => {
-//     const needle = val.toLocaleLowerCase()
-//     moptions.value = extractMeetingAttendeesNames.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
-//   })
-// }
-
-// function setModel(val: any) {
-//   // eslint-disable-next-line vue/no-mutating-props
-//   props.event.meetingAttendees = val
-// }
-
 
 startDateTime.value = props.event.startDateTime;
 endDateTime.value = props.event.endDateTime;
@@ -256,7 +215,7 @@ function handleReminderText(reminderText: string) {
           </template>
         </q-input>
 
-        <q-input v-model="event.location" bottom-slots label="Location">
+        <q-input v-model="event.eventLocation" bottom-slots label="Location">
           <template v-slot:prepend>
             <q-icon name="place"/>
           </template>
