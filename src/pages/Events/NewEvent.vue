@@ -1,6 +1,6 @@
 <script setup>
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
-import {useEventsStore} from 'stores/EventsStore';
+import {useEventDetailsStore} from '../../stores/event/eventDetailsStore';
 import {ref} from 'vue'
 import {useRoute, useRouter} from 'vue-router';
 
@@ -13,7 +13,7 @@ const parentObjectId = route.params.id
 
 const newparentObjectId = parentObjectId ? parentObjectId : -1
 
-const eventsStore = useEventsStore()
+const eventsDetailsStore = useEventDetailsStore()
 const event = ref({
   eventName: '',
   eventDescription: '',
@@ -87,7 +87,7 @@ function onSubmit(e) {
     remindBeforeMinutes: event.value.remindBeforeMinutes
   }
   console.log('new event form values: ', newEvent)
-  eventsStore.addEvent(newEvent);
+  eventsDetailsStore.addEventDetails(newEvent);
   router.push('/simpleCalendar')
 }
 

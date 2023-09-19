@@ -4,7 +4,7 @@ import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import { eventDetails } from '../../models/event/eventDetails';
+// import { eventDetails } from '../../models/event/eventDetails';
 
 const eventDetailsStore = useEventDetailsStore();
 const route1 = useRouter();

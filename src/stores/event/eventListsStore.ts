@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { meetingAttendee, label } from '../../models/event/eventLists';
+import { meetingAttendee, label } from '../../models/Event/eventLists';
 import axios from 'axios';
 import { Constants } from '../Constants';
 

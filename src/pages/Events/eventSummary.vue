@@ -8,7 +8,7 @@ import { onMounted } from 'vue';
 import { ref, computed } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper.js';
 import { format } from 'date-fns';
-import { eventSummary } from '../../models/event/eventSummary';
+import { eventSummary } from '../../models/Event/eventSummary';
 
 const eventSummaryStore = useEventSummaryStore();
 

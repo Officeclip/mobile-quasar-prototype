@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { eventSummary } from '../../models/event/eventSummary.js';
+import { eventSummary } from '../../models/Event/eventSummary.js';
 import axios from 'axios';
 import dateTimeHelper from 'src/helpers/dateTimeHelper.js';
 
