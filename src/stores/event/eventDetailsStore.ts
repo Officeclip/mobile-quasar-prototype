@@ -36,7 +36,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     async getEventDetailsById(id: string | string[]) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/event-details?id=${id}`
+          `http://localhost:4000/event-details?sid=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.eventDetails = response.data[0];

@@ -1,8 +1,8 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import {computed, onMounted, ref} from 'vue';
+import {computed, ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import {useEventsStore} from 'stores/EventsStore'
+// import {useEventsStore} from 'stores/EventsStore'
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 
@@ -44,35 +44,35 @@ const toggleOptions = () => {
   showOptions.value = !showOptions.value;
 }
 
-const eventsStore = useEventsStore();
-onMounted(() => {
-  eventsStore.getAllMeetingAttendees()
-});
+// const eventsStore = useEventsStore();
+// onMounted(() => {
+//   eventsStore.getAllMeetingAttendees()
+// });
 
-const meetingAttendees = computed(() => {
-  return eventsStore.MeetingAttendees
-});
+// const meetingAttendees = computed(() => {
+//   return eventsStore.MeetingAttendees
+// });
 
-const extractMeetingAttendeesNames =
-  meetingAttendees.value.map(item => (item.name));
+// const extractMeetingAttendeesNames =
+//   meetingAttendees.value.map(item => (item.name));
 
-const moptions = ref(extractMeetingAttendeesNames)
+// const moptions = ref(extractMeetingAttendeesNames)
 
 //build new array of objects with specific properties from all properties
 // const nameAndEmailArray = meetingAttendees.value.map(item => ({ name: item.name, email: item.email }));
 
 
-function filterFn(val: string, update: (arg0: () => void) => void, abort: any) {
-  update(() => {
-    const needle = val.toLocaleLowerCase()
-    moptions.value = extractMeetingAttendeesNames.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
-  })
-}
+// function filterFn(val: string, update: (arg0: () => void) => void, abort: any) {
+//   update(() => {
+//     const needle = val.toLocaleLowerCase()
+//     moptions.value = extractMeetingAttendeesNames.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
+//   })
+// }
 
-function setModel(val: any) {
-  // eslint-disable-next-line vue/no-mutating-props
-  props.event.meetingAttendees = val
-}
+// function setModel(val: any) {
+//   // eslint-disable-next-line vue/no-mutating-props
+//   props.event.meetingAttendees = val
+// }
 
 
 startDateTime.value = props.event.startDateTime;
@@ -308,22 +308,9 @@ function handleReminderText(reminderText: string) {
           @click="toggleAttendees"/>
 
         <div v-if="showAttendees">
-          <q-select
-            :model-value="event.meetingAttendees"
-            :options="moptions"
-            dense
-            fill-input
-            filled
-            hide-selected
-            input-debounce="0"
-            label="Select from dropdown"
-            use-chips
-            use-input
-            @filter="filterFn"
-            @input-value="setModel"
-
-          >
-          </q-select>
+          <q-item>
+            Test Meeting attendees
+          </q-item>
         </div>
 
         <!-- toggle options here -->
