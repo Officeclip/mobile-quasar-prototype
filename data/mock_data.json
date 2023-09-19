@@ -1009,8 +1009,6 @@
     },
     {
       "id": "6",
-      "parentObjectServiceType": 14,
-      "parentObjectId": 4,
       "eventType": 2,
       "eventName": "6:Testing the multi day event",
       "startDateTime": "2023-09-10T10:43:32.203Z",
@@ -1041,7 +1039,8 @@
       "modifiedUserSid": "N4VRXBADAZHRSGHFYD5Q",
       "timezoneId": 42,
       "remindTo": "Me",
-      "remindBeforeMinutes": 3600
+      "remindBeforeMinutes": 3600,
+      "label": 1
     }
   ],
   "event-lists": [
@@ -1212,17 +1211,7 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        10
-      ]
+      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
     }
   ],
   "generalUserProfile": [
@@ -1854,12 +1843,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-            "",
-            "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },

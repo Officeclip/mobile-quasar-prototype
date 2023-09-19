@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { eventDetails } from '../../models/Event/eventDetails.js';
+import { eventDetails } from '../../models/event/eventDetails.js';
 import { MeetingAttendees } from '../../models/meetingAttendees.js';
 import axios from 'axios';
 
