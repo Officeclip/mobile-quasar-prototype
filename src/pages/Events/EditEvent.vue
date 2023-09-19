@@ -5,14 +5,13 @@ import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { eventDetails } from '../../models/event/eventDetails';
-// import { eventDetails } from '../../models/event/eventDetails';
 
 const eventDetailsStore = useEventDetailsStore();
 const route1 = useRouter();
 
 const id = ref<string | string[]>('0');
 
-const event = computed(() => {
+const eventDetails = computed(() => {
   return eventDetailsStore.EventDetails;
 });
 
@@ -29,30 +28,44 @@ function onSubmit(e: any) {
   const formData: any = new FormData(e.target);
 
   const start = formData.get('startDateTime');
-  const newStartDate = event.value?.isAllDayEvent
+  const newStartDate = eventDetails.value?.isAllDayEvent
     ? dateTimeHelper.convertDateToUtc(start)
     : dateTimeHelper.convertGeneralToUtc(start);
 
   const end = formData.get('endDateTime');
-  const newEndDate = event.value?.isAllDayEvent
+  const newEndDate = eventDetails.value?.isAllDayEvent
     ? dateTimeHelper.convertDateToUtc(end)
     : dateTimeHelper.convertGeneralToUtc(end);
 
   console.log(`EditEvent: startDateTime: ${start}, ${end}`);
 
   // need to fix the model properties in this object
-  const newEvent: eventDetails = {
-    id: event.value?.id,
-    parentObjectServiceType: event.value?.parentServiceType,
-    eventType: event.value?.eventType,
-    eventName: event.value?.eventName,
-    eventDescription: event.value?.eventDescription,
+  // idea from https://stackoverflow.com/a/57611367
+  const editEvent: eventDetails = {
+    id: eventDetails.value?.id as string,
+    parentServiceType: eventDetails.value?.parentServiceType as number,
+    eventType: eventDetails.value?.eventType as number,
+    eventName: eventDetails.value?.eventName as string,
+    eventDescription: eventDetails.value?.eventDescription,
     startDateTime: newStartDate,
     endDateTime: newEndDate,
-    isAllDayEvent: event.value?.isAllDayEvent,
-    eventLocation: event.value?.eventLocation,
+    isAllDayEvent: eventDetails.value?.isAllDayEvent as boolean,
+    eventLocation: eventDetails.value?.eventLocation,
+    createdDate: '',
+    createdGroupSId: '',
+    createdUserSid: '',
+    parentSid: '',
+    eventUserSid: '',
+    isRsvp: false,
+    repeatInfoText: '',
+    recurrenceRule: '',
+    modifiedDate: '',
+    modifiedUserSid: '',
+    timezoneId: '',
+    remindTo: '',
+    remindBeforeMinutes: 0,
   };
-  eventDetailsStore.editEventDetails(newEvent);
+  eventDetailsStore.editEventDetails(editEvent);
   route1.push('/eventSummary');
 }
 </script>
@@ -76,7 +89,7 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <EventForm :event="event" />
+          <EventForm :event="eventDetails" />
           <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"
