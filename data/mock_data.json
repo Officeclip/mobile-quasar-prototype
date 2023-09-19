@@ -1040,25 +1040,28 @@
       "timezoneId": 42,
       "remindTo": "Me",
       "remindBeforeMinutes": 3600,
-      "label": 1
-    }
-  ],
-  "event-lists": [
-    {
+      "label": 1,
       "meetingAttendees": [
         {
+          "id": "1",
           "name": "Narsimha",
           "email": "knr@officeclip.com"
         },
         {
+          "id": "2",
           "name": "Oc, Demo",
           "email": "ocdemo@officeclip.com"
         },
         {
+          "id": "3",
           "name": "Prakash",
           "email": "prakash@gmail.com"
         }
-      ],
+      ]
+    }
+  ],
+  "event-lists": [
+    {
       "label": [
         {
           "id": 1,

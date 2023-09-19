@@ -1,17 +1,15 @@
 import { defineStore } from 'pinia';
-import { meetingAttendee, label } from '../../models/Event/eventLists';
+import { label } from '../../models/event/eventLists';
 import axios from 'axios';
 import { Constants } from '../Constants';
 
 export const useEventListsStore = defineStore('eventListsStore', {
   state: () => ({
     // timesheetList: undefined as TimesheetList | undefined,
-    meetingAttendees: [] as meetingAttendee[],
     labels: [] as label[],
   }),
 
   getters: {
-    MeetingAttendees: (state) => state.meetingAttendees,
     Labels: (state) => state.labels,
   },
 
@@ -24,7 +22,6 @@ export const useEventListsStore = defineStore('eventListsStore', {
           `${Constants.endPointUrl}/event-lists`
         );
         const eventLists = response.data[0];
-        this.meetingAttendees = eventLists.meetingAttendees;
         this.labels = eventLists.labels;
       } catch (error) {
         console.error(error);

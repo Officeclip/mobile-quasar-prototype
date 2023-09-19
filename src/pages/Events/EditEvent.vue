@@ -61,9 +61,11 @@ function onSubmit(e: any) {
     recurrenceRule: '',
     modifiedDate: '',
     modifiedUserSid: '',
-    timezoneId: '',
+    timezoneId: -1,
     remindTo: '',
     remindBeforeMinutes: 0,
+    label: -1,
+    meetingAttendees: [],
   };
   eventDetailsStore.editEventDetails(editEvent);
   route1.push('/eventSummary');
