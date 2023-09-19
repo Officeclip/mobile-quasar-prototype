@@ -36,7 +36,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     async getEventDetailsById(id: string | string[]) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/eventDetails?id=${id}`
+          `http://localhost:4000/event-details?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.eventDetails = response.data[0];
@@ -55,7 +55,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       // not added yet
       try {
         const response = await axios.put(
-          `http://localhost:4000/events/${event.sid}`,
+          `http://localhost:4000/event-details/${event.sid}`,
           event
         );
         if (response.status === 200) {
@@ -68,7 +68,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     async addEventDetails(event: eventDetails) {
-      const res = await fetch('http://localhost:4000/eventDetails', {
+      const res = await fetch('http://localhost:4000/event-details', {
         method: 'POST',
         body: JSON.stringify(event),
         headers: { 'Content-Type': 'application/json' },
@@ -79,7 +79,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     async deleteEventDetails(sid: string | undefined) {
       try {
         const response = await axios.delete(
-          `http://localhost:4000/events/${sid}`
+          `http://localhost:4000/event-details/${sid}`
         );
         if (response.status === 200) {
           //debugger;

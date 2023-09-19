@@ -1,24 +1,24 @@
 <script lang="ts" setup>
 import { computed, onBeforeMount, ref } from 'vue';
-import { useEventsStore } from '../../stores/EventsStore';
+import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 console.log('setup: EventDetails.vue');
-const eventsStore = useEventsStore();
+const eventDetailsStore = useEventDetailsStore();
 
 const router = useRouter();
 
 const id = ref<string | string[]>('0');
 
 const event = computed(() => {
-  return eventsStore.Event;
+  return eventDetailsStore.EventDetails;
 });
 
 onBeforeMount(() => {
   const route = useRoute();
   console.log('id=', route.params.id);
   id.value = route.params.id;
-  eventsStore.getEventDetails(Number(route.params.id));
+  eventDetailsStore.getEventDetailsById(route.params.id);
 });
 
 function displayDateorBoth(x: string) {
@@ -36,7 +36,7 @@ function displayConfirmationDialog() {
 }
 
 function confirmDeleteEvent() {
-  eventsStore.deleteEvent(event.value?.id).then(() => {
+  eventDetailsStore.deleteEventDetails(event.value?.sid).then(() => {
     showConfirmationDialog.value = false;
     router.go(-1);
   });
