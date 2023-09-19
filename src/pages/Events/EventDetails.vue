@@ -11,6 +11,7 @@ const router = useRouter();
 const id = ref<string | string[]>('0');
 
 const event = computed(() => {
+  console.log('details page:', eventDetailsStore.EventDetails)
   return eventDetailsStore.EventDetails;
 });
 
@@ -36,8 +37,8 @@ function displayConfirmationDialog() {
 }
 
 function confirmDeleteEvent() {
-  console.log('deleted event sid is :', event.value?.sid)
-  eventDetailsStore.deleteEventDetails(event.value?.sid).then(() => {
+  console.log('deleted event id is :', event.value?.id)
+  eventDetailsStore.deleteEventDetails(event.value?.id).then(() => {
     showConfirmationDialog.value = false;
     router.go(-1);
   });

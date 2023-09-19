@@ -104,10 +104,10 @@ function getEventType(event: eventSummary) {
           <q-list bordered>
             <q-item
               v-for="event in eventsForADay"
-              :key="event.sid"
+              :key="event.id"
               :to="{
                 name: 'eventDetails',
-                params: { id: event.sid },
+                params: { id: event.id },
               }"
               clickable
               v-ripple

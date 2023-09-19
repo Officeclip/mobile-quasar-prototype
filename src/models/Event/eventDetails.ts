@@ -1,5 +1,5 @@
 export interface eventDetails {
-  sid: string;
+  id: string;
   createdDate: string;
   createdGroupSId: string;
   createdUserSid: string;

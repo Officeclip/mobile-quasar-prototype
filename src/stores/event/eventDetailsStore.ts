@@ -34,12 +34,14 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
 
     //   ----getting single user details by id----
     async getEventDetailsById(id: string | string[]) {
+      console.log('started the get function:', id);
       try {
         const response = await axios.get(
-          `http://localhost:4000/event-details?sid=${id}`
+          `http://localhost:4000/event-details?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.eventDetails = response.data[0];
+          console.log('get the event details by id:', this.eventDetails);
         }
         console.log(
           `EventsStore: getEventsDetailsbyId - length - ${response.data.length}, ${this.eventDetails}`
@@ -51,11 +53,11 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     async editEventDetails(event: eventDetails) {
-      console.log(`editEvent 1: ${this.eventDetails?.sid}`);
+      console.log(`editEvent 1: ${event.id}`);
       // not added yet
       try {
         const response = await axios.put(
-          `http://localhost:4000/event-details?sid=${event.sid}`,
+          `http://localhost:4000/event-details/${event.id}`,
           event
         );
         if (response.status === 200) {
@@ -76,10 +78,10 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       console.log(this.eventDetails);
     },
 
-    async deleteEventDetails(sid: string | undefined) {
+    async deleteEventDetails(id: string | undefined) {
       try {
         const response = await axios.delete(
-          `http://localhost:4000/event-details?sid=${sid}`
+          `http://localhost:4000/event-details?id=${id}`
         );
         if (response.status === 200) {
           //debugger;

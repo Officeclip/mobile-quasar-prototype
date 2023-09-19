@@ -976,7 +976,7 @@
   ],
   "event-summary": [
     {
-      "sid": "H49BN6FDDBYWN7WXGC5Q",
+      "id": "H49BN6FDDBYWN7WXGC5Q",
       "eventType": 1,
       "eventName": "1:Senior Interactions Analyst",
       "startDateTime": "2023-09-20T14:30:00Z",
@@ -984,7 +984,7 @@
       "isAllDayEvent": false
     },
     {
-      "sid": "2",
+      "id": "2",
       "eventType": 2,
       "eventName": "3: Testing another events",
       "startDateTime": "2023-09-26T10:43:32.203Z",
@@ -992,7 +992,7 @@
       "isAllDayEvent": false
     },
     {
-      "sid": "3",
+      "id": "3",
       "eventType": 2,
       "eventName": "2:Forward Usability Planner",
       "startDateTime": "2023-09-27T10:43:32.203Z",
@@ -1000,7 +1000,7 @@
       "isAllDayEvent": false
     },
     {
-      "sid": "5",
+      "id": "5",
       "eventType": 1,
       "eventName": "5:Testing the All day event",
       "startDateTime": "2023-09-30T00:00:00Z",
@@ -1008,7 +1008,7 @@
       "isAllDayEvent": true
     },
     {
-      "sid": "6",
+      "id": "6",
       "parentObjectServiceType": 14,
       "parentObjectId": 4,
       "eventType": 2,
@@ -1020,7 +1020,7 @@
   ],
   "event-details": [
     {
-      "sid": "5",
+      "id": "5",
       "createdDate": "2020-03-05T15:01:17Z",
       "createdGroupSId": "YZMX3M9D4BLNXA9S545Q",
       "createdUserSid": "N4VRXBADAZHRSGHFYD5Q",

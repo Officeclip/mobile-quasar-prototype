@@ -4,6 +4,7 @@ import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
+import { eventDetails } from '../../models/Event/eventDetails'
 // import { eventDetails } from '../../models/event/eventDetails';
 
 const eventDetailsStore = useEventDetailsStore();
@@ -39,8 +40,10 @@ function onSubmit(e: any) {
 
   console.log(`EditEvent: startDateTime: ${start}, ${end}`);
 
-  const newEvent: any = {
-    sid: event.value?.sid,
+
+  // need to fix the model properties in this object
+  const newEvent: eventDetails = {
+    id: event.value?.id,
     parentObjectServiceType: event.value?.parentServiceType,
     eventType: event.value?.eventType,
     eventName: event.value?.eventName,
@@ -51,7 +54,7 @@ function onSubmit(e: any) {
     eventLocation: event.value?.eventLocation,
   };
   eventDetailsStore.editEventDetails(newEvent);
-  route1.push('/simpleCalendar');
+  route1.push('/eventSummary');
 }
 </script>
 
