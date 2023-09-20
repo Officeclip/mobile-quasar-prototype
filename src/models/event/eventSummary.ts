@@ -2,7 +2,7 @@ export interface eventSummary {
   id: string;
   eventType: number;
   eventName: string;
-  startDateTime: string;
-  endDateTime: string;
+  startDateTime: Date;
+  endDateTime: Date;
   isAllDayEvent: boolean;
 }
