@@ -1879,7 +1879,7 @@
     {
       "createdByUserName": "Nagesh Kulkarni",
       "employeeId": "OCHYD-005",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
       "status": "Saved",
       "totalAmount": "255.00",
       "fromDate": "2020-11-02T10:43:32.203Z"
@@ -1887,7 +1887,7 @@
     {
       "createdByUserName": "Nagesh Kulkarni",
       "employeeId": "OCHYD-005",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
       "status": "Saved",
       "totalAmount": "9999.00",
       "fromDate": "2020-09-14T10:43:32.203Z"
@@ -1895,7 +1895,7 @@
     {
       "createdByUserName": "Nagesh Kulkarni",
       "employeeId": "OCHYD-005",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
       "status": "Approved",
       "totalAmount": "10000.00",
       "fromDate": "2020-07-06T10:43:32.203Z"
@@ -1903,7 +1903,7 @@
     {
       "createdByUserName": "Nagesh Kulkarni",
       "employeeId": "OCHYD-005",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
       "status": "Rejected",
       "totalAmount": "12000.00",
       "fromDate": "2020-06-15T10:43:32.203Z"
@@ -1921,7 +1921,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
       "expenseTypeName": "AUTORENTAL",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -1934,29 +1934,6 @@
         "city": "Hyderabad",
         "fromDate": "10-06-2020",
         "toDate": "13-06-2020"
-      },
-      "airTravelExpense": {
-        "arrivalAirport": "Hyderabad",
-        "arrivalDate": "12-06-2020",
-        "departureAirport": "Mumbai",
-        "departureDate": "13-06-2020"
-      },
-      "hotelExpense": {
-        "hotelName": "Oyo Rooms",
-        "city": "Hyderabad",
-        "fromDate": "11-06-2020",
-        "toDate": "13-06-2020"
-      },
-      "mileageExpense": {
-        "mileage": "10.00"
-      },
-      "telephoneExpense": {
-        "phoneNumber": "9966722755",
-        "city": "Hyderabad"
-      },
-      "taxiExpense": {
-        "city": "Hyderabad",
-        "taxiLineName": "Ola Cabs"
       }
     },
     {
@@ -1970,7 +1947,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
       "expenseTypeName": "AUTORENTAL",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -1983,8 +1960,7 @@
         "city": "Hyderabad",
         "fromDate": "10-06-2020",
         "toDate": "13-06-2020"
-      },
-      "airTravelExpense": null
+      }
     },
     {
       "accountName": "OfficeClip LLC",
@@ -1997,7 +1973,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
       "expenseTypeName": "AIRTRAVEL",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -2023,7 +1999,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
       "expenseTypeName": "HOTEL",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -2049,7 +2025,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
       "expenseTypeName": "MILEAGE",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -2072,7 +2048,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
       "expenseTypeName": "TELEPHONE",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -2096,7 +2072,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
       "expenseTypeName": "TAXI",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
