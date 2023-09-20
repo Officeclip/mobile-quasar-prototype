@@ -4,7 +4,7 @@ import { Expense } from '../models/expense';
 import {
   AirTravelExpense,
   ExpenseDetail,
-} from '../models/Expense/expenseDetail';
+} from '../models/expense/expenseDetail';
 import axios from 'axios';
 
 export const useExpensesStore = defineStore('expensesStore', {
@@ -66,7 +66,7 @@ export const useExpensesStore = defineStore('expensesStore', {
       }
     },
 
-    async getExpenseDetails(id: string) {
+    async getExpenseDetails(id: string | string[]) {
       try {
         const response = await axios.get(
           `http://localhost:4000/expense-details?id=${id}`

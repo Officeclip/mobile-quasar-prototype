@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { CustomerProject, Period } from '../models/Expense/expenseList';
+import { CustomerProject, Period } from '../models/expense/expenseList';
 import axios from 'axios';
 import { Constants } from './Constants';
 

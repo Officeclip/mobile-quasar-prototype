@@ -1177,7 +1177,7 @@
       "id": 7,
       "icon": "card_travel",
       "name": "Expenses",
-      "url": "/expensesAll"
+      "url": "/expenseSummary"
     },
     {
       "id": 8,

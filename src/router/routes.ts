@@ -159,15 +159,15 @@ const routes: RouteRecordRaw[] = [
     // params: true,
   },
   {
-    path: '/expensesAll',
-    name: 'expensesAll',
-    component: () => import('../pages/Expenses/ExpensesAll.vue'),
+    path: '/expenseSummary',
+    name: 'expenseSummary',
+    component: () => import('../pages/Expenses/expenseSummary.vue'),
     // params: true,
   },
   {
-    path: '/expenseList/:id/:status',
-    name: 'expenseList',
-    component: () => import('../pages/Expenses/ExpenseList.vue'),
+    path: '/expenseSummaryFiltered/:id/:status',
+    name: 'expenseSummaryFiltered',
+    component: () => import('../pages/Expenses/expenseSummaryFiltered.vue'),
     // params: true,
   },
   {

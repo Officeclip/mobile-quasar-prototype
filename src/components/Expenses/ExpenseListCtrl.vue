@@ -1,42 +1,50 @@
 <script setup lang="ts">
-import { useExpensesStore } from '../../stores/ExpensesStore';
+import { useExpenseSummaryStore } from '../../stores/expense/expenseSummaryStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const id = ref<string | string[]>('0');
-const status = ref<string | string[]>('')
-const expensesStore = useExpensesStore();
+const status = ref<string | string[]>('');
+const expensesStore = useExpenseSummaryStore();
 
 onMounted(() => {
   const route = useRoute();
   console.log('id=', route.params.id);
-  console.log('status=', route.params.status)
+  console.log('status=', route.params.status);
   id.value = route.params.id;
-  status.value = route.params.status
-  expensesStore.getExpensesByStatus(String(route.params.status));
+  status.value = route.params.status;
+  expensesStore.getExpenseSummaryByStatus(String(route.params.status));
 });
 
 const getExpenses = computed(() => {
-  return expensesStore.Expenses;
+  return expensesStore.ExpenseSummary;
 });
-
 </script>
 <template>
-  <q-list v-for="expense in getExpenses" :key="expense.expenseSid">
-    <q-item :to="{
-      name: 'expenseDetails',
-      params: {
-        id: expense.expenseSid,
-      },
-    }" clickable v-ripple>
+  <q-list v-for="expense in getExpenses" :key="expense.id">
+    <q-item
+      :to="{
+        name: 'expenseDetails',
+        params: {
+          id: expense.id,
+        },
+      }"
+      clickable
+      v-ripple
+    >
       <q-item-section>
         <q-item-label>
           {{ expense.createdByUserName }}
         </q-item-label>
-        <q-item-label caption>{{ expense.fromDate
-          ? dateTimeHelper.extractMonthFromUtc(expense.fromDate)
-          : 'NoData msg' }} - {{ expense.totalAmount }}</q-item-label>
+        <q-item-label caption
+          >{{
+            expense.fromDate
+              ? dateTimeHelper.extractMonthFromUtc(expense.fromDate)
+              : 'NoData msg'
+          }}
+          - {{ expense.totalAmount }}</q-item-label
+        >
       </q-item-section>
       <q-item-section side>
         <q-icon color="primary" name="chevron_right" />
@@ -48,10 +56,10 @@ const getExpenses = computed(() => {
 
 <style scoped>
 .q-router-link--active {
-  color: black
+  color: black;
 }
 
 .q-list:nth-child(odd) {
-  background: rgb(238, 238, 238)
+  background: rgb(238, 238, 238);
 }
 </style>

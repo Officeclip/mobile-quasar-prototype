@@ -5,7 +5,6 @@ import { useExpenseListStore } from '../../stores/ExpenseListStore';
 import ExpenseForm from '../../models/Expense/expenseDetail';
 import AirTravelExpense from '../../components/Expenses/AirTravelFormCtrl.vue';
 
-
 // const periodOptions = ref([])
 // periodOptions.value = [
 //   '2023-07-31',
@@ -22,28 +21,27 @@ dateOptions.value = [
   'Aug 30(Wed)',
   'Aug 31(Thu)',
   'Aug 01(Fri)',
-  'Aug 02(Sat)'
-]
+  'Aug 02(Sat)',
+];
 
-
-const sampleModel = ref(null)
-const sampleModel2 = ref(null)
+const sampleModel = ref(null);
+const sampleModel2 = ref(null);
 
 const expenseListStore = useExpenseListStore();
 
 onMounted(() => {
-  expenseListStore.getExpenseListAll()
-})
+  expenseListStore.getExpenseListAll();
+});
 
 onUpdated(() => {
-  const selectedValue = sampleModel.value.id
-  console.log('getting the id from option:', selectedValue)
-})
+  const selectedValue = sampleModel.value.id;
+  console.log('getting the id from option:', selectedValue);
+});
 
-const periodOptions = ref('')
+const periodOptions = ref('');
 periodOptions.value = expenseListStore.periodList;
 
-const customerProjectOptions = ref('')
+const customerProjectOptions = ref('');
 customerProjectOptions.value = expenseListStore.CustomerProjectsList;
 
 const billableOptions = ref([]);
@@ -56,7 +54,7 @@ billableOptions.value = [
     label: 'No',
     value: false,
   },
-]
+];
 
 const paymentMethod = ref([]);
 paymentMethod.value = [
@@ -71,18 +69,18 @@ paymentMethod.value = [
   {
     label: 'Company CreditCard',
     value: 3,
-  }
-]
+  },
+];
 
 const props = defineProps(['expense']);
 
-const expenseDate = ref('')
-expenseDate.value = dateTimeHelper.extractDateFromUtc(props.expense.expenseDate)
+const expenseDate = ref('');
+expenseDate.value = dateTimeHelper.extractDateFromUtc(
+  props.expense.expenseDate
+);
 
-const taskDate = ref('')
-taskDate.value = 'July 20(Thu)'
-
-
+const taskDate = ref('');
+taskDate.value = 'July 20(Thu)';
 
 const airTravel = ref({
   arrivalAirport: '',
@@ -90,7 +88,6 @@ const airTravel = ref({
   departureAirport: '',
   departureDate: '',
 });
-
 </script>
 
 <template>
@@ -98,35 +95,85 @@ const airTravel = ref({
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
-        <q-select name="newcreatedDate" label="Period" v-model="expenseDate" :options="periodOptions" map-options
-          option-label="name" emit-label />
+        <q-select
+          name="newcreatedDate"
+          label="Period"
+          v-model="expenseDate"
+          :options="periodOptions"
+          map-options
+          option-label="name"
+          emit-label
+        />
 
-        <q-select name="newtaskDate" label="Expense Date" v-model="taskDate" :options="dateOptions" map-options
-          emit-label />
+        <q-select
+          name="newtaskDate"
+          label="Expense Date"
+          v-model="taskDate"
+          :options="dateOptions"
+          map-options
+          emit-label
+        />
         <pre>{{ sampleModel }}</pre>
-        <q-select label="Customer: Project" v-model="sampleModel" :options="customerProjectOptions" option-label="name"
-          option-value="id" map-options @update:model-value="handleSelectChange" />
+        <q-select
+          label="Customer: Project"
+          v-model="sampleModel"
+          :options="customerProjectOptions"
+          option-label="name"
+          option-value="id"
+          map-options
+          @update:model-value="handleSelectChange"
+        />
 
         <!-- <AirTravelExpense :air-travel="airTravel" /> -->
 
-        <q-select label="Payment Method" v-model="props.expense.paymentMethod" :options="paymentMethod" map-options />
+        <q-select
+          label="Payment Method"
+          v-model="props.expense.paymentMethod"
+          :options="paymentMethod"
+          map-options
+        />
 
-        <q-select label="Billable" v-model="props.expense.isBillable" :options="billableOptions" map-options emit-value />
-        <q-input label="Amount" v-model="props.expense.totalAmount" placeholder="enter here..." lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']">
+        <q-select
+          label="Billable"
+          v-model="props.expense.isBillable"
+          :options="billableOptions"
+          map-options
+          emit-value
+        />
+        <q-input
+          label="Amount"
+          v-model="props.expense.totalAmount"
+          placeholder="enter here..."
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        >
         </q-input>
 
-        <q-input label="Tax" v-model="props.expense.tax" placeholder="enter here...">
+        <q-input
+          label="Tax"
+          v-model="props.expense.tax"
+          placeholder="enter here..."
+        >
         </q-input>
 
-        <q-input label="Description" v-model="props.expense.description" placeholder="enter here..." lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']">
+        <q-input
+          label="Description"
+          v-model="props.expense.description"
+          placeholder="enter here..."
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        >
         </q-input>
 
-        <q-input label="Comments" v-model="props.expense.comments" placeholder="enter here...">
+        <q-input
+          label="Comments"
+          v-model="props.expense.comments"
+          placeholder="enter here..."
+        >
         </q-input>
       </div>
     </div>
   </div>
 </template>
 <style></style>
+../../models/expense/expenseDetail
