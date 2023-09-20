@@ -4,6 +4,7 @@ import { computed, ref } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
+import EventsAddAttendeesDialog from './EventsAddAttendeesDialog.vue';
 
 const props = defineProps(['event']);
 const emit = defineEmits([
@@ -20,19 +21,12 @@ const showTimeAs = ref('Free');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Choose Reminder');
 
-const showAttendees = ref(false);
 const showOptions = ref(false);
 
-const iconName1 = ref('add');
-const iconName2 = ref('add');
-
-const toggleAttendees = () => {
-  iconName1.value = showAttendees.value ? 'add' : 'remove';
-  showAttendees.value = !showAttendees.value;
-};
+const toggleIcon = ref('add');
 
 const toggleOptions = () => {
-  iconName2.value = showOptions.value ? 'add' : 'remove';
+  toggleIcon.value = showOptions.value ? 'add' : 'remove';
   showOptions.value = !showOptions.value;
 };
 
@@ -97,6 +91,7 @@ const ShowTimeOptions = ['Busy', 'Free', 'Tentative', 'Out of Office'];
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
+const addAttendeesPopup = ref(false);
 
 function handleRRuleString(rruleString: string) {
   // You can now use the rruleString in your parent component
@@ -265,7 +260,7 @@ function handleReminderText(reminderText: string) {
         </q-item>
 
         <q-btn
-          :icon-right="iconName1"
+          icon-right="groups"
           align="left"
           color="primary"
           flat
@@ -273,16 +268,12 @@ function handleReminderText(reminderText: string) {
           no-caps
           rounded
           size="md"
-          @click="toggleAttendees"
+          @click="addAttendeesPopup = true"
         />
-
-        <div v-if="showAttendees">
-          <q-item> Test Meeting attendees </q-item>
-        </div>
 
         <!-- toggle options here -->
         <q-btn
-          :icon-right="iconName2"
+          :icon-right="toggleIcon"
           align="left"
           color="primary"
           flat
@@ -369,6 +360,9 @@ function handleReminderText(reminderText: string) {
             @reminder-text-generated="handleReminderText"
             @reminder-data-generated="handleReminderData"
           />
+        </q-dialog>
+        <q-dialog v-model="addAttendeesPopup">
+          <EventsAddAttendeesDialog />
         </q-dialog>
       </div>
     </div>
