@@ -49,8 +49,8 @@ function createValue(val, done) {
 const emit = defineEmits(['get-selected-meeting-attendees']);
 
 function getSelectedValues() {
-  const upDatedModelValues = selectedAttendees.value;
-  emit('get-selected-meeting-attendees', upDatedModelValues);
+  // const upDatedModelValues = selectedAttendees.value;
+  emit('get-selected-meeting-attendees', selectedAttendees.value);
 }
 </script>
 
