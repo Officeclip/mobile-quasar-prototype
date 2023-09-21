@@ -176,4 +176,5 @@ const airTravel = ref({
   </div>
 </template>
 <style></style>
-../../models/expense/expenseDetail
+../../models/expense/expenseDetail ../../models/expense/expenseDetails
+../../stores/expense/ExpenseListStore

@@ -2086,38 +2086,63 @@
       }
     }
   ],
-  "expense-list": [
+  "expense-lists": [
     {
       "periods": [
         {
-          "end": "2023-07-02T00:00:00+05:30",
-          "name": "Jun 19, 2023 - Jul 02, 2023",
-          "start": "2023-06-19T00:00:00+05:30"
+          "end": "2023-12-16T00:00:00+05:30",
+          "name": "Dec 03, 2023 - Dec 16, 2023",
+          "start": "2023-12-03T00:00:00+05:30"
         },
         {
-          "end": "2023-06-18T00:00:00+05:30",
-          "name": "Jun 05, 2023 - Jun 18, 2023",
-          "start": "2023-06-05T00:00:00+05:30"
+          "end": "2023-12-02T00:00:00+05:30",
+          "name": "Nov 19, 2023 - Dec 02, 2023",
+          "start": "2023-11-19T00:00:00+05:30"
         },
         {
-          "end": "2023-06-04T00:00:00+05:30",
-          "name": "May 22, 2023 - Jun 04, 2023",
-          "start": "2023-05-22T00:00:00+05:30"
+          "end": "2023-11-18T00:00:00+05:30",
+          "name": "Nov 05, 2023 - Nov 18, 2023",
+          "start": "2023-11-05T00:00:00+05:30"
         },
         {
-          "end": "2023-05-21T00:00:00+05:30",
-          "name": "May 08, 2023 - May 21, 2023",
-          "start": "2023-05-08T00:00:00+05:30"
+          "end": "2023-11-04T00:00:00+05:30",
+          "name": "Oct 22, 2023 - Nov 04, 2023",
+          "start": "2023-10-22T00:00:00+05:30"
         },
         {
-          "end": "2023-05-07T00:00:00+05:30",
-          "name": "Apr 24, 2023 - May 07, 2023",
-          "start": "2023-04-24T00:00:00+05:30"
+          "end": "2023-10-21T00:00:00+05:30",
+          "name": "Oct 08, 2023 - Oct 21, 2023",
+          "start": "2023-10-08T00:00:00+05:30"
         },
         {
-          "end": "2023-04-23T00:00:00+05:30",
-          "name": "Apr 10, 2023 - Apr 23, 2023",
-          "start": "2023-04-10T00:00:00+05:30"
+          "end": "2023-10-07T00:00:00+05:30",
+          "name": "Sep 24, 2023 - Oct 07, 2023",
+          "start": "2023-09-24T00:00:00+05:30"
+        },
+        {
+          "end": "2023-09-23T00:00:00+05:30",
+          "name": "Sep 10, 2023 - Sep 23, 2023",
+          "start": "2023-09-10T00:00:00+05:30"
+        },
+        {
+          "end": "2023-09-09T00:00:00+05:30",
+          "name": "Aug 27, 2023 - Sep 09, 2023",
+          "start": "2023-08-27T00:00:00+05:30"
+        },
+        {
+          "end": "2023-08-26T00:00:00+05:30",
+          "name": "Aug 13, 2023 - Aug 26, 2023",
+          "start": "2023-08-13T00:00:00+05:30"
+        },
+        {
+          "end": "2023-08-12T00:00:00+05:30",
+          "name": "Jul 30, 2023 - Aug 12, 2023",
+          "start": "2023-07-30T00:00:00+05:30"
+        },
+        {
+          "end": "2023-07-29T00:00:00+05:30",
+          "name": "Jul 16, 2023 - Jul 29, 2023",
+          "start": "2023-07-16T00:00:00+05:30"
         }
       ],
       "customerProjects": [
@@ -2178,30 +2203,105 @@
           "name": "OfficeClip LLC:Release 11.2.3"
         }
       ],
-      "expenseType": [
+      "expenseTypes": [
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "AUTORENTAL"
+          "id": "J2BBXASXHAFW2ZSD2BKNWBGEB2LYYHFSGMJM6LQ",
+          "expenseTypeName": "AIRFARE",
+          "expenseName": "AIr",
+          "isDetailsRequired": true,
+          "isBillable": false,
+          "isBillableModify": false,
+          "isActive": false
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "AIRTRAVEL"
+          "id": "J2BBXASXHAFW2ZSDWB6BWJJDMBJCH4SFUJJM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Water",
+          "isDetailsRequired": true,
+          "isBillable": false,
+          "isBillableModify": false,
+          "isActive": false
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "HOTEL"
+          "id": "YB9EHHEV3MRYSUGFS2BC62SC5DYR6RDRCMJM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Lodgeing",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": true,
+          "isActive": false
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "MILEAGE"
+          "id": "YB9EHHEV3MRYSUGFX6TNWYAFJJ6XHWD5DCYM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Taxi Fare",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": true,
+          "isActive": false
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "TELEPHONE"
+          "id": "YB9EHHEV3MRYSUGF28KZ2UWDV4LE2KRSYDYM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Milage",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": true,
+          "isActive": false
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "TAXI"
+          "id": "JBKR37FSM6JZXJGRG2HV73AXBM9YH3FE34YM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Lodgeing",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": true,
+          "isActive": false
+        },
+        {
+          "id": "JBKR37FSM6JZXJGRG2KT77WR2M9CX8HRRMJM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Taxi Fare",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": true,
+          "isActive": false
+        },
+        {
+          "id": "JBKR37FSM6JZXJGRT89LYT9RC4RY37SR24TM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Milage",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": true,
+          "isActive": false
+        },
+        {
+          "id": "D6JQ2UJFFMFCW8YXWZVVN7AFMBLRN6FSGCTM6LQ",
+          "expenseTypeName": "HOTEL",
+          "expenseName": "Hotel",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": false,
+          "isActive": false
+        },
+        {
+          "id": "D6JQ2UJFFMFCW8YXZBTUNCDF5DNE6QGCYJJM6LQ",
+          "expenseTypeName": "AUTORENTAL",
+          "expenseName": "Auto Rental",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": false,
+          "isActive": false
+        },
+        {
+          "id": "D6JQ2UJFFMFCW8YXZZJZHDDDBBJLZJA5NMJM6LQ",
+          "expenseTypeName": "TAXI",
+          "expenseName": "Taxi Expense",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": false,
+          "isActive": false
         }
       ]
     }

@@ -1,20 +1,40 @@
 import { defineStore } from 'pinia';
-import { CustomerProject, Period } from '../models/expense/expenseList';
+import {
+  customerProject,
+  period,
+  expenseType,
+} from '../../models/expense/expenseLists';
 import axios from 'axios';
-import { Constants } from './Constants';
+import { Constants } from '../Constants';
 
-export const useExpenseListStore = defineStore('expenseListStore', {
+export const useExpenseListsStore = defineStore('expenseListsStore', {
   state: () => ({
-    customerProjectsList: [] as CustomerProject[],
-    periodList: [] as Period[],
+    customerProjects: [] as customerProject[],
+    periods: [] as period[],
+    expenseTypes: [] as expenseType[],
   }),
 
   getters: {
-    CustomerProjectsList: (state) => state.customerProjectsList,
-    PeriodList: (state) => state.periodList,
+    CustomerProjectsList: (state) => state.customerProjects,
+    PeriodList: (state) => state.periods,
+    ExpenseTypes: (state) => state.expenseTypes,
   },
 
   actions: {
+    async getEventLists() {
+      try {
+        const response = await axios.get(
+          `${Constants.endPointUrl}/expense-lists`
+        );
+        const expenseLists = response.data[0];
+        this.customerProjects = expenseLists.customerProjects;
+        this.periods = expenseLists.periods;
+        this.expenseTypes = expenseLists.expenseTypes;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     // getting all the timesheets for testing only, probably no where this use
     // TODO: Get all the list item at one time.
     async getExpensesList(name: string) {
@@ -29,9 +49,9 @@ export const useExpenseListStore = defineStore('expenseListStore', {
         console.log('New Data', newData);
 
         if (name == 'CustomerProjects') {
-          this.customerProjectsList = newData;
+          this.customerProjects = newData;
         } else {
-          this.periodList = newData;
+          this.periods = newData;
         }
       } catch (error) {
         console.error(error);
@@ -44,8 +64,8 @@ export const useExpenseListStore = defineStore('expenseListStore', {
           `${Constants.endPointUrl}/expense-list`
         );
         const expenseList = response.data[0];
-        this.periodList = expenseList.periods;
-        this.customerProjectsList = expenseList.customerProjects;
+        this.periods = expenseList.periods;
+        this.customerProjects = expenseList.customerProjects;
       } catch (error) {
         console.error(error);
       }

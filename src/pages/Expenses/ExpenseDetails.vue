@@ -1,19 +1,19 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { useExpensesStore } from '../../stores/ExpensesStore';
+import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useRoute } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 
-const expensesStore = useExpensesStore();
+const expenseDetailsStore = useExpenseDetailsStore();
 
 onMounted(() => {
   const route = useRoute();
-  expensesStore.getExpenseDetails(route.params.id);
+  expenseDetailsStore.getExpenseDetails(route.params.id);
 });
 
 const expenseDetails = computed(() => {
-  return expensesStore.ExpenseDetails;
+  return expenseDetailsStore.ExpenseDetails;
 });
 </script>
 
@@ -100,7 +100,9 @@ const expenseDetails = computed(() => {
             <q-item-label>
               <q-btn
                 @click="
-                  expensesStore.deleteExpense(expenseDetail?.expenseDetailSid);
+                  expenseDetailsStore.deleteExpense(
+                    expenseDetail?.expenseDetailSid
+                  );
                   $router.go(-1);
                 "
                 size="sm"

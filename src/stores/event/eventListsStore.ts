@@ -14,8 +14,6 @@ export const useEventListsStore = defineStore('eventListsStore', {
   },
 
   actions: {
-    // getting all the timesheets for testing only, probably no where this use
-    // TODO: Get all the list item at one time.
     async getEventLists() {
       try {
         const response = await axios.get(

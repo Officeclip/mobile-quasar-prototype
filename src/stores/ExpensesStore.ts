@@ -4,7 +4,7 @@ import { Expense } from '../models/expense';
 import {
   AirTravelExpense,
   ExpenseDetail,
-} from '../models/expense/expenseDetail';
+} from '../models/expense/expenseDetails';
 import axios from 'axios';
 
 export const useExpensesStore = defineStore('expensesStore', {
