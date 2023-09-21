@@ -1,16 +1,19 @@
 import { defineStore } from 'pinia';
-import { eventDetails } from '../../models/event/eventDetails.js';
-import { MeetingAttendees } from '../../models/meetingAttendees.js';
+import { eventDetails } from 'src/models/event/eventDetails';
+import { MeetingAttendees } from 'src/models/meetingAttendees';
 import axios from 'axios';
+import {eventSummary} from "src/models/event/eventSummary";
 
 export const useEventDetailsStore = defineStore('eventDetailsStore', {
   state: () => ({
     eventDetails: undefined as eventDetails | undefined, // for single event access
+    eventSummary: undefined as eventSummary | undefined, // for single event access
     meetingAttendees: [] as MeetingAttendees[],
   }),
 
   getters: {
     EventDetails: (state) => state.eventDetails,
+    EventSummary: (state) => state.eventSummary,
     MeetingAttendees: (state) => state.meetingAttendees,
   },
 
@@ -76,6 +79,15 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
         headers: { 'Content-Type': 'application/json' },
       });
       console.log(this.eventDetails);
+    },
+
+    async addEventSummary(eventSummary: eventSummary) {
+      const res = await fetch('http://localhost:4000/event-summary', {
+        method: 'POST',
+        body: JSON.stringify(eventSummary),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log(this.eventSummary);
     },
 
     async deleteEventDetails(id: string | undefined) {

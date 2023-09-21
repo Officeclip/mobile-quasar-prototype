@@ -66,6 +66,7 @@ function onSubmit(e: any) {
     remindBeforeMinutes: 0,
     label: -1,
     meetingAttendees: [],
+    url: ''
   };
   eventDetailsStore.editEventDetails(editEvent);
   route1.push('/eventSummary');

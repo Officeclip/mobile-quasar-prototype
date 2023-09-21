@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {computed, ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
@@ -35,15 +35,39 @@ const toggleOptions = () => {
 startDateTime.value = props.event.startDateTime;
 endDateTime.value = props.event.endDateTime;
 
+// const formattedStartDateTime = computed(() => {
+//   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
+//   let dateValue = dateTimeHelper.extractDateFromUtc(startDateTime.value);
+//   let timeValue = dateTimeHelper.extractTimeFromUtc(startDateTime.value);
+//   if (props.event.isAllDayEvent) {
+//     return dateValue;
+//   } else {
+//     return `${dateValue} ${timeValue}`;
+//   }
+// });
+//
+// const formattedStartDateTime2 = startDateTime.value
+//   ? formattedStartDateTime
+//   : startDateTime;
+//
+// const formattedEndDateTime = computed(() => {
+//   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
+//   let dateValue = dateTimeHelper.extractDateFromUtc(endDateTime.value);
+//   let timeValue = dateTimeHelper.extractTimeFromUtc(endDateTime.value);
+//   if (props.event.isAllDayEvent) {
+//     return dateValue;
+//   } else {
+//     return `${dateValue} ${timeValue}`;
+//   }
+// });
+//
+// const formattedEndDateTime2 = endDateTime.value
+//   ? formattedEndDateTime
+//   : endDateTime;
+
 const formattedStartDateTime = computed(() => {
   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
-  let dateValue = dateTimeHelper.extractDateFromUtc(startDateTime.value);
-  let timeValue = dateTimeHelper.extractTimeFromUtc(startDateTime.value);
-  if (props.event.isAllDayEvent) {
-    return dateValue;
-  } else {
-    return `${dateValue} ${timeValue}`;
-  }
+  return startDateTime.value
 });
 
 const formattedStartDateTime2 = startDateTime.value
@@ -52,13 +76,8 @@ const formattedStartDateTime2 = startDateTime.value
 
 const formattedEndDateTime = computed(() => {
   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
-  let dateValue = dateTimeHelper.extractDateFromUtc(endDateTime.value);
-  let timeValue = dateTimeHelper.extractTimeFromUtc(endDateTime.value);
-  if (props.event.isAllDayEvent) {
-    return dateValue;
-  } else {
-    return `${dateValue} ${timeValue}`;
-  }
+  return endDateTime.value
+
 });
 
 const formattedEndDateTime2 = endDateTime.value
@@ -168,7 +187,7 @@ function receivedSelectedAttendees(receivedData: any) {
               >
                 <q-date v-model="startDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -188,7 +207,7 @@ function receivedSelectedAttendees(receivedData: any) {
                   :mask="maskDateTime"
                 >
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-time>
               </q-popup-proxy>
@@ -211,7 +230,7 @@ function receivedSelectedAttendees(receivedData: any) {
               >
                 <q-date v-model="endDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -227,7 +246,7 @@ function receivedSelectedAttendees(receivedData: any) {
               >
                 <q-time v-model="endDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-time>
               </q-popup-proxy>
@@ -237,7 +256,7 @@ function receivedSelectedAttendees(receivedData: any) {
 
         <q-input v-model="event.eventLocation" bottom-slots label="Location">
           <template v-slot:prepend>
-            <q-icon name="place" />
+            <q-icon name="place"/>
           </template>
         </q-input>
         <q-input
@@ -250,29 +269,29 @@ function receivedSelectedAttendees(receivedData: any) {
 
         <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
           <q-item-section avatar>
-            <q-icon color="primary" name="repeat" size="sm" />
+            <q-icon color="primary" name="repeat" size="sm"/>
           </q-item-section>
           <q-item-section> {{ repeatString }}</q-item-section>
           <q-item-section side>
-            <q-icon color="primary" name="chevron_right" />
+            <q-icon color="primary" name="chevron_right"/>
           </q-item-section>
         </q-item>
 
         <q-item v-ripple clickable @click="reminderDialogOpened = true">
           <q-item-section avatar>
-            <q-icon color="primary" name="alarm" size="sm" />
+            <q-icon color="primary" name="alarm" size="sm"/>
           </q-item-section>
           <q-item-section>{{ reminderTextInfo }}</q-item-section>
           <q-item-section side>
-            <q-icon color="primary" name="chevron_right" />
+            <q-icon color="primary" name="chevron_right"/>
           </q-item-section>
         </q-item>
 
         <q-btn
-          icon-right="groups"
           align="left"
           color="primary"
           flat
+          icon-right="groups"
           label="Add Attendees"
           no-caps
           rounded
@@ -303,7 +322,7 @@ function receivedSelectedAttendees(receivedData: any) {
           />
           <q-input v-model="event.url" label="Url" map-options name="Url">
             <template v-slot:append>
-              <q-btn color="primary" dense flat label="test url" no-caps />
+              <q-btn color="primary" dense flat label="test url" no-caps/>
             </template>
           </q-input>
           <q-item>
@@ -355,7 +374,7 @@ function receivedSelectedAttendees(receivedData: any) {
             </q-item-label>
           </q-item-section>
           <q-item-section side>
-            <q-icon color="primary" name="switch_access_shortcut" />
+            <q-icon color="primary" name="switch_access_shortcut"/>
           </q-item-section>
         </q-item>
         <q-dialog v-model="recurrenceDialogOpened">

@@ -5,6 +5,7 @@ import { ref, Ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { eventDetails } from '../../models/event/eventDetails';
 import dateTimeHelper from "src/helpers/dateTimeHelper";
+import {eventSummary} from "src/models/event/eventSummary";
 
 const router = useRouter();
 const route = useRoute();
@@ -76,7 +77,7 @@ function onSubmit(e: any) {
     return;
   }
 
-  const newEvent: eventDetails = {
+  const newEventDetails: eventDetails = {
     eventName: event.value.eventName,
     eventDescription: event.value.eventDescription,
     eventLocation: event.value.eventLocation,
@@ -103,11 +104,23 @@ function onSubmit(e: any) {
     modifiedDate: event.value.modifiedDate,
     modifiedUserSid: event.value.modifiedUserSid
   };
-  console.log('new event form values: ', newEvent);
-  eventsDetailsStore.addEventDetails(newEvent);
+
+  const newEventSummary:eventSummary = {
+    id: newEventDetails.id,
+    eventType: newEventDetails.eventType,
+    eventName: newEventDetails.eventName,
+    startDateTime: newEventDetails.startDateTime,
+    endDateTime: newEventDetails.endDateTime,
+    isAllDayEvent: newEventDetails.isAllDayEvent
+  }
+  console.log('new event form values: ', newEventDetails);
+  eventsDetailsStore.addEventDetails(newEventDetails);
+  eventsDetailsStore.addEventSummary(newEventSummary);
+
   router.push('/eventSummary');
 }
 </script>
+
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-cyan">
