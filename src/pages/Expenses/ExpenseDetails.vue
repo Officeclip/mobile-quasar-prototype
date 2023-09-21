@@ -95,12 +95,12 @@ const expenseDetails = computed(() => {
             <q-item-label>
               {{ expenseDetail.description }}
             </q-item-label>
-          </q-item-section>
 
-          <autoRentalExpense
-            v-if="expenseDetail.autoRentalExpense"
-            :expense="expenseDetail.autoRentalExpense"
-          />
+            <autoRentalExpense
+              v-if="expenseDetail.autoRentalExpense"
+              :expense="expenseDetail.autoRentalExpense"
+            />
+          </q-item-section>
 
           <q-item-section side flex>
             <q-item-label>

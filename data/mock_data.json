@@ -1284,17 +1284,7 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        10
-      ]
+      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
     }
   ],
   "generalUserProfile": [
@@ -1926,12 +1916,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-            "",
-            "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },
@@ -2040,11 +2025,11 @@
       "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
       "tax": 12345,
       "paymentType": "Cash",
-      "autoRentalExpense": {
-        "rentalAgency": "Zoom Car",
-        "city": "Hyderabad",
-        "fromDate": "10-06-2020",
-        "toDate": "13-06-2020"
+      "airTravelExpense": {
+        "arrivalAirport": "Hyderabad",
+        "arrivalDate": "12-06-2020",
+        "departureAirport": "Mumbai",
+        "departureDate": "13-06-2020"
       }
     },
     {
