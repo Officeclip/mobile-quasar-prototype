@@ -51,7 +51,7 @@ function filterFn(val, update) {
     } else {
       const needle = val.toLowerCase();
       filterOptions.value = stringOptions.filter(
-        (v) => v.toLowerCase().indexOf(needle) > -1
+        (v) => v.name.toLowerCase().indexOf(needle) > -1
       );
     }
   });
@@ -61,9 +61,9 @@ function createValue(val, done) {
   // Add the new item to the options array.
   if (val.length > 0) {
     if (!stringOptions.includes(val)) {
-      stringOptions.push(val);
+      stringOptions.push({ id: 12, name: val });
     }
-    done(val, 'toggle');
+    done({ id: 12, name: val }, 'toggle');
   }
 }
 </script>
