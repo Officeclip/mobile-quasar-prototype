@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref, onMounted, onUpdated } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import { useExpenseListStore } from '../../stores/ExpenseListStore';
+import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import ExpenseForm from '../../models/Expense/expenseDetail';
 import AirTravelExpense from '../../components/Expenses/AirTravelFormCtrl.vue';
 
@@ -27,10 +27,10 @@ dateOptions.value = [
 const sampleModel = ref(null);
 const sampleModel2 = ref(null);
 
-const expenseListStore = useExpenseListStore();
+const expenseListsStore = useExpenseListsStore();
 
 onMounted(() => {
-  expenseListStore.getExpenseListAll();
+  expenseListsStore.getExpenseListAll();
 });
 
 onUpdated(() => {
@@ -39,10 +39,10 @@ onUpdated(() => {
 });
 
 const periodOptions = ref('');
-periodOptions.value = expenseListStore.periodList;
+periodOptions.value = expenseListsStore.periodList;
 
 const customerProjectOptions = ref('');
-customerProjectOptions.value = expenseListStore.CustomerProjectsList;
+customerProjectOptions.value = expenseListsStore.CustomerProjectsList;
 
 const billableOptions = ref([]);
 billableOptions.value = [
