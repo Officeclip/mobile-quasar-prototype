@@ -11,6 +11,7 @@ const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
   'rrule-text-generated',
+  'selectedAttendeesP',
 ]);
 
 const startDateTime = ref('');
@@ -20,6 +21,7 @@ const names = ref('');
 const showTimeAs = ref('Free');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Choose Reminder');
+const receivedMeetingAttendees = ref(null);
 
 const showOptions = ref(false);
 
@@ -116,6 +118,14 @@ function handleReminderText(reminderText: string) {
   console.log('Received reminder Plain Text:', reminderText);
   reminderTextInfo.value = reminderText;
 }
+
+function receivedSelectedAttendees(receivedData: any) {
+  receivedMeetingAttendees.value = receivedData;
+  console.log(
+    'received Attendeees from dialog to main form: ',
+    receivedMeetingAttendees
+  );
+}
 </script>
 
 <template>
@@ -146,7 +156,7 @@ function handleReminderText(reminderText: string) {
 
         <q-input
           v-model="formattedStartDateTime2"
-          :rules="[(val) => !!val || 'Start Date is required']"
+          :rules="[(val: any) => !!val || 'Start Date is required']"
           label="Start Date"
           name="startDateTime"
         >
@@ -189,7 +199,7 @@ function handleReminderText(reminderText: string) {
 
         <q-input
           v-model="formattedEndDateTime2"
-          :rules="[(val) => !!val || 'End Date is required']"
+          :rules="[(val: any) => !!val || 'End Date is required']"
           label="End Date"
           name="endDateTime"
         >
@@ -362,7 +372,9 @@ function handleReminderText(reminderText: string) {
           />
         </q-dialog>
         <q-dialog v-model="addAttendeesPopup">
-          <EventsAddAttendeesDialog />
+          <EventsAddAttendeesDialog
+            @get-selected-meeting-attendees="receivedSelectedAttendees"
+          />
         </q-dialog>
       </div>
     </div>

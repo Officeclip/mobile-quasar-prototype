@@ -46,6 +46,12 @@ function createValue(val, done) {
     done({ id: id, name: val }, 'toggle'); // added the new input as an new item into the dropdown
   }
 }
+const emit = defineEmits(['get-selected-meeting-attendees']);
+
+function getSelectedValues() {
+  const upDatedModelValues = selectedAttendees.value;
+  emit('get-selected-meeting-attendees', upDatedModelValues);
+}
 </script>
 
 <template>
@@ -67,5 +73,13 @@ function createValue(val, done) {
         style="min-width: 250px"
       ></q-select>
     </div>
+    <q-card-actions>
+      <q-btn
+        v-close-popup
+        color="primary"
+        label="Save"
+        @click="getSelectedValues"
+      />
+    </q-card-actions>
   </q-card>
 </template>
