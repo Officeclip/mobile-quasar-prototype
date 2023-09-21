@@ -141,8 +141,7 @@ function receivedSelectedAttendees(receivedData: any) {
           lazy-rules
           name="eventName"
           placeholder="enter event name"
-        >
-        </q-input>
+        />
 
         <q-toggle
           v-model="event.isAllDayEvent"

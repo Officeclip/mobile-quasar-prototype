@@ -31,6 +31,7 @@ export interface eventDetails {
   remindBeforeMinutes: number;
   label: number;
   meetingAttendees: meetingAttendee[];
+  url: string
 }
 
 export interface meetingAttendee {
