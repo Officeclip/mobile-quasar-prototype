@@ -1,4 +1,5 @@
 <template>
+  <pre>{{ model }}</pre>
   <q-select
     filled
     v-model="model"
@@ -8,6 +9,9 @@
     input-debounce="0"
     @new-value="createValue"
     :options="filterOptions"
+    option-label="name"
+    option-value="id"
+    map-options
     @filter="filterFn"
     style="width: 250px"
   ></q-select>
@@ -15,26 +19,27 @@
 
 <script setup>
 import { ref } from 'vue';
-// const options = ref([
-//   {
-//     id: 1,
-//     name: 'SK Dutta',
-//     email: 'skd@officeclip.com',
-//   },
-//   {
-//     id: 2,
-//     name: 'Nagesh Kulkarni',
-//     email: 'nagesh@officeclip.com',
-//   },
-//   {
-//     id: 3,
-//     name: 'Sudhakar Gundu',
-//     email: 'sudhakar@officeclip.com',
-//   },
-// ]);
-const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
+const stringOptions = [
+  {
+    id: 1,
+    name: 'SK Dutta',
+    email: 'skd@officeclip.com',
+  },
+  {
+    id: 2,
+    name: 'Nagesh Kulkarni',
+    email: 'nagesh@officeclip.com',
+  },
+  {
+    id: 3,
+    name: 'Sudhakar Gundu',
+    email: 'sudhakar@officeclip.com',
+  },
+];
 const filterOptions = ref(stringOptions);
-// const filterOptions = ref(options);
+
+// const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
+// const filterOptions = ref(stringOptions);
 
 const model = ref(null);
 
