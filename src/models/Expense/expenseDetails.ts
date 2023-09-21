@@ -6,9 +6,9 @@
 
 // From: https://app.quicktype.io/#l=TypeScript
 
-export interface ExpenseDetail {
+export interface expenseDetails {
   accountName: string;
-  accountSid: string;
+  id: string;
   amount: number;
   billable: boolean;
   comments: string;
@@ -25,45 +25,45 @@ export interface ExpenseDetail {
   projectSid: string;
   tax: number;
   paymentType: string;
-  autoRentalExpense?: AutoRentalExpense;
-  airTravelExpense?: AirTravelExpense;
-  hotelExpense?: HotelExpense;
-  mileageExpense?: MileageExpense;
-  telephoneExpense?: TelephoneExpense;
-  taxiExpense?: TaxiExpense;
+  autoRentalExpense?: autoRentalExpense;
+  airTravelExpense?: airTravelExpense;
+  hotelExpense?: hotelExpense;
+  mileageExpense?: mileageExpense;
+  telephoneExpense?: telephoneExpense;
+  taxiExpense?: taxiExpense;
 }
 
-export interface AirTravelExpense {
+export interface airTravelExpense {
   arrivalAirport: string;
   arrivalDate: string;
   departureAirport: string;
   departureDate: string;
 }
 
-export interface AutoRentalExpense {
+export interface autoRentalExpense {
   rentalAgency: string;
   city: string;
   fromDate: string;
   toDate: string;
 }
 
-export interface HotelExpense {
+export interface hotelExpense {
   hotelName: string;
   city: string;
   fromDate: string;
   toDate: string;
 }
 
-export interface MileageExpense {
+export interface mileageExpense {
   mileage: string;
 }
 
-export interface TaxiExpense {
+export interface taxiExpense {
   city: string;
   taxiLineName: string;
 }
 
-export interface TelephoneExpense {
+export interface telephoneExpense {
   phoneNumber: string;
   city: string;
 }

@@ -1177,7 +1177,7 @@
       "id": 7,
       "icon": "card_travel",
       "name": "Expenses",
-      "url": "/expensesAll"
+      "url": "/expenseSummary"
     },
     {
       "id": 8,
@@ -1879,7 +1879,7 @@
     {
       "createdByUserName": "Nagesh Kulkarni",
       "employeeId": "OCHYD-005",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
       "status": "Saved",
       "totalAmount": "255.00",
       "fromDate": "2020-11-02T10:43:32.203Z"
@@ -1887,7 +1887,7 @@
     {
       "createdByUserName": "Nagesh Kulkarni",
       "employeeId": "OCHYD-005",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
       "status": "Saved",
       "totalAmount": "9999.00",
       "fromDate": "2020-09-14T10:43:32.203Z"
@@ -1895,7 +1895,7 @@
     {
       "createdByUserName": "Nagesh Kulkarni",
       "employeeId": "OCHYD-005",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
       "status": "Approved",
       "totalAmount": "10000.00",
       "fromDate": "2020-07-06T10:43:32.203Z"
@@ -1903,7 +1903,7 @@
     {
       "createdByUserName": "Nagesh Kulkarni",
       "employeeId": "OCHYD-005",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
       "status": "Rejected",
       "totalAmount": "12000.00",
       "fromDate": "2020-06-15T10:43:32.203Z"
@@ -1921,7 +1921,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
       "expenseTypeName": "AUTORENTAL",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -1934,29 +1934,6 @@
         "city": "Hyderabad",
         "fromDate": "10-06-2020",
         "toDate": "13-06-2020"
-      },
-      "airTravelExpense": {
-        "arrivalAirport": "Hyderabad",
-        "arrivalDate": "12-06-2020",
-        "departureAirport": "Mumbai",
-        "departureDate": "13-06-2020"
-      },
-      "hotelExpense": {
-        "hotelName": "Oyo Rooms",
-        "city": "Hyderabad",
-        "fromDate": "11-06-2020",
-        "toDate": "13-06-2020"
-      },
-      "mileageExpense": {
-        "mileage": "10.00"
-      },
-      "telephoneExpense": {
-        "phoneNumber": "9966722755",
-        "city": "Hyderabad"
-      },
-      "taxiExpense": {
-        "city": "Hyderabad",
-        "taxiLineName": "Ola Cabs"
       }
     },
     {
@@ -1970,7 +1947,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
       "expenseTypeName": "AUTORENTAL",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -1983,8 +1960,7 @@
         "city": "Hyderabad",
         "fromDate": "10-06-2020",
         "toDate": "13-06-2020"
-      },
-      "airTravelExpense": null
+      }
     },
     {
       "accountName": "OfficeClip LLC",
@@ -1997,7 +1973,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
       "expenseTypeName": "AIRTRAVEL",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -2023,7 +1999,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
       "expenseTypeName": "HOTEL",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -2049,7 +2025,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
       "expenseTypeName": "MILEAGE",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -2072,7 +2048,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
       "expenseTypeName": "TELEPHONE",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -2096,7 +2072,7 @@
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "expenseDetailSid": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ",
-      "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
+      "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
       "expenseTypeName": "TAXI",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
@@ -2110,38 +2086,63 @@
       }
     }
   ],
-  "expense-list": [
+  "expense-lists": [
     {
       "periods": [
         {
-          "end": "2023-07-02T00:00:00+05:30",
-          "name": "Jun 19, 2023 - Jul 02, 2023",
-          "start": "2023-06-19T00:00:00+05:30"
+          "end": "2023-12-16T00:00:00+05:30",
+          "name": "Dec 03, 2023 - Dec 16, 2023",
+          "start": "2023-12-03T00:00:00+05:30"
         },
         {
-          "end": "2023-06-18T00:00:00+05:30",
-          "name": "Jun 05, 2023 - Jun 18, 2023",
-          "start": "2023-06-05T00:00:00+05:30"
+          "end": "2023-12-02T00:00:00+05:30",
+          "name": "Nov 19, 2023 - Dec 02, 2023",
+          "start": "2023-11-19T00:00:00+05:30"
         },
         {
-          "end": "2023-06-04T00:00:00+05:30",
-          "name": "May 22, 2023 - Jun 04, 2023",
-          "start": "2023-05-22T00:00:00+05:30"
+          "end": "2023-11-18T00:00:00+05:30",
+          "name": "Nov 05, 2023 - Nov 18, 2023",
+          "start": "2023-11-05T00:00:00+05:30"
         },
         {
-          "end": "2023-05-21T00:00:00+05:30",
-          "name": "May 08, 2023 - May 21, 2023",
-          "start": "2023-05-08T00:00:00+05:30"
+          "end": "2023-11-04T00:00:00+05:30",
+          "name": "Oct 22, 2023 - Nov 04, 2023",
+          "start": "2023-10-22T00:00:00+05:30"
         },
         {
-          "end": "2023-05-07T00:00:00+05:30",
-          "name": "Apr 24, 2023 - May 07, 2023",
-          "start": "2023-04-24T00:00:00+05:30"
+          "end": "2023-10-21T00:00:00+05:30",
+          "name": "Oct 08, 2023 - Oct 21, 2023",
+          "start": "2023-10-08T00:00:00+05:30"
         },
         {
-          "end": "2023-04-23T00:00:00+05:30",
-          "name": "Apr 10, 2023 - Apr 23, 2023",
-          "start": "2023-04-10T00:00:00+05:30"
+          "end": "2023-10-07T00:00:00+05:30",
+          "name": "Sep 24, 2023 - Oct 07, 2023",
+          "start": "2023-09-24T00:00:00+05:30"
+        },
+        {
+          "end": "2023-09-23T00:00:00+05:30",
+          "name": "Sep 10, 2023 - Sep 23, 2023",
+          "start": "2023-09-10T00:00:00+05:30"
+        },
+        {
+          "end": "2023-09-09T00:00:00+05:30",
+          "name": "Aug 27, 2023 - Sep 09, 2023",
+          "start": "2023-08-27T00:00:00+05:30"
+        },
+        {
+          "end": "2023-08-26T00:00:00+05:30",
+          "name": "Aug 13, 2023 - Aug 26, 2023",
+          "start": "2023-08-13T00:00:00+05:30"
+        },
+        {
+          "end": "2023-08-12T00:00:00+05:30",
+          "name": "Jul 30, 2023 - Aug 12, 2023",
+          "start": "2023-07-30T00:00:00+05:30"
+        },
+        {
+          "end": "2023-07-29T00:00:00+05:30",
+          "name": "Jul 16, 2023 - Jul 29, 2023",
+          "start": "2023-07-16T00:00:00+05:30"
         }
       ],
       "customerProjects": [
@@ -2202,30 +2203,105 @@
           "name": "OfficeClip LLC:Release 11.2.3"
         }
       ],
-      "expenseType": [
+      "expenseTypes": [
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "AUTORENTAL"
+          "id": "J2BBXASXHAFW2ZSD2BKNWBGEB2LYYHFSGMJM6LQ",
+          "expenseTypeName": "AIRFARE",
+          "expenseName": "AIr",
+          "isDetailsRequired": true,
+          "isBillable": false,
+          "isBillableModify": false,
+          "isActive": false
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "AIRTRAVEL"
+          "id": "J2BBXASXHAFW2ZSDWB6BWJJDMBJCH4SFUJJM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Water",
+          "isDetailsRequired": true,
+          "isBillable": false,
+          "isBillableModify": false,
+          "isActive": false
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "HOTEL"
+          "id": "YB9EHHEV3MRYSUGFS2BC62SC5DYR6RDRCMJM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Lodgeing",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": true,
+          "isActive": false
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "MILEAGE"
+          "id": "YB9EHHEV3MRYSUGFX6TNWYAFJJ6XHWD5DCYM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Taxi Fare",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": true,
+          "isActive": false
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "TELEPHONE"
+          "id": "YB9EHHEV3MRYSUGF28KZ2UWDV4LE2KRSYDYM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Milage",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": true,
+          "isActive": false
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "TAXI"
+          "id": "JBKR37FSM6JZXJGRG2HV73AXBM9YH3FE34YM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Lodgeing",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": true,
+          "isActive": false
+        },
+        {
+          "id": "JBKR37FSM6JZXJGRG2KT77WR2M9CX8HRRMJM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Taxi Fare",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": true,
+          "isActive": false
+        },
+        {
+          "id": "JBKR37FSM6JZXJGRT89LYT9RC4RY37SR24TM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Milage",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": true,
+          "isActive": false
+        },
+        {
+          "id": "D6JQ2UJFFMFCW8YXWZVVN7AFMBLRN6FSGCTM6LQ",
+          "expenseTypeName": "HOTEL",
+          "expenseName": "Hotel",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": false,
+          "isActive": false
+        },
+        {
+          "id": "D6JQ2UJFFMFCW8YXZBTUNCDF5DNE6QGCYJJM6LQ",
+          "expenseTypeName": "AUTORENTAL",
+          "expenseName": "Auto Rental",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": false,
+          "isActive": false
+        },
+        {
+          "id": "D6JQ2UJFFMFCW8YXZZJZHDDDBBJLZJA5NMJM6LQ",
+          "expenseTypeName": "TAXI",
+          "expenseName": "Taxi Expense",
+          "isDetailsRequired": true,
+          "isBillable": true,
+          "isBillableModify": false,
+          "isActive": false
         }
       ]
     }
