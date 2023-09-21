@@ -50,19 +50,21 @@ function filterFn(val, update) {
     } else {
       const needle = val.toLowerCase();
       filterOptions.value = options.filter(
-        (v) => v.toLowerCase().indexOf(needle) > -1
+        (v) => v.name.toLowerCase().indexOf(needle) > -1
       );
     }
   });
 }
 
 function createValue(val, done) {
+  // create a new id value to add the id property for the new input string from user
+  const id = Math.round(Math.random() * 10);
   // Add the new item to the options array.
   if (val.length > 0) {
     if (!options.includes(val)) {
-      options.push(val);
+      options.push({ id: id, name: val }); // push the new item as an object into the list
     }
-    done(val, 'toggle');
+    done({ id: id, name: val }, 'toggle'); // added the new input as an new item into the dropdown
   }
 }
 </script>

@@ -59,11 +59,12 @@ function filterFn(val, update) {
 
 function createValue(val, done) {
   // Add the new item to the options array.
+  const id = Math.round(Math.random() * 10);
   if (val.length > 0) {
     if (!stringOptions.includes(val)) {
-      stringOptions.push({ id: 12, name: val });
+      stringOptions.push({ id: id, name: val });
     }
-    done({ id: 12, name: val }, 'toggle');
+    done({ id: id, name: val }, 'toggle');
   }
 }
 </script>
