@@ -1,56 +1,71 @@
-<script lang="ts" setup>
-import { ref } from 'vue';
-
-const selectedItems = ref([]);
-const options = ref(['Option 1', 'Option 2', 'Option 3']);
-
-function addNewItem(value: string) {
-  if (!options.value.includes(value)) {
-    options.value.push(value);
-  }
-
-  selectedItems.value.push(value);
-}
-
-function removeItem(item: any) {
-  const index = selectedItems.value.indexOf(item);
-  selectedItems.value.splice(index, 1);
-}
-</script>
-
 <template>
   <q-card>
     <div class="q-pa-lg row flex-center">
-      <form>
-        <q-select
-          v-model="selectedItems"
-          :options="options"
-          multiple
-          use-input
-          use-chips
-          @new-value="addNewItem"
-          @remove="removeItem"
-          name="selected_items"
-          label="Add Attendees"
-        />
-        <q-btn
-          class="q-mt-md"
-          v-close-popup
-          color="primary"
-          label="Save"
-          type="submit"
-          no-caps
-        />
-      </form>
+      <q-select
+        filled
+        v-model="model"
+        use-input
+        use-chips
+        multiple
+        input-debounce="0"
+        @new-value="createValue"
+        :options="filterOptions"
+        @filter="filterFn"
+        style="width: 250px"
+      ></q-select>
     </div>
-    <!-- <q-card-actions>
-      <q-btn v-close-popup color="primary" label="Save" />
-    </q-card-actions> -->
   </q-card>
 </template>
 
-<style scoped>
-.min-width {
-  min-width: 250px;
+<script setup>
+import { ref } from 'vue';
+// const options = ref([
+//   {
+//     id: 1,
+//     name: 'SK Dutta',
+//     email: 'skd@officeclip.com',
+//   },
+//   {
+//     id: 2,
+//     name: 'Nagesh Kulkarni',
+//     email: 'nagesh@officeclip.com',
+//   },
+//   {
+//     id: 3,
+//     name: 'Sudhakar Gundu',
+//     email: 'sudhakar@officeclip.com',
+//   },
+// ]);
+// const filterOptions = ref(options);
+
+// working with array of items but not with array of objects
+
+const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
+const filterOptions = ref(stringOptions);
+
+const model = ref(null);
+
+function filterFn(val, update) {
+  // Filter the options array based on the search value.
+  update(() => {
+    if (val === '') {
+      filterOptions.value = stringOptions;
+    } else {
+      const needle = val.toLowerCase();
+      filterOptions.value = stringOptions.filter(
+        (v) => v.toLowerCase().indexOf(needle) > -1
+      );
+    }
+  });
 }
-</style>
+
+function createValue(val, done) {
+  // Add the new item to the options array.
+  if (val.length > 0) {
+    if (!stringOptions.includes(val)) {
+      stringOptions.push(val);
+    }
+    done(val, 'toggle');
+  }
+}
+</script>
