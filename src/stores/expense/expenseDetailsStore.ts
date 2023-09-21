@@ -37,10 +37,10 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   },
 
   actions: {
-    async getExpenseDetails(id: string | string[]) {
+    async getExpenseDetails(expenseSid: string | string[]) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/expense-details?id=${id}`
+          `http://localhost:4000/expense-details?expenseSid=${expenseSid}`
         );
         this.expenseDetailsList = response.data;
         console.log(this.expenseDetailsList);

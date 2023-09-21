@@ -1,9 +1,8 @@
 <script setup>
 import { defineProps, ref, onMounted, onUpdated, computed } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import { useExpenseListStore } from '../../stores/ExpenseListStore';
+import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import AirTravelExpense from '../../components/Expenses/AirTravelFormCtrl.vue';
-
 
 // const periodOptions = ref([])
 // periodOptions.value = [
@@ -21,28 +20,31 @@ dateOptions.value = [
   'Aug 30(Wed)',
   'Aug 31(Thu)',
   'Aug 01(Fri)',
-  'Aug 02(Sat)'
-]
-
+  'Aug 02(Sat)',
+];
 
 const sampleModel = ref([]);
 
 const sampleModel1 = ref([]);
 
-const expenseListStore = useExpenseListStore();
+const expenseListStore = useExpenseListsStore();
 
 onMounted(() => {
   expenseListStore.getExpensesList1();
-})
+});
 
 onUpdated(() => {
   const selectedValue = sampleModel.value.id;
   console.log('getting the id from option:', selectedValue);
-})
+});
 
-const periodOptions = computed(() => { return expenseListStore.periodList });
+const periodOptions = computed(() => {
+  return expenseListStore.periodList;
+});
 
-const customerProjectOptions = computed(() => { return expenseListStore.CustomerProjectsList });
+const customerProjectOptions = computed(() => {
+  return expenseListStore.CustomerProjectsList;
+});
 
 const billableOptions = ref([]);
 billableOptions.value = [
@@ -54,7 +56,7 @@ billableOptions.value = [
     label: 'No',
     value: false,
   },
-]
+];
 
 const paymentMethod = ref([]);
 paymentMethod.value = [
@@ -69,34 +71,34 @@ paymentMethod.value = [
   {
     label: 'Company CreditCard',
     value: 3,
-  }
-]
+  },
+];
 
 const expenseTypes = ref([]);
 expenseTypes.value = [
   {
     id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
-    name: 'AUTORENTAL'
+    name: 'AUTORENTAL',
   },
   {
     id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
-    name: 'AIRTRAVEL'
+    name: 'AIRTRAVEL',
   },
   {
     id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
-    name: 'HOTEL'
-  }
-]
+    name: 'HOTEL',
+  },
+];
 
 const props = defineProps(['expense']);
 
-const expenseDate = ref('')
-expenseDate.value = dateTimeHelper.extractDateFromUtc(props.expense.expenseDate)
+const expenseDate = ref('');
+expenseDate.value = dateTimeHelper.extractDateFromUtc(
+  props.expense.expenseDate
+);
 
-const taskDate = ref('')
-taskDate.value = 'July 20(Thu)'
-
-
+const taskDate = ref('');
+taskDate.value = 'July 20(Thu)';
 
 const airTravel = ref({
   arrivalAirport: '',
@@ -104,7 +106,6 @@ const airTravel = ref({
   departureAirport: '',
   departureDate: '',
 });
-
 </script>
 
 <template>
@@ -112,33 +113,87 @@ const airTravel = ref({
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
-        <q-select name="newcreatedDate" label="Period" v-model="expenseDate" :options="periodOptions" map-options
-          option-label="name" emit-label />
+        <q-select
+          name="newcreatedDate"
+          label="Period"
+          v-model="expenseDate"
+          :options="periodOptions"
+          map-options
+          option-label="name"
+          emit-label
+        />
 
-        <q-select name="newtaskDate" label="Expense Date" v-model="taskDate" :options="dateOptions" map-options
-          emit-label />
-        <q-select label="Customer: Project" v-model="sampleModel" :options="customerProjectOptions" option-label="name"
-          option-value="id" map-options />
-        <q-select label="Expense Type" v-model="sampleModel" :options="expenseTypes" option-label="name" option-value="id"
-          map-options />
+        <q-select
+          name="newtaskDate"
+          label="Expense Date"
+          v-model="taskDate"
+          :options="dateOptions"
+          map-options
+          emit-label
+        />
+        <q-select
+          label="Customer: Project"
+          v-model="sampleModel"
+          :options="customerProjectOptions"
+          option-label="name"
+          option-value="id"
+          map-options
+        />
+        <q-select
+          label="Expense Type"
+          v-model="sampleModel"
+          :options="expenseTypes"
+          option-label="name"
+          option-value="id"
+          map-options
+        />
 
         <AirTravelExpense :airTravel="airTravel" />
 
-        <q-select label="Payment Method" v-model="props.expense.paymentMethod" :options="paymentMethod" map-options />
+        <q-select
+          label="Payment Method"
+          v-model="props.expense.paymentMethod"
+          :options="paymentMethod"
+          map-options
+        />
 
-        <q-select label="Billable" v-model="props.expense.isBillable" :options="billableOptions" map-options emit-value />
-        <q-input label="Amount" v-model="props.expense.totalAmount" placeholder="enter here..." lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']">
+        <q-select
+          label="Billable"
+          v-model="props.expense.isBillable"
+          :options="billableOptions"
+          map-options
+          emit-value
+        />
+        <q-input
+          label="Amount"
+          v-model="props.expense.totalAmount"
+          placeholder="enter here..."
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        >
         </q-input>
 
-        <q-input label="Tax" v-model="props.expense.tax" placeholder="enter here...">
+        <q-input
+          label="Tax"
+          v-model="props.expense.tax"
+          placeholder="enter here..."
+        >
         </q-input>
 
-        <q-input label="Description" v-model="props.expense.description" placeholder="enter here..." lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']">
+        <q-input
+          label="Description"
+          v-model="props.expense.description"
+          placeholder="enter here..."
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        >
         </q-input>
 
-        <q-input label="Comments" v-model="props.expense.comments" placeholder="enter here...">
+        <q-input
+          label="Comments"
+          v-model="props.expense.comments"
+          placeholder="enter here..."
+        >
         </q-input>
       </div>
     </div>
