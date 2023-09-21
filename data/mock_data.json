@@ -1058,6 +1058,60 @@
           "email": "prakash@gmail.com"
         }
       ]
+    },
+    {
+      "eventName": "Test Event Sep 21",
+      "eventDescription": "September 21 event description",
+      "eventLocation": "NYC",
+      "startDateTime": "2023-10-25",
+      "endDateTime": "2023-10-25",
+      "isAllDayEvent": true,
+      "meetingAttendees": [],
+      "timezoneId": 42,
+      "label": "Meeting",
+      "url": "test",
+      "parentServiceType": -1,
+      "parentSid": "-1",
+      "eventType": 2,
+      "recurrenceRule": "DTSTART:20230921T164052Z\nRRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR;COUNT=12",
+      "repeatInfoText": "Every weekday for 12 times",
+      "remindTo": "everyone",
+      "remindBeforeMinutes": 240,
+      "id": "ullP4VZ",
+      "createdDate": "1695314416041",
+      "createdGroupSId": "",
+      "createdUserSid": "",
+      "eventUserSid": "",
+      "isRsvp": false,
+      "modifiedDate": "",
+      "modifiedUserSid": ""
+    },
+    {
+      "eventName": "Test event 2 sep 21",
+      "eventDescription": "Test Description",
+      "eventLocation": "New York",
+      "startDateTime": "2023-09-29",
+      "endDateTime": "2023-09-20",
+      "isAllDayEvent": true,
+      "meetingAttendees": [],
+      "timezoneId": 42,
+      "label": "Payments",
+      "url": "testurl",
+      "parentServiceType": -1,
+      "parentSid": "-1",
+      "eventType": 2,
+      "recurrenceRule": "DTSTART:20230921T171142Z\nRRULE:FREQ=DAILY;INTERVAL=1;COUNT=10",
+      "repeatInfoText": "Every day for 10 times",
+      "remindTo": "everyone",
+      "remindBeforeMinutes": 5,
+      "id": "OTPXE2f",
+      "createdDate": "2023-09-21T16:47:06.758Z",
+      "createdGroupSId": "",
+      "createdUserSid": "",
+      "eventUserSid": "",
+      "isRsvp": false,
+      "modifiedDate": "",
+      "modifiedUserSid": ""
     }
   ],
   "event-lists": [
@@ -1214,7 +1268,17 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
+      "applicationIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10
+      ]
     }
   ],
   "generalUserProfile": [
@@ -1846,7 +1910,12 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": ["", "One", "Two", "Three"],
+          "items": [
+            "",
+            "One",
+            "Two",
+            "Three"
+          ],
           "name": "Custom Row",
           "uiType": "List"
         },

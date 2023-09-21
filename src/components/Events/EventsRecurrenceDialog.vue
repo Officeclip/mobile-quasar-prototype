@@ -115,7 +115,7 @@ const yearlyWeekday = ref(0);
 const yearlyMonth2 = ref(1);
 
 const dateOrCount = ref('count')
-const numberOfOccurrences = ref(1);
+const numberOfOccurrences = ref(10);
 const selectedEndDate = ref(null);
 
 const generateRecurrenceRule = () => {

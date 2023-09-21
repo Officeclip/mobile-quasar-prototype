@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
-import { ref } from 'vue';
+import { ref, Ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { eventDetails } from '../../models/event/eventDetails';
+import dateTimeHelper from "src/helpers/dateTimeHelper";
 
 const router = useRouter();
 const route = useRoute();
@@ -12,10 +13,10 @@ const tab = ref('Group');
 
 const parentObjectId = route.params.id;
 
-const newparentObjectId = parentObjectId ? parentObjectId : -1;
+const newparentObjectId = parentObjectId ? parentObjectId : "-1";
 
 const eventsDetailsStore = useEventDetailsStore();
-const event: eventDetails = {
+const event: Ref<eventDetails> = ref({
   eventName: '',
   eventDescription: '',
   eventLocation: '',
@@ -23,32 +24,40 @@ const event: eventDetails = {
   endDateTime: '',
   isAllDayEvent: false,
   meetingAttendees: [],
-  timezone: '',
-  label: '',
+  timezoneId: 42,
+  label: 1,
   url: '',
-  parentObjectServiceType: '14',
-  parentObjectId: newparentObjectId,
+  parentServiceType: -1,
+  parentSid: newparentObjectId,
   eventType: 2,
   recurrenceRule: '',
   repeatInfoText: '',
   remindTo: 'Me',
   remindBeforeMinutes: 3600,
-};
+  id: '',
+  createdDate: new Date().toISOString(),
+  createdGroupSId: '',
+  createdUserSid: '',
+  eventUserSid: '',
+  isRsvp: false,
+  modifiedDate: '',
+  modifiedUserSid: ''
+});
 
-function handleRRule(rrule) {
-  event.value.recurrenceString = rrule;
+function handleRRule(rrule: string) {
+  event.value.recurrenceRule = rrule;
 }
 
-function handleRRuleText(rruleText) {
+function handleRRuleText(rruleText: string) {
   event.value.repeatInfoText = rruleText;
 }
 
-function handleReminder(reminder) {
+function handleReminder(reminder: [string, number]) {
   event.value.remindTo = reminder[0];
   event.value.remindBeforeMinutes = reminder[1];
 }
 
-function onSubmit(e) {
+function onSubmit(e: any) {
   e.preventDefault();
   const formData = new FormData(e.target);
   // const data = [];
@@ -71,24 +80,32 @@ function onSubmit(e) {
     eventName: event.value.eventName,
     eventDescription: event.value.eventDescription,
     eventLocation: event.value.eventLocation,
-    startDateTime: start,
-    endDateTime: end,
+    startDateTime: start?.toString(),
+    endDateTime: end?.toString(),
     isAllDayEvent: event.value.isAllDayEvent,
     meetingAttendees: event.value.meetingAttendees,
-    timezone: event.value.timezone,
+    timezoneId: event.value.timezoneId,
     label: event.value.label,
     url: event.value.url,
-    parentObjectServiceType: event.value.parentObjectServiceType,
-    parentObjectId: event.value.parentObjectId,
+    parentServiceType: event.value.parentServiceType,
+    parentSid: event.value.parentSid,
     eventType: event.value.eventType,
-    recurrenceRule: event.value.recurrenceString,
+    recurrenceRule: event.value.recurrenceRule,
     repeatInfoText: event.value.repeatInfoText,
     remindTo: event.value.remindTo,
     remindBeforeMinutes: event.value.remindBeforeMinutes,
+    id: event.value.id,
+    createdDate: event.value.createdDate,
+    createdGroupSId: event.value.createdGroupSId,
+    createdUserSid: event.value.createdUserSid,
+    eventUserSid: event.value.eventUserSid,
+    isRsvp: event.value.isRsvp,
+    modifiedDate: event.value.modifiedDate,
+    modifiedUserSid: event.value.modifiedUserSid
   };
   console.log('new event form values: ', newEvent);
   eventsDetailsStore.addEventDetails(newEvent);
-  router.push('/simpleCalendar');
+  router.push('/eventSummary');
 }
 </script>
 <template>
@@ -114,7 +131,7 @@ function onSubmit(e) {
           rounded
           type="submit"
           @click="onSubmit"
-        ></q-btn>
+        />
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -132,7 +149,7 @@ function onSubmit(e) {
             label="Save"
             no-caps
             type="submit"
-          ></q-btn>
+          />
           <q-btn
             class="q-ml-sm"
             color="primary"
@@ -140,7 +157,7 @@ function onSubmit(e) {
             label="Reset"
             no-caps
             type="reset"
-          ></q-btn>
+          />
         </div>
       </q-form>
       <pre>{{ tab }}</pre>
