@@ -4,7 +4,7 @@ import { computed, onMounted } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useRoute } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-
+import autoRentalExpense from '../../components/Expenses/details/autoRentalExpense.vue';
 const expenseDetailsStore = useExpenseDetailsStore();
 
 onMounted(() => {
@@ -96,6 +96,12 @@ const expenseDetails = computed(() => {
               {{ expenseDetail.description }}
             </q-item-label>
           </q-item-section>
+
+          <autoRentalExpense
+            v-if="expenseDetail.autoRentalExpense"
+            :expense="expenseDetail.autoRentalExpense"
+          />
+
           <q-item-section side flex>
             <q-item-label>
               <q-btn
