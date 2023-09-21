@@ -16,7 +16,6 @@ export interface expenseDetails {
   employeeFullName: string;
   employeeSid: string;
   expenseDate: string;
-  expenseDetailSid: string;
   expenseSid: string;
   expenseTypeName: string;
   expenseCategoryName: string;

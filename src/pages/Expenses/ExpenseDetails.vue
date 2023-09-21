@@ -30,14 +30,14 @@ const expenseDetails = computed(() => {
           icon="arrow_back"
         >
         </q-btn>
-        <q-toolbar-title> Expense details </q-toolbar-title>
+        <q-toolbar-title> Expense Details </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
     <q-page-container class="q-ma-sm">
       <q-list
         v-for="expenseDetail in expenseDetails"
-        :key="expenseDetail.expenseDetailSid"
+        :key="expenseDetail.id"
         class="rounded-borders q-my-md bg-grey-3"
       >
         <q-expansion-item expand-separator expand-icon-class="text-primary">
@@ -65,7 +65,7 @@ const expenseDetails = computed(() => {
                   :to="{
                     name: 'editExpense',
                     params: {
-                      id: expenseDetail?.expenseDetailSid,
+                      id: expenseDetail?.id,
                     },
                   }"
                   size="sm"
@@ -100,9 +100,7 @@ const expenseDetails = computed(() => {
             <q-item-label>
               <q-btn
                 @click="
-                  expenseDetailsStore.deleteExpense(
-                    expenseDetail?.expenseDetailSid
-                  );
+                  expenseDetailsStore.deleteExpense(expenseDetail?.id);
                   $router.go(-1);
                 "
                 size="sm"
