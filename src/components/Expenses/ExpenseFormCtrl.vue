@@ -1,8 +1,7 @@
 <script setup>
-import { defineProps, ref, onMounted, onUpdated } from 'vue';
+import { defineProps, ref, onMounted, onUpdated, computed } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useExpenseListStore } from '../../stores/ExpenseListStore';
-import ExpenseForm from '../../models/Expense/expenseDetail';
 import AirTravelExpense from '../../components/Expenses/AirTravelFormCtrl.vue';
 
 
@@ -26,25 +25,24 @@ dateOptions.value = [
 ]
 
 
-const sampleModel = ref(null)
-const sampleModel2 = ref(null)
+const sampleModel = ref([]);
+
+const sampleModel1 = ref([]);
 
 const expenseListStore = useExpenseListStore();
 
 onMounted(() => {
-  expenseListStore.getExpenseListAll()
+  expenseListStore.getExpensesList1();
 })
 
 onUpdated(() => {
-  const selectedValue = sampleModel.value.id
-  console.log('getting the id from option:', selectedValue)
+  const selectedValue = sampleModel.value.id;
+  console.log('getting the id from option:', selectedValue);
 })
 
-const periodOptions = ref('')
-periodOptions.value = expenseListStore.periodList;
+const periodOptions = computed(() => { return expenseListStore.periodList });
 
-const customerProjectOptions = ref('')
-customerProjectOptions.value = expenseListStore.CustomerProjectsList;
+const customerProjectOptions = computed(() => { return expenseListStore.CustomerProjectsList });
 
 const billableOptions = ref([]);
 billableOptions.value = [
@@ -71,6 +69,22 @@ paymentMethod.value = [
   {
     label: 'Company CreditCard',
     value: 3,
+  }
+]
+
+const expenseTypes = ref([]);
+expenseTypes.value = [
+  {
+    id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
+    name: 'AUTORENTAL'
+  },
+  {
+    id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
+    name: 'AIRTRAVEL'
+  },
+  {
+    id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
+    name: 'HOTEL'
   }
 ]
 
@@ -103,11 +117,12 @@ const airTravel = ref({
 
         <q-select name="newtaskDate" label="Expense Date" v-model="taskDate" :options="dateOptions" map-options
           emit-label />
-        <pre>{{ sampleModel }}</pre>
         <q-select label="Customer: Project" v-model="sampleModel" :options="customerProjectOptions" option-label="name"
-          option-value="id" map-options @update:model-value="handleSelectChange" />
+          option-value="id" map-options />
+        <q-select label="Expense Type" v-model="sampleModel" :options="expenseTypes" option-label="name" option-value="id"
+          map-options />
 
-        <!-- <AirTravelExpense :air-travel="airTravel" /> -->
+        <AirTravelExpense :airTravel="airTravel" />
 
         <q-select label="Payment Method" v-model="props.expense.paymentMethod" :options="paymentMethod" map-options />
 

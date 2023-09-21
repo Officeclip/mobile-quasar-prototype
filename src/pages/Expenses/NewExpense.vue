@@ -9,9 +9,6 @@ const route = useRoute();
 
 const expenseId = route.params.id
 
-console.log('expense Id:', expenseId)
-
-// const timesheetStore = useTimesheetsStore()
 const expense = ref({
   expenseDate: '',
   accountName: '',

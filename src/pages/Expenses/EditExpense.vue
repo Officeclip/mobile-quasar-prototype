@@ -25,7 +25,7 @@ function onSubmit(e: any) {
   const taskDate = formData.get('newtaskDate');
 
   const newExpense: any = {
-    id: expense.value?.id,
+    expnseSid: expense.value?.expenseSid,
     accountName: expense.value?.accountName,
     projectName: expense.value?.projectName,
     isBillable: expense.value?.billable,

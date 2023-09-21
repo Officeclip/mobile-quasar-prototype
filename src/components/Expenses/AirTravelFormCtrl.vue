@@ -7,9 +7,10 @@ const dense = ref(false);
 </script>
 
 <template>
+  <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <div class="q-pa-md">
-      <!-- <div class="q-gutter-y-md column">
+      <div class="q-gutter-y-md column">
         <q-input v-model="props.airTravel.departureAirport" label="Departure Airport *"
           placeholder="enter departure airport name" :dense="dense" lazy-rules :rules="[
             (val) => (val && val.length > 0) || 'enter departure airport name',
@@ -50,10 +51,10 @@ const dense = ref(false);
             </q-icon>
           </template>
         </q-input>
-      </div> -->
-      <q-list>
+      </div>
+      <!-- <q-list>
         <q-item-label>Testing</q-item-label>
-      </q-list>
+      </q-list> -->
     </div>
   </div>
 </template>
