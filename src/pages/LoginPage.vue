@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { ref } from 'vue';
+<script lang="ts" setup>
+import {ref} from 'vue';
 
 //console.log('API EndPoint: ', import.meta.env.VITE_API_ENDPOINT);
 
@@ -34,77 +34,89 @@ const submitLogin = () => {
             <div class="text-grey-7">Please Login to your account</div>
             <div class="column">
               <q-input
-                v-model="form.email.value"
-                outline
-                type="text"
-                label="Enter email *"
-                :error="form.email.error"
-                :error-message="form.email.msg"
+                  v-model="form.email.value"
+                  :error="form.email.error"
+                  :error-message="form.email.msg"
+                  label="Enter email *"
+                  outline
+                  type="text"
               >
                 <template v-slot:prepend>
-                  <q-icon name="email" />
+                  <q-icon name="email"/>
                 </template>
               </q-input>
               <q-input
-                v-model="form.password.value"
-                outline
-                type="text"
-                label="Enter password *"
-                :error="form.password.error"
-                :error-message="form.password.msg"
-                class="q-mt-md"
+                  v-model="form.password.value"
+                  :error="form.password.error"
+                  :error-message="form.password.msg"
+                  class="q-mt-md"
+                  label="Enter password *"
+                  outline
+                  type="text"
               >
                 <template v-slot:prepend>
-                  <q-icon name="lock" />
+                  <q-icon name="lock"/>
                 </template>
                 <template v-slot:append>
-                  <q-icon name="visibility_off" />
+                  <q-icon name="visibility_off"/>
                 </template>
               </q-input>
             </div>
             <div class="column q-mt-md">
-              <q-btn color="indigo" label="Login" @click="submitLogin" />
+              <q-btn color="indigo" label="Login" @click="submitLogin"/>
             </div>
 
             <div class="column">
               <q-btn
-                :to="{ name: 'homePage' }"
-                color="primary"
-                label="Goto Home"
+                  :to="{ name: 'homePage' }"
+                  color="primary"
+                  label="Goto Home"
               />
             </div>
             <div class="column m-t-md">
               <q-btn
-                :to="{
+                  :to="{
                   name: 'testMe',
                   params: {
                     id: 1,
                   },
                 }"
-                label="Test Me"
+                  label="Test Me"
               />
             </div>
             <div class="column m-t-md">
               <q-btn
-                :to="{
+                  :to="{
                   name: 'timesheetL',
                   params: {
                     id: 1,
                   },
                 }"
-                label="Timesheet List"
+                  label="Timesheet List"
               />
             </div>
             <div class="column m-t-md">
               <q-btn
-                :to="{
+                  :to="{
                   name: 'formData',
                   // params: {
                   //   id: 1,
                   // },
                 }"
-                label="Form Data"
-                no-caps
+                  label="Form Data"
+                  no-caps
+              />
+            </div>
+            <div class="column m-t-md">
+              <q-btn
+                  :to="{
+                  name: 'kRegarding',
+                  // params: {
+                  //   id: 1,
+                  // },
+                }"
+                  label="K Regarding Test Page"
+                  no-caps
               />
             </div>
           </div>
