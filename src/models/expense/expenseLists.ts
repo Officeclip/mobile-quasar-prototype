@@ -9,6 +9,7 @@ export interface expenseLists {
   periods: period[];
   customerProjects: customerProject[];
   expenseTypes: expenseType[];
+  paymentTypes: paymentType[];
 }
 
 export interface customerProject {
@@ -30,6 +31,11 @@ export interface period {
   end: Date;
   name: string;
   start: Date;
+}
+
+export interface paymentType {
+  label: string;
+  value: string;
 }
 
 // Converts JSON strings to/from your types
