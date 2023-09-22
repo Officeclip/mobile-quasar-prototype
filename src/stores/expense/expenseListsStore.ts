@@ -3,6 +3,7 @@ import {
   customerProject,
   period,
   expenseType,
+  paymentType,
 } from '../../models/expense/expenseLists';
 import axios from 'axios';
 import { Constants } from '../Constants';
@@ -12,16 +13,18 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
     customerProjects: [] as customerProject[],
     periods: [] as period[],
     expenseTypes: [] as expenseType[],
+    paymentTypes: [] as paymentType[],
   }),
 
   getters: {
     CustomerProjectsList: (state) => state.customerProjects,
     PeriodList: (state) => state.periods,
     ExpenseTypes: (state) => state.expenseTypes,
+    PaymentTypes: (state) => state.paymentTypes,
   },
 
   actions: {
-    async getEventLists() {
+    /*     async getEventLists() {
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/expense-lists`
@@ -56,24 +59,26 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
       } catch (error) {
         console.error(error);
       }
-    },
+    }, */
 
-    async getExpensesList1() {
+    async getExpensesList() {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/expense-list`
+          `${Constants.endPointUrl}/expense-lists`
         );
         const expenseList = response.data[0];
         this.periods = expenseList.periods;
         this.customerProjects = expenseList.customerProjects;
+        this.expenseTypes = expenseList.expenseTypes;
+        this.paymentTypes = expenseList.paymentTypes;
       } catch (error) {
         console.error(error);
       }
     },
 
-    async getExpenseListAll() {
+    /*     async getExpenseListAll() {
       await this.getExpensesList('CustomerProjects');
       await this.getExpensesList('Periods');
-    },
+    }, */
   },
 });

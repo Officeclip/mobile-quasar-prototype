@@ -2280,8 +2280,7 @@
           "expenseName": "AIr",
           "isDetailsRequired": true,
           "isBillable": false,
-          "isBillableModify": false,
-          "isActive": false
+          "isBillableModify": false
         },
         {
           "id": "J2BBXASXHAFW2ZSDWB6BWJJDMBJCH4SFUJJM6LQ",
@@ -2289,8 +2288,7 @@
           "expenseName": "Water",
           "isDetailsRequired": true,
           "isBillable": false,
-          "isBillableModify": false,
-          "isActive": false
+          "isBillableModify": false
         },
         {
           "id": "YB9EHHEV3MRYSUGFS2BC62SC5DYR6RDRCMJM6LQ",
@@ -2298,8 +2296,7 @@
           "expenseName": "Lodgeing",
           "isDetailsRequired": true,
           "isBillable": true,
-          "isBillableModify": true,
-          "isActive": false
+          "isBillableModify": true
         },
         {
           "id": "YB9EHHEV3MRYSUGFX6TNWYAFJJ6XHWD5DCYM6LQ",
@@ -2307,8 +2304,7 @@
           "expenseName": "Taxi Fare",
           "isDetailsRequired": true,
           "isBillable": true,
-          "isBillableModify": true,
-          "isActive": false
+          "isBillableModify": true
         },
         {
           "id": "YB9EHHEV3MRYSUGF28KZ2UWDV4LE2KRSYDYM6LQ",
@@ -2316,8 +2312,7 @@
           "expenseName": "Milage",
           "isDetailsRequired": true,
           "isBillable": true,
-          "isBillableModify": true,
-          "isActive": false
+          "isBillableModify": true
         },
         {
           "id": "JBKR37FSM6JZXJGRG2HV73AXBM9YH3FE34YM6LQ",
@@ -2325,8 +2320,7 @@
           "expenseName": "Lodgeing",
           "isDetailsRequired": true,
           "isBillable": true,
-          "isBillableModify": true,
-          "isActive": false
+          "isBillableModify": true
         },
         {
           "id": "JBKR37FSM6JZXJGRG2KT77WR2M9CX8HRRMJM6LQ",
@@ -2334,8 +2328,7 @@
           "expenseName": "Taxi Fare",
           "isDetailsRequired": true,
           "isBillable": true,
-          "isBillableModify": true,
-          "isActive": false
+          "isBillableModify": true
         },
         {
           "id": "JBKR37FSM6JZXJGRT89LYT9RC4RY37SR24TM6LQ",
@@ -2343,8 +2336,7 @@
           "expenseName": "Milage",
           "isDetailsRequired": true,
           "isBillable": true,
-          "isBillableModify": true,
-          "isActive": false
+          "isBillableModify": true
         },
         {
           "id": "D6JQ2UJFFMFCW8YXWZVVN7AFMBLRN6FSGCTM6LQ",
@@ -2352,8 +2344,7 @@
           "expenseName": "Hotel",
           "isDetailsRequired": true,
           "isBillable": true,
-          "isBillableModify": false,
-          "isActive": false
+          "isBillableModify": false
         },
         {
           "id": "D6JQ2UJFFMFCW8YXZBTUNCDF5DNE6QGCYJJM6LQ",
@@ -2361,8 +2352,7 @@
           "expenseName": "Auto Rental",
           "isDetailsRequired": true,
           "isBillable": true,
-          "isBillableModify": false,
-          "isActive": false
+          "isBillableModify": false
         },
         {
           "id": "D6JQ2UJFFMFCW8YXZZJZHDDDBBJLZJA5NMJM6LQ",
@@ -2370,8 +2360,21 @@
           "expenseName": "Taxi Expense",
           "isDetailsRequired": true,
           "isBillable": true,
-          "isBillableModify": false,
-          "isActive": false
+          "isBillableModify": false
+        }
+      ],
+      "paymentTypes": [
+        {
+          "label": "Personal Cash/Check",
+          "value": 1
+        },
+        {
+          "label": "Personal CreditCard",
+          "value": 2
+        },
+        {
+          "label": "Company CreditCard",
+          "value": 3
         }
       ]
     }

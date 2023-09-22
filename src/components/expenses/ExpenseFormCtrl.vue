@@ -2,7 +2,7 @@
 import { defineProps, ref, onMounted, onUpdated, computed } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
-import AirTravelExpense from '../../components/Expenses/AirTravelFormCtrl.vue';
+import AirTravelExpense from '../../components/expenses/AirTravelFormCtrl.vue';
 
 // const periodOptions = ref([])
 // periodOptions.value = [
@@ -25,12 +25,12 @@ dateOptions.value = [
 
 const sampleModel = ref([]);
 
-const sampleModel1 = ref([]);
+//const sampleModel1 = ref([]);
 
-const expenseListStore = useExpenseListsStore();
+const expenseListsStore = useExpenseListsStore();
 
 onMounted(() => {
-  expenseListStore.getExpensesList1();
+  expenseListsStore.getExpensesList();
 });
 
 onUpdated(() => {
@@ -39,11 +39,19 @@ onUpdated(() => {
 });
 
 const periodOptions = computed(() => {
-  return expenseListStore.periodList;
+  return expenseListsStore.PeriodList;
 });
 
 const customerProjectOptions = computed(() => {
-  return expenseListStore.CustomerProjectsList;
+  return expenseListsStore.CustomerProjectsList;
+});
+
+const expenseTypeOptions = computed(() => {
+  return expenseListsStore.ExpenseTypes;
+});
+
+const paymentTypeOptions = computed(() => {
+  return expenseListsStore.PaymentTypes;
 });
 
 const billableOptions = ref([]);
@@ -58,7 +66,7 @@ billableOptions.value = [
   },
 ];
 
-const paymentMethod = ref([]);
+/* const paymentMethod = ref([]);
 paymentMethod.value = [
   {
     label: 'Personal Cash/Check',
@@ -72,9 +80,9 @@ paymentMethod.value = [
     label: 'Company CreditCard',
     value: 3,
   },
-];
+]; */
 
-const expenseTypes = ref([]);
+/* const expenseTypes = ref([]);
 expenseTypes.value = [
   {
     id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
@@ -88,7 +96,7 @@ expenseTypes.value = [
     id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
     name: 'HOTEL',
   },
-];
+]; */
 
 const props = defineProps(['expense']);
 
@@ -142,7 +150,7 @@ const airTravel = ref({
         <q-select
           label="Expense Type"
           v-model="sampleModel"
-          :options="expenseTypes"
+          :options="expenseTypeOptions"
           option-label="name"
           option-value="id"
           map-options
@@ -153,7 +161,7 @@ const airTravel = ref({
         <q-select
           label="Payment Method"
           v-model="props.expense.paymentMethod"
-          :options="paymentMethod"
+          :options="paymentTypeOptions"
           map-options
         />
 
