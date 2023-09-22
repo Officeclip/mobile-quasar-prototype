@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ExpenseListCtrl from '../../components/Expenses/ExpenseListCtrl.vue';
+import ExpenseListCtrl from '../../components/expenses/ExpenseListCtrl.vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -19,7 +19,7 @@ const titleByStatus = route.params.status;
           icon="arrow_back"
         >
         </q-btn>
-        <q-toolbar-title> {{ titleByStatus }} Expenses List </q-toolbar-title>
+        <q-toolbar-title> {{ titleByStatus }} Expenses </q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-space class="q-mt-sm"></q-space>

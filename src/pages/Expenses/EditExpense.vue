@@ -4,7 +4,7 @@
 import { onMounted, computed } from 'vue';
 import { useExpensesStore } from '../../stores/ExpensesStore';
 import { useRouter } from 'vue-router';
-import ExpenseForm from '../../components/Expenses/ExpenseFormCtrl.vue';
+import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
 
 const expensesStore = useExpensesStore();
 
@@ -32,8 +32,8 @@ function onSubmit(e: any) {
     description: expense.value?.description,
     expenseDate: expenseDate,
     taskDate: taskDate,
-    totalAmount: expense.value?.amount
-  }
+    totalAmount: expense.value?.amount,
+  };
 
   expensesStore.editExpense(newExpense);
   router.push('-2');
@@ -43,7 +43,14 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title>Edit Expense</q-toolbar-title>
       </q-toolbar>
@@ -52,7 +59,12 @@ function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <ExpenseForm :expense="expense" />
-          <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
+          <q-btn
+            class="q-ml-md q-mb-md"
+            label="Submit"
+            type="submit"
+            color="primary"
+          >
           </q-btn>
         </div>
       </q-form>

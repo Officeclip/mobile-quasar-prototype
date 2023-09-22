@@ -4,7 +4,7 @@ import { computed, onMounted } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useRoute } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import autoRentalExpense from '../../components/Expenses/details/autoRentalExpense.vue';
+import autoRentalExpense from '../../components/expenses/details/autoRentalExpense.vue';
 const expenseDetailsStore = useExpenseDetailsStore();
 
 onMounted(() => {

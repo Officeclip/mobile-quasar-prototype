@@ -1,8 +1,8 @@
 import { format } from 'date-fns';
 import { parse } from 'date-fns';
 
-const extractDateFromUtc = (utcDateTime: string) =>
-  utcDateTime.substring(0, 10);
+const extractDateFromUtc = (utcDateTime: string | undefined) =>
+  utcDateTime?.substring(0, 10);
 
 const extractTimeFromUtc = (utcDateTime: string) => {
   //console.log(`extractTimeFromUtc - utcDateTime: ${utcDateTime}`)

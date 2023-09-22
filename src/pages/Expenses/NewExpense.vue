@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ExpenseForm from '../../components/Expenses/ExpenseFormCtrl.vue';
+import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
 // import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import { ref } from 'vue';
@@ -7,7 +7,7 @@ import { ref } from 'vue';
 const router = useRouter();
 const route = useRoute();
 
-const expenseId = route.params.id
+const expenseId = route.params.id;
 
 const expense = ref({
   expenseDate: '',
@@ -16,11 +16,11 @@ const expense = ref({
   totalAmount: Number(),
   tax: '',
   description: '',
-  comments: ''
+  comments: '',
 });
 
 function onSubmit(e: any) {
-  e.preventDefault()
+  e.preventDefault();
 
   const newExpense = {
     accountName: expense.value.accountName,
@@ -31,21 +31,25 @@ function onSubmit(e: any) {
     isBillable: expense.value.isBillable,
     projectName: '',
     projectId: '',
-    totalAmount: expense.value.totalAmount
-
-  }
+    totalAmount: expense.value.totalAmount,
+  };
   console.log(`onSubmit Expense Value: ${{ newExpense }}`);
 
-  router.push('/')
+  router.push('/');
 }
-
-
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title> New Expense</q-toolbar-title>
       </q-toolbar>
@@ -54,8 +58,19 @@ function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <ExpenseForm :expense="expense" />
-          <q-btn class="q-ml-md q-mb-md q-mt-md" label="Submit" type="submit" color="primary"></q-btn>
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
+          <q-btn
+            class="q-ml-md q-mb-md q-mt-md"
+            label="Submit"
+            type="submit"
+            color="primary"
+          ></q-btn>
+          <q-btn
+            label="Reset"
+            type="reset"
+            color="primary"
+            flat
+            class="q-ml-sm"
+          ></q-btn>
         </div>
       </q-form>
     </q-page-container>
