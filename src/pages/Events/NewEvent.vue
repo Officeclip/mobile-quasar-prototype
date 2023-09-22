@@ -1,11 +1,20 @@
 <script lang="ts" setup>
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
-import { ref, Ref } from 'vue';
+import { computed, onMounted, ref, Ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { eventDetails } from '../../models/event/eventDetails';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { eventSummary } from 'src/models/event/eventSummary';
+import { meetingAttendee } from '../../models/event/eventDetails';
+
+const eventsDetailsStore = useEventDetailsStore();
+onMounted(() => {
+  eventsDetailsStore.getAllMeetingAttendees();
+});
+const meetingAttendee = computed(() => {
+  return eventsDetailsStore.MeetingAttendees;
+});
 
 const router = useRouter();
 const route = useRoute();
@@ -15,8 +24,6 @@ const tab = ref('Group');
 const parentObjectId = route.params.id;
 
 const newparentObjectId = parentObjectId ? parentObjectId : -'1';
-
-const eventsDetailsStore = useEventDetailsStore();
 const event: Ref<eventDetails> = ref({
   eventName: '',
   eventDescription: '',
@@ -152,6 +159,7 @@ function onSubmit(e: any) {
         <div>
           <EventForm
             :event="event"
+            :meetingAttendeesList="meetingAttendee"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"
             @reminder-generated="handleReminder"

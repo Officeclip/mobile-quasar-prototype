@@ -5,21 +5,27 @@ import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { eventDetails } from '../../models/event/eventDetails';
+import { meetingAttendee } from '../../models/event/eventDetails';
 
 const eventDetailsStore = useEventDetailsStore();
 const route1 = useRouter();
 
 const id = ref<string | string[]>('0');
 
-const eventDetails = computed(() => {
-  return eventDetailsStore.EventDetails;
-});
-
 onMounted(() => {
   const route = useRoute();
   console.log('id=', route.params.id);
   id.value = route.params.id;
   eventDetailsStore.getEventDetailsById(route.params.id);
+  eventDetailsStore.getAllMeetingAttendees();
+});
+
+const eventDetails = computed(() => {
+  return eventDetailsStore.EventDetails;
+});
+
+const meetingAttendee = computed(() => {
+  return eventDetailsStore.MeetingAttendees;
 });
 
 function onSubmit(e: any) {
@@ -65,8 +71,8 @@ function onSubmit(e: any) {
     remindTo: '',
     remindBeforeMinutes: 0,
     label: -1,
-    meetingAttendees: [],
-    url: ''
+    meetingAttendees: eventDetails.value?.meetingAttendees,
+    url: '',
   };
   eventDetailsStore.editEventDetails(editEvent);
   route1.push('/eventSummary');
@@ -92,7 +98,10 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <EventForm :event="eventDetails" />
+          <EventForm
+            :event="eventDetails"
+            :meetingAttendeesList="meetingAttendee"
+          />
           <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"

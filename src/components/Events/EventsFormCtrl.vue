@@ -6,7 +6,7 @@ import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 // import EventsAddAttendeesDialog from './EventsAddAttendeesDialog.vue';
 
-const props = defineProps(['event']);
+const props = defineProps(['event', 'meetingAttendeesList']);
 const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
@@ -143,19 +143,20 @@ function handleReminderText(reminderText: string) {
   console.log('Received reminder Plain Text:', reminderText);
   reminderTextInfo.value = reminderText;
 }
-const selectedAttendees = ref(null);
-const meetingAttendeesOptions = [
-  {
-    id: 1,
-    name: 'SK Dutta',
-    email: 'skd@officeclip.com',
-  },
-  {
-    id: 2,
-    name: 'Nagesh Kulkarni',
-    email: 'nagesh@officeclip.com',
-  },
-];
+// const selectedAttendees = ref(null);
+// const meetingAttendeesOptions = [
+//   {
+//     id: 1,
+//     name: 'SK Dutta',
+//     email: 'skd@officeclip.com',
+//   },
+//   {
+//     id: 2,
+//     name: 'Nagesh Kulkarni',
+//     email: 'nagesh@officeclip.com',
+//   },
+// ];
+const meetingAttendeesOptions = props.meetingAttendeesList;
 const filterOptions = ref(meetingAttendeesOptions);
 
 function filterFn(val, update) {
@@ -343,7 +344,7 @@ function createValue(val, done) {
         <div v-if="showAttendees">
           <q-select
             filled
-            v-model="selectedAttendees"
+            v-model="event.meetingAttendees"
             use-input
             use-chips
             multiple
