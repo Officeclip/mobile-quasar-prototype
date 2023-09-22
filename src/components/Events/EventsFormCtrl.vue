@@ -21,22 +21,14 @@ const names = ref('');
 const showTimeAs = ref('Free');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Choose Reminder');
-// const receivedMeetingAttendees = ref(null);
 
 const showOptions = ref(false);
-const showAttendees = ref(false);
 
 const toggleIcon = ref('add');
-const toggleAttendeesIcon = ref('add');
 
 const toggleOptions = () => {
   toggleIcon.value = showOptions.value ? 'add' : 'remove';
   showOptions.value = !showOptions.value;
-};
-
-const toggleAttendees = () => {
-  toggleAttendeesIcon.value = showAttendees.value ? 'add' : 'remove';
-  showAttendees.value = !showAttendees.value;
 };
 
 startDateTime.value = props.event.startDateTime;
@@ -118,7 +110,6 @@ const ShowTimeOptions = ['Busy', 'Free', 'Tentative', 'Out of Office'];
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
-// const addAttendeesPopup = ref(false);
 
 function handleRRuleString(rruleString: string) {
   // You can now use the rruleString in your parent component
@@ -143,19 +134,7 @@ function handleReminderText(reminderText: string) {
   console.log('Received reminder Plain Text:', reminderText);
   reminderTextInfo.value = reminderText;
 }
-// const selectedAttendees = ref(null);
-// const meetingAttendeesOptions = [
-//   {
-//     id: 1,
-//     name: 'SK Dutta',
-//     email: 'skd@officeclip.com',
-//   },
-//   {
-//     id: 2,
-//     name: 'Nagesh Kulkarni',
-//     email: 'nagesh@officeclip.com',
-//   },
-// ];
+
 const meetingAttendeesOptions = props.meetingAttendeesList;
 const filterOptions = ref(meetingAttendeesOptions);
 
@@ -330,35 +309,21 @@ function createValue(val, done) {
           </q-item-section>
         </q-item>
 
-        <q-btn
-          :icon-right="toggleAttendeesIcon"
-          align="left"
-          color="primary"
-          flat
+        <q-select
+          filled
+          v-model="event.meetingAttendees"
+          use-input
+          use-chips
+          multiple
+          input-debounce="0"
+          @new-value="createValue"
+          :options="filterOptions"
+          option-label="email"
+          option-value="id"
+          @filter="filterFn"
           label="Add Attendees"
-          no-caps
-          rounded
-          size="md"
-          @click="toggleAttendees"
-        />
-        <div v-if="showAttendees">
-          <q-select
-            filled
-            v-model="event.meetingAttendees"
-            use-input
-            use-chips
-            multiple
-            input-debounce="0"
-            @new-value="createValue"
-            :options="filterOptions"
-            option-label="email"
-            option-value="id"
-            @filter="filterFn"
-            label="Add Attendees"
-            style="min-width: 250px"
-            dense
-          ></q-select>
-        </div>
+          style="min-width: 250px"
+        ></q-select>
 
         <!-- toggle options here -->
         <q-btn
@@ -406,10 +371,6 @@ function createValue(val, done) {
             </q-item-section>
           </q-item>
         </div>
-        <!-- <div v-if="showAttendees || showOptions">
-          <q-separator/>
-        </div> -->
-
         <div class="q-mt-lg"><label>Regarding:</label></div>
         <q-item class="q-mt-none">
           <q-item-section class="q-mr-sm">
