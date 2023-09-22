@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref, onMounted, onUpdated, computed } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import { useExpenseListStore } from '../../stores/ExpenseListStore';
+import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import AirTravelExpense from '../../components/Expenses/AirTravelFormCtrl.vue';
 
 
@@ -29,7 +29,7 @@ const sampleModel = ref([]);
 
 const sampleModel1 = ref([]);
 
-const expenseListStore = useExpenseListStore();
+const expenseListStore = useExpenseListsStore();
 
 onMounted(() => {
   expenseListStore.getExpensesList1();
@@ -40,7 +40,7 @@ onUpdated(() => {
   console.log('getting the id from option:', selectedValue);
 })
 
-const periodOptions = computed(() => { return expenseListStore.periodList });
+const periodOptions = computed(() => { return expenseListStore.PeriodList });
 
 const customerProjectOptions = computed(() => { return expenseListStore.CustomerProjectsList });
 
@@ -119,8 +119,8 @@ const airTravel = ref({
           emit-label />
         <q-select label="Customer: Project" v-model="sampleModel" :options="customerProjectOptions" option-label="name"
           option-value="id" map-options />
-        <q-select label="Expense Type" v-model="sampleModel" :options="expenseTypes" option-label="name" option-value="id"
-          map-options />
+        <q-select label="Expense Type" v-model="sampleModel1" :options="expenseTypes" option-label="name"
+          option-value="id" map-options />
 
         <AirTravelExpense :airTravel="airTravel" />
 

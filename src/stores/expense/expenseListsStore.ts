@@ -3,7 +3,7 @@ import {
   customerProject,
   period,
   expenseType,
-} from '../../models/expense/expenseLists';
+} from '../../models/Expense/expenseLists';
 import axios from 'axios';
 import { Constants } from '../Constants';
 
@@ -21,26 +21,26 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
   },
 
   actions: {
-    async getEventLists() {
-      try {
-        const response = await axios.get(
-          `${Constants.endPointUrl}/expense-lists`
-        );
-        const expenseLists = response.data[0];
-        this.customerProjects = expenseLists.customerProjects;
-        this.periods = expenseLists.periods;
-        this.expenseTypes = expenseLists.expenseTypes;
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    // async getExpenseLists() {
+    //   try {
+    //     const response = await axios.get(
+    //       `${Constants.endPointUrl}/expense-lists`
+    //     );
+    //     const expenseLists = response.data[0];
+    //     this.customerProjects = expenseLists.customerProjects;
+    //     this.periods = expenseLists.periods;
+    //     this.expenseTypes = expenseLists.expenseTypes;
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
 
     // getting all the timesheets for testing only, probably no where this use
     // TODO: Get all the list item at one time.
     async getExpensesList(name: string) {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}expense-list?name=${name}`
+          `${Constants.endPointUrl}expense-lists?name=${name}`
         );
         console.log('Response', response);
         const data = response.data[0].items;
@@ -61,7 +61,7 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
     async getExpensesList1() {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/expense-list`
+          `${Constants.endPointUrl}/expense-lists`
         );
         const expenseList = response.data[0];
         this.periods = expenseList.periods;
