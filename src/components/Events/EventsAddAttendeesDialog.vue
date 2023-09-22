@@ -13,11 +13,6 @@ const options = [
     name: 'Nagesh Kulkarni',
     email: 'nagesh@officeclip.com',
   },
-  {
-    id: 3,
-    name: 'Sudhakar Gundu',
-    email: 'sudhakar@officeclip.com',
-  },
 ];
 const filterOptions = ref(options);
 
@@ -55,25 +50,25 @@ function getSelectedValues() {
 </script>
 
 <template>
-  <q-card>
-    <div class="q-pa-lg row flex-center">
-      <q-select
-        filled
-        v-model="selectedAttendees"
-        use-input
-        use-chips
-        multiple
-        input-debounce="0"
-        @new-value="createValue"
-        :options="filterOptions"
-        option-label="name"
-        option-value="id"
-        @filter="filterFn"
-        label="Add Attendees"
-        style="min-width: 250px"
-      ></q-select>
-    </div>
-    <q-card-actions>
+  <!-- <q-card>
+    <div class="q-pa-lg row flex-center"> -->
+  <q-select
+    filled
+    v-model="selectedAttendees"
+    use-input
+    use-chips
+    multiple
+    input-debounce="0"
+    @new-value="createValue"
+    :options="filterOptions"
+    option-label="name"
+    option-value="id"
+    @filter="filterFn"
+    label="Add Attendees"
+    style="min-width: 250px"
+  ></q-select>
+  <!-- </div> -->
+  <!-- <q-card-actions>
       <q-btn
         v-close-popup
         color="primary"
@@ -81,5 +76,5 @@ function getSelectedValues() {
         @click="getSelectedValues"
       />
     </q-card-actions>
-  </q-card>
+  </q-card> -->
 </template>

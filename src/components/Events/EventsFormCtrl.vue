@@ -1,10 +1,10 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import {computed, ref} from 'vue';
+import { computed, ref } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
-import EventsAddAttendeesDialog from './EventsAddAttendeesDialog.vue';
+// import EventsAddAttendeesDialog from './EventsAddAttendeesDialog.vue';
 
 const props = defineProps(['event']);
 const emit = defineEmits([
@@ -21,15 +21,22 @@ const names = ref('');
 const showTimeAs = ref('Free');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Choose Reminder');
-const receivedMeetingAttendees = ref(null);
+// const receivedMeetingAttendees = ref(null);
 
 const showOptions = ref(false);
+const showAttendees = ref(false);
 
 const toggleIcon = ref('add');
+const toggleAttendeesIcon = ref('add');
 
 const toggleOptions = () => {
   toggleIcon.value = showOptions.value ? 'add' : 'remove';
   showOptions.value = !showOptions.value;
+};
+
+const toggleAttendees = () => {
+  toggleAttendeesIcon.value = showAttendees.value ? 'add' : 'remove';
+  showAttendees.value = !showAttendees.value;
 };
 
 startDateTime.value = props.event.startDateTime;
@@ -67,7 +74,7 @@ endDateTime.value = props.event.endDateTime;
 
 const formattedStartDateTime = computed(() => {
   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
-  return startDateTime.value
+  return startDateTime.value;
 });
 
 const formattedStartDateTime2 = startDateTime.value
@@ -76,8 +83,7 @@ const formattedStartDateTime2 = startDateTime.value
 
 const formattedEndDateTime = computed(() => {
   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
-  return endDateTime.value
-
+  return endDateTime.value;
 });
 
 const formattedEndDateTime2 = endDateTime.value
@@ -112,7 +118,7 @@ const ShowTimeOptions = ['Busy', 'Free', 'Tentative', 'Out of Office'];
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
-const addAttendeesPopup = ref(false);
+// const addAttendeesPopup = ref(false);
 
 function handleRRuleString(rruleString: string) {
   // You can now use the rruleString in your parent component
@@ -137,13 +143,49 @@ function handleReminderText(reminderText: string) {
   console.log('Received reminder Plain Text:', reminderText);
   reminderTextInfo.value = reminderText;
 }
+const selectedAttendees = ref(null);
+const options = [
+  {
+    id: 1,
+    name: 'SK Dutta',
+    email: 'skd@officeclip.com',
+  },
+  {
+    id: 2,
+    name: 'Nagesh Kulkarni',
+    email: 'nagesh@officeclip.com',
+  },
+];
+const filterOptions = ref(options);
 
-function receivedSelectedAttendees(receivedData: any) {
-  receivedMeetingAttendees.value = receivedData;
-  console.log(
-    'received Attendeees from dialog to main form: ',
-    receivedMeetingAttendees
-  );
+function filterFn(val, update) {
+  // Filter the options array based on the search value.
+  update(() => {
+    if (val === '') {
+      filterOptions.value = options;
+    } else {
+      const needle = val.toLowerCase();
+      filterOptions.value = options.filter(
+        (v) => v.name.toLowerCase().indexOf(needle) > -1
+      );
+    }
+  });
+}
+
+function createValue(val, done) {
+  // create a new id value to add the id property for the new input string from user
+  const id = Math.round(Math.random() * 100);
+  // Add the new item to the options array.
+  if (val.length > 0) {
+    if (!options.includes(val)) {
+      options.push({
+        id: id,
+        email: val,
+        name: '',
+      }); // push the new item as an object into the list
+    }
+    done({ id: id, email: val }, 'toggle'); // added the new input as an new item into the dropdown
+  }
 }
 </script>
 
@@ -187,7 +229,7 @@ function receivedSelectedAttendees(receivedData: any) {
               >
                 <q-date v-model="startDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"/>
+                    <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -207,7 +249,7 @@ function receivedSelectedAttendees(receivedData: any) {
                   :mask="maskDateTime"
                 >
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"/>
+                    <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
                 </q-time>
               </q-popup-proxy>
@@ -230,7 +272,7 @@ function receivedSelectedAttendees(receivedData: any) {
               >
                 <q-date v-model="endDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"/>
+                    <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -246,7 +288,7 @@ function receivedSelectedAttendees(receivedData: any) {
               >
                 <q-time v-model="endDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"/>
+                    <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
                 </q-time>
               </q-popup-proxy>
@@ -256,7 +298,7 @@ function receivedSelectedAttendees(receivedData: any) {
 
         <q-input v-model="event.eventLocation" bottom-slots label="Location">
           <template v-slot:prepend>
-            <q-icon name="place"/>
+            <q-icon name="place" />
           </template>
         </q-input>
         <q-input
@@ -269,35 +311,53 @@ function receivedSelectedAttendees(receivedData: any) {
 
         <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
           <q-item-section avatar>
-            <q-icon color="primary" name="repeat" size="sm"/>
+            <q-icon color="primary" name="repeat" size="sm" />
           </q-item-section>
           <q-item-section> {{ repeatString }}</q-item-section>
           <q-item-section side>
-            <q-icon color="primary" name="chevron_right"/>
+            <q-icon color="primary" name="chevron_right" />
           </q-item-section>
         </q-item>
 
         <q-item v-ripple clickable @click="reminderDialogOpened = true">
           <q-item-section avatar>
-            <q-icon color="primary" name="alarm" size="sm"/>
+            <q-icon color="primary" name="alarm" size="sm" />
           </q-item-section>
           <q-item-section>{{ reminderTextInfo }}</q-item-section>
           <q-item-section side>
-            <q-icon color="primary" name="chevron_right"/>
+            <q-icon color="primary" name="chevron_right" />
           </q-item-section>
         </q-item>
 
         <q-btn
+          :icon-right="toggleAttendeesIcon"
           align="left"
           color="primary"
           flat
-          icon-right="groups"
           label="Add Attendees"
           no-caps
           rounded
           size="md"
-          @click="addAttendeesPopup = true"
+          @click="toggleAttendees"
         />
+        <div v-if="showAttendees">
+          <q-select
+            filled
+            v-model="selectedAttendees"
+            use-input
+            use-chips
+            multiple
+            input-debounce="0"
+            @new-value="createValue"
+            :options="filterOptions"
+            option-label="email"
+            option-value="id"
+            @filter="filterFn"
+            label="Add Attendees"
+            style="min-width: 250px"
+            dense
+          ></q-select>
+        </div>
 
         <!-- toggle options here -->
         <q-btn
@@ -322,7 +382,7 @@ function receivedSelectedAttendees(receivedData: any) {
           />
           <q-input v-model="event.url" label="Url" map-options name="Url">
             <template v-slot:append>
-              <q-btn color="primary" dense flat label="test url" no-caps/>
+              <q-btn color="primary" dense flat label="test url" no-caps />
             </template>
           </q-input>
           <q-item>
@@ -374,7 +434,7 @@ function receivedSelectedAttendees(receivedData: any) {
             </q-item-label>
           </q-item-section>
           <q-item-section side>
-            <q-icon color="primary" name="switch_access_shortcut"/>
+            <q-icon color="primary" name="switch_access_shortcut" />
           </q-item-section>
         </q-item>
         <q-dialog v-model="recurrenceDialogOpened">
@@ -389,11 +449,11 @@ function receivedSelectedAttendees(receivedData: any) {
             @reminder-data-generated="handleReminderData"
           />
         </q-dialog>
-        <q-dialog v-model="addAttendeesPopup">
+        <!-- <q-dialog v-model="addAttendeesPopup">
           <EventsAddAttendeesDialog
             @get-selected-meeting-attendees="receivedSelectedAttendees"
           />
-        </q-dialog>
+        </q-dialog> -->
       </div>
     </div>
   </div>
