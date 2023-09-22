@@ -1,11 +1,20 @@
 <script lang="ts" setup>
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
-import { ref, Ref } from 'vue';
+import { computed, onMounted, ref, Ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { eventDetails } from '../../models/event/eventDetails';
-import dateTimeHelper from "src/helpers/dateTimeHelper";
-import {eventSummary} from "src/models/event/eventSummary";
+import dateTimeHelper from 'src/helpers/dateTimeHelper';
+import { eventSummary } from 'src/models/event/eventSummary';
+import { meetingAttendee } from '../../models/event/eventDetails';
+
+const eventsDetailsStore = useEventDetailsStore();
+onMounted(() => {
+  eventsDetailsStore.getAllMeetingAttendees();
+});
+const meetingAttendee = computed(() => {
+  return eventsDetailsStore.MeetingAttendees;
+});
 
 const router = useRouter();
 const route = useRoute();
@@ -14,9 +23,7 @@ const tab = ref('Group');
 
 const parentObjectId = route.params.id;
 
-const newparentObjectId = parentObjectId ? parentObjectId : "-1";
-
-const eventsDetailsStore = useEventDetailsStore();
+const newparentObjectId = parentObjectId ? parentObjectId : -'1';
 const event: Ref<eventDetails> = ref({
   eventName: '',
   eventDescription: '',
@@ -42,7 +49,7 @@ const event: Ref<eventDetails> = ref({
   eventUserSid: '',
   isRsvp: false,
   modifiedDate: '',
-  modifiedUserSid: ''
+  modifiedUserSid: '',
 });
 
 function handleRRule(rrule: string) {
@@ -102,17 +109,17 @@ function onSubmit(e: any) {
     eventUserSid: event.value.eventUserSid,
     isRsvp: event.value.isRsvp,
     modifiedDate: event.value.modifiedDate,
-    modifiedUserSid: event.value.modifiedUserSid
+    modifiedUserSid: event.value.modifiedUserSid,
   };
 
-  const newEventSummary:eventSummary = {
+  const newEventSummary: eventSummary = {
     id: newEventDetails.id,
     eventType: newEventDetails.eventType,
     eventName: newEventDetails.eventName,
     startDateTime: newEventDetails.startDateTime,
     endDateTime: newEventDetails.endDateTime,
-    isAllDayEvent: newEventDetails.isAllDayEvent
-  }
+    isAllDayEvent: newEventDetails.isAllDayEvent,
+  };
   console.log('new event form values: ', newEventDetails);
   eventsDetailsStore.addEventDetails(newEventDetails);
   eventsDetailsStore.addEventSummary(newEventSummary);
@@ -152,6 +159,7 @@ function onSubmit(e: any) {
         <div>
           <EventForm
             :event="event"
+            :meetingAttendeesList="meetingAttendee"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"
             @reminder-generated="handleReminder"
