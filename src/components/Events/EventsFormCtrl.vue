@@ -144,7 +144,7 @@ function handleReminderText(reminderText: string) {
   reminderTextInfo.value = reminderText;
 }
 const selectedAttendees = ref(null);
-const options = [
+const meetingAttendeesOptions = [
   {
     id: 1,
     name: 'SK Dutta',
@@ -156,16 +156,16 @@ const options = [
     email: 'nagesh@officeclip.com',
   },
 ];
-const filterOptions = ref(options);
+const filterOptions = ref(meetingAttendeesOptions);
 
 function filterFn(val, update) {
-  // Filter the options array based on the search value.
+  // Filter the meetingAttendeesOptions array based on the search value.
   update(() => {
     if (val === '') {
-      filterOptions.value = options;
+      filterOptions.value = meetingAttendeesOptions;
     } else {
       const needle = val.toLowerCase();
-      filterOptions.value = options.filter(
+      filterOptions.value = meetingAttendeesOptions.filter(
         (v) => v.name.toLowerCase().indexOf(needle) > -1
       );
     }
@@ -175,10 +175,10 @@ function filterFn(val, update) {
 function createValue(val, done) {
   // create a new id value to add the id property for the new input string from user
   const id = Math.round(Math.random() * 100);
-  // Add the new item to the options array.
+  // Add the new item to the meetingAttendeesOptions array.
   if (val.length > 0) {
-    if (!options.includes(val)) {
-      options.push({
+    if (!meetingAttendeesOptions.includes(val)) {
+      meetingAttendeesOptions.push({
         id: id,
         email: val,
         name: '',
