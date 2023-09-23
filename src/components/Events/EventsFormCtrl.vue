@@ -20,16 +20,16 @@ const regardings = ref('');
 const names = ref('');
 const showTimeAs = ref('Free');
 const repeatString = ref('Does not repeat');
-const reminderTextInfo = ref('Choose Reminder');
+const reminderTextInfo = ref('Reminder');
 
-const showOptions = ref(false);
+// const showOptions = ref(false);
 
-const toggleIcon = ref('add');
+// const toggleIcon = ref('add');
 
-const toggleOptions = () => {
+/* const toggleOptions = () => {
   toggleIcon.value = showOptions.value ? 'add' : 'remove';
   showOptions.value = !showOptions.value;
-};
+}; */
 
 startDateTime.value = props.event.startDateTime;
 endDateTime.value = props.event.endDateTime;
@@ -138,7 +138,7 @@ function handleReminderText(reminderText: string) {
 const meetingAttendeesOptions = props.meetingAttendeesList;
 const filterOptions = ref(meetingAttendeesOptions);
 
-function filterFn(val, update) {
+function filterFn(val: any, update: any) {
   // Filter the meetingAttendeesOptions array based on the search value.
   update(() => {
     if (val === '') {
@@ -146,13 +146,13 @@ function filterFn(val, update) {
     } else {
       const needle = val.toLowerCase();
       filterOptions.value = meetingAttendeesOptions.filter(
-        (v) => v.name.toLowerCase().indexOf(needle) > -1
+        (v: any) => v.name.toLowerCase().indexOf(needle) > -1
       );
     }
   });
 }
 
-function createValue(val, done) {
+function createValue(val: any, done: any) {
   // create a new id value to add the id property for the new input string from user
   const id = Math.round(Math.random() * 100);
   // Add the new item to the meetingAttendeesOptions array.
@@ -331,7 +331,7 @@ function createValue(val, done) {
           </q-card>
           <q-item>
             <q-select
-              class="full-width"
+              class="full-width q-mt-sm"
               filled
               v-model="event.meetingAttendees"
               use-input
@@ -347,114 +347,102 @@ function createValue(val, done) {
               style="min-width: 250px"
             ></q-select>
           </q-item>
-          <q-item>
-            <q-input
-              class="full-width"
-              v-model="event.eventLocation"
-              bottom-slots
-              label="Location"
-              placeholder="enter where the event will take place"
-              dense
-            >
-            </q-input>
-          </q-item>
-          <q-item>
-            <q-input
-              v-model="event.eventDescription"
-              class="q-mt-none full-width"
-              label="Notes"
-              name="eventDescription"
-              placeholder="enter event description"
-              dense
-              autogrow
-            />
-          </q-item>
-        </q-list>
-
-        <q-item v-ripple clickable @click="reminderDialogOpened = true">
-          <q-item-section avatar>
-            <q-icon color="primary" name="alarm" size="sm" />
-          </q-item-section>
-          <q-item-section>{{ reminderTextInfo }}</q-item-section>
-          <q-item-section side>
-            <q-icon color="primary" name="chevron_right" />
-          </q-item-section>
-        </q-item>
-
-        <!-- toggle options here -->
-        <q-btn
-          :icon-right="toggleIcon"
-          align="left"
-          color="primary"
-          flat
-          label="Options"
-          no-caps
-          rounded
-          size="md"
-          @click="toggleOptions"
-        />
-        <div v-if="showOptions">
-          <q-select
-            v-model="event.timezone"
-            :options="timeZoneOptions"
-            emit-label
-            label="Timezone"
-            map-options
-            name="timeZone"
-          />
-          <q-input v-model="event.url" label="Url" map-options name="Url">
-            <template v-slot:append>
-              <q-btn color="primary" dense flat label="test url" no-caps />
-            </template>
-          </q-input>
-          <q-item>
-            <q-item-section class="q-pr-xl">
-              <q-select
-                v-model="showTimeAs"
-                :options="ShowTimeOptions"
-                label="Show Time As"
-                name="Show time as"
-              />
+          <q-item v-ripple clickable @click="reminderDialogOpened = true">
+            <q-item-section avatar>
+              <q-icon color="primary" name="alarm" size="sm" />
             </q-item-section>
-            <q-item-section>
-              <q-select
-                v-model="event.label"
-                :options="labelOptions"
-                label="Label"
-                name="label"
-                popup-content-style="backgroundColor: '#ff0000"
-              />
+            <q-item-section>{{ reminderTextInfo }}</q-item-section>
+            <q-item-section side>
+              <q-icon color="primary" name="chevron_right" />
             </q-item-section>
           </q-item>
-        </div>
-        <div class="q-mt-lg"><label>Regarding:</label></div>
-        <q-item class="q-mt-none">
-          <q-item-section class="q-mr-sm">
-            <q-item-label>
+
+          <q-card>
+            <q-item>
+              <q-input
+                class="full-width"
+                v-model="event.eventLocation"
+                bottom-slots
+                label="Location"
+                placeholder="enter where the event will take place"
+                dense
+              >
+              </q-input>
+            </q-item>
+            <q-item>
+              <q-input
+                v-model="event.eventDescription"
+                class="q-mt-none full-width"
+                label="Notes"
+                name="eventDescription"
+                placeholder="enter event description"
+                dense
+                autogrow
+              />
+            </q-item>
+            <q-item>
+              <q-input
+                dense
+                class="full-width"
+                v-model="event.url"
+                label="Url"
+                map-options
+                name="Url"
+              >
+                <template v-slot:append>
+                  <q-btn color="primary" dense flat label="test url" no-caps />
+                </template>
+              </q-input>
+            </q-item>
+            <q-item>
+              <q-item-section class="q-pr-xl">
+                <q-select
+                  v-model="showTimeAs"
+                  :options="ShowTimeOptions"
+                  label="Show Time As"
+                  name="Show time as"
+                />
+              </q-item-section>
+              <q-item-section>
+                <q-select
+                  v-model="event.label"
+                  :options="labelOptions"
+                  label="Label"
+                  name="label"
+                  popup-content-style="backgroundColor: '#ff0000"
+                />
+              </q-item-section>
+            </q-item>
+          </q-card>
+
+          <q-item class="q-mt-md text-subtitle1">Regarding</q-item>
+          <q-item class="q-mt-none">
+            <q-item-section class="q-mr-sm">
               <q-select
+                dense
                 v-model="regardings"
                 :options="timeZoneOptions"
                 emit-label
                 label="Contact"
                 map-options
               />
-            </q-item-label>
-          </q-item-section>
-          <q-item-section class="q-mr-sm">
-            <q-item-label>
+            </q-item-section>
+            <q-item-section class="q-mr-sm">
               <q-select
+                dense
                 v-model="names"
                 :options="timeZoneOptions"
                 emit-label
                 label="Name"
                 map-options
               />
-            </q-item-label>
-          </q-item-section>
-          <q-item-section side>
-            <q-icon color="primary" name="switch_access_shortcut" />
-          </q-item-section>
-        </q-item>
+            </q-item-section>
+            <q-item-section side>
+              <q-icon color="primary" name="switch_access_shortcut" />
+            </q-item-section>
+          </q-item>
+        </q-list>
+
         <q-dialog v-model="recurrenceDialogOpened">
           <EventsRecurrenceDialog
             @rrule-string-generated="handleRRuleString"
@@ -467,11 +455,6 @@ function createValue(val, done) {
             @reminder-data-generated="handleReminderData"
           />
         </q-dialog>
-        <!-- <q-dialog v-model="addAttendeesPopup">
-          <EventsAddAttendeesDialog
-            @get-selected-meeting-attendees="receivedSelectedAttendees"
-          />
-        </q-dialog> -->
       </div>
     </div>
   </div>
