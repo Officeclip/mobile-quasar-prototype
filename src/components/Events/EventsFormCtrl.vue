@@ -175,129 +175,201 @@ function createValue(val, done) {
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
-        <q-input
-          v-model="event.eventName"
-          :rules="[(val: string | any[]) => (val && val.length > 0) || 'Please type something']"
-          label="Event Name"
-          lazy-rules
-          name="eventName"
-          placeholder="enter event name"
-        />
-
-        <q-toggle
-          v-model="event.isAllDayEvent"
-          :false-value="false"
-          :true-value="true"
-          color="primary"
-          keep-color
-          label="All Day Event"
-          name="isAllDayEvent"
-        />
-
-        <q-input
-          v-model="formattedStartDateTime2"
-          :rules="[(val: any) => !!val || 'Start Date is required']"
-          label="Start Date"
-          name="startDateTime"
-        >
-          <template v-slot:prepend>
-            <q-icon class="cursor-pointer" name="event">
-              <q-popup-proxy
-                cover
-                transition-hide="scale"
-                transition-show="scale"
-              >
-                <q-date v-model="startDateTime" :mask="maskDateTime">
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-
-          <template v-if="!props.event.isAllDayEvent" v-slot:append>
-            <q-icon class="cursor-pointer" name="access_time">
-              <q-popup-proxy
-                cover
-                transition-hide="scale"
-                transition-show="scale"
-              >
-                <q-time
-                  v-if="!props.event.isAllDayEvent"
-                  v-model="startDateTime"
-                  :mask="maskDateTime"
+        <q-list>
+          <q-item>
+            <q-input
+              class="full-width"
+              v-model="event.eventName"
+              :rules="[(val: string | any[]) => (val && val.length > 0) || 'Please type something']"
+              label="Event Name*"
+              lazy-rules
+              name="eventName"
+              placeholder="enter event name"
+            />
+          </q-item>
+          <q-card>
+            <q-item>
+              <q-toggle
+                v-model="event.isAllDayEvent"
+                :false-value="false"
+                :true-value="true"
+                color="primary"
+                keep-color
+                label="All Day Event"
+                name="isAllDayEvent"
+                left-label
+                dense
+              />
+            </q-item>
+            <q-item class="rowItems">
+              <q-item-section>
+                <q-input
+                  v-model="formattedStartDateTime2"
+                  :rules="[(val: any) => !!val || 'Start Date is required']"
+                  label="Starts*"
+                  name="startDateTime"
+                  dense
                 >
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
-                  </div>
-                </q-time>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
+                  <template v-slot:prepend>
+                    <q-icon class="cursor-pointer" name="event">
+                      <q-popup-proxy
+                        cover
+                        transition-hide="scale"
+                        transition-show="scale"
+                      >
+                        <q-date v-model="startDateTime" :mask="maskDateTime">
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              color="primary"
+                              flat
+                              label="Close"
+                            />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
 
-        <q-input
-          v-model="formattedEndDateTime2"
-          :rules="[(val: any) => !!val || 'End Date is required']"
-          label="End Date"
-          name="endDateTime"
-        >
-          <template v-slot:prepend>
-            <q-icon class="cursor-pointer" name="event">
-              <q-popup-proxy
-                cover
-                transition-hide="scale"
-                transition-show="scale"
-              >
-                <q-date v-model="endDateTime" :mask="maskDateTime">
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
+                  <template v-if="!props.event.isAllDayEvent" v-slot:append>
+                    <q-icon class="cursor-pointer" name="access_time">
+                      <q-popup-proxy
+                        cover
+                        transition-hide="scale"
+                        transition-show="scale"
+                      >
+                        <q-time
+                          v-if="!props.event.isAllDayEvent"
+                          v-model="startDateTime"
+                          :mask="maskDateTime"
+                        >
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              color="primary"
+                              flat
+                              label="Close"
+                            />
+                          </div>
+                        </q-time>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </q-item-section>
+              <q-item-section>
+                <q-input
+                  v-model="formattedEndDateTime2"
+                  :rules="[(val: any) => !!val || 'End Date is required']"
+                  label="Ends*"
+                  name="endDateTime"
+                  dense
+                >
+                  <template v-slot:prepend>
+                    <q-icon class="cursor-pointer" name="event">
+                      <q-popup-proxy
+                        cover
+                        transition-hide="scale"
+                        transition-show="scale"
+                      >
+                        <q-date v-model="endDateTime" :mask="maskDateTime">
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              color="primary"
+                              flat
+                              label="Close"
+                            />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
 
-          <template v-if="!props.event.isAllDayEvent" v-slot:append>
-            <q-icon class="cursor-pointer" name="access_time">
-              <q-popup-proxy
-                cover
-                transition-hide="scale"
-                transition-show="scale"
-              >
-                <q-time v-model="endDateTime" :mask="maskDateTime">
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
-                  </div>
-                </q-time>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-
-        <q-input v-model="event.eventLocation" bottom-slots label="Location">
-          <template v-slot:prepend>
-            <q-icon name="place" />
-          </template>
-        </q-input>
-        <q-input
-          v-model="event.eventDescription"
-          class="q-mt-none"
-          label="Event Note"
-          name="eventDescription"
-          placeholder="enter event description"
-        />
-
-        <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
-          <q-item-section avatar>
-            <q-icon color="primary" name="repeat" size="sm" />
-          </q-item-section>
-          <q-item-section> {{ repeatString }}</q-item-section>
-          <q-item-section side>
-            <q-icon color="primary" name="chevron_right" />
-          </q-item-section>
-        </q-item>
+                  <template v-if="!props.event.isAllDayEvent" v-slot:append>
+                    <q-icon class="cursor-pointer" name="access_time">
+                      <q-popup-proxy
+                        cover
+                        transition-hide="scale"
+                        transition-show="scale"
+                      >
+                        <q-time v-model="endDateTime" :mask="maskDateTime">
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              color="primary"
+                              flat
+                              label="Close"
+                            />
+                          </div>
+                        </q-time>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </q-item-section>
+            </q-item>
+            <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
+              <q-item-section avatar>
+                <q-icon color="primary" name="repeat" size="sm" />
+              </q-item-section>
+              <q-item-section> {{ repeatString }}</q-item-section>
+              <q-item-section side>
+                <q-icon color="primary" name="chevron_right" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-select
+                class="full-width"
+                v-model="regardings"
+                :options="timeZoneOptions"
+                emit-label
+                label="Timezone"
+                map-options
+              />
+            </q-item>
+          </q-card>
+          <q-item>
+            <q-select
+              class="full-width"
+              filled
+              v-model="event.meetingAttendees"
+              use-input
+              use-chips
+              multiple
+              input-debounce="0"
+              @new-value="createValue"
+              :options="filterOptions"
+              option-label="email"
+              option-value="id"
+              @filter="filterFn"
+              label="Attendees"
+              style="min-width: 250px"
+            ></q-select>
+          </q-item>
+          <q-item>
+            <q-input
+              class="full-width"
+              v-model="event.eventLocation"
+              bottom-slots
+              label="Location"
+              placeholder="enter where the event will take place"
+              dense
+            >
+            </q-input>
+          </q-item>
+          <q-item>
+            <q-input
+              v-model="event.eventDescription"
+              class="q-mt-none full-width"
+              label="Notes"
+              name="eventDescription"
+              placeholder="enter event description"
+              dense
+              autogrow
+            />
+          </q-item>
+        </q-list>
 
         <q-item v-ripple clickable @click="reminderDialogOpened = true">
           <q-item-section avatar>
@@ -308,22 +380,6 @@ function createValue(val, done) {
             <q-icon color="primary" name="chevron_right" />
           </q-item-section>
         </q-item>
-
-        <q-select
-          filled
-          v-model="event.meetingAttendees"
-          use-input
-          use-chips
-          multiple
-          input-debounce="0"
-          @new-value="createValue"
-          :options="filterOptions"
-          option-label="email"
-          option-value="id"
-          @filter="filterFn"
-          label="Add Attendees"
-          style="min-width: 250px"
-        ></q-select>
 
         <!-- toggle options here -->
         <q-btn
@@ -420,3 +476,9 @@ function createValue(val, done) {
     </div>
   </div>
 </template>
+<style scoped>
+.rowItems {
+  display: flex;
+  gap: 32px;
+}
+</style>
