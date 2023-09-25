@@ -173,10 +173,10 @@ function onSubmit(e: any) {
           />
         </div>
       </q-form>
-      <pre>{{ tab }}</pre>
+      <!-- <pre>{{ tab }}</pre> -->
     </q-page-container>
 
-    <q-footer bordered class="bg-grey-3 text-primary">
+    <!-- <q-footer bordered class="bg-grey-3 text-primary">
       <q-tabs
         v-model="tab"
         active-color="primary"
@@ -188,7 +188,7 @@ function onSubmit(e: any) {
         <q-tab label="Meeting" name="Meeting"></q-tab>
         <q-tab label="Private" name="Private"></q-tab>
       </q-tabs>
-    </q-footer>
+    </q-footer> -->
   </q-layout>
 </template>
 

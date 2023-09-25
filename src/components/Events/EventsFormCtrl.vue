@@ -10,6 +10,8 @@ import { meetingAttendee } from '../../models/event/eventDetails';
 // eslint-disable-next-line vue/no-dupe-keys
 import { label } from '../../models/event/eventLists';
 
+// const eventType = ref('2');
+
 const eventDetailsStore = useEventDetailsStore();
 const eventListsStore = useEventListsStore();
 onMounted(() => {
@@ -143,6 +145,30 @@ function createValue(val: string, done: any) {
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
         <q-list>
+          <pre>{{ event.eventType }}</pre>
+          <div class="q-gutter-sm">
+            <q-radio
+              keep-color
+              v-model="event.eventType"
+              val="1"
+              label="Group"
+              color="teal"
+            ></q-radio>
+            <q-radio
+              keep-color
+              v-model="event.eventType"
+              val="2"
+              label="Meeting"
+              color="red"
+            ></q-radio>
+            <q-radio
+              keep-color
+              v-model="event.eventType"
+              val="3"
+              label="Private"
+              color="cyan"
+            ></q-radio>
+          </div>
           <q-item>
             <q-input
               class="full-width"
@@ -298,6 +324,7 @@ function createValue(val: string, done: any) {
           </q-card>
           <q-item>
             <q-select
+              v-if="eventType == '2'"
               class="full-width q-mt-sm"
               filled
               v-model="event.meetingAttendees"
