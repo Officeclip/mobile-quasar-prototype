@@ -72,7 +72,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
         const response = await axios.get(
           `${Constants.endPointUrl}/event-lists`
         );
-        const eventLists = response.data;
+        const eventLists = response.data[0];
         const regardingContacts = eventLists.regardingContact;
         const filtered = regardingContacts.filter((t: regardingContact) => {
           return t.name.toLowerCase().includes(searchString.toLowerCase());
