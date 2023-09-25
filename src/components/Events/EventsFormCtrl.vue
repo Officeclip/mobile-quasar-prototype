@@ -1,14 +1,12 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
-import dateTimeHelper from '../../helpers/dateTimeHelper';
+import {computed, onMounted, ref} from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
-import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
-import { useEventListsStore } from '../../stores/event/eventListsStore';
-import { meetingAttendee } from '../../models/event/eventDetails';
+import {useEventDetailsStore} from 'stores/event/eventDetailsStore';
+import {useEventListsStore} from 'stores/event/eventListsStore';
+import {regardingContact} from "src/models/event/eventLists";
 // eslint-disable-next-line vue/no-dupe-keys
-import { label } from '../../models/event/eventLists';
 
 // const eventType = ref('2');
 
@@ -133,9 +131,33 @@ function createValue(val: string, done: any) {
         name: '',
       }); // push the new item as an object into the list
     }
-    done({ id: id, email: val }, 'toggle'); // added the new input as an new item into the dropdown
+    done({id: id, email: val}, 'toggle'); // added the new input as an new item into the dropdown
   }
 }
+
+const regardingContacts = ref([] as regardingContact[]);
+const selectedRegContact = ref(null);
+
+async function filterContacts(val, update, abort) {
+  if (val.length < 2) {
+    abort();
+    return;
+  } else if (val.length === 2) {
+    regardingContacts.value = [] as regardingContact[];
+    await eventListsStore.getRegardingContactListThatMatch(val);
+    regardingContacts.value = eventListsStore.regardingContacts;
+  }
+
+  update(() => {
+    console.log('update');
+    const needle = val.toLowerCase();
+    regardingContacts.value = eventListsStore.regardingContacts.filter(
+      (v) => v.name.toLowerCase().indexOf(needle) > -1
+    );
+  });
+}
+
+
 </script>
 
 <template>
@@ -148,32 +170,32 @@ function createValue(val: string, done: any) {
           <pre>{{ event.eventType }}</pre>
           <div class="q-gutter-sm">
             <q-radio
-              keep-color
               v-model="event.eventType"
-              val="1"
-              label="Group"
               color="teal"
+              keep-color
+              label="Group"
+              val="1"
             ></q-radio>
             <q-radio
-              keep-color
               v-model="event.eventType"
-              val="2"
-              label="Meeting"
               color="red"
+              keep-color
+              label="Meeting"
+              val="2"
             ></q-radio>
             <q-radio
-              keep-color
               v-model="event.eventType"
-              val="3"
-              label="Private"
               color="cyan"
+              keep-color
+              label="Private"
+              val="3"
             ></q-radio>
           </div>
           <q-item>
             <q-input
-              class="full-width"
               v-model="event.eventName"
               :rules="[(val: string | any[]) => (val && val.length > 0) || 'Please type something']"
+              class="full-width"
               label="Event Name*"
               lazy-rules
               name="eventName"
@@ -187,11 +209,11 @@ function createValue(val: string, done: any) {
                 :false-value="false"
                 :true-value="true"
                 color="primary"
+                dense
                 keep-color
                 label="All Day Event"
-                name="isAllDayEvent"
                 left-label
-                dense
+                name="isAllDayEvent"
               />
             </q-item>
             <q-item class="rowItems">
@@ -199,9 +221,9 @@ function createValue(val: string, done: any) {
                 <q-input
                   v-model="formattedStartDateTime2"
                   :rules="[(val: any) => !!val || 'Start Date is required']"
+                  dense
                   label="Starts*"
                   name="startDateTime"
-                  dense
                 >
                   <template v-slot:prepend>
                     <q-icon class="cursor-pointer" name="event">
@@ -254,9 +276,9 @@ function createValue(val: string, done: any) {
                 <q-input
                   v-model="formattedEndDateTime2"
                   :rules="[(val: any) => !!val || 'End Date is required']"
+                  dense
                   label="Ends*"
                   name="endDateTime"
-                  dense
                 >
                   <template v-slot:prepend>
                     <q-icon class="cursor-pointer" name="event">
@@ -304,18 +326,18 @@ function createValue(val: string, done: any) {
             </q-item>
             <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
               <q-item-section avatar>
-                <q-icon color="primary" name="repeat" size="sm" />
+                <q-icon color="primary" name="repeat" size="sm"/>
               </q-item-section>
               <q-item-section> {{ repeatString }}</q-item-section>
               <q-item-section side>
-                <q-icon color="primary" name="chevron_right" />
+                <q-icon color="primary" name="chevron_right"/>
               </q-item-section>
             </q-item>
             <q-item>
               <q-select
-                class="full-width"
                 v-model="regardings"
                 :options="timeZoneOptions"
+                class="full-width"
                 emit-label
                 label="Timezone"
                 map-options
@@ -325,66 +347,66 @@ function createValue(val: string, done: any) {
           <q-item>
             <q-select
               v-if="eventType == '2'"
+              v-model="event.meetingAttendees"
+              :options="filterOptions"
               class="full-width q-mt-sm"
               filled
-              v-model="event.meetingAttendees"
-              use-input
-              use-chips
-              multiple
               input-debounce="0"
-              @new-value="createValue"
-              :options="filterOptions"
+              label="Attendees"
+              multiple
               option-label="email"
               option-value="id"
-              @filter="filterFn"
-              label="Attendees"
               style="min-width: 250px"
+              use-chips
+              use-input
+              @filter="filterFn"
+              @new-value="createValue"
             ></q-select>
           </q-item>
           <q-item v-ripple clickable @click="reminderDialogOpened = true">
             <q-item-section avatar>
-              <q-icon color="primary" name="alarm" size="sm" />
+              <q-icon color="primary" name="alarm" size="sm"/>
             </q-item-section>
             <q-item-section>{{ reminderTextInfo }}</q-item-section>
             <q-item-section side>
-              <q-icon color="primary" name="chevron_right" />
+              <q-icon color="primary" name="chevron_right"/>
             </q-item-section>
           </q-item>
 
           <q-card>
             <q-item>
               <q-input
-                class="full-width"
                 v-model="event.eventLocation"
                 bottom-slots
+                class="full-width"
+                dense
                 label="Location"
                 placeholder="enter where the event will take place"
-                dense
               >
               </q-input>
             </q-item>
             <q-item>
               <q-input
                 v-model="event.eventDescription"
+                autogrow
                 class="q-mt-none full-width"
+                dense
                 label="Notes"
                 name="eventDescription"
                 placeholder="enter event description"
-                dense
-                autogrow
               />
             </q-item>
             <q-item>
               <q-input
-                dense
-                class="full-width"
                 v-model="event.url"
+                class="full-width"
+                dense
                 label="Url"
                 map-options
                 name="Url"
               >
                 <template v-slot:append>
-                  <q-btn color="primary" dense flat label="test url" no-caps />
+                  <q-btn color="primary" dense flat label="test url" no-caps/>
                 </template>
               </q-input>
             </q-item>
@@ -402,12 +424,12 @@ function createValue(val: string, done: any) {
                 <q-select
                   v-model="event.label"
                   :options="labelOptions"
-                  option-value="id"
-                  option-label="name"
                   emit-value
-                  map-options
                   label="Label"
+                  map-options
                   name="label"
+                  option-label="name"
+                  option-value="id"
                 >
                   <template #option="scope">
                     <q-item v-bind="scope.itemProps">
@@ -430,9 +452,9 @@ function createValue(val: string, done: any) {
           <q-item class="q-mt-none">
             <q-item-section class="q-mr-sm">
               <q-select
-                dense
                 v-model="regardings"
                 :options="timeZoneOptions"
+                dense
                 emit-label
                 label="Contact"
                 map-options
@@ -440,16 +462,24 @@ function createValue(val: string, done: any) {
             </q-item-section>
             <q-item-section class="q-mr-sm">
               <q-select
+                v-model="selectedRegContact"
+                :options="regardingContacts"
                 dense
-                v-model="names"
-                :options="timeZoneOptions"
-                emit-label
-                label="Name"
-                map-options
-              />
+                multiple
+                option-label="name"
+                option-value="id"
+                use-input
+                @filter="filterContacts"
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> No results</q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
             </q-item-section>
             <q-item-section side>
-              <q-icon color="primary" name="switch_access_shortcut" />
+              <q-icon color="primary" name="switch_access_shortcut"/>
             </q-item-section>
           </q-item>
         </q-list>
@@ -470,6 +500,7 @@ function createValue(val: string, done: any) {
     </div>
   </div>
 </template>
+
 <style scoped>
 .rowItems {
   display: flex;
