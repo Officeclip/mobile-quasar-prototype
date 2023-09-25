@@ -1,20 +1,13 @@
 <script lang="ts" setup>
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
-import { computed, onMounted, ref, Ref } from 'vue';
+import { ref, Ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { eventDetails } from '../../models/event/eventDetails';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { eventSummary } from 'src/models/event/eventSummary';
-import { meetingAttendee } from '../../models/event/eventDetails';
 
 const eventsDetailsStore = useEventDetailsStore();
-onMounted(() => {
-  eventsDetailsStore.getAllMeetingAttendees();
-});
-const meetingAttendee = computed(() => {
-  return eventsDetailsStore.MeetingAttendees;
-});
 
 const router = useRouter();
 const route = useRoute();
@@ -159,7 +152,6 @@ function onSubmit(e: any) {
         <div>
           <EventForm
             :event="event"
-            :meetingAttendeesList="meetingAttendee"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"
             @reminder-generated="handleReminder"

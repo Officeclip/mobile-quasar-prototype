@@ -1,12 +1,30 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
-// import EventsAddAttendeesDialog from './EventsAddAttendeesDialog.vue';
+import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
+import { useEventListsStore } from '../../stores/event/eventListsStore';
+import { meetingAttendee } from '../../models/event/eventDetails';
+// eslint-disable-next-line vue/no-dupe-keys
+import { label } from '../../models/event/eventLists';
 
-const props = defineProps(['event', 'meetingAttendeesList']);
+const eventDetailsStore = useEventDetailsStore();
+const eventListsStore = useEventListsStore();
+onMounted(() => {
+  eventDetailsStore.getAllMeetingAttendees();
+  eventListsStore.getEventLists();
+});
+const meetingAttendee = computed(() => {
+  return eventDetailsStore.MeetingAttendees;
+});
+
+const label = computed(() => {
+  return eventListsStore.Labels;
+});
+
+const props = defineProps(['event']);
 const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
@@ -22,47 +40,8 @@ const showTimeAs = ref('Free');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
 
-// const showOptions = ref(false);
-
-// const toggleIcon = ref('add');
-
-/* const toggleOptions = () => {
-  toggleIcon.value = showOptions.value ? 'add' : 'remove';
-  showOptions.value = !showOptions.value;
-}; */
-
 startDateTime.value = props.event.startDateTime;
 endDateTime.value = props.event.endDateTime;
-
-// const formattedStartDateTime = computed(() => {
-//   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
-//   let dateValue = dateTimeHelper.extractDateFromUtc(startDateTime.value);
-//   let timeValue = dateTimeHelper.extractTimeFromUtc(startDateTime.value);
-//   if (props.event.isAllDayEvent) {
-//     return dateValue;
-//   } else {
-//     return `${dateValue} ${timeValue}`;
-//   }
-// });
-//
-// const formattedStartDateTime2 = startDateTime.value
-//   ? formattedStartDateTime
-//   : startDateTime;
-//
-// const formattedEndDateTime = computed(() => {
-//   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
-//   let dateValue = dateTimeHelper.extractDateFromUtc(endDateTime.value);
-//   let timeValue = dateTimeHelper.extractTimeFromUtc(endDateTime.value);
-//   if (props.event.isAllDayEvent) {
-//     return dateValue;
-//   } else {
-//     return `${dateValue} ${timeValue}`;
-//   }
-// });
-//
-// const formattedEndDateTime2 = endDateTime.value
-//   ? formattedEndDateTime
-//   : endDateTime;
 
 const formattedStartDateTime = computed(() => {
   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
@@ -90,22 +69,8 @@ const maskDateTime = computed(() => {
   }
 });
 
-const timeZoneOptions = [
-  {
-    timezoneId: 1,
-    label: 'GMT+0530(India Standard Time)',
-  },
-  {
-    timezoneId: 2,
-    label: 'GMT+0600(Central Asia Standard Time)',
-  },
-  {
-    timezoneId: 3,
-    label: 'GMT-0500(US Eastern Standard Time)',
-  },
-];
+const timeZoneOptions = [''];
 
-const labelOptions = ['Meeting', 'Picnic', 'Birthday', 'Payments', 'Testing'];
 const ShowTimeOptions = ['Busy', 'Free', 'Tentative', 'Out of Office'];
 
 const recurrenceDialogOpened = ref(false);
@@ -135,31 +100,33 @@ function handleReminderText(reminderText: string) {
   reminderTextInfo.value = reminderText;
 }
 
-const meetingAttendeesOptions = props.meetingAttendeesList;
-const filterOptions = ref(meetingAttendeesOptions);
+const labelOptions = label;
+// const meetingAttendeesOptions = props.meetingAttendeesList;
+const filterOptions = ref(meetingAttendee);
 
 function filterFn(val: any, update: any) {
-  // Filter the meetingAttendeesOptions array based on the search value.
+  // Filter the meetingAttendee array based on the search value.
   update(() => {
     if (val === '') {
-      filterOptions.value = meetingAttendeesOptions;
+      filterOptions.value = meetingAttendee;
     } else {
       const needle = val.toLowerCase();
-      filterOptions.value = meetingAttendeesOptions.filter(
+      filterOptions.value = meetingAttendee.value.filter(
         (v: any) => v.name.toLowerCase().indexOf(needle) > -1
       );
     }
   });
 }
 
-function createValue(val: any, done: any) {
+function createValue(val: string, done: any) {
   // create a new id value to add the id property for the new input string from user
-  const id = Math.round(Math.random() * 100);
-  // Add the new item to the meetingAttendeesOptions array.
+  const id: number = Math.round(Math.random() * 100);
+  // Add the new item to the meetingAttendee array.
   if (val.length > 0) {
-    if (!meetingAttendeesOptions.includes(val)) {
-      meetingAttendeesOptions.push({
+    if (!meetingAttendee.value.includes(val)) {
+      meetingAttendee.value.push({
         id: id,
+        eventId: -1,
         email: val,
         name: '',
       }); // push the new item as an object into the list
@@ -404,13 +371,30 @@ function createValue(val: any, done: any) {
                 />
               </q-item-section>
               <q-item-section>
+                <!-- <pre>{{ event.label }}</pre> -->
                 <q-select
                   v-model="event.label"
                   :options="labelOptions"
+                  option-value="id"
+                  option-label="name"
+                  emit-value
+                  map-options
                   label="Label"
                   name="label"
-                  popup-content-style="backgroundColor: '#ff0000"
-                />
+                >
+                  <template #option="scope">
+                    <q-item v-bind="scope.itemProps">
+                      <!-- <q-item-section avatar>
+
+                      </q-item-section> -->
+                      <q-item-section>
+                        <q-item-label>
+                          {{ scope.opt.name }}
+                        </q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
               </q-item-section>
             </q-item>
           </q-card>
