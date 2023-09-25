@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
-import { label, regardingContact } from 'src/models/event/eventLists';
+import {defineStore} from 'pinia';
+import {label, regardingContact} from 'src/models/event/eventLists';
 import axios from 'axios';
-import { Constants } from '../Constants';
+import {Constants} from '../Constants';
 
 export const useEventListsStore = defineStore('eventListsStore', {
   state: () => ({
@@ -22,9 +22,8 @@ export const useEventListsStore = defineStore('eventListsStore', {
           `${Constants.endPointUrl}/event-lists`
         );
 
-        const eventLists = response.data[0];
+        const eventLists = response.data;
         console.log('eventLists', eventLists);
-
         console.log('label', eventLists.label);
 
         this.labels = eventLists.label;
@@ -60,6 +59,28 @@ export const useEventListsStore = defineStore('eventListsStore', {
         });
         console.log('getRegardingContactList: ', filtered);
         return filtered;
+        // console.log("Filtered contacts: ", this.regardingContacts);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+
+    async getRegardingContactListThatMatch(searchString: string) {
+      try {
+        this.regardingContacts = [];
+        const response = await axios.get(
+          `${Constants.endPointUrl}/event-lists`
+        );
+        const eventLists = response.data;
+        const regardingContacts = eventLists.regardingContact;
+        const filtered = regardingContacts.filter((t: regardingContact) => {
+          return t.name.toLowerCase().includes(searchString.toLowerCase());
+        });
+        console.log('getRegardingContactList: ', filtered);
+        await new Promise(r => setTimeout(r, 2000));
+
+        this.regardingContacts = filtered;
         // console.log("Filtered contacts: ", this.regardingContacts);
       } catch (error) {
         console.error(error);
