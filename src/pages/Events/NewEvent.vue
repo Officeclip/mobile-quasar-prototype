@@ -1,9 +1,11 @@
 <script lang="ts" setup>
+import { v4 as uuidv4 } from 'uuid';
+
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
-import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
+import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { ref, Ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { eventDetails } from '../../models/event/eventDetails';
+import { eventDetails } from 'src/models/event/eventDetails';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { eventSummary } from 'src/models/event/eventSummary';
 
@@ -95,7 +97,7 @@ function onSubmit(e: any) {
     repeatInfoText: event.value.repeatInfoText,
     remindTo: event.value.remindTo,
     remindBeforeMinutes: event.value.remindBeforeMinutes,
-    id: event.value.id,
+    id: uuidv4(),
     createdDate: event.value.createdDate,
     createdGroupSId: event.value.createdGroupSId,
     createdUserSid: event.value.createdUserSid,
@@ -106,12 +108,13 @@ function onSubmit(e: any) {
   };
 
   const newEventSummary: eventSummary = {
-    id: newEventDetails.id,
+    eventDetailId: newEventDetails.id,
     eventType: newEventDetails.eventType,
     eventName: newEventDetails.eventName,
     startDateTime: newEventDetails.startDateTime,
     endDateTime: newEventDetails.endDateTime,
     isAllDayEvent: newEventDetails.isAllDayEvent,
+    id: ''
   };
   console.log('new event form values: ', newEventDetails);
   eventsDetailsStore.addEventDetails(newEventDetails);
