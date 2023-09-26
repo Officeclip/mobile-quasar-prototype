@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { label, regardingContact } from 'src/models/event/eventLists';
+import { label, regardingContact, timeZone } from 'src/models/event/eventLists';
 import axios from 'axios';
 import { Constants } from '../Constants';
 
@@ -8,11 +8,13 @@ export const useEventListsStore = defineStore('eventListsStore', {
     // timesheetList: undefined as TimesheetList | undefined,
     labels: [] as label[],
     regardingContacts: [] as regardingContact[],
+    timeZones: [] as timeZone[],
   }),
 
   getters: {
     Labels: (state) => state.labels,
     RegardingContacts: (state) => state.regardingContacts,
+    TimeZones: (state) => state.timeZones,
   },
 
   actions: {
@@ -24,11 +26,11 @@ export const useEventListsStore = defineStore('eventListsStore', {
 
         const eventLists = response.data[0];
         console.log('eventLists', eventLists);
-
         console.log('label', eventLists.label);
 
         this.labels = eventLists.label;
-        this.regardingContacts = eventLists.regardingContact;
+        this.timeZones = eventLists.timezone;
+        // this.regardingContacts = eventLists.regardingContact;
         console.log('Contacts from onMounted', this.regardingContacts);
       } catch (error) {
         console.error(error);
@@ -60,6 +62,26 @@ export const useEventListsStore = defineStore('eventListsStore', {
         });
         console.log('getRegardingContactList: ', filtered);
         return filtered;
+        // console.log("Filtered contacts: ", this.regardingContacts);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async getRegardingContactListThatMatch(searchString: string) {
+      try {
+        this.regardingContacts = [];
+        const response = await axios.get(
+          `${Constants.endPointUrl}/event-lists`
+        );
+        const eventLists = response.data[0];
+        const regardingContacts = eventLists.regardingContact;
+        const filtered = regardingContacts.filter((t: regardingContact) => {
+          return t.name.toLowerCase().includes(searchString.toLowerCase());
+        });
+        console.log('getRegardingContactList: ', filtered);
+        await new Promise((r) => setTimeout(r, 2000));
+        this.regardingContacts = filtered;
         // console.log("Filtered contacts: ", this.regardingContacts);
       } catch (error) {
         console.error(error);

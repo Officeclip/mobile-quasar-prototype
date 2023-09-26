@@ -1,6 +1,7 @@
 export interface eventLists {
   labels: label[];
-  regardingContacts: regardingContact[]
+  regardingContacts: regardingContact[];
+  timeZones: timeZone[];
 }
 
 export interface label {
@@ -11,5 +12,10 @@ export interface label {
 
 export interface regardingContact {
   id: string;
+  name: string;
+}
+
+export interface timeZone {
+  id: number;
   name: string;
 }
