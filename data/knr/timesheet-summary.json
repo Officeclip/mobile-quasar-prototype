@@ -1,0 +1,82 @@
+[
+    {
+        "createdByUserName": "Rao, Narsimha",
+        "employeeId": "",
+        "sid": "U6JY3RHDXBYEX8HXBCHEYRS5BZHKN7UX2M9M6LQ",
+        "status": "Saved",
+        "totalHours": 5.0,
+        "fromDate": "Jun 05, 2023"
+    },
+    {
+        "createdByUserName": "Dutta, SK",
+        "employeeId": "",
+        "sid": "UAJUYYFRHAMB7JKDJCJCXUE54MHY7A9X7MJM6LQ",
+        "status": "Submitted",
+        "totalHours": 30.33,
+        "fromDate": "May 29, 2023"
+    },
+    {
+        "createdByUserName": "Rao, Narsimha",
+        "employeeId": "",
+        "sid": "NBFZ7JGRRBGBNMWR5MMQH89X289CWMDR2CTM6LQ",
+        "status": "Saved",
+        "totalHours": 24.0,
+        "fromDate": "May 15, 2023"
+    },
+    {
+        "createdByUserName": "Rao, Narsimha",
+        "employeeId": "",
+        "sid": "6CJCYDHCJ4RCS49R4ZLYWJHRGBKE6Y9DF4YM6LQ",
+        "status": "Approved",
+        "totalHours": 34.0,
+        "fromDate": "May 08, 2023"
+    },
+    {
+        "createdByUserName": "Dutta, SK",
+        "employeeId": "",
+        "sid": "D2FT7YDVTMKW26D456LW6GDD4DTUXKQFTJJM6LQ",
+        "status": "Submitted",
+        "totalHours": 43.65,
+        "fromDate": "Apr 24, 2023"
+    },
+    {
+        "createdByUserName": "Dutta, SK",
+        "employeeId": "",
+        "sid": "D2FT7YDVTMKW26D456FMNSDC3B8XXKHD44TM6LQ",
+        "status": "Submitted",
+        "totalHours": 37.05,
+        "fromDate": "Apr 17, 2023"
+    },
+    {
+        "createdByUserName": "Rao, Narsimha",
+        "employeeId": "",
+        "sid": "T46KYMRX5BFRH8AVWM6UWHHF42JZ2JRD6DYM6LQ",
+        "status": "Saved",
+        "totalHours": 8.5,
+        "fromDate": "Apr 17, 2023"
+    },
+    {
+        "createdByUserName": "Rao, Narsimha",
+        "employeeId": "",
+        "sid": "YDFWSAJDW4UZXBHEHCUES9FEW8JB3MA5U4YM6LQ",
+        "status": "Saved",
+        "totalHours": 20.25,
+        "fromDate": "Apr 10, 2023"
+    },
+    {
+        "createdByUserName": "Dutta, SK",
+        "employeeId": "",
+        "sid": "Y6MRHKGXY8YWSMREZMHQ24SES4BMYASDNDTM6LQ",
+        "status": "Submitted",
+        "totalHours": 33.25,
+        "fromDate": "Apr 10, 2023"
+    },
+    {
+        "createdByUserName": "Kulkarni, Nagesh",
+        "employeeId": "OCHYD-005",
+        "sid": "3MMLYM9VTCUMYDA56GMCYUUEUD9V6HWXGM9M6LQ",
+        "status": "Submitted",
+        "totalHours": 30.5,
+        "fromDate": "Apr 03, 2023"
+    }
+]
