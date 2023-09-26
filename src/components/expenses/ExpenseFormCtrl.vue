@@ -2,7 +2,8 @@
 import { defineProps, ref, onMounted, onUpdated, computed } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
-import AirTravelExpense from '../../components/expenses/AirTravelFormCtrl.vue';
+import airTravelExpenseForm from '../expenses/expenseTypes/airTravelExpenseForm.vue';
+import autoRentalExpenseForm from '../expenses/expenseTypes/autoRentalExpenseForm.vue';
 
 // const periodOptions = ref([])
 // periodOptions.value = [
@@ -25,7 +26,7 @@ dateOptions.value = [
 
 const sampleModel = ref([]);
 
-//const sampleModel1 = ref([]);
+const sampleModel1 = ref([]);
 
 const expenseListsStore = useExpenseListsStore();
 
@@ -114,6 +115,15 @@ const airTravel = ref({
   departureAirport: '',
   departureDate: '',
 });
+
+const autoRental = ref({
+  rentalAgency: '',
+  city: '',
+  fromDate: '',
+  toDate: '',
+});
+
+const selectedItem = ref('');
 </script>
 
 <template>
@@ -121,87 +131,36 @@ const airTravel = ref({
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
-        <q-select
-          name="newcreatedDate"
-          label="Period"
-          v-model="expenseDate"
-          :options="periodOptions"
-          map-options
-          option-label="name"
-          emit-label
-        />
+        <q-select name="newcreatedDate" label="Period" v-model="expenseDate" :options="periodOptions" map-options
+          option-label="name" emit-label />
 
-        <q-select
-          name="newtaskDate"
-          label="Expense Date"
-          v-model="taskDate"
-          :options="dateOptions"
-          map-options
-          emit-label
-        />
-        <q-select
-          label="Customer: Project"
-          v-model="sampleModel"
-          :options="customerProjectOptions"
-          option-label="name"
-          option-value="id"
-          map-options
-        />
-        <q-select
-          label="Expense Type"
-          v-model="sampleModel"
-          :options="expenseTypeOptions"
-          option-label="name"
-          option-value="id"
-          map-options
-        />
+        <q-select name="newtaskDate" label="Expense Date" v-model="taskDate" :options="dateOptions" map-options
+          emit-label />
+        <q-select label="Customer: Project" v-model="sampleModel" :options="customerProjectOptions" option-label="name"
+          option-value="id" map-options />
+        <q-select label="Expense Type" v-model="selectedItem" :options="expenseTypeOptions" option-label="expenseName"
+          option-value="id" map-options />
 
-        <AirTravelExpense :airTravel="airTravel" />
+        <airTravelExpenseForm :airTravel="airTravel" v-if="selectedItem.expenseTypeName == 'AIRFARE'" />
 
-        <q-select
-          label="Payment Method"
-          v-model="props.expense.paymentMethod"
-          :options="paymentTypeOptions"
-          map-options
-        />
+        <autoRentalExpenseForm :auto-rental="autoRental" v-if="selectedItem.expenseTypeName == 'AUTORENTAL'" />
 
-        <q-select
-          label="Billable"
-          v-model="props.expense.isBillable"
-          :options="billableOptions"
-          map-options
-          emit-value
-        />
-        <q-input
-          label="Amount"
-          v-model="props.expense.totalAmount"
-          placeholder="enter here..."
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        >
+        <q-select label="Payment Method" v-model="props.expense.paymentMethod" :options="paymentTypeOptions"
+          map-options />
+
+        <q-select label="Billable" v-model="props.expense.isBillable" :options="billableOptions" map-options emit-value />
+        <q-input label="Amount" v-model="props.expense.totalAmount" placeholder="enter here..." lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']">
         </q-input>
 
-        <q-input
-          label="Tax"
-          v-model="props.expense.tax"
-          placeholder="enter here..."
-        >
+        <q-input label="Tax" v-model="props.expense.tax" placeholder="enter here...">
         </q-input>
 
-        <q-input
-          label="Description"
-          v-model="props.expense.description"
-          placeholder="enter here..."
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        >
+        <q-input label="Description" v-model="props.expense.description" placeholder="enter here..." lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']">
         </q-input>
 
-        <q-input
-          label="Comments"
-          v-model="props.expense.comments"
-          placeholder="enter here..."
-        >
+        <q-input label="Comments" v-model="props.expense.comments" placeholder="enter here...">
         </q-input>
       </div>
     </div>

@@ -1461,17 +1461,7 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        10
-      ]
+      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
     }
   ],
   "generalUserProfile": [
@@ -2103,12 +2093,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-            "",
-            "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },
@@ -2210,7 +2195,7 @@
       "expenseDate": "2020-11-02T10:43:32.203Z",
       "id": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ2",
       "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
-      "expenseTypeName": "AUTORENTAL",
+      "expenseTypeName": "AIRFARE",
       "expenseCategoryName": "",
       "expenseTypeSid": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
       "projectName": "Create OfficeClip for Amazon AMI",
