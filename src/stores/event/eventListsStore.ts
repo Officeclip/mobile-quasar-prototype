@@ -1,18 +1,20 @@
-import {defineStore} from 'pinia';
-import {label, regardingContact} from 'src/models/event/eventLists';
+import { defineStore } from 'pinia';
+import { label, regardingContact, timeZone } from 'src/models/event/eventLists';
 import axios from 'axios';
-import {Constants} from '../Constants';
+import { Constants } from '../Constants';
 
 export const useEventListsStore = defineStore('eventListsStore', {
   state: () => ({
     // timesheetList: undefined as TimesheetList | undefined,
     labels: [] as label[],
     regardingContacts: [] as regardingContact[],
+    timeZones: [] as timeZone[],
   }),
 
   getters: {
     Labels: (state) => state.labels,
     RegardingContacts: (state) => state.regardingContacts,
+    TimeZones: (state) => state.timeZones,
   },
 
   actions: {
@@ -22,11 +24,12 @@ export const useEventListsStore = defineStore('eventListsStore', {
           `${Constants.endPointUrl}/event-lists`
         );
 
-        const eventLists = response.data;
+        const eventLists = response.data[0];
         console.log('eventLists', eventLists);
         console.log('label', eventLists.label);
 
         this.labels = eventLists.label;
+        this.timeZones = eventLists.timezone;
         // this.regardingContacts = eventLists.regardingContact;
         console.log('Contacts from onMounted', this.regardingContacts);
       } catch (error) {
@@ -65,7 +68,6 @@ export const useEventListsStore = defineStore('eventListsStore', {
       }
     },
 
-
     async getRegardingContactListThatMatch(searchString: string) {
       try {
         this.regardingContacts = [];
@@ -78,7 +80,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
           return t.name.toLowerCase().includes(searchString.toLowerCase());
         });
         console.log('getRegardingContactList: ', filtered);
-        await new Promise(r => setTimeout(r, 2000));
+        await new Promise((r) => setTimeout(r, 2000));
         this.regardingContacts = filtered;
         // console.log("Filtered contacts: ", this.regardingContacts);
       } catch (error) {

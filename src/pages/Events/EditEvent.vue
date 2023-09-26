@@ -61,7 +61,7 @@ function onSubmit(e: any) {
     recurrenceRule: '',
     modifiedDate: '',
     modifiedUserSid: '',
-    timezoneId: -1,
+    timezoneId: eventDetails.value?.timezoneId,
     remindTo: '',
     remindBeforeMinutes: 0,
     label: eventDetails.value?.label,
