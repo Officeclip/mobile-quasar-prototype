@@ -5,5 +5,4 @@ export interface eventSummary {
   startDateTime?: string;
   endDateTime?: string;
   isAllDayEvent: boolean;
-  eventDetailId: string;
 }

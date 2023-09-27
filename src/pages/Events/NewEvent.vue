@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { v4 as uuidv4 } from 'uuid';
 
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
@@ -97,7 +96,7 @@ function onSubmit(e: any) {
     repeatInfoText: event.value.repeatInfoText,
     remindTo: event.value.remindTo,
     remindBeforeMinutes: event.value.remindBeforeMinutes,
-    id: uuidv4(),
+    id: event.value.id,
     createdDate: event.value.createdDate,
     createdGroupSId: event.value.createdGroupSId,
     createdUserSid: event.value.createdUserSid,
@@ -108,7 +107,6 @@ function onSubmit(e: any) {
   };
 
   const newEventSummary: eventSummary = {
-    eventDetailId: newEventDetails.id,
     eventType: newEventDetails.eventType,
     eventName: newEventDetails.eventName,
     startDateTime: newEventDetails.startDateTime,

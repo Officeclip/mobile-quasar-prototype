@@ -95,7 +95,7 @@ function getEventType(event: eventSummary) {
               v-ripple
               :to="{
                 name: 'eventDetails',
-                params: { id: event.eventDetailId },
+                params: { id: event.id },
               }"
               clickable
             >
