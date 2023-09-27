@@ -16,6 +16,6 @@ export interface regardingContact {
 }
 
 export interface timeZone {
-  id: number;
+  id: string;
   name: string;
 }

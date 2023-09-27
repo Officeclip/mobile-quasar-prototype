@@ -6,7 +6,7 @@
 //
 // From: https://app.quicktype.io/#l=TypeScript
 
-import { label } from './eventLists';
+import { label, timeZone } from './eventLists';
 
 export interface eventDetails {
   id: string;
@@ -28,7 +28,7 @@ export interface eventDetails {
   recurrenceRule: string;
   modifiedDate: string;
   modifiedUserSid: string;
-  timezoneId?: number;
+  timezoneId: timeZone[];
   remindTo: string;
   remindBeforeMinutes: number;
   label: label[];

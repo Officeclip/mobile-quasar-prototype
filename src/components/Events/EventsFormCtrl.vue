@@ -72,7 +72,7 @@ const maskDateTime = computed(() => {
   }
 });
 
-const timeZoneOptions = [''];
+const regardingModel = ['Contacts', 'Accounts', 'Projects', 'Campaigns'];
 
 const ShowTimeOptions = ['Busy', 'Free', 'Tentative', 'Out of Office'];
 
@@ -457,7 +457,7 @@ async function filterContacts(val, update, abort) {
             <q-item-section class="q-mr-sm">
               <q-select
                 v-model="regardings"
-                :options="timeZoneOptions"
+                :options="regardingModel"
                 dense
                 emit-label
                 label="Contact"

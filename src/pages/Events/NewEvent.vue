@@ -25,7 +25,7 @@ const event: Ref<eventDetails> = ref({
   endDateTime: '',
   isAllDayEvent: false,
   meetingAttendees: [],
-  timezoneId: 42,
+  timezoneId: '2',
   label: '1',
   url: '',
   parentServiceType: -1,
