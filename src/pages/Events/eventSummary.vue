@@ -2,13 +2,12 @@
 TODO: sg: Show the details of multi day event in the text(Event timing) [45]
 -->
 
-<script setup lang="ts">
-import { eventSummary } from '../../models/event/eventSummary';
-import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
-import { onMounted } from 'vue';
-import { ref, computed } from 'vue';
+<script lang="ts" setup>
+import {eventSummary} from '../../models/event/eventSummary';
+import {useEventSummaryStore} from '../../stores/event/eventSummaryStore';
+import {computed, onMounted, ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper.js';
-import { format } from 'date-fns';
+import {format} from 'date-fns';
 
 const eventSummaryStore = useEventSummaryStore();
 
@@ -69,15 +68,15 @@ function getEventType(event: eventSummary) {
     <q-header elevated height-hint="48">
       <q-toolbar>
         <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
           color="white"
+          dense
+          flat
           icon="arrow_back"
+          round
+          @click="$router.go(-1)"
         >
         </q-btn>
-        <q-toolbar-title> OfficeClip Calendar </q-toolbar-title>
+        <q-toolbar-title> OfficeClip Calendar</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -85,7 +84,7 @@ function getEventType(event: eventSummary) {
       <q-page>
         <div class="q-ma-md">
           <div>
-            <q-date landscape today-btn v-model="date" :events="eventDates" />
+            <q-date v-model="date" :events="eventDates" landscape today-btn/>
           </div>
           <div class="text-subtitle1 q-pt-md">Events for: {{ date }}</div>
           <q-list bordered>
@@ -93,15 +92,15 @@ function getEventType(event: eventSummary) {
             <q-item
               v-for="event in eventsForADay"
               :key="event.id"
+              v-ripple
               :to="{
                 name: 'eventDetails',
-                params: { id: event.id },
+                params: { id: event.eventDetailId },
               }"
               clickable
-              v-ripple
             >
               <q-item-section avatar>
-                <q-icon color="primary" :name="getEventIcon(event.eventType)" />
+                <q-icon :name="getEventIcon(event.eventType)" color="primary"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{ event.eventName }}</q-item-label>
@@ -110,23 +109,24 @@ function getEventType(event: eventSummary) {
                 </q-item-label>
               </q-item-section>
               <q-item-section side>
-                <q-icon color="primary" name="chevron_right" />
+                <q-icon color="primary" name="chevron_right"/>
               </q-item-section>
             </q-item>
           </q-list>
           <q-list>
             <q-item class="flex items-center"
-              >Legends: <q-icon color="primary" name="person" class="q-ml-md" />
+            >Legends:
+              <q-icon class="q-ml-md" color="primary" name="person"/>
               <div class="q-ml-sm text-caption">Personal</div>
-              <q-icon color="primary" name="group" class="q-ml-md" />
+              <q-icon class="q-ml-md" color="primary" name="group"/>
               <div class="q-ml-sm text-caption">Meeting</div>
-              <q-icon color="primary" name="groups" class="q-ml-md" />
+              <q-icon class="q-ml-md" color="primary" name="groups"/>
               <div class="q-ml-sm text-caption">Group</div>
             </q-item>
           </q-list>
         </div>
         <div>
-          <q-page-sticky position="bottom-right" :offset="[18, 18]">
+          <q-page-sticky :offset="[18, 18]" position="bottom-right">
             <q-btn
               :to="{
                 name: 'newEvent',
@@ -134,9 +134,9 @@ function getEventType(event: eventSummary) {
                   id: -1,
                 },
               }"
+              color="accent"
               fab
               icon="add"
-              color="accent"
               padding="sm"
             >
             </q-btn>
