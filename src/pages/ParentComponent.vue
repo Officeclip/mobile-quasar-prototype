@@ -1,70 +1,35 @@
-<template>
-  <pre>{{ model }}</pre>
-  <q-select
-    filled
-    v-model="model"
-    use-input
-    use-chips
-    multiple
-    input-debounce="0"
-    @new-value="createValue"
-    :options="filterOptions"
-    option-label="name"
-    option-value="id"
-    map-options
-    @filter="filterFn"
-    style="width: 250px"
-  ></q-select>
-</template>
-
+<!-- Parent.vue -->
 <script setup>
+import ChildForm from '../components/ChildForm.vue';
 import { ref } from 'vue';
-const stringOptions = [
-  {
-    id: 1,
-    name: 'SK Dutta',
-    email: 'skd@officeclip.com',
-  },
-  {
-    id: 2,
-    name: 'Nagesh Kulkarni',
-    email: 'nagesh@officeclip.com',
-  },
-  {
-    id: 3,
-    name: 'Sudhakar Gundu',
-    email: 'sudhakar@officeclip.com',
-  },
-];
-const filterOptions = ref(stringOptions);
 
-// const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
-// const filterOptions = ref(stringOptions);
+const testData = ref({
+  name: 'abcd',
+  email: 'test@gmail.com',
+});
 
-const model = ref(null);
-
-function filterFn(val, update) {
-  // Filter the options array based on the search value.
-  update(() => {
-    if (val === '') {
-      filterOptions.value = stringOptions;
-    } else {
-      const needle = val.toLowerCase();
-      filterOptions.value = stringOptions.filter(
-        (v) => v.name.toLowerCase().indexOf(needle) > -1
-      );
-    }
-  });
-}
-
-function createValue(val, done) {
-  // Add the new item to the options array.
-  const id = Math.round(Math.random() * 10);
-  if (val.length > 0) {
-    if (!stringOptions.includes(val)) {
-      stringOptions.push({ id: id, name: val });
-    }
-    done({ id: id, name: val }, 'toggle');
-  }
+function onSubmit(e) {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const newname = formData.get('name');
+  const newEmail = formData.get('email');
+  console.log('Printing the name property:', newname);
+  console.log('Printing the email property:', newEmail);
 }
 </script>
+
+<template>
+  <!-- Form -->
+  <q-form ref="mainForm" @submit="onSubmit">
+    <ChildForm :testData="testData" />
+    <!-- <q-btn class="q-ml-md" color="primary" label="Save" no-caps type="submit" /> -->
+  </q-form>
+  <q-btn
+    class="q-ml-md"
+    color="primary"
+    label="Save from Outside"
+    no-caps
+    type="submit"
+    @click="onSubmit"
+  />
+</template>

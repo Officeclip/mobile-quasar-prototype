@@ -1,0 +1,10 @@
+[
+    {
+        "mode": "PERIODIC",
+        "periodicity": "BiWeekly",
+        "timesheetHeader": "",
+        "timesheetFooter": "",
+        "showPayrollColumn": true,
+        "timesheetStartDay": "Monday"
+    }
+]

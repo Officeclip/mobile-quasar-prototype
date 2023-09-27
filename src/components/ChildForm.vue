@@ -1,26 +1,21 @@
 <!-- Child form component -->
-<template>
-  <form @submit.prevent="onSubmit">
-    <input type="text" v-model="name">
-    <input type="submit" value="Submit">
-  </form>
-</template>
-
-<script>
-import { ref } from 'vue';
-
-export default {
-  setup() {
-    const name = ref('');
-
-    const onSubmit = () => {
-      name.value = ''; // Clear the form data
-    };
-
-    return {
-      name,
-      onSubmit,
-    };
-  },
-};
+<script setup>
+defineProps(['testData']);
 </script>
+
+<template>
+  <!-- eslint-disable vue/no-mutating-props -->
+  <div class="q-pa-md">
+    <div class="q-gutter-y-md column">
+      <q-list>
+        <q-input name="name" type="text" label="Name" v-model="testData.name" />
+        <q-input
+          name="email"
+          type="email"
+          label="Email"
+          v-model="testData.email"
+        />
+      </q-list>
+    </div>
+  </div>
+</template>
