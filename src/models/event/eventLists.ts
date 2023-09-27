@@ -5,7 +5,7 @@ export interface eventLists {
 }
 
 export interface label {
-  id: number;
+  id: string;
   name: string;
   color: string;
 }

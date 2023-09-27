@@ -1040,7 +1040,7 @@
       "timezoneId": 2,
       "remindTo": "Me",
       "remindBeforeMinutes": 3600,
-      "label": 1,
+      "label": "1",
       "meetingAttendees": [
         {
           "id": "1",
@@ -1064,12 +1064,12 @@
     {
       "label": [
         {
-          "id": 1,
+          "id": "1",
           "name": "Office",
           "color": "#FFCCCC"
         },
         {
-          "id": 2,
+          "id": "2",
           "name": "Home",
           "color": "#CCFFCC"
         }
@@ -1768,17 +1768,7 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        10
-      ]
+      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
     }
   ],
   "generalUserProfile": [
@@ -2410,12 +2400,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-            "",
-            "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },

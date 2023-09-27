@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { ref, Ref } from 'vue';
@@ -27,7 +26,7 @@ const event: Ref<eventDetails> = ref({
   isAllDayEvent: false,
   meetingAttendees: [],
   timezoneId: 42,
-  label: 1,
+  label: '1',
   url: '',
   parentServiceType: -1,
   parentSid: newparentObjectId,
@@ -112,7 +111,7 @@ function onSubmit(e: any) {
     startDateTime: newEventDetails.startDateTime,
     endDateTime: newEventDetails.endDateTime,
     isAllDayEvent: newEventDetails.isAllDayEvent,
-    id: ''
+    id: '',
   };
   console.log('new event form values: ', newEventDetails);
   eventsDetailsStore.addEventDetails(newEventDetails);
