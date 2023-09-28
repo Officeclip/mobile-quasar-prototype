@@ -2494,7 +2494,7 @@
       "accountName": "OfficeClip LLC",
       "accountSid": "3M6RSUYV6GRX3USRFC5Q",
       "amount": 15.23,
-      "billable": true,
+      "billable": false,
       "comments": "This is to test comments for expenses.",
       "description": "Ea earum aspernatur ratione tempora.",
       "employeeFullName": "Nagesh Kulkarni",
@@ -2836,7 +2836,7 @@
           "expenseName": "Auto Rental",
           "isDetailsRequired": true,
           "isBillable": true,
-          "isBillableModify": false
+          "isBillableModify": true
         },
         {
           "id": "D6JQ2UJFFMFCW8YXZZJZHDDDBBJLZJA5NMJM6LQ",

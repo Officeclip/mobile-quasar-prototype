@@ -20,8 +20,8 @@ dateOptions.value = [
   'Aug 29(Tue)',
   'Aug 30(Wed)',
   'Aug 31(Thu)',
-  'Aug 01(Fri)',
-  'Aug 02(Sat)',
+  'Sep 01(Fri)',
+  'Sep 02(Sat)',
 ];
 
 const sampleModel = ref([]);

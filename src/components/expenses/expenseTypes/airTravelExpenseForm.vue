@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup>
 import { defineProps, ref, computed } from 'vue';
+import dateTimeHelper from '../../../helpers/dateTimeHelper';
 
 const props = defineProps(['airTravel']);
 
@@ -49,7 +50,7 @@ const formattedArrivalDate1 = arrivalDate.value ? formattedArrivalDate : arrival
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="dueDate" mask='YYYY-MM-DD'>
+                <q-date v-model="departureDate" mask='YYYY-MM-DD'>
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
                   </div>
@@ -64,7 +65,7 @@ const formattedArrivalDate1 = arrivalDate.value ? formattedArrivalDate : arrival
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="dueDate" mask='YYYY-MM-DD'>
+                <q-date v-model="arrivalDate" mask='YYYY-MM-DD'>
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
                   </div>
