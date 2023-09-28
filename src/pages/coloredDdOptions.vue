@@ -32,6 +32,7 @@ const labelOptions = [
         >
           <template #option="scope">
             <q-item
+              class="q-my-xs"
               v-bind="scope.itemProps"
               v-bind:style="{ backgroundColor: scope.opt.color }"
             >
