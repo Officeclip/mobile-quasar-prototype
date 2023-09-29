@@ -13,6 +13,7 @@ import axios from 'axios';
 export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   state: () => ({
     expenseDetailsList: [] as expenseDetails[],
+    expenseDetails: undefined as expenseDetails | undefined,
     airTravelExpense: undefined as airTravelExpense | undefined,
     autoRentalExpense: undefined as autoRentalExpense | undefined,
     hotelExpense: undefined as hotelExpense | undefined,
@@ -20,14 +21,13 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     taxiExpense: undefined as taxiExpense | undefined,
     telephoneExpense: undefined as telephoneExpense | undefined,
 
-    expenseDetails: undefined as expenseDetails | undefined,
-
     // expenseDetails: [] as ExpenseDetail[],
     // expenseDetail: undefined as ExpenseDetail | undefined,
   }),
 
   getters: {
-    ExpenseDetails: (state) => state.expenseDetailsList,
+    ExpenseDetailsList: (state) => state.expenseDetailsList,
+    ExpenseDetails: (state) => state.expenseDetails,
     AirTravelExpense: (state) => state.airTravelExpense,
     AutoRentalExpense: (state) => state.autoRentalExpense,
     HotelExpense: (state) => state.hotelExpense,
@@ -42,10 +42,25 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         const response = await axios.get(
           `http://localhost:4000/expense-details?expenseSid=${expenseSid}`
         );
+        console.log('Getting Id', expenseSid);
         this.expenseDetailsList = response.data;
         console.log(this.expenseDetailsList);
       } catch (error) {
         console.error(error);
+      }
+    },
+
+    async getExpenseDetailById(id: string | string[]) {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/expense-details?id=${id}`
+        );
+        if (response.data && response.data.length > 0) {
+          this.expenseDetails = response.data[0];
+        }
+      } catch (error) {
+        alert(error);
+        console.log(error);
       }
     },
 

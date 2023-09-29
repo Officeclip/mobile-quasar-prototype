@@ -65,7 +65,7 @@ function onSubmit(e: any) {
     airTravelExpense: expenseDetail.value.airTravelExpense,
     hotelExpense: expenseDetail.value.hotelExpense,
     mileageExpense: expenseDetail.value.mileageExpense,
-    telephoneExpense: expenseDetail.value.mileageExpense,
+    telephoneExpense: expenseDetail.value.telephoneExpense,
     taxiExpense: expenseDetail.value.taxiExpense
   };
   const str = JSON.stringify(newExpense);

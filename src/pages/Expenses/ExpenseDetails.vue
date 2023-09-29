@@ -19,8 +19,9 @@ onMounted(() => {
 });
 
 const expenseDetails = computed(() => {
-  return expenseDetailsStore.ExpenseDetails;
+  return expenseDetailsStore.ExpenseDetailsList;
 });
+console.log('expense detail in expense details', expenseDetails)
 </script>
 
 <template>
@@ -55,7 +56,6 @@ const expenseDetails = computed(() => {
             <q-item-section side flex>
               <q-item-label caption>
                 {{ expenseDetail.amount }}
-
                 <q-btn :to="{
                   name: 'editExpense',
                   params: {
