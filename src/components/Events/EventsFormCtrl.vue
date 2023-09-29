@@ -345,7 +345,6 @@ async function filterContacts(val, update, abort) {
           v-model="event.meetingAttendees"
           :options="filterOptions"
           class="full-width q-mt-sm"
-          filled
           input-debounce="0"
           label="Attendees"
           multiple
