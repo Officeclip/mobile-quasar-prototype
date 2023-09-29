@@ -30,7 +30,7 @@ const event: Ref<eventDetails> = ref({
   url: '',
   parentServiceType: -1,
   parentSid: newparentObjectId,
-  eventType: 2,
+  eventType: '2',
   recurrenceRule: '',
   repeatInfoText: '',
   remindTo: 'Me',

@@ -38,8 +38,7 @@ const emit = defineEmits([
 const startDateTime = ref('');
 const endDateTime = ref('');
 const regardings = ref('');
-const names = ref('');
-const showTimeAs = ref('Free');
+const showTimeAs = ref('1');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
 
@@ -73,8 +72,28 @@ const maskDateTime = computed(() => {
 });
 
 const regardingModel = ['Contacts', 'Accounts', 'Projects', 'Campaigns'];
-
-const ShowTimeOptions = ['Busy', 'Free', 'Tentative', 'Out of Office'];
+const ShowMyTimeAsOptions = [
+  {
+    id: '1',
+    name: 'Busy',
+    color: '#FF6347',
+  },
+  {
+    id: '2',
+    name: 'Free',
+    color: '#B4B4B4',
+  },
+  {
+    id: '3',
+    name: 'Tentative',
+    color: '#FFA500',
+  },
+  {
+    id: '4',
+    name: 'Out of Office',
+    color: '#6A5ACD',
+  },
+];
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
@@ -168,7 +187,6 @@ async function filterContacts(val, update, abort) {
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
         <q-list>
-          <pre>{{ event.eventType }}</pre>
           <div class="q-gutter-sm">
             <q-radio
               v-model="event.eventType"
@@ -416,12 +434,39 @@ async function filterContacts(val, update, abort) {
             </q-item>
             <q-item>
               <q-item-section class="q-pr-xl">
+                <!-- <pre>{{ showTimeAs }}</pre> -->
                 <q-select
                   v-model="showTimeAs"
-                  :options="ShowTimeOptions"
+                  :options="ShowMyTimeAsOptions"
                   label="Show Time As"
                   name="Show time as"
-                />
+                  emit-value
+                  map-options
+                  option-label="name"
+                  option-value="id"
+                >
+                  <template #option="scope">
+                    <q-item
+                      class="q-my-xs"
+                      v-bind="scope.itemProps"
+                      v-bind:style="{ backgroundColor: scope.opt.color }"
+                    >
+                      <q-item-section>
+                        <q-item-label>
+                          {{ scope.opt.name }}
+                        </q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                  <template #selected-item="scope">
+                    <q-item
+                      dense
+                      v-bind:style="{ backgroundColor: scope.opt.color }"
+                    >
+                      {{ scope.opt.name }}
+                    </q-item>
+                  </template>
+                </q-select>
               </q-item-section>
               <q-item-section>
                 <!-- <pre>{{ event.label }}</pre> -->
@@ -437,6 +482,7 @@ async function filterContacts(val, update, abort) {
                 >
                   <template #option="scope">
                     <q-item
+                      class="q-my-xs"
                       v-bind="scope.itemProps"
                       v-bind:style="{ backgroundColor: scope.opt.color }"
                     >
