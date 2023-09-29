@@ -148,7 +148,7 @@ const autoRental = ref({
         <q-select label="Payment Method" v-model="expenseDetail.paymentType" :options="paymentTypeOptions" map-options />
 
         <q-select label="Billable" v-model="expenseDetail.billable" :options="billableOptions" map-options emit-value />
-        <q-input label="Amount" v-model="expenseDetail.amount" placeholder="enter here..." lazy-rules
+        <q-input label="Amount" v-model="expenseDetail.amount" placeholder="enter here..." lazy-rules type="number"
           :rules="[(val) => (val && val.length > 0) || 'Please type something']">
         </q-input>
 
