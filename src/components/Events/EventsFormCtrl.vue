@@ -177,7 +177,6 @@ async function filterContacts(val, update, abort) {
         </q-item-section>
         <q-item-section>
           <q-radio
-            class="q-mx-md"
             v-model="event.eventType"
             color="red"
             keep-color
@@ -236,93 +235,87 @@ async function filterContacts(val, update, abort) {
           name="isAllDayEvent"
         />
       </q-item>
-      <q-item>
-        <q-item-section>
-          <q-input
-            v-model="formattedStartDateTime2"
-            :rules="[(val: any) => !!val || 'Start Date is required']"
-            dense
-            label="Starts*"
-            name="startDateTime"
-          >
-            <template v-slot:prepend>
-              <q-icon class="cursor-pointer" name="event">
-                <q-popup-proxy
-                  cover
-                  transition-hide="scale"
-                  transition-show="scale"
-                >
-                  <q-date v-model="startDateTime" :mask="maskDateTime">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup color="primary" flat label="Close" />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
+      <q-item class="column">
+        <q-input
+          v-model="formattedStartDateTime2"
+          :rules="[(val: any) => !!val || 'Start Date is required']"
+          label="Starts*"
+          name="startDateTime"
+        >
+          <template v-slot:prepend>
+            <q-icon class="cursor-pointer" name="event">
+              <q-popup-proxy
+                cover
+                transition-hide="scale"
+                transition-show="scale"
+              >
+                <q-date v-model="startDateTime" :mask="maskDateTime">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup color="primary" flat label="Close" />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
 
-            <template v-if="!props.event.isAllDayEvent" v-slot:append>
-              <q-icon class="cursor-pointer" name="access_time">
-                <q-popup-proxy
-                  cover
-                  transition-hide="scale"
-                  transition-show="scale"
+          <template v-if="!props.event.isAllDayEvent" v-slot:append>
+            <q-icon class="cursor-pointer" name="access_time">
+              <q-popup-proxy
+                cover
+                transition-hide="scale"
+                transition-show="scale"
+              >
+                <q-time
+                  v-if="!props.event.isAllDayEvent"
+                  v-model="startDateTime"
+                  :mask="maskDateTime"
                 >
-                  <q-time
-                    v-if="!props.event.isAllDayEvent"
-                    v-model="startDateTime"
-                    :mask="maskDateTime"
-                  >
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup color="primary" flat label="Close" />
-                    </div>
-                  </q-time>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-        </q-item-section>
-        <q-item-section>
-          <q-input
-            v-model="formattedEndDateTime2"
-            :rules="[(val: any) => !!val || 'End Date is required']"
-            dense
-            label="Ends*"
-            name="endDateTime"
-          >
-            <template v-slot:prepend>
-              <q-icon class="cursor-pointer" name="event">
-                <q-popup-proxy
-                  cover
-                  transition-hide="scale"
-                  transition-show="scale"
-                >
-                  <q-date v-model="endDateTime" :mask="maskDateTime">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup color="primary" flat label="Close" />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup color="primary" flat label="Close" />
+                  </div>
+                </q-time>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+        <q-input
+          v-model="formattedEndDateTime2"
+          :rules="[(val: any) => !!val || 'End Date is required']"
+          label="Ends*"
+          name="endDateTime"
+        >
+          <template v-slot:prepend>
+            <q-icon class="cursor-pointer" name="event">
+              <q-popup-proxy
+                cover
+                transition-hide="scale"
+                transition-show="scale"
+              >
+                <q-date v-model="endDateTime" :mask="maskDateTime">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup color="primary" flat label="Close" />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
 
-            <template v-if="!props.event.isAllDayEvent" v-slot:append>
-              <q-icon class="cursor-pointer" name="access_time">
-                <q-popup-proxy
-                  cover
-                  transition-hide="scale"
-                  transition-show="scale"
-                >
-                  <q-time v-model="endDateTime" :mask="maskDateTime">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup color="primary" flat label="Close" />
-                    </div>
-                  </q-time>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-        </q-item-section>
+          <template v-if="!props.event.isAllDayEvent" v-slot:append>
+            <q-icon class="cursor-pointer" name="access_time">
+              <q-popup-proxy
+                cover
+                transition-hide="scale"
+                transition-show="scale"
+              >
+                <q-time v-model="endDateTime" :mask="maskDateTime">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup color="primary" flat label="Close" />
+                  </div>
+                </q-time>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
       </q-item>
       <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
         <q-item-section avatar>
