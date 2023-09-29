@@ -6,6 +6,7 @@ import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
 import { regardingContact } from 'src/models/event/eventLists';
+import { inherits } from 'util';
 // eslint-disable-next-line vue/no-dupe-keys
 
 // const eventType = ref('2');
@@ -442,7 +443,10 @@ async function filterContacts(val, update, abort) {
                   <template #selected-item="scope">
                     <q-item
                       dense
-                      v-bind:style="{ backgroundColor: scope.opt.color }"
+                      class="q-selectedItem"
+                      v-bind:style="{
+                        backgroundColor: scope.opt.color,
+                      }"
                     >
                       {{ scope.opt.name }}
                     </q-item>
@@ -477,7 +481,10 @@ async function filterContacts(val, update, abort) {
                   <template #selected-item="scope">
                     <q-item
                       dense
-                      v-bind:style="{ backgroundColor: scope.opt.color }"
+                      class="q-selectedItem"
+                      v-bind:style="{
+                        backgroundColor: scope.opt.color,
+                      }"
                     >
                       {{ scope.opt.name }}
                     </q-item>
@@ -546,5 +553,11 @@ async function filterContacts(val, update, abort) {
 .rowItems {
   display: flex;
   gap: 32px;
+}
+.q-selectedItem {
+  width: inherit;
+  border-radius: 24px;
+  align-items: center;
+  justify-content: center;
 }
 </style>
