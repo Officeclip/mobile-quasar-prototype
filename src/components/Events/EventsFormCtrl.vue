@@ -542,10 +542,6 @@ async function filterContacts(val, update, abort) {
 </template>
 
 <style scoped>
-.rowItems {
-  display: flex;
-  gap: 32px;
-}
 .q-selectedItem {
   width: inherit;
   border-radius: 24px;
