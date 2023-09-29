@@ -9,16 +9,40 @@ export const useEventListsStore = defineStore('eventListsStore', {
     labels: [] as label[],
     regardingContacts: [] as regardingContact[],
     timeZones: [] as timeZone[],
+    showMyTimeAs: [],
   }),
 
   getters: {
     Labels: (state) => state.labels,
     RegardingContacts: (state) => state.regardingContacts,
     TimeZones: (state) => state.timeZones,
+    ShowMyTimeAs: (state) => state.showMyTimeAs,
   },
 
   actions: {
     async getEventLists() {
+      const ShowMyTimeAsOptions: any = [
+        {
+          id: '1',
+          name: 'Busy',
+          color: '#FF6347',
+        },
+        {
+          id: '2',
+          name: 'Free',
+          color: '#B4B4B4',
+        },
+        {
+          id: '3',
+          name: 'Tentative',
+          color: '#FFA500',
+        },
+        {
+          id: '4',
+          name: 'Out of Office',
+          color: '#6A5ACD',
+        },
+      ];
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/event-lists`
@@ -30,8 +54,12 @@ export const useEventListsStore = defineStore('eventListsStore', {
 
         this.labels = eventLists.label;
         this.timeZones = eventLists.timezone;
+        this.showMyTimeAs = ShowMyTimeAsOptions;
         // this.regardingContacts = eventLists.regardingContact;
-        console.log('Contacts from onMounted', this.regardingContacts);
+        console.log(
+          'checking the loacl store showtimeas options',
+          this.showMyTimeAs
+        );
       } catch (error) {
         console.error(error);
       }

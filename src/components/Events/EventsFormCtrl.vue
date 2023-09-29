@@ -26,6 +26,9 @@ const label = computed(() => {
 const timeZone = computed(() => {
   return eventListsStore.TimeZones;
 });
+const ShowMyTimeAsOptions = computed(() => {
+  return eventListsStore.ShowMyTimeAs;
+});
 
 const props = defineProps(['event']);
 const emit = defineEmits([
@@ -72,28 +75,6 @@ const maskDateTime = computed(() => {
 });
 
 const regardingModel = ['Contacts', 'Accounts', 'Projects', 'Campaigns'];
-const ShowMyTimeAsOptions = [
-  {
-    id: '1',
-    name: 'Busy',
-    color: '#FF6347',
-  },
-  {
-    id: '2',
-    name: 'Free',
-    color: '#B4B4B4',
-  },
-  {
-    id: '3',
-    name: 'Tentative',
-    color: '#FFA500',
-  },
-  {
-    id: '4',
-    name: 'Out of Office',
-    color: '#6A5ACD',
-  },
-];
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
