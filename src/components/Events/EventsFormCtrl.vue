@@ -6,10 +6,9 @@ import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
 import { regardingContact } from 'src/models/event/eventLists';
-import { inherits } from 'util';
 // eslint-disable-next-line vue/no-dupe-keys
-
-// const eventType = ref('2');
+const teal = ref(true);
+const orange = ref(false);
 
 const eventDetailsStore = useEventDetailsStore();
 const eventListsStore = useEventListsStore();
@@ -167,30 +166,47 @@ async function filterContacts(val, update, abort) {
   <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <div class="q-pa-md">
-      <div class="q-gutter-y-md column">
+      <div class="column">
         <q-list>
-          <div class="q-gutter-sm">
+          <div>
             <q-radio
               v-model="event.eventType"
               color="teal"
               keep-color
               label="Group"
               val="1"
-            ></q-radio>
+            />
             <q-radio
               v-model="event.eventType"
               color="red"
               keep-color
               label="Meeting"
               val="2"
-            ></q-radio>
+            />
             <q-radio
               v-model="event.eventType"
               color="cyan"
               keep-color
               label="Private"
               val="3"
-            ></q-radio>
+            />
+          </div>
+          <div
+            v-if="event.eventType == '1'"
+            class="column q-gutter-y-sm q-ma-xs"
+          >
+            <q-checkbox
+              v-model="teal"
+              label="Send notifications to the group?"
+              color="teal"
+              size="xs"
+            />
+            <q-checkbox
+              v-model="orange"
+              label="Ask for RSVP's"
+              color="orange"
+              size="xs"
+            />
           </div>
           <q-item>
             <q-input
