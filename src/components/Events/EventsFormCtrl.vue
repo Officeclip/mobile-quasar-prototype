@@ -7,8 +7,6 @@ import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
 import { regardingContact } from 'src/models/event/eventLists';
 // eslint-disable-next-line vue/no-dupe-keys
-const teal = ref(true);
-const orange = ref(false);
 
 const eventDetailsStore = useEventDetailsStore();
 const eventListsStore = useEventListsStore();
@@ -202,13 +200,13 @@ async function filterContacts(val, update, abort) {
 
       <q-item v-if="event.eventType == '1'" class="column">
         <q-checkbox
-          v-model="teal"
+          v-model="event.sendNotifications"
           label="Send notifications to the group?"
           color="teal"
           size="xs"
         />
         <q-checkbox
-          v-model="orange"
+          v-model="event.isRsvp"
           label="Ask for RSVP's"
           color="orange"
           size="xs"

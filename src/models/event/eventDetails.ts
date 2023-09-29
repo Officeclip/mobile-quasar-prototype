@@ -23,6 +23,7 @@ export interface eventDetails {
   isAllDayEvent: boolean;
   eventUserSid: string;
   isRsvp: boolean;
+  sendNotifications: boolean;
   eventLocation?: string;
   repeatInfoText: string;
   recurrenceRule: string;

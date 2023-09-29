@@ -41,6 +41,7 @@ const event: Ref<eventDetails> = ref({
   createdUserSid: '',
   eventUserSid: '',
   isRsvp: false,
+  sendNotifications: false,
   modifiedDate: '',
   modifiedUserSid: '',
 });
@@ -101,6 +102,7 @@ function onSubmit(e: any) {
     createdUserSid: event.value.createdUserSid,
     eventUserSid: event.value.eventUserSid,
     isRsvp: event.value.isRsvp,
+    sendNotifications: event.value.sendNotifications,
     modifiedDate: event.value.modifiedDate,
     modifiedUserSid: event.value.modifiedUserSid,
   };

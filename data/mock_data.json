@@ -1032,6 +1032,7 @@
       "isAllDayEvent": false,
       "eventUserSid": "-1",
       "isRsvp": false,
+      "sendNotifications": false,
       "eventLocation": "hyd",
       "repeatInfoText": "",
       "recurrenceRule": "",

@@ -44,7 +44,7 @@ function onSubmit(e: any) {
   const editEvent: eventDetails = {
     id: eventDetails.value?.id as string,
     parentServiceType: eventDetails.value?.parentServiceType as number,
-    eventType: eventDetails.value?.eventType as number,
+    eventType: eventDetails.value?.eventType as string,
     eventName: eventDetails.value?.eventName as string,
     eventDescription: eventDetails.value?.eventDescription,
     startDateTime: newStartDate,
@@ -56,7 +56,8 @@ function onSubmit(e: any) {
     createdUserSid: '',
     parentSid: '',
     eventUserSid: '',
-    isRsvp: false,
+    isRsvp: eventDetails.value?.isRsvp,
+    sendNotifications: eventDetails.value?.sendNotifications,
     repeatInfoText: '',
     recurrenceRule: '',
     modifiedDate: '',
