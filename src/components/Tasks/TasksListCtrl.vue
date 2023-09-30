@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-import {useTasksStore} from '../../stores/TasksStore';
+import {useTasksStore} from 'stores/TasksStore';
 import {computed, onBeforeMount} from 'vue';
+import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
+import {taskSummary} from "src/models/task/taskSummary";
 
 const props = defineProps(['params', 'owner', 'ownerFilter']);
 
@@ -8,13 +10,12 @@ const parentObjectId = computed(() => props.params.parentObjectId);
 const parentObjectServiceType = computed(
   () => props.params.parentObjectServiceType
 );
-const tasksStore = useTasksStore();
-
+const taskSummaryStore = useTaskSummaryStore();
 const getTasks = computed(() => {
-  const tasks = tasksStore.Tasks;
+  const tasks = taskSummaryStore.taskSummaries;
   if (props.ownerFilter === true) {
-    return tasks.filter((e) => {
-      return e.taskOwnerName === props.owner;
+    return tasks.filter((e:taskSummary) => {
+      return e.taskOwner === props.owner;
     });
   } else {
     return tasks;
@@ -23,7 +24,7 @@ const getTasks = computed(() => {
 });
 
 onBeforeMount(() => {
-  tasksStore.getTasks(Number(parentObjectId.value), Number(parentObjectServiceType.value));
+  taskSummaryStore.getTasks(Number(parentObjectId.value), Number(parentObjectServiceType.value));
 });
 
 </script>

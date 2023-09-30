@@ -1875,7 +1875,7 @@
       "name": "Notebook-2"
     }
   ],
-  "taskDetails": [
+  "task-details": [
     {
       "id": 101,
       "subject": "Complete Sprint Planning",
@@ -2046,7 +2046,7 @@
       ]
     }
   ],
-  "taskSummary": [
+  "task-summary": [
     {
       "id": 101,
       "subject": "Complete Sprint Planning",
@@ -2165,7 +2165,7 @@
       "taskStatusId": 2,
       "parentObjectId": 204,
       "parentObjectServiceType": 3,
-      "taskOwner": "Liam Martin",
+      "taskOwner": "Alice Johnson",
       "taskOwnerSid": 987,
       "taskPriorityId": 1,
       "taskTypeId": 2,
@@ -2199,7 +2199,7 @@
       "taskStatusId": 1,
       "parentObjectId": 205,
       "parentObjectServiceType": 1,
-      "taskOwner": "Mia Turner",
+      "taskOwner": "Alice Johnson",
       "taskOwnerSid": 765,
       "taskPriorityId": 2,
       "taskTypeId": 3,
@@ -2217,7 +2217,7 @@
       ]
     }
   ],
-  "taskLists": [
+  "task-lists": [
     {
       "taskType": [
         {

@@ -5,7 +5,7 @@ import TasksList from '../../components/Tasks/TasksListCtrl.vue';
 const model = ref(null);
 const ownedByMe = ref(false);
 const assignedToMe = ref(false);
-const ownerName = ref("Kathiravan");
+const ownerName = ref("Alice Johnson");
 const parent = ref({
   parentObjectId: -1,
   parentObjectServiceType: -1,
@@ -38,7 +38,7 @@ const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
         <!--          <div class="col-2">Assigned to</div>-->
         <!--        </div>-->
         <div class="q-pa-sm row text-center">
-          <div class="col-8">
+          <div class="col-4">
             <q-select
               v-model="model"
               :options="options"
@@ -47,10 +47,10 @@ const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
               outlined
             />
           </div>
-          <div class="col-2">
+          <div class="col-3">
             <q-checkbox v-model="ownedByMe" dense label="Owned by me"/>
           </div>
-          <div class="col-2">
+          <div class="col-3">
             <q-checkbox v-model="assignedToMe" dense label="Assigned to me"/>
           </div>
         </div>

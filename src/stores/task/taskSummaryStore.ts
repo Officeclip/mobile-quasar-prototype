@@ -1,0 +1,88 @@
+import {defineStore} from 'pinia';
+import axios from 'axios';
+import {taskSummary} from "src/models/task/taskSummary";
+
+export const useTaskSummaryStore = defineStore('taskSummaryStore', {
+  state: () => ({
+    taskSummaries: [] as taskSummary[],
+    taskSummary: undefined as taskSummary | undefined,
+  }),
+
+  getters: {
+    TaskSummaries: (state) => state.taskSummaries,
+    TaskSummary: (state) => state.taskSummary,
+  },
+
+  actions: {
+    async getTasks(parentObjectId: number, parentObjectServiceType: number) {
+      console.log(
+        `TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`
+      );
+      const callStr =
+        parentObjectId > 0 && parentObjectServiceType > 0
+          ? `http://localhost:4000/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : 'http://localhost:4000/task-summary';
+      try {
+        const response = await axios.get(callStr);
+        this.taskSummaries = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async getTask(id: number) {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/task-summary?id=${id}`
+        );
+        this.taskSummary = response.data[0];
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async addTask(taskSummary: taskSummary) {
+      this.taskSummaries.push(taskSummary);
+
+      const res = await axios.post('http://localhost:4000/task-summary', taskSummary);
+
+      if (res.status === 200) {
+        await this.getTask(taskSummary.id);
+      } else {
+        console.error(res);
+      }
+    },
+
+    async editTask(taskSummary: taskSummary) {
+      console.log(`editNote 1: ${this.taskSummary?.id}`);
+      // not added yet
+      try {
+        const response = await axios.put(
+          `http://localhost:4000/task-summary/${taskSummary.id}`,
+          taskSummary
+        );
+        if (response.status === 200) {
+          //debugger;
+          this.taskSummary = response.data;
+        }
+      } catch (error) {
+        console.error(`editTask Error: ${error}`);
+      }
+    },
+
+    async deleteTask(id: number | undefined) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:4000/task-summary/${id}`
+        );
+        if (response.status === 200) {
+          //debugger;
+          this.taskSummary = response.data;
+          //  console.log(`editNote 3: ${this.note?.title}`);
+        }
+      } catch (error) {
+        console.error(`deleteNote Error: ${error}`);
+      }
+    },
+  },
+});
