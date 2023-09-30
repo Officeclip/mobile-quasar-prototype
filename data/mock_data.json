@@ -1022,7 +1022,7 @@
       "createdDate": "2020-03-05T15:01:17Z",
       "createdGroupSId": "YZMX3M9D4BLNXA9S545Q",
       "createdUserSid": "N4VRXBADAZHRSGHFYD5Q",
-      "parentServiceType": -1,
+      "parentServiceType": 1,
       "parentSid": "JCJR6NA526TKYKTCUD5Q",
       "eventType": "2",
       "eventName": "1:Senior Interactions Analyst",

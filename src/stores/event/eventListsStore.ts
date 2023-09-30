@@ -10,6 +10,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
     regardingContacts: [] as regardingContact[],
     timeZones: [] as timeZone[],
     showMyTimeAs: [],
+    metaTypes: [],
   }),
 
   getters: {
@@ -17,6 +18,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
     RegardingContacts: (state) => state.regardingContacts,
     TimeZones: (state) => state.timeZones,
     ShowMyTimeAs: (state) => state.showMyTimeAs,
+    MetaTypes: (state) => state.metaTypes,
   },
 
   actions: {
@@ -43,6 +45,28 @@ export const useEventListsStore = defineStore('eventListsStore', {
           color: '#6A5ACD',
         },
       ];
+      const metaTypeOptions: any = [
+        {
+          id: -1,
+          name: '',
+        },
+        {
+          id: 1,
+          name: 'Contacts',
+        },
+        {
+          id: 2,
+          name: 'Accounts',
+        },
+        {
+          id: 3,
+          name: 'Projects',
+        },
+        {
+          id: 4,
+          name: 'Campaigns',
+        },
+      ];
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/event-lists`
@@ -55,11 +79,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
         this.labels = eventLists.label;
         this.timeZones = eventLists.timezone;
         this.showMyTimeAs = ShowMyTimeAsOptions;
-        // this.regardingContacts = eventLists.regardingContact;
-        console.log(
-          'checking the loacl store showtimeas options',
-          this.showMyTimeAs
-        );
+        this.metaTypes = metaTypeOptions;
       } catch (error) {
         console.error(error);
       }

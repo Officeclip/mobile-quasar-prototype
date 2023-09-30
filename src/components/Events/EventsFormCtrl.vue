@@ -27,6 +27,9 @@ const timeZone = computed(() => {
 const ShowMyTimeAsOptions = computed(() => {
   return eventListsStore.ShowMyTimeAs;
 });
+const metaTypeOptions = computed(() => {
+  return eventListsStore.MetaTypes;
+});
 
 const props = defineProps(['event']);
 const emit = defineEmits([
@@ -38,7 +41,7 @@ const emit = defineEmits([
 
 const startDateTime = ref('');
 const endDateTime = ref('');
-const regardings = ref('');
+// const regardings = ref('1');
 const showTimeAs = ref('1');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
@@ -72,7 +75,7 @@ const maskDateTime = computed(() => {
   }
 });
 
-const regardingModel = ['Contacts', 'Accounts', 'Projects', 'Campaigns'];
+// const regardingModel = ['Contacts', 'Accounts', 'Projects', 'Campaigns'];
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
@@ -482,15 +485,17 @@ async function filterContacts(val, update, abort) {
         </q-item-section>
       </q-item>
 
-      <q-item class="q-mt-md text-subtitle1">Regarding</q-item>
+      <!-- <q-item class="q-mt-md text-subtitle1">Regarding</q-item> -->
       <q-item class="q-mt-none">
         <q-item-section class="q-mr-sm">
+          <!-- <pre>{{ regardings }}</pre> -->
           <q-select
-            v-model="regardings"
-            :options="regardingModel"
-            dense
-            emit-label
-            label="Contact"
+            label="Regardings"
+            v-model="event.parentServiceType"
+            :options="metaTypeOptions"
+            option-label="name"
+            option-value="id"
+            emit-value
             map-options
           />
         </q-item-section>
@@ -536,7 +541,7 @@ async function filterContacts(val, update, abort) {
 <style scoped>
 .q-selectedItem {
   width: inherit;
-  border-radius: 24px;
+  border-radius: 4px;
   align-items: center;
   justify-content: center;
 }
