@@ -6,6 +6,7 @@ import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
 import { regardingContact } from 'src/models/event/eventLists';
+import { Notify } from 'quasar';
 // eslint-disable-next-line vue/no-dupe-keys
 
 const eventDetailsStore = useEventDetailsStore();
@@ -142,7 +143,11 @@ function createValue(val: string, done: any) {
 const regardingContacts = ref([] as regardingContact[]);
 const selectedRegContact = ref(null);
 
-async function filterContacts(val, update, abort) {
+async function filterContacts(
+  val: string,
+  update: (arg0: () => void) => void,
+  abort: () => void
+) {
   if (val.length < 2) {
     abort();
     return;
@@ -158,6 +163,28 @@ async function filterContacts(val, update, abort) {
     regardingContacts.value = eventListsStore.regardingContacts.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
+  });
+}
+
+// implementing file picker
+const fileModel = ref();
+const errorsMap: any = {
+  accept: 'File type not accepted',
+  'max-file-size': 'Max file size exceeded',
+  'max-total-size': 'Max total size exceeded',
+};
+function onRejected(rejectedFiles: any[]) {
+  rejectedFiles.forEach((rejectedFile: any) => {
+    const errorMessage = errorsMap[rejectedFile.failedPropValidation];
+    if (!errorMessage) {
+      return;
+    }
+    if (rejectedFile.failedPropValidation) {
+      Notify.create({
+        message: errorMessage,
+        type: 'negative',
+      });
+    }
   });
 }
 </script>
@@ -513,6 +540,25 @@ async function filterContacts(val, update, abort) {
         <q-item-section side>
           <q-icon color="primary" name="switch_access_shortcut" />
         </q-item-section>
+      </q-item>
+      <q-item>
+        <q-file
+          v-model="fileModel"
+          dense
+          label="Attachments"
+          color="primary"
+          outlined
+          bottom-slots
+          counter
+          max-files="1"
+          max-file-size="10000"
+          accept="jpg,image/*"
+          @rejected="onRejected"
+        >
+          <template v-slot:prepend>
+            <q-icon name="attach_file"></q-icon>
+          </template>
+        </q-file>
       </q-item>
     </q-list>
 
