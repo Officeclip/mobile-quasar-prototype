@@ -1,8 +1,8 @@
-<script setup lang="ts">
-import { useTasksStore } from '../../stores/TasksStore';
-import { computed, onBeforeMount } from 'vue';
+<script lang="ts" setup>
+import {useTasksStore} from '../../stores/TasksStore';
+import {computed, onBeforeMount} from 'vue';
 
-const props = defineProps(['params']);
+const props = defineProps(['params', 'owner', 'ownerFilter']);
 
 const parentObjectId = computed(() => props.params.parentObjectId);
 const parentObjectServiceType = computed(
@@ -11,7 +11,15 @@ const parentObjectServiceType = computed(
 const tasksStore = useTasksStore();
 
 const getTasks = computed(() => {
-  return tasksStore.Tasks;
+  const tasks = tasksStore.Tasks;
+  if (props.ownerFilter === true) {
+    return tasks.filter((e) => {
+      return e.taskOwnerName === props.owner;
+    });
+  } else {
+    return tasks;
+  }
+
 });
 
 onBeforeMount(() => {
@@ -22,6 +30,7 @@ onBeforeMount(() => {
 <template>
   <q-list v-for="task in getTasks" :key="task.id">
     <q-item
+      v-ripple
       :to="{
         name: 'taskDetails',
         params: {
@@ -29,7 +38,6 @@ onBeforeMount(() => {
         },
       }"
       clickable
-      v-ripple
     >
       <q-item-section>
         <q-item-label>
@@ -37,7 +45,7 @@ onBeforeMount(() => {
         </q-item-label>
       </q-item-section>
       <q-item-section side>
-        <q-icon color="primary" name="chevron_right" />
+        <q-icon color="primary" name="chevron_right"/>
       </q-item-section>
     </q-item>
     <q-separator></q-separator>

@@ -1,8 +1,11 @@
-<script setup lang="ts">
-import { ref } from 'vue';
+<script lang="ts" setup>
+import {ref} from 'vue';
 import TasksList from '../../components/Tasks/TasksListCtrl.vue';
+
 const model = ref(null);
-const value1 = ref(null);
+const ownedByMe = ref(false);
+const assignedToMe = ref(false);
+const ownerName = ref("Kathiravan");
 const parent = ref({
   parentObjectId: -1,
   parentObjectServiceType: -1,
@@ -12,48 +15,48 @@ const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
+    <q-header bordered class="bg-primary text-white" height-hint="98" reveal>
       <q-toolbar>
         <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
           color="white"
+          dense
+          flat
           icon="arrow_back"
+          round
+          @click="$router.go(-1)"
         >
         </q-btn>
-        <q-toolbar-title> Tasks </q-toolbar-title>
+        <q-toolbar-title> Tasks</q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <q-space class="q-mt-sm"></q-space>
+    <q-space class="q-mt-sm"/>
     <q-page-container>
       <q-page>
-        <div class="q-pa-sm text-caption row">
-          <div class="col-8">Filter</div>
-          <div class="col-2">Owned by</div>
-          <div class="col-2">Assigned to</div>
-        </div>
+        <!--        <div class="q-pa-sm text-caption row">-->
+        <!--          <div class="col-8">Filter</div>-->
+        <!--          <div class="col-2">Owned by</div>-->
+        <!--          <div class="col-2">Assigned to</div>-->
+        <!--        </div>-->
         <div class="q-pa-sm row text-center">
           <div class="col-8">
             <q-select
-              outlined
-              dense
               v-model="model"
               :options="options"
+              dense
               label="Select Filter"
+              outlined
             />
           </div>
           <div class="col-2">
-            <q-toggle dense v-model="value1" />
+            <q-checkbox v-model="ownedByMe" dense label="Owned by me"/>
           </div>
           <div class="col-2">
-            <q-toggle dense v-model="value1" />
+            <q-checkbox v-model="assignedToMe" dense label="Assigned to me"/>
           </div>
         </div>
-        <TasksList :params="parent" />
+        <TasksList :params="parent" :owner="ownerName" :ownerFilter="ownedByMe"/>
       </q-page>
-      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-page-sticky :offset="[18, 18]" position="bottom-right">
         <q-btn
           :to="{
             name: 'newTask',
@@ -61,12 +64,11 @@ const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
               id: -1,
             },
           }"
+          color="accent"
           fab
           icon="add"
-          color="accent"
           padding="sm"
-        >
-        </q-btn>
+        />
       </q-page-sticky>
     </q-page-container>
   </q-layout>
