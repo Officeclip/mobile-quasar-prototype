@@ -425,11 +425,7 @@ async function filterContacts(val, update, abort) {
                 v-bind="scope.itemProps"
                 v-bind:style="{ backgroundColor: scope.opt.color }"
               >
-                <q-item-section>
-                  <q-item-label>
-                    {{ scope.opt.name }}
-                  </q-item-label>
-                </q-item-section>
+                {{ scope.opt.name }}
               </q-item>
             </template>
             <template #selected-item="scope">
@@ -459,15 +455,12 @@ async function filterContacts(val, update, abort) {
           >
             <template #option="scope">
               <q-item
+                dense
                 class="q-my-xs"
                 v-bind="scope.itemProps"
                 v-bind:style="{ backgroundColor: scope.opt.color }"
               >
-                <q-item-section>
-                  <q-item-label>
-                    {{ scope.opt.name }}
-                  </q-item-label>
-                </q-item-section>
+                {{ scope.opt.name }}
               </q-item>
             </template>
             <template #selected-item="scope">
