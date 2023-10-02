@@ -1,26 +1,30 @@
 <script lang="ts" setup>
-import {useTasksStore} from 'stores/TasksStore';
 import {computed, onBeforeMount} from 'vue';
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import {taskSummary} from "src/models/task/taskSummary";
+import TaskSummaryItem from "components/tasks/TaskSummaryItem.vue";
 
-const props = defineProps(['params', 'owner', 'ownerFilter']);
+const props = defineProps(['params', 'user', 'ownerFilter', 'assigneeFilter']);
 
 const parentObjectId = computed(() => props.params.parentObjectId);
 const parentObjectServiceType = computed(
   () => props.params.parentObjectServiceType
 );
 const taskSummaryStore = useTaskSummaryStore();
-const getTasks = computed(() => {
-  const tasks = taskSummaryStore.taskSummaries;
-  if (props.ownerFilter === true) {
-    return tasks.filter((e:taskSummary) => {
-      return e.taskOwner === props.owner;
-    });
-  } else {
-    return tasks;
-  }
 
+const getTasks = computed(() => {
+  let filteredTasks = taskSummaryStore.taskSummaries;
+  if (props.ownerFilter === true) {
+    filteredTasks = filteredTasks.filter((task: taskSummary) => {
+      return task.taskOwner === props.user;
+    });
+  }
+  if (props.assigneeFilter === true) {
+    filteredTasks = filteredTasks.filter((task: taskSummary) => {
+      return task.assignee.includes(props.user);
+    });
+  }
+  return filteredTasks;
 });
 
 onBeforeMount(() => {
@@ -30,25 +34,8 @@ onBeforeMount(() => {
 </script>
 <template>
   <q-list v-for="task in getTasks" :key="task.id">
-    <q-item
-      v-ripple
-      :to="{
-        name: 'taskDetails',
-        params: {
-          id: task.id,
-        },
-      }"
-      clickable
-    >
-      <q-item-section>
-        <q-item-label>
-          {{ task.subject }}
-        </q-item-label>
-      </q-item-section>
-      <q-item-section side>
-        <q-icon color="primary" name="chevron_right"/>
-      </q-item-section>
-    </q-item>
-    <q-separator></q-separator>
+    <taskSummaryItem :task="task"/>
+    <q-separator/>
   </q-list>
+
 </template>

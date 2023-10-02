@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import TasksForm from '../../components/Tasks/TasksFormCtrl.vue';
+import TasksForm from 'components/tasks/tasksFormCtrl.vue';
 import {useTasksStore} from 'stores/TasksStore';
 import {ref} from 'vue'
 import {useRoute, useRouter} from 'vue-router';

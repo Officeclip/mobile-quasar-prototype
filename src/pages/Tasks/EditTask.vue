@@ -3,7 +3,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { useTasksStore } from '../../stores/TasksStore';
 import { useRouter, useRoute } from 'vue-router';
-import TasksForm from '../../components/Tasks/TasksFormCtrl.vue';
+import TasksForm from 'components/tasks/tasksFormCtrl.vue';
 
 const tasksStore = useTasksStore();
 

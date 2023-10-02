@@ -1,16 +1,17 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
-import { useTasksStore } from '../../stores/TasksStore';
+import { ref, Ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
+import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
+import {taskDetails} from "src/models/task/taskDetails";
 
-const tasksStore = useTasksStore();
+const tasksStore = useTaskDetailsStore();
 const isPrivate = ref<string>();
 const id = ref<string | string[]>('0');
 
-const task = computed(() => {
-  return tasksStore.Task;
+const task:Ref<taskDetails|undefined> = computed(() => {
+  return tasksStore.TaskDetail;
 });
 
 onMounted(() => {

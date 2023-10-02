@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import {ref} from 'vue';
-import TasksList from '../../components/Tasks/TasksListCtrl.vue';
+import TasksList from 'components/tasks/tasksListCtrl.vue';
 
 const model = ref(null);
 const ownedByMe = ref(false);
 const assignedToMe = ref(false);
-const ownerName = ref("Alice Johnson");
+const userName = ref("Alice Johnson");
 const parent = ref({
   parentObjectId: -1,
   parentObjectServiceType: -1,
@@ -32,11 +32,6 @@ const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
     <q-space class="q-mt-sm"/>
     <q-page-container>
       <q-page>
-        <!--        <div class="q-pa-sm text-caption row">-->
-        <!--          <div class="col-8">Filter</div>-->
-        <!--          <div class="col-2">Owned by</div>-->
-        <!--          <div class="col-2">Assigned to</div>-->
-        <!--        </div>-->
         <div class="q-pa-sm row text-center">
           <div class="col-4">
             <q-select
@@ -54,7 +49,7 @@ const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
             <q-checkbox v-model="assignedToMe" dense label="Assigned to me"/>
           </div>
         </div>
-        <TasksList :params="parent" :owner="ownerName" :ownerFilter="ownedByMe"/>
+        <TasksList :params="parent" :user="userName" :ownerFilter="ownedByMe" :assigneeFilter="assignedToMe"/>
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
         <q-btn

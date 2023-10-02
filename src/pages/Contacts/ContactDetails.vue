@@ -9,7 +9,7 @@ import { useContactDetailsStore } from '../../stores/ContactDetailsStore';
 import { useRoute } from 'vue-router';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import EventsList from '../../components/Events/EventsListCtrl.vue';
-import TasksList from '../../components/Tasks/TasksListCtrl.vue';
+import TasksList from 'components/tasks/tasksListCtrl.vue';
 import ContactDetails from '../../components/Contacts/ContactDetails.vue';
 import MetaDetails from '../../components/Meta/MetaDetails.vue';
 
