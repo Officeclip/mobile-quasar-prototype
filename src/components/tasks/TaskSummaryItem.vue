@@ -18,17 +18,23 @@ onBeforeMount(() => {
 </script>
 <style>
 .High {
-  background-color: red;
+  background-color: #D83F31;
 }
-.Medium{
-  background-color: orange;
+
+.Medium {
+  background-color: #EE9322;
 }
-.Low{
-  background-color: yellow;
+
+.Low {
+  background-color: #F4E869;
 }
 </style>
 <template>
-  <q-item v-ripple :to="{ name: 'taskDetails', params: { id: task.id }}" clickable :class="getTaskPriority(task.taskPriorityId)">
+  <q-item
+    v-ripple
+    :class="getTaskPriority(task.taskPriorityId)"
+    :to="{ name: 'taskDetails', params: { id: task.id }}"
+    clickable>
     <q-item-section>
       <q-item-label>
         {{ task.subject }}
@@ -41,15 +47,12 @@ onBeforeMount(() => {
     <q-item-section>
       <q-item-label> Owner: {{ task.taskOwner }}</q-item-label>
     </q-item-section>
-    <q-item-section>
-      <q-item-label>Priority: {{ task.taskPriorityId }}</q-item-label>
-    </q-item-section>
     <q-item-section side>
       <q-icon color="primary" name="chevron_right"/>
     </q-item-section>
   </q-item>
 
 
-  <q-separator/>
-<!--  <pre>{{ task }}</pre>-->
+  <!--  <q-separator/>-->
+  <!--  <pre>{{ task }}</pre>-->
 </template>
