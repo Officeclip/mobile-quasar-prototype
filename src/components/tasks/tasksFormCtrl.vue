@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import {computed, defineProps, onBeforeMount, ref} from 'vue';
+import {computed, defineProps, onBeforeMount, ref, Ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useTaskListsStore} from "stores/task/taskListsStore";
 import {taskDetails} from "src/models/task/taskDetails";
 import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue";
 import EventsReminderDialog from "components/Events/EventsReminderDialog.vue";
+import {useEventListsStore} from "stores/event/eventListsStore";
+import {regardingContact} from "src/models/event/eventLists";
 
 const props = defineProps<{
   task: taskDetails
@@ -74,6 +76,29 @@ function handleReminderText(reminderText: string) {
 
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
+
+const eventListsStore = useEventListsStore();
+const shownOptions: Ref<regardingContact[]> = ref([]);
+
+async function filterFn(val: string, update: any, abort: any) {
+  if (val.length < 2) {
+    abort();
+    return;
+  } else if (val.length === 2) {
+    shownOptions.value = [];
+    await eventListsStore.getRegardingContactListThatMatch(val);
+    shownOptions.value = eventListsStore.regardingContacts;
+  }
+
+  update(() => {
+    console.log('update');
+    const needle = val.toLowerCase();
+    shownOptions.value = eventListsStore.regardingContacts.filter(
+      (v) => v.name.toLowerCase().indexOf(needle) > -1
+    );
+  });
+}
+
 </script>
 
 <template>
@@ -158,25 +183,82 @@ const reminderTextInfo = ref('Reminder');
 
         />
 
+        <q-item>
+          <q-item-section>
+            <q-select
+              v-model="regardings"
+              :options="regardingModel"
+              emit-label
+              label="Contact"
+              map-options
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-select
+              v-model="selectedRegContact"
+              :options="regardingContacts"
+              multiple
+              option-label="name"
+              option-value="id"
+              use-input
+              @filter="filterContacts"
+            >
+              <template v-slot:no-option>
+                <q-item>
+                  <q-item-section class="text-grey">
+                    No results
+                  </q-item-section
+                  >
+                </q-item>
+              </template>
+            </q-select>
+          </q-item-section>
+        </q-item>
+
         <q-toggle
           v-model="task.isPrivate"
           label="Private"
         />
 
-        <q-input
+        <q-select
           v-model="task.taskOwner"
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-          label="Owner"
-          lazy-rules
-          placeholder="enter here..."
-        />
-        <q-input
+          :options="shownOptions"
+          hint="Minimum 2 characters to trigger filtering"
+          input-debounce="0"
+          option-label="name"
+          option-value="name"
+          use-input
+          @filter="filterFn"
+          emit-value
+          clearable
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> No results</q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+
+        <q-select
           v-model="task.assignee"
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-          label="Assigned to"
-          lazy-rules
-          placeholder="enter here..."
-        />
+          :options="shownOptions"
+          multiple
+          hint="Minimum 2 characters to trigger filtering"
+          input-debounce="0"
+          option-label="name"
+          option-value="name"
+          use-input
+          @filter="filterFn"
+          emit-value
+          use-chips
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> No results</q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+
 
         <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
           <q-item-section avatar>

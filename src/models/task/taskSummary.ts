@@ -9,13 +9,13 @@ export interface taskSummary {
   regardingValue: string;
   assignee: string[];
   isPrivate: boolean;
-  taskStatusId: number;
+  taskStatusId: string;
   parentObjectId: number;
   parentObjectServiceType: number;
   taskOwner: string;
   taskOwnerSid: number;
-  taskPriorityId: number;
-  taskTypeId: number;
+  taskPriorityId: string;
+  taskTypeId: string;
   remindTo: string;
   remindBeforeMinutes: number;
   repeatInfoText: string;
