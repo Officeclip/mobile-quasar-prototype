@@ -11,7 +11,6 @@ const eventsDetailsStore = useEventDetailsStore();
 
 const router = useRouter();
 const route = useRoute();
-const tab = ref('Group');
 //const parentObjectId = ref()
 
 const parentObjectId = route.params.id;

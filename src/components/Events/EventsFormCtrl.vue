@@ -34,6 +34,9 @@ const metaTypeOptions = computed(() => {
 });
 
 const props = defineProps(['event']);
+console.log('Props attachmets testing:', props.event.attachments);
+const newAttachments = ref('');
+newAttachments.value = props.event.attachments;
 const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
@@ -47,6 +50,7 @@ const endDateTime = ref('');
 const showTimeAs = ref('1');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
+const attachmentsData = ref([]);
 
 startDateTime.value = props.event.startDateTime;
 endDateTime.value = props.event.endDateTime;
@@ -104,6 +108,11 @@ function handleReminderData(reminderString: []) {
 function handleReminderText(reminderText: string) {
   console.log('Received reminder Plain Text:', reminderText);
   reminderTextInfo.value = reminderText;
+}
+
+function handleAttachments(attachments: []) {
+  console.log('Received attachments Plain Text:', attachments);
+  attachmentsData.value = attachments;
 }
 
 const labelOptions = label;
@@ -544,9 +553,18 @@ const filePickerDialogOpened = ref(false);
           <q-icon color="primary" name="switch_access_shortcut" />
         </q-item-section>
       </q-item>
+      <pre>{{ event.attachments }}</pre>
       <q-item>
-        <Attachments />
+        <Attachments @get-attachments-generated="handleAttachments" />
       </q-item>
+
+      <!-- if you want to display attachments list separately  -->
+      <div v-if="attachmentsData.length >= 1">
+        <q-item v-for="file in attachmentsData" :key="file">
+          {{ file.name }}
+        </q-item>
+      </div>
+
       <q-item>
         <q-btn
           color="primary"

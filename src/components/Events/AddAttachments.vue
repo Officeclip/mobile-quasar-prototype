@@ -1,7 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import { Notify } from 'quasar';
-// implementing file picker
+
+const emit = defineEmits(['get-attachments-generated']);
 const fileModel = ref();
 const errorsMap = {
   accept: 'File type not accepted',
@@ -22,6 +23,12 @@ function onRejected(rejectedFiles) {
     }
   });
 }
+
+function getAttachments() {
+  const data = fileModel.value;
+  emit('get-attachments-generated', data);
+  fileModel.value = '';
+}
 </script>
 
 <template>
@@ -40,13 +47,21 @@ function onRejected(rejectedFiles) {
         append
         max-files="5"
         accept="jpg,image/*"
-        max-file-size="1000000"
-        max-total-size="10000000"
         @rejected="onRejected"
         style="max-width: 300px"
       >
         <template v-slot:prepend>
-          <q-icon name="attach_file"></q-icon>
+          <q-icon name="attach_file" size="xs"></q-icon>
+        </template>
+        <template v-slot:append>
+          <q-btn
+            color="primary"
+            dense
+            flat
+            label="Add"
+            no-caps
+            @click="getAttachments"
+          />
         </template>
       </q-file> </q-item
   ></q-card>
