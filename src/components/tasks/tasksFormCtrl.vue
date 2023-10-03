@@ -159,7 +159,6 @@ async function filterFn(val: string, update: any, abort: any) {
           map-options
           option-label="name"
           option-value="id"
-
         />
 
         <q-select
@@ -180,44 +179,43 @@ async function filterFn(val: string, update: any, abort: any) {
           map-options
           option-label="name"
           option-value="id"
-
         />
 
-        <q-item>
-          <q-item-section>
-            <q-select
-              v-model="regardings"
-              :options="regardingModel"
-              emit-label
-              label="Contact"
-              map-options
-            />
-          </q-item-section>
-          <q-item-section>
-            <q-select
-              v-model="selectedRegContact"
-              :options="regardingContacts"
-              multiple
-              option-label="name"
-              option-value="id"
-              use-input
-              @filter="filterContacts"
-            >
-              <template v-slot:no-option>
-                <q-item>
-                  <q-item-section class="text-grey">
-                    No results
-                  </q-item-section
-                  >
-                </q-item>
-              </template>
-            </q-select>
-          </q-item-section>
-        </q-item>
+<!--        <q-item>-->
+<!--          <q-item-section>-->
+<!--            <q-select-->
+<!--              v-model="regardings"-->
+<!--              :options="regardingModel"-->
+<!--              emit-label-->
+<!--              label="Contact"-->
+<!--              map-options-->
+<!--            />-->
+<!--          </q-item-section>-->
+<!--          <q-item-section>-->
+<!--            <q-select-->
+<!--              v-model="selectedRegContact"-->
+<!--              :options="regardingContacts"-->
+<!--              multiple-->
+<!--              option-label="name"-->
+<!--              option-value="id"-->
+<!--              use-input-->
+<!--              @filter="filterContacts"-->
+<!--            >-->
+<!--              <template v-slot:no-option>-->
+<!--                <q-item>-->
+<!--                  <q-item-section class="text-grey">-->
+<!--                    No results-->
+<!--                  </q-item-section-->
+<!--                  >-->
+<!--                </q-item>-->
+<!--              </template>-->
+<!--            </q-select>-->
+<!--          </q-item-section>-->
+<!--        </q-item>-->
 
-        <q-toggle
+        <q-checkbox
           v-model="task.isPrivate"
-          label="Private"
+          label="Mark the task private"
         />
 
         <q-select
