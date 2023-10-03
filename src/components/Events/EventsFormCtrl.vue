@@ -412,7 +412,6 @@ async function filterContacts(
       <q-item>
         <q-input
           v-model="event.eventLocation"
-          bottom-slots
           class="full-width"
           dense
           label="Location"
@@ -424,7 +423,7 @@ async function filterContacts(
         <q-input
           v-model="event.eventDescription"
           autogrow
-          class="q-mt-none full-width"
+          class="full-width"
           dense
           label="Notes"
           name="eventDescription"
@@ -449,6 +448,7 @@ async function filterContacts(
         <q-item-section class="q-pr-xl">
           <!-- <pre>{{ showTimeAs }}</pre> -->
           <q-select
+            filled
             v-model="showTimeAs"
             :options="ShowMyTimeAsOptions"
             label="Show Time As"
@@ -483,6 +483,7 @@ async function filterContacts(
         <q-item-section>
           <!-- <pre>{{ event.label }}</pre> -->
           <q-select
+            filled
             v-model="event.label"
             :options="labelOptions"
             emit-value
@@ -525,6 +526,7 @@ async function filterContacts(
             label="Regardings"
             v-model="event.parentServiceType"
             :options="metaTypeOptions"
+            dense
             option-label="name"
             option-value="id"
             emit-value
