@@ -22,7 +22,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
           ? `${Constants.endPointUrl}/task-details?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
-          : '${Constants.endPointUrl}/task-details';
+          : `${Constants.endPointUrl}/task-details`;
       try {
         const response = await axios.get(callStr);
         this.taskDetails = response.data;

@@ -1,35 +1,15 @@
-<script setup>
-import { defineProps, ref, computed } from 'vue';
+<script lang="ts" setup>
+import {computed, defineProps, onBeforeMount, ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
+import {useTaskListsStore} from "stores/task/taskListsStore";
+import {taskDetails} from "src/models/task/taskDetails";
+import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue";
+import EventsReminderDialog from "components/Events/EventsReminderDialog.vue";
 
-const options = ref([]);
-options.value = [
-  {
-    label: 'Yes',
-    value: true,
-  },
-  {
-    label: 'No',
-    value: false,
-  },
-];
+const props = defineProps<{
+  task: taskDetails
+}>();
 
-const statusOptions = ref([]);
-statusOptions.value = [
-  'Open', 'Close', 'Pending','Completed'
-]
-
-const priorityOptions = ref([]);
-priorityOptions.value = [
-  'High', 'Low', 'Middle','Other'
-]
-
-const taskTypeOptions = ref([]);
-taskTypeOptions.value = [
-  'Todo', 'Pending','Other'
-]
-
-const props = defineProps(['task']);
 
 const isPrivate = ref('');
 console.log(`props.task: ${props.task}`);
@@ -43,21 +23,57 @@ dueDate.value = props.task.dueDate
 startDate.value = props.task.startDate
 
 const formattedDueDate = computed(() => {
-  let dateValue = dateTimeHelper.extractDateFromUtc(dueDate.value);
-  return dateValue;
+  return dateTimeHelper.extractDateFromUtc(dueDate.value);
 })
 
-const formattedDueDate2 = dueDate.value? formattedDueDate: dueDate;
-
+const formattedDueDate2 = dueDate.value ? formattedDueDate : dueDate;
 
 const formattedStartDate = computed(() => {
-  let dateValue = dateTimeHelper.extractDateFromUtc(startDate.value);
-  return dateValue;
+  return dateTimeHelper.extractDateFromUtc(startDate.value);
 })
 
-const formattedStartDate2 = startDate.value? formattedStartDate: startDate;
+const formattedStartDate2 = startDate.value ? formattedStartDate : startDate;
 
 isPrivate.value = props.task.isPrivate ? 'Yes' : 'No';
+
+const taskListsStore = useTaskListsStore();
+onBeforeMount(() => {
+  taskListsStore.getTaskLists();
+});
+
+const recurrenceDialogOpened = ref(false);
+const reminderDialogOpened = ref(false);
+
+const emit = defineEmits([
+  'rrule-generated',
+  'reminder-generated',
+  'rrule-text-generated',
+]);
+
+function handleRRuleString(rruleString: string) {
+  console.log('Received RRule String:', rruleString);
+  emit('rrule-generated', rruleString);
+}
+
+function handleRRuleText(rruleText: string) {
+  console.log('Received RRule Plain Text:', rruleText);
+  const repeatText = rruleText.charAt(0).toUpperCase() + rruleText.slice(1); //capitalize first letter
+  repeatString.value = repeatText;
+
+  emit('rrule-text-generated', repeatText);
+}
+
+function handleReminderData(reminderString: [string, number]) {
+  console.log('Received Reminder String:', reminderString);
+  emit('reminder-generated', reminderString);
+}
+
+function handleReminderText(reminderText: string) {
+  reminderTextInfo.value = reminderText;
+}
+
+const repeatString = ref('Does not repeat');
+const reminderTextInfo = ref('Reminder');
 </script>
 
 <template>
@@ -67,119 +83,135 @@ isPrivate.value = props.task.isPrivate ? 'Yes' : 'No';
       <div class="q-gutter-y-md column">
         <q-input
           v-model="task.subject"
-          label="Subject"
-          placeholder="enter task subject"
-          lazy-rules
           :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        >
-        </q-input>
+          label="Subject"
+          lazy-rules
+          placeholder="enter task subject"
+        />
 
         <q-editor
-          class="q-mt-none"
           v-model="task.description"
+          class="q-mt-none"
           label="Description"
           paragraph-tag="div"
           placeholder="type here...."
-        ></q-editor>
+        />
 
-
-
-        <q-input name="dueDate" v-model="formattedDueDate2" label="Due Date">
+        <q-input v-model="formattedDueDate2" label="Due Date" name="dueDate">
           <template v-slot:prepend>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="dueDate" mask= 'YYYY-MM-DD'>
+            <q-icon class="cursor-pointer" name="event">
+              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
+                <q-date v-model="dueDate" mask='YYYY-MM-DD'>
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-date>
               </q-popup-proxy>
             </q-icon>
           </template>
-
-          <!-- <template v-slot:append>
-            <q-icon name="access_time" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-time v-model="dueDateTime" mask='YYYY-MM-DD HH:mm'>
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
-                  </div>
-                </q-time>
-              </q-popup-proxy>
-            </q-icon>
-          </template> -->
         </q-input>
 
         <q-input
-        name="startDate" v-model="formattedStartDate2" label="Start Date">
+          v-model="formattedStartDate2" label="Start Date" name="startDate">
           <template v-slot:prepend>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="startDate" mask= 'YYYY-MM-DD'>
+            <q-icon class="cursor-pointer" name="event">
+              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
+                <q-date v-model="startDate" mask='YYYY-MM-DD'>
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-date>
               </q-popup-proxy>
             </q-icon>
           </template>
-
-          <!-- <template v-slot:append>
-            <q-icon name="access_time" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-time v-model="startDateTime" mask='YYYY-MM-DD HH:mm'>
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
-                  </div>
-                </q-time>
-              </q-popup-proxy>
-            </q-icon>
-          </template> -->
         </q-input>
 
         <q-select
-          v-model="task.taskTypeName"
-          :options="taskTypeOptions"
-          option-value="id"
-          map-options
-          emit-label
-          label="Task Type"
-        />
-
-        <q-select
-          v-model="task.taskPriorityName"
-          :options="priorityOptions"
-          option-value="id"
-          map-options
-          emit-label
-          label="Priority"
-        />
-
-        <q-select
-          v-model="task.taskStatusName"
-          :options="statusOptions"
-          option-value="id"
-          map-options
-          emit-label
-          label="Status"
-        />
-
-        <q-select
-          v-model="task.isPrivate"
-          :options="options"
-          map-options
+          v-model="task.taskTypeId"
+          :options="taskListsStore.TaskTypes"
           emit-value
+          label="Task Type"
+          map-options
+          option-label="name"
+          option-value="id"
+
+        />
+
+        <q-select
+          v-model="task.taskPriorityId"
+          :options="taskListsStore.TaskPriorities"
+          emit-value
+          label="Priority"
+          map-options
+          option-label="name"
+          option-value="id"
+        />
+
+        <q-select
+          v-model="task.taskStatusId"
+          :options="taskListsStore.TaskStatuses"
+          emit-value
+          label="Status"
+          map-options
+          option-label="name"
+          option-value="id"
+
+        />
+
+        <q-toggle
+          v-model="task.isPrivate"
           label="Private"
         />
+
         <q-input
-          v-model="task.taskOwnerName"
-          label="Owner"
-          placeholder="enter here..."
-          lazy-rules
+          v-model="task.taskOwner"
           :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        >
-        </q-input>
+          label="Owner"
+          lazy-rules
+          placeholder="enter here..."
+        />
+        <q-input
+          v-model="task.assignee"
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+          label="Assigned to"
+          lazy-rules
+          placeholder="enter here..."
+        />
+
+        <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
+          <q-item-section avatar>
+            <q-icon color="primary" name="repeat" size="sm"/>
+          </q-item-section>
+          <q-item-section> {{ repeatString }}</q-item-section>
+          <q-item-section side>
+            <q-icon color="primary" name="chevron_right"/>
+          </q-item-section>
+        </q-item>
+
+        <q-item v-ripple clickable @click="reminderDialogOpened = true">
+          <q-item-section avatar>
+            <q-icon color="primary" name="alarm" size="sm"/>
+          </q-item-section>
+          <q-item-section>{{ reminderTextInfo }}</q-item-section>
+          <q-item-section side>
+            <q-icon color="primary" name="chevron_right"/>
+          </q-item-section>
+        </q-item>
+
       </div>
     </div>
   </div>
+
+  <q-dialog v-model="recurrenceDialogOpened">
+    <EventsRecurrenceDialog
+      @rrule-string-generated="handleRRuleString"
+      @rrule-text-generated="handleRRuleText"
+    />
+  </q-dialog>
+  <q-dialog v-model="reminderDialogOpened">
+    <EventsReminderDialog
+      @reminder-text-generated="handleReminderText"
+      @reminder-data-generated="handleReminderData"
+    />
+  </q-dialog>
 </template>

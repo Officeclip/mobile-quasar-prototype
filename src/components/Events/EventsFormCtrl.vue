@@ -1,11 +1,11 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
-import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
-import { useEventListsStore } from 'stores/event/eventListsStore';
-import { regardingContact } from 'src/models/event/eventLists';
+import {useEventDetailsStore} from 'stores/event/eventDetailsStore';
+import {useEventListsStore} from 'stores/event/eventListsStore';
+import {regardingContact} from 'src/models/event/eventLists';
 // eslint-disable-next-line vue/no-dupe-keys
 
 // const eventType = ref('2');
@@ -134,7 +134,7 @@ function createValue(val: string, done: any) {
         name: '',
       }); // push the new item as an object into the list
     }
-    done({ id: id, email: val }, 'toggle'); // added the new input as an new item into the dropdown
+    done({id: id, email: val}, 'toggle'); // added the new input as an new item into the dropdown
   }
 }
 
@@ -327,11 +327,11 @@ async function filterContacts(val, update, abort) {
             </q-item>
             <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
               <q-item-section avatar>
-                <q-icon color="primary" name="repeat" size="sm" />
+                <q-icon color="primary" name="repeat" size="sm"/>
               </q-item-section>
               <q-item-section> {{ repeatString }}</q-item-section>
               <q-item-section side>
-                <q-icon color="primary" name="chevron_right" />
+                <q-icon color="primary" name="chevron_right"/>
               </q-item-section>
             </q-item>
             <q-item>
@@ -369,11 +369,11 @@ async function filterContacts(val, update, abort) {
           </q-item>
           <q-item v-ripple clickable @click="reminderDialogOpened = true">
             <q-item-section avatar>
-              <q-icon color="primary" name="alarm" size="sm" />
+              <q-icon color="primary" name="alarm" size="sm"/>
             </q-item-section>
             <q-item-section>{{ reminderTextInfo }}</q-item-section>
             <q-item-section side>
-              <q-icon color="primary" name="chevron_right" />
+              <q-icon color="primary" name="chevron_right"/>
             </q-item-section>
           </q-item>
 
@@ -410,7 +410,7 @@ async function filterContacts(val, update, abort) {
                 name="Url"
               >
                 <template v-slot:append>
-                  <q-btn color="primary" dense flat label="test url" no-caps />
+                  <q-btn color="primary" dense flat label="test url" no-caps/>
                 </template>
               </q-input>
             </q-item>
@@ -486,14 +486,15 @@ async function filterContacts(val, update, abort) {
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey">
-                      No results</q-item-section
+                      No results
+                    </q-item-section
                     >
                   </q-item>
                 </template>
               </q-select>
             </q-item-section>
             <q-item-section side>
-              <q-icon color="primary" name="switch_access_shortcut" />
+              <q-icon color="primary" name="switch_access_shortcut"/>
             </q-item-section>
           </q-item>
         </q-list>

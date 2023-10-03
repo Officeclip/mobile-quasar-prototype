@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia';
-import { Task } from '../models/task';
+import {defineStore} from 'pinia';
+import {Task} from '../models/task';
 import axios from 'axios';
 
 export const useTasksStore = defineStore('tasksStore', {
