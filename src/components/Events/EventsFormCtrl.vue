@@ -3,7 +3,7 @@
 import { computed, onMounted, ref } from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
-import Attachments from 'components/Events/AddAttachments.vue';
+import FilePicker from 'components/Events/FilePicker.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
 import { regardingContact } from 'src/models/event/eventLists';
@@ -555,15 +555,8 @@ async function filterContacts(
       </q-item>
       <pre>{{ event.attachments }}</pre>
       <q-item>
-        <Attachments @get-attachments-generated="handleAttachments" />
+        <FilePicker @get-attachments-generated="handleAttachments" />
       </q-item>
-
-      <!-- if you want to display attachments list separately  -->
-      <div v-if="attachmentsData.length >= 1">
-        <q-item v-for="file in attachmentsData" :key="file">
-          {{ file.name }}
-        </q-item>
-      </div>
 
       <!-- <q-item>
         <q-btn

@@ -128,6 +128,15 @@ const submitLogin = () => {
                 no-caps
               />
             </div>
+            <div class="column m-t-md">
+              <q-btn
+                :to="{
+                  name: 'attachmentsTest',
+                }"
+                label="sg-attchments"
+                no-caps
+              />
+            </div>
           </div>
         </div>
       </q-page>

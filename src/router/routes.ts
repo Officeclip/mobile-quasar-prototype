@@ -139,6 +139,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/coloredDdOptions.vue'),
   },
   {
+    path: '/attachmentsTest',
+    name: 'attachmentsTest',
+    component: () => import('../pages/attachmentsTest.vue'),
+  },
+  {
     path: '/timesheetsAll',
     name: 'timesheetsAll',
     component: () => import('../pages/Timesheets/TimesheetsAll.vue'),
