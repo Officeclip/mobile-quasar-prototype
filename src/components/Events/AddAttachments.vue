@@ -39,9 +39,9 @@ function onRejected(rejectedFiles) {
         multiple
         append
         max-files="5"
+        accept="jpg,image/*"
         max-file-size="1000000"
         max-total-size="10000000"
-        accept="jpg,image/*"
         @rejected="onRejected"
         style="max-width: 300px"
       >
