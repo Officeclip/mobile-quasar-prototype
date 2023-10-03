@@ -3,6 +3,7 @@
 import { computed, onMounted, ref } from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
+import Attachments from 'components/Events/AddAttachments.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
 import { regardingContact } from 'src/models/event/eventLists';
@@ -167,26 +168,28 @@ async function filterContacts(
 }
 
 // implementing file picker
-const fileModel = ref();
-const errorsMap: any = {
-  accept: 'File type not accepted',
-  'max-file-size': 'Max file size exceeded',
-  'max-total-size': 'Max total size exceeded',
-};
-function onRejected(rejectedFiles: any[]) {
-  rejectedFiles.forEach((rejectedFile: any) => {
-    const errorMessage = errorsMap[rejectedFile.failedPropValidation];
-    if (!errorMessage) {
-      return;
-    }
-    if (rejectedFile.failedPropValidation) {
-      Notify.create({
-        message: errorMessage,
-        type: 'negative',
-      });
-    }
-  });
-}
+// const fileModel = ref();
+// const errorsMap: any = {
+//   accept: 'File type not accepted',
+//   'max-file-size': 'Max file size exceeded',
+//   'max-total-size': 'Max total size exceeded',
+// };
+// function onRejected(rejectedFiles: any[]) {
+//   rejectedFiles.forEach((rejectedFile: any) => {
+//     const errorMessage = errorsMap[rejectedFile.failedPropValidation];
+//     if (!errorMessage) {
+//       return;
+//     }
+//     if (rejectedFile.failedPropValidation) {
+//       Notify.create({
+//         message: errorMessage,
+//         type: 'negative',
+//       });
+//     }
+//   });
+// }
+//file picker dialog implementation
+const filePickerDialogOpened = ref(false);
 </script>
 
 <template>
@@ -542,23 +545,17 @@ function onRejected(rejectedFiles: any[]) {
         </q-item-section>
       </q-item>
       <q-item>
-        <q-file
-          v-model="fileModel"
-          dense
-          label="Attachments"
+        <Attachments />
+      </q-item>
+      <q-item>
+        <q-btn
           color="primary"
-          outlined
-          bottom-slots
-          counter
-          max-files="1"
-          max-file-size="10000"
-          accept="jpg,image/*"
-          @rejected="onRejected"
-        >
-          <template v-slot:prepend>
-            <q-icon name="attach_file"></q-icon>
-          </template>
-        </q-file>
+          dense
+          flat
+          label="Add Attachments"
+          no-caps
+          @click="filePickerDialogOpened = true"
+        />
       </q-item>
     </q-list>
 
@@ -573,6 +570,9 @@ function onRejected(rejectedFiles: any[]) {
         @reminder-text-generated="handleReminderText"
         @reminder-data-generated="handleReminderData"
       />
+    </q-dialog>
+    <q-dialog v-model="filePickerDialogOpened">
+      <Attachments />
     </q-dialog>
   </div>
 </template>
