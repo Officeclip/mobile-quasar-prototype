@@ -80,7 +80,7 @@ function onRejected(rejectedFiles) {
       accept="jpg,image/*"
       @rejected="onRejected"
       @update:model-value="updateFile()"
-      style="max-width: 300px"
+      style="max-width: 350px"
     >
       <template v-slot:prepend>
         <q-icon name="attach_file" size="xs"></q-icon>
@@ -97,13 +97,20 @@ function onRejected(rejectedFiles) {
     </template> -->
     </q-file>
     <q-list>
-      <q-item v-for="file in files" :key="file.name" clickable v-ripple>
+      <q-item
+        v-for="file in files"
+        :key="file.name"
+        clickable
+        v-ripple
+        dense
+        class="items-center justify-between"
+      >
         <a @click="showPreview(file)">{{ file.name }}</a>
         <q-icon
-          class="q-ml-sm"
+          class="q-ml-xs"
           color="primary"
-          name="download"
-          size="sm"
+          name="arrow_downward"
+          size="xs"
           @click="downloadFile(file)"
         />
       </q-item>

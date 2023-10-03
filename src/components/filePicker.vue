@@ -80,7 +80,7 @@ const closePreview = () => {
       accept="jpg,image/*"
       @rejected="onRejected"
       @update:model-value="updateFile()"
-      style="max-width: 300px"
+      style="max-width: 350px"
     >
       <template v-slot:prepend>
         <q-icon name="attach_file" size="xs"></q-icon>
