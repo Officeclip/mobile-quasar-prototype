@@ -80,7 +80,6 @@ function onRejected(rejectedFiles) {
       accept="jpg,image/*"
       @rejected="onRejected"
       @update:model-value="updateFile()"
-      style="max-width: 350px"
     >
       <template v-slot:prepend>
         <q-icon name="attach_file" size="xs"></q-icon>
@@ -96,7 +95,7 @@ function onRejected(rejectedFiles) {
       />
     </template> -->
     </q-file>
-    <q-list>
+    <q-list style="max-width: 350px">
       <q-item
         v-for="file in files"
         :key="file.name"

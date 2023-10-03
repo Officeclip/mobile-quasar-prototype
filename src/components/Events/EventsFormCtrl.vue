@@ -50,7 +50,7 @@ const endDateTime = ref('');
 const showTimeAs = ref('1');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
-const attachmentsData = ref([]);
+// const attachmentsData = ref([]);
 
 startDateTime.value = props.event.startDateTime;
 endDateTime.value = props.event.endDateTime;
@@ -110,10 +110,10 @@ function handleReminderText(reminderText: string) {
   reminderTextInfo.value = reminderText;
 }
 
-function handleAttachments(attachments: []) {
-  console.log('Received attachments Plain Text:', attachments);
-  attachmentsData.value = attachments;
-}
+// function handleAttachments(attachments: []) {
+//   console.log('Received attachments Plain Text:', attachments);
+//   attachmentsData.value = attachments;
+// }
 
 const labelOptions = label;
 // const meetingAttendeesOptions = props.meetingAttendeesList;
@@ -553,9 +553,10 @@ async function filterContacts(
           <q-icon color="primary" name="switch_access_shortcut" />
         </q-item-section>
       </q-item>
-      <pre>{{ event.attachments }}</pre>
+      <!-- <pre>{{ event.attachments }}</pre> -->
       <q-item>
-        <FilePicker @get-attachments-generated="handleAttachments" />
+        <!-- <FilePicker @get-attachments-generated="handleAttachments" /> -->
+        <FilePicker />
       </q-item>
 
       <!-- <q-item>
