@@ -7,7 +7,7 @@ import Attachments from 'components/Events/AddAttachments.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
 import { regardingContact } from 'src/models/event/eventLists';
-import { Notify } from 'quasar';
+// import { Notify } from 'quasar';
 // eslint-disable-next-line vue/no-dupe-keys
 
 const eventDetailsStore = useEventDetailsStore();
@@ -198,7 +198,7 @@ async function filterContacts(
 //   });
 // }
 //file picker dialog implementation
-const filePickerDialogOpened = ref(false);
+// const filePickerDialogOpened = ref(false);
 </script>
 
 <template>
@@ -565,7 +565,7 @@ const filePickerDialogOpened = ref(false);
         </q-item>
       </div>
 
-      <q-item>
+      <!-- <q-item>
         <q-btn
           color="primary"
           dense
@@ -574,7 +574,7 @@ const filePickerDialogOpened = ref(false);
           no-caps
           @click="filePickerDialogOpened = true"
         />
-      </q-item>
+      </q-item> -->
     </q-list>
 
     <q-dialog v-model="recurrenceDialogOpened">
@@ -589,9 +589,9 @@ const filePickerDialogOpened = ref(false);
         @reminder-data-generated="handleReminderData"
       />
     </q-dialog>
-    <q-dialog v-model="filePickerDialogOpened">
+    <!-- <q-dialog v-model="filePickerDialogOpened">
       <Attachments />
-    </q-dialog>
+    </q-dialog> -->
   </div>
 </template>
 
