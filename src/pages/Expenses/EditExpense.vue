@@ -1,7 +1,7 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, onBeforeMount } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useRouter, useRoute } from 'vue-router';
 import {
@@ -20,9 +20,9 @@ const expenseDetailsStore = useExpenseDetailsStore();
 const router = useRouter();
 const route = useRoute();
 
-onMounted(() => {
-  console.log('Id from route', route.params.id)
-  expenseDetailsStore.getExpenseDetailById(route.params.id);
+onMounted(async () => {
+  console.log('Edit Expense Id from route', route.params.id)
+  await expenseDetailsStore.getExpenseDetailById('GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ1');
 });
 
 const expenseDetail = computed(() => {

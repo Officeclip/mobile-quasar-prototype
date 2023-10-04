@@ -57,6 +57,9 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         );
         if (response.data && response.data.length > 0) {
           this.expenseDetails = response.data[0];
+          console.log(
+            `expenseDetailStore - getExpenseDetailById - expenseDetails: ${this.expenseDetails}`
+          );
         }
       } catch (error) {
         alert(error);

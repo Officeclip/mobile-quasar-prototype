@@ -15,7 +15,7 @@ const expenseId = route.params.id;
 const expenseDetail = ref({
   accountName: '',
   id: expenseId,
-  amount: -1,
+  amount: '',
   billable: true,
   comments: '',
   description: '',
@@ -29,7 +29,7 @@ const expenseDetail = ref({
   expenseTypeSid: '',
   projectName: '',
   projectSid: '',
-  tax: -1,
+  tax: '',
   paymentType: '',
   autoRentalExpense: [],
   airTravelExpense: [],

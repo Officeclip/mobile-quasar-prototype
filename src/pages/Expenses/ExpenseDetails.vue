@@ -15,6 +15,7 @@ const expenseDetailsStore = useExpenseDetailsStore();
 
 onMounted(() => {
   const route = useRoute();
+  console.log('Expense Detail Id from route', route.params.id)
   expenseDetailsStore.getExpenseDetails(route.params.id);
 });
 
