@@ -5,8 +5,7 @@ import {useTaskListsStore} from "stores/task/taskListsStore";
 import {taskDetails} from "src/models/task/taskDetails";
 import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue";
 import EventsReminderDialog from "components/Events/EventsReminderDialog.vue";
-import {useEventListsStore} from "stores/event/eventListsStore";
-import {regardingContact} from "src/models/event/eventLists";
+import {regardingContact} from "src/models/task/taskLists";
 
 const props = defineProps<{
   task: taskDetails
@@ -77,7 +76,6 @@ function handleReminderText(reminderText: string) {
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
 
-const eventListsStore = useEventListsStore();
 const shownOptions: Ref<regardingContact[]> = ref([]);
 
 async function filterFn(val: string, update: any, abort: any) {
@@ -86,14 +84,14 @@ async function filterFn(val: string, update: any, abort: any) {
     return;
   } else if (val.length === 2) {
     shownOptions.value = [];
-    await eventListsStore.getRegardingContactListThatMatch(val);
-    shownOptions.value = eventListsStore.regardingContacts;
+    await taskListsStore.getRegardingContactListThatMatch(val);
+    shownOptions.value = taskListsStore.regardingContacts;
   }
 
   update(() => {
     console.log('update');
     const needle = val.toLowerCase();
-    shownOptions.value = eventListsStore.regardingContacts.filter(
+    shownOptions.value = taskListsStore.regardingContacts.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
   });
@@ -219,6 +217,7 @@ async function filterFn(val: string, update: any, abort: any) {
         />
 
         <q-select
+          label="Owned by"
           v-model="task.taskOwner"
           :options="shownOptions"
           hint="Minimum 2 characters to trigger filtering"
@@ -238,6 +237,7 @@ async function filterFn(val: string, update: any, abort: any) {
         </q-select>
 
         <q-select
+          label="Assigned to"
           v-model="task.assignee"
           :options="shownOptions"
           multiple
