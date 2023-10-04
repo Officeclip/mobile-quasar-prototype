@@ -74,11 +74,10 @@ function onSubmit(e: any) {
   // console.log(`EditEvent: startDateTime: ${start}, ${end}`);
 
   const startDateTime = event.value?.startDateTime;
-  const newStartDateTime =
-    eventDetailsStore.convertLocalDateToUTC(startDateTime);
+  const newStartDateTime = dateTimeHelper.convertLocalDateToUTC(startDateTime);
 
   const endDateTime = event.value?.endDateTime;
-  const newEndDateTime = eventDetailsStore.convertLocalDateToUTC(endDateTime);
+  const newEndDateTime = dateTimeHelper.convertLocalDateToUTC(endDateTime);
 
   if (!event.value.eventName) {
     alert('Please add text');

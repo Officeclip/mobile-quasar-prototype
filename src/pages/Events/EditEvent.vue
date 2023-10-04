@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
-// import dateTimeHelper from '../../helpers/dateTimeHelper';
+import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { eventDetails } from '../../models/event/eventDetails';
 
 const eventDetailsStore = useEventDetailsStore();
@@ -48,11 +48,10 @@ function onSubmit(e: any) {
 
   // convert local start/end datetime to utc while saving into the json
   const startDateTime = eventDetails.value?.startDateTime;
-  const newStartDateTime =
-    eventDetailsStore.convertLocalDateToUTC(startDateTime);
+  const newStartDateTime = dateTimeHelper.convertLocalDateToUTC(startDateTime);
 
   const endDateTime = eventDetails.value?.endDateTime;
-  const newEndDateTime = eventDetailsStore.convertLocalDateToUTC(endDateTime);
+  const newEndDateTime = dateTimeHelper.convertLocalDateToUTC(endDateTime);
 
   const editEvent: eventDetails = {
     id: eventDetails.value?.id as string,

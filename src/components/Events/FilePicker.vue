@@ -78,6 +78,7 @@ function onRejected(rejectedFiles) {
       append
       max-files="5"
       accept="jpg,image/*"
+      max-file-size="10000000"
       @rejected="onRejected"
       @update:model-value="updateFile()"
     >

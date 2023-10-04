@@ -52,6 +52,22 @@ const convertDateToUtc = (generalDate: string | null) => {
   return format(dateTime, "yyyy-MM-dd'T'00:00:00'Z'");
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const convertLocalDateToUTC = (dateTime: any) => {
+  return new Date(dateTime).toISOString();
+};
+const convertDateTimeUTCtoLocal = (dateTime: string, optional: any) => {
+  const endDateUTCValue = dateTime;
+  if (endDateUTCValue) {
+    const endDate = new Date(endDateUTCValue);
+    if (optional) {
+      return endDate.toLocaleDateString();
+    }
+    return endDate.toLocaleDateString() + ' ' + endDate.toLocaleTimeString();
+  }
+  return null;
+};
+
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
@@ -60,4 +76,6 @@ export default {
   extractMonthFromUtc,
   convertGeneralToUtc,
   convertDateToUtc,
+  convertLocalDateToUTC,
+  convertDateTimeUTCtoLocal,
 };

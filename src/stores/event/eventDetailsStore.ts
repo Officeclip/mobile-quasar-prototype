@@ -105,8 +105,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     // convert the local datetime into the utc format before saving into the json
-    convertLocalDateToUTC(dateTime: any) {
-      return new Date(dateTime).toISOString();
-    },
+    // convertLocalDateToUTC(dateTime: any) {
+    //   return new Date(dateTime).toISOString();
+    // },
   },
 });
