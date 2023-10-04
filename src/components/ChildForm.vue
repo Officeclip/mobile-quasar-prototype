@@ -9,6 +9,19 @@ const mask = computed(() => {
     return 'YYYY-MM-DD HH:mm';
   }
 });
+const startDateParsed = computed(() => {
+  const startDateUTCValue = props.testData.startDate;
+  if (startDateUTCValue) {
+    const startDate = new Date(startDateUTCValue);
+    if (props.testData.isAllDay) {
+      return startDate.toLocaleDateString();
+    }
+    return (
+      startDate.toLocaleDateString() + ' ' + startDate.toLocaleTimeString()
+    );
+  }
+  return null;
+});
 </script>
 
 <template>
@@ -36,10 +49,12 @@ const mask = computed(() => {
         />
 
         <q-input
+          v-if="startDateParsed"
           v-model="testData.startDate"
           :rules="[(val) => !!val || 'Start Date is required']"
           label="Starts*"
           name="startDate"
+          :model-value="startDateParsed"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">

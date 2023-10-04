@@ -41,34 +41,9 @@ const emit = defineEmits([
   'selectedAttendeesP',
 ]);
 
-// const startDateTime = ref('');
-const endDateTime = ref('');
-// const regardings = ref('1');
 const showTimeAs = ref('1');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
-// const attachmentsData = ref([]);
-
-// startDateTime.value = props.event.startDateTime;
-endDateTime.value = props.event.endDateTime;
-
-// const formattedStartDateTime = computed(() => {
-//   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
-//   return startDateTime.value;
-// });
-
-// const formattedStartDateTime2 = startDateTime.value
-//   ? formattedStartDateTime
-//   : startDateTime;
-
-const formattedEndDateTime = computed(() => {
-  console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
-  return endDateTime.value;
-});
-
-const formattedEndDateTime2 = endDateTime.value
-  ? formattedEndDateTime
-  : endDateTime;
 
 const maskDateTime = computed(() => {
   if (props.event.isAllDayEvent) {
@@ -77,8 +52,31 @@ const maskDateTime = computed(() => {
     return 'YYYY-MM-DD HH:mm';
   }
 });
-
-// const regardingModel = ['Contacts', 'Accounts', 'Projects', 'Campaigns'];
+//parsing the start/end datetime utc to local return date and time based on allDay
+const startDateTimeParsedToLocal = computed(() => {
+  const startDateUTCValue = props.event.startDateTime;
+  if (startDateUTCValue) {
+    const startDate = new Date(startDateUTCValue);
+    if (props.event.isAllDayEvent) {
+      return startDate.toLocaleDateString();
+    }
+    return (
+      startDate.toLocaleDateString() + ' ' + startDate.toLocaleTimeString()
+    );
+  }
+  return null;
+});
+const endtDateTimeParsedToLocal = computed(() => {
+  const endDateUTCValue = props.event.endDateTime;
+  if (endDateUTCValue) {
+    const endDate = new Date(endDateUTCValue);
+    if (props.event.isAllDayEvent) {
+      return endDate.toLocaleDateString();
+    }
+    return endDate.toLocaleDateString() + ' ' + endDate.toLocaleTimeString();
+  }
+  return null;
+});
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
@@ -107,13 +105,7 @@ function handleReminderText(reminderText: string) {
   reminderTextInfo.value = reminderText;
 }
 
-// function handleAttachments(attachments: []) {
-//   console.log('Received attachments Plain Text:', attachments);
-//   attachmentsData.value = attachments;
-// }
-
 const labelOptions = label;
-// const meetingAttendeesOptions = props.meetingAttendeesList;
 const filterOptions = ref(meetingAttendee);
 
 function filterFn(val: any, update: any) {
@@ -280,6 +272,7 @@ async function filterContacts(
           :rules="[(val: any) => !!val || 'Start Date is required']"
           label="Starts*"
           name="startDateTime"
+          :model-value="startDateTimeParsedToLocal"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -318,10 +311,11 @@ async function filterContacts(
           </template>
         </q-input>
         <q-input
-          v-model="formattedEndDateTime2"
+          v-model="event.endDateTime"
           :rules="[(val: any) => !!val || 'End Date is required']"
           label="Ends*"
           name="endDateTime"
+          :model-value="endtDateTimeParsedToLocal"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -330,7 +324,7 @@ async function filterContacts(
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-model="endDateTime" :mask="maskDateTime">
+                <q-date v-model="event.endDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -346,7 +340,7 @@ async function filterContacts(
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-time v-model="endDateTime" :mask="maskDateTime">
+                <q-time v-model="event.endDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
