@@ -1,6 +1,7 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
+console.log('EditExpense.vue > setup - started');
 import { onMounted, computed, onBeforeMount } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useRouter, useRoute } from 'vue-router';
@@ -11,7 +12,7 @@ import {
   mileageExpense,
   taxiExpense,
   telephoneExpense,
-  expenseDetails
+  expenseDetails,
 } from '../../models/expense/expenseDetails';
 import TestForm from '../../components/TestForm.vue';
 import waitInSecs from '../../helpers/util';
@@ -23,11 +24,15 @@ const router = useRouter();
 const route = useRoute();
 
 onMounted(() => {
-  console.log('Edit Expense Id from route', route.params.id)
-  expenseDetailsStore.getExpenseDetailById('GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ1');
-  sleep(1000).then(() => {
-    // Do something after the sleep!
-  });
+  console.log('EditExpense.vue > onMounted - started');
+  console.log('Edit Expense Id from route', route.params.id);
+  expenseDetailsStore.getExpenseDetailById(
+    'GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ1'
+  );
+  // sleep(2000).then(() => {
+  //   alert('slept for 2 secs');
+  // });
+  console.log('EditExpense.vue > onMounted - ended');
 });
 
 function sleep(time: number) {
@@ -35,23 +40,26 @@ function sleep(time: number) {
 }
 
 const expenseDetail = computed(() => {
-  console.log('Edit expense details', expenseDetailsStore.ExpenseDetails)
+  console.log('Edit expense details', expenseDetailsStore.ExpenseDetails);
   return expenseDetailsStore.ExpenseDetails;
 });
 
 const expenseForm = computed(() => {
-  console.log('Edit expense details', expenseDetailsStore.ExpenseDetails)
-  return expenseDetailsStore.ExpenseDetails;
+  console.log(
+    'EditExpense.vue > expenseForm:',
+    expenseDetailsStore?.ExpenseDetails
+  );
+  return expenseDetailsStore?.ExpenseDetails;
 });
 
 function onSubmit(e: any) {
+  console.log('EditExpense.vue > onSubmit - started');
   e.preventDefault();
   const formData = new FormData(e.target);
   const expenseDate = formData.get('newcreatedDate');
   const taskDate = formData.get('newtaskDate');
 
   const editExpense: expenseDetails = {
-
     accountName: expenseDetail.value?.accountName as string,
     id: expenseDetail.value?.id as string,
     amount: expenseDetail.value?.amount as number,
@@ -70,23 +78,35 @@ function onSubmit(e: any) {
     projectSid: expenseDetail.value?.projectSid as string,
     tax: expenseDetail.value?.tax as number,
     paymentType: expenseDetail.value?.paymentType as string,
-    autoRentalExpense: expenseDetail.value?.autoRentalExpense as autoRentalExpense,
+    autoRentalExpense: expenseDetail.value
+      ?.autoRentalExpense as autoRentalExpense,
     airTravelExpense: expenseDetail.value?.airTravelExpense as airTravelExpense,
     hotelExpense: expenseDetail.value?.hotelExpense as hotelExpense,
     mileageExpense: expenseDetail.value?.mileageExpense as mileageExpense,
     telephoneExpense: expenseDetail.value?.telephoneExpense as telephoneExpense,
-    taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense
+    taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense,
   };
 
   expenseDetailsStore.editExpense(editExpense);
   router.push('-2');
+  console.log('EditExpense.vue > onSubmit - ended');
 }
+console.log('EditExpense.vue > setup - ended');
 </script>
+
 <template>
+  <pre>EditExpense.vue > template - started</pre>
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title>Edit Expense</q-toolbar-title>
       </q-toolbar>
@@ -97,12 +117,18 @@ function onSubmit(e: any) {
           <!-- <ExpenseForm :expenseDetail="expenseDetail" /> -->
           <!-- <pre>{{ expenseForm }}</pre> -->
           <TestForm :expenseForm="expenseForm" />
-          <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
+          <q-btn
+            class="q-ml-md q-mb-md"
+            label="Submit"
+            type="submit"
+            color="primary"
+          >
           </q-btn>
         </div>
       </q-form>
     </q-page-container>
   </q-layout>
+  <pre>EditExpense.vue > template - ended</pre>
 </template>
 
 <style></style>
