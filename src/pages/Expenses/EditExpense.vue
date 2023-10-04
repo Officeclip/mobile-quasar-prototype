@@ -13,6 +13,8 @@ import {
   telephoneExpense,
   expenseDetails
 } from '../../models/expense/expenseDetails';
+import TestForm from '../../components/TestForm.vue';
+import waitInSecs from '../../helpers/util';
 import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
 
 const expenseDetailsStore = useExpenseDetailsStore();
@@ -20,12 +22,24 @@ const expenseDetailsStore = useExpenseDetailsStore();
 const router = useRouter();
 const route = useRoute();
 
-onMounted(async () => {
+onMounted(() => {
   console.log('Edit Expense Id from route', route.params.id)
-  await expenseDetailsStore.getExpenseDetailById('GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ1');
+  expenseDetailsStore.getExpenseDetailById('GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ1');
+  sleep(1000).then(() => {
+    // Do something after the sleep!
+  });
 });
 
+function sleep(time: number) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 const expenseDetail = computed(() => {
+  console.log('Edit expense details', expenseDetailsStore.ExpenseDetails)
+  return expenseDetailsStore.ExpenseDetails;
+});
+
+const expenseForm = computed(() => {
   console.log('Edit expense details', expenseDetailsStore.ExpenseDetails)
   return expenseDetailsStore.ExpenseDetails;
 });
@@ -80,7 +94,9 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <ExpenseForm :expenseDetail="expenseDetail" />
+          <!-- <ExpenseForm :expenseDetail="expenseDetail" /> -->
+          <!-- <pre>{{ expenseForm }}</pre> -->
+          <TestForm :expenseForm="expenseForm" />
           <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>
