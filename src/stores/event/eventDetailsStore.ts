@@ -1,8 +1,8 @@
-import {defineStore} from 'pinia';
-import {eventDetails} from 'src/models/event/eventDetails';
-import {MeetingAttendees} from 'src/models/meetingAttendees';
+import { defineStore } from 'pinia';
+import { eventDetails } from 'src/models/event/eventDetails';
+import { MeetingAttendees } from 'src/models/meetingAttendees';
 import axios from 'axios';
-import {eventSummary} from "src/models/event/eventSummary";
+import { eventSummary } from 'src/models/event/eventSummary';
 
 export const useEventDetailsStore = defineStore('eventDetailsStore', {
   state: () => ({
@@ -76,7 +76,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       const res = await fetch('http://localhost:4000/event-details', {
         method: 'POST',
         body: JSON.stringify(event),
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
       });
       console.log(this.eventDetails);
     },
@@ -85,7 +85,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       const res = await fetch('http://localhost:4000/event-summary', {
         method: 'POST',
         body: JSON.stringify(eventSummary),
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
       });
       console.log(this.eventSummary);
     },
@@ -102,6 +102,11 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       } catch (error) {
         console.error(`deleteEvent Error: ${error}`);
       }
+    },
+
+    // convert the local datetime into the utc format before saving into the json
+    convertLocalDateToUTC(dateTime: any) {
+      return new Date(dateTime).toISOString();
     },
   },
 });

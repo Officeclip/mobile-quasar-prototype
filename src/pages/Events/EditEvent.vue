@@ -22,9 +22,9 @@ const eventDetails = computed(() => {
   return eventDetailsStore.EventDetails;
 });
 
-function convertDateLocalToUTC(dateTime: any) {
-  return new Date(dateTime).toISOString();
-}
+// function convertDateLocalToUTC(dateTime: any) {
+//   return new Date(dateTime).toISOString();
+// }
 
 function onSubmit(e: any) {
   e.preventDefault();
@@ -48,10 +48,11 @@ function onSubmit(e: any) {
 
   // convert local start/end datetime to utc while saving into the json
   const startDateTime = eventDetails.value?.startDateTime;
-  const newStartDateTime = convertDateLocalToUTC(startDateTime);
+  const newStartDateTime =
+    eventDetailsStore.convertLocalDateToUTC(startDateTime);
 
   const endDateTime = eventDetails.value?.endDateTime;
-  const newEndDateTime = convertDateLocalToUTC(endDateTime);
+  const newEndDateTime = eventDetailsStore.convertLocalDateToUTC(endDateTime);
 
   const editEvent: eventDetails = {
     id: eventDetails.value?.id as string,
@@ -79,7 +80,7 @@ function onSubmit(e: any) {
     remindBeforeMinutes: 0,
     label: eventDetails.value?.label,
     meetingAttendees: eventDetails.value?.meetingAttendees,
-    url: '',
+    url: eventDetails.value?.url,
   };
   eventDetailsStore.editEventDetails(editEvent);
   route1.push('/eventSummary');
