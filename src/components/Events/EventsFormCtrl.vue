@@ -34,9 +34,6 @@ const metaTypeOptions = computed(() => {
 });
 
 const props = defineProps(['event']);
-console.log('Props attachmets testing:', props.event.attachments);
-const newAttachments = ref('');
-newAttachments.value = props.event.attachments;
 const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
@@ -44,7 +41,7 @@ const emit = defineEmits([
   'selectedAttendeesP',
 ]);
 
-const startDateTime = ref('');
+// const startDateTime = ref('');
 const endDateTime = ref('');
 // const regardings = ref('1');
 const showTimeAs = ref('1');
@@ -52,17 +49,17 @@ const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
 // const attachmentsData = ref([]);
 
-startDateTime.value = props.event.startDateTime;
+// startDateTime.value = props.event.startDateTime;
 endDateTime.value = props.event.endDateTime;
 
-const formattedStartDateTime = computed(() => {
-  console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
-  return startDateTime.value;
-});
+// const formattedStartDateTime = computed(() => {
+//   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
+//   return startDateTime.value;
+// });
 
-const formattedStartDateTime2 = startDateTime.value
-  ? formattedStartDateTime
-  : startDateTime;
+// const formattedStartDateTime2 = startDateTime.value
+//   ? formattedStartDateTime
+//   : startDateTime;
 
 const formattedEndDateTime = computed(() => {
   console.log('TestDuttaForm: allDay value:', props.event.isAllDayEvent);
@@ -279,7 +276,7 @@ async function filterContacts(
       </q-item>
       <q-item class="column">
         <q-input
-          v-model="formattedStartDateTime2"
+          v-model="event.startDateTime"
           :rules="[(val: any) => !!val || 'Start Date is required']"
           label="Starts*"
           name="startDateTime"
@@ -291,7 +288,7 @@ async function filterContacts(
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-model="startDateTime" :mask="maskDateTime">
+                <q-date v-model="event.startDateTime" :mask="maskDateTime">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -309,7 +306,7 @@ async function filterContacts(
               >
                 <q-time
                   v-if="!props.event.isAllDayEvent"
-                  v-model="startDateTime"
+                  v-model="event.startDateTime"
                   :mask="maskDateTime"
                 >
                   <div class="row items-center justify-end">
