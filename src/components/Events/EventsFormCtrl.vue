@@ -52,22 +52,34 @@ const maskDateTime = computed(() => {
     return 'YYYY-MM-DD HH:mm';
   }
 });
+
+// const startDateTimeParsedToLocal = computed(() => {
+//   const startDateUTCValue = props.event.startDateTime;
+//   if (startDateUTCValue) {
+//     const startDate = new Date(startDateUTCValue);
+//     if (props.event.isAllDayEvent) {
+//       return startDate.toLocaleDateString();
+//     }
+//     return (
+//       startDate.toLocaleDateString() + ' ' + startDate.toLocaleTimeString()
+//     );
+//   }
+//   return null;
+// });
+// const endtDateTimeParsedToLocal = computed(() => {
+//   const endDateUTCValue = props.event.endDateTime;
+//   if (endDateUTCValue) {
+//     const endDate = new Date(endDateUTCValue);
+//     if (props.event.isAllDayEvent) {
+//       return endDate.toLocaleDateString();
+//     }
+//     return endDate.toLocaleDateString() + ' ' + endDate.toLocaleTimeString();
+//   }
+//   return null;
+// });
 //parsing the start/end datetime utc to local return date and time based on allDay
-const startDateTimeParsedToLocal = computed(() => {
-  const startDateUTCValue = props.event.startDateTime;
-  if (startDateUTCValue) {
-    const startDate = new Date(startDateUTCValue);
-    if (props.event.isAllDayEvent) {
-      return startDate.toLocaleDateString();
-    }
-    return (
-      startDate.toLocaleDateString() + ' ' + startDate.toLocaleTimeString()
-    );
-  }
-  return null;
-});
-const endtDateTimeParsedToLocal = computed(() => {
-  const endDateUTCValue = props.event.endDateTime;
+function dateTimeParsingUTCtoLocal(dateTime: string) {
+  const endDateUTCValue = dateTime;
   if (endDateUTCValue) {
     const endDate = new Date(endDateUTCValue);
     if (props.event.isAllDayEvent) {
@@ -76,7 +88,7 @@ const endtDateTimeParsedToLocal = computed(() => {
     return endDate.toLocaleDateString() + ' ' + endDate.toLocaleTimeString();
   }
   return null;
-});
+}
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
@@ -272,7 +284,7 @@ async function filterContacts(
           :rules="[(val: any) => !!val || 'Start Date is required']"
           label="Starts*"
           name="startDateTime"
-          :model-value="startDateTimeParsedToLocal"
+          :model-value="dateTimeParsingUTCtoLocal(event.startDateTime)"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -315,7 +327,7 @@ async function filterContacts(
           :rules="[(val: any) => !!val || 'End Date is required']"
           label="Ends*"
           name="endDateTime"
-          :model-value="endtDateTimeParsedToLocal"
+          :model-value="dateTimeParsingUTCtoLocal(event.endDateTime)"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
