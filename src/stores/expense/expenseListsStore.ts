@@ -62,6 +62,7 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
     }, */
 
     async getExpensesList() {
+      console.log('expenseListStore.ts > getExpensesList() - started');
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/expense-lists`
@@ -74,6 +75,7 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
       } catch (error) {
         console.error(error);
       }
+      console.log('expenseListStore > getExpensesList() - ended');
     },
 
     /*     async getExpenseListAll() {

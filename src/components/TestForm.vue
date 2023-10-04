@@ -1,47 +1,42 @@
-<script setup>
-import { defineProps, ref } from 'vue';
+<script lang="ts" setup>
+console.log('TestForm.vue > setup - started');
+import { computed, onMounted, ref } from 'vue';
+import { useExpenseListsStore } from '../stores/expense/expenseListsStore';
+import {
+  customerProject,
+  period,
+  expenseType,
+  paymentType,
+} from '../models/expense/expenseLists';
+
+const expenseListsStore = useExpenseListsStore();
 
 const props = defineProps(['expenseForm']);
+const newValue = ref(null);
 
-const selectedItem = ref('Yes');
+const getBillableModify = computed(() => {
+  const expenseTypeStr = props.expenseForm?.expenseTypeName;
+  console.log(
+    `TestForm > getIsBillableModify - expenseTypeStr: ${expenseTypeStr}`
+  );
+  const expenseTypes: expenseType[] = expenseListsStore.expenseTypes;
+  console.log(`TestForm > getIsBillableModify - expenseTypes: ${expenseTypes}`);
 
-const billableOptions = ref([]);
-billableOptions.value = [
-  {
-    label: 'Yes',
-    value: true,
-  },
-  {
-    label: 'No',
-    value: false,
-  },
-];
+  const expenseType = expenseTypes.filter((t) => {
+    return t.expenseTypeName == expenseTypeStr;
+  });
+  console.log(
+    `TestForm > getIsBillableModify - expenseType[0]: ${expenseType[0]}`
+  );
+  return expenseType[0].isBillableModify;
+});
 
-const newValue = ref('');
-newValue.value = expenseTypes.value.isBillable;
-
-const expenseTypes = ref([]);
-expenseTypes.value = [
-  {
-    id: 'J2BBXASXHAFW2ZSD2BKNWBGEB2LYYHFSGMJM6LQ',
-    expenseTypeName: 'AIRFARE',
-    expenseName: 'Air',
-    isDetailsRequired: true,
-    isBillable: false,
-    isBillableModify: false,
-  },
-
-  // {
-  //   id: 'D6JQ2UJFFMFCW8YXZBTUNCDF5DNE6QGCYJJM6LQ',
-  //   expenseTypeName: 'AUTORENTAL',
-  //   expenseName: 'Auto Rental',
-  //   isDetailsRequired: true,
-  //   isBillable: true,
-  //   isBillableModify: true
-  // }
-];
-
-console.log('Testing IsBillableModify', expenseTypes.value.isBillableModify);
+onMounted(() => {
+  console.log('TestForm.vue > onMounted - started');
+  expenseListsStore.getExpensesList();
+  console.log('TestForm.vue > onMounted - ended');
+});
+console.log('TestForm.vue > setup - ended');
 </script>
 
 <template>
@@ -49,14 +44,10 @@ console.log('Testing IsBillableModify', expenseTypes.value.isBillableModify);
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
-        <!-- <pre> {{ expenseForm.description }} </pre> -->
-        <!-- <q-input label="Description" v-model="expenseForm.description" placeholder="enter here..." lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']">
-        </q-input> -->
-        <!-- <q-select filled v-model="selectedItem" :options="billableOptions" label="Is Billable" emit-value map-options
-          :disable="false" /> -->
-        <q-toggle
-          v-if="isBillableModify === true"
+        <pre> {{ props.expenseForm }} </pre>
+        <!-- <pre>{{ getBillableModify }}</pre> -->
+        <!-- <q-toggle
+          v-if="getBillableModify"
           label="labelName"
           :false-value="false"
           :true-value="true"
@@ -69,7 +60,7 @@ console.log('Testing IsBillableModify', expenseTypes.value.isBillableModify);
             {{ newValue }}
           </q-item-label>
           <q-icon name="hide_source" /> You do not permission to edit this item
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

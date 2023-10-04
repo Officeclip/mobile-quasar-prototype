@@ -51,6 +51,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     },
 
     async getExpenseDetailById(id: string | string[]) {
+      console.log('expenseDetailsStore.ts> getExpenseDetailById - started');
       try {
         const response = await axios.get(
           `http://localhost:4000/expense-details?id=${id}`
@@ -65,6 +66,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         alert(error);
         console.log(error);
       }
+      console.log('expenseDetailsStore.ts> getExpenseDetailById - ended');
     },
 
     async addExpense(expenseDetails: expenseDetails) {
