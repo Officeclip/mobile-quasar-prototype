@@ -122,6 +122,7 @@ function onRejected(rejectedFiles) {
     />
     <q-icon
       v-if="isPreviewing"
+      class="cursor-pointer"
       color="primary"
       name="close"
       size="xs"

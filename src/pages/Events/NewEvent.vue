@@ -7,7 +7,7 @@ import { eventDetails } from 'src/models/event/eventDetails';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { eventSummary } from 'src/models/event/eventSummary';
 
-const eventsDetailsStore = useEventDetailsStore();
+const eventDetailsStore = useEventDetailsStore();
 
 const router = useRouter();
 const route = useRoute();
@@ -68,9 +68,17 @@ function onSubmit(e: any) {
   //     value
   //   })
   // };
-  const start = formData.get('startDateTime');
-  const end = formData.get('endDateTime');
-  console.log(`EditEvent: startDateTime: ${start}, ${end}`);
+
+  // const start = formData.get('startDateTime');
+  // const end = formData.get('endDateTime');
+  // console.log(`EditEvent: startDateTime: ${start}, ${end}`);
+
+  const startDateTime = event.value?.startDateTime;
+  const newStartDateTime =
+    eventDetailsStore.convertLocalDateToUTC(startDateTime);
+
+  const endDateTime = event.value?.endDateTime;
+  const newEndDateTime = eventDetailsStore.convertLocalDateToUTC(endDateTime);
 
   if (!event.value.eventName) {
     alert('Please add text');
@@ -81,8 +89,8 @@ function onSubmit(e: any) {
     eventName: event.value.eventName,
     eventDescription: event.value.eventDescription,
     eventLocation: event.value.eventLocation,
-    startDateTime: start?.toString(),
-    endDateTime: end?.toString(),
+    startDateTime: newStartDateTime,
+    endDateTime: newEndDateTime,
     isAllDayEvent: event.value.isAllDayEvent,
     meetingAttendees: event.value.meetingAttendees,
     timezoneId: event.value.timezoneId,
@@ -115,8 +123,8 @@ function onSubmit(e: any) {
     id: '',
   };
   console.log('new event form values: ', newEventDetails);
-  eventsDetailsStore.addEventDetails(newEventDetails);
-  eventsDetailsStore.addEventSummary(newEventSummary);
+  eventDetailsStore.addEventDetails(newEventDetails);
+  eventDetailsStore.addEventSummary(newEventSummary);
 
   router.push('/eventSummary');
 }
