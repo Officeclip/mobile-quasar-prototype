@@ -15,7 +15,7 @@ export interface eventDetails {
   createdUserSid: string;
   parentServiceType: number;
   parentSid: string;
-  eventType: number;
+  eventType: string;
   eventName: string;
   eventDescription?: string;
   startDateTime?: string;
@@ -23,6 +23,7 @@ export interface eventDetails {
   isAllDayEvent: boolean;
   eventUserSid: string;
   isRsvp: boolean;
+  sendNotifications: boolean;
   eventLocation?: string;
   repeatInfoText: string;
   recurrenceRule: string;

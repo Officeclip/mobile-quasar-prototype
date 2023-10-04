@@ -6,23 +6,21 @@ import { ref } from 'vue';
 const testData = ref({
   name: 'abcd',
   email: 'test@gmail.com',
+  startDate: '2020-03-04T18:30:00Z',
+  isAllDay: false,
 });
-const formRef = ref(null);
 
 function onSubmit(e) {
-  console.log('printing the e', e);
-  // e.preventDefault();
-  const form = formRef.value;
-  console.log('test form variable', form);
-  const formData = new FormData(form);
-  // console.log('test the e.target', e.target);
-  // const formData = new FormData(e.target);
-  const newname = formData.get('name');
-  const newEmail = formData.get('email');
-  console.log('Printing the name property:', newname);
-  console.log('Printing the email property:', newEmail);
-  // console.log('Printing the name property:', testData.value.name);
-  // console.log('Printing the email property:', testData.value.email);
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const data = [];
+  for (const [name, value] of formData.entries()) {
+    data.push({
+      name,
+      value,
+    });
+  }
+  console.log('form Data input values: ', data);
 }
 </script>
 
@@ -30,21 +28,6 @@ function onSubmit(e) {
   <!-- Form -->
   <q-form ref="formRef" @submit="onSubmit">
     <ChildForm :testData="testData" />
-    <q-btn
-      class="q-ml-md"
-      color="primary"
-      label="Save"
-      no-caps
-      type="submit"
-      @click="onSubmit(formRef)"
-    />
+    <q-btn class="q-ml-md" color="primary" label="Save" no-caps type="submit" />
   </q-form>
-  <!-- <q-btn
-    class="q-ml-md"
-    color="primary"
-    label="Save from Outside"
-    no-caps
-    type="submit"
-    @click="onSubmit(formRef)"
-  /> -->
 </template>

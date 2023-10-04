@@ -22,33 +22,45 @@ const eventDetails = computed(() => {
   return eventDetailsStore.EventDetails;
 });
 
+// function convertDateLocalToUTC(dateTime: any) {
+//   return new Date(dateTime).toISOString();
+// }
+
 function onSubmit(e: any) {
   e.preventDefault();
   // from https://stackoverflow.com/a/70276438
-  const formData: any = new FormData(e.target);
+  // const formData: any = new FormData(e.target);
 
-  const start = formData.get('startDateTime');
-  const newStartDate = eventDetails.value?.isAllDayEvent
-    ? dateTimeHelper.convertDateToUtc(start)
-    : dateTimeHelper.convertGeneralToUtc(start);
+  // const start = formData.get('startDateTime');
+  // const newStartDate = eventDetails.value?.isAllDayEvent
+  //   ? dateTimeHelper.convertDateToUtc(start)
+  //   : dateTimeHelper.convertGeneralToUtc(start);
 
-  const end = formData.get('endDateTime');
-  const newEndDate = eventDetails.value?.isAllDayEvent
-    ? dateTimeHelper.convertDateToUtc(end)
-    : dateTimeHelper.convertGeneralToUtc(end);
+  // const end = formData.get('endDateTime');
+  // const newEndDate = eventDetails.value?.isAllDayEvent
+  //   ? dateTimeHelper.convertDateToUtc(end)
+  //   : dateTimeHelper.convertGeneralToUtc(end);
 
-  console.log(`EditEvent: startDateTime: ${start}, ${end}`);
+  // console.log(`EditEvent: startDateTime: ${start}, ${end}`);
 
   // need to fix the model properties in this object
   // idea from https://stackoverflow.com/a/57611367
+
+  // convert local start/end datetime to utc while saving into the json
+  const startDateTime = eventDetails.value?.startDateTime;
+  const newStartDateTime = dateTimeHelper.convertLocalDateToUTC(startDateTime);
+
+  const endDateTime = eventDetails.value?.endDateTime;
+  const newEndDateTime = dateTimeHelper.convertLocalDateToUTC(endDateTime);
+
   const editEvent: eventDetails = {
     id: eventDetails.value?.id as string,
     parentServiceType: eventDetails.value?.parentServiceType as number,
-    eventType: eventDetails.value?.eventType as number,
+    eventType: eventDetails.value?.eventType as string,
     eventName: eventDetails.value?.eventName as string,
     eventDescription: eventDetails.value?.eventDescription,
-    startDateTime: newStartDate,
-    endDateTime: newEndDate,
+    startDateTime: newStartDateTime,
+    endDateTime: newEndDateTime,
     isAllDayEvent: eventDetails.value?.isAllDayEvent as boolean,
     eventLocation: eventDetails.value?.eventLocation,
     createdDate: '',
@@ -56,7 +68,8 @@ function onSubmit(e: any) {
     createdUserSid: '',
     parentSid: '',
     eventUserSid: '',
-    isRsvp: false,
+    isRsvp: eventDetails.value?.isRsvp,
+    sendNotifications: eventDetails.value?.sendNotifications,
     repeatInfoText: '',
     recurrenceRule: '',
     modifiedDate: '',
@@ -66,7 +79,7 @@ function onSubmit(e: any) {
     remindBeforeMinutes: 0,
     label: eventDetails.value?.label,
     meetingAttendees: eventDetails.value?.meetingAttendees,
-    url: '',
+    url: eventDetails.value?.url,
   };
   eventDetailsStore.editEventDetails(editEvent);
   route1.push('/eventSummary');

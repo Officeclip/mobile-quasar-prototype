@@ -1,11 +1,21 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, onBeforeMount } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useRouter, useRoute } from 'vue-router';
+import {
+  airTravelExpense,
+  autoRentalExpense,
+  hotelExpense,
+  mileageExpense,
+  taxiExpense,
+  telephoneExpense,
+  expenseDetails
+} from '../../models/expense/expenseDetails';
+import TestForm from '../../components/TestForm.vue';
+import waitInSecs from '../../helpers/util';
 import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
-import { expenseDetails } from 'src/models/expense/expenseDetails';
 
 const expenseDetailsStore = useExpenseDetailsStore();
 
@@ -13,12 +23,25 @@ const router = useRouter();
 const route = useRoute();
 
 onMounted(() => {
-  expenseDetailsStore.getExpenseDetails(route.params.id);
+  console.log('Edit Expense Id from route', route.params.id)
+  expenseDetailsStore.getExpenseDetailById('GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ1');
+  sleep(1000).then(() => {
+    // Do something after the sleep!
+  });
 });
 
-const expenseDetails = computed(() => {
-  console.log('Edit expense', expenseDetailsStore.ExpenseDetails[0])
-  return expenseDetailsStore.ExpenseDetails[0];
+function sleep(time: number) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+const expenseDetail = computed(() => {
+  console.log('Edit expense details', expenseDetailsStore.ExpenseDetails)
+  return expenseDetailsStore.ExpenseDetails;
+});
+
+const expenseForm = computed(() => {
+  console.log('Edit expense details', expenseDetailsStore.ExpenseDetails)
+  return expenseDetailsStore.ExpenseDetails;
 });
 
 function onSubmit(e: any) {
@@ -28,14 +51,31 @@ function onSubmit(e: any) {
   const taskDate = formData.get('newtaskDate');
 
   const editExpense: expenseDetails = {
-    expnseSid: expenseDetails.value?.expenseSid,
-    accountName: expenseDetails.value?.accountName,
-    projectName: expenseDetails.value?.projectName,
-    isBillable: expenseDetails.value?.billable,
-    description: expenseDetails.value?.description,
-    expenseDate: expenseDate,
-    taskDate: taskDate,
-    totalAmount: expenseDetails.value?.amount,
+
+    accountName: expenseDetail.value?.accountName as string,
+    id: expenseDetail.value?.id as string,
+    amount: expenseDetail.value?.amount as number,
+    billable: expenseDetail.value?.billable as boolean,
+    comments: expenseDetail.value?.comments as string,
+    description: expenseDetail.value?.description as string,
+    employeeFullName: expenseDetail.value?.employeeFullName as string,
+    employeeSid: expenseDetail.value?.employeeSid as string,
+    expenseDate: expenseDetail.value?.expenseDate as string,
+    expenseDetailSid: expenseDetail.value?.expenseDetailSid as string,
+    expenseSid: expenseDetail.value?.expenseSid as string,
+    expenseTypeName: expenseDetail.value?.expenseTypeName as string,
+    expenseCategoryName: expenseDetail.value?.expenseCategoryName as string,
+    expenseTypeSid: expenseDetail.value?.expenseTypeSid as string,
+    projectName: expenseDetail.value?.projectName as string,
+    projectSid: expenseDetail.value?.projectSid as string,
+    tax: expenseDetail.value?.tax as number,
+    paymentType: expenseDetail.value?.paymentType as string,
+    autoRentalExpense: expenseDetail.value?.autoRentalExpense as autoRentalExpense,
+    airTravelExpense: expenseDetail.value?.airTravelExpense as airTravelExpense,
+    hotelExpense: expenseDetail.value?.hotelExpense as hotelExpense,
+    mileageExpense: expenseDetail.value?.mileageExpense as mileageExpense,
+    telephoneExpense: expenseDetail.value?.telephoneExpense as telephoneExpense,
+    taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense
   };
 
   expenseDetailsStore.editExpense(editExpense);
@@ -54,7 +94,9 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <ExpenseForm :expenseDetail="expenseDetails" />
+          <!-- <ExpenseForm :expenseDetail="expenseDetail" /> -->
+          <!-- <pre>{{ expenseForm }}</pre> -->
+          <TestForm :expenseForm="expenseForm" />
           <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>
