@@ -7,6 +7,8 @@ import {taskSummary} from "src/models/task/taskSummary";
 const filterString = ref('');
 const ownedByMeFilter = ref(false);
 const assignedToMeFilter = ref(false);
+
+const showAdvancedOptions = ref(false);
 const userName = ref("Alice Johnson");
 const parent = ref({
   parentObjectId: -1,
@@ -15,7 +17,7 @@ const parent = ref({
 
 const taskSummaryStore = useTaskSummaryStore();
 
-const getTasks = computed(() => {
+const getFilteredTaskSummaries = computed(() => {
   let filteredTasks = taskSummaryStore.taskSummaries;
 
   if (filterString.value) {
@@ -35,12 +37,65 @@ const getTasks = computed(() => {
       return task.assignee.includes(userName.value);
     });
   }
+
+  if (statusFilter.value) {
+    filteredTasks = filteredTasks.filter((task) => {
+      return task.taskStatusId === statusFilter.value;
+    });
+  }
+
+  if (priorityFilter.value) {
+    filteredTasks = filteredTasks.filter((task) => {
+      return task.taskPriorityId === priorityFilter.value;
+    });
+  }
   return filteredTasks;
+});
+
+const getSortedSummaries = computed(() => {
+  let sortedTasks = getFilteredTaskSummaries;
+  sortedTasks.value.sort((a, b) => {
+    if (sortOption.value === 'createdDate') {
+      return a.createdDate.localeCompare(b.createdDate);
+    } else if (sortOption.value === 'dueDate') {
+      return a.dueDate.localeCompare(b.dueDate);
+    } else {
+      return a.subject.localeCompare(b.subject);
+    }
+  });
+  return sortedTasks.value;
+
 });
 
 onBeforeMount(() => {
   taskSummaryStore.getTasks(Number(parent.value.parentObjectId), Number(parent.value.parentObjectServiceType));
 });
+
+
+const sortOption = ref('subject'); // Default sorting by subject
+
+const sortOptions = [
+  {label: 'Subject', value: 'subject'},
+  {label: 'Created Date', value: 'createdDate'},
+  {label: 'Due Date', value: 'dueDate'},
+];
+
+const statusFilter = ref('');
+const priorityFilter = ref('');
+
+const statusOptions = [
+  { label: 'All', value: '' },
+  { label: 'Open', value: 'Open' },
+  { label: 'In Progress', value: 'In Progress' },
+  { label: 'Completed', value: 'Completed' },
+];
+
+const priorityOptions = [
+  { label: 'All', value: '' },
+  { label: 'Low', value: 'Low' },
+  { label: 'Medium', value: 'Medium' },
+  { label: 'High', value: 'High' },
+];
 
 </script>
 
@@ -49,12 +104,12 @@ onBeforeMount(() => {
     <q-header bordered class="bg-primary text-white" height-hint="98" reveal>
       <q-toolbar>
         <q-btn
-            color="white"
-            dense
-            flat
-            icon="arrow_back"
-            round
-            @click="$router.go(-1)"
+          color="white"
+          dense
+          flat
+          icon="arrow_back"
+          round
+          @click="$router.go(-1)"
         >
         </q-btn>
         <q-toolbar-title> Tasks</q-toolbar-title>
@@ -64,37 +119,64 @@ onBeforeMount(() => {
     <q-page-container>
       <q-page>
         <div class="q-pa-sm row text-center">
-          <div class="col-4">
+          <div class="row">
             <q-input
-                v-model="filterString"
-                label="Search"
-                outlined
+              v-model="filterString"
+              label="Search"
+              outlined
             />
           </div>
-          <div class="col-3">
-            <q-checkbox v-model="ownedByMeFilter" dense label="Owned by me"/>
-          </div>
-          <div class="col-3">
-            <q-checkbox v-model="assignedToMeFilter" dense label="Assigned to me"/>
+          <div class="column">
+            <div class="row">
+              <q-checkbox v-model="ownedByMeFilter" label="Owned by me"/>
+              <q-checkbox v-model="assignedToMeFilter" label="Assigned to me"/>
+            </div>
+            <div class="row center">
+              <q-item-section> Show Advanced Options</q-item-section>
+              <q-toggle v-model="showAdvancedOptions"></q-toggle>
+            </div>
           </div>
         </div>
+        <div v-if="showAdvancedOptions">
+          <q-select
+            v-model="sortOption"
+            :options="sortOptions"
+            label="Sort By"
+            outlined
+            clearable
+          />
+          <q-select
+            v-model="statusFilter"
+            :options="statusOptions"
+            label="Filter by Status"
+            outlined
+            clearable
+          />
+          <q-select
+            v-model="priorityFilter"
+            :options="priorityOptions"
+            label="Filter by Priority"
+            outlined
+            clearable
+          />
+        </div>
 
-        <q-list v-for="task in getTasks" :key="task.id" class="q-pa-xs">
+        <q-list v-for="task in getSortedSummaries" :key="task.id" class="q-pa-xs">
           <taskSummaryItem :task="task"/>
         </q-list>
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
         <q-btn
-            :to="{
+          :to="{
             name: 'newTask',
             params: {
               id: -1,
             },
           }"
-            color="accent"
-            fab
-            icon="add"
-            padding="sm"
+          color="accent"
+          fab
+          icon="add"
+          padding="sm"
         />
       </q-page-sticky>
     </q-page-container>

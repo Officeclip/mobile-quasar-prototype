@@ -12,21 +12,26 @@ function getTaskPriority(priorityId: string) {
   return taskListStore.taskPriorities.find(taskPriority => taskPriority.id == priorityId)?.name;
 }
 
+function getTaskStatus(statusId: string) {
+  return taskListStore.taskStatuses.find(taskStatus => taskStatus.id == statusId)?.name;
+}
+
 onBeforeMount(() => {
   taskListStore.getTaskLists();
 })
+
 </script>
 <style>
 .High {
-  background-color: #D83F31;
+  background-color: #d85c5c;
 }
 
 .Medium {
-  background-color: #EE9322;
+  background-color: #ea9a49;
 }
 
 .Low {
-  background-color: #F4E869;
+  background-color: #85e56a;
 }
 </style>
 <template>
@@ -35,24 +40,30 @@ onBeforeMount(() => {
     :class="getTaskPriority(task.taskPriorityId)"
     :to="{ name: 'taskDetails', params: { id: task.id }}"
     clickable>
+
     <q-item-section>
-      <q-item-label>
+      <q-item-label style="font-size: 16px;">
         {{ task.subject }}
       </q-item-label>
-      <q-item-label caption>
+      <q-item-label caption> Owner: {{ task.taskOwner }}</q-item-label>
+
+
+    </q-item-section>
+
+    <q-item-section>
+      <q-item-label>
         Due: {{ new Date(task.dueDate).toLocaleDateString() }}
+      </q-item-label>
+      <q-item-label caption>
+        Created: {{ new Date(task.createdDate).toLocaleDateString() }}
       </q-item-label>
     </q-item-section>
 
     <q-item-section>
-      <q-item-label> Owner: {{ task.taskOwner }}</q-item-label>
-    </q-item-section>
-    <q-item-section side>
-      <q-icon color="primary" name="chevron_right"/>
+      <q-item-label>
+        {{ getTaskStatus(task.taskStatusId) }}
+      </q-item-label>
     </q-item-section>
   </q-item>
 
-
-  <!--  <q-separator/>-->
-  <!--  <pre>{{ task }}</pre>-->
 </template>

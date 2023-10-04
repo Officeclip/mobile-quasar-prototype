@@ -75,7 +75,7 @@ function onSubmit(e: any) {
     parentObjectId: (Number(parentObjectId)),
     startDate: newStartDate?.toString(),
     dueDate: newDueDate?.toString(),
-    createdDate: Date.now().toString(),
+    createdDate: Date.now().toLocaleString(),
     regardingType: task.value.regardingType,
     regardingValue: task.value.regardingValue,
     assignee: task.value.assignee,
