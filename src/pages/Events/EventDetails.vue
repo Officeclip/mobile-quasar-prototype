@@ -11,7 +11,7 @@ const router = useRouter();
 const id = ref<string | string[]>('0');
 
 const event = computed(() => {
-  console.log('details page:', eventDetailsStore.EventDetails)
+  console.log('details page:', eventDetailsStore.EventDetails);
   return eventDetailsStore.EventDetails;
 });
 
@@ -22,14 +22,6 @@ onBeforeMount(() => {
   eventDetailsStore.getEventDetailsById(route.params.id);
 });
 
-function displayDateorBoth(x: string) {
-  if (event.value?.isAllDayEvent) {
-    return dateTimeHelper.extractDateFromUtc(x);
-  } else {
-    return dateTimeHelper.extractDateandTimeFromUtc(x);
-  }
-}
-
 const showConfirmationDialog = ref(false);
 
 function displayConfirmationDialog() {
@@ -37,7 +29,7 @@ function displayConfirmationDialog() {
 }
 
 function confirmDeleteEvent() {
-  console.log('deleted event id is :', event.value?.id)
+  console.log('deleted event id is :', event.value?.id);
   eventDetailsStore.deleteEventDetails(event.value?.id).then(() => {
     showConfirmationDialog.value = false;
     router.go(-1);
@@ -98,12 +90,14 @@ function confirmDeleteEvent() {
                 <q-item-label class="q-mb-sm"
                   >{{ event?.eventLocation }}
                 </q-item-label>
-
                 <q-item-label caption>Start Date</q-item-label>
                 <q-item-label class="q-mb-sm"
                   >{{
                     event?.startDateTime
-                      ? displayDateorBoth(event?.startDateTime)
+                      ? dateTimeHelper.convertDateTimeUTCtoLocal(
+                          event?.startDateTime,
+                          event?.isAllDayEvent
+                        )
                       : 'YYYY'
                   }}
                 </q-item-label>
@@ -112,11 +106,13 @@ function confirmDeleteEvent() {
                 <q-item-label class="q-mb-sm"
                   >{{
                     event?.endDateTime
-                      ? displayDateorBoth(event?.endDateTime)
+                      ? dateTimeHelper.convertDateTimeUTCtoLocal(
+                          event?.endDateTime,
+                          event?.isAllDayEvent
+                        )
                       : 'YYYY'
                   }}
                 </q-item-label>
-
                 <q-item-label caption>Is All Day Event ?</q-item-label>
                 <q-item-label class="q-mb-sm"
                   >{{ event?.isAllDayEvent ? 'Yes' : 'No' }}
