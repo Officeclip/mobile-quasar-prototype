@@ -60,7 +60,7 @@ function handleReminder(reminder: [string, number]) {
 
 function onSubmit(e: any) {
   e.preventDefault();
-  const formData = new FormData(e.target);
+  // const formData = new FormData(e.target);
   // const data = [];
   // for (const [name, value] of formData.entries()){
   //   data.push({
@@ -131,7 +131,7 @@ function onSubmit(e: any) {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="bg-cyan">
+    <q-header>
       <q-toolbar>
         <q-btn
           color="white"
@@ -164,13 +164,13 @@ function onSubmit(e: any) {
             @rrule-text-generated="handleRRuleText"
             @reminder-generated="handleReminder"
           />
-          <q-btn
+          <!-- <q-btn
             class="q-ml-md"
             color="primary"
             label="Save"
             no-caps
             type="submit"
-          />
+          /> -->
           <q-btn
             class="q-ml-sm"
             color="primary"

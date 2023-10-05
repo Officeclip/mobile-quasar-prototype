@@ -58,7 +58,7 @@ const convertLocalDateToUTC = (dateTime: any) => {
 };
 const convertDateTimeUTCtoLocal = (
   dateTime: string,
-  optionalParameter: any = ''
+  optionalParameter: any = false
 ) => {
   const endDateUTCValue = dateTime;
   if (endDateUTCValue) {
