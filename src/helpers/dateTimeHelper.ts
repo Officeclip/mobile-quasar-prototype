@@ -56,11 +56,14 @@ const convertDateToUtc = (generalDate: string | null) => {
 const convertLocalDateToUTC = (dateTime: any) => {
   return new Date(dateTime).toISOString();
 };
-const convertDateTimeUTCtoLocal = (dateTime: string, optional: any) => {
+const convertDateTimeUTCtoLocal = (
+  dateTime: string,
+  optionalParameter: any = ''
+) => {
   const endDateUTCValue = dateTime;
   if (endDateUTCValue) {
     const endDate = new Date(endDateUTCValue);
-    if (optional) {
+    if (optionalParameter) {
       return endDate.toLocaleDateString();
     }
     return endDate.toLocaleDateString() + ' ' + endDate.toLocaleTimeString();
