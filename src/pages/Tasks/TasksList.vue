@@ -4,12 +4,22 @@ import TaskSummaryItem from "components/tasks/TaskSummaryItem.vue";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import {taskSummary} from "src/models/task/taskSummary";
 
-const filterString = ref('');
-const ownedByMeFilter = ref(false);
-const assignedToMeFilter = ref(false);
+// const filterString = ref('');
+// const ownedByMeFilter = ref(false);
+// const assignedToMeFilter = ref(false);
+// const showAdvancedOptions = ref(false);
+// const userName = ref("Alice Johnson");
 
-const showAdvancedOptions = ref(false);
-const userName = ref("Alice Johnson");
+const filterOptions = ref({
+  filterString : '',
+  ownedByMeFilter : false,
+  assignedToMeFilter : false,
+  showAdvancedOptions :false,
+  userName :'Alice Johnson',
+  statusFilter:'',
+  priorityFilter:''
+});
+
 const parent = ref({
   parentObjectId: -1,
   parentObjectServiceType: -1,
@@ -18,38 +28,39 @@ const parent = ref({
 const taskSummaryStore = useTaskSummaryStore();
 
 const getFilteredTaskSummaries = computed(() => {
-  let filteredTasks = taskSummaryStore.taskSummaries;
-
-  if (filterString.value) {
-    filteredTasks = filteredTasks.filter((task: taskSummary) => {
-      return task.subject.toLowerCase().includes(filterString.value.toLowerCase());
-    });
-  }
-
-  if (ownedByMeFilter.value === true) {
-    filteredTasks = filteredTasks.filter((task: taskSummary) => {
-      return task.taskOwner === userName.value;
-    });
-  }
-
-  if (assignedToMeFilter.value === true) {
-    filteredTasks = filteredTasks.filter((task: taskSummary) => {
-      return task.assignee.includes(userName.value);
-    });
-  }
-
-  if (statusFilter.value) {
-    filteredTasks = filteredTasks.filter((task) => {
-      return task.taskStatusId === statusFilter.value;
-    });
-  }
-
-  if (priorityFilter.value) {
-    filteredTasks = filteredTasks.filter((task) => {
-      return task.taskPriorityId === priorityFilter.value;
-    });
-  }
-  return filteredTasks;
+  taskSummaryStore.getFilteredTasks(filterOptions, Number(parent.value.parentObjectId), Number(parent.value.parentObjectServiceType));
+  return taskSummaryStore.TaskSummaries;
+  //
+  // if (filterString.value) {
+  //   filteredTasks = filteredTasks.filter((task: taskSummary) => {
+  //     return task.subject.toLowerCase().includes(filterString.value.toLowerCase());
+  //   });
+  // }
+  //
+  // if (ownedByMeFilter.value === true) {
+  //   filteredTasks = filteredTasks.filter((task: taskSummary) => {
+  //     return task.taskOwner === userName.value;
+  //   });
+  // }
+  //
+  // if (assignedToMeFilter.value === true) {
+  //   filteredTasks = filteredTasks.filter((task: taskSummary) => {
+  //     return task.assignee.includes(userName.value);
+  //   });
+  // }
+  //
+  // if (statusFilter.value) {
+  //   filteredTasks = filteredTasks.filter((task) => {
+  //     return task.taskStatusId === statusFilter.value;
+  //   });
+  // }
+  //
+  // if (priorityFilter.value) {
+  //   filteredTasks = filteredTasks.filter((task) => {
+  //     return task.taskPriorityId === priorityFilter.value;
+  //   });
+  // }
+  // return filteredTasks;
 });
 
 const getSortedSummaries = computed(() => {
@@ -79,9 +90,9 @@ const sortOptions = [
   {label: 'Created Date', value: 'createdDate'},
   {label: 'Due Date', value: 'dueDate'},
 ];
-
-const statusFilter = ref('');
-const priorityFilter = ref('');
+//
+// const statusFilter = ref('');
+// const priorityFilter = ref('');
 
 const statusOptions = [
   { label: 'All', value: '' },
@@ -121,23 +132,23 @@ const priorityOptions = [
         <div class="q-pa-sm row text-center">
           <div class="row">
             <q-input
-              v-model="filterString"
+              v-model="filterOptions.filterString"
               label="Search"
               outlined
             />
           </div>
           <div class="column">
             <div class="row">
-              <q-checkbox v-model="ownedByMeFilter" label="Owned by me"/>
-              <q-checkbox v-model="assignedToMeFilter" label="Assigned to me"/>
+              <q-checkbox v-model="filterOptions.ownedByMeFilter" label="Owned by me"/>
+              <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
             </div>
             <div class="row center">
               <q-item-section> Show Advanced Options</q-item-section>
-              <q-toggle v-model="showAdvancedOptions"></q-toggle>
+              <q-toggle v-model="filterOptions.showAdvancedOptions"></q-toggle>
             </div>
           </div>
         </div>
-        <div v-if="showAdvancedOptions">
+        <div v-if="filterOptions.showAdvancedOptions">
           <q-select
             v-model="sortOption"
             :options="sortOptions"
@@ -146,14 +157,14 @@ const priorityOptions = [
             clearable
           />
           <q-select
-            v-model="statusFilter"
+            v-model="filterOptions.statusFilter"
             :options="statusOptions"
             label="Filter by Status"
             outlined
             clearable
           />
           <q-select
-            v-model="priorityFilter"
+            v-model="filterOptions.priorityFilter"
             :options="priorityOptions"
             label="Filter by Priority"
             outlined
