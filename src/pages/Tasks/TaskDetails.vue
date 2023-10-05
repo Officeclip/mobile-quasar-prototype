@@ -102,11 +102,6 @@ function addSubtask(subtask: subTask) {
   z-index: 2;
 }
 
-.relative-position {
-  position: relative;
-  display: inline-block; /* To contain the absolute-positioned caption */
-}
-
 </style>
 
 <template>
@@ -189,15 +184,15 @@ function addSubtask(subtask: subTask) {
           <div class="row justify-around q-gutter-sm">
             <div class="relative-position">
               <span class="chip-caption">Type</span>
-              <q-chip color="info" outline>{{ taskDetail?.taskType.name }}</q-chip>
+              <q-chip square color="info" outline>{{ taskDetail?.taskType.name }}</q-chip>
             </div>
             <div class="relative-position">
               <span class="chip-caption">Priority</span>
-              <q-chip color="amber" outline>{{ taskDetail?.taskPriority.name }}</q-chip>
+              <q-chip square color="amber" outline>{{ taskDetail?.taskPriority.name }}</q-chip>
             </div>
             <div class="relative-position">
               <span class="chip-caption">Status</span>
-              <q-chip :color="taskDetail?.taskStatus.color" outline>
+              <q-chip square :color="taskDetail?.taskStatus.color" outline>
                 {{ taskDetail?.taskStatus.name }}
               </q-chip>
             </div>
@@ -213,7 +208,7 @@ function addSubtask(subtask: subTask) {
           <q-item-section>
             <q-item-label class="q-pl-xs">Assignees</q-item-label>
             <div class="q-pt-xs">
-              <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense>{{ assignee.name }}</q-chip>
+              <q-chip square v-for="assignee in taskDetail?.assignees" :key="assignee" dense>{{ assignee.name }}</q-chip>
             </div>
           </q-item-section>
         </q-item>
@@ -265,34 +260,34 @@ function addSubtask(subtask: subTask) {
               <q-item-section center side>
                 <q-icon :name="isPrivate ? 'lock' : 'lock_open'"/>
               </q-item-section>
-
             </q-item>
-
           </div>
 
           <div class="row justify-between">
-
             <q-item>
               <q-item-section center side>
                 <q-icon name="label"/>
               </q-item-section>
               <q-item-section>
-                <q-item-label class="q-pl-xs">Tags</q-item-label>
-                <div class="q-pt-xs">
-                  <q-chip v-for="tag in taskDetail?.tags" :key="tag" dense>{{ tag.name }}</q-chip>
+                <q-item-label caption>Tags</q-item-label>
+                <div>
+                  <q-chip square v-for="tag in taskDetail?.tags" :key="tag" dense>{{ tag.name }}</q-chip>
                 </div>
               </q-item-section>
             </q-item>
-            <q-item>
-              <q-item-section>
-                <q-item-label caption>Regarding</q-item-label>
-                <q-item-label description>{{taskDetail?.regardingType + taskDetail?.regardingValue }}</q-item-label>
-              </q-item-section>
-              <q-item-section center side>
-                <q-icon :name="isPrivate ? 'lock' : 'lock_open'"/>
-              </q-item-section>
+          </div>
+          <div class="row justify-between">
 
-            </q-item>
+          <q-item>
+            <q-item-section center side>
+              <q-icon name="info"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label caption>Regarding</q-item-label>
+              <q-item-label description>{{taskDetail?.regardingType +': '+ taskDetail?.regardingValue }}</q-item-label>
+            </q-item-section>
+
+          </q-item>
 
           </div>
         </q-card-section>
@@ -335,298 +330,3 @@ function addSubtask(subtask: subTask) {
     </q-page-container>
   </q-layout>
 </template>
-
-
-<!--<template>-->
-<!--  <q-layout view="lHh Lpr lFf">-->
-<!--    <q-header bordered class="bg-primary text-white" reveal>-->
-<!--      <q-toolbar>-->
-<!--        <q-btn-->
-<!--          dense-->
-<!--          flat-->
-<!--          icon="arrow_back"-->
-<!--          round-->
-<!--          @click="$router.go(-1)"-->
-<!--        />-->
-<!--        <q-toolbar-title>Task Details</q-toolbar-title>-->
-<!--        <div>-->
-<!--          <q-btn-->
-<!--            :to="{ name: 'editTask', params: { id: id } }"-->
-<!--            dense-->
-<!--            flat-->
-<!--            icon="edit"-->
-<!--            round-->
-<!--          />-->
-<!--          <q-btn-->
-<!--            dense-->
-<!--            flat-->
-<!--            icon="delete"-->
-<!--            round-->
-<!--            @click="deleteTask();  $router.go(-1);"-->
-<!--          />-->
-<!--        </div>-->
-<!--      </q-toolbar>-->
-<!--    </q-header>-->
-
-<!--    <q-page-container>-->
-<!--      <q-card flat class="q-ma-md">-->
-<!--        <q-card-section>-->
-<!--          <div class="text-h6 q-mb-md">{{ taskDetail?.subject }}</div>-->
-<!--          <div class="q-mb-md" v-html="taskDetail?.description"></div>-->
-
-<!--          <div class="q-mb-md">-->
-<!--            <q-item-label caption>Start Date:</q-item-label>-->
-<!--            <q-item-label>{{-->
-<!--                taskDetail?.startDate-->
-<!--                  ? dateTimeHelper.extractDateFromUtc(taskDetail?.startDate)-->
-<!--                  : 'Not set'-->
-<!--              }}-->
-<!--            </q-item-label>-->
-<!--          </div>-->
-
-<!--          <div class="q-mb-md">-->
-<!--            <q-item-label caption>Due Date:</q-item-label>-->
-<!--            <q-item-label>{{-->
-<!--                taskDetail?.dueDate-->
-<!--                  ? dateTimeHelper.extractDateFromUtc(taskDetail?.dueDate)-->
-<!--                  : 'Not set'-->
-<!--              }}-->
-<!--            </q-item-label>-->
-<!--          </div>-->
-
-<!--          <div class="q-mb-md">-->
-<!--            <q-item-label caption>Private:</q-item-label>-->
-<!--            <q-item-label>{{ isPrivate ? 'Yes' : 'No' }}</q-item-label>-->
-<!--          </div>-->
-
-<!--          <div class="q-mb-md">-->
-<!--            <q-item-label caption>Task Type:</q-item-label>-->
-<!--            <q-item-label>{{ taskDetail?.taskType.name }}</q-item-label>-->
-<!--          </div>-->
-
-<!--          <div class="q-mb-md">-->
-<!--            <q-item-label caption>Priority:</q-item-label>-->
-<!--            <q-item-label>{{ taskDetail?.taskPriority.name }}</q-item-label>-->
-<!--          </div>-->
-
-<!--          <div class="q-mb-md">-->
-<!--            <q-item-label caption>Status:</q-item-label>-->
-<!--            <q-item-label>{{ taskDetail?.taskStatus.name }}</q-item-label>-->
-<!--          </div>-->
-
-<!--          <div class="q-mb-md">-->
-<!--            <q-item-label caption>Reminder:</q-item-label>-->
-<!--            <q-item-label>{{ taskDetail?.remindBeforeMinutes }} minutes</q-item-label>-->
-<!--          </div>-->
-
-<!--          <div class="q-mb-md">-->
-<!--            <q-item-label caption>Repeating:</q-item-label>-->
-<!--            <q-item-label>{{-->
-<!--                taskDetail?.repeatInfoText || taskDetail?.recurrenceRule || 'None'-->
-<!--              }}-->
-<!--            </q-item-label>-->
-<!--          </div>-->
-
-<!--          <div class="q-mb-md">-->
-<!--            <q-item-label caption>Regarding:</q-item-label>-->
-<!--            <q-item-label>{{ taskDetail?.regardingType }}: {{-->
-<!--                taskDetail?.regardingValue-->
-<!--              }}-->
-<!--            </q-item-label>-->
-<!--          </div>-->
-
-<!--          <div class="q-mb-md">-->
-<!--            <q-item-label caption>Assignees:</q-item-label>-->
-<!--            <div>-->
-<!--              <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense>-->
-<!--                {{ assignee.name }}-->
-<!--              </q-chip>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <div class="q-mb-md">-->
-<!--            <q-item-label caption>Owner:</q-item-label>-->
-<!--            <q-chip dense>{{ taskDetail?.taskOwner.name }}</q-chip>-->
-<!--          </div>-->
-
-<!--          <div class="q-mb-md">-->
-<!--            <q-item-label caption>Tags:</q-item-label>-->
-<!--            <div>-->
-<!--              <q-chip v-for="tag in taskDetail?.tags" :key="tag" dense>-->
-<!--                {{ tag.name }}-->
-<!--              </q-chip>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--        </q-card-section>-->
-<!--      </q-card>-->
-
-<!--      <q-page-sticky :offset="[18, 18]" position="bottom-right">-->
-<!--        <q-fab color="purple" icon="add" direction="up" vertical-actions-align="center">-->
-<!--          <q-fab-action color="primary" icon="add_task" label="Add subtask" @click="showAddSubtaskDialog=true"/>-->
-<!--          <q-fab-action :to="{ name: 'newTask', params: { id: -1 } }" color="secondary" icon="add" label="Create New Task"/>-->
-<!--        </q-fab>-->
-<!--      </q-page-sticky>-->
-<!--      <q-dialog v-model="showAddSubtaskDialog">-->
-<!--        <add-subtask-dialog @save-subtask="addSubtask"/>-->
-<!--      </q-dialog>-->
-<!--    </q-page-container>-->
-<!--  </q-layout>-->
-<!--</template>-->
-
-<!--<template>-->
-<!--  <q-layout view="lHh Lpr lFf">-->
-<!--    <q-header bordered class="bg-primary text-white" height-hint="98" reveal>-->
-<!--      <q-toolbar>-->
-<!--        <q-btn-->
-<!--          color="white"-->
-<!--          dense-->
-<!--          flat-->
-<!--          icon="arrow_back"-->
-<!--          round-->
-<!--          @click="$router.go(-1)"-->
-<!--        />-->
-<!--        <q-toolbar-title>Task details</q-toolbar-title>-->
-<!--        <q-btn-->
-<!--          :to="{ name: 'editTask', params: { id: id } }"-->
-<!--          color="white"-->
-<!--          dense-->
-<!--          flat-->
-<!--          icon="edit"-->
-<!--          round-->
-<!--        />-->
-<!--        <q-btn-->
-<!--          color="white"-->
-<!--          dense-->
-<!--          flat-->
-<!--          icon="delete"-->
-<!--          round-->
-<!--          @click="deleteTask();  $router.go(-1);"-->
-<!--        />-->
-<!--      </q-toolbar>-->
-<!--    </q-header>-->
-
-<!--    <q-page-container>-->
-<!--      <q-card class="relative-position card-example" flat>-->
-<!--        <q-card-section class="q-pb-none">-->
-<!--          <q-list>-->
-<!--            <q-item>-->
-<!--              <q-item-section>-->
-<!--                <q-item-label class="q-mb-sm text-h5">{{ taskDetail?.subject }}</q-item-label>-->
-<!--                <q-item-label class="q-mb-sm">-->
-<!--                  <div v-html="taskDetail?.description"/>-->
-<!--                </q-item-label>-->
-<!--                <div class="row">-->
-
-<!--                  <div class="col-4">-->
-<!--                    <q-item-label caption>Start Date:</q-item-label>-->
-<!--                    <q-item-label>{{-->
-<!--                        taskDetail?.startDate-->
-<!--                          ? dateTimeHelper.extractDateFromUtc(taskDetail?.startDate)-->
-<!--                          : 'YYYY'-->
-<!--                      }}-->
-<!--                    </q-item-label>-->
-<!--                  </div>-->
-
-<!--                  <div class="col-4">-->
-<!--                    <q-item-label caption>Due Date:</q-item-label>-->
-<!--                    <q-item-label>{{-->
-<!--                        taskDetail?.dueDate-->
-<!--                          ? dateTimeHelper.extractDateFromUtc(taskDetail?.dueDate)-->
-<!--                          : 'YYYY'-->
-<!--                      }}-->
-<!--                    </q-item-label>-->
-<!--                  </div>-->
-
-<!--                  <div class="col-4">-->
-<!--                    <q-item-label caption>Private</q-item-label>-->
-<!--                    <q-item-label>{{ isPrivate }}</q-item-label>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="row">-->
-<!--                  <div class="col-4">-->
-<!--                    <q-item-label caption>Task Type</q-item-label>-->
-<!--                    <q-item-label>{{ taskDetail?.taskType.name }}</q-item-label>-->
-<!--                  </div>-->
-
-<!--                  <div class="col-4">-->
-<!--                    <q-item-label caption>Priority</q-item-label>-->
-<!--                    <q-item-label>{{ taskDetail?.taskPriority.name }}</q-item-label>-->
-<!--                  </div>-->
-
-<!--                  <div class="col-4">-->
-<!--                    <q-item-label caption>Status</q-item-label>-->
-<!--                    <q-item-label>{{ taskDetail?.taskStatus.name }}</q-item-label>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="row">-->
-<!--                  <div class="col-4">-->
-<!--                    <q-item-label caption>Reminder</q-item-label>-->
-<!--                    <q-item-label>{{ taskDetail?.remindBeforeMinutes }} minutes</q-item-label>-->
-<!--                  </div>-->
-
-<!--                  <div class="col-4">-->
-<!--                    <q-item-label caption>Repeating</q-item-label>-->
-<!--                    <q-item-label>{{-->
-<!--                        taskDetail?.repeatInfoText || taskDetail?.recurrenceRule || 'None'-->
-<!--                      }}-->
-<!--                    </q-item-label>-->
-<!--                  </div>-->
-
-<!--                  <div class="col-4">-->
-<!--                    <q-item-label caption>Regarding</q-item-label>-->
-<!--                    <q-item-label>{{ taskDetail?.regardingType }}: {{-->
-<!--                        taskDetail?.regardingValue-->
-<!--                      }}-->
-<!--                    </q-item-label>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="row">-->
-<!--                  <div class="col-8">-->
-<!--                    <q-item-label caption>Assignees</q-item-label>-->
-<!--                    <q-item-label>-->
-<!--                      <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense>{{-->
-<!--                          assignee.name-->
-<!--                        }}-->
-<!--                      </q-chip>-->
-<!--                    </q-item-label>-->
-<!--                  </div>-->
-
-<!--                  <div class="col-4">-->
-<!--                    <q-item-label caption>Owner</q-item-label>-->
-<!--                    <q-chip dense>{{ taskDetail?.taskOwner.name }}</q-chip>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <q-item-label caption>Tags</q-item-label>-->
-<!--                <q-item-label class="q-mb-sm">-->
-<!--                  <q-chip v-for="tag in taskDetail?.tags" :key="tag" dense>{{ tag.name }}</q-chip>-->
-<!--                </q-item-label>-->
-
-<!--              </q-item-section>-->
-<!--            </q-item>-->
-<!--          </q-list>-->
-<!--        </q-card-section>-->
-<!--      </q-card>-->
-
-<!--      <q-page-sticky :offset="[18, 18]" position="bottom-right">-->
-<!--        <q-fab color="purple" direction="up" icon="add" vertical-actions-align="right">-->
-<!--          <q-fab-action color="primary" icon="add_task" label="Add subtask" @click="showAddSubtaskDialog=true"/>-->
-<!--          <q-fab-action :to="{-->
-<!--            name: 'newTask',-->
-<!--            params: {-->
-<!--              id: -1,-->
-<!--            },-->
-<!--          }" color="secondary" icon="add" label="Create New Task"/>-->
-<!--        </q-fab>-->
-<!--      </q-page-sticky>-->
-
-<!--      <q-dialog v-model="showAddSubtaskDialog">-->
-<!--        <add-subtask-dialog @save-subtask="addSubtask"/>-->
-<!--      </q-dialog>-->
-<!--    </q-page-container>-->
-<!--  </q-layout>-->
-<!--</template>-->
