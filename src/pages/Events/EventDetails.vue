@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { computed, onBeforeMount, ref } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
+import { useEventListsStore } from '../../stores/event/eventListsStore';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-console.log('setup: EventDetails.vue');
-const eventDetailsStore = useEventDetailsStore();
 
+const eventDetailsStore = useEventDetailsStore();
 const router = useRouter();
 
 const id = ref<string | string[]>('0');
@@ -51,6 +51,14 @@ const attendeesList = computed(() => {
   const data = event.value?.meetingAttendees;
   return data;
 });
+const eventListStore = useEventListsStore();
+eventListStore.getEventLists();
+const labelNameById = computed(() => {
+  const labelData = eventListStore.Labels;
+  const obj = labelData.find((obj: any) => obj.id === event.value?.label);
+  return obj ? obj.name : null;
+});
+console.log('Testing the label name by labelis::', labelNameById);
 </script>
 
 <template>
@@ -180,7 +188,7 @@ const attendeesList = computed(() => {
             <q-item v-if="event?.label">
               <q-item-section>
                 <q-item-label caption> Label </q-item-label>
-                <q-item-label> {{ event?.label }} </q-item-label>
+                <q-item-label> {{ labelNameById }} </q-item-label>
               </q-item-section>
             </q-item>
 
