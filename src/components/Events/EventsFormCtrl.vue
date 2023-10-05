@@ -53,31 +53,6 @@ const maskDateTime = computed(() => {
     return 'YYYY-MM-DD HH:mm';
   }
 });
-
-// const startDateTimeParsedToLocal = computed(() => {
-//   const startDateUTCValue = props.event.startDateTime;
-//   if (startDateUTCValue) {
-//     const startDate = new Date(startDateUTCValue);
-//     if (props.event.isAllDayEvent) {
-//       return startDate.toLocaleDateString();
-//     }
-//     return (
-//       startDate.toLocaleDateString() + ' ' + startDate.toLocaleTimeString()
-//     );
-//   }
-//   return null;
-// });
-// const endtDateTimeParsedToLocal = computed(() => {
-//   const endDateUTCValue = props.event.endDateTime;
-//   if (endDateUTCValue) {
-//     const endDate = new Date(endDateUTCValue);
-//     if (props.event.isAllDayEvent) {
-//       return endDate.toLocaleDateString();
-//     }
-//     return endDate.toLocaleDateString() + ' ' + endDate.toLocaleTimeString();
-//   }
-//   return null;
-// });
 //parsing the start/end datetime utc to local return date and time based on allDay
 // function dateTimeParsingUTCtoLocal(dateTime: string) {
 //   const endDateUTCValue = dateTime;
