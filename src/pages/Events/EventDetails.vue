@@ -35,6 +35,18 @@ function confirmDeleteEvent() {
     router.go(-1);
   });
 }
+function showMeetingType(eventType: string | undefined) {
+  switch (eventType) {
+    case '1':
+      return 'Group';
+    case '2':
+      return 'Meeting';
+    case '3':
+      return 'Private';
+    default:
+      return '';
+  }
+}
 </script>
 
 <template>
@@ -76,22 +88,43 @@ function confirmDeleteEvent() {
           <q-list>
             <q-item>
               <q-item-section>
+                <q-item-label
+                  >{{ showMeetingType(event?.eventType) }} event</q-item-label
+                >
+              </q-item-section>
+            </q-item>
+
+            <q-item>
+              <q-item-section>
+                <q-item-label caption>Created On</q-item-label>
+                <q-item-label>createdDate</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item>
+              <q-item-section>
                 <q-item-label caption>Event Name</q-item-label>
-                <q-item-label class="q-mb-sm"
-                  >{{ event?.eventName }}
-                </q-item-label>
+                <q-item-label>{{ event?.eventName }}</q-item-label>
+              </q-item-section>
+            </q-item>
 
+            <q-item>
+              <q-item-section>
                 <q-item-label caption>Description</q-item-label>
-                <q-item-label class="q-mb-sm"
-                  >{{ event?.eventDescription }}
-                </q-item-label>
+                <q-item-label>{{ event?.eventDescription }}</q-item-label>
+              </q-item-section>
+            </q-item>
 
+            <q-item>
+              <q-item-section>
                 <q-item-label caption>Event Location</q-item-label>
-                <q-item-label class="q-mb-sm"
-                  >{{ event?.eventLocation }}
-                </q-item-label>
+                <q-item-label>{{ event?.eventLocation }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
                 <q-item-label caption>Start Date</q-item-label>
-                <q-item-label class="q-mb-sm"
+                <q-item-label
                   >{{
                     event?.startDateTime
                       ? dateTimeHelper.convertDateTimeUTCtoLocal(
@@ -101,9 +134,12 @@ function confirmDeleteEvent() {
                       : 'YYYY'
                   }}
                 </q-item-label>
-
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
                 <q-item-label caption>End Date</q-item-label>
-                <q-item-label class="q-mb-sm"
+                <q-item-label
                   >{{
                     event?.endDateTime
                       ? dateTimeHelper.convertDateTimeUTCtoLocal(
@@ -113,10 +149,41 @@ function confirmDeleteEvent() {
                       : 'YYYY'
                   }}
                 </q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
                 <q-item-label caption>Is All Day Event ?</q-item-label>
-                <q-item-label class="q-mb-sm"
-                  >{{ event?.isAllDayEvent ? 'Yes' : 'No' }}
-                </q-item-label>
+                <q-item-label>{{
+                  event?.isAllDayEvent ? 'Yes' : 'No'
+                }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-item-label caption> Attendees </q-item-label>
+                <q-item-label> Need to add meetingAttendees </q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item>
+              <q-item-section>
+                <q-item-label caption> Label </q-item-label>
+                <q-item-label> Need to add Label </q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item>
+              <q-item-section>
+                <q-item-label caption> Repeat </q-item-label>
+                <q-item-label> Need to add repeatInfoText </q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item>
+              <q-item-section>
+                <q-item-label caption> Recurrence </q-item-label>
+                <q-item-label> Need to add recurrenceRule </q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
