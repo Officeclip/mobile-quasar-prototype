@@ -1,17 +1,17 @@
 <script lang="ts" setup>
 import { computed, onBeforeMount, ref } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
+import { useEventListsStore } from '../../stores/event/eventListsStore';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-console.log('setup: EventDetails.vue');
-const eventDetailsStore = useEventDetailsStore();
 
+const eventDetailsStore = useEventDetailsStore();
 const router = useRouter();
 
 const id = ref<string | string[]>('0');
 
 const event = computed(() => {
-  console.log('details page:', eventDetailsStore.EventDetails)
+  console.log('details page:', eventDetailsStore.EventDetails);
   return eventDetailsStore.EventDetails;
 });
 
@@ -22,14 +22,6 @@ onBeforeMount(() => {
   eventDetailsStore.getEventDetailsById(route.params.id);
 });
 
-function displayDateorBoth(x: string) {
-  if (event.value?.isAllDayEvent) {
-    return dateTimeHelper.extractDateFromUtc(x);
-  } else {
-    return dateTimeHelper.extractDateandTimeFromUtc(x);
-  }
-}
-
 const showConfirmationDialog = ref(false);
 
 function displayConfirmationDialog() {
@@ -37,12 +29,36 @@ function displayConfirmationDialog() {
 }
 
 function confirmDeleteEvent() {
-  console.log('deleted event id is :', event.value?.id)
+  console.log('deleted event id is :', event.value?.id);
   eventDetailsStore.deleteEventDetails(event.value?.id).then(() => {
     showConfirmationDialog.value = false;
     router.go(-1);
   });
 }
+function showMeetingType(eventType: string | undefined) {
+  switch (eventType) {
+    case '1':
+      return 'Group';
+    case '2':
+      return 'Meeting';
+    case '3':
+      return 'Private';
+    default:
+      return '';
+  }
+}
+const attendeesList = computed(() => {
+  const data = event.value?.meetingAttendees;
+  return data;
+});
+const eventListStore = useEventListsStore();
+eventListStore.getEventLists();
+const labelNameById = computed(() => {
+  const labelData = eventListStore.Labels;
+  const obj = labelData.find((obj: any) => obj.id === event.value?.label);
+  return obj ? obj.name : null;
+});
+console.log('Testing the label name by labelis::', labelNameById);
 </script>
 
 <template>
@@ -84,43 +100,109 @@ function confirmDeleteEvent() {
           <q-list>
             <q-item>
               <q-item-section>
+                <q-item-label
+                  >{{ showMeetingType(event?.eventType) }} event</q-item-label
+                >
+              </q-item-section>
+            </q-item>
+
+            <q-item>
+              <q-item-section>
+                <q-item-label caption>Created On</q-item-label>
+                <q-item-label>{{
+                  dateTimeHelper.convertDateTimeUTCtoLocal(event?.createdDate)
+                }}</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item>
+              <q-item-section>
                 <q-item-label caption>Event Name</q-item-label>
-                <q-item-label class="q-mb-sm"
-                  >{{ event?.eventName }}
-                </q-item-label>
+                <q-item-label>{{ event?.eventName }}</q-item-label>
+              </q-item-section>
+            </q-item>
 
+            <q-item v-if="event?.eventDescription">
+              <q-item-section>
                 <q-item-label caption>Description</q-item-label>
-                <q-item-label class="q-mb-sm"
-                  >{{ event?.eventDescription }}
-                </q-item-label>
+                <q-item-label>{{ event?.eventDescription }}</q-item-label>
+              </q-item-section>
+            </q-item>
 
+            <q-item v-if="event?.eventLocation">
+              <q-item-section>
                 <q-item-label caption>Event Location</q-item-label>
-                <q-item-label class="q-mb-sm"
-                  >{{ event?.eventLocation }}
-                </q-item-label>
-
+                <q-item-label>{{ event?.eventLocation }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
                 <q-item-label caption>Start Date</q-item-label>
-                <q-item-label class="q-mb-sm"
+                <q-item-label
                   >{{
                     event?.startDateTime
-                      ? displayDateorBoth(event?.startDateTime)
+                      ? dateTimeHelper.convertDateTimeUTCtoLocal(
+                          event?.startDateTime,
+                          event?.isAllDayEvent
+                        )
                       : 'YYYY'
                   }}
                 </q-item-label>
-
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
                 <q-item-label caption>End Date</q-item-label>
-                <q-item-label class="q-mb-sm"
+                <q-item-label
                   >{{
                     event?.endDateTime
-                      ? displayDateorBoth(event?.endDateTime)
+                      ? dateTimeHelper.convertDateTimeUTCtoLocal(
+                          event?.endDateTime,
+                          event?.isAllDayEvent
+                        )
                       : 'YYYY'
                   }}
                 </q-item-label>
-
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
                 <q-item-label caption>Is All Day Event ?</q-item-label>
-                <q-item-label class="q-mb-sm"
-                  >{{ event?.isAllDayEvent ? 'Yes' : 'No' }}
+                <q-item-label>{{
+                  event?.isAllDayEvent ? 'Yes' : 'No'
+                }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item v-if="event?.meetingAttendees">
+              <q-item-section>
+                <q-item-label caption> Attendees </q-item-label>
+                <q-item-label
+                  v-for="attendee in attendeesList"
+                  :key="attendee.name"
+                >
+                  {{ attendee.name }}
                 </q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item v-if="event?.label">
+              <q-item-section>
+                <q-item-label caption> Label </q-item-label>
+                <q-item-label> {{ labelNameById }} </q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item v-if="event?.repeatInfoText">
+              <q-item-section>
+                <q-item-label caption> Repeat </q-item-label>
+                <q-item-label> {{ event?.repeatInfoText }} </q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item v-if="event?.recurrenceRule">
+              <q-item-section>
+                <q-item-label caption> Recurrence </q-item-label>
+                <q-item-label> {{ event?.recurrenceRule }} </q-item-label>
               </q-item-section>
             </q-item>
           </q-list>

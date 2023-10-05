@@ -1,12 +1,13 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import {computed, onMounted, ref} from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import FilePicker from 'components/Events/FilePicker.vue';
-import {useEventDetailsStore} from 'stores/event/eventDetailsStore';
-import {useEventListsStore} from 'stores/event/eventListsStore';
-import {regardingContact} from 'src/models/event/eventLists';
+import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
+import { useEventListsStore } from 'stores/event/eventListsStore';
+import { regardingContact } from 'src/models/event/eventLists';
+import dateTimeHelper from '../../helpers/dateTimeHelper';
 // import { Notify } from 'quasar';
 // eslint-disable-next-line vue/no-dupe-keys
 
@@ -52,22 +53,9 @@ const maskDateTime = computed(() => {
     return 'YYYY-MM-DD HH:mm';
   }
 });
-
-// const startDateTimeParsedToLocal = computed(() => {
-//   const startDateUTCValue = props.event.startDateTime;
-//   if (startDateUTCValue) {
-//     const startDate = new Date(startDateUTCValue);
-//     if (props.event.isAllDayEvent) {
-//       return startDate.toLocaleDateString();
-//     }
-//     return (
-//       startDate.toLocaleDateString() + ' ' + startDate.toLocaleTimeString()
-//     );
-//   }
-//   return null;
-// });
-// const endtDateTimeParsedToLocal = computed(() => {
-//   const endDateUTCValue = props.event.endDateTime;
+//parsing the start/end datetime utc to local return date and time based on allDay
+// function dateTimeParsingUTCtoLocal(dateTime: string) {
+//   const endDateUTCValue = dateTime;
 //   if (endDateUTCValue) {
 //     const endDate = new Date(endDateUTCValue);
 //     if (props.event.isAllDayEvent) {
@@ -76,19 +64,8 @@ const maskDateTime = computed(() => {
 //     return endDate.toLocaleDateString() + ' ' + endDate.toLocaleTimeString();
 //   }
 //   return null;
-// });
-//parsing the start/end datetime utc to local return date and time based on allDay
-function dateTimeParsingUTCtoLocal(dateTime: string) {
-  const endDateUTCValue = dateTime;
-  if (endDateUTCValue) {
-    const endDate = new Date(endDateUTCValue);
-    if (props.event.isAllDayEvent) {
-      return endDate.toLocaleDateString();
-    }
-    return endDate.toLocaleDateString() + ' ' + endDate.toLocaleTimeString();
-  }
-  return null;
-}
+// }
+// dateTimeHelper.convertDateTimeUTCtoLocal()
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
@@ -147,7 +124,7 @@ function createValue(val: string, done: any) {
         name: '',
       }); // push the new item as an object into the list
     }
-    done({id: id, email: val}, 'toggle'); // added the new input as an new item into the dropdown
+    done({ id: id, email: val }, 'toggle'); // added the new input as an new item into the dropdown
   }
 }
 
@@ -284,7 +261,12 @@ async function filterContacts(
           :rules="[(val: any) => !!val || 'Start Date is required']"
           label="Starts*"
           name="startDateTime"
-          :model-value="dateTimeParsingUTCtoLocal(event.startDateTime)"
+          :model-value="
+            dateTimeHelper.convertDateTimeUTCtoLocal(
+              event.startDateTime,
+              event.isAllDayEvent
+            )
+          "
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -327,7 +309,12 @@ async function filterContacts(
           :rules="[(val: any) => !!val || 'End Date is required']"
           label="Ends*"
           name="endDateTime"
-          :model-value="dateTimeParsingUTCtoLocal(event.endDateTime)"
+          :model-value="
+            dateTimeHelper.convertDateTimeUTCtoLocal(
+              event.endDateTime,
+              event.isAllDayEvent
+            )
+          "
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -364,11 +351,11 @@ async function filterContacts(
       </q-item>
       <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
         <q-item-section avatar>
-                <q-icon color="primary" name="repeat" size="sm"/>
+          <q-icon color="primary" name="repeat" size="sm" />
         </q-item-section>
         <q-item-section> {{ repeatString }}</q-item-section>
         <q-item-section side>
-                <q-icon color="primary" name="chevron_right"/>
+          <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>
       <q-item>
@@ -404,11 +391,11 @@ async function filterContacts(
       </q-item>
       <q-item v-ripple clickable @click="reminderDialogOpened = true">
         <q-item-section avatar>
-              <q-icon color="primary" name="alarm" size="sm"/>
+          <q-icon color="primary" name="alarm" size="sm" />
         </q-item-section>
         <q-item-section>{{ reminderTextInfo }}</q-item-section>
         <q-item-section side>
-              <q-icon color="primary" name="chevron_right"/>
+          <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>
 
@@ -443,7 +430,7 @@ async function filterContacts(
           name="Url"
         >
           <template v-slot:append>
-                  <q-btn color="primary" dense flat label="test url" no-caps/>
+            <q-btn color="primary" dense flat label="test url" no-caps />
           </template>
         </q-input>
       </q-item>
@@ -549,14 +536,13 @@ async function filterContacts(
           >
             <template v-slot:no-option>
               <q-item>
-                <q-item-section class="text-grey"> No results
-                    </q-item-section>
+                <q-item-section class="text-grey"> No results </q-item-section>
               </q-item>
             </template>
           </q-select>
         </q-item-section>
         <q-item-section side>
-              <q-icon color="primary" name="switch_access_shortcut"/>
+          <q-icon color="primary" name="switch_access_shortcut" />
         </q-item-section>
       </q-item>
       <!-- <pre>{{ event.attachments }}</pre> -->

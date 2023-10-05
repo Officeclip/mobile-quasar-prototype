@@ -100,19 +100,29 @@ function onSubmit(e: any) {
         >
         </q-btn>
         <q-toolbar-title> Edit Event</q-toolbar-title>
+        <q-btn
+          class="q-px-md"
+          dense
+          label="Save"
+          no-caps
+          outline
+          rounded
+          type="submit"
+          @click="onSubmit"
+        />
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <EventForm :event="eventDetails" />
-          <q-btn
+          <!-- <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"
             type="submit"
             color="primary"
           >
-          </q-btn>
+          </q-btn> -->
         </div>
       </q-form>
     </q-page-container>
