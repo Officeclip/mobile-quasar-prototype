@@ -178,12 +178,14 @@ console.log('Testing the label object by labelid::', labelNameById);
             <q-item v-if="event?.meetingAttendees">
               <q-item-section>
                 <q-item-label caption> Attendees </q-item-label>
-                <q-item-label
-                  v-for="attendee in attendeesList"
-                  :key="attendee.name"
-                >
-                  {{ attendee.name }}
-                </q-item-label>
+                <div style="display: inline-flex; align-items: baseline">
+                  <q-item-label
+                    v-for="attendee in attendeesList"
+                    :key="attendee.name"
+                  >
+                    <q-chip>{{ attendee.name }}</q-chip>
+                  </q-item-label>
+                </div>
               </q-item-section>
             </q-item>
 
@@ -236,3 +238,8 @@ console.log('Testing the label object by labelid::', labelNameById);
     </q-card>
   </q-dialog>
 </template>
+<style scoped>
+/* .q-item__label {
+  margin-top: 4px !important;
+} */
+</style>
