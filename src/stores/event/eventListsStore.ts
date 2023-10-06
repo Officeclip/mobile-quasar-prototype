@@ -67,10 +67,9 @@ export const useEventListsStore = defineStore('eventListsStore', {
           name: 'Campaigns',
         },
       ];
+      const callStr = `${Constants.endPointUrl}/event-lists`;
       try {
-        const response = await axios.get(
-          `${Constants.endPointUrl}/event-lists`
-        );
+        const response = await axios.get(callStr);
 
         const eventLists = response.data[0];
         console.log('eventLists', eventLists);

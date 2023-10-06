@@ -84,5 +84,55 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         console.error(`deleteNote Error: ${error}`);
       }
     },
+
+    async getFilteredTasks(filterOptions:any, parentObjectId: number, parentObjectServiceType: number) {
+      console.log(
+        `TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`
+      );
+      const callStr =
+        parentObjectId > 0 && parentObjectServiceType > 0
+          ? `http://localhost:4000/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : 'http://localhost:4000/task-summary';
+      try {
+        const response = await axios.get(callStr);
+        let filteredSummaries = response.data;
+
+
+        if (filterOptions.filterString) {
+          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+            return task.subject.toLowerCase().includes(filterOptions.filterString.toLowerCase());
+          });
+        }
+
+        if (filterOptions.ownedByMeFilter) {
+          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+            return task.taskOwner === filterOptions.userName;
+          });
+        }
+
+        if (filterOptions.assignedToMeFilter) {
+          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+            return task.assignee.includes(filterOptions.userName);
+          });
+        }
+
+        if (filterOptions.statusFilter) {
+          filteredSummaries = filteredSummaries.filter((task:taskSummary) => {
+            return task.taskStatusId === filterOptions.statusFilter;
+          });
+        }
+
+        if (filterOptions.priorityFilter) {
+          filteredSummaries = filteredSummaries.filter((task:taskSummary) => {
+            return task.taskPriorityId === filterOptions.priorityFilter;
+          });
+        }
+        this.taskSummaries =  filteredSummaries;
+
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
   },
 });

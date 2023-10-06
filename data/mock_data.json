@@ -2266,7 +2266,32 @@
       "recurrenceRule": "",
       "tags": [],
       "subtasks": []
+    },    {
+      "id": 109,
+      "subject": "New Test",
+      "description": "<b>Test Description</b>",
+      "taskTypeId": "2",
+      "taskPriorityId": "2",
+      "taskStatusId": "2",
+      "isPrivate": true,
+      "taskOwner": "Alice Johnson",
+      "parentObjectServiceType": 14,
+      "parentObjectId": -1,
+      "startDate": "2023-10-12",
+      "dueDate": "2023-10-26",
+      "createdDate": "1,696,425,228,561",
+      "regardingType": 0,
+      "regardingValue": "",
+      "assignee": ["Kathiravan Sekar", "Joseph Miller"],
+      "taskOwnerSid": 0,
+      "remindTo": "me",
+      "remindBeforeMinutes": 60,
+      "repeatInfoText": "Every day for 10 times",
+      "recurrenceRule": "DTSTART:20231004T131344Z\nRRULE:FREQ=DAILY;INTERVAL=1;COUNT=10",
+      "tags": [],
+      "subtasks": []
     }
+
   ],
   "task-summary": [
     {
