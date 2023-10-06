@@ -56,7 +56,6 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       try {
         const response = await axios.put(callStr, event);
         if (response.status === 200) {
-          //debugger;
           this.eventDetails = response.data;
         }
       } catch (error) {
@@ -66,7 +65,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
 
     async addEventDetails(event: eventDetails) {
       const callStr = `${Constants.endPointUrl}/event-details`;
-      const res = await fetch(callStr, {
+      await fetch(callStr, {
         method: 'POST',
         body: JSON.stringify(event),
         headers: { 'Content-Type': 'application/json' },
@@ -76,7 +75,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
 
     async addEventSummary(eventSummary: eventSummary) {
       const callStr = `${Constants.endPointUrl}/event-summary`;
-      const res = await fetch(callStr, {
+      await fetch(callStr, {
         method: 'POST',
         body: JSON.stringify(eventSummary),
         headers: { 'Content-Type': 'application/json' },
