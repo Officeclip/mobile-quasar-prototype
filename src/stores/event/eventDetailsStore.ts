@@ -3,6 +3,7 @@ import { eventDetails } from 'src/models/event/eventDetails';
 import { MeetingAttendees } from 'src/models/meetingAttendees';
 import axios from 'axios';
 import { eventSummary } from 'src/models/event/eventSummary';
+import { Constants } from 'stores/Constants';
 
 export const useEventDetailsStore = defineStore('eventDetailsStore', {
   state: () => ({
@@ -20,10 +21,9 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
   actions: {
     // for getting meeting attendees from separate json
     async getAllMeetingAttendees() {
+      const callStr = `${Constants.endPointUrl}/meetingAttendees`;
       try {
-        const response = await axios.get(
-          'http://localhost:4000/meetingAttendees'
-        );
+        const response = await axios.get(callStr);
 
         this.meetingAttendees = response.data;
         console.log(
@@ -38,17 +38,12 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     //   ----getting single user details by id----
     async getEventDetailsById(id: string | string[]) {
       console.log('started the get function:', id);
+      const callStr = `${Constants.endPointUrl}/event-details?id=${id}`;
       try {
-        const response = await axios.get(
-          `http://localhost:4000/event-details?id=${id}`
-        );
+        const response = await axios.get(callStr);
         if (response.data && response.data.length > 0) {
           this.eventDetails = response.data[0];
-          console.log('get the event details by id:', this.eventDetails);
         }
-        console.log(
-          `EventsStore: getEventsDetailsbyId - length - ${response.data.length}, ${this.eventDetails}`
-        );
       } catch (error) {
         alert(error);
         console.log(error);
@@ -57,12 +52,9 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
 
     async editEventDetails(event: eventDetails) {
       console.log(`editEvent 1: ${event.id}`);
-      // not added yet
+      const callStr = `${Constants.endPointUrl}/event-details/${event.id}`;
       try {
-        const response = await axios.put(
-          `http://localhost:4000/event-details/${event.id}`,
-          event
-        );
+        const response = await axios.put(callStr, event);
         if (response.status === 200) {
           //debugger;
           this.eventDetails = response.data;
@@ -73,7 +65,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     async addEventDetails(event: eventDetails) {
-      const res = await fetch('http://localhost:4000/event-details', {
+      const callStr = `${Constants.endPointUrl}/event-details`;
+      const res = await fetch(callStr, {
         method: 'POST',
         body: JSON.stringify(event),
         headers: { 'Content-Type': 'application/json' },
@@ -82,7 +75,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     async addEventSummary(eventSummary: eventSummary) {
-      const res = await fetch('http://localhost:4000/event-summary', {
+      const callStr = `${Constants.endPointUrl}/event-summary`;
+      const res = await fetch(callStr, {
         method: 'POST',
         body: JSON.stringify(eventSummary),
         headers: { 'Content-Type': 'application/json' },
@@ -91,22 +85,15 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     async deleteEventDetails(id: string | undefined) {
+      const callStr = `${Constants.endPointUrl}/event-details/${id}`;
       try {
-        const response = await axios.delete(
-          `http://localhost:4000/event-details?id=${id}`
-        );
+        const response = await axios.delete(callStr);
         if (response.status === 200) {
-          //debugger;
           this.eventDetails = response.data;
         }
       } catch (error) {
         console.error(`deleteEvent Error: ${error}`);
       }
     },
-
-    // convert the local datetime into the utc format before saving into the json
-    // convertLocalDateToUTC(dateTime: any) {
-    //   return new Date(dateTime).toISOString();
-    // },
   },
 });
