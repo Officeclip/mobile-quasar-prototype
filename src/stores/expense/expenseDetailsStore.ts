@@ -12,10 +12,12 @@ import axios from 'axios';
 
 export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   state: () => ({
-    expenseDetailsList: [] as expenseDetails[],
-    expenseDetails: undefined as expenseDetails | undefined,
+    //expenseDetailsList: [] as expenseDetails[],
+    expenseDetails: [] as expenseDetails[],
+    //expenseDetails: undefined as expenseDetails | undefined,
+    //expenseDetails: [],
     airTravelExpense: undefined as airTravelExpense | undefined,
-    autoRentalExpense: undefined as autoRentalExpense | undefined,
+    autoRentalExpense: [],
     hotelExpense: undefined as hotelExpense | undefined,
     mileageExpense: undefined as mileageExpense | undefined,
     taxiExpense: undefined as taxiExpense | undefined,
@@ -26,7 +28,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   }),
 
   getters: {
-    ExpenseDetailsList: (state) => state.expenseDetailsList,
+    //ExpenseDetailsList: (state) => state.expenseDetailsList,
     ExpenseDetails: (state) => state.expenseDetails,
     AirTravelExpense: (state) => state.airTravelExpense,
     AutoRentalExpense: (state) => state.autoRentalExpense,
@@ -43,8 +45,8 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
           `http://localhost:4000/expense-details?expenseSid=${expenseSid}`
         );
         console.log('Getting Id', expenseSid);
-        this.expenseDetailsList = response.data;
-        console.log(this.expenseDetailsList);
+        this.expenseDetails = response.data;
+        console.log(this.expenseDetails);
       } catch (error) {
         console.error(error);
       }
@@ -77,7 +79,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         );
         if (response.status === 200) {
           //debugger;
-          this.expenseDetailsList = response.data;
+          this.expenseDetails = response.data;
         }
       } catch (error) {
         console.error(`editExpense Error: ${error}`);
@@ -85,7 +87,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     },
 
     async editExpense(expenseDetails: expenseDetails) {
-      console.log(`editExpense 1: ${this.expenseDetails?.id}`);
+      //console.log(`editExpense 1: ${this.expenseDetails?.id}`);
       // not added yet
       try {
         const response = await axios.put(
@@ -94,7 +96,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         );
         if (response.status === 200) {
           //debugger;
-          this.expenseDetailsList = response.data;
+          this.expenseDetails = response.data;
         }
       } catch (error) {
         console.error(`editExpense Error: ${error}`);
@@ -107,7 +109,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         );
         if (response.status === 200) {
           //debugger;
-          this.expenseDetailsList = response.data;
+          this.expenseDetails = response.data;
         }
       } catch (error) {
         console.error(`deleteExpense Error: ${error}`);
