@@ -51,14 +51,16 @@ const attendeesList = computed(() => {
   const data = event.value?.meetingAttendees;
   return data;
 });
+
+//filter and get the single label object by labelId
 const eventListStore = useEventListsStore();
 eventListStore.getEventLists();
 const labelNameById = computed(() => {
   const labelData = eventListStore.Labels;
   const obj = labelData.find((obj: any) => obj.id === event.value?.label);
-  return obj ? obj.name : null;
+  return obj ? obj : null;
 });
-console.log('Testing the label name by labelis::', labelNameById);
+console.log('Testing the label object by labelid::', labelNameById);
 </script>
 
 <template>
@@ -188,7 +190,13 @@ console.log('Testing the label name by labelis::', labelNameById);
             <q-item v-if="event?.label">
               <q-item-section>
                 <q-item-label caption> Label </q-item-label>
-                <q-item-label> {{ labelNameById }} </q-item-label>
+                <q-item-label>
+                  <span
+                    class="q-py-xs q-px-sm"
+                    :style="{ backgroundColor: labelNameById?.color }"
+                    >{{ labelNameById?.name }}</span
+                  >
+                </q-item-label>
               </q-item-section>
             </q-item>
 
