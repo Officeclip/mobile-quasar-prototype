@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref, onMounted, onUpdated, computed } from 'vue';
-import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
+import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import airTravelExpenseForm from '../expenses/expenseTypes/airTravelExpenseForm.vue';
 import autoRentalExpenseForm from '../expenses/expenseTypes/autoRentalExpenseForm.vue';
 
@@ -27,6 +27,19 @@ dateOptions.value = [
 const sampleModel = ref([]);
 
 const period = ref('');
+
+const props = defineProps(['expenseDetail']);
+
+// const expenseTypeObject = props.expenseDetail.
+
+const expenseDetailsStore = useExpenseDetailsStore();
+
+const editExpenseData = expenseDetailsStore.getExpenseDetailById(props.editExpenseId);
+
+const expenseDetails = computed(() => {
+  console.log('Edit expense details', editExpenseData.ExpenseDetails)
+  return editExpenseData.ExpenseDetails;
+});
 
 const expenseListsStore = useExpenseListsStore();
 
@@ -99,8 +112,6 @@ expenseTypes.value = [
   },
 ]; */
 
-const props = defineProps(['expenseDetail']);
-
 // const expenseDate = ref('');
 // expenseDate.value = dateTimeHelper.extractDateFromUtc(
 //   props.expense.expenseDate
@@ -116,12 +127,22 @@ const airTravel = ref({
   departureDate: '',
 });
 
-const autoRental = ref({
-  rentalAgency: '',
-  city: '',
-  fromDate: '',
-  toDate: '',
-});
+// const autoRental = ref([{
+//   rentalAgency: 'Sudhakar',
+//   city: 'Hyd',
+//   fromDate: '',
+//   toDate: '',
+// }]);
+
+const autoRental = computed(() => {
+  const data = props.expenseDetail.autoRentalExpense[0];
+  console.log('ExpenseForm - autoRental', data);
+  return data;
+})
+
+const expenseType = ref('');
+// eslint-disable-next-line vue/no-setup-props-destructure
+expenseType.value = props.expenseDetail.expenseTypeName;
 
 // const selectedItem = ref('');
 </script>
@@ -135,17 +156,20 @@ const autoRental = ref({
 
         <q-select label="Expense Date" v-model="expenseDetail.expenseDate" :options="dateOptions" map-options
           emit-label />
+
         <q-select label="Customer: Project" v-model="expenseDetail.projectName" :options="customerProjectOptions"
-          option-label="name" option-value="id" map-options />
+          option-label="name" option-value="name" map-options emit-value />
+
         <q-select label="Expense Type" v-model="expenseDetail.expenseTypeName" :options="expenseTypeOptions"
-          option-label="expenseName" option-value="id" map-options />
+          option-label="expenseName" emit-value option-value="expenseTypeName" map-options />
 
-        <airTravelExpenseForm :airTravel="airTravel" v-if="expenseDetail.expenseTypeName.expenseTypeName == 'AIRFARE'" />
+        <!-- <airTravelExpenseForm :airTravel="airTravel" v-if="expenseType.expenseTypeName.expenseTypeName == 'AIRFARE'" /> -->
 
-        <autoRentalExpenseForm :auto-rental="autoRental"
-          v-if="expenseDetail.expenseTypeName.expenseTypeName == 'AUTORENTAL'" />
+        <autoRentalExpenseForm :autoRental="props.expenseDetail.autoRentalExpense"
+          v-if="expenseDetail.expenseTypeName == 'AUTORENTAL'" />
 
-        <q-select label="Payment Method" v-model="expenseDetail.paymentType" :options="paymentTypeOptions" map-options />
+        <q-select label="Payment Method" v-model="expenseDetail.paymentType" :options="paymentTypeOptions" map-options
+          emit-value option-value="label" />
 
         <q-select label="Billable" v-model="expenseDetail.billable" :options="billableOptions" map-options emit-value />
         <q-input label="Amount" v-model="expenseDetail.amount" placeholder="enter here..." lazy-rules type="number"

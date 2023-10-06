@@ -20,7 +20,7 @@ onMounted(() => {
 });
 
 const expenseDetails = computed(() => {
-  return expenseDetailsStore.ExpenseDetailsList;
+  return expenseDetailsStore.ExpenseDetails;
 });
 console.log('expense detail in expense details', expenseDetails)
 </script>
@@ -86,7 +86,7 @@ console.log('expense detail in expense details', expenseDetails)
 
             <autoRentalExpense v-if="expenseDetail.autoRentalExpense" :expense="expenseDetail.autoRentalExpense" />
 
-            <airTravelExpense v-if="expenseDetail.airTravelExpense" :expense="expenseDetail.airTravelExpense" />
+            <!-- <airTravelExpense v-if="expenseDetail.airTravelExpense" :expense="expenseDetail.airTravelExpense" />
 
             <hotelExpense v-if="expenseDetail.hotelExpense" :expense="expenseDetail.hotelExpense" />
 
@@ -94,7 +94,7 @@ console.log('expense detail in expense details', expenseDetails)
 
             <taxiExpense v-if="expenseDetail.taxiExpense" :expense="expenseDetail.taxiExpense" />
 
-            <telephoneExpense v-if="expenseDetail.telephoneExpense" :expense="expenseDetail.telephoneExpense" />
+            <telephoneExpense v-if="expenseDetail.telephoneExpense" :expense="expenseDetail.telephoneExpense" /> -->
 
           </q-item-section>
 

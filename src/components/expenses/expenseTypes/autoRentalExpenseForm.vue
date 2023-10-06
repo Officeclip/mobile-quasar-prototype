@@ -1,8 +1,11 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup>
 import { defineProps, ref, computed } from 'vue';
+import dateTimeHelper from '../../../helpers/dateTimeHelper';
 
 const props = defineProps(['autoRental']);
+
+console.log('autoRental-xxx', props.autoRental.rentalAgency)
 
 const dense = ref(false);
 

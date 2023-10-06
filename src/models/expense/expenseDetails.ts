@@ -8,7 +8,7 @@
 
 export interface expenseDetails {
   accountName: string;
-  id: string;
+  accountSid: string;
   amount: number;
   billable: boolean;
   comments: string;
@@ -16,7 +16,7 @@ export interface expenseDetails {
   employeeFullName: string;
   employeeSid: string;
   expenseDate: string;
-  expenseDetailSid: string;
+  id: string;
   expenseSid: string;
   expenseTypeName: string;
   expenseCategoryName: string;
@@ -25,12 +25,12 @@ export interface expenseDetails {
   projectSid: string;
   tax: number;
   paymentType: string;
-  autoRentalExpense?: autoRentalExpense;
-  airTravelExpense?: airTravelExpense;
-  hotelExpense?: hotelExpense;
-  mileageExpense?: mileageExpense;
-  telephoneExpense?: telephoneExpense;
-  taxiExpense?: taxiExpense;
+  autoRentalExpense: autoRentalExpense;
+  airTravelExpense: airTravelExpense[];
+  hotelExpense: hotelExpense[];
+  mileageExpense: mileageExpense[];
+  telephoneExpense: telephoneExpense[];
+  taxiExpense: taxiExpense[];
 }
 
 export interface airTravelExpense {
