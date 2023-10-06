@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { eventSummary } from '../../models/event/eventSummary.js';
 import axios from 'axios';
 import dateTimeHelper from 'src/helpers/dateTimeHelper.js';
+import { Constants } from '../Constants';
 
 export const useEventSummaryStore = defineStore('eventSummaryStore', {
   state: () => ({
@@ -15,8 +16,9 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
   actions: {
     // for getting meeting attendees from separate json
     async getAllEventSummary() {
+      const callStr = `${Constants.endPointUrl}/event-summary`;
       try {
-        const response = await axios.get('http://localhost:4000/event-summary');
+        const response = await axios.get(callStr);
         this.eventSummary = response.data;
         console.log(
           `EventsStore: getAllEventSummary - length - ${response.data.length}, ${this.eventSummary}`
@@ -45,7 +47,7 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       parentObjectId: number,
       parentObjectServiceType: number
     ) {
-      const callStr = `http://localhost:4000/eventSummary?parentSId=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
+      const callStr = `${Constants.endPointUrl}/eventSummary?parentSId=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
 
       try {
         const response = await axios.get(callStr);
@@ -57,7 +59,6 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
 
     // Gets all the event dates so that we can color the simple calendar
     getEventSummaryDates() {
-      // console.log(`getEventDates- events: ${this.events}`)
       if (this.eventSummary) {
         const dates = this.eventSummary.map(
           //https://stackoverflow.com/a/19590901
@@ -66,10 +67,8 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
             return helper.replace(/-/g, '/');
           }
         );
-        //console.log(`getEventDates: ${dates}`)
         return dates;
       }
-      // console.log(`getEventDates: null`)
       return [];
     },
   },
