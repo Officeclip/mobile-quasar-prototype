@@ -71,6 +71,21 @@ const convertDateTimeUTCtoLocal = (
   return null;
 };
 
+const extractDateandTimeFromUtcAsLocal = (
+  dateTime: string,
+  optionalParameter: any = false
+) => {
+  const utcDateTime = dateTime;
+  if (utcDateTime) {
+    const utcDate = new Date(utcDateTime);
+    if (optionalParameter) {
+      return format(utcDate, 'EEE, MMM dd, yyyy');
+    }
+    return format(utcDate, 'EEE, MMM dd, yyyy  hh:mm:ss a');
+  }
+  return null;
+};
+
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
@@ -81,4 +96,5 @@ export default {
   convertDateToUtc,
   convertLocalDateToUTC,
   convertDateTimeUTCtoLocal,
+  extractDateandTimeFromUtcAsLocal,
 };

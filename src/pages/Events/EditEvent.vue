@@ -9,14 +9,14 @@ import { eventDetails } from '../../models/event/eventDetails';
 const eventDetailsStore = useEventDetailsStore();
 const route1 = useRouter();
 
-const id = ref<string | string[]>('0');
+// const id = ref<string | string[]>('0');
 
-onMounted(() => {
-  const route = useRoute();
-  console.log('id=', route.params.id);
-  id.value = route.params.id;
-  eventDetailsStore.getEventDetailsById(route.params.id);
-});
+// onMounted(() => {
+//   const route = useRoute();
+//   console.log('id=', route.params.id);
+//   id.value = route.params.id;
+//   eventDetailsStore.getEventDetailsById(route.params.id);
+// });
 
 const eventDetails = computed(() => {
   return eventDetailsStore.EventDetails;

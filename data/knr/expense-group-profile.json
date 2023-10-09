@@ -1,0 +1,8 @@
+[
+    {
+        "periodicity": "BiWeekly",
+        "expenseHeader": "General exp head",
+        "expenseFooter": "General exp foot",
+        "expenseStartDay": "Monday"
+    }
+]

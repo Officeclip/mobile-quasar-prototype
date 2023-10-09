@@ -53,19 +53,6 @@ const maskDateTime = computed(() => {
     return 'YYYY-MM-DD HH:mm';
   }
 });
-//parsing the start/end datetime utc to local return date and time based on allDay
-// function dateTimeParsingUTCtoLocal(dateTime: string) {
-//   const endDateUTCValue = dateTime;
-//   if (endDateUTCValue) {
-//     const endDate = new Date(endDateUTCValue);
-//     if (props.event.isAllDayEvent) {
-//       return endDate.toLocaleDateString();
-//     }
-//     return endDate.toLocaleDateString() + ' ' + endDate.toLocaleTimeString();
-//   }
-//   return null;
-// }
-// dateTimeHelper.convertDateTimeUTCtoLocal()
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
@@ -262,7 +249,7 @@ async function filterContacts(
           label="Starts*"
           name="startDateTime"
           :model-value="
-            dateTimeHelper.convertDateTimeUTCtoLocal(
+            dateTimeHelper.extractDateandTimeFromUtcAsLocal(
               event.startDateTime,
               event.isAllDayEvent
             )
@@ -310,7 +297,7 @@ async function filterContacts(
           label="Ends*"
           name="endDateTime"
           :model-value="
-            dateTimeHelper.convertDateTimeUTCtoLocal(
+            dateTimeHelper.extractDateandTimeFromUtcAsLocal(
               event.endDateTime,
               event.isAllDayEvent
             )

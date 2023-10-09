@@ -86,6 +86,14 @@ function onRejected(rejectedFiles) {
         <q-icon name="attach_file" size="xs"></q-icon>
       </template>
       <!-- <template v-slot:append>
+        <q-icon
+          name="add"
+          size="xs"
+          color="primary"
+          class="cursor-pointer q-ml-md"
+        ></q-icon>
+      </template> -->
+      <!-- <template v-slot:append>
       <q-btn
         color="primary"
         dense
