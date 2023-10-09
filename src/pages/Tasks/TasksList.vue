@@ -2,23 +2,18 @@
 import {computed, onBeforeMount, ref} from 'vue';
 import TaskSummaryItem from "components/tasks/TaskSummaryItem.vue";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
-import {taskSummary} from "src/models/task/taskSummary";
+import TaskAdvancedFilters from "components/tasks/taskAdvancedFilters.vue";
 
-// const filterString = ref('');
-// const ownedByMeFilter = ref(false);
-// const assignedToMeFilter = ref(false);
-// const showAdvancedOptions = ref(false);
-// const userName = ref("Alice Johnson");
 
-const filterOptions = ref({
-  filterString : '',
-  ownedByMeFilter : false,
-  assignedToMeFilter : false,
-  showAdvancedOptions :false,
-  userName :'Alice Johnson',
-  statusFilter:'',
-  priorityFilter:''
-});
+const filterOptions = {
+  filterString: '',
+  ownedByMeFilter: false,
+  assignedToMeFilter: false,
+  showAdvancedOptions: false,
+  userName: 'Alice Johnson',
+  statusFilter: '',
+  priorityFilter: ''
+};
 
 const parent = ref({
   parentObjectId: -1,
@@ -26,6 +21,8 @@ const parent = ref({
 });
 
 const taskSummaryStore = useTaskSummaryStore();
+
+//Temporary fix to stop continous network requests
 
 const getFilteredTaskSummaries = computed(() => {
   taskSummaryStore.getFilteredTasks(filterOptions, Number(parent.value.parentObjectId), Number(parent.value.parentObjectServiceType));
@@ -75,7 +72,6 @@ const getSortedSummaries = computed(() => {
     }
   });
   return sortedTasks.value;
-
 });
 
 onBeforeMount(() => {
@@ -90,22 +86,19 @@ const sortOptions = [
   {label: 'Created Date', value: 'createdDate'},
   {label: 'Due Date', value: 'dueDate'},
 ];
-//
-// const statusFilter = ref('');
-// const priorityFilter = ref('');
 
 const statusOptions = [
-  { label: 'All', value: '' },
-  { label: 'Open', value: 'Open' },
-  { label: 'In Progress', value: 'In Progress' },
-  { label: 'Completed', value: 'Completed' },
+  {label: 'All', value: ''},
+  {label: 'Open', value: 'Open'},
+  {label: 'In Progress', value: 'In Progress'},
+  {label: 'Completed', value: 'Completed'},
 ];
 
 const priorityOptions = [
-  { label: 'All', value: '' },
-  { label: 'Low', value: 'Low' },
-  { label: 'Medium', value: 'Medium' },
-  { label: 'High', value: 'High' },
+  {label: 'All', value: ''},
+  {label: 'Low', value: 'Low'},
+  {label: 'Medium', value: 'Medium'},
+  {label: 'High', value: 'High'},
 ];
 
 </script>
@@ -148,33 +141,14 @@ const priorityOptions = [
             </div>
           </div>
         </div>
-        <div v-if="filterOptions.showAdvancedOptions">
-          <q-select
-            v-model="sortOption"
-            :options="sortOptions"
-            label="Sort By"
-            outlined
-            clearable
-          />
-          <q-select
-            v-model="filterOptions.statusFilter"
-            :options="statusOptions"
-            label="Filter by Status"
-            outlined
-            clearable
-          />
-          <q-select
-            v-model="filterOptions.priorityFilter"
-            :options="priorityOptions"
-            label="Filter by Priority"
-            outlined
-            clearable
-          />
-        </div>
 
         <q-list v-for="task in getSortedSummaries" :key="task.id" class="q-pa-xs">
           <taskSummaryItem :task="task"/>
         </q-list>
+
+        <q-dialog v-model="filterOptions.showAdvancedOptions">
+          <task-advanced-filters/>
+        </q-dialog>
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
         <q-btn
