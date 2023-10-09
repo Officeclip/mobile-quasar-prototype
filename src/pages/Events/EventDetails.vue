@@ -112,7 +112,9 @@ console.log('Testing the label object by labelid::', labelNameById);
               <q-item-section>
                 <q-item-label caption>Created On</q-item-label>
                 <q-item-label>{{
-                  dateTimeHelper.convertDateTimeUTCtoLocal(event?.createdDate)
+                  dateTimeHelper.extractDateandTimeFromUtcAsLocal(
+                    event?.createdDate
+                  )
                 }}</q-item-label>
               </q-item-section>
             </q-item>
@@ -143,7 +145,7 @@ console.log('Testing the label object by labelid::', labelNameById);
                 <q-item-label
                   >{{
                     event?.startDateTime
-                      ? dateTimeHelper.convertDateTimeUTCtoLocal(
+                      ? dateTimeHelper.extractDateandTimeFromUtcAsLocal(
                           event?.startDateTime,
                           event?.isAllDayEvent
                         )
@@ -158,7 +160,7 @@ console.log('Testing the label object by labelid::', labelNameById);
                 <q-item-label
                   >{{
                     event?.endDateTime
-                      ? dateTimeHelper.convertDateTimeUTCtoLocal(
+                      ? dateTimeHelper.extractDateandTimeFromUtcAsLocal(
                           event?.endDateTime,
                           event?.isAllDayEvent
                         )
