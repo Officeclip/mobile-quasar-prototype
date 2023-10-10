@@ -38,7 +38,18 @@ onMounted(() => {
 const meetingAttendee = computed(() => {
   return eventDetailsStore.MeetingAttendees;
 });
-
+const startsModelValue = computed(() => {
+  return dateTimeHelper.extractDateandTimeFromUtc(
+    props.event.startDateTime,
+    props.event.isAllDayEvent
+  );
+});
+const endsModelValue = computed(() => {
+  return dateTimeHelper.extractDateandTimeFromUtc(
+    props.event.endDateTime,
+    props.event.isAllDayEvent
+  );
+});
 const label = computed(() => {
   return eventListsStore.Labels;
 });
@@ -257,12 +268,7 @@ async function filterContacts(
           :rules="[(val: any) => !!val || 'Start Date is required']"
           label="Starts*"
           name="startDateTime"
-          :model-value="
-            dateTimeHelper.extractDateandTimeFromUtc(
-              event.startDateTime,
-              event.isAllDayEvent
-            )
-          "
+          :model-value="startsModelValue"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -305,12 +311,7 @@ async function filterContacts(
           :rules="[(val: any) => !!val || 'End Date is required']"
           label="Ends*"
           name="endDateTime"
-          :model-value="
-            dateTimeHelper.extractDateandTimeFromUtc(
-              event.endDateTime,
-              event.isAllDayEvent
-            )
-          "
+          :model-value="endsModelValue"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
