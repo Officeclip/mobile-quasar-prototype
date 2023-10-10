@@ -30,9 +30,12 @@ function extractDateAndTime(
   dateX = ref(''),
   timeX = ref('')
 ) {
-  const dateObj = new Date(dateTimeValue);
-  dateX.value = dateObj.toISOString().split('T')[0]; // Extract startDate (YYYY-MM-DD)
-  timeX.value = dateObj.toISOString().split('T')[1].split('.')[0]; // Extract startTime (HH:mm:ss)
+  if (dateTimeValue) {
+    const dateObj = new Date(dateTimeValue);
+    dateX.value = dateObj.toISOString().split('T')[0]; // Extract startDate (YYYY-MM-DD)
+    timeX.value = dateObj.toISOString().split('T')[1].split('.')[0]; // Extract startTime (HH:mm:ss)
+  }
+  return;
 }
 // Initial extraction
 extractDateAndTime(startDateTime.value, startDate, startTime);
