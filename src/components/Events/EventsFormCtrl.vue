@@ -7,8 +7,9 @@ import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import FilePicker from 'components/Events/FilePicker.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
-import { regardingContact } from 'src/models/event/eventLists';
+// import { regardingContact } from 'src/models/event/eventLists';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
+import RegardingAll from '../../components/general/RegardingAll.vue';
 // import { Notify } from 'quasar';
 // eslint-disable-next-line vue/no-dupe-keys
 const props = defineProps(['event']);
@@ -149,31 +150,31 @@ function createValue(val: string, done: any) {
   }
 }
 
-const regardingContacts = ref([] as regardingContact[]);
-const selectedRegContact = ref(null);
+// const regardingContacts = ref([] as regardingContact[]);
+// const selectedRegContact = ref(null);
 
-async function filterContacts(
-  val: string,
-  update: (arg0: () => void) => void,
-  abort: () => void
-) {
-  if (val.length < 2) {
-    abort();
-    return;
-  } else if (val.length === 2) {
-    regardingContacts.value = [] as regardingContact[];
-    await eventListsStore.getRegardingContactListThatMatch(val);
-    regardingContacts.value = eventListsStore.regardingContacts;
-  }
+// async function filterContacts(
+//   val: string,
+//   update: (arg0: () => void) => void,
+//   abort: () => void
+// ) {
+//   if (val.length < 2) {
+//     abort();
+//     return;
+//   } else if (val.length === 2) {
+//     regardingContacts.value = [] as regardingContact[];
+//     await eventListsStore.getRegardingContactListThatMatch(val);
+//     regardingContacts.value = eventListsStore.regardingContacts;
+//   }
 
-  update(() => {
-    console.log('update');
-    const needle = val.toLowerCase();
-    regardingContacts.value = eventListsStore.regardingContacts.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
-    );
-  });
-}
+//   update(() => {
+//     console.log('update');
+//     const needle = val.toLowerCase();
+//     regardingContacts.value = eventListsStore.regardingContacts.filter(
+//       (v) => v.name.toLowerCase().indexOf(needle) > -1
+//     );
+//   });
+// }
 </script>
 
 <template>
@@ -253,9 +254,6 @@ async function filterContacts(
         />
       </q-item>
       <q-item class="column">
-        <pre>{{ props.event.startDateTime }}</pre>
-        <pre>{{ startDate }}</pre>
-        <pre>{{ startTime }}</pre>
         <q-input
           v-model="startDate"
           :rules="[(val: any) => !!val || 'Start Date is required']"
@@ -299,9 +297,6 @@ async function filterContacts(
             </q-icon>
           </template>
         </q-input>
-        <pre>{{ props.event.endDateTime }}</pre>
-        <pre>{{ endDate }}</pre>
-        <pre>{{ endTime }}</pre>
         <q-input
           v-model="endDate"
           :rules="[(val: any) => !!val || 'End Date is required']"
@@ -464,7 +459,6 @@ async function filterContacts(
           </q-select>
         </q-item-section>
         <q-item-section>
-          <!-- <pre>{{ event.label }}</pre> -->
           <q-select
             filled
             v-model="event.label"
@@ -502,9 +496,8 @@ async function filterContacts(
       </q-item>
 
       <!-- <q-item class="q-mt-md text-subtitle1">Regarding</q-item> -->
-      <q-item class="q-mt-none">
+      <!-- <q-item class="q-mt-none">
         <q-item-section class="q-mr-sm">
-          <!-- <pre>{{ regardings }}</pre> -->
           <q-select
             label="Regardings"
             v-model="event.parentServiceType"
@@ -537,8 +530,11 @@ async function filterContacts(
         <q-item-section side>
           <q-icon color="primary" name="switch_access_shortcut" />
         </q-item-section>
-      </q-item>
+      </q-item> -->
       <!-- <pre>{{ event.attachments }}</pre> -->
+      <div>
+        <RegardingAll />
+      </div>
       <q-item>
         <!-- <FilePicker @get-attachments-generated="handleAttachments" /> -->
         <FilePicker />
