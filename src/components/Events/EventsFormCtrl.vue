@@ -1,6 +1,7 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import FilePicker from 'components/Events/FilePicker.vue';
@@ -18,17 +19,42 @@ const emit = defineEmits([
   'selectedAttendeesP',
 ]);
 
-const newDateTime = ref(props.event.startDateTime);
-const date = ref('');
-const time = ref('');
+const startDateTime = ref(props.event.startDateTime);
+const endDateTime = ref(props.event.endDateTime);
+const startDate = ref('');
+const startTime = ref('');
+const endDate = ref('');
+const endTime = ref('');
 
-function extractDateAndTime(dateTimeValue) {
+// function extractDateAndTime(dateTimeValue: any) {
+//   const dateObj = new Date(dateTimeValue);
+//   startDate.value = dateObj.toISOString().split('T')[0]; // Extract startDate (YYYY-MM-DD)
+//   startTime.value = dateObj.toISOString().split('T')[1].split('.')[0]; // Extract startTime (HH:mm:ss)
+// }
+
+function extractDateAndTime(
+  dateTimeValue: any,
+  dateX = ref(''),
+  timeX = ref('')
+) {
   const dateObj = new Date(dateTimeValue);
-  date.value = dateObj.toISOString().split('T')[0]; // Extract date (YYYY-MM-DD)
-  time.value = dateObj.toISOString().split('T')[1].split('.')[0]; // Extract time (HH:mm:ss)
-  console.log('extracting date value is:  ---', date.value);
-  console.log('extracting time value is:  ---', time.value);
+  dateX.value = dateObj.toISOString().split('T')[0]; // Extract startDate (YYYY-MM-DD)
+  timeX.value = dateObj.toISOString().split('T')[1].split('.')[0]; // Extract startTime (HH:mm:ss)
 }
+// Initial extraction
+extractDateAndTime(startDateTime.value, startDate, startTime);
+extractDateAndTime(endDateTime.value, endDate, endTime);
+watch(
+  [startDate, startTime, endDate, endTime],
+  ([newStartDate, newStartTime, newEndDate, newEndTime]) => {
+    const utcDateStart = new Date(`${newStartDate}T${newStartTime}Z`);
+    const utcDateEnd = new Date(`${newEndDate}T${newEndTime}Z`);
+
+    props.event.startDateTime = utcDateStart.toISOString();
+    props.event.endDateTime = utcDateEnd.toISOString();
+  }
+);
+
 const eventDetailsStore = useEventDetailsStore();
 const eventListsStore = useEventListsStore();
 onMounted(() => {
@@ -263,8 +289,11 @@ async function filterContacts(
         />
       </q-item>
       <q-item class="column">
+        <pre>{{ props.event.startDateTime }}</pre>
+        <pre>{{ startDate }}</pre>
+        <pre>{{ startTime }}</pre>
         <q-input
-          v-model="event.startDateTime"
+          v-model="startDate"
           :rules="[(val: any) => !!val || 'Start Date is required']"
           label="Starts*"
           name="startDateTime"
@@ -277,7 +306,7 @@ async function filterContacts(
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-model="event.startDateTime" :mask="maskDateTime">
+                <q-date v-model="startDate" mask="YYYY-MM-DD">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -295,8 +324,8 @@ async function filterContacts(
               >
                 <q-time
                   v-if="!props.event.isAllDayEvent"
-                  v-model="event.startDateTime"
-                  :mask="maskDateTime"
+                  v-model="startTime"
+                  mask="HH:mm"
                 >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
@@ -306,8 +335,11 @@ async function filterContacts(
             </q-icon>
           </template>
         </q-input>
+        <pre>{{ props.event.endDateTime }}</pre>
+        <pre>{{ endDate }}</pre>
+        <pre>{{ endTime }}</pre>
         <q-input
-          v-model="event.endDateTime"
+          v-model="endDate"
           :rules="[(val: any) => !!val || 'End Date is required']"
           label="Ends*"
           name="endDateTime"
@@ -320,7 +352,7 @@ async function filterContacts(
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-model="event.endDateTime" :mask="maskDateTime">
+                <q-date v-model="endDate" mask="YYYY-MM-DD">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -336,7 +368,7 @@ async function filterContacts(
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-time v-model="event.endDateTime" :mask="maskDateTime">
+                <q-time v-model="endTime" mask="HH:mm">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
