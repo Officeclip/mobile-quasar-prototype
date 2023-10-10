@@ -25,13 +25,6 @@ const startDate = ref('');
 const startTime = ref('');
 const endDate = ref('');
 const endTime = ref('');
-
-// function extractDateAndTime(dateTimeValue: any) {
-//   const dateObj = new Date(dateTimeValue);
-//   startDate.value = dateObj.toISOString().split('T')[0]; // Extract startDate (YYYY-MM-DD)
-//   startTime.value = dateObj.toISOString().split('T')[1].split('.')[0]; // Extract startTime (HH:mm:ss)
-// }
-
 function extractDateAndTime(
   dateTimeValue: any,
   dateX = ref(''),
@@ -91,14 +84,6 @@ const metaTypeOptions = computed(() => {
 const showTimeAs = ref('1');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
-
-const maskDateTime = computed(() => {
-  if (props.event.isAllDayEvent) {
-    return 'YYYY-MM-DD';
-  } else {
-    return 'YYYY-MM-DD HH:mm';
-  }
-});
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
@@ -186,30 +171,6 @@ async function filterContacts(
     );
   });
 }
-
-// implementing file picker
-// const fileModel = ref();
-// const errorsMap: any = {
-//   accept: 'File type not accepted',
-//   'max-file-size': 'Max file size exceeded',
-//   'max-total-size': 'Max total size exceeded',
-// };
-// function onRejected(rejectedFiles: any[]) {
-//   rejectedFiles.forEach((rejectedFile: any) => {
-//     const errorMessage = errorsMap[rejectedFile.failedPropValidation];
-//     if (!errorMessage) {
-//       return;
-//     }
-//     if (rejectedFile.failedPropValidation) {
-//       Notify.create({
-//         message: errorMessage,
-//         type: 'negative',
-//       });
-//     }
-//   });
-// }
-//file picker dialog implementation
-// const filePickerDialogOpened = ref(false);
 </script>
 
 <template>
