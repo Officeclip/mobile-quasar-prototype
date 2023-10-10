@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { regardingContact } from '../../models/event/eventLists';
-import { useEventListsStore } from '../../stores/event/eventListsStore';
+import { regardingContact } from '../../models/general/regardingAll';
+import { useRegardingAllStore } from '../../stores/regarding/regardingAllStore';
 
 const parentServiceType = ref('');
 
-const eventListsStore = useEventListsStore();
+const regardingAllStore = useRegardingAllStore();
 
 const regardingContacts = ref([] as regardingContact[]);
 const selectedRegContact = ref(null);
 const metaTypeOptions = computed(() => {
-  return eventListsStore.MetaTypes;
+  return regardingAllStore.MetaTypes;
 });
 async function filterContacts(
   val: string,
@@ -22,14 +22,14 @@ async function filterContacts(
     return;
   } else if (val.length === 2) {
     regardingContacts.value = [] as regardingContact[];
-    await eventListsStore.getRegardingContactListThatMatch(val);
-    regardingContacts.value = eventListsStore.regardingContacts;
+    await regardingAllStore.getRegardingContactListThatMatch(val);
+    regardingContacts.value = regardingAllStore.regardingContacts;
   }
 
   update(() => {
     console.log('update');
     const needle = val.toLowerCase();
-    regardingContacts.value = eventListsStore.regardingContacts.filter(
+    regardingContacts.value = regardingAllStore.regardingContacts.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
   });

@@ -364,7 +364,7 @@ function createValue(val: string, done: any) {
           v-if="event.eventType == '2'"
           v-model="event.meetingAttendees"
           :options="filterOptions"
-          class="full-width q-mt-sm"
+          class="full-width"
           input-debounce="0"
           label="Attendees"
           multiple
