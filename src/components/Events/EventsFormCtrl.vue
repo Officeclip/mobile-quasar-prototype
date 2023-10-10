@@ -10,7 +10,25 @@ import { regardingContact } from 'src/models/event/eventLists';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 // import { Notify } from 'quasar';
 // eslint-disable-next-line vue/no-dupe-keys
+const props = defineProps(['event']);
+const emit = defineEmits([
+  'rrule-generated',
+  'reminder-generated',
+  'rrule-text-generated',
+  'selectedAttendeesP',
+]);
 
+const newDateTime = ref(props.event.startDateTime);
+const date = ref('');
+const time = ref('');
+
+function extractDateAndTime(dateTimeValue) {
+  const dateObj = new Date(dateTimeValue);
+  date.value = dateObj.toISOString().split('T')[0]; // Extract date (YYYY-MM-DD)
+  time.value = dateObj.toISOString().split('T')[1].split('.')[0]; // Extract time (HH:mm:ss)
+  console.log('extracting date value is:  ---', date.value);
+  console.log('extracting time value is:  ---', time.value);
+}
 const eventDetailsStore = useEventDetailsStore();
 const eventListsStore = useEventListsStore();
 onMounted(() => {
@@ -33,15 +51,6 @@ const ShowMyTimeAsOptions = computed(() => {
 const metaTypeOptions = computed(() => {
   return eventListsStore.MetaTypes;
 });
-
-const props = defineProps(['event']);
-const emit = defineEmits([
-  'rrule-generated',
-  'reminder-generated',
-  'rrule-text-generated',
-  'selectedAttendeesP',
-]);
-
 const showTimeAs = ref('1');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
@@ -249,7 +258,7 @@ async function filterContacts(
           label="Starts*"
           name="startDateTime"
           :model-value="
-            dateTimeHelper.extractDateandTimeFromUtcAsLocal(
+            dateTimeHelper.extractDateandTimeFromUtc(
               event.startDateTime,
               event.isAllDayEvent
             )
@@ -297,7 +306,7 @@ async function filterContacts(
           label="Ends*"
           name="endDateTime"
           :model-value="
-            dateTimeHelper.extractDateandTimeFromUtcAsLocal(
+            dateTimeHelper.extractDateandTimeFromUtc(
               event.endDateTime,
               event.isAllDayEvent
             )

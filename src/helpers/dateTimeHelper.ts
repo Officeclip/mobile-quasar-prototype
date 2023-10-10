@@ -12,10 +12,20 @@ const extractTimeFromUtc = (utcDateTime: string) => {
   //console.log(`extractTimeFromUtc - formattedTime: ${formattedTime}`)
   return formattedTime;
 };
-const extractDateandTimeFromUtc = (utcDateTime: string) => {
-  const utcDate = new Date(utcDateTime);
-  const formattedTime = format(utcDate, 'MMM dd, yyyy hh:mm aaa');
-  return formattedTime;
+const extractDateandTimeFromUtc = (
+  utcDateTime: string,
+  optionalParameter: any = false
+) => {
+  const data = utcDateTime;
+  if (data) {
+    const utcDate = new Date(utcDateTime);
+    if (optionalParameter) {
+      const formattedTime = format(utcDate, 'EEE, MMM dd, yyyy');
+      return formattedTime;
+    }
+    return format(utcDate, 'EEE, MMM dd, yyyy  hh:mm:ss a');
+  }
+  return null;
 };
 
 const extractTimeFromUtcForQTime = (utcDateTime: string) => {
@@ -71,21 +81,6 @@ const convertDateTimeUTCtoLocal = (
   return null;
 };
 
-const extractDateandTimeFromUtcAsLocal = (
-  dateTime: string,
-  optionalParameter: any = false
-) => {
-  const utcDateTime = dateTime;
-  if (utcDateTime) {
-    const utcDate = new Date(utcDateTime);
-    if (optionalParameter) {
-      return format(utcDate, 'EEE, MMM dd, yyyy');
-    }
-    return format(utcDate, 'EEE, MMM dd, yyyy  hh:mm:ss a');
-  }
-  return null;
-};
-
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
@@ -96,5 +91,4 @@ export default {
   convertDateToUtc,
   convertLocalDateToUTC,
   convertDateTimeUTCtoLocal,
-  extractDateandTimeFromUtcAsLocal,
 };
