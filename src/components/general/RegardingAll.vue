@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { regardingContact } from '../../models/general/regardingAll';
 import { useRegardingAllStore } from '../../stores/regarding/regardingAllStore';
 
 const parentServiceType = ref('');
 
 const regardingAllStore = useRegardingAllStore();
-
-const regardingContacts = ref([] as regardingContact[]);
-const selectedRegContact = ref(null);
+regardingAllStore.getMetaTypes();
 const metaTypeOptions = computed(() => {
   return regardingAllStore.MetaTypes;
 });
+
+const regardingContacts = ref([] as regardingContact[]);
+const selectedRegContact = ref(null);
+
 async function filterContacts(
   val: string,
   update: (arg0: () => void) => void,
