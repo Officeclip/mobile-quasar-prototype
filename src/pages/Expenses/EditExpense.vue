@@ -73,8 +73,11 @@ function onSubmit(e: any) {
     taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense
   };
 
-  expenseDetailsStore.editExpense(editExpense);
-  router.push('-2');
+  // expenseDetailsStore.editExpense(editExpense);
+  // router.push('-2');
+
+  const str = JSON.stringify(editExpense);
+  console.log(`onSubmit Expense Value: ${str}`);
 }
 </script>
 <template>
