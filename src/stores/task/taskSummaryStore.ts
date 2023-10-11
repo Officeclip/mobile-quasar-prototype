@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia';
 import axios from 'axios';
 import {taskSummary} from "src/models/task/taskSummary";
+import {Constants} from "stores/Constants";
 
 export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   state: () => ({
@@ -18,8 +19,8 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       // console.log(`TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`);
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `http://localhost:4000/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
-          : 'http://localhost:4000/task-summary';
+          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : `${Constants.endPointUrl}/task-summary`;
       try {
         const response = await axios.get(callStr);
         this.taskSummaries = response.data;
@@ -31,7 +32,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     async getTask(id: number) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/task-summary?id=${id}`
+          `${Constants.endPointUrl}/task-summary?id=${id}`
         );
         this.taskSummary = response.data[0];
       } catch (error) {
@@ -42,7 +43,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     async addTask(taskSummary: taskSummary) {
       this.taskSummaries.push(taskSummary);
 
-      const res = await axios.post('http://localhost:4000/task-summary', taskSummary);
+      const res = await axios.post(`${Constants.endPointUrl}/task-summary`, taskSummary);
 
       if (res.status === 200) {
         await this.getTask(taskSummary.id);
@@ -56,7 +57,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       // not added yet
       try {
         const response = await axios.put(
-          `http://localhost:4000/task-summary/${taskSummary.id}`,
+          `${Constants.endPointUrl}/task-summary/${taskSummary.id}`,
           taskSummary
         );
         if (response.status === 200) {
@@ -71,7 +72,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     async deleteTask(id: number | undefined) {
       try {
         const response = await axios.delete(
-          `http://localhost:4000/task-summary/${id}`
+          `${Constants.endPointUrl}/task-summary/${id}`
         );
         if (response.status === 200) {
           //debugger;
@@ -87,8 +88,8 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       // console.log(`TasksStore: getFilteredTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`);
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `http://localhost:4000/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
-          : 'http://localhost:4000/task-summary';
+          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : `${Constants.endPointUrl}/task-summary`;
       try {
         const response = await axios.get(callStr);
         let filteredSummaries = response.data;
@@ -147,18 +148,66 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         // Due Date
         if (filterOptions.dueDateOption) {
           filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            if (filterOptions.dueDateOption === 'EqualTo') {
-              return task.dueDate === filterOptions.dueDateValue;
-            }
-            if (filterOptions.dueDateOption === 'NotEqualTo') {
-              return task.dueDate != filterOptions.dueDateValue;
+            const taskDueDate = new Date(task.dueDate);
+            const filterDueDate = new Date(filterOptions.dueDateValue);
+
+            switch (filterOptions.dueDateOption) {
+              case 'EqualTo':
+                return taskDueDate.getDate() === filterDueDate.getDate() &&
+                  taskDueDate.getMonth() === filterDueDate.getMonth() &&
+                  taskDueDate.getFullYear() === filterDueDate.getFullYear();
+              case 'NotEqualTo':
+                return taskDueDate.getDate() !== filterDueDate.getDate() ||
+                  taskDueDate.getMonth() !== filterDueDate.getMonth() ||
+                  taskDueDate.getFullYear() !== filterDueDate.getFullYear();
+              case 'GreaterThan':
+                return taskDueDate > filterDueDate;
+              case 'LessThan':
+                return taskDueDate < filterDueDate;
+              case 'GreaterOrEqual':
+                return taskDueDate >= filterDueDate;
+              case 'LessOrEqual':
+                return taskDueDate <= filterDueDate;
+              case 'isNull':
+                return task.dueDate === null;
+              case 'isNotNull':
+                return task.dueDate !== null;
+              default:
+                return true;
             }
           });
         }
+
         // Modified Date
         if (filterOptions.modifiedDateOption) {
           filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            return task.taskPriorityId === filterOptions.priorityValue;
+            const taskModifiedDate = new Date(task.modifiedDate);
+            const filterModifiedDate = new Date(filterOptions.modifiedDateValue);
+
+            switch (filterOptions.modifiedDateOption) {
+              case 'EqualTo':
+                return taskModifiedDate.getDate() === filterModifiedDate.getDate() &&
+                  taskModifiedDate.getMonth() === filterModifiedDate.getMonth() &&
+                  taskModifiedDate.getFullYear() === filterModifiedDate.getFullYear();
+              case 'NotEqualTo':
+                return taskModifiedDate.getDate() !== filterModifiedDate.getDate() ||
+                  taskModifiedDate.getMonth() !== filterModifiedDate.getMonth() ||
+                  taskModifiedDate.getFullYear() !== filterModifiedDate.getFullYear();
+              case 'GreaterThan':
+                return taskModifiedDate > filterModifiedDate;
+              case 'LessThan':
+                return taskModifiedDate < filterModifiedDate;
+              case 'GreaterOrEqual':
+                return taskModifiedDate >= filterModifiedDate;
+              case 'LessOrEqual':
+                return taskModifiedDate <= filterModifiedDate;
+              case 'isNull':
+                return task.modifiedDate === null;
+              case 'isNotNull':
+                return task.modifiedDate !== null;
+              default:
+                return true;
+            }
           });
         }
 

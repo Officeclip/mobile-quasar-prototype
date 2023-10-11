@@ -54,6 +54,7 @@ function onSubmit(e: any) {
     parentObjectServiceType: task.value.parentObjectServiceType,
     parentObjectId: task.value.parentObjectId,
     startDate: task.value.startDate,
+    modifiedDate: new Date().toISOString(),
     dueDate: task.value.dueDate,
     createdDate: task.value.createdDate,
     regardingType: task.value.regardingType,

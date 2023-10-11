@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
+import {defineStore} from 'pinia';
 import axios from 'axios';
-import { taskDetails } from 'src/models/task/taskDetails';
-import { Constants } from 'stores/Constants';
+import {taskDetails} from 'src/models/task/taskDetails';
+import {Constants} from 'stores/Constants';
 
 export const useTaskDetailsStore = defineStore('taskDetailsStore', {
   state: () => ({
@@ -44,9 +44,8 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
 
     async addTask(taskDetail: taskDetails) {
       this.taskDetails.push(taskDetail);
-
       const res = await axios.post(
-        '${Constants.endPointUrl}/task-details',
+        `${Constants.endPointUrl}/task-details`,
         taskDetail
       );
 

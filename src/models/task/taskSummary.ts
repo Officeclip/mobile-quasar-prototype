@@ -3,6 +3,7 @@ export interface taskSummary {
   subject: string;
   description: string;
   createdDate: string;
+  modifiedDate: string;
   startDate: string;
   dueDate: string;
   regardingType: number;

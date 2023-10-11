@@ -6,21 +6,23 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
 import {taskDetails} from "src/models/task/taskDetails";
 import {useTaskListsStore} from "stores/task/taskListsStore";
+import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 
-const tasksStore = useTaskDetailsStore();
+const taskDetailsStore = useTaskDetailsStore();
+const taskSummaryStore = useTaskSummaryStore();
 const taskListStore = useTaskListsStore();
 const isPrivate = ref<string>();
 const id = ref<string | string[]>('0');
 
 const taskDetail: Ref<taskDetails | undefined> = computed(() => {
-  return tasksStore.TaskDetail;
+  return taskDetailsStore.TaskDetail;
 });
 
 onMounted(() => {
   const route = useRoute();
   console.log('id=', route.params.id);
   id.value = route.params.id;
-  tasksStore.getTask(Number(route.params.id));
+  taskDetailsStore.getTask(Number(route.params.id));
   taskListStore.getTaskLists();
 });
 
@@ -72,7 +74,7 @@ function getTaskType() {
           flat
           icon="delete"
           round
-          @click="tasksStore.deleteTask(taskDetail?.id); $router.go(-1)"
+          @click="taskSummaryStore.deleteTask(taskDetail?.id);taskDetailsStore.deleteTask(taskDetail?.id); $router.go(-1)"
         />
       </q-toolbar>
     </q-header>

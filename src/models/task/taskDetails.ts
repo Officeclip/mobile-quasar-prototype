@@ -5,6 +5,7 @@ export interface taskDetails {
   createdDate: string;
   startDate: string;
   dueDate: string;
+  modifiedDate: string;
   regardingType: number;
   regardingValue: string;
   assignee: string[];

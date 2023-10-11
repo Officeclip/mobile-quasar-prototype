@@ -52,7 +52,7 @@ const taskSummaryStore = useTaskSummaryStore();
 // });
 
 const getFilteredTaskSummaries = computed(() => {
-  console.log(filterOptions);
+  // console.log(filterOptions);
 
   // console.log("Request filtered tasks");
   taskSummaryStore.getFilteredTasks(filterOptions, Number(parent.value.parentObjectId), Number(parent.value.parentObjectServiceType));

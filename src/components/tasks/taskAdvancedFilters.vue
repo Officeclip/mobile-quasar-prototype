@@ -75,7 +75,12 @@ async function filterFn(val: string, update: any, abort: any) {
           outlined
           type="date"
         />
-        <q-select v-model="advancedOptions.dueDateOption" :options="dateOptions" clearable/>
+        <q-select v-model="advancedOptions.dueDateOption" :options="dateOptions"
+                  clearable
+                  emit-value
+                  map-options
+                  option-label="label"
+                  option-value="value"/>
       </q-item-section>
 
       <q-item-section>
@@ -87,7 +92,12 @@ async function filterFn(val: string, update: any, abort: any) {
           outlined
           type="date"
         />
-        <q-select v-model="advancedOptions.modifiedDateOption" :options="dateOptions" clearable/>
+        <q-select v-model="advancedOptions.modifiedDateOption" :options="dateOptions"
+                  clearable
+                  emit-value
+                  map-options
+                  option-label="label"
+                  option-value="value"/>
       </q-item-section>
     </div>
 
