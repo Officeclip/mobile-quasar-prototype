@@ -42,7 +42,7 @@ const expenseDetail = ref({
 function onSubmit(e: any) {
   e.preventDefault();
 
-  const newExpense = {
+  const newExpense: any = {
     accountName: expenseDetail.value.accountName,
     id: expenseDetail.value.id,
     amount: expenseDetail.value.amount,
@@ -88,6 +88,9 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
+          <!-- <pre>
+            {{ expenseDetail }}
+          </pre> -->
           <ExpenseForm :expenseDetail="expenseDetail" />
           <q-btn class="q-ml-md q-mb-md q-mt-md" label="Submit" type="submit" color="primary"></q-btn>
           <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
