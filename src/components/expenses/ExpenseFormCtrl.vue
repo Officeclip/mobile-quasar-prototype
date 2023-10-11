@@ -68,17 +68,38 @@ const paymentTypeOptions = computed(() => {
   return expenseListsStore.PaymentTypes;
 });
 
-const billableOptions = ref([]);
-billableOptions.value = [
-  {
-    label: 'Yes',
-    value: true,
-  },
-  {
-    label: 'No',
-    value: false,
-  },
-];
+const expenseTypeOptions1 = computed(() => {
+  const expenseTypeName = 'AIRFARE';
+  const relevantExpenseType = expenseTypeOptions.value.find(
+    (x) => x.expenseTypeName === expenseTypeName
+  );
+  console.log('relevantExpenseType -', relevantExpenseType)
+  const isBillableModify = relevantExpenseType ? relevantExpenseType.isBillableModify : null;
+
+  console.log('Is billable modify -', isBillableModify)
+  return isBillableModify;
+})
+
+console.log('Testing is billable modify -', expenseTypeOptions1.value)
+
+// function getIsBillableModifyValue(expenseTypeName) {
+//   const expenseTypeOption = '';
+//   forEach(expenseTypeOption in expenseTypeOptions){
+
+//   };
+// }
+
+// const billableOptions = ref([]);
+// billableOptions.value = [
+//   {
+//     label: 'Yes',
+//     value: true,
+//   },
+//   {
+//     label: 'No',
+//     value: false,
+//   },
+// ];
 
 /* const paymentMethod = ref([]);
 paymentMethod.value = [
@@ -120,12 +141,12 @@ expenseTypes.value = [
 // const taskDate = ref('');
 // taskDate.value = 'July 20(Thu)';
 
-const airTravel = ref({
+const airTravel = ref([{
   arrivalAirport: '',
   arrivalDate: '',
   departureAirport: '',
   departureDate: '',
-});
+}]);
 
 // const autoRental = ref([{
 //   rentalAgency: 'Sudhakar',
@@ -134,15 +155,15 @@ const airTravel = ref({
 //   toDate: '',
 // }]);
 
-const autoRental = computed(() => {
-  const data = props.expenseDetail.autoRentalExpense[0];
-  console.log('ExpenseForm - autoRental', data);
-  return data;
-})
+// const autoRental = computed(() => {
+//   const data = props.expenseDetail.autoRentalExpense[0];
+//   console.log('ExpenseForm - autoRental', data);
+//   return data;
+// })
 
-const expenseType = ref('');
+//const expenseType = ref('');
 // eslint-disable-next-line vue/no-setup-props-destructure
-expenseType.value = props.expenseDetail.expenseTypeName;
+//expenseType.value = props.expenseDetail.expenseTypeName;
 
 // const selectedItem = ref('');
 </script>
@@ -163,7 +184,19 @@ expenseType.value = props.expenseDetail.expenseTypeName;
         <q-select label="Expense Type" v-model="expenseDetail.expenseTypeName" :options="expenseTypeOptions"
           option-label="expenseName" emit-value option-value="expenseTypeName" map-options />
 
-        <!-- <airTravelExpenseForm :airTravel="airTravel" v-if="expenseType.expenseTypeName.expenseTypeName == 'AIRFARE'" /> -->
+        <q-toggle v-if="expenseDetail.isBillable === true" label="Billable" :false-value="false" :true-value="true"
+          color="primary" keep-color v-model="newValue" option-value="expenseTypeName" map-options></q-toggle>
+        <div v-else caption class="q-mb-md text-italic">
+          <q-item-label class="q-mb-sm">
+            {{ newValue }}
+          </q-item-label>
+          <q-icon name="hide_source" /> You do not permission to edit this item
+        </div>
+        <!-- <pre>{{ airTravel }}</pre> -->
+        <!-- <pre>{{ props.expenseDetail.expenseTypeName == '' ? true : false }}</pre> -->
+        <airTravelExpenseForm
+          :airTravel="props.expenseDetail.airTravelExpense == null ? airTravel : props.expenseDetail.airTravelExpense"
+          v-if="expenseDetail.expenseTypeName == 'AIRFARE'" />
 
         <autoRentalExpenseForm :autoRental="props.expenseDetail.autoRentalExpense"
           v-if="expenseDetail.expenseTypeName == 'AUTORENTAL'" />
@@ -171,7 +204,7 @@ expenseType.value = props.expenseDetail.expenseTypeName;
         <q-select label="Payment Method" v-model="expenseDetail.paymentType" :options="paymentTypeOptions" map-options
           emit-value option-value="label" />
 
-        <q-select label="Billable" v-model="expenseDetail.billable" :options="billableOptions" map-options emit-value />
+        <!-- <q-select label="Billable" v-model="expenseDetail.billable" :options="billableOptions" map-options emit-value /> -->
         <q-input label="Amount" v-model="expenseDetail.amount" placeholder="enter here..." lazy-rules type="number"
           :rules="[(val) => (val && val.length > 0) || 'Please type something']">
         </q-input>

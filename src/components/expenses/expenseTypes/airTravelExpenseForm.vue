@@ -5,28 +5,40 @@ import dateTimeHelper from '../../../helpers/dateTimeHelper';
 
 const props = defineProps(['airTravel']);
 
+console.log('AirTravel Form Control -', props.airTravel)
+
 const dense = ref(false);
 
-const departureDate = ref('');
-const arrivalDate = ref('');
+// const airtravelData = ref('');
+// airtravelData.value = props.airTravel;
 
-departureDate.value = props.airTravel.departureDate;
-arrivalDate.value = props.airTravel.arrivalDate;
+// // eslint-disable-next-line vue/no-mutating-props
+// props.expenseAirtravelDetail = airtravelData.value
+
+// console.log('expenseDetail Airtravel -', airtravelData.value)
 
 
-const formattedDepartureDate = computed(() => {
-  let dateValue = dateTimeHelper.extractDateFromUtc(departureDate.value);
-  return dateValue;
-})
 
-const formattedDepartureDate1 = departureDate.value ? formattedDepartureDate : departureDate;
+// const departureDate = ref('');
+// const arrivalDate = ref('');
 
-const formattedArrivalDate = computed(() => {
-  let dateValue = dateTimeHelper.extractDateFromUtc(arrivalDate.value);
-  return dateValue;
-})
+// departureDate.value = props.airTravel.departureDate;
+// arrivalDate.value = props.airTravel.arrivalDate;
 
-const formattedArrivalDate1 = arrivalDate.value ? formattedArrivalDate : arrivalDate;
+
+// const formattedDepartureDate = computed(() => {
+//   let dateValue = dateTimeHelper.extractDateFromUtc(departureDate.value);
+//   return dateValue;
+// })
+
+// const formattedDepartureDate1 = departureDate.value ? formattedDepartureDate : departureDate;
+
+// const formattedArrivalDate = computed(() => {
+//   let dateValue = dateTimeHelper.extractDateFromUtc(arrivalDate.value);
+//   return dateValue;
+// })
+
+// const formattedArrivalDate1 = arrivalDate.value ? formattedArrivalDate : arrivalDate;
 </script>
 
 <template>
@@ -34,6 +46,8 @@ const formattedArrivalDate1 = arrivalDate.value ? formattedArrivalDate : arrival
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
+        <!-- <pre>{{ airtravelData }}</pre>
+        <pre>{{ props.airTravel.departureAirport }}</pre> -->
         <q-input v-model="props.airTravel.departureAirport" label="Departure Airport *"
           placeholder="enter departure airport name" :dense="dense" lazy-rules :rules="[
             (val) => (val && val.length > 0) || 'enter departure airport name',
@@ -44,13 +58,13 @@ const formattedArrivalDate1 = arrivalDate.value ? formattedArrivalDate : arrival
             (val) => (val && val.length > 0) || 'enter arrival airport name',
           ]">
         </q-input>
-        <q-input name="departureDate" v-model="formattedDepartureDate1" label="Departure Date" :rules="[
+        <q-input name="departureDate" v-model="props.airTravel.departureDate" label="Departure Date" :rules="[
           (val) => (val && val.length > 0) || 'please select departure date',
         ]">
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="departureDate" mask='YYYY-MM-DD'>
+                <q-date v-model="props.airTravel.departureDate" mask='YYYY-MM-DD'>
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
                   </div>
@@ -59,13 +73,13 @@ const formattedArrivalDate1 = arrivalDate.value ? formattedArrivalDate : arrival
             </q-icon>
           </template>
         </q-input>
-        <q-input name="arrivalDate" v-model="formattedArrivalDate1" label="Arrival Date" :rules="[
+        <q-input name="arrivalDate" v-model="props.airTravel.arrivalDate" label="Arrival Date" :rules="[
           (val) => (val && val.length > 0) || 'please select arival date',
         ]">
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="arrivalDate" mask='YYYY-MM-DD'>
+                <q-date v-model="props.airTravel.arrivalDate" mask='YYYY-MM-DD'>
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
                   </div>
@@ -75,6 +89,7 @@ const formattedArrivalDate1 = arrivalDate.value ? formattedArrivalDate : arrival
           </template>
         </q-input>
       </div>
+      <!-- <pre>{{ props.airTravel }}</pre> -->
       <!-- <q-list>
         <q-item-label>Testing</q-item-label>
       </q-list> -->
