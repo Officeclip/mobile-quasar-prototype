@@ -6,12 +6,18 @@ import { useRegardingAllStore } from '../../stores/regarding/regardingAllStore';
 const parentServiceType = ref('');
 
 const regardingAllStore = useRegardingAllStore();
-
-const regardingContacts = ref([] as regardingContact[]);
-const selectedRegContact = ref(null);
+regardingAllStore.getMetaTypes();
 const metaTypeOptions = computed(() => {
   return regardingAllStore.MetaTypes;
 });
+//disabled regarding contacts unless select the option from regarding types
+const disabled = computed(() => {
+  return parentServiceType.value == '' ? true : false;
+});
+
+const regardingContacts = ref([] as regardingContact[]);
+const selectedRegContact = ref(null);
+
 async function filterContacts(
   val: string,
   update: (arg0: () => void) => void,
@@ -60,6 +66,8 @@ async function filterContacts(
           multiple
           option-label="name"
           option-value="id"
+          :option-disable="disabled"
+          :disable="disabled"
           use-input
           @filter="filterContacts"
         >

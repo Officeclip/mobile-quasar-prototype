@@ -7,18 +7,18 @@ export const useEventListsStore = defineStore('eventListsStore', {
   state: () => ({
     // timesheetList: undefined as TimesheetList | undefined,
     labels: [] as label[],
-    regardingContacts: [] as regardingContact[],
+    // regardingContacts: [] as regardingContact[],
     timeZones: [] as timeZone[],
     showMyTimeAs: [],
-    metaTypes: [],
+    // metaTypes: [],
   }),
 
   getters: {
     Labels: (state) => state.labels,
-    RegardingContacts: (state) => state.regardingContacts,
+    // RegardingContacts: (state) => state.regardingContacts,
     TimeZones: (state) => state.timeZones,
     ShowMyTimeAs: (state) => state.showMyTimeAs,
-    MetaTypes: (state) => state.metaTypes,
+    // MetaTypes: (state) => state.metaTypes,
   },
 
   actions: {
@@ -45,28 +45,28 @@ export const useEventListsStore = defineStore('eventListsStore', {
           color: '#6A5ACD',
         },
       ];
-      const metaTypeOptions: any = [
-        {
-          id: -1,
-          name: '',
-        },
-        {
-          id: 1,
-          name: 'Contacts',
-        },
-        {
-          id: 2,
-          name: 'Accounts',
-        },
-        {
-          id: 3,
-          name: 'Projects',
-        },
-        {
-          id: 4,
-          name: 'Campaigns',
-        },
-      ];
+      // const metaTypeOptions: any = [
+      //   {
+      //     id: -1,
+      //     name: '',
+      //   },
+      //   {
+      //     id: 1,
+      //     name: 'Contacts',
+      //   },
+      //   {
+      //     id: 2,
+      //     name: 'Accounts',
+      //   },
+      //   {
+      //     id: 3,
+      //     name: 'Projects',
+      //   },
+      //   {
+      //     id: 4,
+      //     name: 'Campaigns',
+      //   },
+      // ];
       const callStr = `${Constants.endPointUrl}/event-lists`;
       try {
         const response = await axios.get(callStr);
@@ -78,7 +78,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
         this.labels = eventLists.label;
         this.timeZones = eventLists.timezone;
         this.showMyTimeAs = ShowMyTimeAsOptions;
-        this.metaTypes = metaTypeOptions;
+        // this.metaTypes = metaTypeOptions;
       } catch (error) {
         console.error(error);
       }
@@ -100,39 +100,39 @@ export const useEventListsStore = defineStore('eventListsStore', {
     //     console.error(error);
     //   }
     // }
-    getRegardingContactList(
-      searchString: string
-    ): regardingContact[] | undefined {
-      try {
-        const filtered = this.regardingContacts.filter((t) => {
-          return t.name.toLowerCase().includes(searchString.toLowerCase());
-        });
-        console.log('getRegardingContactList: ', filtered);
-        return filtered;
-        // console.log("Filtered contacts: ", this.regardingContacts);
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    // getRegardingContactList(
+    //   searchString: string
+    // ): regardingContact[] | undefined {
+    //   try {
+    //     const filtered = this.regardingContacts.filter((t) => {
+    //       return t.name.toLowerCase().includes(searchString.toLowerCase());
+    //     });
+    //     console.log('getRegardingContactList: ', filtered);
+    //     return filtered;
+    //     // console.log("Filtered contacts: ", this.regardingContacts);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
 
-    async getRegardingContactListThatMatch(searchString: string) {
-      try {
-        this.regardingContacts = [];
-        const response = await axios.get(
-          `${Constants.endPointUrl}/event-lists`
-        );
-        const eventLists = response.data[0];
-        const regardingContacts = eventLists.regardingContact;
-        const filtered = regardingContacts.filter((t: regardingContact) => {
-          return t.name.toLowerCase().includes(searchString.toLowerCase());
-        });
-        console.log('getRegardingContactList: ', filtered);
-        await new Promise((r) => setTimeout(r, 500));
-        this.regardingContacts = filtered;
-        // console.log("Filtered contacts: ", this.regardingContacts);
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    // async getRegardingContactListThatMatch(searchString: string) {
+    //   try {
+    //     this.regardingContacts = [];
+    //     const response = await axios.get(
+    //       `${Constants.endPointUrl}/event-lists`
+    //     );
+    //     const eventLists = response.data[0];
+    //     const regardingContacts = eventLists.regardingContact;
+    //     const filtered = regardingContacts.filter((t: regardingContact) => {
+    //       return t.name.toLowerCase().includes(searchString.toLowerCase());
+    //     });
+    //     console.log('getRegardingContactList: ', filtered);
+    //     await new Promise((r) => setTimeout(r, 500));
+    //     this.regardingContacts = filtered;
+    //     // console.log("Filtered contacts: ", this.regardingContacts);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
   },
 });
