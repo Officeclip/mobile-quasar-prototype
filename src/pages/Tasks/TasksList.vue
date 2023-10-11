@@ -18,7 +18,7 @@ let filterOptions = {
   modifiedDateOption: '',
   statusValue: '',
   priorityValue: '',
-  taskTypeValue:'',
+  taskTypeValue: '',
   assignedTo: '',
   ownedBy: '',
   regarding: ''
@@ -104,7 +104,7 @@ const getSortedSummaries = computed(() => {
   return sortedTasks.value;
 });
 
-function clearFilterValues(){
+function clearFilterValues() {
   filterOptions = {
     filterString: '',
     ownedByMeFilter: false,
@@ -118,12 +118,13 @@ function clearFilterValues(){
     modifiedDateOption: '',
     statusValue: '',
     priorityValue: '',
-    taskTypeValue:'',
+    taskTypeValue: '',
     assignedTo: '',
     ownedBy: '',
     regarding: ''
   }
 }
+
 onBeforeMount(() => {
   taskSummaryStore.getTasks(Number(parent.value.parentObjectId), Number(parent.value.parentObjectServiceType));
 });
@@ -179,8 +180,8 @@ function receiveAdvFilters(advancedOptions: any) {
               <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
             </div>
             <div>
-              <q-btn class="q-ma-sm" @click="filterOptions.showAdvancedOptions = true" label="Open Advanced Filters"/>
-              <q-btn class="q-ma-sm" @click="clearFilterValues" label="Reset Filters"/>
+              <q-btn class="q-ma-sm" label="Open Advanced Filters" @click="filterOptions.showAdvancedOptions = true"/>
+              <q-btn class="q-ma-sm" label="Reset Filters" @click="clearFilterValues"/>
             </div>
           </div>
         </div>
@@ -193,7 +194,7 @@ function receiveAdvFilters(advancedOptions: any) {
           <task-advanced-filters @advancedOptionsGenerated="receiveAdvFilters"/>
         </q-dialog>
 
-<!--        <pre>{{ filterOptions }}</pre>-->
+        <pre>{{ filterOptions }}</pre>
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
         <q-btn

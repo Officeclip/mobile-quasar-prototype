@@ -112,22 +112,57 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
           });
         }
 
+        // Status Filter
         if (filterOptions.statusValue) {
-          console.log("StatusFilter");
           filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
             return task.taskStatusId === filterOptions.statusValue;
           });
         }
 
+        // Priority Filter
         if (filterOptions.priorityValue) {
-          console.log("PriorityFilter");
-
           filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
             return task.taskPriorityId === filterOptions.priorityValue;
           });
         }
-        this.taskSummaries = filteredSummaries;
+        // Task Type
+        if (filterOptions.taskTypeValue) {
+          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+            return task.taskTypeId === filterOptions.taskTypeValue;
+          });
+        }
+        // Assigned To
+        if (filterOptions.assignedTo) {
+          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+            return task.assignee.includes(filterOptions.assignedTo);
+          });
+        }
+        // Owned by
+        if (filterOptions.ownedBy) {
+          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+            return task.taskOwner.includes(filterOptions.ownedBy);
+          });
+        }
 
+        // Due Date
+        if (filterOptions.dueDateOption) {
+          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+            if (filterOptions.dueDateOption === 'EqualTo') {
+              return task.dueDate === filterOptions.dueDateValue;
+            }
+            if (filterOptions.dueDateOption === 'NotEqualTo') {
+              return task.dueDate != filterOptions.dueDateValue;
+            }
+          });
+        }
+        // Modified Date
+        if (filterOptions.modifiedDateOption) {
+          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+            return task.taskPriorityId === filterOptions.priorityValue;
+          });
+        }
+
+        this.taskSummaries = filteredSummaries;
       } catch (error) {
         console.error(error);
       }

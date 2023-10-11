@@ -10,7 +10,7 @@ const advancedOptions = ref({
   modifiedDateOption: '',
   statusValue: '',
   priorityValue: '',
-  taskTypeValue:'',
+  taskTypeValue: '',
   assignedTo: '',
   ownedBy: '',
   regarding: ''
@@ -28,14 +28,14 @@ onBeforeMount(() => {
 });
 
 const dateOptions = [
-  { label: "On this day", value: "EqualTo" },
-  { label: "Not on this day", value: "NotEqualTo" },
-  { label: "After this day", value: "GreaterThan" },
-  { label: "Before this day", value: "LessThan" },
-  { label: "On or after this day", value: "GreaterOrEqual" },
-  { label: "On or before this day", value: "LessOrEqual" },
-  { label: "No date", value: "isNull" },
-  { label: "Any date", value: "isNotNull" },
+  {label: "On this day", value: "EqualTo"},
+  {label: "Not on this day", value: "NotEqualTo"},
+  {label: "After this day", value: "GreaterThan"},
+  {label: "Before this day", value: "LessThan"},
+  {label: "On or after this day", value: "GreaterOrEqual"},
+  {label: "On or before this day", value: "LessOrEqual"},
+  {label: "No date", value: "isNull"},
+  {label: "Any date", value: "isNotNull"},
 ];
 
 const contactOptions: Ref<regardingContact[]> = ref([]);

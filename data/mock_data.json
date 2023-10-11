@@ -1969,7 +1969,17 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
+      "applicationIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10
+      ]
     }
   ],
   "generalUserProfile": [
@@ -2069,7 +2079,7 @@
   "task-details": [
     {
       "id": 101,
-      "subject": "1: Complete Sprint Planning (Edit)",
+      "subject": "1: Complete Sprint Planning (Edit) 1",
       "description": "Plan and prioritize tasks for the upcoming sprint",
       "taskTypeId": 2,
       "taskPriorityId": "3",
@@ -2083,14 +2093,23 @@
       "createdDate": "2023-09-30T08:45:00Z",
       "regardingType": 1,
       "regardingValue": "Team Collaboration",
-      "assignee": ["John Doe", "Jane Smith"],
+      "assignee": [
+        "John Doe",
+        "Jane Smith"
+      ],
       "taskOwnerSid": 789,
       "remindTo": "Me",
       "remindBeforeMinutes": 60,
       "repeatInfoText": "Weekly",
       "recurrenceRule": "FREQ=WEEKLY;COUNT=5",
-      "tags": [101, 102],
-      "subtasks": [301, 302]
+      "tags": [
+        101,
+        102
+      ],
+      "subtasks": [
+        301,
+        302
+      ]
     },
     {
       "id": 102,
@@ -2101,7 +2120,10 @@
       "dueDate": "2023-10-06T18:00:00Z",
       "regardingType": 2,
       "regardingValue": "Feature X Implementation",
-      "assignee": ["Bob Anderson", "Alice Johnson"],
+      "assignee": [
+        "Bob Anderson",
+        "Alice Johnson"
+      ],
       "isPrivate": true,
       "taskStatusId": 1,
       "parentObjectId": 202,
@@ -2114,8 +2136,14 @@
       "remindBeforeMinutes": 30,
       "repeatInfoText": "",
       "recurrenceRule": "",
-      "tags": [103, 104],
-      "subtasks": [303, 304]
+      "tags": [
+        103,
+        104
+      ],
+      "subtasks": [
+        303,
+        304
+      ]
     },
     {
       "id": 103,
@@ -2126,7 +2154,11 @@
       "dueDate": "2023-10-04T16:00:00Z",
       "regardingType": 1,
       "regardingValue": "Client Meeting",
-      "assignee": ["Eva Thompson", "David Brown", "Alice Johnson"],
+      "assignee": [
+        "Eva Thompson",
+        "David Brown",
+        "Alice Johnson"
+      ],
       "isPrivate": false,
       "taskStatusId": 3,
       "parentObjectId": 203,
@@ -2139,8 +2171,14 @@
       "remindBeforeMinutes": 45,
       "repeatInfoText": "Bi-weekly",
       "recurrenceRule": "FREQ=WEEKLY;INTERVAL=2;COUNT=3",
-      "tags": [105, 106],
-      "subtasks": [305, 306]
+      "tags": [
+        105,
+        106
+      ],
+      "subtasks": [
+        305,
+        306
+      ]
     },
     {
       "id": 104,
@@ -2151,7 +2189,10 @@
       "dueDate": "2023-10-07T18:00:00Z",
       "regardingType": 2,
       "regardingValue": "System Maintenance",
-      "assignee": ["Michael Lee", "Olivia Adams"],
+      "assignee": [
+        "Michael Lee",
+        "Olivia Adams"
+      ],
       "isPrivate": false,
       "taskStatusId": 2,
       "parentObjectId": 204,
@@ -2164,8 +2205,14 @@
       "remindBeforeMinutes": 30,
       "repeatInfoText": "Monthly",
       "recurrenceRule": "FREQ=MONTHLY;BYMONTHDAY=15;COUNT=6",
-      "tags": [107, 108],
-      "subtasks": [307, 308]
+      "tags": [
+        107,
+        108
+      ],
+      "subtasks": [
+        307,
+        308
+      ]
     },
     {
       "id": 105,
@@ -2176,7 +2223,11 @@
       "dueDate": "2023-10-05T16:00:00Z",
       "regardingType": 1,
       "regardingValue": "Team Development",
-      "assignee": ["Sophia Harris", "Elijah Hall", "Alice Johnson"],
+      "assignee": [
+        "Sophia Harris",
+        "Elijah Hall",
+        "Alice Johnson"
+      ],
       "isPrivate": false,
       "taskStatusId": 1,
       "parentObjectId": 205,
@@ -2189,8 +2240,14 @@
       "remindBeforeMinutes": 45,
       "repeatInfoText": "Weekly",
       "recurrenceRule": "FREQ=WEEKLY;COUNT=4",
-      "tags": [109, 110],
-      "subtasks": [309, 310]
+      "tags": [
+        109,
+        110
+      ],
+      "subtasks": [
+        309,
+        310
+      ]
     },
     {
       "id": 106,
@@ -2258,7 +2315,9 @@
       "createdDate": "2023-10-02",
       "regardingType": 0,
       "regardingValue": "",
-      "assignee": ["Kathiravan Sekar"],
+      "assignee": [
+        "Kathiravan Sekar"
+      ],
       "taskOwnerSid": 0,
       "remindTo": "",
       "remindBeforeMinutes": 0,
@@ -2266,7 +2325,8 @@
       "recurrenceRule": "",
       "tags": [],
       "subtasks": []
-    },    {
+    },
+    {
       "id": 109,
       "subject": "New Test",
       "description": "<b>Test Description</b>",
@@ -2282,7 +2342,10 @@
       "createdDate": "1,696,425,228,561",
       "regardingType": 0,
       "regardingValue": "",
-      "assignee": ["Kathiravan Sekar", "Joseph Miller"],
+      "assignee": [
+        "Kathiravan Sekar",
+        "Joseph Miller"
+      ],
       "taskOwnerSid": 0,
       "remindTo": "me",
       "remindBeforeMinutes": 60,
@@ -2291,16 +2354,15 @@
       "tags": [],
       "subtasks": []
     }
-
   ],
   "task-summary": [
     {
       "id": 101,
-      "subject": "1: Complete Sprint Planning (Edit)",
+      "subject": "1: Complete Sprint Planning (Edit) 1",
       "description": "Plan and prioritize tasks for the upcoming sprint",
-      "taskTypeId": "2",
+      "taskTypeId": 2,
       "taskPriorityId": "3",
-      "taskStatusId": "2",
+      "taskStatusId": 2,
       "isPrivate": false,
       "taskOwner": "Alice Johnson",
       "parentObjectServiceType": 3,
@@ -2310,14 +2372,23 @@
       "createdDate": "2023-09-30T08:45:00Z",
       "regardingType": 1,
       "regardingValue": "Team Collaboration",
-      "assignee": ["John Doe", "Jane Smith"],
+      "assignee": [
+        "John Doe",
+        "Jane Smith"
+      ],
       "taskOwnerSid": 789,
       "remindTo": "Me",
       "remindBeforeMinutes": 60,
       "repeatInfoText": "Weekly",
       "recurrenceRule": "FREQ=WEEKLY;COUNT=5",
-      "tags": [101, 102],
-      "subtasks": [301, 302]
+      "tags": [
+        101,
+        102
+      ],
+      "subtasks": [
+        301,
+        302
+      ]
     },
     {
       "id": 102,
@@ -2328,7 +2399,10 @@
       "dueDate": "2023-10-06T18:00:00Z",
       "regardingType": 2,
       "regardingValue": "Feature X Implementation",
-      "assignee": ["Bob Anderson", "Alice Johnson"],
+      "assignee": [
+        "Bob Anderson",
+        "Alice Johnson"
+      ],
       "isPrivate": true,
       "taskStatusId": "1",
       "parentObjectId": 202,
@@ -2341,8 +2415,14 @@
       "remindBeforeMinutes": 30,
       "repeatInfoText": "",
       "recurrenceRule": "",
-      "tags": [103, 104],
-      "subtasks": [303, 304]
+      "tags": [
+        103,
+        104
+      ],
+      "subtasks": [
+        303,
+        304
+      ]
     },
     {
       "id": 103,
@@ -2353,7 +2433,11 @@
       "dueDate": "2023-10-04T16:00:00Z",
       "regardingType": 1,
       "regardingValue": "Client Meeting",
-      "assignee": ["Eva Thompson", "David Brown", "Alice Johnson"],
+      "assignee": [
+        "Eva Thompson",
+        "David Brown",
+        "Alice Johnson"
+      ],
       "isPrivate": false,
       "taskStatusId": "3",
       "parentObjectId": 203,
@@ -2366,8 +2450,14 @@
       "remindBeforeMinutes": 45,
       "repeatInfoText": "Bi-weekly",
       "recurrenceRule": "FREQ=WEEKLY;INTERVAL=2;COUNT=3",
-      "tags": [105, 106],
-      "subtasks": [305, 306]
+      "tags": [
+        105,
+        106
+      ],
+      "subtasks": [
+        305,
+        306
+      ]
     },
     {
       "id": 104,
@@ -2378,7 +2468,10 @@
       "dueDate": "2023-10-07T18:00:00Z",
       "regardingType": 2,
       "regardingValue": "System Maintenance",
-      "assignee": ["Michael Lee", "Olivia Adams"],
+      "assignee": [
+        "Michael Lee",
+        "Olivia Adams"
+      ],
       "isPrivate": false,
       "taskStatusId": "2",
       "parentObjectId": 204,
@@ -2391,8 +2484,14 @@
       "remindBeforeMinutes": 30,
       "repeatInfoText": "Monthly",
       "recurrenceRule": "FREQ=MONTHLY;BYMONTHDAY=15;COUNT=6",
-      "tags": [107, 108],
-      "subtasks": [307, 308]
+      "tags": [
+        107,
+        108
+      ],
+      "subtasks": [
+        307,
+        308
+      ]
     },
     {
       "id": 105,
@@ -2403,7 +2502,11 @@
       "dueDate": "2023-10-05T16:00:00Z",
       "regardingType": 1,
       "regardingValue": "Team Development",
-      "assignee": ["Sophia Harris", "Elijah Hall", "Alice Johnson"],
+      "assignee": [
+        "Sophia Harris",
+        "Elijah Hall",
+        "Alice Johnson"
+      ],
       "isPrivate": false,
       "taskStatusId": "1",
       "parentObjectId": 205,
@@ -2416,8 +2519,14 @@
       "remindBeforeMinutes": 45,
       "repeatInfoText": "Weekly",
       "recurrenceRule": "FREQ=WEEKLY;COUNT=4",
-      "tags": [109, 110],
-      "subtasks": [309, 310]
+      "tags": [
+        109,
+        110
+      ],
+      "subtasks": [
+        309,
+        310
+      ]
     },
     {
       "id": 106,
@@ -2485,7 +2594,9 @@
       "createdDate": "2023-10-02",
       "regardingType": 0,
       "regardingValue": "",
-      "assignee": ["Kathiravan Sekar"],
+      "assignee": [
+        "Kathiravan Sekar"
+      ],
       "taskOwnerSid": 0,
       "remindTo": "",
       "remindBeforeMinutes": 0,
@@ -2510,7 +2621,10 @@
       "createdDate": "1,696,425,228,561",
       "regardingType": 0,
       "regardingValue": "",
-      "assignee": ["Kathiravan Sekar", "Joseph Miller"],
+      "assignee": [
+        "Kathiravan Sekar",
+        "Joseph Miller"
+      ],
       "taskOwnerSid": 0,
       "remindTo": "me",
       "remindBeforeMinutes": 60,
@@ -2553,15 +2667,19 @@
       "taskStatus": [
         {
           "id": "1",
-          "name": "Pending"
+          "name": "Pending",
+          "category": "Pending"
         },
         {
           "id": "2",
-          "name": "In Progress"
+          "name": "In Progress",
+          "category": "Active"
+
         },
         {
           "id": "3",
-          "name": "Completed"
+          "name": "Completed",
+          "category": "Completed"
         }
       ],
       "regardingContact": [
@@ -2966,6 +3084,20 @@
           "name": "Lily Green"
         }
       ]
+    }
+  ],
+  "subtasks": [
+    {
+      "id": 1,
+      "parentId": 101,
+      "title": "Subtask 1",
+      "description": "Description for subtask 1",
+      "assignee": {
+        "id": "1",
+        "name": "Kathiravan Sekar"
+      },
+      "isCompleted": false,
+      "completedDate": "2023-10-05T17:00:00Z"
     }
   ],
   "tasks": [
@@ -3517,7 +3649,12 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": ["", "One", "Two", "Three"],
+          "items": [
+            "",
+            "One",
+            "Two",
+            "Three"
+          ],
           "name": "Custom Row",
           "uiType": "List"
         },
@@ -3979,5 +4116,409 @@
         }
       ]
     }
-  ]
+  ],
+  "users": [
+  {
+    "id": "1",
+    "name": "Kathiravan Sekar",
+    "email": "kathiravanrs@gmail.com"
+  },
+  {
+    "id": "2",
+    "name": "John Doe"
+  },
+  {
+    "id": "3",
+    "name": "Jane Smith"
+  },
+  {
+    "id": "4",
+    "name": "Alice Johnson"
+  },
+  {
+    "id": "5",
+    "name": "Bob Anderson"
+  },
+  {
+    "id": "6",
+    "name": "Emily Davis"
+  },
+  {
+    "id": "7",
+    "name": "David Brown"
+  },
+  {
+    "id": "8",
+    "name": "Grace Wilson"
+  },
+  {
+    "id": "9",
+    "name": "Michael Lee"
+  },
+  {
+    "id": "10",
+    "name": "Olivia Adams"
+  },
+  {
+    "id": "11",
+    "name": "Liam Martin"
+  },
+  {
+    "id": "12",
+    "name": "Ava Thompson"
+  },
+  {
+    "id": "13",
+    "name": "Noah Lewis"
+  },
+  {
+    "id": "14",
+    "name": "Sophia Harris"
+  },
+  {
+    "id": "15",
+    "name": "Elijah Hall"
+  },
+  {
+    "id": "16",
+    "name": "Mia Turner"
+  },
+  {
+    "id": "17",
+    "name": "Benjamin White"
+  },
+  {
+    "id": "18",
+    "name": "Abigail Green"
+  },
+  {
+    "id": "19",
+    "name": "William Clark"
+  },
+  {
+    "id": "20",
+    "name": "Ella Perez"
+  },
+  {
+    "id": "21",
+    "name": "James Rodriguez"
+  },
+  {
+    "id": "22",
+    "name": "Charlotte Martinez"
+  },
+  {
+    "id": "23",
+    "name": "Alexander Young"
+  },
+  {
+    "id": "24",
+    "name": "Sofia Walker"
+  },
+  {
+    "id": "25",
+    "name": "Henry Hall"
+  },
+  {
+    "id": "26",
+    "name": "Scarlett Adams"
+  },
+  {
+    "id": "27",
+    "name": "Daniel Wilson"
+  },
+  {
+    "id": "28",
+    "name": "Lily Brown"
+  },
+  {
+    "id": "29",
+    "name": "Matthew Turner"
+  },
+  {
+    "id": "30",
+    "name": "Grace Lewis"
+  },
+  {
+    "id": "31",
+    "name": "Joseph Anderson"
+  },
+  {
+    "id": "32",
+    "name": "Chloe Johnson"
+  },
+  {
+    "id": "33",
+    "name": "Andrew Davis"
+  },
+  {
+    "id": "34",
+    "name": "Zoe Thompson"
+  },
+  {
+    "id": "35",
+    "name": "David Martin"
+  },
+  {
+    "id": "36",
+    "name": "Sophia Smith"
+  },
+  {
+    "id": "37",
+    "name": "Christopher Harris"
+  },
+  {
+    "id": "38",
+    "name": "Ava Lewis"
+  },
+  {
+    "id": "39",
+    "name": "Joseph Clark"
+  },
+  {
+    "id": "40",
+    "name": "Emily Adams"
+  },
+  {
+    "id": "41",
+    "name": "Liam Taylor"
+  },
+  {
+    "id": "42",
+    "name": "Olivia Scott"
+  },
+  {
+    "id": "43",
+    "name": "Ethan Perez"
+  },
+  {
+    "id": "44",
+    "name": "Isabella Turner"
+  },
+  {
+    "id": "45",
+    "name": "Mason White"
+  },
+  {
+    "id": "46",
+    "name": "Sophia Brown"
+  },
+  {
+    "id": "47",
+    "name": "Logan Green"
+  },
+  {
+    "id": "48",
+    "name": "Mia Davis"
+  },
+  {
+    "id": "49",
+    "name": "Jackson Harris"
+  },
+  {
+    "id": "50",
+    "name": "Aiden Miller"
+  },
+  {
+    "id": "51",
+    "name": "Oliver Johnson"
+  },
+  {
+    "id": "52",
+    "name": "Amelia Williams"
+  },
+  {
+    "id": "53",
+    "name": "Lucas Brown"
+  },
+  {
+    "id": "54",
+    "name": "Lily Jones"
+  },
+  {
+    "id": "55",
+    "name": "Benjamin Miller"
+  },
+  {
+    "id": "56",
+    "name": "Abigail Davis"
+  },
+  {
+    "id": "57",
+    "name": "James Rodriguez"
+  },
+  {
+    "id": "58",
+    "name": "Charlotte Taylor"
+  },
+  {
+    "id": "59",
+    "name": "Alexander Scott"
+  },
+  {
+    "id": "60",
+    "name": "Sofia Perez"
+  },
+  {
+    "id": "61",
+    "name": "Henry Turner"
+  },
+  {
+    "id": "62",
+    "name": "Scarlett White"
+  },
+  {
+    "id": "63",
+    "name": "Daniel Brown"
+  },
+  {
+    "id": "64",
+    "name": "Lily Green"
+  },
+  {
+    "id": "65",
+    "name": "Matthew Davis"
+  },
+  {
+    "id": "66",
+    "name": "Grace Harris"
+  },
+  {
+    "id": "67",
+    "name": "Joseph Miller"
+  },
+  {
+    "id": "68",
+    "name": "Chloe Davis"
+  },
+  {
+    "id": "69",
+    "name": "Andrew Rodriguez"
+  },
+  {
+    "id": "70",
+    "name": "Zoe Taylor"
+  },
+  {
+    "id": "71",
+    "name": "David Scott"
+  },
+  {
+    "id": "72",
+    "name": "Sophia Perez"
+  },
+  {
+    "id": "73",
+    "name": "Christopher Turner"
+  },
+  {
+    "id": "74",
+    "name": "Ava White"
+  },
+  {
+    "id": "75",
+    "name": "Joseph Brown"
+  },
+  {
+    "id": "76",
+    "name": "Emily Green"
+  },
+  {
+    "id": "77",
+    "name": "Liam Davis"
+  },
+  {
+    "id": "78",
+    "name": "Olivia Harris"
+  },
+  {
+    "id": "79",
+    "name": "Ethan Miller"
+  },
+  {
+    "id": "80",
+    "name": "Isabella Davis"
+  },
+  {
+    "id": "81",
+    "name": "Mason Rodriguez"
+  },
+  {
+    "id": "82",
+    "name": "Sophia Taylor"
+  },
+  {
+    "id": "83",
+    "name": "Logan Scott"
+  },
+  {
+    "id": "84",
+    "name": "Mia Perez"
+  },
+  {
+    "id": "85",
+    "name": "Jackson Turner"
+  },
+  {
+    "id": "86",
+    "name": "Aiden White"
+  },
+  {
+    "id": "87",
+    "name": "Oliver Brown"
+  },
+  {
+    "id": "88",
+    "name": "Amelia Green"
+  },
+  {
+    "id": "89",
+    "name": "Lucas Davis"
+  },
+  {
+    "id": "90",
+    "name": "Lily Harris"
+  },
+  {
+    "id": "91",
+    "name": "Benjamin Miller"
+  },
+  {
+    "id": "92",
+    "name": "Abigail Davis"
+  },
+  {
+    "id": "93",
+    "name": "James Rodriguez"
+  },
+  {
+    "id": "94",
+    "name": "Charlotte Taylor"
+  },
+  {
+    "id": "95",
+    "name": "Alexander Scott"
+  },
+  {
+    "id": "96",
+    "name": "Sofia Perez"
+  },
+  {
+    "id": "97",
+    "name": "Henry Turner"
+  },
+  {
+    "id": "98",
+    "name": "Scarlett White"
+  },
+  {
+    "id": "99",
+    "name": "Daniel Brown"
+  },
+  {
+    "id": "100",
+    "name": "Lily Green"
+  }
+]
+
 }
