@@ -359,9 +359,8 @@ function createValue(val: string, done: any) {
           option-value="id"
         />
       </q-item>
-      <q-item>
+      <q-item v-if="event.eventType == '2'">
         <q-select
-          v-if="event.eventType == '2'"
           v-model="event.meetingAttendees"
           :options="filterOptions"
           class="full-width"

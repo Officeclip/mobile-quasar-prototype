@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { regardingContact } from '../../models/general/regardingAll';
 import { useRegardingAllStore } from '../../stores/regarding/regardingAllStore';
 
@@ -9,6 +9,10 @@ const regardingAllStore = useRegardingAllStore();
 regardingAllStore.getMetaTypes();
 const metaTypeOptions = computed(() => {
   return regardingAllStore.MetaTypes;
+});
+//disabled regarding contacts unless select the option from regarding types
+const disabled = computed(() => {
+  return parentServiceType.value == '' ? true : false;
 });
 
 const regardingContacts = ref([] as regardingContact[]);
@@ -62,6 +66,8 @@ async function filterContacts(
           multiple
           option-label="name"
           option-value="id"
+          :option-disable="disabled"
+          :disable="disabled"
           use-input
           @filter="filterContacts"
         >
