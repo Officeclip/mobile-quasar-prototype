@@ -15,9 +15,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
   actions: {
     async getTasks(parentObjectId: number, parentObjectServiceType: number) {
-      console.log(
-        `TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`
-      );
+      // console.log(`TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`);
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
           ? `http://localhost:4000/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
@@ -85,10 +83,8 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
     },
 
-    async getFilteredTasks(filterOptions:any, parentObjectId: number, parentObjectServiceType: number) {
-      console.log(
-        `TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`
-      );
+    async getFilteredTasks(filterOptions: any, parentObjectId: number, parentObjectServiceType: number) {
+      // console.log(`TasksStore: getFilteredTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`);
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
           ? `http://localhost:4000/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
@@ -97,37 +93,40 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         const response = await axios.get(callStr);
         let filteredSummaries = response.data;
 
-
+        //Search String
         if (filterOptions.filterString) {
           filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
             return task.subject.toLowerCase().includes(filterOptions.filterString.toLowerCase());
           });
         }
-
+        // Owner=Me
         if (filterOptions.ownedByMeFilter) {
           filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
             return task.taskOwner === filterOptions.userName;
           });
         }
-
+        // Assignee=me
         if (filterOptions.assignedToMeFilter) {
           filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
             return task.assignee.includes(filterOptions.userName);
           });
         }
 
-        if (filterOptions.statusFilter) {
-          filteredSummaries = filteredSummaries.filter((task:taskSummary) => {
-            return task.taskStatusId === filterOptions.statusFilter;
+        if (filterOptions.statusValue) {
+          console.log("StatusFilter");
+          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+            return task.taskStatusId === filterOptions.statusValue;
           });
         }
 
-        if (filterOptions.priorityFilter) {
-          filteredSummaries = filteredSummaries.filter((task:taskSummary) => {
-            return task.taskPriorityId === filterOptions.priorityFilter;
+        if (filterOptions.priorityValue) {
+          console.log("PriorityFilter");
+
+          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+            return task.taskPriorityId === filterOptions.priorityValue;
           });
         }
-        this.taskSummaries =  filteredSummaries;
+        this.taskSummaries = filteredSummaries;
 
       } catch (error) {
         console.error(error);

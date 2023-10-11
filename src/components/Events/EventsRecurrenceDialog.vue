@@ -182,9 +182,6 @@ const generateRecurrenceRule = () => {
   const rule = new RRule(ruleOptions);
   generatedRRule.value = rule.toString();
   emit('rrule-string-generated', rule.toString());
-  console.log(rule.isFullyConvertibleToText())
-  console.log(rule.toString())
-  console.log(rule.toText())
   emit('rrule-text-generated', rule.toText());
 
 };

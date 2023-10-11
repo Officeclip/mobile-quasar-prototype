@@ -5,14 +5,23 @@ import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import TaskAdvancedFilters from "components/tasks/taskAdvancedFilters.vue";
 
 
-const filterOptions = {
+let filterOptions = {
   filterString: '',
   ownedByMeFilter: false,
   assignedToMeFilter: false,
   showAdvancedOptions: false,
   userName: 'Alice Johnson',
-  statusFilter: '',
-  priorityFilter: ''
+
+  dueDateValue: '',
+  dueDateOption: '',
+  modifiedDateValue: '',
+  modifiedDateOption: '',
+  statusValue: '',
+  priorityValue: '',
+  taskTypeValue:'',
+  assignedTo: '',
+  ownedBy: '',
+  regarding: ''
 };
 
 const parent = ref({
@@ -22,9 +31,30 @@ const parent = ref({
 
 const taskSummaryStore = useTaskSummaryStore();
 
-//Temporary fix to stop continous network requests
+//Temporary fix to stop continuous network requests
+// Get the filtered task summaries, and ensure that the component only re-renders when the filtered tasks actually change.
+// const filteredTaskSummaries = computed(() => {
+//   getFilteredTaskSummaries();
+//   return taskSummaryStore.TaskSummaries;
+// });
+//
+// async function getFilteredTaskSummaries() {
+//   console.log('Request filtered tasks');
+//   await taskSummaryStore.getFilteredTasks(
+//     filterOptions.value,
+//     Number(parent.value.parentObjectId),
+//     Number(parent.value.parentObjectServiceType)
+//   );
+// }
+//
+// watch(filterOptions.value, () => {
+//   getFilteredTaskSummaries();
+// });
 
 const getFilteredTaskSummaries = computed(() => {
+  console.log(filterOptions);
+
+  // console.log("Request filtered tasks");
   taskSummaryStore.getFilteredTasks(filterOptions, Number(parent.value.parentObjectId), Number(parent.value.parentObjectServiceType));
   return taskSummaryStore.TaskSummaries;
   //
@@ -74,32 +104,45 @@ const getSortedSummaries = computed(() => {
   return sortedTasks.value;
 });
 
+function clearFilterValues(){
+  filterOptions = {
+    filterString: '',
+    ownedByMeFilter: false,
+    assignedToMeFilter: false,
+    showAdvancedOptions: false,
+    userName: 'Alice Johnson',
+
+    dueDateValue: '',
+    dueDateOption: '',
+    modifiedDateValue: '',
+    modifiedDateOption: '',
+    statusValue: '',
+    priorityValue: '',
+    taskTypeValue:'',
+    assignedTo: '',
+    ownedBy: '',
+    regarding: ''
+  }
+}
 onBeforeMount(() => {
   taskSummaryStore.getTasks(Number(parent.value.parentObjectId), Number(parent.value.parentObjectServiceType));
 });
 
-
 const sortOption = ref('subject'); // Default sorting by subject
 
-const sortOptions = [
-  {label: 'Subject', value: 'subject'},
-  {label: 'Created Date', value: 'createdDate'},
-  {label: 'Due Date', value: 'dueDate'},
-];
-
-const statusOptions = [
-  {label: 'All', value: ''},
-  {label: 'Open', value: 'Open'},
-  {label: 'In Progress', value: 'In Progress'},
-  {label: 'Completed', value: 'Completed'},
-];
-
-const priorityOptions = [
-  {label: 'All', value: ''},
-  {label: 'Low', value: 'Low'},
-  {label: 'Medium', value: 'Medium'},
-  {label: 'High', value: 'High'},
-];
+function receiveAdvFilters(advancedOptions: any) {
+  console.log(advancedOptions);
+  filterOptions.dueDateValue = advancedOptions.dueDateValue;
+  filterOptions.dueDateOption = advancedOptions.dueDateOption;
+  filterOptions.modifiedDateValue = advancedOptions.modifiedDateValue;
+  filterOptions.modifiedDateOption = advancedOptions.modifiedDateOption;
+  filterOptions.statusValue = advancedOptions.statusValue;
+  filterOptions.priorityValue = advancedOptions.priorityValue;
+  filterOptions.assignedTo = advancedOptions.assignedTo;
+  filterOptions.ownedBy = advancedOptions.ownedBy;
+  filterOptions.regarding = advancedOptions.regarding;
+  filterOptions.taskTypeValue = advancedOptions.taskTypeValue;
+}
 
 </script>
 
@@ -135,9 +178,9 @@ const priorityOptions = [
               <q-checkbox v-model="filterOptions.ownedByMeFilter" label="Owned by me"/>
               <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
             </div>
-            <div class="row center">
-              <q-item-section> Show Advanced Options</q-item-section>
-              <q-toggle v-model="filterOptions.showAdvancedOptions"></q-toggle>
+            <div>
+              <q-btn class="q-ma-sm" @click="filterOptions.showAdvancedOptions = true" label="Open Advanced Filters"/>
+              <q-btn class="q-ma-sm" @click="clearFilterValues" label="Reset Filters"/>
             </div>
           </div>
         </div>
@@ -147,8 +190,10 @@ const priorityOptions = [
         </q-list>
 
         <q-dialog v-model="filterOptions.showAdvancedOptions">
-          <task-advanced-filters/>
+          <task-advanced-filters @advancedOptionsGenerated="receiveAdvFilters"/>
         </q-dialog>
+
+<!--        <pre>{{ filterOptions }}</pre>-->
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
         <q-btn
@@ -167,5 +212,3 @@ const priorityOptions = [
     </q-page-container>
   </q-layout>
 </template>
-
-<style></style>

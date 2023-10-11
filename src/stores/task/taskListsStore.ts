@@ -16,7 +16,6 @@ export const useTaskListsStore = defineStore('taskListsStore', {
   getters: {
     TaskTypes: (state) => state.taskTypes,
     RegardingContacts: (state) => state.regardingContacts,
-
     TaskPriorities: (state) => state.taskPriorities,
     TaskStatuses: (state) => state.taskStatuses,
   },
