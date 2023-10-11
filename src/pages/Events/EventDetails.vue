@@ -47,9 +47,42 @@ function showMeetingType(eventType: string | undefined) {
       return '';
   }
 }
+const startDate = computed(() => {
+  if (event.value?.startDateTime) {
+    const data = dateTimeHelper.extractDateandTimeFromUtc(
+      event.value?.startDateTime,
+      event.value?.isAllDayEvent
+    );
+    return data;
+  }
+  return 'YYYY';
+});
+const endDate = computed(() => {
+  if (event.value?.endDateTime) {
+    const data = dateTimeHelper.extractDateandTimeFromUtc(
+      event.value?.endDateTime,
+      event.value?.isAllDayEvent
+    );
+    return data;
+  }
+  return 'YYYY';
+});
+const createdDate = computed(() => {
+  if (event.value?.createdDate) {
+    const data = dateTimeHelper.extractDateandTimeFromUtc(
+      event.value?.createdDate,
+      event.value?.isAllDayEvent
+    );
+    return data;
+  }
+  return 'YYYY';
+});
 const attendeesList = computed(() => {
-  const data = event.value?.meetingAttendees;
-  return data;
+  if (event.value?.meetingAttendees) {
+    const data = event.value?.meetingAttendees;
+    return data;
+  }
+  return 'No attendees added yet';
 });
 
 //filter and get the single label object by labelId
@@ -111,11 +144,7 @@ console.log('Testing the label object by labelid::', labelNameById);
             <q-item>
               <q-item-section>
                 <q-item-label caption>Created On</q-item-label>
-                <q-item-label>{{
-                  dateTimeHelper.extractDateandTimeFromUtcAsLocal(
-                    event?.createdDate
-                  )
-                }}</q-item-label>
+                <q-item-label>{{ createdDate }}</q-item-label>
               </q-item-section>
             </q-item>
 
@@ -142,31 +171,13 @@ console.log('Testing the label object by labelid::', labelNameById);
             <q-item>
               <q-item-section>
                 <q-item-label caption>Start Date</q-item-label>
-                <q-item-label
-                  >{{
-                    event?.startDateTime
-                      ? dateTimeHelper.extractDateandTimeFromUtcAsLocal(
-                          event?.startDateTime,
-                          event?.isAllDayEvent
-                        )
-                      : 'YYYY'
-                  }}
-                </q-item-label>
+                <q-item-label>{{ startDate }} </q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section>
                 <q-item-label caption>End Date</q-item-label>
-                <q-item-label
-                  >{{
-                    event?.endDateTime
-                      ? dateTimeHelper.extractDateandTimeFromUtcAsLocal(
-                          event?.endDateTime,
-                          event?.isAllDayEvent
-                        )
-                      : 'YYYY'
-                  }}
-                </q-item-label>
+                <q-item-label>{{ endDate }} </q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
@@ -185,7 +196,7 @@ console.log('Testing the label object by labelid::', labelNameById);
                     v-for="attendee in attendeesList"
                     :key="attendee.name"
                   >
-                    <q-chip>{{ attendee.name }}</q-chip>
+                    <q-chip dense class="q-px-sm">{{ attendee.name }}</q-chip>
                   </q-item-label>
                 </div>
               </q-item-section>

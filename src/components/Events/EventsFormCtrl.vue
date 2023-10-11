@@ -1,15 +1,56 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import FilePicker from 'components/Events/FilePicker.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
-import { regardingContact } from 'src/models/event/eventLists';
+// import { regardingContact } from 'src/models/event/eventLists';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
+import RegardingAll from '../../components/general/RegardingAll.vue';
 // import { Notify } from 'quasar';
 // eslint-disable-next-line vue/no-dupe-keys
+const props = defineProps(['event']);
+const emit = defineEmits([
+  'rrule-generated',
+  'reminder-generated',
+  'rrule-text-generated',
+  'selectedAttendeesP',
+]);
+
+const startDateTime = ref(props.event.startDateTime);
+const endDateTime = ref(props.event.endDateTime);
+const startDate = ref('');
+const startTime = ref('');
+const endDate = ref('');
+const endTime = ref('');
+function extractDateAndTime(
+  dateTimeValue: any,
+  dateX = ref(''),
+  timeX = ref('')
+) {
+  if (dateTimeValue) {
+    const dateObj = new Date(dateTimeValue);
+    dateX.value = dateObj.toISOString().split('T')[0]; // Extract startDate (YYYY-MM-DD)
+    timeX.value = dateObj.toISOString().split('T')[1].split('.')[0]; // Extract startTime (HH:mm:ss)
+  }
+  return;
+}
+// Initial extraction
+extractDateAndTime(startDateTime.value, startDate, startTime);
+extractDateAndTime(endDateTime.value, endDate, endTime);
+watch(
+  [startDate, startTime, endDate, endTime],
+  ([newStartDate, newStartTime, newEndDate, newEndTime]) => {
+    const utcDateStart = new Date(`${newStartDate}T${newStartTime}Z`);
+    const utcDateEnd = new Date(`${newEndDate}T${newEndTime}Z`);
+
+    props.event.startDateTime = utcDateStart.toISOString();
+    props.event.endDateTime = utcDateEnd.toISOString();
+  }
+);
 
 const eventDetailsStore = useEventDetailsStore();
 const eventListsStore = useEventListsStore();
@@ -20,7 +61,18 @@ onMounted(() => {
 const meetingAttendee = computed(() => {
   return eventDetailsStore.MeetingAttendees;
 });
-
+const startsModelValue = computed(() => {
+  return dateTimeHelper.extractDateandTimeFromUtc(
+    props.event.startDateTime,
+    props.event.isAllDayEvent
+  );
+});
+const endsModelValue = computed(() => {
+  return dateTimeHelper.extractDateandTimeFromUtc(
+    props.event.endDateTime,
+    props.event.isAllDayEvent
+  );
+});
 const label = computed(() => {
   return eventListsStore.Labels;
 });
@@ -33,26 +85,9 @@ const ShowMyTimeAsOptions = computed(() => {
 const metaTypeOptions = computed(() => {
   return eventListsStore.MetaTypes;
 });
-
-const props = defineProps(['event']);
-const emit = defineEmits([
-  'rrule-generated',
-  'reminder-generated',
-  'rrule-text-generated',
-  'selectedAttendeesP',
-]);
-
 const showTimeAs = ref('1');
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
-
-const maskDateTime = computed(() => {
-  if (props.event.isAllDayEvent) {
-    return 'YYYY-MM-DD';
-  } else {
-    return 'YYYY-MM-DD HH:mm';
-  }
-});
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
@@ -115,55 +150,31 @@ function createValue(val: string, done: any) {
   }
 }
 
-const regardingContacts = ref([] as regardingContact[]);
-const selectedRegContact = ref(null);
+// const regardingContacts = ref([] as regardingContact[]);
+// const selectedRegContact = ref(null);
 
-async function filterContacts(
-  val: string,
-  update: (arg0: () => void) => void,
-  abort: () => void
-) {
-  if (val.length < 2) {
-    abort();
-    return;
-  } else if (val.length === 2) {
-    regardingContacts.value = [] as regardingContact[];
-    await eventListsStore.getRegardingContactListThatMatch(val);
-    regardingContacts.value = eventListsStore.regardingContacts;
-  }
+// async function filterContacts(
+//   val: string,
+//   update: (arg0: () => void) => void,
+//   abort: () => void
+// ) {
+//   if (val.length < 2) {
+//     abort();
+//     return;
+//   } else if (val.length === 2) {
+//     regardingContacts.value = [] as regardingContact[];
+//     await eventListsStore.getRegardingContactListThatMatch(val);
+//     regardingContacts.value = eventListsStore.regardingContacts;
+//   }
 
-  update(() => {
-    console.log('update');
-    const needle = val.toLowerCase();
-    regardingContacts.value = eventListsStore.regardingContacts.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
-    );
-  });
-}
-
-// implementing file picker
-// const fileModel = ref();
-// const errorsMap: any = {
-//   accept: 'File type not accepted',
-//   'max-file-size': 'Max file size exceeded',
-//   'max-total-size': 'Max total size exceeded',
-// };
-// function onRejected(rejectedFiles: any[]) {
-//   rejectedFiles.forEach((rejectedFile: any) => {
-//     const errorMessage = errorsMap[rejectedFile.failedPropValidation];
-//     if (!errorMessage) {
-//       return;
-//     }
-//     if (rejectedFile.failedPropValidation) {
-//       Notify.create({
-//         message: errorMessage,
-//         type: 'negative',
-//       });
-//     }
+//   update(() => {
+//     console.log('update');
+//     const needle = val.toLowerCase();
+//     regardingContacts.value = eventListsStore.regardingContacts.filter(
+//       (v) => v.name.toLowerCase().indexOf(needle) > -1
+//     );
 //   });
 // }
-//file picker dialog implementation
-// const filePickerDialogOpened = ref(false);
 </script>
 
 <template>
@@ -244,16 +255,11 @@ async function filterContacts(
       </q-item>
       <q-item class="column">
         <q-input
-          v-model="event.startDateTime"
+          v-model="startDate"
           :rules="[(val: any) => !!val || 'Start Date is required']"
           label="Starts*"
           name="startDateTime"
-          :model-value="
-            dateTimeHelper.extractDateandTimeFromUtcAsLocal(
-              event.startDateTime,
-              event.isAllDayEvent
-            )
-          "
+          :model-value="startsModelValue"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -262,7 +268,7 @@ async function filterContacts(
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-model="event.startDateTime" :mask="maskDateTime">
+                <q-date v-model="startDate" mask="YYYY-MM-DD">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -280,8 +286,8 @@ async function filterContacts(
               >
                 <q-time
                   v-if="!props.event.isAllDayEvent"
-                  v-model="event.startDateTime"
-                  :mask="maskDateTime"
+                  v-model="startTime"
+                  mask="HH:mm"
                 >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
@@ -292,16 +298,11 @@ async function filterContacts(
           </template>
         </q-input>
         <q-input
-          v-model="event.endDateTime"
+          v-model="endDate"
           :rules="[(val: any) => !!val || 'End Date is required']"
           label="Ends*"
           name="endDateTime"
-          :model-value="
-            dateTimeHelper.extractDateandTimeFromUtcAsLocal(
-              event.endDateTime,
-              event.isAllDayEvent
-            )
-          "
+          :model-value="endsModelValue"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -310,7 +311,7 @@ async function filterContacts(
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-model="event.endDateTime" :mask="maskDateTime">
+                <q-date v-model="endDate" mask="YYYY-MM-DD">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -326,7 +327,7 @@ async function filterContacts(
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-time v-model="event.endDateTime" :mask="maskDateTime">
+                <q-time v-model="endTime" mask="HH:mm">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -363,7 +364,7 @@ async function filterContacts(
           v-if="event.eventType == '2'"
           v-model="event.meetingAttendees"
           :options="filterOptions"
-          class="full-width q-mt-sm"
+          class="full-width"
           input-debounce="0"
           label="Attendees"
           multiple
@@ -458,7 +459,6 @@ async function filterContacts(
           </q-select>
         </q-item-section>
         <q-item-section>
-          <!-- <pre>{{ event.label }}</pre> -->
           <q-select
             filled
             v-model="event.label"
@@ -496,9 +496,8 @@ async function filterContacts(
       </q-item>
 
       <!-- <q-item class="q-mt-md text-subtitle1">Regarding</q-item> -->
-      <q-item class="q-mt-none">
+      <!-- <q-item class="q-mt-none">
         <q-item-section class="q-mr-sm">
-          <!-- <pre>{{ regardings }}</pre> -->
           <q-select
             label="Regardings"
             v-model="event.parentServiceType"
@@ -531,8 +530,11 @@ async function filterContacts(
         <q-item-section side>
           <q-icon color="primary" name="switch_access_shortcut" />
         </q-item-section>
-      </q-item>
+      </q-item> -->
       <!-- <pre>{{ event.attachments }}</pre> -->
+      <div>
+        <RegardingAll />
+      </div>
       <q-item>
         <!-- <FilePicker @get-attachments-generated="handleAttachments" /> -->
         <FilePicker />
