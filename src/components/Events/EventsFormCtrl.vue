@@ -17,7 +17,6 @@ const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
   'rrule-text-generated',
-  'selectedAttendeesP',
 ]);
 
 const startDateTime = ref(props.event.startDateTime);
@@ -82,12 +81,18 @@ const timeZone = computed(() => {
 const ShowMyTimeAsOptions = computed(() => {
   return eventListsStore.ShowMyTimeAs;
 });
-const metaTypeOptions = computed(() => {
-  return eventListsStore.MetaTypes;
-});
+// const metaTypeOptions = computed(() => {
+//   return eventListsStore.MetaTypes;
+// });
 const showTimeAs = ref('1');
-const repeatString = ref('Does not repeat');
-const reminderTextInfo = ref('Reminder');
+// const repeatString = ref('Does not repeat');
+const repeatString = props.event?.repeatInfoText
+  ? ref(props.event?.repeatInfoText)
+  : ref('Does not repeat');
+// const reminderTextInfo = ref('Reminder');
+const reminderTextInfo = props.event?.recurrenceRule
+  ? ref(props.event?.recurrenceRule)
+  : ref('Reminder');
 
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);

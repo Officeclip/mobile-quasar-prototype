@@ -22,9 +22,18 @@ const eventDetails = computed(() => {
   return eventDetailsStore.EventDetails;
 });
 
-// function convertDateLocalToUTC(dateTime: any) {
-//   return new Date(dateTime).toISOString();
-// }
+function handleRRule(rrule: string) {
+  eventDetails.value.recurrenceRule = rrule;
+}
+
+function handleRRuleText(rruleText: string) {
+  eventDetails.value.repeatInfoText = rruleText;
+}
+
+function handleReminder(reminder: [string, number]) {
+  eventDetails.value.remindTo = reminder[0];
+  eventDetails.value.remindBeforeMinutes = reminder[1];
+}
 
 function onSubmit(e: any) {
   e.preventDefault();
@@ -115,7 +124,12 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <EventForm :event="eventDetails" />
+          <EventForm
+            :event="eventDetails"
+            @rrule-generated="handleRRule"
+            @rrule-text-generated="handleRRuleText"
+            @reminder-generated="handleReminder"
+          />
           <!-- <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"
