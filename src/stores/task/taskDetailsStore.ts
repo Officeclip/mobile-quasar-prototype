@@ -73,7 +73,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       }
     },
 
-    async deleteTask(id: number | undefined) {
+    async deleteTask(id: number | string|undefined) {
       try {
         const response = await axios.delete(
           `${Constants.endPointUrl}/task-details/${id}`

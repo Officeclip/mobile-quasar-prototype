@@ -43,6 +43,13 @@ function getTaskType() {
     taskType => taskType.id == taskDetail.value?.taskTypeId)?.name;
 }
 
+function deleteTask() {
+  let taskId = id.value;
+  console.log("ID=" + taskId);
+  taskSummaryStore.deleteTask(taskId);
+  taskDetailsStore.deleteTask(taskId);
+}
+
 </script>
 
 <template>
@@ -74,7 +81,7 @@ function getTaskType() {
           flat
           icon="delete"
           round
-          @click="taskSummaryStore.deleteTask(taskDetail?.id);taskDetailsStore.deleteTask(taskDetail?.id); $router.go(-1)"
+          @click="deleteTask();  $router.go(-1);"
         />
       </q-toolbar>
     </q-header>
