@@ -2079,7 +2079,7 @@
   "task-details": [
     {
       "id": 101,
-      "subject": "1: Complete Sprint Planning (Edit) 1",
+      "subject": "1: Complete Sprint Planning (Edit)",
       "description": "Plan and prioritize tasks for the upcoming sprint",
       "taskTypeId": 2,
       "taskPriorityId": "3",
@@ -2089,7 +2089,7 @@
       "parentObjectServiceType": 3,
       "parentObjectId": 201,
       "startDate": "2023-10-01T10:00:00Z",
-      "modifiedDate": "2023-10-11T22:43:13.467Z",
+      "modifiedDate": "2023-10-12T18:29:29.085Z",
       "dueDate": "2023-10-05T17:00:00Z",
       "createdDate": "2023-09-30T08:45:00Z",
       "regardingType": 1,
@@ -2304,7 +2304,7 @@
   "task-summary": [
     {
       "id": 101,
-      "subject": "1: Complete Sprint Planning (Edit) 1",
+      "subject": "1: Complete Sprint Planning (Edit)",
       "description": "Plan and prioritize tasks for the upcoming sprint",
       "taskTypeId": 2,
       "taskPriorityId": "3",
@@ -2314,7 +2314,7 @@
       "parentObjectServiceType": 3,
       "parentObjectId": 201,
       "startDate": "2023-10-01T10:00:00Z",
-      "modifiedDate": "2023-10-11T22:43:13.467Z",
+      "modifiedDate": "2023-10-12T18:29:29.085Z",
       "dueDate": "2023-10-05T17:00:00Z",
       "createdDate": "2023-09-30T08:45:00Z",
       "regardingType": 1,

@@ -1,7 +1,7 @@
 <!-- Cleaned up using Google Bard -->
-<script setup lang="ts">
-import { ref, onMounted, computed, ComputedRef, Ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+<script lang="ts" setup>
+import {computed, ComputedRef, onMounted, ref} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import TasksForm from 'components/tasks/tasksFormCtrl.vue';
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
 import {taskDetails} from "src/models/task/taskDetails";
@@ -16,7 +16,7 @@ console.log('EditTask Started');
 
 const id = ref<string | string[]>(route.params.id);
 
-const task:ComputedRef<taskDetails> = computed(() => {
+const task: ComputedRef<taskDetails> = computed(() => {
   return tasksDetailStore.TaskDetail;
 });
 
@@ -29,7 +29,7 @@ function onSubmit(e: any) {
   const formData = new FormData(e.target);
   console.log(`onSubmit Task Value: ${task.value}`);
 
-  const newTask:taskDetails = {
+  const newTask: taskDetails = {
     // id: task.value.id,
     // subject: task.value?.subject,
     // description: task.value?.description,
@@ -80,28 +80,26 @@ function onSubmit(e: any) {
     <q-header>
       <q-toolbar>
         <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
           color="white"
+          dense
+          flat
           icon="arrow_back"
-        >
-        </q-btn>
+          round
+          @click="$router.go(-1)"
+        />
         <q-toolbar-title> Edit Task</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-page-container>
-      <q-form @submit="onSubmit" class="q-gutter-md">
+      <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <TasksForm :task="task" />
+          <TasksForm :task="task"/>
           <q-btn
             class="q-ml-md q-mb-md"
+            color="primary"
             label="Submit"
             type="submit"
-            color="primary"
-          >
-          </q-btn>
+          />
         </div>
       </q-form>
     </q-page-container>
