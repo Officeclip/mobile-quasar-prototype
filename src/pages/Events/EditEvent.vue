@@ -78,7 +78,7 @@ function onSubmit(e: any) {
     modifiedUserSid: event.value?.modifiedUserSid,
     timezoneId: event.value?.timezoneId,
     remindTo: event.value?.remindTo,
-    remindBeforeMinutes: 0,
+    remindBeforeMinutes: event.value?.remindBeforeMinutes,
     label: event.value?.label,
     meetingAttendees: event.value?.meetingAttendees,
     url: event.value?.url,
