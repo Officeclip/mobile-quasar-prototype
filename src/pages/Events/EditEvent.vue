@@ -4,11 +4,14 @@ import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import { eventDetails } from '../../models/event/eventDetails';
+// import { eventDetails } from '../../models/event/eventDetails';
 
+const route = useRoute();
+const paramsId = route.params.id;
+console.log('testing from edit screen paramsId:', paramsId);
+const router = useRouter();
 const eventDetailsStore = useEventDetailsStore();
-const route1 = useRouter();
-
+eventDetailsStore.getEventDetailsById(paramsId);
 // const id = ref<string | string[]>('0');
 
 // onMounted(() => {
@@ -18,21 +21,21 @@ const route1 = useRouter();
 //   eventDetailsStore.getEventDetailsById(route.params.id);
 // });
 
-const eventDetails = computed(() => {
-  return eventDetailsStore.EventDetails;
+const event = computed(() => {
+  return eventDetailsStore.eventDetails;
 });
-
+console.log('testing from edit screen eventXXXXXX:', event.value);
 function handleRRule(rrule: string) {
-  eventDetails.value.recurrenceRule = rrule;
+  event.value.recurrenceRule = rrule;
 }
 
 function handleRRuleText(rruleText: string) {
-  eventDetails.value.repeatInfoText = rruleText;
+  event.value.repeatInfoText = rruleText;
 }
 
 function handleReminder(reminder: [string, number]) {
-  eventDetails.value.remindTo = reminder[0];
-  eventDetails.value.remindBeforeMinutes = reminder[1];
+  event.value.remindTo = reminder[0];
+  event.value.remindBeforeMinutes = reminder[1];
 }
 
 function onSubmit(e: any) {
@@ -41,12 +44,12 @@ function onSubmit(e: any) {
   // const formData: any = new FormData(e.target);
 
   // const start = formData.get('startDateTime');
-  // const newStartDate = eventDetails.value?.isAllDayEvent
+  // const newStartDate = event.value?.isAllDayEvent
   //   ? dateTimeHelper.convertDateToUtc(start)
   //   : dateTimeHelper.convertGeneralToUtc(start);
 
   // const end = formData.get('endDateTime');
-  // const newEndDate = eventDetails.value?.isAllDayEvent
+  // const newEndDate = event.value?.isAllDayEvent
   //   ? dateTimeHelper.convertDateToUtc(end)
   //   : dateTimeHelper.convertGeneralToUtc(end);
 
@@ -56,42 +59,42 @@ function onSubmit(e: any) {
   // idea from https://stackoverflow.com/a/57611367
 
   // convert local start/end datetime to utc while saving into the json
-  const startDateTime = eventDetails.value?.startDateTime;
+  const startDateTime = event.value?.startDateTime;
   const newStartDateTime = dateTimeHelper.convertLocalDateToUTC(startDateTime);
 
-  const endDateTime = eventDetails.value?.endDateTime;
+  const endDateTime = event.value?.endDateTime;
   const newEndDateTime = dateTimeHelper.convertLocalDateToUTC(endDateTime);
 
-  const editEvent: eventDetails = {
-    id: eventDetails.value?.id as string,
-    parentServiceType: eventDetails.value?.parentServiceType as number,
-    eventType: eventDetails.value?.eventType as string,
-    eventName: eventDetails.value?.eventName as string,
-    eventDescription: eventDetails.value?.eventDescription,
+  const editEvent: event = {
+    id: event.value?.id as string,
+    parentServiceType: event.value?.parentServiceType as number,
+    eventType: event.value?.eventType as string,
+    eventName: event.value?.eventName as string,
+    eventDescription: event.value?.eventDescription,
     startDateTime: newStartDateTime,
     endDateTime: newEndDateTime,
-    isAllDayEvent: eventDetails.value?.isAllDayEvent as boolean,
-    eventLocation: eventDetails.value?.eventLocation,
-    createdDate: eventDetails.value?.createdDate,
-    createdGroupSId: eventDetails.value?.createdGroupSId,
-    createdUserSid: eventDetails.value?.createdUserSid,
-    parentSid: eventDetails.value?.parentSid,
-    eventUserSid: eventDetails.value?.eventUserSid,
-    isRsvp: eventDetails.value?.isRsvp,
-    sendNotifications: eventDetails.value?.sendNotifications,
-    repeatInfoText: eventDetails.value?.repeatInfoText,
-    recurrenceRule: eventDetails.value?.recurrenceRule,
-    modifiedDate: eventDetails.value?.modifiedDate,
-    modifiedUserSid: eventDetails.value?.modifiedUserSid,
-    timezoneId: eventDetails.value?.timezoneId,
-    remindTo: eventDetails.value?.remindTo,
+    isAllDayEvent: event.value?.isAllDayEvent as boolean,
+    eventLocation: event.value?.eventLocation,
+    createdDate: event.value?.createdDate,
+    createdGroupSId: event.value?.createdGroupSId,
+    createdUserSid: event.value?.createdUserSid,
+    parentSid: event.value?.parentSid,
+    eventUserSid: event.value?.eventUserSid,
+    isRsvp: event.value?.isRsvp,
+    sendNotifications: event.value?.sendNotifications,
+    repeatInfoText: event.value?.repeatInfoText,
+    recurrenceRule: event.value?.recurrenceRule,
+    modifiedDate: event.value?.modifiedDate,
+    modifiedUserSid: event.value?.modifiedUserSid,
+    timezoneId: event.value?.timezoneId,
+    remindTo: event.value?.remindTo,
     remindBeforeMinutes: 0,
-    label: eventDetails.value?.label,
-    meetingAttendees: eventDetails.value?.meetingAttendees,
-    url: eventDetails.value?.url,
+    label: event.value?.label,
+    meetingAttendees: event.value?.meetingAttendees,
+    url: event.value?.url,
   };
   eventDetailsStore.editEventDetails(editEvent);
-  route1.push('/eventSummary');
+  router.push('/eventSummary');
 }
 </script>
 
@@ -125,7 +128,7 @@ function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <EventForm
-            :event="eventDetails"
+            :event="event"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"
             @reminder-generated="handleReminder"

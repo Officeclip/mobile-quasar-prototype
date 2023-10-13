@@ -39,7 +39,7 @@ const event: Ref<eventDetails> = ref({
   modifiedUserSid: '',
   timezoneId: '2',
   remindTo: '',
-  remindBeforeMinutes: 60,
+  remindBeforeMinutes: Number,
   label: '1',
   meetingAttendees: [],
   url: '',

@@ -126,7 +126,7 @@ console.log('Testing the label object by labelid::', labelNameById);
         <q-toolbar-title> Event details</q-toolbar-title>
 
         <q-btn
-          :to="{ name: 'editEvent', params: { id: id } }"
+          :to="{ name: 'editEvent', params: { id: paramsId } }"
           color="white"
           dense
           flat
