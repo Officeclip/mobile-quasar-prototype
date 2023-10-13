@@ -2108,8 +2108,46 @@
         102
       ],
       "subtasks": [
-        301,
-        302
+        {
+          "id": 1,
+          "parentId": 101,
+          "title": "Subtask 1",
+          "description": "Description for subtask 1",
+          "assignee": {
+            "id": "1",
+            "name": "Kathiravan Sekar"
+          },
+          "isCompleted": false,
+          "completedDate": "2023-10-05T17:00:00Z"
+        },
+        {
+          "id": 2,
+          "parentId": 101,
+          "title": "Subtask 2",
+          "description": "Description for subtask 2",
+          "assignee": {
+            "id": "1",
+            "name": "Kathiravan Sekar"
+          },
+          "isCompleted": false,
+          "completedDate": "2023-10-05T17:00:00Z"
+        },
+        {
+          "id": "",
+          "parentId": 101,
+          "title": "1",
+          "description": "3",
+          "assignee": {
+            "id": "1",
+            "name": "Kathiravan Sekar"
+          },
+          "isCompleted": false,
+          "completedDate": "2023-10-05T17:00:00Z"
+        },
+        {
+          "isTrusted": true,
+          "_vts": 1697232692060
+        }
       ]
     },
     {
@@ -2143,7 +2181,19 @@
       ],
       "subtasks": [
         303,
-        304
+        304,
+        {
+          "id": "",
+          "parentId": 101,
+          "title": "Task 3",
+          "description": "2",
+          "assignee": {
+            "id": "1",
+            "name": "Kathiravan Sekar"
+          },
+          "isCompleted": false,
+          "completedDate": "2023-10-05T17:00:00Z"
+        }
       ]
     },
     {
@@ -2983,6 +3033,18 @@
       "parentId": 101,
       "title": "Subtask 1",
       "description": "Description for subtask 1",
+      "assignee": {
+        "id": "1",
+        "name": "Kathiravan Sekar"
+      },
+      "isCompleted": false,
+      "completedDate": "2023-10-05T17:00:00Z"
+    },
+    {
+      "id": 2,
+      "parentId": 101,
+      "title": "Subtask 2",
+      "description": "Description for subtask 2",
       "assignee": {
         "id": "1",
         "name": "Kathiravan Sekar"

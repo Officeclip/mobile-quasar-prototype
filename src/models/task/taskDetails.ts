@@ -1,3 +1,5 @@
+import {subTask} from "src/models/task/subtask";
+
 export interface taskDetails {
   id: number;
   subject: string;
@@ -22,5 +24,5 @@ export interface taskDetails {
   repeatInfoText: string;
   recurrenceRule: string;
   tags:number[];
-  subtasks: number[];
+  subtasks: subTask[];
 }

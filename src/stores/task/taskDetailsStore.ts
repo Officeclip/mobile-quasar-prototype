@@ -2,6 +2,7 @@ import {defineStore} from 'pinia';
 import axios from 'axios';
 import {taskDetails} from 'src/models/task/taskDetails';
 import {Constants} from 'stores/Constants';
+import {subTask} from "src/models/task/subtask";
 
 export const useTaskDetailsStore = defineStore('taskDetailsStore', {
   state: () => ({
@@ -87,5 +88,10 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         console.error(`deleteNote Error: ${error}`);
       }
     },
+
+    async addSubtask(subtask:subTask){
+      this.taskDetail?.subtasks.push(subtask);
+      await this.editTask(<taskDetails>this.taskDetail);
+    }
   },
 });

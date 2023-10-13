@@ -1,12 +1,14 @@
 <!-- cleaned up with google bard with minor correction -->
 <script lang="ts" setup>
 import {computed, onMounted, ref, Ref} from 'vue';
-import {useRoute} from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
 import {taskDetails} from "src/models/task/taskDetails";
 import {useTaskListsStore} from "stores/task/taskListsStore";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
+import AddSubtaskDialog from "components/tasks/addSubtaskDialog.vue";
+import {subTask} from "src/models/task/subtask";
 
 const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
@@ -49,6 +51,15 @@ function deleteTask() {
   taskSummaryStore.deleteTask(taskId);
   taskDetailsStore.deleteTask(taskId);
 }
+
+const router = useRouter();
+
+const showSubtaskDialog = ref(false);
+
+function addSubtask(subtask:subTask) {
+  taskDetailsStore.addSubtask(subtask);
+}
+
 
 </script>
 
@@ -145,12 +156,12 @@ function deleteTask() {
                 <div class="row">
                   <div class="col-4">
                     <q-item-label caption>Reminder</q-item-label>
-                    <q-item-label class="q-mb-sm">{{ taskDetail?.remindBeforeMinutes }} minutes</q-item-label>
+                    <q-item-label>{{ taskDetail?.remindBeforeMinutes }} minutes</q-item-label>
                   </div>
 
                   <div class="col-4">
                     <q-item-label caption>Repeating</q-item-label>
-                    <q-item-label class="q-mb-sm">{{
+                    <q-item-label>{{
                         taskDetail?.repeatInfoText || taskDetail?.recurrenceRule || 'None'
                       }}
                     </q-item-label>
@@ -158,7 +169,7 @@ function deleteTask() {
 
                   <div class="col-4">
                     <q-item-label caption>Regarding</q-item-label>
-                    <q-item-label class="q-mb-sm">{{ taskDetail?.regardingType }}: {{
+                    <q-item-label>{{ taskDetail?.regardingType }}: {{
                         taskDetail?.regardingValue
                       }}
                     </q-item-label>
@@ -180,24 +191,136 @@ function deleteTask() {
                   </div>
                 </div>
 
-
                 <q-item-label caption>Tags</q-item-label>
                 <q-item-label class="q-mb-sm">
                   <div v-for="tag in taskDetail?.tags" :key="tag">{{ tag }}</div>
                 </q-item-label>
 
-                <q-item-label caption>Subtasks</q-item-label>
-                <q-item-label class="q-mb-sm">
-                  <div v-for="subtask in taskDetail?.subtasks" :key="subtask">{{ subtask }}</div>
-                </q-item-label>
+                <q-toolbar class="bg-primary text-white shadow-2">
+                  <q-toolbar-title>Subtasks</q-toolbar-title>
+                </q-toolbar>
+                <q-list bordered class="rounded-borders" style="max-width: 600px">
+                  <q-item>
+                    <q-item-section avatar top>
+                      <q-icon name="account_tree" color="black" size="34px" />
+                    </q-item-section>
+
+                    <q-item-section top class="col-2 gt-sm">
+                      <q-item-label class="q-mt-sm">GitHub</q-item-label>
+                    </q-item-section>
+
+                    <q-item-section top>
+                      <q-item-label lines="1">
+                        <span class="text-weight-medium">[quasarframework/quasar]</span>
+                        <span class="text-grey-8"> - GitHub repository</span>
+                      </q-item-label>
+                      <q-item-label caption lines="1">
+                        @rstoenescu in #3: > Generic type parameter for props
+                      </q-item-label>
+                      <q-item-label lines="1" class="q-mt-xs text-body2 text-weight-bold text-primary text-uppercase">
+                        <span class="cursor-pointer">Open in GitHub</span>
+                      </q-item-label>
+                    </q-item-section>
+
+                    <q-item-section top side>
+                      <div class="text-grey-8 q-gutter-xs">
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="delete" />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
+                        <q-btn size="12px" flat dense round icon="more_vert" />
+                      </div>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-separator spaced />
+
+                  <q-item>
+                    <q-item-section avatar top>
+                      <q-icon name="account_tree" color="black" size="34px" />
+                    </q-item-section>
+
+                    <q-item-section top class="col-2 gt-sm">
+                      <q-item-label class="q-mt-sm">GitHub</q-item-label>
+                    </q-item-section>
+
+                    <q-item-section top>
+                      <q-item-label lines="1">
+                        <span class="text-weight-medium">[quasarframework/quasar]</span>
+                        <span class="text-grey-8"> - GitHub repository</span>
+                      </q-item-label>
+                      <q-item-label caption lines="1">
+                        @rstoenescu in #1: > The build system
+                      </q-item-label>
+                      <q-item-label lines="1" class="q-mt-xs text-body2 text-weight-bold text-primary text-uppercase">
+                        <span class="cursor-pointer">Open in GitHub</span>
+                      </q-item-label>
+                    </q-item-section>
+
+                    <q-item-section top side>
+                      <div class="text-grey-8 q-gutter-xs">
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="delete" />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
+                        <q-btn size="12px" flat dense round icon="more_vert" />
+                      </div>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+
+                <q-list bordered>
+                  <q-item-label class="q-mb-sm">
+
+                    <q-card v-for="subtask in taskDetail?.subtasks" :key="subtask.id" style="margin-bottom: 10px;">
+                      <q-card-section>
+                        <q-item-label>
+                          <h6>{{ subtask.title }}</h6>
+                        </q-item-label>
+                        <q-item-label>
+                          <p>{{ subtask.description }}</p>
+                        </q-item-label>
+                        <q-item-label>
+                          <span>Assignee: {{ subtask.assignee.name }}</span>
+                        </q-item-label>
+                        <q-item-label>
+                          <span>Completed: {{ subtask.isCompleted ? 'Yes' : 'No' }}</span>
+                        </q-item-label>
+                        <q-item-label>
+                          <span>Completed Date: {{ subtask.completedDate }}</span>
+                        </q-item-label>
+                      </q-card-section>
+                    </q-card>
+                  </q-item-label>
+
+                </q-list>
+
 
               </q-item-section>
             </q-item>
           </q-list>
         </q-card-section>
       </q-card>
+
+
+      <q-page-sticky :offset="[18, 18]" position="bottom-right">
+
+        <q-fab color="purple" direction="up" icon="keyboard_arrow_up" vertical-actions-align="right">
+          <q-fab-action color="primary" icon="add_task" label="Add subtask" @click="showSubtaskDialog=true"/>
+          <q-fab-action :to="{
+            name: 'newTask',
+            params: {
+              id: -1,
+            },
+          }" color="secondary" icon="add" label="Create New Task"/>
+        </q-fab>
+
+      </q-page-sticky>
+
+
+      <q-dialog v-model="showSubtaskDialog">
+        <add-subtask-dialog @save-subtask="addSubtask"/>
+      </q-dialog>
+
+
     </q-page-container>
-    <pre>{{ taskDetail }}</pre>
+        <pre>{{ taskDetail }}</pre>
   </q-layout>
 </template>
 <!--<template>-->
