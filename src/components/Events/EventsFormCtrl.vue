@@ -7,6 +7,7 @@ import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import FilePicker from 'components/Events/FilePicker.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
+import { useReminderDataStore } from 'stores/reminder/reminderData';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import RegardingAll from '../../components/general/RegardingAll.vue';
 
@@ -52,9 +53,11 @@ watch(
 
 const eventDetailsStore = useEventDetailsStore();
 const eventListsStore = useEventListsStore();
+const reminderDataStore = useReminderDataStore();
 onMounted(() => {
   eventDetailsStore.getAllMeetingAttendees();
   eventListsStore.getEventLists();
+  reminderDataStore.getReminderObject();
 });
 const meetingAttendee = computed(() => {
   return eventDetailsStore.MeetingAttendees;
@@ -81,20 +84,33 @@ const ShowMyTimeAsOptions = computed(() => {
   return eventListsStore.ShowMyTimeAs;
 });
 
-const showTimeAs = ref('1');
+// Find the selected reminder option and time based on refs
+const selectedOption = computed(() => {
+  const reminderOptions = reminderDataStore.ReminderOptions;
+  const obj = reminderOptions.find(
+    (option: any) => option.value === props.event.remindTo
+  );
+  return obj ? obj : 'null';
+});
+const selectedTime = computed(() => {
+  const reminderTimes = reminderDataStore.ReminderTimes;
+  const obj = reminderTimes.find(
+    (time: any) => time.value === props.event.remindBeforeMinutes
+  );
+  return obj ? obj : 'null';
+});
+
+// const reminderTextInfo = ref('Reminder');
+const reminderTextInfo = props.event?.remindTo
+  ? ref(`${selectedOption.value.label} ${selectedTime.value.label} before`)
+  : ref('Reminder');
+
+const reminderDialogOpened = ref(false);
+const recurrenceDialogOpened = ref(false);
 // const repeatString = ref('Does not repeat');
 const repeatString = props.event?.repeatInfoText
   ? ref(props.event?.repeatInfoText)
   : ref('Does not repeat');
-// const reminderTextInfo = ref('Reminder');
-const reminderTextInfo = props.event?.remindTo
-  ? ref(
-      `Remind ${props.event?.remindTo} ${props.event?.remindBeforeMinutes} before`
-    )
-  : ref('Reminder');
-
-const recurrenceDialogOpened = ref(false);
-const reminderDialogOpened = ref(false);
 
 function handleRRuleString(rruleString: string) {
   // You can now use the rruleString in your parent component
@@ -120,6 +136,7 @@ function handleReminderText(reminderText: string) {
   reminderTextInfo.value = reminderText;
 }
 
+const showTimeAs = ref('1');
 const labelOptions = label;
 const filterOptions = ref(meetingAttendee);
 
