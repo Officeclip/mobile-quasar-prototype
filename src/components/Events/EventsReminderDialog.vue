@@ -1,50 +1,64 @@
 <script lang="ts" setup>
-import {ref} from 'vue';
+import { ref } from 'vue';
+import { useReminderDataStore } from 'stores/reminder/reminderData';
 
-const reminderOptions = [
-  {label: 'Remind Me', value: 'me'},
-  {label: 'Remind Everybody', value: 'everyone'}
-];
+const reminderDataStore = useReminderDataStore();
+reminderDataStore.getReminderObject();
 
-const reminderTimes = [
-  {label: '5 Minutes', value: 5},
-  {label: '10 Minutes', value: 10},
-  {label: '15 Minutes', value: 15},
-  {label: '30 Minutes', value: 30},
-  {label: '45 Minutes', value: 45},
-  {label: '1 Hour', value: 60},
-  {label: '2 Hours', value: 120},
-  {label: '3 Hours', value: 180},
-  {label: '4 Hours', value: 240},
-  {label: '5 Hours', value: 300},
-  {label: '6 Hours', value: 360},
-  {label: '7 Hours', value: 420},
-  {label: '8 Hours', value: 480},
-  {label: '9 Hours', value: 540},
-  {label: '10 Hours', value: 600},
-  {label: '11 Hours', value: 660},
-  {label: '12 Hours', value: 720},
-  {label: '1 day', value: 1440},
-  {label: '2 days', value: 2880},
-  {label: '3 days', value: 4320},
-  {label: '4 days', value: 5760},
-  {label: '5 days', value: 7200},
-  {label: '1 week', value: 10080},
-  {label: '2 weeks', value: 20160}
-];
+const reminderOptions = reminderDataStore.ReminderOptions;
+const reminderTimes = reminderDataStore.ReminderTimes;
+
+// const reminderOptions = [
+//   {label: 'Remind Me', value: 'me'},
+//   {label: 'Remind Everybody', value: 'everyone'}
+// ];
+
+// const reminderTimes = [
+//   {label: '5 Minutes', value: 5},
+//   {label: '10 Minutes', value: 10},
+//   {label: '15 Minutes', value: 15},
+//   {label: '30 Minutes', value: 30},
+//   {label: '45 Minutes', value: 45},
+//   {label: '1 Hour', value: 60},
+//   {label: '2 Hours', value: 120},
+//   {label: '3 Hours', value: 180},
+//   {label: '4 Hours', value: 240},
+//   {label: '5 Hours', value: 300},
+//   {label: '6 Hours', value: 360},
+//   {label: '7 Hours', value: 420},
+//   {label: '8 Hours', value: 480},
+//   {label: '9 Hours', value: 540},
+//   {label: '10 Hours', value: 600},
+//   {label: '11 Hours', value: 660},
+//   {label: '12 Hours', value: 720},
+//   {label: '1 day', value: 1440},
+//   {label: '2 days', value: 2880},
+//   {label: '3 days', value: 4320},
+//   {label: '4 days', value: 5760},
+//   {label: '5 days', value: 7200},
+//   {label: '1 week', value: 10080},
+//   {label: '2 weeks', value: 20160}
+// ];
 
 const selectedReminderOption = ref('me');
 const selectedReminderTime = ref(60);
-const emit = defineEmits(['reminder-data-generated', 'reminder-text-generated'])
+const emit = defineEmits([
+  'reminder-data-generated',
+  'reminder-text-generated',
+]);
 
-function generateReminder(){
+function generateReminder() {
   // Find the selected reminder option and time based on refs
-  const selectedOption = reminderOptions.find(option => option.value === selectedReminderOption.value);
-  const selectedTime = reminderTimes.find(time => time.value === selectedReminderTime.value);
+  const selectedOption = reminderOptions.find(
+    (option: any) => option.value === selectedReminderOption.value
+  );
+  const selectedTime = reminderTimes.find(
+    (time: any) => time.value === selectedReminderTime.value
+  );
 
   if (selectedOption && selectedTime) {
     // Create the reminder string with values only
-    const reminderData = [selectedOption.value,selectedTime.value];
+    const reminderData = [selectedOption.value, selectedTime.value];
 
     // Create the human-readable string
     const humanReadableString = `${selectedOption.label} ${selectedTime.label} before`;
@@ -54,30 +68,38 @@ function generateReminder(){
     emit('reminder-text-generated', humanReadableString);
   }
 }
-
 </script>
 
 <template>
   <q-card>
     <div class="q-pa-lg row flex-center">
       <q-item-label>Reminders:</q-item-label>
-      <q-select v-model="selectedReminderOption"
-                :options="reminderOptions"
-                class="select-spacing"
-                emit-value
-                map-options
-                standout/>
+      <q-select
+        v-model="selectedReminderOption"
+        :options="reminderOptions"
+        class="select-spacing"
+        emit-value
+        map-options
+        standout
+      />
 
-      <q-select v-model="selectedReminderTime"
-                :options="reminderTimes"
-                class="select-spacing"
-                emit-value
-                map-options
-                standout/>
+      <q-select
+        v-model="selectedReminderTime"
+        :options="reminderTimes"
+        class="select-spacing"
+        emit-value
+        map-options
+        standout
+      />
       <q-item-label>before it is due</q-item-label>
     </div>
     <q-card-actions>
-      <q-btn v-close-popup color="primary" label="Save" @click="generateReminder"/>
+      <q-btn
+        v-close-popup
+        color="primary"
+        label="Save"
+        @click="generateReminder"
+      />
     </q-card-actions>
   </q-card>
 </template>

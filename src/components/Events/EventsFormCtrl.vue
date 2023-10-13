@@ -7,10 +7,10 @@ import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import FilePicker from 'components/Events/FilePicker.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
-// import { regardingContact } from 'src/models/event/eventLists';
+import { useReminderDataStore } from 'stores/reminder/reminderData';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import RegardingAll from '../../components/general/RegardingAll.vue';
-// import { Notify } from 'quasar';
+
 // eslint-disable-next-line vue/no-dupe-keys
 const props = defineProps(['event']);
 const emit = defineEmits([
@@ -53,9 +53,11 @@ watch(
 
 const eventDetailsStore = useEventDetailsStore();
 const eventListsStore = useEventListsStore();
+const reminderDataStore = useReminderDataStore();
 onMounted(() => {
   eventDetailsStore.getAllMeetingAttendees();
   eventListsStore.getEventLists();
+  reminderDataStore.getReminderObject();
 });
 const meetingAttendee = computed(() => {
   return eventDetailsStore.MeetingAttendees;
@@ -81,21 +83,34 @@ const timeZone = computed(() => {
 const ShowMyTimeAsOptions = computed(() => {
   return eventListsStore.ShowMyTimeAs;
 });
-// const metaTypeOptions = computed(() => {
-//   return eventListsStore.MetaTypes;
-// });
-const showTimeAs = ref('1');
+
+// Find the selected reminder option and time based on refs
+const selectedOption = computed(() => {
+  const reminderOptions = reminderDataStore.ReminderOptions;
+  const obj = reminderOptions.find(
+    (option: any) => option.value === props.event.remindTo
+  );
+  return obj ? obj : 'null';
+});
+const selectedTime = computed(() => {
+  const reminderTimes = reminderDataStore.ReminderTimes;
+  const obj = reminderTimes.find(
+    (time: any) => time.value === props.event.remindBeforeMinutes
+  );
+  return obj ? obj : 'null';
+});
+
+// const reminderTextInfo = ref('Reminder');
+const reminderTextInfo = props.event?.remindTo
+  ? ref(`${selectedOption.value.label} ${selectedTime.value.label} before`)
+  : ref('Reminder');
+
+const reminderDialogOpened = ref(false);
+const recurrenceDialogOpened = ref(false);
 // const repeatString = ref('Does not repeat');
 const repeatString = props.event?.repeatInfoText
   ? ref(props.event?.repeatInfoText)
   : ref('Does not repeat');
-// const reminderTextInfo = ref('Reminder');
-const reminderTextInfo = props.event?.recurrenceRule
-  ? ref(props.event?.recurrenceRule)
-  : ref('Reminder');
-
-const recurrenceDialogOpened = ref(false);
-const reminderDialogOpened = ref(false);
 
 function handleRRuleString(rruleString: string) {
   // You can now use the rruleString in your parent component
@@ -121,6 +136,7 @@ function handleReminderText(reminderText: string) {
   reminderTextInfo.value = reminderText;
 }
 
+const showTimeAs = ref('1');
 const labelOptions = label;
 const filterOptions = ref(meetingAttendee);
 
@@ -154,32 +170,6 @@ function createValue(val: string, done: any) {
     done({ id: id, email: val }, 'toggle'); // added the new input as an new item into the dropdown
   }
 }
-
-// const regardingContacts = ref([] as regardingContact[]);
-// const selectedRegContact = ref(null);
-
-// async function filterContacts(
-//   val: string,
-//   update: (arg0: () => void) => void,
-//   abort: () => void
-// ) {
-//   if (val.length < 2) {
-//     abort();
-//     return;
-//   } else if (val.length === 2) {
-//     regardingContacts.value = [] as regardingContact[];
-//     await eventListsStore.getRegardingContactListThatMatch(val);
-//     regardingContacts.value = eventListsStore.regardingContacts;
-//   }
-
-//   update(() => {
-//     console.log('update');
-//     const needle = val.toLowerCase();
-//     regardingContacts.value = eventListsStore.regardingContacts.filter(
-//       (v) => v.name.toLowerCase().indexOf(needle) > -1
-//     );
-//   });
-// }
 </script>
 
 <template>

@@ -1,26 +1,41 @@
 <script lang="ts" setup>
-import { computed, onBeforeMount, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useEventListsStore } from '../../stores/event/eventListsStore';
+import { useReminderDataStore } from 'stores/reminder/reminderData';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 
-const eventDetailsStore = useEventDetailsStore();
+const route = useRoute();
 const router = useRouter();
+const eventDetailsStore = useEventDetailsStore();
+const reminderDataStore = useReminderDataStore();
 
-const id = ref<string | string[]>('0');
-
+const paramsId = route.params.id;
+eventDetailsStore.getEventDetailsById(paramsId);
+reminderDataStore.getReminderObject();
 const event = computed(() => {
   console.log('details page:', eventDetailsStore.EventDetails);
   return eventDetailsStore.EventDetails;
 });
 
-onBeforeMount(() => {
-  const route = useRoute();
-  console.log('id=', route.params.id);
-  id.value = route.params.id;
-  eventDetailsStore.getEventDetailsById(route.params.id);
+// Find the selected reminder option and time based on refs
+const selectedOption = computed(() => {
+  const reminderOptions = reminderDataStore.ReminderOptions;
+  const obj = reminderOptions.find(
+    (option: any) => option.value === event.value?.remindTo
+  );
+  return obj ? obj : 'null';
 });
+const selectedTime = computed(() => {
+  const reminderTimes = reminderDataStore.ReminderTimes;
+  const obj = reminderTimes.find(
+    (time: any) => time.value === event.value?.remindBeforeMinutes
+  );
+  return obj ? obj : 'null';
+});
+
+const id = ref<string | string[]>('0');
 
 const showConfirmationDialog = ref(false);
 
@@ -111,7 +126,7 @@ console.log('Testing the label object by labelid::', labelNameById);
         <q-toolbar-title> Event details</q-toolbar-title>
 
         <q-btn
-          :to="{ name: 'editEvent', params: { id: id } }"
+          :to="{ name: 'editEvent', params: { id: paramsId } }"
           color="white"
           dense
           flat
@@ -221,11 +236,12 @@ console.log('Testing the label object by labelid::', labelNameById);
                 <q-item-label> {{ event?.repeatInfoText }} </q-item-label>
               </q-item-section>
             </q-item>
-
-            <q-item v-if="event?.recurrenceRule">
+            <q-item v-if="event?.remindTo">
               <q-item-section>
                 <q-item-label caption> Recurrence </q-item-label>
-                <q-item-label> {{ event?.recurrenceRule }} </q-item-label>
+                <q-item-label>
+                  {{ selectedOption?.label }} {{ selectedTime?.label }} before
+                </q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
