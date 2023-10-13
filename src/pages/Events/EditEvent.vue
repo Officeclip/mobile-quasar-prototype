@@ -14,7 +14,6 @@ eventDetailsStore.getEventDetailsById(paramsId);
 const event = computed(() => {
   return eventDetailsStore.EventDetails;
 });
-console.log('testing from edit screen eventXXXXXX:', event.value);
 function handleRRule(rrule: string) {
   event.value.recurrenceRule = rrule;
 }
@@ -34,19 +33,6 @@ function onSubmit(e: any) {
   // const formData: any = new FormData(e.target);
 
   // const start = formData.get('startDateTime');
-  // const newStartDate = event.value?.isAllDayEvent
-  //   ? dateTimeHelper.convertDateToUtc(start)
-  //   : dateTimeHelper.convertGeneralToUtc(start);
-
-  // const end = formData.get('endDateTime');
-  // const newEndDate = event.value?.isAllDayEvent
-  //   ? dateTimeHelper.convertDateToUtc(end)
-  //   : dateTimeHelper.convertGeneralToUtc(end);
-
-  // console.log(`EditEvent: startDateTime: ${start}, ${end}`);
-
-  // need to fix the model properties in this object
-  // idea from https://stackoverflow.com/a/57611367
 
   // convert local start/end datetime to utc while saving into the json
   const startDateTime = event.value?.startDateTime;
