@@ -1,28 +1,18 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { computed } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-// import { eventDetails } from '../../models/event/eventDetails';
 
 const route = useRoute();
-const paramsId = route.params.id;
-console.log('testing from edit screen paramsId:', paramsId);
 const router = useRouter();
 const eventDetailsStore = useEventDetailsStore();
+
+const paramsId = route.params.id;
 eventDetailsStore.getEventDetailsById(paramsId);
-// const id = ref<string | string[]>('0');
-
-// onMounted(() => {
-//   const route = useRoute();
-//   console.log('id=', route.params.id);
-//   id.value = route.params.id;
-//   eventDetailsStore.getEventDetailsById(route.params.id);
-// });
-
 const event = computed(() => {
-  return eventDetailsStore.eventDetails;
+  return eventDetailsStore.EventDetails;
 });
 console.log('testing from edit screen eventXXXXXX:', event.value);
 function handleRRule(rrule: string) {
