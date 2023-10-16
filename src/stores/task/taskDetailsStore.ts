@@ -95,6 +95,17 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       await this.editTask(<taskDetails>this.taskDetail);
     },
 
+    async editSubtask(editedSubtask: subTask) {
+      let subtask: subTask | undefined = this.taskDetail?.subtasks.find((subtask: subTask) => {
+        return subtask.id === editedSubtask.id;
+      });
+
+      if (subtask) subtask = editedSubtask;
+      console.log(subtask);
+      console.log(editedSubtask);
+      await this.editTask(<taskDetails>this.taskDetail);
+    },
+
 
     async toggleSubtaskCompletion(subtaskId: number) {
       const subtask: subTask | undefined = this.taskDetail?.subtasks.find((subtask: subTask) => {

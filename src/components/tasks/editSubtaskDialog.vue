@@ -3,15 +3,21 @@ import {onBeforeMount, ref, Ref, toRefs} from 'vue';
 import {useTaskListsStore} from "stores/task/taskListsStore";
 import {regardingContact} from "src/models/task/taskLists";
 import {subTask} from "src/models/task/subtask";
+import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
 
 const props = defineProps<{
   subtask: subTask
 }>();
 
+
 const { subtask } = toRefs(props);
 
-
 const taskListsStore = useTaskListsStore();
+const taskDetailsStore = useTaskDetailsStore();
+
+function editSubtask(){
+  taskDetailsStore.editSubtask(subtask.value);
+}
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
 });
@@ -80,7 +86,7 @@ async function filterFn(val: string, update: any, abort: any) {
     </div>
 
     <q-card-actions>
-      <q-btn v-close-popup color="primary" label="Apply"/>
+      <q-btn v-close-popup color="primary" label="Apply" @click="editSubtask"/>
     </q-card-actions>
   </q-card>
 

@@ -2111,7 +2111,7 @@
         {
           "id": 1,
           "parentId": 101,
-          "title": "Subtask 1",
+          "title": "Subtask 1 (edited)",
           "description": "Description for subtask 1",
           "assignee": {
             "id": "1",
@@ -2175,22 +2175,7 @@
         103,
         104
       ],
-      "subtasks": [
-        303,
-        304,
-        {
-          "id": "",
-          "parentId": 101,
-          "title": "Task 3",
-          "description": "2",
-          "assignee": {
-            "id": "1",
-            "name": "Kathiravan Sekar"
-          },
-          "isCompleted": false,
-          "completedDate": "2023-10-05T17:00:00Z"
-        }
-      ]
+      "subtasks": []
     },
     {
       "id": 103,
@@ -2222,10 +2207,7 @@
         105,
         106
       ],
-      "subtasks": [
-        305,
-        306
-      ]
+      "subtasks": []
     },
     {
       "id": 104,
@@ -2256,10 +2238,7 @@
         107,
         108
       ],
-      "subtasks": [
-        307,
-        308
-      ]
+      "subtasks": []
     },
     {
       "id": 105,
@@ -2291,10 +2270,7 @@
         109,
         110
       ],
-      "subtasks": [
-        309,
-        310
-      ]
+      "subtasks": []
     },
     {
       "id": 106,
@@ -2406,8 +2382,42 @@
         102
       ],
       "subtasks": [
-        301,
-        302
+        {
+          "id": 1,
+          "parentId": 101,
+          "title": "Subtask 1",
+          "description": "Description for subtask 1",
+          "assignee": {
+            "id": "1",
+            "name": "Kathiravan Sekar"
+          },
+          "isCompleted": true,
+          "completedDate": "2023-10-05T17:00:00Z"
+        },
+        {
+          "id": 2,
+          "parentId": 101,
+          "title": "Subtask 2",
+          "description": "Description for subtask 2",
+          "assignee": {
+            "id": "1",
+            "name": "Kathiravan Sekar"
+          },
+          "isCompleted": true,
+          "completedDate": "2023-10-05T17:00:00Z"
+        },
+        {
+          "id": "3",
+          "parentId": 101,
+          "title": "Subtask 3",
+          "description": "Description 3",
+          "assignee": {
+            "id": "1",
+            "name": "Kathiravan Sekar"
+          },
+          "isCompleted": false,
+          "completedDate": "2023-10-05T17:00:00Z"
+        }
       ]
     },
     {
@@ -2424,13 +2434,13 @@
         "Alice Johnson"
       ],
       "isPrivate": true,
-      "taskStatusId": "1",
+      "taskStatusId": 1,
       "parentObjectId": 202,
       "parentObjectServiceType": 2,
       "taskOwner": "Emily Davis",
       "taskOwnerSid": 654,
       "taskPriorityId": "3",
-      "taskTypeId": "1",
+      "taskTypeId": 1,
       "remindTo": "Team",
       "remindBeforeMinutes": 30,
       "repeatInfoText": "",
@@ -2439,10 +2449,7 @@
         103,
         104
       ],
-      "subtasks": [
-        303,
-        304
-      ]
+      "subtasks": []
     },
     {
       "id": 103,
@@ -2459,13 +2466,13 @@
         "Alice Johnson"
       ],
       "isPrivate": false,
-      "taskStatusId": "3",
+      "taskStatusId": 3,
       "parentObjectId": 203,
       "parentObjectServiceType": 1,
       "taskOwner": "Grace Wilson",
       "taskOwnerSid": 876,
       "taskPriorityId": "2",
-      "taskTypeId": "3",
+      "taskTypeId": 3,
       "remindTo": "Me",
       "remindBeforeMinutes": 45,
       "repeatInfoText": "Bi-weekly",
@@ -2474,10 +2481,7 @@
         105,
         106
       ],
-      "subtasks": [
-        305,
-        306
-      ]
+      "subtasks": []
     },
     {
       "id": 104,
@@ -2493,13 +2497,13 @@
         "Olivia Adams"
       ],
       "isPrivate": false,
-      "taskStatusId": "2",
+      "taskStatusId": 2,
       "parentObjectId": 204,
       "parentObjectServiceType": 3,
       "taskOwner": "Alice Johnson",
       "taskOwnerSid": 987,
       "taskPriorityId": "1",
-      "taskTypeId": "2",
+      "taskTypeId": 2,
       "remindTo": "Team",
       "remindBeforeMinutes": 30,
       "repeatInfoText": "Monthly",
@@ -2508,10 +2512,7 @@
         107,
         108
       ],
-      "subtasks": [
-        307,
-        308
-      ]
+      "subtasks": []
     },
     {
       "id": 105,
@@ -2528,13 +2529,13 @@
         "Alice Johnson"
       ],
       "isPrivate": false,
-      "taskStatusId": "1",
+      "taskStatusId": 1,
       "parentObjectId": 205,
       "parentObjectServiceType": 1,
       "taskOwner": "Alice Johnson",
       "taskOwnerSid": 765,
       "taskPriorityId": "2",
-      "taskTypeId": "3",
+      "taskTypeId": 3,
       "remindTo": "Team",
       "remindBeforeMinutes": 45,
       "repeatInfoText": "Weekly",
@@ -2543,10 +2544,7 @@
         109,
         110
       ],
-      "subtasks": [
-        309,
-        310
-      ]
+      "subtasks": []
     },
     {
       "id": 106,
@@ -2617,58 +2615,6 @@
       "assignee": [
         "Kathiravan Sekar"
       ],
-      "taskOwnerSid": 0,
-      "remindTo": "",
-      "remindBeforeMinutes": 0,
-      "repeatInfoText": "",
-      "recurrenceRule": "",
-      "tags": [],
-      "subtasks": []
-    },
-    {
-      "id": 109,
-      "subject": "Test",
-      "description": "",
-      "taskTypeId": "",
-      "taskPriorityId": "2",
-      "taskStatusId": "",
-      "isPrivate": false,
-      "taskOwner": "",
-      "parentObjectServiceType": 14,
-      "parentObjectId": -1,
-      "startDate": "2023-10-23",
-      "modifiedDate": "2023-10-11T23:01:45.217Z",
-      "dueDate": "2023-10-25",
-      "createdDate": "2023-10-11T23:01:45.217Z",
-      "regardingType": 0,
-      "regardingValue": "",
-      "assignee": [],
-      "taskOwnerSid": 0,
-      "remindTo": "",
-      "remindBeforeMinutes": 0,
-      "repeatInfoText": "",
-      "recurrenceRule": "",
-      "tags": [],
-      "subtasks": []
-    },
-    {
-      "id": 110,
-      "subject": "OP",
-      "description": "",
-      "taskTypeId": "",
-      "taskPriorityId": "",
-      "taskStatusId": "",
-      "isPrivate": false,
-      "taskOwner": "",
-      "parentObjectServiceType": 14,
-      "parentObjectId": -1,
-      "startDate": "",
-      "modifiedDate": "2023-10-11T23:10:33.316Z",
-      "dueDate": "",
-      "createdDate": "2023-10-11T23:10:33.316Z",
-      "regardingType": 0,
-      "regardingValue": "",
-      "assignee": [],
       "taskOwnerSid": 0,
       "remindTo": "",
       "remindBeforeMinutes": 0,
