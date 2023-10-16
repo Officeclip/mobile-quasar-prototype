@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {subTask} from "src/models/task/subtask";
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
+import {ref} from 'vue';
 
 const props = defineProps<{
   subtask: subTask
@@ -10,9 +11,12 @@ const taskDetailsStore = useTaskDetailsStore();
 function toggleSubtaskStatus(id: number) {
   taskDetailsStore.toggleSubtaskCompletion(id);
 }
+
 function deleteSubtask(id: number) {
   taskDetailsStore.deleteSubtask(id);
 }
+
+const showConfirmationDialog = ref(false);
 </script>
 
 <template>
@@ -35,11 +39,29 @@ function deleteSubtask(id: number) {
 
     <q-item-section side top>
       <div class="text-grey-8 q-gutter-xs">
-        <q-btn dense flat icon="delete" round size="12px" @click="deleteSubtask(subtask.id)"/>
-        <q-btn v-if="!subtask.isCompleted" dense flat icon="done" round size="12px" @click="toggleSubtaskStatus(subtask.id)"/>
-        <q-btn v-if="subtask.isCompleted" dense flat icon="refresh" round size="12px" @click="toggleSubtaskStatus(subtask.id)"/>
+        <q-btn dense flat icon="delete" round size="12px" @click="showConfirmationDialog=true"/>
+        <q-btn v-if="!subtask.isCompleted" dense flat icon="done" round size="12px"
+               @click="toggleSubtaskStatus(subtask.id)"/>
+        <q-btn v-if="subtask.isCompleted" dense flat icon="refresh" round size="12px"
+               @click="toggleSubtaskStatus(subtask.id)"/>
       </div>
     </q-item-section>
   </q-item>
-</template>
+  <q-dialog v-model="showConfirmationDialog">
+    <q-card>
+      <q-card-section>
+        <q-item-label>Confirm</q-item-label>
+        <q-item-label>Are you sure you want to delete this subtask?</q-item-label>
+        <q-card-actions align="right">
+          <q-btn
+            color="primary"
+            label="Cancel"
+            @click="showConfirmationDialog = false"
+          />
+          <q-btn color="negative" label="Delete" @click="deleteSubtask(subtask.id)"/>
+        </q-card-actions>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 
+</template>

@@ -108,7 +108,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       const modifiedSubtasks = this.taskDetail?.subtasks.filter((s) => {
         return s.id != subtaskId;
       });
-      this.taskDetail.subtasks = modifiedSubtasks;
+      if(this.taskDetail) this.taskDetail.subtasks = modifiedSubtasks??[];
       await this.editTask(<taskDetails>this.taskDetail);
     },
 
