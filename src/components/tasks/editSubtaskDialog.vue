@@ -1,27 +1,15 @@
 <script lang="ts" setup>
-import {onBeforeMount, ref, Ref} from 'vue';
+import {onBeforeMount, ref, Ref, toRefs} from 'vue';
 import {useTaskListsStore} from "stores/task/taskListsStore";
 import {regardingContact} from "src/models/task/taskLists";
+import {subTask} from "src/models/task/subtask";
 
+const props = defineProps<{
+  subtask: subTask
+}>();
 
-const subtask = ref({
-  id: '',
-  parentId: 101,
-  title: '',
-  description: "",
-  assignee: {
-    id: "1",
-    name: "Kathiravan Sekar"
-  },
-  isCompleted: false,
-  completedDate: "2023-10-05T17:00:00Z"
-})
+const { subtask } = toRefs(props);
 
-const emit = defineEmits(['saveSubtask']);
-
-function emitSubtask() {
-  emit('saveSubtask', subtask.value);
-}
 
 const taskListsStore = useTaskListsStore();
 onBeforeMount(() => {
@@ -92,7 +80,7 @@ async function filterFn(val: string, update: any, abort: any) {
     </div>
 
     <q-card-actions>
-      <q-btn v-close-popup color="primary" label="Apply" @click="emitSubtask"/>
+      <q-btn v-close-popup color="primary" label="Apply"/>
     </q-card-actions>
   </q-card>
 

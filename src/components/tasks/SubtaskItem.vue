@@ -2,6 +2,7 @@
 import {subTask} from "src/models/task/subtask";
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
 import {ref} from 'vue';
+import EditSubtaskDialog from "components/tasks/editSubtaskDialog.vue";
 
 const props = defineProps<{
   subtask: subTask
@@ -15,6 +16,8 @@ function toggleSubtaskStatus(id: number) {
 function deleteSubtask(id: number) {
   taskDetailsStore.deleteSubtask(id);
 }
+
+const showEditSubtaskDialog = ref(false);
 
 const showConfirmationDialog = ref(false);
 </script>
@@ -33,7 +36,7 @@ const showConfirmationDialog = ref(false);
       </q-item-label>
       <q-item-label caption lines="1"> {{ subtask.description }}</q-item-label>
       <q-item-label class="q-mt-xs text-body2 text-weight-bold text-primary text-uppercase" lines="1">
-        <span class="cursor-pointer">Open</span>
+        <span class="cursor-pointer" @click="showEditSubtaskDialog=true">Open</span>
       </q-item-label>
     </q-item-section>
 
@@ -47,6 +50,7 @@ const showConfirmationDialog = ref(false);
       </div>
     </q-item-section>
   </q-item>
+
   <q-dialog v-model="showConfirmationDialog">
     <q-card>
       <q-card-section>
@@ -62,6 +66,10 @@ const showConfirmationDialog = ref(false);
         </q-card-actions>
       </q-card-section>
     </q-card>
+  </q-dialog>
+
+  <q-dialog v-model="showEditSubtaskDialog">
+    <edit-subtask-dialog :subtask="subtask"/>
   </q-dialog>
 
 </template>

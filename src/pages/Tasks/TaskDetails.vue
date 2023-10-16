@@ -55,7 +55,7 @@ function deleteTask() {
 
 const router = useRouter();
 
-const showSubtaskDialog = ref(false);
+const showAddSubtaskDialog = ref(false);
 
 function addSubtask(subtask: subTask) {
   taskDetailsStore.addSubtask(subtask);
@@ -199,6 +199,8 @@ function addSubtask(subtask: subTask) {
 
                 <q-toolbar class="bg-primary text-white shadow-2">
                   <q-toolbar-title>Subtasks</q-toolbar-title>
+                  <q-btn dense flat icon="add" round @click="showAddSubtaskDialog=true"/>
+
                 </q-toolbar>
                 <q-list bordered class="rounded-borders">
                   <div v-for="subtask in taskDetail?.subtasks" :key="subtask.id">
@@ -215,7 +217,7 @@ function addSubtask(subtask: subTask) {
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
 
         <q-fab color="purple" direction="up" icon="keyboard_arrow_up" vertical-actions-align="right">
-          <q-fab-action color="primary" icon="add_task" label="Add subtask" @click="showSubtaskDialog=true"/>
+          <q-fab-action color="primary" icon="add_task" label="Add subtask" @click="showAddSubtaskDialog=true"/>
           <q-fab-action :to="{
             name: 'newTask',
             params: {
@@ -227,7 +229,7 @@ function addSubtask(subtask: subTask) {
       </q-page-sticky>
 
 
-      <q-dialog v-model="showSubtaskDialog">
+      <q-dialog v-model="showAddSubtaskDialog">
         <add-subtask-dialog @save-subtask="addSubtask"/>
       </q-dialog>
 
