@@ -1,9 +1,18 @@
 <script lang="ts" setup>
 import {subTask} from "src/models/task/subtask";
+import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
 
 const props = defineProps<{
   subtask: subTask
 }>();
+const taskDetailsStore = useTaskDetailsStore();
+
+function toggleSubtaskStatus(id: number) {
+  taskDetailsStore.toggleSubtaskCompletion(id);
+}
+function deleteSubtask(id: number) {
+  taskDetailsStore.deleteSubtask(id);
+}
 </script>
 
 <template>
@@ -12,7 +21,6 @@ const props = defineProps<{
       <q-icon v-if="!subtask.isCompleted" color="grey-8" name="hourglass_top" size="34px"/>
       <q-icon v-if="subtask.isCompleted" color="green-9" name="done_all" size="34px"/>
     </q-item-section>
-
 
     <q-item-section top>
       <q-item-label lines="1">
@@ -27,8 +35,9 @@ const props = defineProps<{
 
     <q-item-section side top>
       <div class="text-grey-8 q-gutter-xs">
-        <q-btn dense flat icon="delete" round size="12px"/>
-        <q-btn dense flat icon="done" round size="12px"/>
+        <q-btn dense flat icon="delete" round size="12px" @click="deleteSubtask(subtask.id)"/>
+        <q-btn v-if="!subtask.isCompleted" dense flat icon="done" round size="12px" @click="toggleSubtaskStatus(subtask.id)"/>
+        <q-btn v-if="subtask.isCompleted" dense flat icon="refresh" round size="12px" @click="toggleSubtaskStatus(subtask.id)"/>
       </div>
     </q-item-section>
   </q-item>

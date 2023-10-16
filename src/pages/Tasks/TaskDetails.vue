@@ -233,6 +233,5 @@ function addSubtask(subtask: subTask) {
 
 
     </q-page-container>
-    <pre>{{ taskDetail }}</pre>
   </q-layout>
 </template>

@@ -2117,18 +2117,6 @@
             "id": "1",
             "name": "Kathiravan Sekar"
           },
-          "isCompleted": false,
-          "completedDate": "2023-10-05T17:00:00Z"
-        },
-        {
-          "id": 2,
-          "parentId": 101,
-          "title": "Subtask 2",
-          "description": "Description for subtask 2",
-          "assignee": {
-            "id": "1",
-            "name": "Kathiravan Sekar"
-          },
           "isCompleted": true,
           "completedDate": "2023-10-05T17:00:00Z"
         },
@@ -2141,7 +2129,7 @@
             "id": "1",
             "name": "Kathiravan Sekar"
           },
-          "isCompleted": false,
+          "isCompleted": true,
           "completedDate": "2023-10-05T17:00:00Z"
         }
       ]
@@ -4576,4 +4564,3 @@
     }
   ]
 }
-

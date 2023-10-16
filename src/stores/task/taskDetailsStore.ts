@@ -16,32 +16,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
   },
 
   actions: {
-    async getTasks(parentObjectId: number, parentObjectServiceType: number) {
-      console.log(
-        `TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`
-      );
-      const callStr =
-        parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/task-details?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
-          : `${Constants.endPointUrl}/task-details`;
-      try {
-        const response = await axios.get(callStr);
-        this.taskDetails = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-
-    async getTask(id: number) {
-      try {
-        const response = await axios.get(
-          `${Constants.endPointUrl}/task-details?id=${id}`
-        );
-        this.taskDetail = response.data[0];
-      } catch (error) {
-        console.error(error);
-      }
-    },
 
     async addTask(taskDetail: taskDetails) {
       this.taskDetails.push(taskDetail);
@@ -54,6 +28,21 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         await this.getTask(taskDetail.id);
       } else {
         console.error(res);
+      }
+    },
+
+    async deleteTask(id: number | string | undefined) {
+      try {
+        const response = await axios.delete(
+          `${Constants.endPointUrl}/task-details/${id}`
+        );
+        if (response.status === 200) {
+          //debugger;
+          this.taskDetail = response.data;
+          //  console.log(`editNote 3: ${this.note?.title}`);
+        }
+      } catch (error) {
+        console.error(`deleteNote Error: ${error}`);
       }
     },
 
@@ -74,24 +63,55 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       }
     },
 
-    async deleteTask(id: number | string|undefined) {
+    async getTask(id: number) {
       try {
-        const response = await axios.delete(
-          `${Constants.endPointUrl}/task-details/${id}`
+        const response = await axios.get(
+          `${Constants.endPointUrl}/task-details?id=${id}`
         );
-        if (response.status === 200) {
-          //debugger;
-          this.taskDetail = response.data;
-          //  console.log(`editNote 3: ${this.note?.title}`);
-        }
+        this.taskDetail = response.data[0];
       } catch (error) {
-        console.error(`deleteNote Error: ${error}`);
+        console.error(error);
       }
     },
 
-    async addSubtask(subtask:subTask){
+    async getTasks(parentObjectId: number, parentObjectServiceType: number) {
+      console.log(
+        `TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`
+      );
+      const callStr =
+        parentObjectId > 0 && parentObjectServiceType > 0
+          ? `${Constants.endPointUrl}/task-details?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : `${Constants.endPointUrl}/task-details`;
+      try {
+        const response = await axios.get(callStr);
+        this.taskDetails = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async addSubtask(subtask: subTask) {
       this.taskDetail?.subtasks.push(subtask);
       await this.editTask(<taskDetails>this.taskDetail);
-    }
+    },
+
+
+    async toggleSubtaskCompletion(subtaskId: number) {
+      const subtask: subTask | undefined = this.taskDetail?.subtasks.find((subtask: subTask) => {
+        return subtask.id === subtaskId;
+      });
+      if (subtask) subtask.isCompleted = !subtask.isCompleted;
+      await this.editTask(<taskDetails>this.taskDetail);
+    },
+
+    async deleteSubtask(subtaskId: number) {
+      const modifiedSubtasks = this.taskDetail?.subtasks.filter((s) => {
+        return s.id != subtaskId;
+      });
+      this.taskDetail.subtasks = modifiedSubtasks;
+      await this.editTask(<taskDetails>this.taskDetail);
+    },
+
+
   },
 });
