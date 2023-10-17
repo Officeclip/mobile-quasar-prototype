@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { expenseSummary } from '../../models/expense/expenseSummary';
 import axios from 'axios';
+import {Constants} from "stores/Constants";
 
 export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
   state: () => ({
@@ -16,7 +17,7 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
     async getExpenseSummary() {
       try {
         const response = await axios.get(
-          'http://localhost:4000/expense-summary'
+          `${Constants.endPointUrl}/expense-summary`
         );
         this.expenseSummary = response.data;
         console.log(this.expenseSummary);
@@ -42,8 +43,8 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
     async getExpenseSummaryByStatus(status: string) {
       const callStr =
         status != ''
-          ? `http://localhost:4000/expense-summary?status=${status}`
-          : 'http://localhost:4000/expense-summary';
+          ? `${Constants.endPointUrl}/expense-summary?status=${status}`
+          : `${Constants.endPointUrl}/expense-summary`;
 
       try {
         const response = await axios.get(callStr);

@@ -9,6 +9,7 @@ import {
   expenseDetails,
 } from '../../models/expense/expenseDetails';
 import axios from 'axios';
+import {Constants} from "stores/Constants";
 
 export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   state: () => ({
@@ -44,7 +45,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     async getExpenseDetails(expenseSid: string | string[]) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/expense-details?expenseSid=${expenseSid}`
+          `${Constants.endPointUrl}/expense-details?expenseSid=${expenseSid}`
         );
         console.log('Getting Id', expenseSid);
         this.expenseDetails = response.data;
@@ -58,7 +59,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       console.log('expenseDetailsStore.ts> getExpenseDetailById - started');
       try {
         const response = await axios.get(
-          `http://localhost:4000/expense-details?id=${id}`
+          `${Constants.endPointUrl}/expense-details?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.expenseDetails = response.data[0];
@@ -76,7 +77,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     async addExpense(expenseDetails: expenseDetails) {
       try {
         const response = await axios.post(
-          'http://localhost:4000/expense-details',
+          `${Constants.endPointUrl}/expense-details`,
           expenseDetails
         );
         if (response.status === 200) {
@@ -93,7 +94,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       // not added yet
       try {
         const response = await axios.put(
-          `http://localhost:4000/expense-details/${expenseDetails.id}`,
+          `${Constants.endPointUrl}/expense-details/${expenseDetails.id}`,
           expenseDetails
         );
         if (response.status === 200) {
@@ -107,7 +108,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     async deleteExpense(id: string | undefined) {
       try {
         const response = await axios.delete(
-          `http://localhost:4000/expense-details/${id}`
+          `${Constants.endPointUrl}/expense-details/${id}`
         );
         if (response.status === 200) {
           //debugger;

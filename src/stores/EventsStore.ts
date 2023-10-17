@@ -3,6 +3,7 @@ import dateTimeHelper from '../helpers/dateTimeHelper.js';
 import { Event } from '../models/event';
 import { MeetingAttendees } from '../models/meetingAttendees.js';
 import axios from 'axios';
+import {Constants} from "stores/Constants";
 
 export const useEventsStore = defineStore('eventsStore', {
   state: () => ({
@@ -22,7 +23,7 @@ export const useEventsStore = defineStore('eventsStore', {
     async getAllMeetingAttendees() {
       try {
         const response = await axios.get(
-          'http://localhost:4000/meetingAttendees'
+          `${Constants.endPointUrl}/meetingAttendees`
         );
 
         this.meetingAttendees = response.data;
@@ -37,7 +38,7 @@ export const useEventsStore = defineStore('eventsStore', {
 
     async getAllEvents() {
       try {
-        const response = await axios.get('http://localhost:4000/events');
+        const response = await axios.get(`${Constants.endPointUrl}events`);
         this.events = response.data;
         console.log(
           `EventsStore: getEvents - length - ${response.data.length}, ${this.events}`
@@ -52,7 +53,7 @@ export const useEventsStore = defineStore('eventsStore', {
       parentObjectId: number,
       parentObjectServiceType: number
     ) {
-      const callStr = `http://localhost:4000/events?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`;
+      const callStr = `${Constants.endPointUrl}/events?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`;
 
       try {
         const response = await axios.get(callStr);
@@ -66,7 +67,7 @@ export const useEventsStore = defineStore('eventsStore', {
     async getEventDetails(id: any) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/events?id=${id}`
+          `${Constants.endPointUrl}/events?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.event = response.data[0];
@@ -102,7 +103,7 @@ export const useEventsStore = defineStore('eventsStore', {
           //https://stackoverflow.com/a/19590901
           function (a) {
             const helper = dateTimeHelper.extractDateFromUtc(a.startDateTime);
-            return helper.replace(/-/g, '/');
+            return helper?.replace(/-/g, '/');
           }
         );
         //console.log(`getEventDates: ${dates}`)
@@ -128,7 +129,7 @@ export const useEventsStore = defineStore('eventsStore', {
       // not added yet
       try {
         const response = await axios.put(
-          `http://localhost:4000/events/${event.id}`,
+          `${Constants.endPointUrl}/events/${event.id}`,
           event
         );
         if (response.status === 200) {
@@ -143,7 +144,7 @@ export const useEventsStore = defineStore('eventsStore', {
     async addEvent(event: any) {
       this.events.push(event);
 
-      const res = await fetch('http://localhost:4000/events', {
+      const res = await fetch(`${Constants.endPointUrl}/events`, {
         method: 'POST',
         body: JSON.stringify(event),
         headers: { 'Content-Type': 'application/json' },
@@ -175,7 +176,7 @@ export const useEventsStore = defineStore('eventsStore', {
     async deleteEvent(id: number | undefined) {
       try {
         const response = await axios.delete(
-          `http://localhost:4000/events/${id}`
+          `${Constants.endPointUrl}/events/${id}`
         );
         if (response.status === 200) {
           //debugger;

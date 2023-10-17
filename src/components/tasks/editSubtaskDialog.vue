@@ -10,14 +10,15 @@ const props = defineProps<{
 }>();
 
 
-const { subtask } = toRefs(props);
+const {subtask} = toRefs(props);
 
 const taskListsStore = useTaskListsStore();
 const taskDetailsStore = useTaskDetailsStore();
 
-function editSubtask(){
+function editSubtask() {
   taskDetailsStore.editSubtask(subtask.value);
 }
+
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
 });
@@ -54,15 +55,18 @@ async function filterFn(val: string, update: any, abort: any) {
         v-model="subtask.title"
         :rules="[(val) => (val && val.length > 0) || 'Please type something']"
         label="Subject"
-        lazy-rules
+        lazy-rules outlined
         placeholder="Enter Subtask Title"
+        square
       />
 
       <q-input
         v-model="subtask.description"
         class="q-mt-none"
         label="Description"
-        placeholder="Type Here...."
+        outlined
+        placeholder="Type Here...." square
+        type="textarea"
       />
 
       <q-item-section>

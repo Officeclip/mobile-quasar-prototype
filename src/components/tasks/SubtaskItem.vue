@@ -36,17 +36,20 @@ const showConfirmationDialog = ref(false);
       </q-item-label>
       <q-item-label caption lines="1"> {{ subtask.description }}</q-item-label>
       <q-item-label class="q-mt-xs text-body2 text-weight-bold text-primary text-uppercase" lines="1">
-        <span class="cursor-pointer" @click="showEditSubtaskDialog=true">Open</span>
+        <span v-if="!subtask.isCompleted"
+              class="cursor-pointer"
+              @click="toggleSubtaskStatus(subtask.id)">Mark as Done</span>
+        <span v-if="subtask.isCompleted"
+              class="cursor-pointer"
+              @click="toggleSubtaskStatus(subtask.id)">Mark as Not Done</span>
       </q-item-label>
     </q-item-section>
 
     <q-item-section side top>
       <div class="text-grey-8 q-gutter-xs">
         <q-btn dense flat icon="delete" round size="12px" @click="showConfirmationDialog=true"/>
-        <q-btn v-if="!subtask.isCompleted" dense flat icon="done" round size="12px"
-               @click="toggleSubtaskStatus(subtask.id)"/>
-        <q-btn v-if="subtask.isCompleted" dense flat icon="refresh" round size="12px"
-               @click="toggleSubtaskStatus(subtask.id)"/>
+        <q-btn dense flat icon="edit" round size="12px"
+               @click="showEditSubtaskDialog=true"/>
       </div>
     </q-item-section>
   </q-item>

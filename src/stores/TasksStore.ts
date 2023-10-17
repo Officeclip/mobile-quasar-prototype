@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia';
 import {Task} from '../models/task';
 import axios from 'axios';
+import {Constants} from "stores/Constants";
 
 export const useTasksStore = defineStore('tasksStore', {
   state: () => ({
@@ -20,8 +21,8 @@ export const useTasksStore = defineStore('tasksStore', {
       );
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `http://localhost:4000/tasks?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
-          : 'http://localhost:4000/tasks';
+          ? `${Constants.endPointUrl}tasks?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : `${Constants.endPointUrl}/tasks`;
       try {
         const response = await axios.get(callStr);
         this.tasks = response.data;
@@ -33,7 +34,7 @@ export const useTasksStore = defineStore('tasksStore', {
     async getTask(id: number) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/tasks?id=${id}`
+          `${Constants.endPointUrl}/tasks?id=${id}`
         );
         this.task = response.data[0];
       } catch (error) {
@@ -44,7 +45,7 @@ export const useTasksStore = defineStore('tasksStore', {
     async addTask(task: Task) {
       this.tasks.push(task);
 
-      const res = await axios.post('http://localhost:4000/tasks', task);
+      const res = await axios.post(`${Constants.endPointUrl}/tasks`, task);
 
       if (res.status === 200) {
         this.getTask(task.id);
@@ -58,7 +59,7 @@ export const useTasksStore = defineStore('tasksStore', {
       // not added yet
       try {
         const response = await axios.put(
-          `http://localhost:4000/tasks/${task.id}`,
+          `${Constants.endPointUrl}/tasks/${task.id}`,
           task
         );
         if (response.status === 200) {
@@ -73,7 +74,7 @@ export const useTasksStore = defineStore('tasksStore', {
     async deleteTask(id: number | undefined) {
       try {
         const response = await axios.delete(
-          `http://localhost:4000/tasks/${id}`
+          `${Constants.endPointUrl}/tasks/${id}`
         );
         if (response.status === 200) {
           //debugger;
