@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { Notify } from 'quasar';
 
-const emit = defineEmits(['get-attachments-generated']);
 const files = ref([]);
 const imageUrl = ref('');
 const isPreviewing = ref(false);
@@ -52,12 +51,6 @@ function onRejected(rejectedFiles) {
     }
   });
 }
-
-// function getAttachments() {
-//   const data = fileModel.value;
-//   emit('get-attachments-generated', data);
-//   fileModel.value = '';
-// }
 const closePreview = () => {
   isPreviewing.value = false;
 };
@@ -85,16 +78,6 @@ const closePreview = () => {
       <template v-slot:prepend>
         <q-icon name="attach_file" size="xs"></q-icon>
       </template>
-      <!-- <template v-slot:append>
-      <q-btn
-        color="primary"
-        dense
-        flat
-        label="Add"
-        no-caps
-        @click="getAttachments"
-      />
-    </template> -->
     </q-file>
     <q-list>
       <q-item v-for="file in files" :key="file.name">
@@ -102,26 +85,35 @@ const closePreview = () => {
         <q-icon
           class="q-ml-sm"
           color="primary"
-          name="download"
-          size="sm"
+          name="arrow_downward"
+          size="xs"
           @click="downloadFile(file)"
         />
       </q-item>
     </q-list>
-    <q-img
-      v-if="isPreviewing"
-      :src="imageUrl"
-      spinner-color="white"
-      style="height: 140px; max-width: 150px"
-      @click="closePreview()"
-    />
-    <q-icon
-      v-if="isPreviewing"
-      color="primary"
-      name="close"
-      size="xs"
-      @click="closePreview()"
-    ></q-icon>
+
+    <!-- Full-Screen Preview Dialog -->
+    <q-dialog v-model="isPreviewing" fullscreen no-backdrop no-route-dismiss>
+      <q-card style="width: 100%; height: 100%">
+        <q-card-actions
+          align="right"
+          style="position: absolute; top: 0; right: 0; z-index: 1"
+        >
+          <q-btn
+            flat
+            round
+            dense
+            icon="close"
+            color="red"
+            @click="closePreview"
+          />
+        </q-card-actions>
+        <q-card-section style="height: 100%">
+          <q-img :src="imageUrl" spinner-color="white" style="height: 100%" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
+
 <style scoped></style>
