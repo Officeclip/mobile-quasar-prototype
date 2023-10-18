@@ -147,87 +147,32 @@ console.log('Testing the label object by labelid::', labelNameById);
 
     <q-page-container>
       <q-list>
-        <QDetailsItem :label2="`${showMeetingType(event?.eventType)} event`" />
-        <!-- <q-item>
-          <q-item-section>
-            <q-item-label
-              >{{ showMeetingType(event?.eventType) }} event</q-item-label
-            >
-          </q-item-section>
-        </q-item> -->
+        <QDetailsItem :value="`${showMeetingType(event?.eventType)} event`" />
+        <QDetailsItem :caption="true" title="Created On" :value="createdDate" />
         <QDetailsItem
           :caption="true"
-          label1="Created On"
-          :label2="createdDate"
+          title="Event Name"
+          :value="event?.eventName"
         />
-        <!-- <q-item>
-          <q-item-section>
-            <q-item-label caption>Created On</q-item-label>
-            <q-item-label>{{ createdDate }}</q-item-label>
-          </q-item-section>
-        </q-item> -->
-        <QDetailsItem
-          :caption="true"
-          label1="Event Name"
-          :label2="event?.eventName"
-        />
-        <!-- <q-item>
-          <q-item-section>
-            <q-item-label caption>Event Name</q-item-label>
-            <q-item-label>{{ event?.eventName }}</q-item-label>
-          </q-item-section>
-        </q-item> -->
         <QDetailsItem
           v-if="event?.eventDescription"
           :caption="true"
-          label1="Description"
-          :label2="event?.eventDescription"
+          title="Description"
+          :value="event?.eventDescription"
         />
-        <!-- <q-item v-if="event?.eventDescription">
-          <q-item-section>
-            <q-item-label caption>Description</q-item-label>
-            <q-item-label>{{ event?.eventDescription }}</q-item-label>
-          </q-item-section>
-        </q-item> -->
         <QDetailsItem
           v-if="event?.eventLocation"
           :caption="true"
-          label1="Event Location"
-          :label2="event?.eventLocation"
+          title="Event Location"
+          :value="event?.eventLocation"
         />
-        <!-- <q-item v-if="event?.eventLocation">
-          <q-item-section>
-            <q-item-label caption>Event Location</q-item-label>
-            <q-item-label>{{ event?.eventLocation }}</q-item-label>
-          </q-item-section>
-        </q-item> -->
-        <QDetailsItem :caption="true" label1="Start Date" :label2="startDate" />
-        <!-- <q-item>
-          <q-item-section>
-            <q-item-label caption>Start Date</q-item-label>
-            <q-item-label>{{ startDate }} </q-item-label>
-          </q-item-section>
-        </q-item> -->
-        <QDetailsItem :caption="true" label1="End Date" :label2="endDate" />
-        <!-- <q-item>
-          <q-item-section>
-            <q-item-label caption>End Date</q-item-label>
-            <q-item-label>{{ endDate }} </q-item-label>
-          </q-item-section>
-        </q-item> -->
+        <QDetailsItem :caption="true" title="Start Date" :value="startDate" />
+        <QDetailsItem :caption="true" title="End Date" :value="endDate" />
         <QDetailsItem
           :caption="true"
-          label1="Is All Day Event ?"
-          :label2="event?.isAllDayEvent ? 'Yes' : 'No'"
+          title="Is All Day Event ?"
+          :value="event?.isAllDayEvent ? 'Yes' : 'No'"
         />
-        <!-- <q-item>
-          <q-item-section>
-            <q-item-label caption>Is All Day Event ?</q-item-label>
-            <q-item-label>{{
-              event?.isAllDayEvent ? 'Yes' : 'No'
-            }}</q-item-label>
-          </q-item-section>
-        </q-item> -->
         <q-item v-if="event?.meetingAttendees">
           <q-item-section>
             <q-item-label caption> Attendees </q-item-label>
@@ -256,29 +201,15 @@ console.log('Testing the label object by labelid::', labelNameById);
         <QDetailsItem
           v-if="event?.repeatInfoText"
           :caption="true"
-          label1="Repeat"
-          :label2="event?.repeatInfoText"
+          title="Repeat"
+          :value="event?.repeatInfoText"
         />
-        <!-- <q-item v-if="event?.repeatInfoText">
-          <q-item-section>
-            <q-item-label caption> Repeat </q-item-label>
-            <q-item-label> {{ event?.repeatInfoText }} </q-item-label>
-          </q-item-section>
-        </q-item> -->
         <QDetailsItem
           v-if="event?.remindTo"
           :caption="true"
-          label1="Recurrence"
-          :label2="`${selectedOption?.label} ${selectedTime?.label}`"
+          title="Recurrence"
+          :value="`${selectedOption?.label} ${selectedTime?.label}`"
         />
-        <!-- <q-item v-if="event?.remindTo">
-          <q-item-section>
-            <q-item-label caption> Recurrence </q-item-label>
-            <q-item-label>
-              {{ selectedOption?.label }} {{ selectedTime?.label }} before
-            </q-item-label>
-          </q-item-section>
-        </q-item> -->
       </q-list>
     </q-page-container>
   </q-layout>
