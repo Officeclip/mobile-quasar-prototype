@@ -200,9 +200,7 @@ function receiveAdvFilters(advancedOptions: any) {
         <q-btn
           :to="{
             name: 'newTask',
-            params: {
-              id: -1,
-            },
+            params: {id: -1},
           }"
           color="accent"
           fab

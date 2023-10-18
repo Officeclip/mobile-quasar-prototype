@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { TestDutta } from '../models/testDutta';
+import {Constants} from "stores/Constants";
 
 export const useTestDuttaStore = defineStore('testDuttaStore', {
   state: () => ({
@@ -13,7 +14,7 @@ export const useTestDuttaStore = defineStore('testDuttaStore', {
     async getDuttaTestById(id: number) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/testDuttas?id=${id}`
+          `${Constants.endPointUrl}/testDuttas?id=${id}`
         );
         this.testDutta = response.data[0];
         console.log(

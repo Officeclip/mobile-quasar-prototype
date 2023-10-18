@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { Timesheet } from '../models/timesheet';
 import { TimesheetDetails } from '../models/timesheetDetails';
 import axios from 'axios';
+import {Constants} from "stores/Constants";
 
 export const useTimesheetsStore = defineStore('timesheetsStore', {
   state: () => ({
@@ -25,7 +26,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     async getTimesheets() {
       try {
         const response = await axios.get(
-          'http://localhost:4000/timesheetSummary'
+          `${Constants.endPointUrl}/timesheetSummary`
         );
         this.timesheets = response.data;
       } catch (error) {
@@ -48,8 +49,8 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     async getTimesheetsByStatus(status: string) {
       const callStr =
         status != ''
-          ? `http://localhost:4000/timesheetSummary?status=${status}`
-          : 'http://localhost:4000/timesheetSummary';
+          ? `${Constants.endPointUrl}/timesheetSummary?status=${status}`
+          : `${Constants.endPointUrl}/timesheetSummary`;
 
       try {
         const response = await axios.get(callStr);
@@ -62,7 +63,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     async getTimesheetDetails(id: number) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/timesheet-details?id=${id}`
+          `${Constants.endPointUrl}/timesheet-details?id=${id}`
         );
         this.timesheetDetails = response.data;
       } catch (error) {
@@ -74,7 +75,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       // not added yet
       try {
         const response = await axios.put(
-          `http://localhost:4000/timesheet-details/${timesheetDetail.id}`,
+          `${Constants.endPointUrl}/timesheet-details/${timesheetDetail.id}`,
           timesheetDetail
         );
         if (response.status === 200) {
@@ -88,7 +89,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     async deleteTimesheet(id: number | undefined) {
       try {
         const response = await axios.delete(
-          `http://localhost:4000/timesheet-details/${id}`
+          `${Constants.endPointUrl}/timesheet-details/${id}`
         );
         if (response.status === 200) {
           //debugger;

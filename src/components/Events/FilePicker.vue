@@ -78,44 +78,19 @@ function onRejected(rejectedFiles) {
       append
       max-files="5"
       accept="jpg,image/*"
-      max-file-size="10000000"
       @rejected="onRejected"
       @update:model-value="updateFile()"
+      style="max-width: 350px"
     >
       <template v-slot:prepend>
         <q-icon name="attach_file" size="xs"></q-icon>
       </template>
-      <!-- <template v-slot:append>
-        <q-icon
-          name="add"
-          size="xs"
-          color="primary"
-          class="cursor-pointer q-ml-md"
-        ></q-icon>
-      </template> -->
-      <!-- <template v-slot:append>
-      <q-btn
-        color="primary"
-        dense
-        flat
-        label="Add"
-        no-caps
-        @click="getAttachments"
-      />
-    </template> -->
     </q-file>
-    <q-list style="max-width: 350px">
-      <q-item
-        v-for="file in files"
-        :key="file.name"
-        clickable
-        v-ripple
-        dense
-        class="items-center justify-between"
-      >
+    <q-list>
+      <q-item v-for="file in files" :key="file.name">
         <a @click="showPreview(file)">{{ file.name }}</a>
         <q-icon
-          class="q-ml-xs"
+          class="q-ml-sm"
           color="primary"
           name="arrow_downward"
           size="xs"
@@ -123,19 +98,27 @@ function onRejected(rejectedFiles) {
         />
       </q-item>
     </q-list>
-    <q-img
-      v-if="isPreviewing"
-      :src="imageUrl"
-      spinner-color="white"
-      style="height: 140px; max-width: 150px"
-    />
-    <q-icon
-      v-if="isPreviewing"
-      class="cursor-pointer"
-      color="primary"
-      name="close"
-      size="xs"
-      @click="closePreview()"
-    ></q-icon>
+
+    <!-- Full-Screen Preview Dialog -->
+    <q-dialog v-model="isPreviewing" fullscreen no-backdrop no-route-dismiss>
+      <q-card style="width: 100%; height: 100%">
+        <q-card-actions
+          align="right"
+          style="position: absolute; top: 0; right: 0; z-index: 1"
+        >
+          <q-btn
+            flat
+            round
+            dense
+            icon="close"
+            color="red"
+            @click="closePreview"
+          />
+        </q-card-actions>
+        <q-card-section style="height: 100%">
+          <q-img :src="imageUrl" spinner-color="white" style="height: 100%" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>

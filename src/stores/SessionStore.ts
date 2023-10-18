@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia';
 import axios from 'axios';
 import {Session} from 'src/models/session';
+import {Constants} from "stores/Constants";
 
 export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
@@ -14,7 +15,7 @@ export const useSessionStore = defineStore('sessionStore', {
   actions: {
     async getSessions() {
       try {
-        const data = await axios.get('http://localhost:4000/session');
+        const data = await axios.get(`${Constants.endPointUrl}/session`);
         this.sessions = data.data;
         console.log('Sessions data from store: ', data.data);
       } catch (error) {

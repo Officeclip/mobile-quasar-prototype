@@ -2,20 +2,21 @@ import { defineStore } from 'pinia';
 import { Expense } from '../models/expense';
 //import { ExpenseDetails } from '../models/expenseDetails';
 import {
-  AirTravelExpense,
-  ExpenseDetail,
+  airTravelExpense,
+  expenseDetails,
 } from '../models/expense/expenseDetails';
 import axios from 'axios';
+import {Constants} from "stores/Constants";
 
 export const useExpensesStore = defineStore('expensesStore', {
   state: () => ({
     expenses: [] as Expense[],
     expense: undefined as Expense | undefined,
 
-    expenseDetails: [] as ExpenseDetail[],
-    expenseDetail: undefined as ExpenseDetail | undefined,
+    expenseDetails: [] as expenseDetails[],
+    expenseDetail: undefined as expenseDetails | undefined,
 
-    airTravelExpense: undefined as AirTravelExpense | undefined,
+    airTravelExpense: undefined as airTravelExpense | undefined,
   }),
 
   getters: {
@@ -31,7 +32,7 @@ export const useExpensesStore = defineStore('expensesStore', {
     async getExpenses() {
       try {
         const response = await axios.get(
-          'http://localhost:4000/expense-summary'
+          `${Constants.endPointUrl}/expense-summary`
         );
         this.expenses = response.data;
         console.log(this.expense);
@@ -55,8 +56,8 @@ export const useExpensesStore = defineStore('expensesStore', {
     async getExpensesByStatus(status: string) {
       const callStr =
         status != ''
-          ? `http://localhost:4000/expense-summary?status=${status}`
-          : 'http://localhost:4000/expense-summary';
+          ? `${Constants.endPointUrl}/expense-summary?status=${status}`
+          : `${Constants.endPointUrl}/expense-summary`;
 
       try {
         const response = await axios.get(callStr);
@@ -69,7 +70,7 @@ export const useExpensesStore = defineStore('expensesStore', {
     async getExpenseDetails(id: string | string[]) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/expense-details?id=${id}`
+          `${Constants.endPointUrl}/expense-details?id=${id}`
         );
         this.expenseDetails = response.data;
         console.log(this.expenseDetails);
@@ -78,10 +79,10 @@ export const useExpensesStore = defineStore('expensesStore', {
       }
     },
 
-    async getAirTravelExpenseType(airTravelExpense: AirTravelExpense) {
+    async getAirTravelExpenseType(airTravelExpense: airTravelExpense) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/expense-details?expenseType=${airTravelExpense}`
+          `${Constants.endPointUrl}/expense-details?expenseType=${airTravelExpense}`
         );
         this.airTravelExpense = response.data;
       } catch (error) {
@@ -89,10 +90,10 @@ export const useExpensesStore = defineStore('expensesStore', {
       }
     },
 
-    async addExpense(expenseDetail: ExpenseDetail) {
+    async addExpense(expenseDetail: expenseDetails) {
       try {
         const response = await axios.post(
-          'http://localhost:4000/expense-details',
+          `${Constants.endPointUrl}/expense-details`,
           expenseDetail
         );
         if (response.status === 200) {
@@ -104,12 +105,12 @@ export const useExpensesStore = defineStore('expensesStore', {
       }
     },
 
-    async editExpense(expenseDetail: ExpenseDetail) {
-      console.log(`editExpense 1: ${this.expenseDetail?.expenseDetailSid}`);
+    async editExpense(expenseDetail: expenseDetails) {
+      console.log(`editExpense 1: ${this.expenseDetail?.id}`);
       // not added yet
       try {
         const response = await axios.put(
-          `http://localhost:4000/expense-details/${expenseDetail.expenseDetailSid}`,
+          `${Constants.endPointUrl}/expense-details/${expenseDetail.id}`,
           expenseDetail
         );
         if (response.status === 200) {
@@ -123,7 +124,7 @@ export const useExpensesStore = defineStore('expensesStore', {
     async deleteExpense(id: string | undefined) {
       try {
         const response = await axios.delete(
-          `http://localhost:4000/expense-details/${id}`
+          `${Constants.endPointUrl}/expense-details/${id}`
         );
         if (response.status === 200) {
           //debugger;

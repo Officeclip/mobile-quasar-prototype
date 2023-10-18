@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { Note } from '../models/note';
 import { NoteBook } from '../models/noteBook';
 import axios from 'axios';
+import {Constants} from "stores/Constants";
 
 export const useNotesStore = defineStore('notesStore', {
   state: () => ({
@@ -21,7 +22,7 @@ export const useNotesStore = defineStore('notesStore', {
   actions: {
     async getNoteBooks() {
       try {
-        const response = await axios.get('http://localhost:4000/notebooks');
+        const response = await axios.get(`${Constants.endPointUrl}/notebooks`);
         this.noteBooks = response.data;
         //console.log(`NotesStore: getNoteBooks: Count: ${this.NoteBooksCount}`);
       } catch (error) {
@@ -39,8 +40,8 @@ export const useNotesStore = defineStore('notesStore', {
       );
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `http://localhost:4000/notes?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
-          : `http://localhost:4000/notes?noteBookId=${noteBookId}`;
+          ? `${Constants.endPointUrl}/notes?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : `${Constants.endPointUrl}/notes?noteBookId=${noteBookId}`;
 
       try {
         const response = await axios.get(callStr);
@@ -64,7 +65,7 @@ export const useNotesStore = defineStore('notesStore', {
     async getNote(id: number) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/notes?id=${id}`
+          `${Constants.endPointUrl}/notes?id=${id}`
         );
         this.note = response.data[0];
       } catch (error) {
@@ -75,7 +76,7 @@ export const useNotesStore = defineStore('notesStore', {
     async addNotes(note: Note) {
       this.notes.push(note);
 
-      const res = await axios.post('http://localhost:4000/notes', note);
+      const res = await axios.post(`${Constants.endPointUrl}/notes`, note);
 
       if (res.status === 200) {
         this.getNote(note.id);
@@ -89,7 +90,7 @@ export const useNotesStore = defineStore('notesStore', {
       // not added yet
       try {
         const response = await axios.put(
-          `http://localhost:4000/notes/${note.id}`,
+          `${Constants.endPointUrl}/notes/${note.id}`,
           note
         );
         if (response.status === 200) {
@@ -105,7 +106,7 @@ export const useNotesStore = defineStore('notesStore', {
     async deleteNote(id: number | undefined) {
       try {
         const response = await axios.delete(
-          `http://localhost:4000/notes/${id}`
+          `${Constants.endPointUrl}/notes/${id}`
         );
         if (response.status === 200) {
           //debugger;

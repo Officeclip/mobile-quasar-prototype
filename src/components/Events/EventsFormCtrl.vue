@@ -170,6 +170,21 @@ function createValue(val: string, done: any) {
     done({ id: id, email: val }, 'toggle'); // added the new input as an new item into the dropdown
   }
 }
+const testUrl = () => {
+  const url = props.event.url;
+  if (!url) {
+    alert('URL cannot be empty');
+  } else if (isValidURL(url)) {
+    window.open('http://' + url, '_blank');
+  } else {
+    alert('Invalid URL');
+  }
+};
+
+function isValidURL(url: string) {
+  const pattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+  return pattern.test(url);
+}
 </script>
 
 <template>
@@ -412,7 +427,14 @@ function createValue(val: string, done: any) {
           name="Url"
         >
           <template v-slot:append>
-            <q-btn color="primary" dense flat label="test url" no-caps />
+            <q-btn
+              color="primary"
+              dense
+              flat
+              label="Test URL"
+              no-caps
+              @click="testUrl"
+            />
           </template>
         </q-input>
       </q-item>
