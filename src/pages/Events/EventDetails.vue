@@ -148,28 +148,21 @@ console.log('Testing the label object by labelid::', labelNameById);
     <q-page-container>
       <q-list>
         <QDetailsItem :value="`${showMeetingType(event?.eventType)} event`" />
-        <QDetailsItem :caption="true" title="Created On" :value="createdDate" />
-        <QDetailsItem
-          :caption="true"
-          title="Event Name"
-          :value="event?.eventName"
-        />
+        <QDetailsItem title="Created On" :value="createdDate" />
+        <QDetailsItem title="Event Name" :value="event?.eventName" />
         <QDetailsItem
           v-if="event?.eventDescription"
-          :caption="true"
           title="Description"
           :value="event?.eventDescription"
         />
         <QDetailsItem
           v-if="event?.eventLocation"
-          :caption="true"
           title="Event Location"
           :value="event?.eventLocation"
         />
-        <QDetailsItem :caption="true" title="Start Date" :value="startDate" />
-        <QDetailsItem :caption="true" title="End Date" :value="endDate" />
+        <QDetailsItem title="Start Date" :value="startDate" />
+        <QDetailsItem title="End Date" :value="endDate" />
         <QDetailsItem
-          :caption="true"
           title="Is All Day Event ?"
           :value="event?.isAllDayEvent ? 'Yes' : 'No'"
         />
@@ -200,13 +193,11 @@ console.log('Testing the label object by labelid::', labelNameById);
         </q-item>
         <QDetailsItem
           v-if="event?.repeatInfoText"
-          :caption="true"
           title="Repeat"
           :value="event?.repeatInfoText"
         />
         <QDetailsItem
           v-if="event?.remindTo"
-          :caption="true"
           title="Recurrence"
           :value="`${selectedOption?.label} ${selectedTime?.label}`"
         />
