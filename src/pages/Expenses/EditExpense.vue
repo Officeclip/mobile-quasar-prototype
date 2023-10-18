@@ -24,19 +24,12 @@ const route = useRoute();
 const editExpenseId = route.params.id;
 
 onMounted(() => {
-  console.log('Edit Expense Id from route', route.params.id)
   expenseDetailsStore.getExpenseDetailById(route.params.id);
 });
 
 const expenseDetail = computed(() => {
-  console.log('Edit expense details', expenseDetailsStore.ExpenseDetails)
   return expenseDetailsStore.ExpenseDetails;
 });
-
-// const expenseForm = computed(() => {
-//   console.log('Edit expense details', expenseDetailsStore.ExpenseDetails)
-//   return expenseDetailsStore.ExpenseDetails;
-// });
 
 function onSubmit(e: any) {
   e.preventDefault();
@@ -73,7 +66,7 @@ function onSubmit(e: any) {
     taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense
   };
 
-  // expenseDetailsStore.editExpense(editExpense);
+  expenseDetailsStore.editExpense(editExpense);
   // router.push('-2');
 
   const str = JSON.stringify(editExpense);

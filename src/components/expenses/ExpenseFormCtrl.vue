@@ -1,5 +1,6 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <script setup>
-import { defineProps, ref, onMounted, onUpdated, computed } from 'vue';
+import { defineProps, ref, onMounted, onUpdated, computed, watch } from 'vue';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import airTravelExpenseForm from '../expenses/expenseTypes/airTravelExpenseForm.vue';
@@ -30,21 +31,62 @@ const period = ref('');
 
 const props = defineProps(['expenseDetail']);
 
+const test = ref('')
+watch(
+  () => props.expenseDetail,
+  (newVal) => {
+    if (newVal) {
+      test.value = props.expenseDetail.expenseTypeName
+      console.log(
+        'Data from parent to child is: ',
+        test.value
+      );
+    }
+  }
+);
+
+//const expenseTypeName = ref(props.expenseDetail.expenseTypeName);
+
+console.log('To test expense detail', props.expenseDetail)
+
+//const expenseTypeName = computed(() => {
+// debugger;
+// const expenseTypeName = props.expenseDetail.expenseTypeName;
+// console.log('To test expense name', expenseTypeName)
+// const expenseType = expenseTypeOptions.value.find(
+//   (x) => x.expenseTypeName === expenseTypeName.value
+// );
+// console.log('To test expense type', expenseType)
+// const isBillableModify = expenseType.isBillableModify;
+//return isBillableModify
+//console.log('Testing', test.value)
+//return test.value;
+//});
+
+// watch(expenseTypeName, (newValue, oldValue) => {
+//   console.log(`ExpenseType Name changed from ${oldValue} to ${newValue}`)
+// });
+
 // const expenseTypeObject = props.expenseDetail.
 
-const expenseDetailsStore = useExpenseDetailsStore();
+// const expenseDetailsStore = useExpenseDetailsStore();
 
-const editExpenseData = expenseDetailsStore.getExpenseDetailById(props.editExpenseId);
+// const editExpenseData = expenseDetailsStore.getExpenseDetailById(props.editExpenseId);
 
-const expenseDetails = computed(() => {
-  console.log('Edit expense details', editExpenseData.ExpenseDetails)
-  return editExpenseData.ExpenseDetails;
-});
+// const expenseDetails = computed(() => {
+//   return editExpenseData.ExpenseDetails;
+// });
+
+
+// console.log('Edit expense details', expenseDetails.value)
+
+
 
 const expenseListsStore = useExpenseListsStore();
 
 onMounted(() => {
   expenseListsStore.getExpensesList();
+  //getOrgApplications(test);
 });
 
 onUpdated(() => {
@@ -68,19 +110,19 @@ const paymentTypeOptions = computed(() => {
   return expenseListsStore.PaymentTypes;
 });
 
-const expenseTypeOptions1 = computed(() => {
-  const expenseTypeName = 'AIRFARE';
-  const relevantExpenseType = expenseTypeOptions.value.find(
-    (x) => x.expenseTypeName === expenseTypeName
-  );
-  console.log('relevantExpenseType -', relevantExpenseType)
-  const isBillableModify = relevantExpenseType ? relevantExpenseType.isBillableModify : null;
+// const expenseTypeOptions1 = computed(() => {
+//   const expenseTypeName = 'AIRFARE';
+//   const relevantExpenseType = expenseTypeOptions.value.find(
+//     (x) => x.expenseTypeName === expenseTypeName
+//   );
+//   console.log('relevantExpenseType -', relevantExpenseType)
+//   const isBillableModify = relevantExpenseType ? relevantExpenseType.isBillableModify : null;
 
-  console.log('Is billable modify -', isBillableModify)
-  return isBillableModify;
-})
+//   console.log('Is billable modify -', isBillableModify)
+//   return isBillableModify;
+// })
 
-console.log('Testing is billable modify -', expenseTypeOptions1.value)
+// console.log('Testing is billable modify -', expenseTypeOptions1.value)
 
 // function getIsBillableModifyValue(expenseTypeName) {
 //   const expenseTypeOption = '';
@@ -141,12 +183,74 @@ expenseTypes.value = [
 // const taskDate = ref('');
 // taskDate.value = 'July 20(Thu)';
 
-const airTravel = ref([{
+const airTravel = ref({
   arrivalAirport: '',
   arrivalDate: '',
   departureAirport: '',
   departureDate: '',
-}]);
+});
+
+const autoRental = ref({
+  rentalAgency: '',
+  city: '',
+  fromDate: '',
+  toDate: '',
+});
+
+const isBillableModify = ref(false);
+
+watch([test], ([newTest]) => {
+  getOrgApplications(newTest);
+});
+
+function getOrgApplications(event) {
+  console.log('This is to test', test.value);
+  if (event == null) {
+    event = test.value;
+  }
+  console.log('Testing event', event);
+  const expenseType = expenseTypeOptions.value.find(
+    (x) => x.expenseTypeName === event
+  );
+  //console.log('Is Billable Modify - ', expenseType);
+  //console.log('Is Billable Modify value - ', expenseType.expenseTypeName);
+  isBillableModify.value = expenseType.isBillableModify;
+  // if (newValue1) {
+  //   isBillableModify.value = false;
+  // }
+  // else {
+  //   isBillableModify.value = true;
+  // }
+
+  switch (event) {
+    case 'AIRFARE':
+      // newValue1.value = expenseType.isBillableModify;
+      // if (newValue1.value == true) {
+      //   isBillableModify.value = false;
+      // }
+      // else {
+      //   isBillableModify.value = true;
+      // }
+      props.expenseDetail.autoRentalExpense = null;
+      break;
+    case 'AUTORENTAL':
+      // newValue1.value = expenseType.isBillableModify;
+      // if (newValue1.value == true) {
+      //   isBillableModify.value = false;
+      // }
+      // else {
+      //   isBillableModify.value = true;
+      // }
+      props.expenseDetail.airTravelExpense = null;
+      break;
+  }
+
+}
+
+//getOrgApplications(test.value);
+
+// const str = JSON.stringify(airTravel);
+// console.log(`onSubmit Expense Value: ${str}`);
 
 // const autoRental = ref([{
 //   rentalAgency: 'Sudhakar',
@@ -182,24 +286,24 @@ const airTravel = ref([{
           option-label="name" option-value="name" map-options emit-value />
 
         <q-select label="Expense Type" v-model="expenseDetail.expenseTypeName" :options="expenseTypeOptions"
-          option-label="expenseName" emit-value option-value="expenseTypeName" map-options />
-
-        <q-toggle v-if="expenseDetail.isBillable === true" label="Billable" :false-value="false" :true-value="true"
-          color="primary" keep-color v-model="newValue" option-value="expenseTypeName" map-options></q-toggle>
-        <div v-else caption class="q-mb-md text-italic">
-          <q-item-label class="q-mb-sm">
-            {{ newValue }}
-          </q-item-label>
-          <q-icon name="hide_source" /> You do not permission to edit this item
-        </div>
-        <!-- <pre>{{ airTravel }}</pre> -->
-        <!-- <pre>{{ props.expenseDetail.expenseTypeName == '' ? true : false }}</pre> -->
+          @update:model-value="getOrgApplications" option-label="expenseName" emit-value option-value="expenseTypeName"
+          map-options />
         <airTravelExpenseForm
-          :airTravel="props.expenseDetail.airTravelExpense == null ? airTravel : props.expenseDetail.airTravelExpense"
+          :airTravel="props.expenseDetail.airTravelExpense == null ? props.expenseDetail.airTravelExpense = airTravel : props.expenseDetail.airTravelExpense"
           v-if="expenseDetail.expenseTypeName == 'AIRFARE'" />
 
-        <autoRentalExpenseForm :autoRental="props.expenseDetail.autoRentalExpense"
+        <autoRentalExpenseForm
+          :autoRental="props.expenseDetail.autoRentalExpense == null ? props.expenseDetail.autoRentalExpense = autoRental : props.expenseDetail.autoRentalExpense"
           v-if="expenseDetail.expenseTypeName == 'AUTORENTAL'" />
+
+        <q-toggle label="Billable" :false-value="false" :true-value="true" :disable="!isBillableModify" color="primary"
+          keep-color v-model="expenseDetail.billable" option-value="expenseTypeName" map-options></q-toggle>
+        <div v-if="isBillableModify === false" caption class="q-mb-md text-italic">
+          <!-- <q-item-label class="q-mb-sm">
+              {{ newValue }}
+            </q-item-label> -->
+          <q-icon name="hide_source" /> You do not permission to edit this item
+        </div>
 
         <q-select label="Payment Method" v-model="expenseDetail.paymentType" :options="paymentTypeOptions" map-options
           emit-value option-value="label" />

@@ -31,12 +31,12 @@ const expenseDetail = ref({
   projectSid: '',
   tax: '',
   paymentType: '',
-  autoRentalExpense: [],
-  airTravelExpense: [],
-  hotelExpense: [],
-  mileageExpense: [],
-  telephoneExpense: [],
-  taxiExpense: []
+  autoRentalExpense: null,
+  airTravelExpense: null,
+  hotelExpense: null,
+  mileageExpense: null,
+  telephoneExpense: null,
+  taxiExpense: null
 });
 
 function onSubmit(e: any) {

@@ -20,7 +20,7 @@ onMounted(() => {
 });
 
 const expenseDetails = computed(() => {
-  return expenseDetailsStore.ExpenseDetails;
+  return expenseDetailsStore.expenseDetailsList;
 });
 console.log('expense detail in expense details', expenseDetails)
 </script>
