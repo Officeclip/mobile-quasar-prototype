@@ -38,10 +38,10 @@ const showConfirmationDialog = ref(false);
       <q-item-label class="q-mt-xs text-body2 text-weight-bold text-primary text-uppercase" lines="1">
         <span v-if="!subtask.isCompleted"
               class="cursor-pointer"
-              @click="toggleSubtaskStatus(subtask.id)">Mark as Done</span>
+              @click="toggleSubtaskStatus(subtask.id)">Mark as complete</span>
         <span v-if="subtask.isCompleted"
               class="cursor-pointer"
-              @click="toggleSubtaskStatus(subtask.id)">Mark as Not Done</span>
+              @click="toggleSubtaskStatus(subtask.id)">Mark as incomplete</span>
       </q-item-label>
     </q-item-section>
 

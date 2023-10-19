@@ -183,7 +183,6 @@ function addSubtask(subtask: subTask) {
                     <q-item-label>
                       <q-chip v-for="assignee in taskDetail?.assignee" :key="assignee" dense>{{ assignee }}</q-chip>
                     </q-item-label>
-
                   </div>
 
                   <div class="col-4">
@@ -206,6 +205,7 @@ function addSubtask(subtask: subTask) {
                   <div v-for="subtask in taskDetail?.subtasks" :key="subtask.id">
                     <subtask-item v-if="!subtask.isCompleted" :subtask="subtask"/>
                   </div>
+                  <q-separator spaced/>
                   <div v-for="subtask in taskDetail?.subtasks" :key="subtask.id">
                     <subtask-item v-if="subtask.isCompleted" :subtask="subtask"/>
                   </div>
@@ -217,7 +217,7 @@ function addSubtask(subtask: subTask) {
       </q-card>
 
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
-        <q-fab color="purple" direction="up" icon="keyboard_arrow_up" vertical-actions-align="right">
+        <q-fab color="purple" direction="up" icon="add" vertical-actions-align="right">
           <q-fab-action color="primary" icon="add_task" label="Add subtask" @click="showAddSubtaskDialog=true"/>
           <q-fab-action :to="{
             name: 'newTask',
