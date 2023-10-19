@@ -30,11 +30,11 @@ const showConfirmationDialog = ref(false);
     </q-item-section>
 
     <q-item-section top>
-      <q-item-label lines="1">
+      <q-item-label lines="1" :class="subtask.isCompleted?'text-strike':''">
         <span class="text-weight-medium">{{ subtask.title }}</span>
         <span class="text-grey-8"> - {{ subtask.assignee.name }}    </span>
       </q-item-label>
-      <q-item-label caption lines="1"> {{ subtask.description }}</q-item-label>
+      <q-item-label caption lines="1" :class="subtask.isCompleted?'text-strike':''"> {{ subtask.description }}</q-item-label>
       <q-item-label class="q-mt-xs text-body2 text-weight-bold text-primary text-uppercase" lines="1">
         <span v-if="!subtask.isCompleted"
               class="cursor-pointer"

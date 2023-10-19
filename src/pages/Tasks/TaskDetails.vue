@@ -204,7 +204,10 @@ function addSubtask(subtask: subTask) {
                 </q-toolbar>
                 <q-list bordered class="rounded-borders">
                   <div v-for="subtask in taskDetail?.subtasks" :key="subtask.id">
-                    <subtask-item :subtask="subtask"/>
+                    <subtask-item v-if="!subtask.isCompleted" :subtask="subtask"/>
+                  </div>
+                  <div v-for="subtask in taskDetail?.subtasks" :key="subtask.id">
+                    <subtask-item v-if="subtask.isCompleted" :subtask="subtask"/>
                   </div>
                 </q-list>
               </q-item-section>
@@ -213,9 +216,7 @@ function addSubtask(subtask: subTask) {
         </q-card-section>
       </q-card>
 
-
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
-
         <q-fab color="purple" direction="up" icon="keyboard_arrow_up" vertical-actions-align="right">
           <q-fab-action color="primary" icon="add_task" label="Add subtask" @click="showAddSubtaskDialog=true"/>
           <q-fab-action :to="{
