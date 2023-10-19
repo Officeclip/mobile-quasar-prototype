@@ -5,6 +5,7 @@ import { useEventListsStore } from '../../stores/event/eventListsStore';
 import { useReminderDataStore } from 'stores/reminder/reminderData';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
+import QDetailsItem from '../../components/Events/QDetailsItem.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -145,108 +146,62 @@ console.log('Testing the label object by labelid::', labelNameById);
     </q-header>
 
     <q-page-container>
-      <q-card bordered class="relative-position card-example" flat>
-        <q-card-section class="q-pb-none">
-          <q-list>
-            <q-item>
-              <q-item-section>
-                <q-item-label
-                  >{{ showMeetingType(event?.eventType) }} event</q-item-label
-                >
-              </q-item-section>
-            </q-item>
-
-            <q-item>
-              <q-item-section>
-                <q-item-label caption>Created On</q-item-label>
-                <q-item-label>{{ createdDate }}</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item>
-              <q-item-section>
-                <q-item-label caption>Event Name</q-item-label>
-                <q-item-label>{{ event?.eventName }}</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item v-if="event?.eventDescription">
-              <q-item-section>
-                <q-item-label caption>Description</q-item-label>
-                <q-item-label>{{ event?.eventDescription }}</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item v-if="event?.eventLocation">
-              <q-item-section>
-                <q-item-label caption>Event Location</q-item-label>
-                <q-item-label>{{ event?.eventLocation }}</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item>
-              <q-item-section>
-                <q-item-label caption>Start Date</q-item-label>
-                <q-item-label>{{ startDate }} </q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item>
-              <q-item-section>
-                <q-item-label caption>End Date</q-item-label>
-                <q-item-label>{{ endDate }} </q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item>
-              <q-item-section>
-                <q-item-label caption>Is All Day Event ?</q-item-label>
-                <q-item-label>{{
-                  event?.isAllDayEvent ? 'Yes' : 'No'
-                }}</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item v-if="event?.meetingAttendees">
-              <q-item-section>
-                <q-item-label caption> Attendees </q-item-label>
-                <div style="display: inline-flex; align-items: baseline">
-                  <q-item-label
-                    v-for="attendee in attendeesList"
-                    :key="attendee.name"
-                  >
-                    <q-chip dense class="q-px-sm">{{ attendee.name }}</q-chip>
-                  </q-item-label>
-                </div>
-              </q-item-section>
-            </q-item>
-
-            <q-item v-if="event?.label">
-              <q-item-section>
-                <q-item-label caption> Label </q-item-label>
-                <q-item-label>
-                  <span
-                    class="q-py-xs q-px-sm"
-                    :style="{ backgroundColor: labelNameById?.color }"
-                    >{{ labelNameById?.name }}</span
-                  >
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item v-if="event?.repeatInfoText">
-              <q-item-section>
-                <q-item-label caption> Repeat </q-item-label>
-                <q-item-label> {{ event?.repeatInfoText }} </q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item v-if="event?.remindTo">
-              <q-item-section>
-                <q-item-label caption> Recurrence </q-item-label>
-                <q-item-label>
-                  {{ selectedOption?.label }} {{ selectedTime?.label }} before
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card-section>
-      </q-card>
+      <q-list>
+        <QDetailsItem :value="`${showMeetingType(event?.eventType)} event`" />
+        <QDetailsItem title="Created On" :value="createdDate" />
+        <QDetailsItem title="Event Name" :value="event?.eventName" />
+        <QDetailsItem
+          v-if="event?.eventDescription"
+          title="Description"
+          :value="event?.eventDescription"
+        />
+        <QDetailsItem
+          v-if="event?.eventLocation"
+          title="Event Location"
+          :value="event?.eventLocation"
+        />
+        <QDetailsItem title="Start Date" :value="startDate" />
+        <QDetailsItem title="End Date" :value="endDate" />
+        <QDetailsItem
+          title="Is All Day Event ?"
+          :value="event?.isAllDayEvent ? 'Yes' : 'No'"
+        />
+        <q-item v-if="event?.meetingAttendees">
+          <q-item-section>
+            <q-item-label caption> Attendees </q-item-label>
+            <div style="display: inline-flex; align-items: baseline">
+              <q-item-label
+                v-for="attendee in attendeesList"
+                :key="attendee.name"
+              >
+                <q-chip dense class="q-px-sm">{{ attendee.name }}</q-chip>
+              </q-item-label>
+            </div>
+          </q-item-section>
+        </q-item>
+        <q-item v-if="event?.label">
+          <q-item-section>
+            <q-item-label caption> Label </q-item-label>
+            <q-item-label>
+              <span
+                class="q-py-xs q-px-sm"
+                :style="{ backgroundColor: labelNameById?.color }"
+                >{{ labelNameById?.name }}</span
+              >
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <QDetailsItem
+          v-if="event?.repeatInfoText"
+          title="Repeat"
+          :value="event?.repeatInfoText"
+        />
+        <QDetailsItem
+          v-if="event?.remindTo"
+          title="Recurrence"
+          :value="`${selectedOption?.label} ${selectedTime?.label}`"
+        />
+      </q-list>
     </q-page-container>
   </q-layout>
 
@@ -267,8 +222,3 @@ console.log('Testing the label object by labelid::', labelNameById);
     </q-card>
   </q-dialog>
 </template>
-<style scoped>
-/* .q-item__label {
-  margin-top: 4px !important;
-} */
-</style>

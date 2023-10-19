@@ -13,14 +13,14 @@ import {Constants} from "stores/Constants";
 
 export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   state: () => ({
-    //expenseDetailsList: [] as expenseDetails[],
+    expenseDetailsList: [] as expenseDetails[],
     expenseDetails: [] as expenseDetails[],
     //expenseDetails: undefined as expenseDetails | undefined,
     //expenseDetails: [],
-    //airTravelExpense: undefined as airTravelExpense | undefined,
-    airTravelExpense: [],
-    //autoRentalExpense: undefined as autoRentalExpense | undefined,
-    autoRentalExpense: [],
+    airTravelExpense: undefined as airTravelExpense | undefined,
+    //airTravelExpense: [],
+    autoRentalExpense: undefined as autoRentalExpense | undefined,
+    //autoRentalExpense: [],
     hotelExpense: undefined as hotelExpense | undefined,
     mileageExpense: undefined as mileageExpense | undefined,
     taxiExpense: undefined as taxiExpense | undefined,
@@ -31,7 +31,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   }),
 
   getters: {
-    //ExpenseDetailsList: (state) => state.expenseDetailsList,
+    ExpenseDetailsList: (state) => state.expenseDetailsList,
     ExpenseDetails: (state) => state.expenseDetails,
     AirTravelExpense: (state) => state.airTravelExpense,
     AutoRentalExpense: (state) => state.autoRentalExpense,
@@ -48,15 +48,18 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
           `${Constants.endPointUrl}/expense-details?expenseSid=${expenseSid}`
         );
         console.log('Getting Id', expenseSid);
-        this.expenseDetails = response.data;
-        console.log(this.expenseDetails);
+        this.expenseDetailsList = response.data;
+        console.log(this.expenseDetailsList);
       } catch (error) {
         console.error(error);
       }
     },
 
     async getExpenseDetailById(id: string | string[]) {
-      console.log('expenseDetailsStore.ts> getExpenseDetailById - started');
+      console.log(
+        'expenseDetailsStore.ts > getExpenseDetailById - started: ',
+        id
+      );
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/expense-details?id=${id}`

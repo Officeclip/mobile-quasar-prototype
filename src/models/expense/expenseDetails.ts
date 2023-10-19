@@ -25,12 +25,12 @@ export interface expenseDetails {
   projectSid: string;
   tax: number;
   paymentType: string;
-  autoRentalExpense: autoRentalExpense[];
-  airTravelExpense: airTravelExpense[];
-  hotelExpense: hotelExpense[];
-  mileageExpense: mileageExpense[];
-  telephoneExpense: telephoneExpense[];
-  taxiExpense: taxiExpense[];
+  autoRentalExpense: autoRentalExpense;
+  airTravelExpense: airTravelExpense;
+  hotelExpense: hotelExpense;
+  mileageExpense: mileageExpense;
+  telephoneExpense: telephoneExpense;
+  taxiExpense: taxiExpense;
 }
 
 export interface airTravelExpense {
