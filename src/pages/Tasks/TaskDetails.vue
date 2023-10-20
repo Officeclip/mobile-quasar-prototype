@@ -202,10 +202,14 @@ function addSubtask(subtask: subTask) {
 
                 </q-toolbar>
                 <q-list bordered class="rounded-borders">
+                  <q-item-label caption class="q-ma-sm">Pending</q-item-label>
+
                   <div v-for="subtask in taskDetail?.subtasks" :key="subtask.id">
                     <subtask-item v-if="!subtask.isCompleted" :subtask="subtask"/>
                   </div>
                   <q-separator spaced/>
+                  <q-item-label caption class="q-ma-sm">Completed</q-item-label>
+
                   <div v-for="subtask in taskDetail?.subtasks" :key="subtask.id">
                     <subtask-item v-if="subtask.isCompleted" :subtask="subtask"/>
                   </div>

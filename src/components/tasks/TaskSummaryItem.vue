@@ -54,9 +54,7 @@ onBeforeMount(() => {
       <q-item-label>
         Due: {{ new Date(task.dueDate).toLocaleDateString() }}
       </q-item-label>
-      <q-item-label caption>
-        Created: {{ new Date(task.createdDate).toLocaleDateString() }}
-      </q-item-label>
+      
     </q-item-section>
 
     <q-item-section>
