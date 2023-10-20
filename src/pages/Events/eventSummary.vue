@@ -3,11 +3,11 @@ TODO: sg: Show the details of multi day event in the text(Event timing) [45]
 -->
 
 <script lang="ts" setup>
-import {eventSummary} from '../../models/event/eventSummary';
-import {useEventSummaryStore} from '../../stores/event/eventSummaryStore';
-import {computed, onMounted, ref} from 'vue';
+import { eventSummary } from '../../models/event/eventSummary';
+import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
+import { computed, onMounted, ref } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper.js';
-import {format} from 'date-fns';
+import { format } from 'date-fns';
 
 const eventSummaryStore = useEventSummaryStore();
 
@@ -44,7 +44,6 @@ const eventsForADay = computed(() => {
 function getFromToDate(event: eventSummary) {
   const from = dateTimeHelper.extractTimeFromUtc(event.startDateTime);
   const to = dateTimeHelper.extractTimeFromUtc(event.endDateTime);
-  console.log('TTTTTTTTTTT', from);
   return `${from} - ${to}`;
 }
 
@@ -83,12 +82,9 @@ function getEventType(event: eventSummary) {
     <q-page-container>
       <q-page>
         <div class="q-ma-md">
-          <div>
-            <q-date v-model="date" :events="eventDates" landscape today-btn/>
-          </div>
-          <div class="text-subtitle1 q-pt-md">Events for: {{ date }}</div>
+          <q-date v-model="date" :events="eventDates" today-btn />
+          <q-list class="q-pt-md">Events for: {{ date }}</q-list>
           <q-list bordered>
-            <pre>{{ eventsForADay }}</pre>
             <q-item
               v-for="event in eventsForADay"
               :key="event.id"
@@ -100,7 +96,7 @@ function getEventType(event: eventSummary) {
               clickable
             >
               <q-item-section avatar>
-                <q-icon :name="getEventIcon(event.eventType)" color="primary"/>
+                <q-icon :name="getEventIcon(event.eventType)" color="primary" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{ event.eventName }}</q-item-label>
@@ -109,23 +105,21 @@ function getEventType(event: eventSummary) {
                 </q-item-label>
               </q-item-section>
               <q-item-section side>
-                <q-icon color="primary" name="chevron_right"/>
+                <q-icon color="primary" name="chevron_right" />
               </q-item-section>
             </q-item>
           </q-list>
           <q-list>
             <q-item class="flex items-center"
-            >Legends:
-              <q-icon class="q-ml-md" color="primary" name="person"/>
+              >Legends:
+              <q-icon class="q-ml-md" color="primary" name="person" />
               <div class="q-ml-sm text-caption">Personal</div>
-              <q-icon class="q-ml-md" color="primary" name="group"/>
+              <q-icon class="q-ml-md" color="primary" name="group" />
               <div class="q-ml-sm text-caption">Meeting</div>
-              <q-icon class="q-ml-md" color="primary" name="groups"/>
+              <q-icon class="q-ml-md" color="primary" name="groups" />
               <div class="q-ml-sm text-caption">Group</div>
             </q-item>
           </q-list>
-        </div>
-        <div>
           <q-page-sticky :offset="[18, 18]" position="bottom-right">
             <q-btn
               :to="{
@@ -146,5 +140,3 @@ function getEventType(event: eventSummary) {
     </q-page-container>
   </q-layout>
 </template>
-
-<style scoped></style>
