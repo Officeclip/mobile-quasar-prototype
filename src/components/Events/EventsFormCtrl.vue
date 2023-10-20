@@ -265,7 +265,7 @@ function isValidURL(url: string) {
       </q-item>
       <q-item class="column">
         <q-input
-          v-model="startDate"
+          @update:model-value="(newValue) => (startDate = newValue)"
           :rules="[(val: any) => !!val || 'Start Date is required']"
           label="Starts*"
           name="startDateTime"
@@ -308,7 +308,7 @@ function isValidURL(url: string) {
           </template>
         </q-input>
         <q-input
-          v-model="endDate"
+          @update:model-value="(newValue) => (endDate = newValue)"
           :rules="[(val: any) => !!val || 'End Date is required']"
           label="Ends*"
           name="endDateTime"

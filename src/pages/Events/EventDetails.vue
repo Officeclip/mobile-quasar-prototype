@@ -198,8 +198,8 @@ console.log('Testing the label object by labelid::', labelNameById);
         />
         <QDetailsItem
           v-if="event?.remindTo"
-          title="Recurrence"
-          :value="`${selectedOption?.label} ${selectedTime?.label}`"
+          title="Reminder"
+          :value="`${selectedOption?.label} ${selectedTime?.label} Before`"
         />
       </q-list>
     </q-page-container>
@@ -212,11 +212,19 @@ console.log('Testing the label object by labelid::', labelNameById);
         <q-item-label>Are you sure you want to delete this event?</q-item-label>
         <q-card-actions align="right">
           <q-btn
+            no-caps
+            dense
             color="primary"
             label="Cancel"
             @click="showConfirmationDialog = false"
           />
-          <q-btn color="negative" label="Delete" @click="confirmDeleteEvent" />
+          <q-btn
+            no-caps
+            dense
+            color="negative"
+            label="Delete"
+            @click="confirmDeleteEvent"
+          />
         </q-card-actions>
       </q-card-section>
     </q-card>
