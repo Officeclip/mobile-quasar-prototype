@@ -265,11 +265,11 @@ function isValidURL(url: string) {
       </q-item>
       <q-item class="column">
         <q-input
+          :model-value="startsModelValue"
           @update:model-value="(newValue) => (startDate = newValue)"
           :rules="[(val: any) => !!val || 'Start Date is required']"
           label="Starts*"
           name="startDateTime"
-          :model-value="startsModelValue"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -308,11 +308,11 @@ function isValidURL(url: string) {
           </template>
         </q-input>
         <q-input
+          :model-value="endsModelValue"
           @update:model-value="(newValue) => (endDate = newValue)"
           :rules="[(val: any) => !!val || 'End Date is required']"
           label="Ends*"
           name="endDateTime"
-          :model-value="endsModelValue"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
