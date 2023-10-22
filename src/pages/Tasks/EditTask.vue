@@ -32,13 +32,11 @@ function onSubmit(e: any) {
     id: task.value.id,
     subject: task.value.subject,
     description: task.value.description,
-    taskTypeId: task.value.taskTypeId,
-    taskPriorityId: task.value.taskPriorityId,
-    taskStatusId: task.value.taskStatusId,
+    taskType: task.value.taskType,
+    taskStatus: task.value.taskStatus,
     isPrivate: task.value.isPrivate,
     taskOwner: task.value.taskOwner,
-    parentObjectServiceType: task.value.parentObjectServiceType,
-    parentObjectId: task.value.parentObjectId,
+    parentObject: task.value.parentObject,
     startDate: task.value.startDate,
     modifiedDate: new Date().toISOString(),
     dueDate: task.value.dueDate,
@@ -46,21 +44,17 @@ function onSubmit(e: any) {
     regardingType: task.value.regardingType,
     regardingValue: task.value.regardingValue,
     assignees: task.value.assignees,
-    taskOwnerSid: task.value.taskOwnerSid,
     remindTo: task.value.remindTo,
     remindBeforeMinutes: task.value.remindBeforeMinutes,
     repeatInfoText: task.value.repeatInfoText,
     recurrenceRule: task.value.recurrenceRule,
     tags: task.value.tags,
     subtasks: task.value.subtasks,
-    taskStatusName: task.value.taskStatusName,
-    taskPriorityName: task.value.taskPriorityName,
-    taskTypeName: task.value.taskTypeName
+    taskPriority: task.value.taskPriority,
   }
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  // tasksStore.editTask(task.value!);
+
   tasksDetailStore.editTask(newTask);
-  taskSummaryStore.editTask(newTask);
+  // taskSummaryStore.editTask(newTask);
   router.push(`/taskDetails/${task.value?.id}`);
 }
 </script>
@@ -76,7 +70,7 @@ function onSubmit(e: any) {
           round
           @click="$router.go(-1)"
         />
-        <q-toolbar-title> Edit Task</q-toolbar-title>
+        <q-toolbar-title>Edit Task</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-page-container>

@@ -1,4 +1,4 @@
-import {subTask} from "src/models/task/subtask";
+import { subTask } from "src/models/task/subtask";
 
 export interface taskDetails {
   id: number;
@@ -12,16 +12,26 @@ export interface taskDetails {
   regardingValue: string;
   assignees: assignee[];
   isPrivate: boolean;
-  taskStatusId: string;
-  taskStatusName:string;
-  parentObjectId: number;
-  parentObjectServiceType: number;
-  taskOwner: string;
-  taskOwnerSid: number;
-  taskPriorityId: string;
-  taskPriorityName:string;
-  taskTypeId: string;
-  taskTypeName: string;
+  taskStatus: {
+    id: string;
+    name: string;
+  };
+  parentObject: {
+    id: number;
+    serviceType: number;
+  };
+  taskOwner: {
+    name: string;
+    sid: number;
+  };
+  taskPriority: {
+    id: string;
+    name: string;
+  };
+  taskType: {
+    id: string;
+    name: string;
+  };
   remindTo: string;
   remindBeforeMinutes: number;
   repeatInfoText: string;

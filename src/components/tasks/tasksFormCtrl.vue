@@ -60,7 +60,6 @@ function handleRRuleText(rruleText: string) {
   console.log('Received RRule Plain Text:', rruleText);
   const repeatText = rruleText.charAt(0).toUpperCase() + rruleText.slice(1); //capitalize first letter
   repeatString.value = repeatText;
-
   emit('rrule-text-generated', repeatText);
 }
 
@@ -149,7 +148,7 @@ async function filterFn(val: string, update: any, abort: any) {
         </q-input>
 
         <q-select
-          v-model="task.taskTypeId"
+          v-model="task.taskType"
           :options="taskListsStore.TaskTypes"
           emit-value
           label="Task Type"
@@ -159,7 +158,7 @@ async function filterFn(val: string, update: any, abort: any) {
         />
 
         <q-select
-          v-model="task.taskPriorityId"
+          v-model="task.taskPriority"
           :options="taskListsStore.TaskPriorities"
           emit-value
           label="Priority"
@@ -169,7 +168,7 @@ async function filterFn(val: string, update: any, abort: any) {
         />
 
         <q-select
-          v-model="task.taskStatusId"
+          v-model="task.taskStatus"
           :options="taskListsStore.TaskStatuses"
           emit-value
           label="Status"

@@ -1,6 +1,6 @@
 <!-- cleaned up with google bard with minor correction -->
 <script lang="ts" setup>
-import {computed, ComputedRef, onMounted, ref, Ref} from 'vue';
+import {computed, onMounted, ref, Ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
@@ -32,16 +32,26 @@ const taskDetail: Ref<taskDetails> = computed(() => {
       regardingValue: "Not Available",
       assignees: [],
       isPrivate: false,
-      taskStatusId: "Not Available",
-      taskStatusName: "Not Available",
-      parentObjectId: 0,
-      parentObjectServiceType: 0,
-      taskOwner: "Not Available",
-      taskOwnerSid: 0,
-      taskPriorityId: "Not Available",
-      taskPriorityName: "Not Available",
-      taskTypeId: "Not Available",
-      taskTypeName: "Not Available",
+      taskStatus: {
+        id: "Not Available",
+        name: "Not Available",
+      },
+      parentObject: {
+        id: 0,
+        serviceType: 0,
+      },
+      taskOwner: {
+        name: "Not Available",
+        sid: 0,
+      },
+      taskPriority: {
+        id: "Not Available",
+        name: "Not Available",
+      },
+      taskType: {
+        id: "Not Available",
+        name: "Not Available",
+      },
       remindTo: "Not Available",
       remindBeforeMinutes: 0,
       repeatInfoText: "Not Available",
@@ -63,20 +73,6 @@ onMounted(() => {
 
 isPrivate.value = taskDetail.value?.isPrivate ? 'Yes' : 'No';
 
-function getTaskPriority() {
-  return taskListStore.taskPriorities.find(
-    taskPriority => taskPriority.id == taskDetail.value?.taskPriorityId)?.name;
-}
-
-function getTaskStatus() {
-  return taskListStore.taskStatuses.find(
-    status => status.id == taskDetail.value?.taskStatusId)?.name;
-}
-
-function getTaskType() {
-  return taskListStore.taskTypes.find(
-    taskType => taskType.id == taskDetail.value?.taskTypeId)?.name;
-}
 
 function deleteTask() {
   let taskId = id.value;
@@ -168,17 +164,17 @@ function addSubtask(subtask: subTask) {
                 <div class="row">
                   <div class="col-4">
                     <q-item-label caption>Task Type</q-item-label>
-                    <q-item-label>{{ getTaskType() }}</q-item-label>
+                    <q-item-label>{{ taskDetail.taskType.name }}</q-item-label>
                   </div>
 
                   <div class="col-4">
                     <q-item-label caption>Priority</q-item-label>
-                    <q-item-label>{{ getTaskPriority() }}</q-item-label>
+                    <q-item-label>{{ taskDetail.taskPriority.name }}</q-item-label>
                   </div>
 
                   <div class="col-4">
                     <q-item-label caption>Status</q-item-label>
-                    <q-item-label>{{ getTaskStatus() }}</q-item-label>
+                    <q-item-label>{{ taskDetail.taskStatus.name }}</q-item-label>
                   </div>
                 </div>
 
@@ -209,7 +205,10 @@ function addSubtask(subtask: subTask) {
                   <div class="col-8">
                     <q-item-label caption>Assignees</q-item-label>
                     <q-item-label>
-                      <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense>{{ assignee.name }}</q-chip>
+                      <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense>{{
+                          assignee.name
+                        }}
+                      </q-chip>
                     </q-item-label>
 
                   </div>

@@ -1969,7 +1969,17 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
+      "applicationIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10
+      ]
     }
   ],
   "generalUserProfile": [
@@ -2071,12 +2081,18 @@
       "id": 101,
       "subject": "1: Complete Sprint Planning (Edit)",
       "description": "Plan and prioritize tasks for the upcoming sprint",
-      "taskTypeId": 2,
-      "taskTypeName": "Development",
-      "taskPriorityId": 3,
-      "taskPriorityName": "Low",
-      "taskStatusId": 2,
-      "taskStatusName": "In Progress",
+      "taskType": {
+        "id": 2,
+        "name": "Development"
+      },
+      "taskPriority": {
+        "id": 3,
+        "name": "Low"
+      },
+      "taskStatus": {
+        "id": 2,
+        "name": "In Progress"
+      },
       "isPrivate": false,
       "taskOwner": "Alice Johnson",
       "parentObjectServiceType": 3,
@@ -2135,7 +2151,7 @@
             "id": "1",
             "name": "Kathiravan Sekar"
           },
-          "isCompleted": true,
+          "isCompleted": false,
           "completedDate": "2023-10-05T17:00:00Z"
         },
         {
@@ -2159,7 +2175,7 @@
             "id": "1",
             "name": "Kathiravan Sekar"
           },
-          "isCompleted": false,
+          "isCompleted": true,
           "completedDate": "2023-10-05T17:00:00Z"
         }
       ]
@@ -2173,7 +2189,10 @@
       "dueDate": "2023-10-06T18:00:00Z",
       "regardingType": 2,
       "regardingValue": "Feature X Implementation",
-      "assignee": ["Bob Anderson", "Alice Johnson"],
+      "assignee": [
+        "Bob Anderson",
+        "Alice Johnson"
+      ],
       "isPrivate": true,
       "taskStatusId": 1,
       "parentObjectId": 202,
@@ -2186,7 +2205,10 @@
       "remindBeforeMinutes": 30,
       "repeatInfoText": "",
       "recurrenceRule": "",
-      "tags": [103, 104],
+      "tags": [
+        103,
+        104
+      ],
       "subtasks": []
     },
     {
@@ -2198,7 +2220,11 @@
       "dueDate": "2023-10-04T16:00:00Z",
       "regardingType": 1,
       "regardingValue": "Client Meeting",
-      "assignee": ["Eva Thompson", "David Brown", "Alice Johnson"],
+      "assignee": [
+        "Eva Thompson",
+        "David Brown",
+        "Alice Johnson"
+      ],
       "isPrivate": false,
       "taskStatusId": 3,
       "parentObjectId": 203,
@@ -2211,7 +2237,10 @@
       "remindBeforeMinutes": 45,
       "repeatInfoText": "Bi-weekly",
       "recurrenceRule": "FREQ=WEEKLY;INTERVAL=2;COUNT=3",
-      "tags": [105, 106],
+      "tags": [
+        105,
+        106
+      ],
       "subtasks": []
     },
     {
@@ -2223,7 +2252,10 @@
       "dueDate": "2023-10-07T18:00:00Z",
       "regardingType": 2,
       "regardingValue": "System Maintenance",
-      "assignee": ["Michael Lee", "Olivia Adams"],
+      "assignee": [
+        "Michael Lee",
+        "Olivia Adams"
+      ],
       "isPrivate": false,
       "taskStatusId": 2,
       "parentObjectId": 204,
@@ -2236,7 +2268,10 @@
       "remindBeforeMinutes": 30,
       "repeatInfoText": "Monthly",
       "recurrenceRule": "FREQ=MONTHLY;BYMONTHDAY=15;COUNT=6",
-      "tags": [107, 108],
+      "tags": [
+        107,
+        108
+      ],
       "subtasks": []
     },
     {
@@ -2248,7 +2283,11 @@
       "dueDate": "2023-10-05T16:00:00Z",
       "regardingType": 1,
       "regardingValue": "Team Development",
-      "assignee": ["Sophia Harris", "Elijah Hall", "Alice Johnson"],
+      "assignee": [
+        "Sophia Harris",
+        "Elijah Hall",
+        "Alice Johnson"
+      ],
       "isPrivate": false,
       "taskStatusId": 1,
       "parentObjectId": 205,
@@ -2261,7 +2300,10 @@
       "remindBeforeMinutes": 45,
       "repeatInfoText": "Weekly",
       "recurrenceRule": "FREQ=WEEKLY;COUNT=4",
-      "tags": [109, 110],
+      "tags": [
+        109,
+        110
+      ],
       "subtasks": []
     },
     {
@@ -2330,7 +2372,9 @@
       "createdDate": "2023-10-02",
       "regardingType": 0,
       "regardingValue": "",
-      "assignee": ["Kathiravan Sekar"],
+      "assignee": [
+        "Kathiravan Sekar"
+      ],
       "taskOwnerSid": 0,
       "remindTo": "",
       "remindBeforeMinutes": 0,
@@ -2371,7 +2415,10 @@
       "remindBeforeMinutes": 60,
       "repeatInfoText": "Weekly",
       "recurrenceRule": "FREQ=WEEKLY;COUNT=5",
-      "tags": [101, 102],
+      "tags": [
+        101,
+        102
+      ],
       "subtasks": [
         {
           "id": 1,
@@ -2420,7 +2467,10 @@
       "dueDate": "2023-10-06T18:00:00Z",
       "regardingType": 2,
       "regardingValue": "Feature X Implementation",
-      "assignee": ["Bob Anderson", "Alice Johnson"],
+      "assignee": [
+        "Bob Anderson",
+        "Alice Johnson"
+      ],
       "isPrivate": true,
       "taskStatusId": 1,
       "parentObjectId": 202,
@@ -2433,7 +2483,10 @@
       "remindBeforeMinutes": 30,
       "repeatInfoText": "",
       "recurrenceRule": "",
-      "tags": [103, 104],
+      "tags": [
+        103,
+        104
+      ],
       "subtasks": []
     },
     {
@@ -2445,7 +2498,11 @@
       "dueDate": "2023-10-04T16:00:00Z",
       "regardingType": 1,
       "regardingValue": "Client Meeting",
-      "assignee": ["Eva Thompson", "David Brown", "Alice Johnson"],
+      "assignee": [
+        "Eva Thompson",
+        "David Brown",
+        "Alice Johnson"
+      ],
       "isPrivate": false,
       "taskStatusId": 3,
       "parentObjectId": 203,
@@ -2458,7 +2515,10 @@
       "remindBeforeMinutes": 45,
       "repeatInfoText": "Bi-weekly",
       "recurrenceRule": "FREQ=WEEKLY;INTERVAL=2;COUNT=3",
-      "tags": [105, 106],
+      "tags": [
+        105,
+        106
+      ],
       "subtasks": []
     },
     {
@@ -2470,7 +2530,10 @@
       "dueDate": "2023-10-07T18:00:00Z",
       "regardingType": 2,
       "regardingValue": "System Maintenance",
-      "assignee": ["Michael Lee", "Olivia Adams"],
+      "assignee": [
+        "Michael Lee",
+        "Olivia Adams"
+      ],
       "isPrivate": false,
       "taskStatusId": 2,
       "parentObjectId": 204,
@@ -2483,7 +2546,10 @@
       "remindBeforeMinutes": 30,
       "repeatInfoText": "Monthly",
       "recurrenceRule": "FREQ=MONTHLY;BYMONTHDAY=15;COUNT=6",
-      "tags": [107, 108],
+      "tags": [
+        107,
+        108
+      ],
       "subtasks": []
     },
     {
@@ -2495,7 +2561,11 @@
       "dueDate": "2023-10-05T16:00:00Z",
       "regardingType": 1,
       "regardingValue": "Team Development",
-      "assignee": ["Sophia Harris", "Elijah Hall", "Alice Johnson"],
+      "assignee": [
+        "Sophia Harris",
+        "Elijah Hall",
+        "Alice Johnson"
+      ],
       "isPrivate": false,
       "taskStatusId": 1,
       "parentObjectId": 205,
@@ -2508,7 +2578,10 @@
       "remindBeforeMinutes": 45,
       "repeatInfoText": "Weekly",
       "recurrenceRule": "FREQ=WEEKLY;COUNT=4",
-      "tags": [109, 110],
+      "tags": [
+        109,
+        110
+      ],
       "subtasks": []
     },
     {
@@ -2577,7 +2650,9 @@
       "createdDate": "2023-10-02",
       "regardingType": 0,
       "regardingValue": "",
-      "assignee": ["Kathiravan Sekar"],
+      "assignee": [
+        "Kathiravan Sekar"
+      ],
       "taskOwnerSid": 0,
       "remindTo": "",
       "remindBeforeMinutes": 0,
@@ -3613,7 +3688,12 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": ["", "One", "Two", "Three"],
+          "items": [
+            "",
+            "One",
+            "Two",
+            "Three"
+          ],
           "name": "Custom Row",
           "uiType": "List"
         },
