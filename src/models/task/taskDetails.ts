@@ -10,19 +10,32 @@ export interface taskDetails {
   modifiedDate: string;
   regardingType: number;
   regardingValue: string;
-  assignee: string[];
+  assignees: assignee[];
   isPrivate: boolean;
   taskStatusId: string;
+  taskStatusName:string;
   parentObjectId: number;
   parentObjectServiceType: number;
   taskOwner: string;
   taskOwnerSid: number;
   taskPriorityId: string;
+  taskPriorityName:string;
   taskTypeId: string;
+  taskTypeName: string;
   remindTo: string;
   remindBeforeMinutes: number;
   repeatInfoText: string;
   recurrenceRule: string;
-  tags:number[];
+  tags: tag[];
   subtasks: subTask[];
+}
+
+export interface assignee {
+  id: string;
+  name: string;
+}
+
+export interface tag {
+  id: string;
+  name: string;
 }

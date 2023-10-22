@@ -4,6 +4,7 @@ import {useTaskListsStore} from "stores/task/taskListsStore";
 import {onBeforeMount} from 'vue';
 
 const taskListStore = useTaskListsStore();
+
 const props = defineProps<{
   task: taskSummary
 }>();
@@ -46,8 +47,6 @@ onBeforeMount(() => {
         {{ task.subject }}
       </q-item-label>
       <q-item-label caption> Owner: {{ task.taskOwner }}</q-item-label>
-
-
     </q-item-section>
 
     <q-item-section>

@@ -1,6 +1,6 @@
 <!-- cleaned up with google bard with minor correction -->
 <script lang="ts" setup>
-import {computed, onMounted, ref, Ref} from 'vue';
+import {computed, ComputedRef, onMounted, ref, Ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
@@ -17,13 +17,45 @@ const taskListStore = useTaskListsStore();
 const isPrivate = ref<string>();
 const id = ref<string | string[]>('0');
 
-const taskDetail: Ref<taskDetails | undefined> = computed(() => {
-  return taskDetailsStore.TaskDetail;
+const taskDetail: Ref<taskDetails> = computed(() => {
+  if (taskDetailsStore.TaskDetail) return taskDetailsStore.TaskDetail;
+  else {
+    const emptyTaskDetail: taskDetails = {
+      id: 0,
+      subject: "No Subject",
+      description: "No Description",
+      createdDate: "Not Available",
+      startDate: "Not Available",
+      dueDate: "Not Available",
+      modifiedDate: "Not Available",
+      regardingType: 0,
+      regardingValue: "Not Available",
+      assignees: [],
+      isPrivate: false,
+      taskStatusId: "Not Available",
+      taskStatusName: "Not Available",
+      parentObjectId: 0,
+      parentObjectServiceType: 0,
+      taskOwner: "Not Available",
+      taskOwnerSid: 0,
+      taskPriorityId: "Not Available",
+      taskPriorityName: "Not Available",
+      taskTypeId: "Not Available",
+      taskTypeName: "Not Available",
+      remindTo: "Not Available",
+      remindBeforeMinutes: 0,
+      repeatInfoText: "Not Available",
+      recurrenceRule: "Not Available",
+      tags: [],
+      subtasks: [],
+    };
+    return emptyTaskDetail;
+  }
 });
 
 onMounted(() => {
   const route = useRoute();
-  console.log('id=', route.params.id);
+  // console.log('id=', route.params.id);
   id.value = route.params.id;
   taskDetailsStore.getTask(Number(route.params.id));
   taskListStore.getTaskLists();
@@ -61,7 +93,6 @@ function addSubtask(subtask: subTask) {
   taskDetailsStore.addSubtask(subtask);
 }
 
-
 </script>
 
 <template>
@@ -75,10 +106,8 @@ function addSubtask(subtask: subTask) {
           icon="arrow_back"
           round
           @click="$router.go(-1)"
-        >
-        </q-btn>
+        />
         <q-toolbar-title>Task details</q-toolbar-title>
-
         <q-btn
           :to="{ name: 'editTask', params: { id: id } }"
           color="white"
@@ -104,7 +133,6 @@ function addSubtask(subtask: subTask) {
           <q-list>
             <q-item>
               <q-item-section>
-
                 <q-item-label class="q-mb-sm text-h5">{{ taskDetail?.subject }}</q-item-label>
                 <q-item-label class="q-mb-sm">
                   <div v-html="taskDetail?.description"/>
@@ -181,7 +209,7 @@ function addSubtask(subtask: subTask) {
                   <div class="col-8">
                     <q-item-label caption>Assignees</q-item-label>
                     <q-item-label>
-                      <q-chip v-for="assignee in taskDetail?.assignee" :key="assignee" dense>{{ assignee }}</q-chip>
+                      <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense>{{ assignee.name }}</q-chip>
                     </q-item-label>
 
                   </div>
@@ -194,7 +222,7 @@ function addSubtask(subtask: subTask) {
 
                 <q-item-label caption>Tags</q-item-label>
                 <q-item-label class="q-mb-sm">
-                  <div v-for="tag in taskDetail?.tags" :key="tag">{{ tag }}</div>
+                  <q-chip v-for="tag in taskDetail?.tags" :key="tag" dense>{{ tag.name }}</q-chip>
                 </q-item-label>
 
                 <q-toolbar class="bg-primary text-white shadow-2">
@@ -226,15 +254,13 @@ function addSubtask(subtask: subTask) {
             },
           }" color="secondary" icon="add" label="Create New Task"/>
         </q-fab>
-
       </q-page-sticky>
-
 
       <q-dialog v-model="showAddSubtaskDialog">
         <add-subtask-dialog @save-subtask="addSubtask"/>
       </q-dialog>
 
-
+      <pre>{{ taskDetail }}</pre>
     </q-page-container>
   </q-layout>
 </template>

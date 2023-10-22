@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import {computed, defineProps, onBeforeMount, ref, Ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import {useTaskListsStore} from "stores/task/taskListsStore";
-import {taskDetails} from "src/models/task/taskDetails";
-import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue";
-import EventsReminderDialog from "components/Events/EventsReminderDialog.vue";
-import {regardingContact} from "src/models/task/taskLists";
+import {useTaskListsStore} from 'stores/task/taskListsStore';
+import {taskDetails} from 'src/models/task/taskDetails';
+import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
+import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
+import {regardingContact} from 'src/models/task/taskLists';
 
 const props = defineProps<{
   task: taskDetails
@@ -100,7 +100,6 @@ async function filterFn(val: string, update: any, abort: any) {
 </script>
 
 <template>
-  <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
@@ -179,55 +178,23 @@ async function filterFn(val: string, update: any, abort: any) {
           option-value="id"
         />
 
-<!--        <q-item>-->
-<!--          <q-item-section>-->
-<!--            <q-select-->
-<!--              v-model="regardings"-->
-<!--              :options="regardingModel"-->
-<!--              emit-label-->
-<!--              label="Contact"-->
-<!--              map-options-->
-<!--            />-->
-<!--          </q-item-section>-->
-<!--          <q-item-section>-->
-<!--            <q-select-->
-<!--              v-model="selectedRegContact"-->
-<!--              :options="regardingContacts"-->
-<!--              multiple-->
-<!--              option-label="name"-->
-<!--              option-value="id"-->
-<!--              use-input-->
-<!--              @filter="filterContacts"-->
-<!--            >-->
-<!--              <template v-slot:no-option>-->
-<!--                <q-item>-->
-<!--                  <q-item-section class="text-grey">-->
-<!--                    No results-->
-<!--                  </q-item-section-->
-<!--                  >-->
-<!--                </q-item>-->
-<!--              </template>-->
-<!--            </q-select>-->
-<!--          </q-item-section>-->
-<!--        </q-item>-->
-
         <q-checkbox
           v-model="task.isPrivate"
           label="Mark the task private"
         />
 
         <q-select
-          label="Owned by"
           v-model="task.taskOwner"
           :options="shownOptions"
+          clearable
+          emit-value
           hint="Minimum 2 characters to trigger filtering"
           input-debounce="0"
+          label="Owned by"
           option-label="name"
           option-value="name"
           use-input
           @filter="filterFn"
-          emit-value
-          clearable
         >
           <template v-slot:no-option>
             <q-item>
@@ -237,18 +204,18 @@ async function filterFn(val: string, update: any, abort: any) {
         </q-select>
 
         <q-select
-          label="Assigned to"
-          v-model="task.assignee"
+          v-model="task.assignees"
           :options="shownOptions"
-          multiple
+          emit-value
           hint="Minimum 2 characters to trigger filtering"
           input-debounce="0"
+          label="Assigned to"
+          multiple
           option-label="name"
           option-value="name"
+          use-chips
           use-input
           @filter="filterFn"
-          emit-value
-          use-chips
         >
           <template v-slot:no-option>
             <q-item>

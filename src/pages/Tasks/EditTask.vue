@@ -3,16 +3,15 @@
 import {computed, ComputedRef, onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import TasksForm from 'components/tasks/tasksFormCtrl.vue';
-import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
-import {taskDetails} from "src/models/task/taskDetails";
-import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
+import {useTaskDetailsStore} from 'stores/task/taskDetailsStore';
+import {taskDetails} from 'src/models/task/taskDetails';
+import {useTaskSummaryStore} from 'stores/task/taskSummaryStore';
 
 const tasksDetailStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
 
 const route = useRoute();
 const router = useRouter();
-console.log('EditTask Started');
 
 const id = ref<string | string[]>(route.params.id);
 
@@ -30,19 +29,6 @@ function onSubmit(e: any) {
   console.log(`onSubmit Task Value: ${task.value}`);
 
   const newTask: taskDetails = {
-    // id: task.value.id,
-    // subject: task.value?.subject,
-    // description: task.value?.description,
-    // startDate: newStartDate,
-    // dueDate: newDueDate,
-    // taskTypeName: task.value?.taskTypeName,
-    // taskPriorityName: task.value?.taskPriorityName,
-    // taskStatusName: task.value?.taskStatusName,
-    // isPrivate: task.value?.isPrivate,
-    // taskOwnerName: task.value?.taskOwnerName,
-    // parentObjectServiceType: task.value?.parentObjectServiceType,
-    // parentObjectId: task.value?.parentObjectId,
-
     id: task.value.id,
     subject: task.value.subject,
     description: task.value.description,
@@ -59,14 +45,17 @@ function onSubmit(e: any) {
     createdDate: task.value.createdDate,
     regardingType: task.value.regardingType,
     regardingValue: task.value.regardingValue,
-    assignee: task.value.assignee,
+    assignees: task.value.assignees,
     taskOwnerSid: task.value.taskOwnerSid,
     remindTo: task.value.remindTo,
     remindBeforeMinutes: task.value.remindBeforeMinutes,
     repeatInfoText: task.value.repeatInfoText,
     recurrenceRule: task.value.recurrenceRule,
     tags: task.value.tags,
-    subtasks: task.value.subtasks
+    subtasks: task.value.subtasks,
+    taskStatusName: task.value.taskStatusName,
+    taskPriorityName: task.value.taskPriorityName,
+    taskTypeName: task.value.taskTypeName
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   // tasksStore.editTask(task.value!);
@@ -105,5 +94,3 @@ function onSubmit(e: any) {
     </q-page-container>
   </q-layout>
 </template>
-
-<style></style>
