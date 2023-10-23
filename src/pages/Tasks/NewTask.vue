@@ -58,36 +58,34 @@ function handleReminder(reminder: [string, number]) {
 function onSubmit(e: any) {
   e.preventDefault()
   const formData = new FormData(e.target);
-  const newDueDate = formData.get('dueDate');
-  const newStartDate = formData.get('startDate')
+  const newDueDate = formData.get('dueDate')?.toString()??'';
+  const newStartDate = formData.get('startDate')?.toString()??'';
 
   // note.value.isPrivate = (note.value.isPrivate === 'Yes')
 
   const newTask: taskDetails = {
-    id: Number(),
+    id: task.value.id,
     subject: task.value.subject,
     description: task.value.description,
-    taskTypeId: task.value.taskTypeId,
-    taskPriorityId: task.value.taskPriorityId,
-    taskStatusId: task.value.taskStatusId,
+    taskType: task.value.taskType,
+    taskStatus: task.value.taskStatus,
     isPrivate: task.value.isPrivate,
     taskOwner: task.value.taskOwner,
-    parentObjectServiceType: 14,
-    parentObjectId: (Number(parentObjectId)),
-    startDate: newStartDate?.toString(),
+    parentObject: task.value.parentObject,
+    startDate: task.value.startDate,
     modifiedDate: new Date().toISOString(),
-    dueDate: newDueDate?.toString(),
-    createdDate: new Date().toISOString(),
+    dueDate: newDueDate,
+    createdDate: newStartDate,
     regardingType: task.value.regardingType,
     regardingValue: task.value.regardingValue,
-    assignee: task.value.assignee,
-    taskOwnerSid: task.value.taskOwnerSid,
+    assignees: task.value.assignees,
     remindTo: task.value.remindTo,
     remindBeforeMinutes: task.value.remindBeforeMinutes,
     repeatInfoText: task.value.repeatInfoText,
     recurrenceRule: task.value.recurrenceRule,
     tags: task.value.tags,
-    subtasks: task.value.subtasks
+    subtasks: task.value.subtasks,
+    taskPriority: task.value.taskPriority,
   }
   // event.value.isAllDayEvent= newEvent.isAllDayEvent
 

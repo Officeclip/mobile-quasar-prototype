@@ -1,6 +1,6 @@
 <!-- Cleaned up using Google Bard -->
 <script lang="ts" setup>
-import {computed, ComputedRef, onMounted, ref} from 'vue';
+import {computed, ComputedRef, onMounted, ref, Ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import TasksForm from 'components/tasks/tasksFormCtrl.vue';
 import {useTaskDetailsStore} from 'stores/task/taskDetailsStore';
@@ -15,7 +15,7 @@ const router = useRouter();
 
 const id = ref<string | string[]>(route.params.id);
 
-const task: ComputedRef<taskDetails> = computed(() => {
+const task: Ref<taskDetails> = computed(() => {
   return tasksDetailStore.TaskDetail;
 });
 

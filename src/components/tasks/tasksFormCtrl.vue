@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import {computed, defineProps, onBeforeMount, ref, Ref} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import {useTaskListsStore} from 'stores/task/taskListsStore';
-import {taskDetails} from 'src/models/task/taskDetails';
-import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
-import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
-import {regardingContact} from 'src/models/task/taskLists';
+import {useTaskListsStore} from "stores/task/taskListsStore";
+import {taskDetails} from "src/models/task/taskDetails";
+import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue";
+import EventsReminderDialog from "components/Events/EventsReminderDialog.vue";
+import {regardingContact} from "src/models/task/taskLists";
 
 const props = defineProps<{
   task: taskDetails
@@ -60,6 +60,7 @@ function handleRRuleText(rruleText: string) {
   console.log('Received RRule Plain Text:', rruleText);
   const repeatText = rruleText.charAt(0).toUpperCase() + rruleText.slice(1); //capitalize first letter
   repeatString.value = repeatText;
+
   emit('rrule-text-generated', repeatText);
 }
 
@@ -99,6 +100,7 @@ async function filterFn(val: string, update: any, abort: any) {
 </script>
 
 <template>
+  <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
@@ -150,7 +152,6 @@ async function filterFn(val: string, update: any, abort: any) {
         <q-select
           v-model="task.taskType"
           :options="taskListsStore.TaskTypes"
-          emit-value
           label="Task Type"
           map-options
           option-label="name"
@@ -160,7 +161,6 @@ async function filterFn(val: string, update: any, abort: any) {
         <q-select
           v-model="task.taskPriority"
           :options="taskListsStore.TaskPriorities"
-          emit-value
           label="Priority"
           map-options
           option-label="name"
@@ -170,30 +170,28 @@ async function filterFn(val: string, update: any, abort: any) {
         <q-select
           v-model="task.taskStatus"
           :options="taskListsStore.TaskStatuses"
-          emit-value
           label="Status"
           map-options
           option-label="name"
           option-value="id"
         />
-
         <q-checkbox
           v-model="task.isPrivate"
           label="Mark the task private"
         />
 
         <q-select
+          label="Owned by"
           v-model="task.taskOwner"
           :options="shownOptions"
-          clearable
-          emit-value
           hint="Minimum 2 characters to trigger filtering"
           input-debounce="0"
-          label="Owned by"
           option-label="name"
           option-value="name"
           use-input
           @filter="filterFn"
+          emit-value
+          clearable
         >
           <template v-slot:no-option>
             <q-item>
@@ -203,18 +201,18 @@ async function filterFn(val: string, update: any, abort: any) {
         </q-select>
 
         <q-select
+          label="Assigned to"
           v-model="task.assignees"
           :options="shownOptions"
-          emit-value
+          multiple
           hint="Minimum 2 characters to trigger filtering"
           input-debounce="0"
-          label="Assigned to"
-          multiple
           option-label="name"
           option-value="name"
-          use-chips
           use-input
           @filter="filterFn"
+          emit-value
+          use-chips
         >
           <template v-slot:no-option>
             <q-item>
