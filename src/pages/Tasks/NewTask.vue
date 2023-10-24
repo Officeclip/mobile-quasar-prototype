@@ -3,6 +3,7 @@ import TasksForm from 'components/tasks/tasksFormCtrl.vue';
 import {ref, Ref} from 'vue'
 import {useRoute, useRouter} from 'vue-router';
 import {taskDetails} from "src/models/task/taskDetails";
+import {taskSummary} from "src/models/task/taskSummary";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
 
@@ -54,7 +55,6 @@ const task: Ref<taskDetails> = ref({
   subtasks: []
 });
 
-
 function handleRRule(rrule: string) {
   task.value.recurrenceRule = rrule;
 }
@@ -98,10 +98,18 @@ function onSubmit(e: any) {
     subtasks: task.value.subtasks,
     taskPriority: task.value.taskPriority,
   }
+  const newTaskSummary: taskSummary = {
+    id: task.value.id,
+    subject: task.value.subject,
+    taskStatusName: task.value.taskStatus.name,
+    isPrivate: task.value.isPrivate,
+    dueDate: newDueDate,
+    taskPriorityName: task.value.taskPriority.name,
+  }
   // event.value.isAllDayEvent= newEvent.isAllDayEvent
 
   console.log('new task form values: ', newTask)
-  // taskSummaryStore.addTask(newTask);
+  taskSummaryStore.addTask(newTaskSummary);
   taskDetailsStore.addTask(newTask);
   router.push('/tasksList')
 }
