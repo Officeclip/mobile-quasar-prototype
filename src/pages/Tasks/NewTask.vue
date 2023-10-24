@@ -24,15 +24,28 @@ const task: Ref<taskDetails> = ref({
   dueDate: '',
   regardingType: 0,
   regardingValue: '',
-  assignee: [],
+  assignees: [],
   isPrivate: false,
-  taskStatusId: '',
-  parentObjectId: 0,
-  parentObjectServiceType: 0,
-  taskOwner: '',
-  taskOwnerSid: 0,
-  taskPriorityId: '',
-  taskTypeId: '',
+  taskStatus: {
+    id: '0',
+    name: ''
+  },
+  parentObject: {
+    id: 0,
+    serviceType: 0
+  },
+  taskOwner: {
+    name: '',
+    sid: 0
+  },
+  taskPriority: {
+    id: '0',
+    name: ''
+  },
+  taskType: {
+    id: '0',
+    name: ''
+  },
   remindTo: '',
   remindBeforeMinutes: 0,
   repeatInfoText: '',
@@ -58,10 +71,8 @@ function handleReminder(reminder: [string, number]) {
 function onSubmit(e: any) {
   e.preventDefault()
   const formData = new FormData(e.target);
-  const newDueDate = formData.get('dueDate')?.toString()??'';
-  const newStartDate = formData.get('startDate')?.toString()??'';
-
-  // note.value.isPrivate = (note.value.isPrivate === 'Yes')
+  const newDueDate = formData.get('dueDate')?.toString() ?? '';
+  const newStartDate = formData.get('startDate')?.toString() ?? '';
 
   const newTask: taskDetails = {
     id: task.value.id,
@@ -90,7 +101,7 @@ function onSubmit(e: any) {
   // event.value.isAllDayEvent= newEvent.isAllDayEvent
 
   console.log('new task form values: ', newTask)
-  taskSummaryStore.addTask(newTask);
+  // taskSummaryStore.addTask(newTask);
   taskDetailsStore.addTask(newTask);
   router.push('/tasksList')
 }

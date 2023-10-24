@@ -9,14 +9,6 @@ const props = defineProps<{
   task: taskSummary
 }>();
 
-function getTaskPriority(priorityId: string) {
-  return taskListStore.taskPriorities.find(taskPriority => taskPriority.id == priorityId)?.name;
-}
-
-function getTaskStatus(statusId: string) {
-  return taskListStore.taskStatuses.find(taskStatus => taskStatus.id == statusId)?.name;
-}
-
 onBeforeMount(() => {
   taskListStore.getTaskLists();
 })
@@ -38,7 +30,7 @@ onBeforeMount(() => {
 <template>
   <q-item
     v-ripple
-    :class="getTaskPriority(task.taskPriorityId)"
+    :class="task.taskPriorityName"
     :to="{ name: 'taskDetails', params: { id: task.id }}"
     clickable>
 
@@ -46,23 +38,14 @@ onBeforeMount(() => {
       <q-item-label style="font-size: 16px;">
         {{ task.subject }}
       </q-item-label>
-      <q-item-label caption> Owner: {{ task.taskOwner }}</q-item-label>
     </q-item-section>
 
     <q-item-section>
       <q-item-label>
         Due: {{ new Date(task.dueDate).toLocaleDateString() }}
       </q-item-label>
-      <q-item-label caption>
-        Created: {{ new Date(task.createdDate).toLocaleDateString() }}
-      </q-item-label>
     </q-item-section>
 
-    <q-item-section>
-      <q-item-label>
-        {{ getTaskStatus(task.taskStatusId) }}
-      </q-item-label>
-    </q-item-section>
   </q-item>
 
 </template>

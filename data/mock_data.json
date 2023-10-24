@@ -2216,136 +2216,18 @@
     {
       "id": 101,
       "subject": "1: Complete Sprint Planning (Edit)",
-      "description": "Plan and prioritize tasks for the upcoming sprint",
-      "taskType": {
-        "id": 2,
-        "name": "Development"
-      },
-      "taskStatus": {
-        "id": "3",
-        "name": "Completed"
-      },
+      "taskStatusName": "Completed",
       "isPrivate": true,
-      "taskOwner": "Alice Johnson",
-      "startDate": "2023-10-01T10:00:00Z",
-      "modifiedDate": "2023-10-23T19:12:24.520Z",
       "dueDate": "2023-10-05T17:00:00Z",
-      "createdDate": "2023-09-30T08:45:00Z",
-      "regardingType": 1,
-      "regardingValue": "Team Collaboration",
-      "assignees": [
-        {
-          "id": 1,
-          "name": "John Doe"
-        },
-        {
-          "id": 2,
-          "name": "Jane Smith"
-        },
-        {
-          "id": 3,
-          "name": "Kathiravan Sekar"
-        },
-        {
-          "id": 4,
-          "name": "Oliver Johnson"
-        },
-        {
-          "id": 5,
-          "name": "Lily Jones"
-        }
-      ],
-      "remindTo": "Me",
-      "remindBeforeMinutes": 60,
-      "repeatInfoText": "Weekly",
-      "recurrenceRule": "FREQ=WEEKLY;COUNT=5",
-      "tags": [
-        {
-          "id": "101",
-          "name": "Marketing"
-        },
-        {
-          "id": "102",
-          "name": "Development"
-        }
-      ],
-      "subtasks": [
-        {
-          "id": 1,
-          "parentId": 101,
-          "title": "Subtask 1",
-          "description": "Description for subtask 1",
-          "assignee": {
-            "id": "1",
-            "name": "Kathiravan Sekar"
-          },
-          "isCompleted": false,
-          "completedDate": "2023-10-05T17:00:00Z"
-        },
-        {
-          "id": 2,
-          "parentId": 101,
-          "title": "Subtask 2",
-          "description": "Description for subtask 2",
-          "assignee": {
-            "id": "1",
-            "name": "Kathiravan Sekar"
-          },
-          "isCompleted": true,
-          "completedDate": "2023-10-05T17:00:00Z"
-        },
-        {
-          "id": "3",
-          "parentId": 101,
-          "title": "Subtask 3",
-          "description": "Description 3",
-          "assignee": {
-            "id": "1",
-            "name": "Kathiravan Sekar"
-          },
-          "isCompleted": true,
-          "completedDate": "2023-10-05T17:00:00Z"
-        }
-      ],
-      "taskPriority": {
-        "id": "2",
-        "name": "Medium"
-      }
+      "taskPriorityName": "Medium"
     },
     {
       "id": 102,
       "subject": "2: Make Task Details self sufficient",
-      "description": "Send all data at once when loading task details",
-      "taskType": {
-        "id": "1",
-        "name": "Development"
-      },
-      "taskStatus": {
-        "id": "1",
-        "name": "Pending",
-        "category": "Pending"
-      },
+      "taskStatusName": "Open",
       "isPrivate": true,
-      "taskOwner": "Kathiravan Sekar",
-      "startDate": "",
-      "modifiedDate": "2023-10-23T19:26:03.130Z",
-      "dueDate": "2023-10-27",
-      "createdDate": "2023-10-25",
-      "regardingType": 0,
-      "regardingValue": "",
-      "assignees": [
-        "Kathiravan Sekar"
-      ],
-      "remindTo": "",
-      "remindBeforeMinutes": 0,
-      "repeatInfoText": "",
-      "recurrenceRule": "",
-      "tags": [],
-      "subtasks": [],
-      "taskPriority": {
-        "id": "2",
-        "name": "Medium"
-      }
+      "dueDate": "2023-10-05T17:00:00Z",
+      "taskPriorityName": "Low"
     }
   ],
   "task-lists": [
