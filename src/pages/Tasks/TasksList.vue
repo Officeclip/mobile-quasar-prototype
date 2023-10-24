@@ -16,8 +16,8 @@ let filterOptions = {
   dueDateOption: '',
   modifiedDateValue: '',
   modifiedDateOption: '',
-  statusValue: '',
-  priorityValue: '',
+  statusName: '',
+  priorityName: '',
   taskTypeValue: '',
   assignedTo: '',
   ownedBy: '',
@@ -31,76 +31,23 @@ const parent = ref({
 
 const taskSummaryStore = useTaskSummaryStore();
 
-//Temporary fix to stop continuous network requests
-// Get the filtered task summaries, and ensure that the component only re-renders when the filtered tasks actually change.
-// const filteredTaskSummaries = computed(() => {
-//   getFilteredTaskSummaries();
-//   return taskSummaryStore.TaskSummaries;
-// });
-//
-// async function getFilteredTaskSummaries() {
-//   console.log('Request filtered tasks');
-//   await taskSummaryStore.getFilteredTasks(
-//     filterOptions.value,
-//     Number(parent.value.parentObjectId),
-//     Number(parent.value.parentObjectServiceType)
-//   );
-// }
-//
-// watch(filterOptions.value, () => {
-//   getFilteredTaskSummaries();
-// });
-
 const getFilteredTaskSummaries = computed(() => {
-  // console.log(filterOptions);
 
-  // console.log("Request filtered tasks");
   taskSummaryStore.getFilteredTasks(filterOptions, Number(parent.value.parentObjectId), Number(parent.value.parentObjectServiceType));
   return taskSummaryStore.TaskSummaries;
-  //
-  // if (filterString.value) {
-  //   filteredTasks = filteredTasks.filter((task: taskSummary) => {
-  //     return task.subject.toLowerCase().includes(filterString.value.toLowerCase());
-  //   });
-  // }
-  //
-  // if (ownedByMeFilter.value === true) {
-  //   filteredTasks = filteredTasks.filter((task: taskSummary) => {
-  //     return task.taskOwner === userName.value;
-  //   });
-  // }
-  //
-  // if (assignedToMeFilter.value === true) {
-  //   filteredTasks = filteredTasks.filter((task: taskSummary) => {
-  //     return task.assignee.includes(userName.value);
-  //   });
-  // }
-  //
-  // if (statusFilter.value) {
-  //   filteredTasks = filteredTasks.filter((task) => {
-  //     return task.taskStatusId === statusFilter.value;
-  //   });
-  // }
-  //
-  // if (priorityFilter.value) {
-  //   filteredTasks = filteredTasks.filter((task) => {
-  //     return task.taskPriorityId === priorityFilter.value;
-  //   });
-  // }
-  // return filteredTasks;
 });
 
 const getSortedSummaries = computed(() => {
   let sortedTasks = getFilteredTaskSummaries;
-  sortedTasks.value.sort((a, b) => {
-    if (sortOption.value === 'createdDate') {
-      return a.createdDate.localeCompare(b.createdDate);
-    } else if (sortOption.value === 'dueDate') {
-      return a.dueDate.localeCompare(b.dueDate);
-    } else {
-      return a.subject.localeCompare(b.subject);
-    }
-  });
+  // sortedTasks.value.sort((a, b) => {
+  //   if (sortOption.value === 'createdDate') {
+  //     return a.createdDate.localeCompare(b.createdDate);
+  //   } else if (sortOption.value === 'dueDate') {
+  //     return a.dueDate.localeCompare(b.dueDate);
+  //   } else {
+  //     return a.subject.localeCompare(b.subject);
+  //   }
+  // });
   return sortedTasks.value;
 });
 
@@ -116,8 +63,8 @@ function clearFilterValues() {
     dueDateOption: '',
     modifiedDateValue: '',
     modifiedDateOption: '',
-    statusValue: '',
-    priorityValue: '',
+    statusName: '',
+    priorityName: '',
     taskTypeValue: '',
     assignedTo: '',
     ownedBy: '',
@@ -137,8 +84,8 @@ function receiveAdvFilters(advancedOptions: any) {
   filterOptions.dueDateOption = advancedOptions.dueDateOption;
   filterOptions.modifiedDateValue = advancedOptions.modifiedDateValue;
   filterOptions.modifiedDateOption = advancedOptions.modifiedDateOption;
-  filterOptions.statusValue = advancedOptions.statusValue;
-  filterOptions.priorityValue = advancedOptions.priorityValue;
+  filterOptions.statusName = advancedOptions.statusName;
+  filterOptions.priorityName = advancedOptions.priorityName;
   filterOptions.assignedTo = advancedOptions.assignedTo;
   filterOptions.ownedBy = advancedOptions.ownedBy;
   filterOptions.regarding = advancedOptions.regarding;

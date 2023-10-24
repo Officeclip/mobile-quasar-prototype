@@ -114,16 +114,16 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         }
 
         // Status Filter
-        if (filterOptions.statusValue) {
+        if (filterOptions.statusName) {
           filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            return task.taskStatusId === filterOptions.statusValue;
+            return task.taskStatusName === filterOptions.statusName;
           });
         }
 
         // Priority Filter
-        if (filterOptions.priorityValue) {
+        if (filterOptions.priorityName) {
           filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            return task.taskPriorityId === filterOptions.priorityValue;
+            return task.taskPriorityName === filterOptions.priorityName;
           });
         }
         // Task Type
