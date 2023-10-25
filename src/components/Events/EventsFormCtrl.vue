@@ -246,7 +246,6 @@ function isValidURL(url: string) {
           class="full-width"
           label="Event Name*"
           lazy-rules
-          name="eventName"
           placeholder="enter event name"
         />
       </q-item>
@@ -260,16 +259,14 @@ function isValidURL(url: string) {
           keep-color
           label="All Day Event"
           left-label
-          name="isAllDayEvent"
         />
       </q-item>
       <q-item class="column">
         <q-input
-          v-model="startDate"
+          :model-value="startsModelValue"
+          @update:model-value="(newValue) => (startDate = newValue)"
           :rules="[(val: any) => !!val || 'Start Date is required']"
           label="Starts*"
-          name="startDateTime"
-          :model-value="startsModelValue"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -308,11 +305,10 @@ function isValidURL(url: string) {
           </template>
         </q-input>
         <q-input
-          v-model="endDate"
+          :model-value="endsModelValue"
+          @update:model-value="(newValue) => (endDate = newValue)"
           :rules="[(val: any) => !!val || 'End Date is required']"
           label="Ends*"
-          name="endDateTime"
-          :model-value="endsModelValue"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -364,7 +360,6 @@ function isValidURL(url: string) {
           emit-value
           label="Timezone"
           map-options
-          name="timeZone"
           option-label="name"
           option-value="id"
         />
@@ -413,7 +408,6 @@ function isValidURL(url: string) {
           class="full-width"
           dense
           label="Notes"
-          name="eventDescription"
           placeholder="enter event description"
         />
       </q-item>
@@ -424,7 +418,6 @@ function isValidURL(url: string) {
           dense
           label="Url"
           map-options
-          name="Url"
         >
           <template v-slot:append>
             <q-btn
@@ -446,7 +439,6 @@ function isValidURL(url: string) {
             v-model="showTimeAs"
             :options="ShowMyTimeAsOptions"
             label="Show Time As"
-            name="Show time as"
             emit-value
             map-options
             option-label="name"
@@ -482,7 +474,6 @@ function isValidURL(url: string) {
             emit-value
             label="Label"
             map-options
-            name="label"
             option-label="name"
             option-value="id"
           >
