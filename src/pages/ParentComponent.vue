@@ -70,7 +70,16 @@ const tabs = [
         <pre>{{ model }}</pre>
         <q-list v-for="item in getTimesheets" :key="item.id">
           <!-- <q-item>{{ item.createdByUserName }} </q-item> -->
-          <q-item clickable v-ripple>
+          <q-item
+            :to="{
+              name: 'timesheetDetails',
+              params: {
+                id: item.id,
+              },
+            }"
+            clickable
+            v-ripple
+          >
             <q-item-section>
               <q-item-label>
                 {{ item.createdByUserName }}
