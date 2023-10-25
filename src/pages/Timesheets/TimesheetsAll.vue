@@ -63,6 +63,21 @@ const tabs = [
         />
       </q-tabs>
     </q-footer>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn
+        :to="{
+          name: 'newTimesheet',
+          params: {
+            id: $route.params.id,
+          },
+        }"
+        fab
+        icon="add"
+        color="accent"
+        padding="sm"
+      >
+      </q-btn>
+    </q-page-sticky>
     <q-page-container>
       <q-page>
         <q-list v-for="item in timesheetsAll" :key="item.id">
