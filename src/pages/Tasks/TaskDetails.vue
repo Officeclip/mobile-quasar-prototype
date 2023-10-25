@@ -17,13 +17,55 @@ const taskListStore = useTaskListsStore();
 const isPrivate = ref<string>();
 const id = ref<string | string[]>('0');
 
-const taskDetail: Ref<taskDetails | undefined> = computed(() => {
-  return taskDetailsStore.TaskDetail;
+const taskDetail: Ref<taskDetails> = computed(() => {
+  if (taskDetailsStore.TaskDetail) return taskDetailsStore.TaskDetail;
+  else {
+    const emptyTaskDetail: taskDetails = {
+      id: 0,
+      subject: "No Subject",
+      description: "No Description",
+      createdDate: "Not Available",
+      startDate: "Not Available",
+      dueDate: "Not Available",
+      modifiedDate: "Not Available",
+      regardingType: 0,
+      regardingValue: "Not Available",
+      assignees: [],
+      isPrivate: false,
+      taskStatus: {
+        id: "Not Available",
+        name: "Not Available",
+      },
+      parentObject: {
+        id: 0,
+        serviceType: 0,
+      },
+      taskOwner: {
+        name: "Not Available",
+        sid: 0,
+      },
+      taskPriority: {
+        id: "Not Available",
+        name: "Not Available",
+      },
+      taskType: {
+        id: "Not Available",
+        name: "Not Available",
+      },
+      remindTo: "Not Available",
+      remindBeforeMinutes: 0,
+      repeatInfoText: "Not Available",
+      recurrenceRule: "Not Available",
+      tags: [],
+      subtasks: [],
+    };
+    return emptyTaskDetail;
+  }
 });
 
 onMounted(() => {
   const route = useRoute();
-  console.log('id=', route.params.id);
+  // console.log('id=', route.params.id);
   id.value = route.params.id;
   taskDetailsStore.getTask(Number(route.params.id));
   taskListStore.getTaskLists();
@@ -31,20 +73,6 @@ onMounted(() => {
 
 isPrivate.value = taskDetail.value?.isPrivate ? 'Yes' : 'No';
 
-function getTaskPriority() {
-  return taskListStore.taskPriorities.find(
-    taskPriority => taskPriority.id == taskDetail.value?.taskPriorityId)?.name;
-}
-
-function getTaskStatus() {
-  return taskListStore.taskStatuses.find(
-    status => status.id == taskDetail.value?.taskStatusId)?.name;
-}
-
-function getTaskType() {
-  return taskListStore.taskTypes.find(
-    taskType => taskType.id == taskDetail.value?.taskTypeId)?.name;
-}
 
 function deleteTask() {
   let taskId = id.value;
@@ -61,7 +89,6 @@ function addSubtask(subtask: subTask) {
   taskDetailsStore.addSubtask(subtask);
 }
 
-
 </script>
 
 <template>
@@ -75,10 +102,8 @@ function addSubtask(subtask: subTask) {
           icon="arrow_back"
           round
           @click="$router.go(-1)"
-        >
-        </q-btn>
+        />
         <q-toolbar-title>Task details</q-toolbar-title>
-
         <q-btn
           :to="{ name: 'editTask', params: { id: id } }"
           color="white"
@@ -104,7 +129,6 @@ function addSubtask(subtask: subTask) {
           <q-list>
             <q-item>
               <q-item-section>
-
                 <q-item-label class="q-mb-sm text-h5">{{ taskDetail?.subject }}</q-item-label>
                 <q-item-label class="q-mb-sm">
                   <div v-html="taskDetail?.description"/>
@@ -140,17 +164,17 @@ function addSubtask(subtask: subTask) {
                 <div class="row">
                   <div class="col-4">
                     <q-item-label caption>Task Type</q-item-label>
-                    <q-item-label>{{ getTaskType() }}</q-item-label>
+                    <q-item-label>{{ taskDetail.taskType.name }}</q-item-label>
                   </div>
 
                   <div class="col-4">
                     <q-item-label caption>Priority</q-item-label>
-                    <q-item-label>{{ getTaskPriority() }}</q-item-label>
+                    <q-item-label>{{ taskDetail.taskPriority.name }}</q-item-label>
                   </div>
 
                   <div class="col-4">
                     <q-item-label caption>Status</q-item-label>
-                    <q-item-label>{{ getTaskStatus() }}</q-item-label>
+                    <q-item-label>{{ taskDetail.taskStatus.name }}</q-item-label>
                   </div>
                 </div>
 
@@ -181,7 +205,10 @@ function addSubtask(subtask: subTask) {
                   <div class="col-8">
                     <q-item-label caption>Assignees</q-item-label>
                     <q-item-label>
-                      <q-chip v-for="assignee in taskDetail?.assignee" :key="assignee" dense>{{ assignee }}</q-chip>
+                      <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense>{{
+                          assignee.name
+                        }}
+                      </q-chip>
                     </q-item-label>
                   </div>
 
@@ -193,7 +220,7 @@ function addSubtask(subtask: subTask) {
 
                 <q-item-label caption>Tags</q-item-label>
                 <q-item-label class="q-mb-sm">
-                  <div v-for="tag in taskDetail?.tags" :key="tag">{{ tag }}</div>
+                  <q-chip v-for="tag in taskDetail?.tags" :key="tag" dense>{{ tag.name }}</q-chip>
                 </q-item-label>
 
                 <q-toolbar class="bg-primary text-white shadow-2">
@@ -230,15 +257,13 @@ function addSubtask(subtask: subTask) {
             },
           }" color="secondary" icon="add" label="Create New Task"/>
         </q-fab>
-
       </q-page-sticky>
-
 
       <q-dialog v-model="showAddSubtaskDialog">
         <add-subtask-dialog @save-subtask="addSubtask"/>
       </q-dialog>
 
-
+      <pre>{{ taskDetail }}</pre>
     </q-page-container>
   </q-layout>
 </template>

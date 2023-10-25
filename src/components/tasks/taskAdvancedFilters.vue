@@ -8,8 +8,8 @@ const advancedOptions = ref({
   dueDateOption: '',
   modifiedDateValue: '',
   modifiedDateOption: '',
-  statusValue: '',
-  priorityValue: '',
+  statusName: '',
+  priorityName: '',
   taskTypeValue: '',
   assignedTo: '',
   ownedBy: '',
@@ -104,21 +104,21 @@ async function filterFn(val: string, update: any, abort: any) {
     <div class="q-pa-md row">
       <q-item-section>
         <q-item-label>Status</q-item-label>
-        <q-select v-model="advancedOptions.statusValue"
+        <q-select v-model="advancedOptions.statusName"
                   :options="taskListsStore.TaskStatuses"
                   emit-value
                   map-options
                   option-label="name"
-                  option-value="id"/>
+                  option-value="name"/>
       </q-item-section>
 
       <q-item-section>
         <q-item-label>Priority</q-item-label>
-        <q-select v-model="advancedOptions.priorityValue" :options="taskListsStore.TaskPriorities"
+        <q-select v-model="advancedOptions.priorityName" :options="taskListsStore.TaskPriorities"
                   emit-value
                   map-options
                   option-label="name"
-                  option-value="id"/>
+                  option-value="name"/>
       </q-item-section>
 
       <q-item-section>
