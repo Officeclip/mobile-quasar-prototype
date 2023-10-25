@@ -3,6 +3,7 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useTimesheetsStore } from '../../stores/TimesheetsStore';
 
 const timesheetStatus = ref('Saved');
+const title = ref(timesheetStatus.value);
 
 const timesheetsStore = useTimesheetsStore();
 
@@ -15,6 +16,7 @@ const timesheetsAll = computed(() => {
 });
 watch([timesheetStatus], ([newModel]) => {
   timesheetsStore.getTimesheetsByStatus(String(newModel));
+  title.value = newModel;
 });
 
 const tabs = [
@@ -44,16 +46,25 @@ const tabs = [
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
-        <q-toolbar-title> Timesheets </q-toolbar-title>
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
+        </q-btn>
+        <q-toolbar-title>{{ title }} Timesheets </q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-footer elevated>
       <q-tabs
-        no-caps
-        active-color="primary"
-        indicator-color="transparent"
-        class="bg-grey-6"
         v-model="timesheetStatus"
+        no-caps
+        inline-label
+        class="bg-primary text-white shadow-2"
+        align="justify"
       >
         <q-tab
           v-for="item in tabs"
