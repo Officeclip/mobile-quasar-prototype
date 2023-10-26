@@ -19,30 +19,6 @@ watch([timesheetStatus], ([newModel]) => {
   timesheetsStore.getTimesheetsByStatus(String(newModel));
   title.value = newModel;
 });
-
-const tabs = [
-  {
-    id: 1,
-    name: 'Inbox',
-    status: 'Inbox',
-    icon: 'inbox',
-    text: 'text-orange',
-  },
-  {
-    id: 2,
-    name: 'Outbox',
-    status: 'Outbox',
-    icon: 'outbox',
-    text: 'text-cyan',
-  },
-  {
-    id: 3,
-    name: 'Archived',
-    status: 'Archived',
-    icon: 'archive',
-    text: 'text-red',
-  },
-];
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -68,13 +44,15 @@ const tabs = [
         align="justify"
         switch-indicator
       >
+        <q-tab name="Inbox" label="Inbox" icon="inbox" class="text-orange">
+          <q-badge color="red" floating>2</q-badge>
+        </q-tab>
+        <q-tab name="Outbox" label="Outbox" icon="outbox" class="text-cyan" />
         <q-tab
-          v-for="item in tabs"
-          :name="item.name"
-          :key="item.id"
-          :label="item.status"
-          :icon="item.icon"
-          :class="item.text"
+          name="Archived"
+          label="Archived"
+          icon="archive"
+          class="text-red"
         />
       </q-tabs>
     </q-footer>
