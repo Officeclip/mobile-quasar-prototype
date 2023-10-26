@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useTimesheetsStore } from '../../stores/TimesheetsStore';
 
-const timesheetStatus = ref('Saved');
+const timesheetStatus = ref('Inbox');
 const title = ref(timesheetStatus.value);
 
 const timesheetsStore = useTimesheetsStore();
@@ -22,24 +22,29 @@ watch([timesheetStatus], ([newModel]) => {
 const tabs = [
   {
     id: 1,
-    status: 'Saved',
+    name: 'Inbox',
+    status: 'Inbox',
   },
   {
     id: 2,
-    status: 'Pending',
+    name: 'Outbox',
+    status: 'Outbox',
   },
   {
     id: 3,
-    status: 'Submitted',
+    name: 'Archived',
+    status: 'Archived',
   },
-  {
-    id: 4,
-    status: 'Approved',
-  },
-  {
-    id: 5,
-    status: 'Rejected',
-  },
+  // {
+  //   id: 4,
+  //   name: 'Approved',
+  //   status: 'Approved',
+  // },
+  // {
+  //   id: 5,
+  //   name: 'Rejected',
+  //   status: 'Rejected',
+  // },
 ];
 </script>
 <template>
@@ -68,7 +73,7 @@ const tabs = [
       >
         <q-tab
           v-for="item in tabs"
-          :name="item.status"
+          :name="item.name"
           :key="item.id"
           :label="item.status"
         />
@@ -91,6 +96,7 @@ const tabs = [
     </q-page-sticky>
     <q-page-container>
       <q-page>
+        <pre>{{ timesheetStatus }}</pre>
         <q-list v-for="item in timesheetsAll" :key="item.id">
           <q-item
             :to="{

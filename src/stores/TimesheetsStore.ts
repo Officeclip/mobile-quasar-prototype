@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { Timesheet } from '../models/timesheet';
 import { TimesheetDetails } from '../models/timesheetDetails';
 import axios from 'axios';
-import {Constants} from "stores/Constants";
+import { Constants } from 'stores/Constants';
 
 export const useTimesheetsStore = defineStore('timesheetsStore', {
   state: () => ({
@@ -39,19 +39,40 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         const newData = this.timesheets.filter((t) => {
           return t.status == status;
         });
-        console.log('QQQQQQQQQQQQQQQQ', newData);
         return newData.length;
       } else {
         return [];
       }
     },
+
+    getInOutboxList(status: string) {
+      switch (status) {
+        case 'Inbox':
+          return `${Constants.endPointUrl}/timesheetSummary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
+        case 'Outbox':
+          return `${Constants.endPointUrl}/timesheetSummary?status=Pending`;
+        case 'Archived':
+          return `${Constants.endPointUrl}/timesheetSummary?status=Saved&&status=Approved&&status=Rejected`;
+      }
+    },
     // getting the timesheets by status
     async getTimesheetsByStatus(status: string) {
-      const callStr =
-        status != ''
-          ? `${Constants.endPointUrl}/timesheetSummary?status=${status}`
-          : `${Constants.endPointUrl}/timesheetSummary`;
-
+      const callStr = this.getInOutboxList(status);
+      // status != ''
+      //   ? `${Constants.endPointUrl}/timesheetSummary?status=${status}`
+      //   : `${Constants.endPointUrl}/timesheetSummary`;
+      // status == 'Saved'
+      //   ? `${Constants.endPointUrl}/timesheetSummary?status=${status}&&status=Approved&&status=Submitted&&status=Rejected`
+      //   : `${Constants.endPointUrl}/timesheetSummary`;
+      // switch (status) {
+      //   case 'Inbox':
+      //     // const callStr = `${Constants.endPointUrl}/timesheetSummary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
+      //     return `${Constants.endPointUrl}/timesheetSummary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
+      //   case 'Outbox':
+      //     return `${Constants.endPointUrl}/timesheetSummary?status=Pending`;
+      //   case 'Archived':
+      //     return `${Constants.endPointUrl}/timesheetSummary?status=Saved&&status=Approved&&status=Rejected`;
+      // }
       try {
         const response = await axios.get(callStr);
         this.timesheets = response.data;
