@@ -1,22 +1,21 @@
 <!-- Cleaned up using Google Bard -->
 <script lang="ts" setup>
-import {computed, ComputedRef, onMounted, ref} from 'vue';
+import {computed, ComputedRef, onMounted, ref, Ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import TasksForm from 'components/tasks/tasksFormCtrl.vue';
-import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
-import {taskDetails} from "src/models/task/taskDetails";
-import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
+import {useTaskDetailsStore} from 'stores/task/taskDetailsStore';
+import {taskDetails} from 'src/models/task/taskDetails';
+import {useTaskSummaryStore} from 'stores/task/taskSummaryStore';
 
 const tasksDetailStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
 
 const route = useRoute();
 const router = useRouter();
-console.log('EditTask Started');
 
 const id = ref<string | string[]>(route.params.id);
 
-const task: ComputedRef<taskDetails> = computed(() => {
+const task: Ref<taskDetails> = computed(() => {
   return tasksDetailStore.TaskDetail;
 });
 
@@ -30,48 +29,32 @@ function onSubmit(e: any) {
   console.log(`onSubmit Task Value: ${task.value}`);
 
   const newTask: taskDetails = {
-    // id: task.value.id,
-    // subject: task.value?.subject,
-    // description: task.value?.description,
-    // startDate: newStartDate,
-    // dueDate: newDueDate,
-    // taskTypeName: task.value?.taskTypeName,
-    // taskPriorityName: task.value?.taskPriorityName,
-    // taskStatusName: task.value?.taskStatusName,
-    // isPrivate: task.value?.isPrivate,
-    // taskOwnerName: task.value?.taskOwnerName,
-    // parentObjectServiceType: task.value?.parentObjectServiceType,
-    // parentObjectId: task.value?.parentObjectId,
-
     id: task.value.id,
     subject: task.value.subject,
     description: task.value.description,
-    taskTypeId: task.value.taskTypeId,
-    taskPriorityId: task.value.taskPriorityId,
-    taskStatusId: task.value.taskStatusId,
+    taskType: task.value.taskType,
+    taskStatus: task.value.taskStatus,
     isPrivate: task.value.isPrivate,
     taskOwner: task.value.taskOwner,
-    parentObjectServiceType: task.value.parentObjectServiceType,
-    parentObjectId: task.value.parentObjectId,
+    parentObject: task.value.parentObject,
     startDate: task.value.startDate,
     modifiedDate: new Date().toISOString(),
     dueDate: task.value.dueDate,
     createdDate: task.value.createdDate,
     regardingType: task.value.regardingType,
     regardingValue: task.value.regardingValue,
-    assignee: task.value.assignee,
-    taskOwnerSid: task.value.taskOwnerSid,
+    assignees: task.value.assignees,
     remindTo: task.value.remindTo,
     remindBeforeMinutes: task.value.remindBeforeMinutes,
     repeatInfoText: task.value.repeatInfoText,
     recurrenceRule: task.value.recurrenceRule,
     tags: task.value.tags,
-    subtasks: task.value.subtasks
+    subtasks: task.value.subtasks,
+    taskPriority: task.value.taskPriority,
   }
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  // tasksStore.editTask(task.value!);
+
   tasksDetailStore.editTask(newTask);
-  taskSummaryStore.editTask(newTask);
+  // taskSummaryStore.editTask(newTask);
   router.push(`/taskDetails/${task.value?.id}`);
 }
 </script>
@@ -87,7 +70,7 @@ function onSubmit(e: any) {
           round
           @click="$router.go(-1)"
         />
-        <q-toolbar-title> Edit Task</q-toolbar-title>
+        <q-toolbar-title>Edit Task</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -105,5 +88,3 @@ function onSubmit(e: any) {
     </q-page-container>
   </q-layout>
 </template>
-
-<style></style>
