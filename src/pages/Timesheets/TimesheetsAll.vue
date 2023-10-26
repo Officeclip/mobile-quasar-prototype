@@ -25,16 +25,22 @@ const tabs = [
     id: 1,
     name: 'Inbox',
     status: 'Inbox',
+    icon: 'inbox',
+    text: 'text-orange',
   },
   {
     id: 2,
     name: 'Outbox',
     status: 'Outbox',
+    icon: 'outbox',
+    text: 'text-cyan',
   },
   {
     id: 3,
     name: 'Archived',
     status: 'Archived',
+    icon: 'archive',
+    text: 'text-red',
   },
 ];
 </script>
@@ -57,16 +63,18 @@ const tabs = [
     <q-footer elevated>
       <q-tabs
         v-model="timesheetStatus"
-        no-caps
-        inline-label
-        class="bg-primary text-white shadow-2"
+        class="bg-grey-9"
+        dense
         align="justify"
+        switch-indicator
       >
         <q-tab
           v-for="item in tabs"
           :name="item.name"
           :key="item.id"
           :label="item.status"
+          :icon="item.icon"
+          :class="item.text"
         />
       </q-tabs>
     </q-footer>
