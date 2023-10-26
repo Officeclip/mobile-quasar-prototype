@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useTimesheetsStore } from '../../stores/TimesheetsStore';
+import dateTimeHelper from '../../helpers/dateTimeHelper';
 
 const timesheetStatus = ref('Inbox');
 const title = ref(timesheetStatus.value);
@@ -35,16 +36,6 @@ const tabs = [
     name: 'Archived',
     status: 'Archived',
   },
-  // {
-  //   id: 4,
-  //   name: 'Approved',
-  //   status: 'Approved',
-  // },
-  // {
-  //   id: 5,
-  //   name: 'Rejected',
-  //   status: 'Rejected',
-  // },
 ];
 </script>
 <template>
@@ -112,7 +103,18 @@ const tabs = [
               <q-item-label>
                 {{ item.createdByUserName }}
               </q-item-label>
-              <q-item-label caption>{{ item.fromDate }}</q-item-label>
+              <q-item-label caption>
+                {{
+                  item.fromDate
+                    ? dateTimeHelper.extractDateFromUtc(item.fromDate)
+                    : 'No Specific Date'
+                }}
+              </q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-item-label caption class="bg-teal-3 q-pa-xs">{{
+                item.status
+              }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-icon color="primary" name="chevron_right" />
