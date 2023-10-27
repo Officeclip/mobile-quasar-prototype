@@ -2,8 +2,15 @@
 import {onBeforeMount, ref, Ref} from 'vue';
 import {useTaskListsStore} from "stores/task/taskListsStore";
 import {regardingContact} from "src/models/task/taskLists";
+import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
+import {searchFilter} from "src/models/task/searchFilter";
 
-const advancedOptions = ref({
+const advancedOptions:Ref<searchFilter> = ref({
+  filterString: '',
+  ownedByMeFilter: false,
+  assignedToMeFilter: false,
+  showAdvancedOptions: false,
+  userName: '',
   dueDateValue: '',
   dueDateOption: '',
   modifiedDateValue: '',
@@ -17,8 +24,12 @@ const advancedOptions = ref({
 })
 
 const emit = defineEmits(['advancedOptionsGenerated']);
+const props = defineProps(['parent']);
+const taskSummaryStore = useTaskSummaryStore();
 
 function emitOptions() {
+  taskSummaryStore.getFilteredTasks(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
+
   emit('advancedOptionsGenerated', advancedOptions.value);
 }
 

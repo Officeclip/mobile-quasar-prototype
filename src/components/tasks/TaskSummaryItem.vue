@@ -46,6 +46,12 @@ onBeforeMount(() => {
       </q-item-label>
     </q-item-section>
 
+    <q-item-section>
+      <q-item-label >
+        {{ task.taskStatusName }}
+      </q-item-label>
+    </q-item-section>
+
   </q-item>
 
 </template>

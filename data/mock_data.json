@@ -2079,7 +2079,7 @@
   "task-details": [
     {
       "id": 101,
-      "subject": "1: Complete Sprint Planning (Edit)",
+      "subject": "1: Complete Sprint Planning",
       "description": "Plan and prioritize tasks for the upcoming sprint",
       "taskType": {
         "id": 2,
@@ -2092,7 +2092,7 @@
       "isPrivate": true,
       "taskOwner": "Alice Johnson",
       "startDate": "2023-10-01T10:00:00Z",
-      "modifiedDate": "2023-10-23T19:12:24.520Z",
+      "modifiedDate": "2023-10-27T14:27:06.957Z",
       "dueDate": "2023-10-05T17:00:00Z",
       "createdDate": "2023-09-30T08:45:00Z",
       "regardingType": 1,
@@ -2228,6 +2228,86 @@
       "isPrivate": true,
       "dueDate": "2023-10-05T17:00:00Z",
       "taskPriorityName": "Low"
+    },
+    {
+      "dueDate": "2022-09-11T18:30:00Z",
+      "isPrivate": false,
+      "id": "TJCR7UD4G2GE789RN6KR6KUVT2GX3GDDB4YM6LQ",
+      "subject": "#589: Create a test account for Dawn Swope to test QB export using IIF file",
+      "taskStatusName": "Completed",
+      "taskPriorityName": "Low"
+    },
+    {
+      "dueDate": "2022-09-29T18:30:00Z",
+      "isPrivate": false,
+      "id": "ZZ9UNN9VTZJQ7BDEHAHBWCFCCCHE6KQX7MJM6LQ",
+      "subject": "#587: Stripe recurring payment implementation",
+      "taskStatusName": "Open",
+      "taskPriorityName": "Medium"
+    },
+    {
+      "dueDate": "2022-12-30T18:30:00Z",
+      "isPrivate": false,
+      "id": "BJRV28SEGJMCXDFFYMMZYBJDC2KR37FF54TM6LQ",
+      "subject": "#582: New Release Issues Fix (post v11.2.4)",
+      "taskStatusName": "Open",
+      "taskPriorityName": "High"
+    },
+    {
+      "dueDate": "2022-07-31T18:30:00Z",
+      "isPrivate": false,
+      "id": "Z2RC2YDX7CHZ3BSC768MYHS3DMKUXSHDSM9M6LQ",
+      "subject": "#570: Meeting for July 2022",
+      "taskStatusName": "Completed",
+      "taskPriorityName": "High"
+    },
+    {
+      "dueDate": "2022-04-29T18:30:00Z",
+      "isPrivate": false,
+      "id": "SM6WYADC268ZXUDFDBHVYGJRRBUUY8SEBDYM6LQ",
+      "subject": "#559: Add ASPNET48 in DISM commands",
+      "taskStatusName": "Open",
+      "taskPriorityName": "Medium"
+    },
+    {
+      "dueDate": "2022-09-13T18:30:00Z",
+      "isPrivate": false,
+      "id": "2CTTXS9VX6JZ7NADX46RXWFF4DUC2BJC7MJM6LQ",
+      "subject": "#534: Design Recurring Payment Processing",
+      "taskStatusName": "Pending",
+      "taskPriorityName": "High"
+    },
+    {
+      "dueDate": "2022-03-31T18:30:00Z",
+      "isPrivate": false,
+      "id": "TDKTHWHRY6MLWJS3VZFTXUYV68KR7QFF3M9M6LQ",
+      "subject": "#523: Task for Enhance Payment Processing : Recurring payments with Stripe",
+      "taskStatusName": "Completed",
+      "taskPriorityName": "Low"
+    },
+    {
+      "dueDate": "2022-02-27T18:30:00Z",
+      "isPrivate": false,
+      "id": "36YUYJ9DZ28ZHJYRCBKQ3DAXZ8RQH7W3VM9M6LQ",
+      "subject": "#515: Team meetings - Feb -2022",
+      "taskStatusName": "Completed",
+      "taskPriorityName": "Medium"
+    },
+    {
+      "dueDate": "2022-01-30T18:30:00Z",
+      "isPrivate": false,
+      "id": "BGFMWUD4B4JZ3EFRG89LNJRXJM9XSXSDT4TM6LQ",
+      "subject": "#501: Team meetings - Jan-2022",
+      "taskStatusName": "Completed",
+      "taskPriorityName": "Low"
+    },
+    {
+      "dueDate": "2021-09-15T18:30:00Z",
+      "isPrivate": false,
+      "id": "FMFNWKHVBDFVHEJVMCVR6DFV789LXWJDF4YM6LQ",
+      "subject": "#463: Convert all Server times to UTC (in database)",
+      "taskStatusName": "Completed",
+      "taskPriorityName": "High"
     }
   ],
   "task-lists": [
@@ -2263,8 +2343,8 @@
       "taskStatus": [
         {
           "id": "1",
-          "name": "Pending",
-          "category": "Pending"
+          "name": "Open",
+          "category": "Open"
         },
         {
           "id": "2",
@@ -2275,6 +2355,11 @@
           "id": "3",
           "name": "Completed",
           "category": "Completed"
+        },
+        {
+          "id": "4",
+          "name": "Pending",
+          "category": "Pending"
         }
       ],
       "regardingContact": [
