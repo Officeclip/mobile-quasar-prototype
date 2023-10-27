@@ -91,6 +91,20 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         console.error(error);
       }
     },
+    async getSingleTimesheetDetail(id: string) {
+      try {
+        const response = await axios.get(
+          `${Constants.endPointUrl}/timesheet-details?timesheetDetailSid=${id}`
+        );
+        this.timesheetDetail = response.data[0];
+        console.log(
+          'Testing the single timesheet details by Id',
+          this.timesheetDetail
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async editTimesheet(timesheetDetail: TimesheetDetails) {
       console.log(`editTimesheet 1: ${this.timesheetDetail?.id}`);
       // not added yet

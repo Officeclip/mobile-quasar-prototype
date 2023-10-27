@@ -3,6 +3,8 @@ import { defineProps, ref, onMounted, onUpdated } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 
+const props = defineProps(['timesheet']);
+
 // const periodOptions = ref([])
 // periodOptions.value = [
 //   '2023-07-31',
@@ -62,8 +64,6 @@ billableOptions.value = [
     value: false,
   },
 ];
-
-const props = defineProps(['timesheet']);
 
 const createdDate = ref('');
 createdDate.value = dateTimeHelper.extractDateFromUtc(
