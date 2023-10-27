@@ -1,7 +1,7 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { useTimesheetsStore } from '../../stores/TimesheetsStore';
+import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import { useRoute } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';

@@ -2,7 +2,7 @@
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
 import { onMounted, computed } from 'vue';
-import { useTimesheetsStore } from '../../stores/TimesheetsStore';
+import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import { useRouter } from 'vue-router';
 import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
 // import dateTimeHelper from '../../helpers/dateTimeHelper';
@@ -14,7 +14,6 @@ const router = useRouter();
 console.log('Edit Timesheet Started');
 
 // const id = ref<string | string[]>(route.params.id);
-
 
 onMounted(() => {
   timesheetsStore.getTimesheets();
@@ -28,7 +27,7 @@ function onSubmit(e: any) {
   e.preventDefault();
   const formData = new FormData(e.target);
   const createdDate = formData.get('newcreatedDate');
-  const taskDate = formData.get('newtaskDate')
+  const taskDate = formData.get('newtaskDate');
   console.log(`onSubmit Task Value: ${timesheet.value}`);
 
   const newTimesheet: any = {
@@ -41,9 +40,7 @@ function onSubmit(e: any) {
     createdDate: createdDate,
     taskDate: taskDate,
     timeDuration: timesheet.value?.timeDuration,
-
-
-  }
+  };
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   //timesheetsStore.editTimesheet(timesheet.value!);
   timesheetsStore.editTimesheet(newTimesheet);

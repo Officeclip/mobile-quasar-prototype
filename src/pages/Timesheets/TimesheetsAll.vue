@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
-import { useTimesheetsStore } from '../../stores/TimesheetsStore';
+import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 
 const timesheetStatus = ref('Inbox');

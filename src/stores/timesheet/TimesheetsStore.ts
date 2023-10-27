@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { Timesheet } from '../models/timesheet';
-import { TimesheetDetails } from '../models/timesheetDetails';
+import { Timesheet } from '../../models/timesheet';
+import { TimesheetDetails } from '../../models/timesheetDetails';
 import axios from 'axios';
 import { Constants } from 'stores/Constants';
 
