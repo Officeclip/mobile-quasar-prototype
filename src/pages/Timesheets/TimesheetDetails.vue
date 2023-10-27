@@ -4,6 +4,7 @@ import { computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/TimesheetsStore';
 import { useRoute } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
+import OCItem from '../../components/OCcomponents/OC-Item.vue';
 
 const timesheetsStore = useTimesheetsStore();
 
@@ -39,7 +40,7 @@ const timesheetDetails = computed(() => {
       <q-list
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
-        class="q-my-sm bg-grey-3"
+        class="q-mt-sm bg-grey-3"
       >
         <q-expansion-item expand-separator expand-icon-class="text-primary">
           <template v-slot:header>
@@ -57,53 +58,26 @@ const timesheetDetails = computed(() => {
                 }}
               </q-item-label>
             </q-item-section>
-
-            <q-item-section side flex>
-              <q-item-label caption>
-                {{ timesheetDetail.timeDuration }} hrs
-
-                <q-btn
-                  :to="{
-                    name: 'editTimesheet',
-                    params: {
-                      id: timesheetDetail?.id,
-                    },
-                  }"
-                  size="sm"
-                  flat
-                  round
-                  dense
-                  icon="edit"
-                  class="q-ml-sm"
-                >
-                </q-btn>
-              </q-item-label>
+            <q-item-section side>
+              {{ timesheetDetail.timeDuration }} hrs
             </q-item-section>
-          </template>
-          <!-- <q-separator></q-separator> -->
-          <q-item-section class="q-ma-md">
-            <q-item-label caption> Project </q-item-label>
-            <q-item-label class="q-mb-sm">
-              {{ timesheetDetail.projectName }}
-            </q-item-label>
-
-            <q-item-label caption> Task </q-item-label>
-            <q-item-label class="q-mb-sm">
-              {{ timesheetDetail.serviceItemName }}
-            </q-item-label>
-
-            <q-item-label caption> Billable </q-item-label>
-            <q-item-label class="q-mb-sm">
-              {{ timesheetDetail.isBillable ? 'Yes' : 'No' }}
-            </q-item-label>
-
-            <q-item-label caption> Description </q-item-label>
-            <q-item-label>
-              {{ timesheetDetail.description }}
-            </q-item-label>
-          </q-item-section>
-          <q-item-section side flex>
-            <q-item-label>
+            <q-item-section side>
+              <q-btn
+                :to="{
+                  name: 'editTimesheet',
+                  params: {
+                    id: timesheetDetail?.id,
+                  },
+                }"
+                size="sm"
+                flat
+                round
+                dense
+                icon="edit"
+              >
+              </q-btn>
+            </q-item-section>
+            <q-item-section side>
               <q-btn
                 @click="
                   timesheetsStore.deleteTimesheet(timesheetDetail?.id);
@@ -114,14 +88,26 @@ const timesheetDetails = computed(() => {
                 round
                 dense
                 icon="delete"
-                class="q-mr-sm q-mb-sm"
+                class="q-btn-hover:hover"
               ></q-btn>
-            </q-item-label>
-          </q-item-section>
+            </q-item-section>
+          </template>
+          <OCItem title="Project" :value="timesheetDetail.projectName" />
+          <OCItem title="Task" :value="timesheetDetail.serviceItemName" />
+          <OCItem
+            title="Billable"
+            :value="timesheetDetail.isBillable ? 'Yes' : 'No'"
+          />
+          <OCItem title="Description" :value="timesheetDetail.description" />
         </q-expansion-item>
       </q-list>
     </q-page-container>
   </q-layout>
 </template>
 
-<style></style>
+<style scoped>
+.q-btn:hover {
+  background-color: #333; /* Change the background color on hover */
+  color: #fff; /* Change the text color on hover */
+}
+</style>
