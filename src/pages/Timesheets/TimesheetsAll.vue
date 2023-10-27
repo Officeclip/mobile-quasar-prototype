@@ -1,8 +1,9 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
-import { useTimesheetsStore } from '../../stores/TimesheetsStore';
+import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
+import dateTimeHelper from '../../helpers/dateTimeHelper';
 
-const timesheetStatus = ref('Saved');
+const timesheetStatus = ref('Inbox');
 const title = ref(timesheetStatus.value);
 
 const timesheetsStore = useTimesheetsStore();
@@ -18,29 +19,6 @@ watch([timesheetStatus], ([newModel]) => {
   timesheetsStore.getTimesheetsByStatus(String(newModel));
   title.value = newModel;
 });
-
-const tabs = [
-  {
-    id: 1,
-    status: 'Saved',
-  },
-  {
-    id: 2,
-    status: 'Pending',
-  },
-  {
-    id: 3,
-    status: 'Submitted',
-  },
-  {
-    id: 4,
-    status: 'Approved',
-  },
-  {
-    id: 5,
-    status: 'Rejected',
-  },
-];
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -61,16 +39,20 @@ const tabs = [
     <q-footer elevated>
       <q-tabs
         v-model="timesheetStatus"
-        no-caps
-        inline-label
-        class="bg-primary text-white shadow-2"
+        class="bg-grey-9"
+        dense
         align="justify"
+        switch-indicator
       >
+        <q-tab name="Inbox" label="Inbox" icon="inbox" class="text-orange">
+          <q-badge color="red" floating>2</q-badge>
+        </q-tab>
+        <q-tab name="Outbox" label="Outbox" icon="outbox" class="text-cyan" />
         <q-tab
-          v-for="item in tabs"
-          :name="item.status"
-          :key="item.id"
-          :label="item.status"
+          name="Archived"
+          label="Archived"
+          icon="archive"
+          class="text-red"
         />
       </q-tabs>
     </q-footer>
@@ -91,6 +73,7 @@ const tabs = [
     </q-page-sticky>
     <q-page-container>
       <q-page>
+        <pre>{{ timesheetStatus }}</pre>
         <q-list v-for="item in timesheetsAll" :key="item.id">
           <q-item
             :to="{
@@ -106,7 +89,18 @@ const tabs = [
               <q-item-label>
                 {{ item.createdByUserName }}
               </q-item-label>
-              <q-item-label caption>{{ item.fromDate }}</q-item-label>
+              <q-item-label caption>
+                {{
+                  item.fromDate
+                    ? dateTimeHelper.extractDateFromUtc(item.fromDate)
+                    : 'No Specific Date'
+                }}
+              </q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-item-label caption class="bg-teal-3 q-pa-xs">{{
+                item.status
+              }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-icon color="primary" name="chevron_right" />

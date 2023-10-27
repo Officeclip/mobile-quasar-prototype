@@ -7,9 +7,9 @@ import {
   CustomerProject,
   ServiceItem,
   Period,
-} from '../models/Timesheet/timesheetList';
+} from '../../models/Timesheet/timesheetList';
 import axios from 'axios';
-import { Constants } from './Constants';
+import { Constants } from '../Constants';
 
 export const useTimesheetListStore = defineStore('timesheetListStore', {
   state: () => ({
