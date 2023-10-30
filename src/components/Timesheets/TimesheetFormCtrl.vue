@@ -66,9 +66,11 @@ taskDate.value = 'July 20(Thu)';
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
         <q-select
-          name="newcreatedDate"
           label="Period"
-          v-model="createdDate"
+          :model-value="createdDate"
+          @update:model-value="
+            (newValue) => (props.timesheet.createdDate = newValue)
+          "
           :options="periodOptions"
           map-options
           option-label="name"
@@ -76,7 +78,6 @@ taskDate.value = 'July 20(Thu)';
         />
 
         <q-select
-          name="newtaskDate"
           label="Date"
           v-model="taskDate"
           :options="dateOptions"
