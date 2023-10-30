@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, onBeforeMount } from 'vue';
+import { defineProps, ref, onBeforeMount, computed } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 
@@ -51,11 +51,13 @@ billableOptions.value = [
   },
 ];
 
-const createdDate = ref('');
-createdDate.value = dateTimeHelper.extractDateFromUtc(
+const createdDate = dateTimeHelper.extractDateFromUtc(
   props.timesheet.createdDate
 );
 
+const newData = computed(() => {
+  return dateTimeHelper.extractDateFromUtc(props.timesheet.createdDate);
+});
 const taskDate = ref('');
 taskDate.value = 'July 20(Thu)';
 </script>
@@ -65,13 +67,9 @@ taskDate.value = 'July 20(Thu)';
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
-        <pre>{{ props.timesheet.createdDate }}</pre>
         <q-select
           label="Period"
-          :model-value="createdDate"
-          @update:model-value="
-            (newValue) => (props.timesheet.createdDate = newValue)
-          "
+          :model-value="newData"
           :options="periodOptions"
           map-options
           option-label="name"
