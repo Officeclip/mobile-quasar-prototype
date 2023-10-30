@@ -10,14 +10,7 @@ const titleByStatus = route.params.status;
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> {{ titleByStatus }} Expenses </q-toolbar-title>
       </q-toolbar>
@@ -28,18 +21,9 @@ const titleByStatus = route.params.status;
         <ExpenseListCtrl />
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn
-          :to="{
-            name: 'newExpense',
-            params: {
-              id: $route.params.id,
-            },
-          }"
-          fab
-          icon="add"
-          color="accent"
-          padding="sm"
-        >
+        <q-btn :to="{
+          name: 'newPeriodExpense'
+        }" fab icon="add" color="accent" padding="sm">
         </q-btn>
       </q-page-sticky>
     </q-page-container>

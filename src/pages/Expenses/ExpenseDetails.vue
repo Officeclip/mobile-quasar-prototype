@@ -2,6 +2,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
+import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useRoute } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import autoRentalExpense from '../../components/expenses/details/autoRentalExpense.vue';
@@ -12,11 +13,13 @@ import taxiExpense from '../../components/expenses/details/taxiExpense.vue';
 import telephoneExpense from '../../components/expenses/details/telephoneExpense.vue';
 
 const expenseDetailsStore = useExpenseDetailsStore();
+//const expenseListStore = useExpenseListsStore();
 
 onMounted(() => {
   const route = useRoute();
   console.log('Expense Detail Id from route', route.params.id)
   expenseDetailsStore.getExpenseDetails(route.params.id);
+  //expenseListStore.getExpensesList();
 });
 
 const expenseDetails = computed(() => {
@@ -61,6 +64,7 @@ console.log('expense detail in expense details', expenseDetails)
                   name: 'editExpense',
                   params: {
                     id: expenseDetail?.id,
+                    expenseSid: expenseDetail?.expenseSid
                   },
                 }" size="sm" flat round dense icon="edit" class="q-ml-sm">
                 </q-btn>
@@ -108,6 +112,12 @@ console.log('expense detail in expense details', expenseDetails)
           </q-item-section>
         </q-expansion-item>
       </q-list>
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-btn :to="{
+          name: 'newExpense'
+        }" fab icon="add" color="accent" padding="sm">
+        </q-btn>
+      </q-page-sticky>
     </q-page-container>
   </q-layout>
 </template>

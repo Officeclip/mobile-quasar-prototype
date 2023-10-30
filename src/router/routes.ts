@@ -192,13 +192,19 @@ const routes: RouteRecordRaw[] = [
     // params: true,
   },
   {
-    path: '/newExpense/:id',
+    path: '/newExpense/:period',
     name: 'newExpense',
     component: () => import('../pages/Expenses/NewExpense.vue'),
     // params: true,
   },
   {
-    path: '/editExpense/:id',
+    path: '/newPeriodExpense',
+    name: 'newPeriodExpense',
+    component: () => import('../pages/Expenses/NewPeriodExpense.vue'),
+    // params: true,
+  },
+  {
+    path: '/editExpense/:id/:expenseSid',
     name: 'editExpense',
     component: () => import('../pages/Expenses/EditExpense.vue'),
     // params: true,

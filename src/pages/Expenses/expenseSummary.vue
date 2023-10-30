@@ -47,14 +47,7 @@ const allExpenses = [
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> Expenses </q-toolbar-title>
       </q-toolbar>
@@ -63,17 +56,13 @@ const allExpenses = [
     <q-page-container>
       <q-page>
         <q-list v-for="expense in allExpenses" :key="expense.id">
-          <q-item
-            :to="{
-              name: 'expenseSummaryFiltered',
-              params: {
-                id: expense.id,
-                status: expense.status,
-              },
-            }"
-            clickable
-            v-ripple
-          >
+          <q-item :to="{
+            name: 'expenseSummaryFiltered',
+            params: {
+              id: expense.id,
+              status: expense.status,
+            },
+          }" clickable v-ripple>
             <q-item-section avatar>
               <q-icon :name="expense.icon" :color="expense.color"> </q-icon>
             </q-item-section>
