@@ -2071,58 +2071,33 @@
       "id": 101,
       "subject": "1: Complete Sprint Planning (Edit)",
       "description": "Plan and prioritize tasks for the upcoming sprint",
-      "taskType": {
-        "id": 2,
-        "name": "Development"
-      },
-      "taskStatus": {
-        "id": "3",
-        "name": "Completed"
-      },
-      "isPrivate": true,
+      "taskTypeId": 2,
+      "taskPriorityId": "3",
+      "taskStatusId": 2,
+      "isPrivate": false,
       "taskOwner": "Alice Johnson",
+      "parentObjectServiceType": 3,
+      "parentObjectId": 201,
       "startDate": "2023-10-01T10:00:00Z",
-      "modifiedDate": "2023-10-23T19:12:24.520Z",
+      "modifiedDate": "2023-10-18T13:57:47.986Z",
       "dueDate": "2023-10-05T17:00:00Z",
       "createdDate": "2023-09-30T08:45:00Z",
       "regardingType": 1,
       "regardingValue": "Team Collaboration",
-      "assignees": [
-        {
-          "id": 1,
-          "name": "John Doe"
-        },
-        {
-          "id": 2,
-          "name": "Jane Smith"
-        },
-        {
-          "id": 3,
-          "name": "Kathiravan Sekar"
-        },
-        {
-          "id": 4,
-          "name": "Oliver Johnson"
-        },
-        {
-          "id": 5,
-          "name": "Lily Jones"
-        }
+      "assignee": [
+        "John Doe",
+        "Jane Smith",
+        "Kathiravan Sekar",
+        "Chloe Johnson",
+        "Oliver Johnson",
+        "Lily Jones"
       ],
+      "taskOwnerSid": 789,
       "remindTo": "Me",
       "remindBeforeMinutes": 60,
       "repeatInfoText": "Weekly",
       "recurrenceRule": "FREQ=WEEKLY;COUNT=5",
-      "tags": [
-        {
-          "id": "101",
-          "name": "Marketing"
-        },
-        {
-          "id": "102",
-          "name": "Development"
-        }
-      ],
+      "tags": [101, 102],
       "subtasks": [
         {
           "id": 1,
@@ -2133,7 +2108,7 @@
             "id": "1",
             "name": "Kathiravan Sekar"
           },
-          "isCompleted": false,
+          "isCompleted": true,
           "completedDate": "2023-10-05T17:00:00Z"
         },
         {
@@ -2157,65 +2132,432 @@
             "id": "1",
             "name": "Kathiravan Sekar"
           },
-          "isCompleted": true,
+          "isCompleted": false,
           "completedDate": "2023-10-05T17:00:00Z"
         }
-      ],
-      "taskPriority": {
-        "id": "2",
-        "name": "Medium"
-      }
+      ]
     },
     {
       "id": 102,
-      "subject": "2: Make Task Details self sufficient",
-      "description": "Send all data at once when loading task details",
-      "taskType": {
-        "id": "1",
-        "name": "Development"
-      },
-      "taskStatus": {
-        "id": "1",
-        "name": "Pending",
-        "category": "Pending"
-      },
+      "subject": "2: Code Review for Feature X",
+      "description": "Review and provide feedback on the code for Feature X",
+      "createdDate": "2023-09-29T12:30:00Z",
+      "startDate": "2023-10-03T14:00:00Z",
+      "dueDate": "2023-10-06T18:00:00Z",
+      "regardingType": 2,
+      "regardingValue": "Feature X Implementation",
+      "assignee": ["Bob Anderson", "Alice Johnson"],
       "isPrivate": true,
-      "taskOwner": "Kathiravan Sekar",
-      "startDate": "",
-      "modifiedDate": "2023-10-23T20:11:00.849Z",
-      "dueDate": "2023-10-27",
-      "createdDate": "2023-10-25",
+      "taskStatusId": 1,
+      "parentObjectId": 202,
+      "parentObjectServiceType": 2,
+      "taskOwner": "Emily Davis",
+      "taskOwnerSid": 654,
+      "taskPriorityId": "3",
+      "taskTypeId": 1,
+      "remindTo": "Team",
+      "remindBeforeMinutes": 30,
+      "repeatInfoText": "",
+      "recurrenceRule": "",
+      "tags": [103, 104],
+      "subtasks": []
+    },
+    {
+      "id": 103,
+      "subject": "3: Prepare Presentation",
+      "description": "Create a presentation for the upcoming client meeting",
+      "createdDate": "2023-09-28T15:15:00Z",
+      "startDate": "2023-10-02T09:30:00Z",
+      "dueDate": "2023-10-04T16:00:00Z",
+      "regardingType": 1,
+      "regardingValue": "Client Meeting",
+      "assignee": ["Eva Thompson", "David Brown", "Alice Johnson"],
+      "isPrivate": false,
+      "taskStatusId": 3,
+      "parentObjectId": 203,
+      "parentObjectServiceType": 1,
+      "taskOwner": "Grace Wilson",
+      "taskOwnerSid": 876,
+      "taskPriorityId": "2",
+      "taskTypeId": 3,
+      "remindTo": "Me",
+      "remindBeforeMinutes": 45,
+      "repeatInfoText": "Bi-weekly",
+      "recurrenceRule": "FREQ=WEEKLY;INTERVAL=2;COUNT=3",
+      "tags": [105, 106],
+      "subtasks": []
+    },
+    {
+      "id": 104,
+      "subject": "4: Bug Fixing",
+      "description": "Investigate and fix reported bugs in the system",
+      "createdDate": "2023-09-27T09:00:00Z",
+      "startDate": "2023-10-01T11:00:00Z",
+      "dueDate": "2023-10-07T18:00:00Z",
+      "regardingType": 2,
+      "regardingValue": "System Maintenance",
+      "assignee": ["Michael Lee", "Olivia Adams"],
+      "isPrivate": false,
+      "taskStatusId": 2,
+      "parentObjectId": 204,
+      "parentObjectServiceType": 3,
+      "taskOwner": "Alice Johnson",
+      "taskOwnerSid": 987,
+      "taskPriorityId": "1",
+      "taskTypeId": 2,
+      "remindTo": "Team",
+      "remindBeforeMinutes": 30,
+      "repeatInfoText": "Monthly",
+      "recurrenceRule": "FREQ=MONTHLY;BYMONTHDAY=15;COUNT=6",
+      "tags": [107, 108],
+      "subtasks": []
+    },
+    {
+      "id": 105,
+      "subject": "5: Training Session",
+      "description": "Conduct a training session for new team members",
+      "createdDate": "2023-09-26T14:45:00Z",
+      "startDate": "2023-10-04T13:30:00Z",
+      "dueDate": "2023-10-05T16:00:00Z",
+      "regardingType": 1,
+      "regardingValue": "Team Development",
+      "assignee": ["Sophia Harris", "Elijah Hall", "Alice Johnson"],
+      "isPrivate": false,
+      "taskStatusId": 1,
+      "parentObjectId": 205,
+      "parentObjectServiceType": 1,
+      "taskOwner": "Alice Johnson",
+      "taskOwnerSid": 765,
+      "taskPriorityId": "2",
+      "taskTypeId": 3,
+      "remindTo": "Team",
+      "remindBeforeMinutes": 45,
+      "repeatInfoText": "Weekly",
+      "recurrenceRule": "FREQ=WEEKLY;COUNT=4",
+      "tags": [109, 110],
+      "subtasks": []
+    },
+    {
+      "id": 106,
+      "subject": "6: Finish Task Summary",
+      "description": "Test Description",
+      "taskTypeId": "1",
+      "taskPriorityId": "1",
+      "taskStatusId": "1",
+      "isPrivate": false,
+      "taskOwner": "Alice Johnson",
+      "parentObjectServiceType": 14,
+      "parentObjectId": -1,
+      "startDate": "2023-10-04",
+      "dueDate": "2023-10-19",
+      "createdDate": "2023-10-02",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": ["Kathiravan Sekar"],
+      "assignee": [],
+      "taskOwnerSid": 0,
+      "remindTo": "me",
+      "remindBeforeMinutes": 60,
+      "repeatInfoText": "Every day for 10 times",
+      "recurrenceRule": "DTSTART:20231003T153313Z\nRRULE:FREQ=DAILY;INTERVAL=1;COUNT=10",
+      "tags": [],
+      "subtasks": []
+    },
+    {
+      "id": 107,
+      "subject": "7: Make Design",
+      "description": "Testtt",
+      "taskTypeId": "2",
+      "taskPriorityId": "1",
+      "taskStatusId": "1",
+      "isPrivate": true,
+      "taskOwner": "Kathiravan Sekar",
+      "parentObjectServiceType": 14,
+      "parentObjectId": -1,
+      "startDate": "2023-10-03",
+      "dueDate": "2023-10-31",
+      "createdDate": "2023-10-02",
+      "regardingType": 0,
+      "regardingValue": "",
+      "assignee": [],
+      "taskOwnerSid": 0,
+      "remindTo": "me",
+      "remindBeforeMinutes": 60,
+      "repeatInfoText": "Every day for 10 times",
+      "recurrenceRule": "DTSTART:20231003T154146Z\nRRULE:FREQ=DAILY;INTERVAL=1;COUNT=10",
+      "tags": [],
+      "subtasks": []
+    },
+    {
+      "id": 108,
+      "subject": "8: Test tasks (Edited)",
+      "description": "Testing tasks",
+      "taskTypeId": "3",
+      "taskPriorityId": "3",
+      "taskStatusId": "1",
+      "isPrivate": true,
+      "taskOwner": "Alice Johnson",
+      "parentObjectServiceType": 14,
+      "parentObjectId": -1,
+      "startDate": "2023-10-04",
+      "dueDate": "2023-10-24",
+      "createdDate": "2023-10-02",
+      "regardingType": 0,
+      "regardingValue": "",
+      "assignee": ["Kathiravan Sekar"],
+      "taskOwnerSid": 0,
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
       "recurrenceRule": "",
       "tags": [],
-      "subtasks": [],
-      "taskPriority": {
-        "id": "2",
-        "name": "Medium"
-      }
+      "subtasks": []
     }
   ],
   "task-summary": [
     {
       "id": 101,
       "subject": "1: Complete Sprint Planning (Edit)",
-      "taskStatusName": "Completed",
-      "isPrivate": true,
+      "description": "Plan and prioritize tasks for the upcoming sprint",
+      "taskTypeId": 2,
+      "taskPriorityId": "3",
+      "taskStatusId": 2,
+      "isPrivate": false,
+      "taskOwner": "Alice Johnson",
+      "parentObjectServiceType": 3,
+      "parentObjectId": 201,
+      "startDate": "2023-10-01T10:00:00Z",
+      "modifiedDate": "2023-10-18T13:57:47.986Z",
       "dueDate": "2023-10-05T17:00:00Z",
-      "taskPriorityName": "Medium"
+      "createdDate": "2023-09-30T08:45:00Z",
+      "regardingType": 1,
+      "regardingValue": "Team Collaboration",
+      "assignee": [
+        "John Doe",
+        "Jane Smith",
+        "Kathiravan Sekar",
+        "Chloe Johnson",
+        "Oliver Johnson",
+        "Lily Jones"
+      ],
+      "taskOwnerSid": 789,
+      "remindTo": "Me",
+      "remindBeforeMinutes": 60,
+      "repeatInfoText": "Weekly",
+      "recurrenceRule": "FREQ=WEEKLY;COUNT=5",
+      "tags": [101, 102],
+      "subtasks": [
+        {
+          "id": 1,
+          "parentId": 101,
+          "title": "Subtask 1 (edited)",
+          "description": "Description for subtask 1",
+          "assignee": {
+            "id": "1",
+            "name": "Kathiravan Sekar"
+          },
+          "isCompleted": false,
+          "completedDate": "2023-10-05T17:00:00Z"
+        },
+        {
+          "id": 2,
+          "parentId": 101,
+          "title": "Subtask 2",
+          "description": "Description for subtask 2",
+          "assignee": {
+            "id": "1",
+            "name": "Kathiravan Sekar"
+          },
+          "isCompleted": false,
+          "completedDate": "2023-10-05T17:00:00Z"
+        },
+        {
+          "id": "3",
+          "parentId": 101,
+          "title": "Subtask 3",
+          "description": "Description 3",
+          "assignee": {
+            "id": "1",
+            "name": "Kathiravan Sekar"
+          },
+          "isCompleted": true,
+          "completedDate": "2023-10-05T17:00:00Z"
+        }
+      ]
     },
     {
       "id": 102,
-      "subject": "2: Make Task Details self sufficient",
-      "taskStatusName": "Open",
+      "subject": "2: Code Review for Feature X",
+      "description": "Review and provide feedback on the code for Feature X",
+      "createdDate": "2023-09-29T12:30:00Z",
+      "startDate": "2023-10-03T14:00:00Z",
+      "dueDate": "2023-10-06T18:00:00Z",
+      "regardingType": 2,
+      "regardingValue": "Feature X Implementation",
+      "assignee": ["Bob Anderson", "Alice Johnson"],
       "isPrivate": true,
-      "dueDate": "2023-10-05T17:00:00Z",
-      "taskPriorityName": "Low"
+      "taskStatusId": 1,
+      "parentObjectId": 202,
+      "parentObjectServiceType": 2,
+      "taskOwner": "Emily Davis",
+      "taskOwnerSid": 654,
+      "taskPriorityId": "3",
+      "taskTypeId": 1,
+      "remindTo": "Team",
+      "remindBeforeMinutes": 30,
+      "repeatInfoText": "",
+      "recurrenceRule": "",
+      "tags": [103, 104],
+      "subtasks": []
+    },
+    {
+      "id": 103,
+      "subject": "3: Prepare Presentation",
+      "description": "Create a presentation for the upcoming client meeting",
+      "createdDate": "2023-09-28T15:15:00Z",
+      "startDate": "2023-10-02T09:30:00Z",
+      "dueDate": "2023-10-04T16:00:00Z",
+      "regardingType": 1,
+      "regardingValue": "Client Meeting",
+      "assignee": ["Eva Thompson", "David Brown", "Alice Johnson"],
+      "isPrivate": false,
+      "taskStatusId": 3,
+      "parentObjectId": 203,
+      "parentObjectServiceType": 1,
+      "taskOwner": "Grace Wilson",
+      "taskOwnerSid": 876,
+      "taskPriorityId": "2",
+      "taskTypeId": 3,
+      "remindTo": "Me",
+      "remindBeforeMinutes": 45,
+      "repeatInfoText": "Bi-weekly",
+      "recurrenceRule": "FREQ=WEEKLY;INTERVAL=2;COUNT=3",
+      "tags": [105, 106],
+      "subtasks": []
+    },
+    {
+      "id": 104,
+      "subject": "4: Bug Fixing",
+      "description": "Investigate and fix reported bugs in the system",
+      "createdDate": "2023-09-27T09:00:00Z",
+      "startDate": "2023-10-01T11:00:00Z",
+      "dueDate": "2023-10-07T18:00:00Z",
+      "regardingType": 2,
+      "regardingValue": "System Maintenance",
+      "assignee": ["Michael Lee", "Olivia Adams"],
+      "isPrivate": false,
+      "taskStatusId": 2,
+      "parentObjectId": 204,
+      "parentObjectServiceType": 3,
+      "taskOwner": "Alice Johnson",
+      "taskOwnerSid": 987,
+      "taskPriorityId": "1",
+      "taskTypeId": 2,
+      "remindTo": "Team",
+      "remindBeforeMinutes": 30,
+      "repeatInfoText": "Monthly",
+      "recurrenceRule": "FREQ=MONTHLY;BYMONTHDAY=15;COUNT=6",
+      "tags": [107, 108],
+      "subtasks": []
+    },
+    {
+      "id": 105,
+      "subject": "5: Training Session",
+      "description": "Conduct a training session for new team members",
+      "createdDate": "2023-09-26T14:45:00Z",
+      "startDate": "2023-10-04T13:30:00Z",
+      "dueDate": "2023-10-05T16:00:00Z",
+      "regardingType": 1,
+      "regardingValue": "Team Development",
+      "assignee": ["Sophia Harris", "Elijah Hall", "Alice Johnson"],
+      "isPrivate": false,
+      "taskStatusId": 1,
+      "parentObjectId": 205,
+      "parentObjectServiceType": 1,
+      "taskOwner": "Alice Johnson",
+      "taskOwnerSid": 765,
+      "taskPriorityId": "2",
+      "taskTypeId": 3,
+      "remindTo": "Team",
+      "remindBeforeMinutes": 45,
+      "repeatInfoText": "Weekly",
+      "recurrenceRule": "FREQ=WEEKLY;COUNT=4",
+      "tags": [109, 110],
+      "subtasks": []
+    },
+    {
+      "id": 106,
+      "subject": "6: Finish Task Summary",
+      "description": "Test Description",
+      "taskTypeId": "1",
+      "taskPriorityId": "1",
+      "taskStatusId": "1",
+      "isPrivate": false,
+      "taskOwner": "Alice Johnson",
+      "parentObjectServiceType": 14,
+      "parentObjectId": -1,
+      "startDate": "2023-10-04",
+      "dueDate": "2023-10-19",
+      "createdDate": "2023-10-02",
+      "regardingType": 0,
+      "regardingValue": "",
+      "assignee": [],
+      "taskOwnerSid": 0,
+      "remindTo": "me",
+      "remindBeforeMinutes": 60,
+      "repeatInfoText": "Every day for 10 times",
+      "recurrenceRule": "DTSTART:20231003T153313Z\nRRULE:FREQ=DAILY;INTERVAL=1;COUNT=10",
+      "tags": [],
+      "subtasks": []
+    },
+    {
+      "id": 107,
+      "subject": "7: Make Design",
+      "description": "Testtt",
+      "taskTypeId": "2",
+      "taskPriorityId": "1",
+      "taskStatusId": "1",
+      "isPrivate": true,
+      "taskOwner": "Kathiravan Sekar",
+      "parentObjectServiceType": 14,
+      "parentObjectId": -1,
+      "startDate": "2023-10-03",
+      "dueDate": "2023-10-31",
+      "createdDate": "2023-10-02",
+      "regardingType": 0,
+      "regardingValue": "",
+      "assignee": [],
+      "taskOwnerSid": 0,
+      "remindTo": "me",
+      "remindBeforeMinutes": 60,
+      "repeatInfoText": "Every day for 10 times",
+      "recurrenceRule": "DTSTART:20231003T154146Z\nRRULE:FREQ=DAILY;INTERVAL=1;COUNT=10",
+      "tags": [],
+      "subtasks": []
+    },
+    {
+      "id": 108,
+      "subject": "8: Test tasks (Edited)",
+      "description": "Testing tasks",
+      "taskTypeId": "3",
+      "taskPriorityId": "3",
+      "taskStatusId": "1",
+      "isPrivate": true,
+      "taskOwner": "Alice Johnson",
+      "parentObjectServiceType": 14,
+      "parentObjectId": -1,
+      "startDate": "2023-10-04",
+      "dueDate": "2023-10-24",
+      "createdDate": "2023-10-02",
+      "regardingType": 0,
+      "regardingValue": "",
+      "assignee": ["Kathiravan Sekar"],
+      "taskOwnerSid": 0,
+      "remindTo": "",
+      "remindBeforeMinutes": 0,
+      "repeatInfoText": "",
+      "recurrenceRule": "",
+      "tags": [],
+      "subtasks": []
     }
   ],
   "task-lists": [
@@ -2793,7 +3135,7 @@
     {
       "createdByUserName": "Sudhakar Gundu",
       "employeeId": "OCHYD-003",
-      "id": 2,
+      "id": 5,
       "status": "Saved",
       "totalHours": 44.08,
       "fromDate": "2020-09-14T10:43:32.203Z"
@@ -2801,23 +3143,7 @@
     {
       "createdByUserName": "Sudhakar Gundu",
       "employeeId": "OCHYD-003",
-      "id": 3,
-      "status": "Pending",
-      "totalHours": 40,
-      "fromDate": "2023-09-14T10:43:32.203Z"
-    },
-    {
-      "createdByUserName": "Sudhakar Gundu",
-      "employeeId": "OCHYD-003",
-      "id": 4,
-      "status": "Pending",
-      "totalHours": 38,
-      "fromDate": "2023-09-15T10:43:32.203Z"
-    },
-    {
-      "createdByUserName": "Sudhakar Gundu",
-      "employeeId": "OCHYD-003",
-      "id": 5,
+      "id": 9,
       "status": "Approved",
       "totalHours": 33.25,
       "fromDate": "2020-07-06T10:43:32.203Z"
@@ -2825,7 +3151,7 @@
     {
       "createdByUserName": "Sudhakar Gundu",
       "employeeId": "OCHYD-003",
-      "id": 6,
+      "id": 10,
       "status": "Rejected",
       "totalHours": 20.25,
       "fromDate": "2020-06-15T10:43:32.203Z"
@@ -2968,7 +3294,7 @@
       "taskDate": "2020-11-03T18:30:00Z",
       "timeDuration": 1.25,
       "timesheetDetailSid": "N48KW7A5FZFV77KFSMHEH8EXBCHWWEJVFCYM6LQ",
-      "id": 6
+      "id": 8
     },
     {
       "accountName": "OfficeClip LLC",
@@ -2991,7 +3317,7 @@
       "taskDate": "2020-11-02T18:30:00Z",
       "timeDuration": 1,
       "timesheetDetailSid": "N48KW7A5FZFV77KFSZNYXMYEGC6V7EGEW89M6LQ",
-      "id": 2
+      "id": 9
     },
     {
       "accountName": "OfficeClip LLC",
@@ -3296,7 +3622,7 @@
       "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
       "status": "Saved",
       "totalAmount": "255.00",
-      "fromDate": "2020-11-02T10:43:32.203Z"
+      "fromDate": "2023-12-03T00:00:00+05:30"
     },
     {
       "createdByUserName": "Nagesh Kulkarni",
@@ -3333,7 +3659,7 @@
       "description": "Ea earum aspernatur ratione tempora.",
       "employeeFullName": "Nagesh Kulkarni",
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
-      "expenseDate": "2020-11-02T10:43:32.203Z",
+      "expenseDate": "2023-12-03T10:43:32.203Z",
       "id": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ1",
       "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
       "expenseTypeName": "AUTORENTAL",
@@ -3343,6 +3669,7 @@
       "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
       "tax": 12345,
       "paymentType": "Cash",
+      "fromDate": "2023-12-03T00:00:00+05:30",
       "autoRentalExpense": {
         "rentalAgency": "Zoom Car",
         "city": "Hyderabad",
@@ -3359,7 +3686,7 @@
       "description": "Ea earum aspernatur ratione tempora.",
       "employeeFullName": "Nagesh Kulkarni",
       "employeeSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
-      "expenseDate": "2020-11-02T10:43:32.203Z",
+      "expenseDate": "2023-12-05T10:43:32.203Z",
       "id": "GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ2",
       "expenseSid": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
       "expenseTypeName": "AIRFARE",
@@ -3369,6 +3696,7 @@
       "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
       "tax": 12345,
       "paymentType": "Cash",
+      "fromDate": "2023-12-03T00:00:00+05:30",
       "airTravelExpense": {
         "arrivalAirport": "Hyderabad",
         "arrivalDate": "12-06-2020",
@@ -4124,24 +4452,6 @@
     {
       "id": "100",
       "name": "Lily Green"
-    }
-  ],
-  "tags": [
-    {
-      "id": "101",
-      "name": "Marketing"
-    },
-    {
-      "id": "102",
-      "name": "Development"
-    },
-    {
-      "id": "103",
-      "name": "Support"
-    },
-    {
-      "id": "104",
-      "name": "Documentation"
     }
   ]
 }
