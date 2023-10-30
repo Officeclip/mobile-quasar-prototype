@@ -3,6 +3,7 @@ import TasksForm from 'components/tasks/tasksFormCtrl.vue';
 import {ref, Ref} from 'vue'
 import {useRoute, useRouter} from 'vue-router';
 import {taskDetails} from "src/models/task/taskDetails";
+import {taskSummary} from "src/models/task/taskSummary";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
 
@@ -24,15 +25,28 @@ const task: Ref<taskDetails> = ref({
   dueDate: '',
   regardingType: 0,
   regardingValue: '',
-  assignee: [],
+  assignees: [],
   isPrivate: false,
-  taskStatusId: '',
-  parentObjectId: 0,
-  parentObjectServiceType: 0,
-  taskOwner: '',
-  taskOwnerSid: 0,
-  taskPriorityId: '',
-  taskTypeId: '',
+  taskStatus: {
+    id: '0',
+    name: ''
+  },
+  parentObject: {
+    id: 0,
+    serviceType: 0
+  },
+  taskOwner: {
+    name: '',
+    sid: 0
+  },
+  taskPriority: {
+    id: '0',
+    name: ''
+  },
+  taskType: {
+    id: '0',
+    name: ''
+  },
   remindTo: '',
   remindBeforeMinutes: 0,
   repeatInfoText: '',
@@ -40,7 +54,6 @@ const task: Ref<taskDetails> = ref({
   tags: [],
   subtasks: []
 });
-
 
 function handleRRule(rrule: string) {
   task.value.recurrenceRule = rrule;
@@ -58,41 +71,45 @@ function handleReminder(reminder: [string, number]) {
 function onSubmit(e: any) {
   e.preventDefault()
   const formData = new FormData(e.target);
-  const newDueDate = formData.get('dueDate');
-  const newStartDate = formData.get('startDate')
-
-  // note.value.isPrivate = (note.value.isPrivate === 'Yes')
+  const newDueDate = formData.get('dueDate')?.toString() ?? '';
+  const newStartDate = formData.get('startDate')?.toString() ?? '';
 
   const newTask: taskDetails = {
-    id: Number(),
+    id: task.value.id,
     subject: task.value.subject,
     description: task.value.description,
-    taskTypeId: task.value.taskTypeId,
-    taskPriorityId: task.value.taskPriorityId,
-    taskStatusId: task.value.taskStatusId,
+    taskType: task.value.taskType,
+    taskStatus: task.value.taskStatus,
     isPrivate: task.value.isPrivate,
     taskOwner: task.value.taskOwner,
-    parentObjectServiceType: 14,
-    parentObjectId: (Number(parentObjectId)),
-    startDate: newStartDate?.toString(),
+    parentObject: task.value.parentObject,
+    startDate: task.value.startDate,
     modifiedDate: new Date().toISOString(),
-    dueDate: newDueDate?.toString(),
-    createdDate: new Date().toISOString(),
+    dueDate: newDueDate,
+    createdDate: newStartDate,
     regardingType: task.value.regardingType,
     regardingValue: task.value.regardingValue,
-    assignee: task.value.assignee,
-    taskOwnerSid: task.value.taskOwnerSid,
+    assignees: task.value.assignees,
     remindTo: task.value.remindTo,
     remindBeforeMinutes: task.value.remindBeforeMinutes,
     repeatInfoText: task.value.repeatInfoText,
     recurrenceRule: task.value.recurrenceRule,
     tags: task.value.tags,
-    subtasks: task.value.subtasks
+    subtasks: task.value.subtasks,
+    taskPriority: task.value.taskPriority,
+  }
+  const newTaskSummary: taskSummary = {
+    id: task.value.id,
+    subject: task.value.subject,
+    taskStatusName: task.value.taskStatus.name,
+    isPrivate: task.value.isPrivate,
+    dueDate: newDueDate,
+    taskPriorityName: task.value.taskPriority.name,
   }
   // event.value.isAllDayEvent= newEvent.isAllDayEvent
 
   console.log('new task form values: ', newTask)
-  taskSummaryStore.addTask(newTask);
+  taskSummaryStore.addTask(newTaskSummary);
   taskDetailsStore.addTask(newTask);
   router.push('/tasksList')
 }

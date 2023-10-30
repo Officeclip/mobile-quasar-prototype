@@ -1,56 +1,31 @@
-<script setup lang="ts">
-import { onMounted } from 'vue';
-import { useTimesheetsStore } from '../../stores/TimesheetsStore';
+<script setup>
+import { ref, computed, onMounted, watch } from 'vue';
+import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
+import dateTimeHelper from '../../helpers/dateTimeHelper';
 
-const data = useTimesheetsStore();
-const arr = data.timesheets
+const timesheetStatus = ref('Inbox');
+const title = ref(timesheetStatus.value);
 
-const allTimesheets =  [
-  {
-  id: 1,
-  icon: 'schedule',
-  color: 'black',
-  status: 'Saved',
-  description: 'Timesheets(s) saved but not yet submitted'
-},
-{
-  id: 2,
-  icon: 'schedule',
-  color: 'secondary',
-  status: 'Pending',
-  description: 'Your timesheets(s) submitted for approval'
-},
-{
-  id: 3,
-  icon: 'schedule',
-  color: 'teal',
-  status: 'Submitted',
-  description: 'Timesheets(s) submitted to you for approval'
-},
-{
-  id: 4,
-  icon: 'schedule',
-  color: 'primary',
-  status: 'Approved',
-  description: 'All your approval timesheets(s)'
-},
-{
-  id: 5,
-  icon: 'schedule',
-  color: 'red',
-  status: 'Rejected',
-  description: 'All your rejected timesheets(s)'
-}
-]
+const timesheetsStore = useTimesheetsStore();
 
+onMounted(() => {
+  timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
+});
+
+const timesheetsAll = computed(() => {
+  return timesheetsStore.Timesheets;
+});
+watch([timesheetStatus], ([newModel]) => {
+  timesheetsStore.getTimesheetsByStatus(String(newModel));
+  title.value = newModel;
+});
 </script>
-
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
         <q-btn
-         @click="$router.go(-1)"
+          @click="$router.go(-1)"
           flat
           round
           dense
@@ -58,54 +33,82 @@ const allTimesheets =  [
           icon="arrow_back"
         >
         </q-btn>
-        <q-toolbar-title> Timesheets </q-toolbar-title>
+        <q-toolbar-title>{{ title }} Timesheets </q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <q-space class="q-mt-sm"></q-space>
+    <q-footer elevated>
+      <q-tabs
+        v-model="timesheetStatus"
+        class="bg-grey-9"
+        dense
+        align="justify"
+        switch-indicator
+      >
+        <q-tab name="Inbox" label="Inbox" icon="inbox" class="text-orange">
+          <q-badge color="red" floating>2</q-badge>
+        </q-tab>
+        <q-tab name="Outbox" label="Outbox" icon="outbox" class="text-cyan" />
+        <q-tab
+          name="Archived"
+          label="Archived"
+          icon="archive"
+          class="text-red"
+        />
+      </q-tabs>
+    </q-footer>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn
+        :to="{
+          name: 'newTimesheet',
+          params: {
+            id: $route.params.id,
+          },
+        }"
+        fab
+        icon="add"
+        color="accent"
+        padding="sm"
+      >
+      </q-btn>
+    </q-page-sticky>
     <q-page-container>
       <q-page>
-        <q-list v-for="timesheet in allTimesheets" :key="timesheet.id">
-    <q-item
-      :to="{
-        name: 'timesheetsList',
-        params: {
-          id: timesheet.id,
-          status: timesheet.status,
-        },
-      }"
-      clickable
-      v-ripple
-    >
-
-    <q-item-section avatar>
-        <q-icon
-        :name= 'timesheet.icon'
-        :color='timesheet.color'>
-        </q-icon>
-      </q-item-section>
-      <q-item-section>
-        <q-item-label>
-          {{ timesheet.status }} timesheets
-        </q-item-label>
-        <q-item-label caption>{{ timesheet.description }}</q-item-label>
-      </q-item-section>
-      <q-item-section side>
-        <q-icon color="primary" name="chevron_right" />
-      </q-item-section>
-    </q-item>
-    <q-separator></q-separator>
-  </q-list>
+        <pre>{{ timesheetStatus }}</pre>
+        <q-list v-for="item in timesheetsAll" :key="item.id">
+          <q-item
+            :to="{
+              name: 'timesheetDetails',
+              params: {
+                id: item.id,
+              },
+            }"
+            clickable
+            v-ripple
+          >
+            <q-item-section>
+              <q-item-label>
+                {{ item.createdByUserName }}
+              </q-item-label>
+              <q-item-label caption>
+                {{
+                  item.fromDate
+                    ? dateTimeHelper.extractDateFromUtc(item.fromDate)
+                    : 'No Specific Date'
+                }}
+              </q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-item-label caption class="bg-teal-3 q-pa-xs">{{
+                item.status
+              }}</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-icon color="primary" name="chevron_right" />
+            </q-item-section>
+          </q-item>
+          <q-separator></q-separator>
+        </q-list>
       </q-page>
     </q-page-container>
   </q-layout>
 </template>
-
-<style scoped>
-.q-router-link--active {
-  color: black
-}
-
-.q-list:nth-child(odd) {
-  background: rgb(238, 238, 238)
-}
-</style>

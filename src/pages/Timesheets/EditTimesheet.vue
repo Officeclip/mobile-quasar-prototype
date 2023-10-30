@@ -1,49 +1,58 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
-import { useTimesheetsStore } from '../../stores/TimesheetsStore';
-import { useRouter } from 'vue-router';
+import { onMounted, onBeforeMount, computed } from 'vue';
+import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
+import { useRouter, useRoute } from 'vue-router';
 import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
+import { TimesheetDetails } from '../../models/Timesheet/timesheetDetails';
 // import dateTimeHelper from '../../helpers/dateTimeHelper';
 
 const timesheetsStore = useTimesheetsStore();
 
-// const route = useRoute();
+const route = useRoute();
 const router = useRouter();
-console.log('Edit Timesheet Started');
+const timesheetDetailSid = route.params.id;
 
-// const id = ref<string | string[]>(route.params.id);
-
-
-onMounted(() => {
-  timesheetsStore.getTimesheets();
+onBeforeMount(() => {
+  timesheetsStore.getSingleTimesheetDetail(timesheetDetailSid);
 });
 
 const timesheet = computed(() => {
-  return timesheetsStore.TimesheetDetails[0];
+  return timesheetsStore.TimesheetDetail;
 });
 
 function onSubmit(e: any) {
   e.preventDefault();
-  const formData = new FormData(e.target);
-  const createdDate = formData.get('newcreatedDate');
-  const taskDate = formData.get('newtaskDate')
-  console.log(`onSubmit Task Value: ${timesheet.value}`);
+  // const formData = new FormData(e.target);
+  // const createdDate = formData.get('newcreatedDate');
+  // const taskDate = formData.get('newtaskDate');
+  // console.log(`onSubmit Task Value: ${timesheet.value}`);
+  const newData: any = timesheet?.value;
 
-  const newTimesheet: any = {
-    id: timesheet.value?.id,
-    accountName: timesheet.value?.accountName,
-    projectName: timesheet.value?.projectName,
-    serviceItemName: timesheet.value?.serviceItemName,
-    isBillable: timesheet.value?.isBillable,
-    description: timesheet.value?.description,
-    createdDate: createdDate,
-    taskDate: taskDate,
-    timeDuration: timesheet.value?.timeDuration,
-
-
-  }
+  const newTimesheet: TimesheetDetails = {
+    id: newData.id,
+    timeDuration: newData.timeDuration,
+    isBillable: newData.isBillable,
+    accountName: newData.accountName,
+    accountSid: newData.accountSid,
+    breakTime: newData.breakTime,
+    checkInTime: newData.checkInTime,
+    checkOutTime: newData.checkOutTime,
+    createdDate: newData.createdDate,
+    createdUserSid: newData.createdUserSid,
+    description: newData.description,
+    modifiedDate: newData.modifiedDate,
+    modifiedUserSid: newData.modifiedUserSid,
+    payrollName: newData.payrollName,
+    payrollSid: newData.payrollSid,
+    projectName: newData.projectName,
+    projectSid: newData.projectSid,
+    serviceItemName: newData.serviceItemName,
+    serviceItemSid: newData.serviceItemSid,
+    taskDate: newData.taskDate,
+    timesheetDetailSid: newData.timesheetDetailSid,
+  };
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   //timesheetsStore.editTimesheet(timesheet.value!);
   timesheetsStore.editTimesheet(newTimesheet);

@@ -149,12 +149,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Timesheets/TimesheetsAll.vue'),
     // params: true,
   },
-  {
-    path: '/timesheetsList/:id/:status',
-    name: 'timesheetsList',
-    component: () => import('../pages/Timesheets/TimesheetsList.vue'),
-    // params: true,
-  },
+  // {
+  //   path: '/timesheetsList/:id/:status',
+  //   name: 'timesheetsList',
+  //   component: () => import('../pages/Timesheets/TimesheetsList.vue'),
+  //   // params: true,
+  // },
   {
     path: '/timesheetDetails/:id',
     name: 'timesheetDetails',

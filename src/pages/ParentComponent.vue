@@ -1,94 +1,68 @@
+<template>
+  <q-layout view="lHh Lpr lFf">
+    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
+      <q-toolbar class="glossy">
+        <q-toolbar-title>Sample Data </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
+    <q-footer elevated>
+      <q-tabs v-model="model" class="bg-grey-9" align="justify">
+        <q-tab name="Inbox" label="Inbox" icon="inbox" class="text-orange">
+          <!-- Conditionally display the badge based on newItemsCount -->
+          <q-badge color="red" floating v-if="newItemsCount > 0">{{
+            newItemsCount
+          }}</q-badge>
+        </q-tab>
+        <q-tab name="Outbox" label="Outbox" icon="outbox" class="text-cyan" />
+      </q-tabs>
+    </q-footer>
+    <q-page-container>
+      <q-page>
+        <div v-if="model == 'Inbox'">
+          <q-list v-for="item in Items" :key="item.id">
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>
+                  {{ item.name }}
+                </q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-icon color="primary" name="chevron_right" />
+              </q-item-section>
+            </q-item>
+            <q-separator></q-separator>
+          </q-list>
+          <q-btn @click="addNewItem">Add New Item</q-btn>
+        </div>
+      </q-page>
+    </q-page-container>
+  </q-layout>
+</template>
+
 <script setup>
-import { ref, computed, watch } from 'vue';
-import { format } from 'date-fns';
+import { ref, onMounted, watch } from 'vue';
 
-const dateTime = ref('2020-03-04T10:30:00Z');
-const date = ref('');
-const time = ref('');
+const model = ref('Inbox');
+const Items = [
+  { id: '1', name: 'Sample1' },
+  { id: '2', name: 'Sample2' },
+  { id: '3', name: 'Sample3' },
+  { id: '4', name: 'Sample4' },
+];
 
-// Function to extract date and time from dateTime
-function extractDateAndTime(dateTimeValue) {
-  const dateObj = new Date(dateTimeValue);
-  date.value = dateObj.toISOString().split('T')[0]; // Extract date (YYYY-MM-DD)
-  time.value = dateObj.toISOString().split('T')[1].split('.')[0]; // Extract time (HH:mm:ss)
-  console.log('extracting date value is:  ---', date.value);
-  console.log('extracting time value is:  ---', time.value);
-}
+const newItemsCount = ref(0);
 
-// Initial extraction
-extractDateAndTime(dateTime.value);
+const addNewItem = () => {
+  const newItemId = (Items.length + 1).toString();
+  Items.push({ id: newItemId, name: `New Item ${newItemId}` });
+  newItemsCount.value += 1;
+};
 
-watch([date, time], ([newDate, newTime]) => {
-  // Watch for changes in dateTime
-  // extractDateAndTime(newDateTime);
-  // Create Date objects and explicitly set the time zone to UTC
-  const utcDate = new Date(`${newDate}T${newTime}Z`);
-  dateTime.value = utcDate.toISOString();
-});
-
-// Function to format the date and time
-function formatDateTime(dateValue = '', timeValue = '', isAllDay = false) {
-  // const utcDate = new Date(`${dateValue}T${timeValue}Z`);
-  const utcDate =
-    dateValue && timeValue
-      ? new Date(`${dateValue}T${timeValue}Z`)
-      : new Date(`${dateValue}T00:00:00Z`);
-  if (isAllDay) {
-    return format(utcDate, 'EEE, MMM dd, yyyy');
+// Watch for changes in the 'model' variable
+watch(model, (newValue, oldValue) => {
+  if (newValue === 'Inbox') {
+    // Reset the newItemsCount to 0 when the "Inbox" tab is activated
+    newItemsCount.value = 0;
   }
-  return format(utcDate, 'EEE, MMM dd, yyyy  hh:mm:ss a');
-}
-
-const convertedDate = computed(() => {
-  return formatDateTime(date.value, time.value);
 });
 </script>
-
-<template>
-  <!-- eslint-disable vue/no-mutating-props -->
-  <div class="q-pa-md">
-    <div class="q-gutter-y-md column">
-      <q-list>
-        <pre>{{ dateTime }}</pre>
-        <q-input
-          v-model="date"
-          :rules="[(val) => !!val || 'Start Date is required']"
-          label="Starts*"
-          name="startDate"
-          :model-value="convertedDate"
-        >
-          <template v-slot:prepend>
-            <q-icon class="cursor-pointer" name="event">
-              <q-popup-proxy
-                cover
-                transition-hide="scale"
-                transition-show="scale"
-              >
-                <q-date v-model="date" mask="YYYY-MM-DD">
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-          <template v-slot:append>
-            <q-icon class="cursor-pointer" name="access_time">
-              <q-popup-proxy
-                cover
-                transition-hide="scale"
-                transition-show="scale"
-              >
-                <q-time v-model="time" mask="HH:mm">
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
-                  </div>
-                </q-time>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-      </q-list>
-    </div>
-  </div>
-</template>

@@ -150,9 +150,8 @@ async function filterFn(val: string, update: any, abort: any) {
         </q-input>
 
         <q-select
-          v-model="task.taskTypeId"
+          v-model="task.taskType"
           :options="taskListsStore.TaskTypes"
-          emit-value
           label="Task Type"
           map-options
           option-label="name"
@@ -160,9 +159,8 @@ async function filterFn(val: string, update: any, abort: any) {
         />
 
         <q-select
-          v-model="task.taskPriorityId"
+          v-model="task.taskPriority"
           :options="taskListsStore.TaskPriorities"
-          emit-value
           label="Priority"
           map-options
           option-label="name"
@@ -170,47 +168,13 @@ async function filterFn(val: string, update: any, abort: any) {
         />
 
         <q-select
-          v-model="task.taskStatusId"
+          v-model="task.taskStatus"
           :options="taskListsStore.TaskStatuses"
-          emit-value
           label="Status"
           map-options
           option-label="name"
           option-value="id"
         />
-
-<!--        <q-item>-->
-<!--          <q-item-section>-->
-<!--            <q-select-->
-<!--              v-model="regardings"-->
-<!--              :options="regardingModel"-->
-<!--              emit-label-->
-<!--              label="Contact"-->
-<!--              map-options-->
-<!--            />-->
-<!--          </q-item-section>-->
-<!--          <q-item-section>-->
-<!--            <q-select-->
-<!--              v-model="selectedRegContact"-->
-<!--              :options="regardingContacts"-->
-<!--              multiple-->
-<!--              option-label="name"-->
-<!--              option-value="id"-->
-<!--              use-input-->
-<!--              @filter="filterContacts"-->
-<!--            >-->
-<!--              <template v-slot:no-option>-->
-<!--                <q-item>-->
-<!--                  <q-item-section class="text-grey">-->
-<!--                    No results-->
-<!--                  </q-item-section-->
-<!--                  >-->
-<!--                </q-item>-->
-<!--              </template>-->
-<!--            </q-select>-->
-<!--          </q-item-section>-->
-<!--        </q-item>-->
-
         <q-checkbox
           v-model="task.isPrivate"
           label="Mark the task private"
@@ -238,7 +202,7 @@ async function filterFn(val: string, update: any, abort: any) {
 
         <q-select
           label="Assigned to"
-          v-model="task.assignee"
+          v-model="task.assignees"
           :options="shownOptions"
           multiple
           hint="Minimum 2 characters to trigger filtering"
