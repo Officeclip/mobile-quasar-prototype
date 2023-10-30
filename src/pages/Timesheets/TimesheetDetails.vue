@@ -66,7 +66,7 @@ const timesheetDetails = computed(() => {
                 :to="{
                   name: 'editTimesheet',
                   params: {
-                    id: timesheetDetail?.id,
+                    id: timesheetDetail?.timesheetDetailSid,
                   },
                 }"
                 size="sm"

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { Timesheet } from '../../models/timesheet';
-import { TimesheetDetails } from '../../models/timesheetDetails';
+import { Timesheet } from '../../models/Timesheet/timesheet';
+import { TimesheetDetails } from '../../models/Timesheet/timesheetDetails';
 import axios from 'axios';
 import { Constants } from 'stores/Constants';
 
@@ -10,7 +10,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     timesheet: undefined as Timesheet | undefined,
 
     timesheetDetails: [] as TimesheetDetails[],
-    timesheetDetail: undefined as TimesheetDetails | undefined,
+    timesheetDetail: [] as TimesheetDetails[],
   }),
 
   getters: {
@@ -91,7 +91,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         console.error(error);
       }
     },
-    async getSingleTimesheetDetail(id: string) {
+    async getSingleTimesheetDetail(id: string | string[]) {
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/timesheet-details?timesheetDetailSid=${id}`

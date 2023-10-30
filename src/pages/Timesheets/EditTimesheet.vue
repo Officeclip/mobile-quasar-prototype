@@ -1,29 +1,35 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
+import { onMounted, onBeforeMount, computed } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
 // import dateTimeHelper from '../../helpers/dateTimeHelper';
-
+console.log('Edit Timesheet Started1');
 const timesheetsStore = useTimesheetsStore();
 
-// const route = useRoute();
+const route = useRoute();
 const router = useRouter();
-console.log('Edit Timesheet Started');
+const timesheetDetailSid = route.params.id;
+console.log('Edit Timesheet Started2', timesheetDetailSid);
 
 // const id = ref<string | string[]>(route.params.id);
 
-onMounted(() => {
-  timesheetsStore.getTimesheets();
+onBeforeMount(() => {
+  console.log('Edit Timesheet Started3 start onMounted');
+  // timesheetsStore.getTimesheets();
+  timesheetsStore.getSingleTimesheetDetail(timesheetDetailSid);
+  console.log('Edit Timesheet Started4 end onMounted');
 });
 
 const timesheet = computed(() => {
-  return timesheetsStore.TimesheetDetails[0];
+  console.log('Edit Timesheet Started5 start computed');
+  return timesheetsStore.TimesheetDetail;
 });
 
 function onSubmit(e: any) {
+  console.log('Edit Timesheet Started6 start onSubmit');
   e.preventDefault();
   const formData = new FormData(e.target);
   const createdDate = formData.get('newcreatedDate');
