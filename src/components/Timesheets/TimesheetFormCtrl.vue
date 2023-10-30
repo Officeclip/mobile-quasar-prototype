@@ -1,18 +1,10 @@
 <script setup>
-import { defineProps, ref, onMounted, onUpdated } from 'vue';
+import { defineProps, ref, onBeforeMount } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 
 const props = defineProps(['timesheet']);
 
-// const periodOptions = ref([])
-// periodOptions.value = [
-//   '2023-07-31',
-//   '2023-07-24',
-//   '2023-07-17',
-//   '2023-07-10',
-//   '2023-07-03'
-// ]
 const dateOptions = ref([]);
 dateOptions.value = [
   'Aug 27(Sun)',
@@ -29,17 +21,11 @@ const sampleModel2 = ref('');
 
 const timesheetListStore = useTimesheetListStore();
 
-onMounted(() => {
+onBeforeMount(() => {
   timesheetListStore.getTimesheetListAll();
 });
 
-onUpdated(() => {
-  const selectedValue = sampleModel.value.id;
-  console.log('getting the id from option:', selectedValue);
-});
-
-const periodOptions = ref('');
-periodOptions.value = timesheetListStore.periodList;
+const periodOptions = timesheetListStore.PeriodList;
 
 const customerProjectOptions = ref('');
 customerProjectOptions.value = timesheetListStore.CustomerProjectsList;
