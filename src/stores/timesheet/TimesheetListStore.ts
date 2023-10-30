@@ -84,7 +84,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
         customerProjectId,
         this.ServiceItemsList
       );
-      const newItems: ServiceItem[] = this.serviceItemsList.filter((t) => {
+      const newItems = this.ServiceItemsList.filter((t) => {
         return (
           t.customerProjectId === '' ||
           t.customerProjectId === customerProjectId

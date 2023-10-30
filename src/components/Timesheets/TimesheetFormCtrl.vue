@@ -17,7 +17,7 @@ dateOptions.value = [
 ];
 
 const sampleModel = ref(null);
-const sampleModel2 = ref('');
+// const sampleModel2 = ref('');
 
 const timesheetListStore = useTimesheetListStore();
 
@@ -65,6 +65,7 @@ taskDate.value = 'July 20(Thu)';
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
+        <pre>{{ props.timesheet.createdDate }}</pre>
         <q-select
           label="Period"
           :model-value="createdDate"
@@ -74,7 +75,8 @@ taskDate.value = 'July 20(Thu)';
           :options="periodOptions"
           map-options
           option-label="name"
-          emit-label
+          option-value="start"
+          emit-value
         />
 
         <q-select
@@ -94,14 +96,14 @@ taskDate.value = 'July 20(Thu)';
           map-options
           @update:model-value="handleSelectChange"
         />
-
         <q-select
           label="ServiceItems"
-          v-model="sampleModel2"
+          v-model="props.timesheet.serviceItemName"
           :options="serviceItemsOptions"
           option-label="name"
-          option-value="id"
+          option-value="name"
           map-options
+          emit-value
         />
 
         <q-select
