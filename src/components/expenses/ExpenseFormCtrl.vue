@@ -25,30 +25,19 @@ dateOptions.value = [
   'Sep 02(Sat)',
 ];
 
-const sampleModel = ref([]);
+const props = defineProps(['expenseDetail', 'period']);
 
-const period = ref('');
-
-const props = defineProps(['expenseDetail']);
-
-const test = ref('')
+const expenseTypeName = ref('')
 watch(
   () => props.expenseDetail,
   (newVal) => {
     if (newVal) {
-      test.value = props.expenseDetail.expenseTypeName
-      console.log(
-        'Data from parent to child is: ',
-        test.value
-      );
+      expenseTypeName.value = props.expenseDetail.expenseTypeName;
     }
   }
 );
 
 //const expenseTypeName = ref(props.expenseDetail.expenseTypeName);
-
-console.log('To test expense detail', props.expenseDetail)
-
 //const expenseTypeName = computed(() => {
 // debugger;
 // const expenseTypeName = props.expenseDetail.expenseTypeName;
@@ -86,16 +75,6 @@ const expenseListsStore = useExpenseListsStore();
 
 onMounted(() => {
   expenseListsStore.getExpensesList();
-  //getOrgApplications(test);
-});
-
-onUpdated(() => {
-  const selectedValue = sampleModel.value.id;
-  console.log('getting the id from option:', selectedValue);
-});
-
-const periodOptions = computed(() => {
-  return expenseListsStore.PeriodList;
 });
 
 const customerProjectOptions = computed(() => {
@@ -108,6 +87,14 @@ const expenseTypeOptions = computed(() => {
 
 const paymentTypeOptions = computed(() => {
   return expenseListsStore.PaymentTypes;
+});
+
+const period = computed(() => {
+  return props.period;
+});
+
+const datesList = computed(() => {
+  return expenseListsStore.getDatesBetweenStartEnd(period);
 });
 
 // const expenseTypeOptions1 = computed(() => {
@@ -199,77 +186,86 @@ const autoRental = ref({
 
 const isBillableModify = ref(false);
 
-watch([test], ([newTest]) => {
-  getOrgApplications(newTest);
+const expenseTypeDefault = 'Select Expense Type';
+
+if (props.expenseDetail.expenseTypeName == '') {
+  props.expenseDetail.expenseTypeName = expenseTypeDefault;
+  isBillableModify.value = true;
+}
+
+watch([expenseTypeName], ([newTest]) => {
+  getExpenseTypeDetail(newTest);
 });
 
-function getOrgApplications(event) {
-  console.log('This is to test', test.value);
+function getExpenseTypeDetail(event) {
   if (event == null) {
-    event = test.value;
+    event = expenseTypeName.value;
   }
-  console.log('Testing event', event);
   const expenseType = expenseTypeOptions.value.find(
     (x) => x.expenseTypeName === event
   );
-  //console.log('Is Billable Modify - ', expenseType);
-  //console.log('Is Billable Modify value - ', expenseType.expenseTypeName);
+
   isBillableModify.value = expenseType.isBillableModify;
-  // if (newValue1) {
-  //   isBillableModify.value = false;
-  // }
-  // else {
-  //   isBillableModify.value = true;
-  // }
+  props.expenseDetail.billable = expenseType.isBillable;
 
   switch (event) {
     case 'AIRFARE':
-      // newValue1.value = expenseType.isBillableModify;
-      // if (newValue1.value == true) {
-      //   isBillableModify.value = false;
-      // }
-      // else {
-      //   isBillableModify.value = true;
-      // }
       props.expenseDetail.autoRentalExpense = null;
       break;
     case 'AUTORENTAL':
-      // newValue1.value = expenseType.isBillableModify;
-      // if (newValue1.value == true) {
-      //   isBillableModify.value = false;
-      // }
-      // else {
-      //   isBillableModify.value = true;
-      // }
       props.expenseDetail.airTravelExpense = null;
       break;
   }
-
 }
 
-//getOrgApplications(test.value);
+const date = ref('');
+// const datesList = ref([]);
 
-// const str = JSON.stringify(airTravel);
-// console.log(`onSubmit Expense Value: ${str}`);
+// const getDatesBetween = (startDate, endDate) => {
+//   const dates = [];
 
-// const autoRental = ref([{
-//   rentalAgency: 'Sudhakar',
-//   city: 'Hyd',
-//   fromDate: '',
-//   toDate: '',
-// }]);
+//   const startDateUnix = new Date(startDate).getTime();
+//   const endDateUnix = new Date(endDate).getTime();
 
-// const autoRental = computed(() => {
-//   const data = props.expenseDetail.autoRentalExpense[0];
-//   console.log('ExpenseForm - autoRental', data);
-//   return data;
-// })
+//   // Calculate the difference between the start and end dates in days
+//   const dayDifference = (endDateUnix - startDateUnix) / (1000 * 60 * 60 * 24);
 
-//const expenseType = ref('');
-// eslint-disable-next-line vue/no-setup-props-destructure
-//expenseType.value = props.expenseDetail.expenseTypeName;
+//   // Iterate over the days and add them to the array
+//   for (let i = 0; i <= dayDifference; i++) {
+//     const date = new Date(startDateUnix + (i * 1000 * 60 * 60 * 24));
+//     dates.push(date);
+//   }
 
-// const selectedItem = ref('');
+//   const formattedDates = dates.map((date) => {
+//     return {
+//       label: `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}(${date.toLocaleDateString('en-US', { weekday: 'short' })})`,
+//       value: date.toISOString(),
+//     };
+//   });
+
+//   datesList.value = formattedDates;
+
+//   console.log('testing dates', formattedDates)
+
+//   // Return the array of dates
+//   return formattedDates;
+// };
+
+
+// const getDatesBetweenStartEnd = () => {
+
+//   const expensePeriod = periodOptions.value.find(
+//     (x) => x.name === props.period.value
+//   );
+
+//   const dateStart = expensePeriod?.start;
+//   const dateEnd = expensePeriod?.end;
+
+//   console.log('Dates between start and end', dateStart, dateEnd)
+
+//   getDatesBetween(dateStart, dateEnd);
+
+// }
 </script>
 
 <template>
@@ -277,8 +273,12 @@ function getOrgApplications(event) {
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
-        <q-select label="Period" v-model="period" :options="periodOptions" map-options option-label="name" emit-label />
-
+        <q-item-label caption class="q-pt-md"> Period </q-item-label>
+        <q-item-label class="q-mb-sm">
+          {{ period }}
+        </q-item-label>
+        <q-select label="Dates" v-model="date" :options="datesList" map-options option-value="value" option-label="label"
+          emit-value />
         <q-select label="Expense Date" v-model="expenseDetail.expenseDate" :options="dateOptions" map-options
           emit-label />
 
@@ -286,7 +286,8 @@ function getOrgApplications(event) {
           option-label="name" option-value="name" map-options emit-value />
 
         <q-select label="Expense Type" v-model="expenseDetail.expenseTypeName" :options="expenseTypeOptions"
-          @update:model-value="getOrgApplications" option-label="expenseName" emit-value option-value="expenseTypeName"
+          :rules="[(val) => val !== expenseTypeDefault || 'Please select expense type..']"
+          @update:model-value="getExpenseTypeDetail" option-label="expenseName" emit-value option-value="expenseTypeName"
           map-options />
         <airTravelExpenseForm
           :airTravel="props.expenseDetail.airTravelExpense == null ? props.expenseDetail.airTravelExpense = airTravel : props.expenseDetail.airTravelExpense"

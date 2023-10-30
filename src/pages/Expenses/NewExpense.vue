@@ -4,17 +4,29 @@ import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore
 import { expenseDetails } from 'src/models/expense/expenseDetails';
 // import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const router = useRouter();
 const route = useRoute();
 const expenseDetailsStore = useExpenseDetailsStore();
 
-const expenseId = route.params.id;
+//const expenseId = route.params.id;
+
+const period = route.params.period;
+
+//const datesList = ref('');
+
+// onMounted(() => {
+
+//   datesList.value = JSON.parse(route.params.datesList);
+
+//   console.log('Dates in new expense: ', datesList)
+
+// })
 
 const expenseDetail = ref({
   accountName: '',
-  id: expenseId,
+  id: '',
   amount: '',
   billable: true,
   comments: '',
@@ -31,6 +43,7 @@ const expenseDetail = ref({
   projectSid: '',
   tax: '',
   paymentType: '',
+  fromDate: '',
   autoRentalExpense: null,
   airTravelExpense: null,
   hotelExpense: null,
@@ -61,6 +74,7 @@ function onSubmit(e: any) {
     projectSid: expenseDetail.value.projectSid,
     tax: expenseDetail.value.tax,
     paymentType: expenseDetail.value.paymentType,
+    fromDate: expenseDetail.value.fromDate,
     autoRentalExpense: expenseDetail.value.autoRentalExpense,
     airTravelExpense: expenseDetail.value.airTravelExpense,
     hotelExpense: expenseDetail.value.hotelExpense,
@@ -91,7 +105,7 @@ function onSubmit(e: any) {
           <!-- <pre>
             {{ expenseDetail }}
           </pre> -->
-          <ExpenseForm :expenseDetail="expenseDetail" />
+          <ExpenseForm :expenseDetail="expenseDetail" :period="period" />
           <q-btn class="q-ml-md q-mb-md q-mt-md" label="Submit" type="submit" color="primary"></q-btn>
           <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
         </div>
