@@ -96,7 +96,7 @@ watch([timesheetStatus], ([newModel]) => {
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
             :to="{
-              name: 'newTimesheet',
+              name: 'newTimesheetPeriod',
             }"
             fab
             icon="add"

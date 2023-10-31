@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
 import { TimesheetDetails } from 'src/models/Timesheet/timesheetDetails';
+// import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
+// import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 
 const router = useRouter();
-
+// const startDate = periods.value.start
 // const timesheetStore = useTimesheetsStore()
 const timesheet: TimesheetDetails = ref({
   id: Number(),
@@ -77,24 +79,21 @@ function onSubmit(e: any) {
       </q-toolbar>
     </q-header>
     <q-page-container>
-      <q-form @submit="onSubmit" class="q-gutter-md">
-        <div>
-          <TimesheetForm :timesheet="timesheet" />
-          <q-btn
-            class="q-ml-md q-mb-md q-mt-md"
-            label="Submit"
-            type="submit"
-            color="primary"
-          ></q-btn>
-          <q-btn
-            label="Reset"
-            type="reset"
-            color="primary"
-            flat
-            class="q-ml-sm"
-          ></q-btn>
-        </div>
-      </q-form>
+      <q-page>
+        <q-list>
+          <q-form @submit="onSubmit" class="q-gutter-md">
+            <TimesheetForm :timesheet="timesheet" />
+            <q-btn label="Submit" type="submit" color="primary"></q-btn>
+            <q-btn
+              label="Reset"
+              type="reset"
+              color="primary"
+              flat
+              class="q-ml-sm"
+            ></q-btn>
+          </q-form>
+        </q-list>
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>
