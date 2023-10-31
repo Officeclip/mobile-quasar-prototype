@@ -41,30 +41,35 @@ watch([periodModel, datesList], () => {
     <q-page-container>
       <q-page>
         <pre>{{ periodModel }}</pre>
-        <q-select
-          label="Period"
-          v-model="periodModel"
-          :options="periodsList"
-          map-options
-          option-label="name"
-        />
-        <pre>{{ dateModel }}</pre>
-        <q-select
-          label="Dates"
-          v-model="dateModel"
-          :options="datesList"
-          map-options
-          option-label="label"
-        />
-        <q-btn
-          class="q-ml-md q-mb-md q-mt-md"
-          label="Next"
-          color="primary"
-          :to="{
-            name: 'newExpense',
-            params: {},
-          }"
-        ></q-btn>
+        <q-list>
+          <q-item>
+            <q-select
+              class="full-width"
+              label="Period"
+              v-model="periodModel"
+              :options="periodsList"
+              map-options
+              option-label="name" /></q-item
+          ><q-item>
+            <pre>{{ dateModel }}</pre>
+            <q-select
+              class="full-width"
+              label="Dates"
+              v-model="dateModel"
+              :options="datesList"
+              map-options
+              option-label="label" /></q-item
+          ><q-list>
+            <q-btn
+              class="q-ma-md"
+              label="Next"
+              color="primary"
+              :to="{
+                name: 'newTimesheet',
+                params: {},
+              }"
+            ></q-btn></q-list
+        ></q-list>
       </q-page>
     </q-page-container>
   </q-layout>
