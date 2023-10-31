@@ -40,8 +40,8 @@ watch([periodModel, datesList], () => {
     </q-header>
     <q-page-container>
       <q-page>
-        <pre>{{ periodModel }}</pre>
         <q-list>
+          <pre>{{ periodModel }}</pre>
           <q-item>
             <q-select
               class="full-width"
@@ -49,9 +49,10 @@ watch([periodModel, datesList], () => {
               v-model="periodModel"
               :options="periodsList"
               map-options
-              option-label="name" /></q-item
-          ><q-item>
-            <pre>{{ dateModel }}</pre>
+              option-label="name"
+          /></q-item>
+          <pre>{{ dateModel }}</pre>
+          <q-item>
             <q-select
               class="full-width"
               label="Dates"
