@@ -25,19 +25,27 @@ const expenseListStore = useExpenseListsStore();
 const router = useRouter();
 const route = useRoute();
 
-//const editExpenseId = route.params.id;
+const id = computed(() => {
+  return route.params.id;
+});
 
-console.log('Edit expense by Id', route.params.expenseSid);
+const expenseId = computed(() => {
+  return route.params.expenseSid;
+});
+
+console.log('Edit expense by Id', id.value);
 
 onMounted(() => {
-  expenseDetailsStore.getExpenseDetailById(route.params.id);
-  expenseSummaryStore.getExpenseSummaryById(route.params.expenseSid);
+  expenseDetailsStore.getExpenseDetailById(id.value);
+  expenseSummaryStore.getExpenseSummaryById(expenseId.value);
   expenseListStore.getExpensesList();
 });
 
 const expenseDetail = computed(() => {
   return expenseDetailsStore.ExpenseDetails;
 });
+
+console.log('Edit expense get expense detail:', expenseDetail.value);
 
 const expenseSummary = computed(() => {
   return expenseSummaryStore.ExpenseSummaryById;
@@ -47,9 +55,7 @@ const expensePeriod = computed(() => {
   return expenseListStore.PeriodList;
 });
 
-console.log('Edit expense get period list:', expensePeriod);
-
-console.log('Edit expense get expense detail:', expenseDetail.value);
+console.log('Edit expense get period list:', expensePeriod.value);
 
 //const period = expensePeriod.find((y) => y.start.toString() === expenseDetail.value.fromDate)
 
@@ -108,14 +114,7 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title>Edit Expense</q-toolbar-title>
       </q-toolbar>
@@ -124,14 +123,9 @@ function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <ExpenseForm :expenseDetail="expenseDetail" :period="period?.name" />
-          <!-- <pre>{{ expenseForm }}</pre> -->
-          <!-- <TestForm :expenseForm="expenseForm" /> -->
-          <q-btn
-            class="q-ml-md q-mb-md"
-            label="Submit"
-            type="submit"
-            color="primary"
-          >
+          <!-- <pre>{{ expenseDetail?.accountName }}</pre> -->
+          <!-- <TestForm :testProps="expenseDetail" /> -->
+          <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>
       </q-form>

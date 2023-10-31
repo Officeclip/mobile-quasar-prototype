@@ -80,7 +80,6 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
 
     getDatesBetweenStartEnd(period: string) {
       const expensePeriod = this.PeriodList.find((x) => x.name === period);
-      console.log('get dates from expenseListStore', expensePeriod);
       if (expensePeriod !== undefined) {
         const dates = [];
         let datesList = <Array<{ label: string; value: string }>>[];

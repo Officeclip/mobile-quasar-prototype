@@ -14,8 +14,8 @@ import { Constants } from 'stores/Constants';
 export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   state: () => ({
     expenseDetailsList: [] as expenseDetails[],
-    //expenseDetails: [] as expenseDetails[],
-    expenseDetails: undefined as expenseDetails | undefined,
+    expenseDetails: [] as expenseDetails[],
+    //expenseDetails: undefined as expenseDetails | undefined,
     //expenseDetails: [],
     airTravelExpense: undefined as airTravelExpense | undefined,
     //airTravelExpense: [],

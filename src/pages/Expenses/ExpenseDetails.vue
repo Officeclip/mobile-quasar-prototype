@@ -13,16 +13,20 @@ import taxiExpense from '../../components/expenses/details/taxiExpense.vue';
 import telephoneExpense from '../../components/expenses/details/telephoneExpense.vue';
 import TestForm from '../../components/TestForm.vue';
 
+const route = useRoute();
+
+const expenseDetailId = computed(() => {
+  return route.params.id;
+});
+
 const expenseDetailsStore = useExpenseDetailsStore();
 //const expenseListStore = useExpenseListsStore();
 
 onMounted(() => {
-  const route = useRoute();
-  console.log('Expense Detail Id from route', route.params.id);
-  expenseDetailsStore.getExpenseDetails(route.params.id);
-  expenseDetailsStore.getExpenseDetailById(
-    'GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ1'
-  );
+  expenseDetailsStore.getExpenseDetails(expenseDetailId.value);
+  // expenseDetailsStore.getExpenseDetailById(
+  //   'GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ1'
+  // );
   //expenseListStore.getExpensesList();
 });
 
@@ -30,39 +34,22 @@ const expenseDetails = computed(() => {
   return expenseDetailsStore.expenseDetailsList;
 });
 
-const testMe = computed(() => {
-  // debugger;
-  return expenseDetailsStore.expenseDetails;
-});
+console.log('Expense details in expense details', expenseDetails)
 
-// console.log('TestMe: ', testMe.value);
 </script>
 
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> Expense Details </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
     <q-page-container class="q-ma-sm">
-      <q-list
-        v-for="expenseDetail in expenseDetails"
-        :key="expenseDetail.id"
-        class="rounded-borders q-my-md bg-grey-3"
-      >
-        <!-- <pre>xxx:{{ testMe?.accountName }}</pre> -->
-        <TestForm :testProps="testMe"></TestForm>
+      <q-list v-for="expenseDetail in expenseDetails" :key="expenseDetail.id" class="rounded-borders q-my-md bg-grey-3">
         <q-expansion-item expand-separator expand-icon-class="text-primary">
           <template v-slot:header>
             <q-item-section>
@@ -73,10 +60,10 @@ const testMe = computed(() => {
               <q-item-label caption>
                 {{
                   expenseDetail.expenseDate
-                    ? dateTimeHelper.extractDateFromUtc(
-                        expenseDetail.expenseDate
-                      )
-                    : 'No Specific Date'
+                  ? dateTimeHelper.extractDateFromUtc(
+                    expenseDetail.expenseDate
+                  )
+                  : 'No Specific Date'
                 }}
               </q-item-label>
             </q-item-section>
@@ -84,21 +71,13 @@ const testMe = computed(() => {
             <q-item-section side flex>
               <q-item-label caption>
                 {{ expenseDetail.amount }}
-                <q-btn
-                  :to="{
-                    name: 'editExpense',
-                    params: {
-                      id: expenseDetail?.id,
-                      expenseSid: expenseDetail?.expenseSid,
-                    },
-                  }"
-                  size="sm"
-                  flat
-                  round
-                  dense
-                  icon="edit"
-                  class="q-ml-sm"
-                >
+                <q-btn :to="{
+                  name: 'editExpense',
+                  params: {
+                    id: expenseDetail?.id,
+                    expenseSid: expenseDetail?.expenseSid,
+                  },
+                }" size="sm" flat round dense icon="edit" class="q-ml-sm">
                 </q-btn>
               </q-item-label>
             </q-item-section>
@@ -120,15 +99,9 @@ const testMe = computed(() => {
               {{ expenseDetail.description }}
             </q-item-label>
 
-            <autoRentalExpense
-              v-if="expenseDetail.autoRentalExpense"
-              :expense="expenseDetail.autoRentalExpense"
-            />
+            <autoRentalExpense v-if="expenseDetail.autoRentalExpense" :expense="expenseDetail.autoRentalExpense" />
 
-            <airTravelExpense
-              v-if="expenseDetail.airTravelExpense"
-              :expense="expenseDetail.airTravelExpense"
-            />
+            <airTravelExpense v-if="expenseDetail.airTravelExpense" :expense="expenseDetail.airTravelExpense" />
 
             <!-- <hotelExpense v-if="expenseDetail.hotelExpense" :expense="expenseDetail.hotelExpense" />
 
@@ -141,32 +114,18 @@ const testMe = computed(() => {
 
           <q-item-section side flex>
             <q-item-label>
-              <q-btn
-                @click="
-                  expenseDetailsStore.deleteExpense(expenseDetail?.id);
-                  $router.go(-1);
-                "
-                size="sm"
-                flat
-                round
-                dense
-                icon="delete"
-                class="q-mr-sm q-mb-sm"
-              ></q-btn>
+              <q-btn @click="
+                expenseDetailsStore.deleteExpense(expenseDetail?.id);
+              $router.go(-1);
+              " size="sm" flat round dense icon="delete" class="q-mr-sm q-mb-sm"></q-btn>
             </q-item-label>
           </q-item-section>
         </q-expansion-item>
       </q-list>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn
-          :to="{
-            name: 'newExpense',
-          }"
-          fab
-          icon="add"
-          color="accent"
-          padding="sm"
-        >
+        <q-btn :to="{
+          name: 'newExpense',
+        }" fab icon="add" color="accent" padding="sm">
         </q-btn>
       </q-page-sticky>
     </q-page-container>

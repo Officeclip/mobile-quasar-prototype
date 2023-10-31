@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
-import { useRouter } from 'vue-router';
 
 const expenseListsStore = useExpenseListsStore();
 
@@ -13,23 +12,22 @@ const periodOptions = computed(() => {
   return expenseListsStore.PeriodList;
 });
 
-console.log('Period Options', periodOptions.value)
-
 const period = ref('');
-const date = ref('');
+
+const expensePeriod = periodOptions.value.find(
+  (x) => x.name === period.value
+);
 
 
 function validatePeriod(event: string) {
-  console.log('Selected period', period.value)
   if (event == '') {
     'Please select period..';
   }
 }
 const datesList = ref<Array<{ label: string; value: string; }>>([]);
 
-const getDatesBetween = (startDate: any, endDate: any) => {
+const getDatesBetweenStartEnd = (startDate: any, endDate: any) => {
   const dates = [];
-
   const startDateUnix = new Date(startDate).getTime();
   const endDateUnix = new Date(endDate).getTime();
 
@@ -51,39 +49,9 @@ const getDatesBetween = (startDate: any, endDate: any) => {
 
   datesList.value = formattedDates;
 
-  console.log('testing dates', formattedDates)
-
   // Return the array of dates
   return formattedDates;
 };
-
-const startDate = ref('2023-10-25');
-const endDate = ref('2023-10-27');
-
-const getDatesBetweenStartEnd = () => {
-
-  const expensePeriod = periodOptions.value.find(
-    (x) => x.name === period.value
-  );
-
-  const dateStart = expensePeriod?.start;
-  const dateEnd = expensePeriod?.end;
-
-  console.log('Dates between start and end', dateStart, dateEnd)
-
-  getDatesBetween(dateStart, dateEnd);
-
-}
-
-// Call the getDatesBetween function when the start or end date changes
-watch([startDate, endDate], () => {
-  // Get the dates between the start date and end date
-  const newDates = getDatesBetween(startDate.value, endDate.value);
-
-  // Update the dates ref with the new array of dates
-  datesList.value = newDates;
-  console.log('testing dates value - ', newDates)
-});
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -98,20 +66,15 @@ watch([startDate, endDate], () => {
       <div>
         <div class="q-pa-md">
           <div class="q-gutter-y-md column">
-            <pre>{{ period }}</pre>
             <q-select label="Period" v-model="period" :options="periodOptions" map-options option-value="name"
-              @update:model-value="getDatesBetweenStartEnd()" option-label="name" emit-value />
-          </div>
-          <div class="q-gutter-y-md column">
-            <q-select label="Dates" v-model="date" :options="datesList" map-options option-value="value"
-              option-label="label" emit-value />
+              @update:model-value="getDatesBetweenStartEnd(expensePeriod?.start, expensePeriod?.end)" option-label="name"
+              emit-value />
           </div>
         </div>
         <q-btn class="q-ml-md q-mb-md q-mt-md" label="Next" color="primary" :to="{
           name: 'newExpense',
           params: {
-            period: period,
-            //datesList: JSON.stringify(datesList)
+            period: period
           },
         }" @click="validatePeriod(period)"></q-btn>
         <!-- <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn> -->
