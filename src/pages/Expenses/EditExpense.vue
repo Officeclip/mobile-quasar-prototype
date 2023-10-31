@@ -55,7 +55,7 @@ console.log('Edit expense get expense detail:', expenseDetail.value);
 
 const period = computed(() => {
   return expensePeriod.value.find(
-    (y) => y.start.toString() === expenseDetail.value.fromDate
+    (y) => y.start.toString() === expenseDetail.value?.fromDate
   );
 });
 

@@ -9,13 +9,13 @@ import {
   expenseDetails,
 } from '../../models/expense/expenseDetails';
 import axios from 'axios';
-import {Constants} from "stores/Constants";
+import { Constants } from 'stores/Constants';
 
 export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   state: () => ({
     expenseDetailsList: [] as expenseDetails[],
-    expenseDetails: [] as expenseDetails[],
-    //expenseDetails: undefined as expenseDetails | undefined,
+    //expenseDetails: [] as expenseDetails[],
+    expenseDetails: undefined as expenseDetails | undefined,
     //expenseDetails: [],
     airTravelExpense: undefined as airTravelExpense | undefined,
     //airTravelExpense: [],
@@ -64,8 +64,10 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         const response = await axios.get(
           `${Constants.endPointUrl}/expense-details?id=${id}`
         );
+        //console.log(`response.data[0]: ${response.data}`);
         if (response.data && response.data.length > 0) {
-          this.expenseDetails = response.data[0];
+          //this.expenseDetails = JSON.parse(JSON.stringify(response.data[0])); // see: https://stackoverflow.com/a/69204006/89256
+          this.expenseDetails = response.data[0]; // see: https://stackoverflow.com/a/69204006/89256
           console.log(
             `expenseDetailStore - getExpenseDetailById - expenseDetails: ${this.expenseDetails}`
           );
