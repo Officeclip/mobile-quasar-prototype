@@ -6,6 +6,7 @@ import dateTimeHelper from 'src/helpers/dateTimeHelper';
 const periodModel: any = ref('');
 const dateModel: any = ref('');
 const datesList: any = ref([]);
+const showDatesWarning = ref(false);
 
 const periodsList = computed(() => {
   return timesheetListStore.PeriodList;
@@ -20,7 +21,13 @@ watch([periodModel, datesList], () => {
   const startDate = periodModel.value.start;
   const endDate = periodModel.value.end;
   datesList.value = dateTimeHelper.populateDates(startDate, endDate);
+  showDatesWarning.value = false;
 });
+const checkDatesList = () => {
+  if (datesList.value.length === 0) {
+    showDatesWarning.value = true;
+  }
+};
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -52,15 +59,23 @@ watch([periodModel, datesList], () => {
               option-label="name"
           /></q-item>
           <pre>{{ dateModel }}</pre>
+          <p
+            v-if="showDatesWarning"
+            style="color: rgb(255, 149, 0); margin-top: 5px"
+          >
+            Warning: Please select the period first!
+          </p>
           <q-item>
             <q-select
+              @focus="checkDatesList"
               class="full-width"
               label="Dates"
               v-model="dateModel"
               :options="datesList"
               map-options
-              option-label="label" /></q-item
-          ><q-list>
+          /></q-item>
+
+          <q-list>
             <q-btn
               class="q-ma-md"
               label="Next"
