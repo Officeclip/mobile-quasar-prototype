@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import {computed, onBeforeMount, ref,Ref, watch} from 'vue';
+import {computed, onBeforeMount, ref, Ref, watch} from 'vue';
 import TaskSummaryItem from "components/tasks/TaskSummaryItem.vue";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import TaskAdvancedFilters from "components/tasks/taskAdvancedFilters.vue";
 import {searchFilter} from "src/models/task/searchFilter";
 
 
-let filterOptions:Ref<searchFilter> = ref({
+let filterOptions: Ref<searchFilter> = ref({
   filterString: '',
   ownedByMeFilter: false,
   assignedToMeFilter: false,
@@ -71,7 +71,8 @@ function clearFilterValues() {
     regarding: ''
   }
 }
-watch(filterOptions,(newValue, oldValue)=>{
+
+watch(filterOptions, (newValue, oldValue) => {
   console.log("watched")
   taskSummaryStore.getFilteredTasks(newValue, parent.parentObjectId, parent.parentObjectServiceType);
 });
@@ -117,32 +118,33 @@ function receiveAdvFilters(advancedOptions: any) {
     <q-space class="q-mt-sm"/>
     <q-page-container>
       <q-page>
-        <div class="q-pa-sm row text-center">
-          <div class="row">
+        <div class="q-pa-sm text-center">
+          <div>
             <q-input
               v-model="filterOptions.filterString"
               label="Search"
               outlined
             />
           </div>
-          <div class="column">
-            <div class="row">
-              <q-checkbox v-model="filterOptions.ownedByMeFilter" label="Owned by me"/>
-              <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
-            </div>
-            <div>
-              <q-btn class="q-ma-sm" label="Open Advanced Filters" @click="filterOptions.showAdvancedOptions = true"/>
-              <q-btn class="q-ma-sm" label="Reset Filters" @click="clearFilterValues"/>
-            </div>
+        </div>
+        <div class="column">
+          <div class="row">
+            <q-checkbox v-model="filterOptions.ownedByMeFilter" label="Owned by me"/>
+            <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
+          </div>
+          <div>
+            <q-btn class="q-ma-sm" label="Open  Filters" @click="filterOptions.showAdvancedOptions = true"/>
+            <q-btn class="q-ma-sm" label="Reset Filters" @click="clearFilterValues"/>
           </div>
         </div>
 
-        <q-list v-for="task in getSortedSummaries" :key="task.id" class="q-pa-xs">
+
+        <q-list v-for="task in getSortedSummaries" :key="task.id" class="q-pa-sm">
           <taskSummaryItem :task="task"/>
         </q-list>
 
         <q-dialog v-model="filterOptions.showAdvancedOptions">
-          <task-advanced-filters @advancedOptionsGenerated="receiveAdvFilters" :parent="parent"/>
+          <task-advanced-filters :parent="parent" @advancedOptionsGenerated="receiveAdvFilters"/>
         </q-dialog>
 
         <pre>{{ filterOptions }}</pre>
