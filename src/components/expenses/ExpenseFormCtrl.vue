@@ -1,101 +1,26 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <script setup>
-import { defineProps, ref, onMounted, onUpdated, computed, watch } from 'vue';
+import { defineProps, ref, onMounted, computed, watch } from 'vue';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
-import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import airTravelExpenseForm from '../expenses/expenseTypes/airTravelExpenseForm.vue';
 import autoRentalExpenseForm from '../expenses/expenseTypes/autoRentalExpenseForm.vue';
 
-// const periodOptions = ref([])
-// periodOptions.value = [
-//   '2023-07-31',
-//   '2023-07-24',
-//   '2023-07-17',
-//   '2023-07-10',
-//   '2023-07-03'
-// ]
-const dateOptions = ref([]);
-dateOptions.value = [
-  'Aug 27(Sun)',
-  'Aug 28(Mon)',
-  'Aug 29(Tue)',
-  'Aug 30(Wed)',
-  'Aug 31(Thu)',
-  'Sep 01(Fri)',
-  'Sep 02(Sat)',
-];
+const props = defineProps(['expenseDetail', 'period']);
 
-const sampleModel = ref([]);
-
-const period = ref('');
-
-const props = defineProps(['expenseDetail']);
-
-const test = ref('')
+const expenseTypeName = ref('')
 watch(
   () => props.expenseDetail,
   (newVal) => {
     if (newVal) {
-      test.value = props.expenseDetail.expenseTypeName
-      console.log(
-        'Data from parent to child is: ',
-        test.value
-      );
+      expenseTypeName.value = props.expenseDetail.expenseTypeName;
     }
   }
 );
-
-//const expenseTypeName = ref(props.expenseDetail.expenseTypeName);
-
-console.log('To test expense detail', props.expenseDetail)
-
-//const expenseTypeName = computed(() => {
-// debugger;
-// const expenseTypeName = props.expenseDetail.expenseTypeName;
-// console.log('To test expense name', expenseTypeName)
-// const expenseType = expenseTypeOptions.value.find(
-//   (x) => x.expenseTypeName === expenseTypeName.value
-// );
-// console.log('To test expense type', expenseType)
-// const isBillableModify = expenseType.isBillableModify;
-//return isBillableModify
-//console.log('Testing', test.value)
-//return test.value;
-//});
-
-// watch(expenseTypeName, (newValue, oldValue) => {
-//   console.log(`ExpenseType Name changed from ${oldValue} to ${newValue}`)
-// });
-
-// const expenseTypeObject = props.expenseDetail.
-
-// const expenseDetailsStore = useExpenseDetailsStore();
-
-// const editExpenseData = expenseDetailsStore.getExpenseDetailById(props.editExpenseId);
-
-// const expenseDetails = computed(() => {
-//   return editExpenseData.ExpenseDetails;
-// });
-
-
-// console.log('Edit expense details', expenseDetails.value)
-
-
 
 const expenseListsStore = useExpenseListsStore();
 
 onMounted(() => {
   expenseListsStore.getExpensesList();
-  //getOrgApplications(test);
-});
-
-onUpdated(() => {
-  const selectedValue = sampleModel.value.id;
-  console.log('getting the id from option:', selectedValue);
-});
-
-const periodOptions = computed(() => {
-  return expenseListsStore.PeriodList;
 });
 
 const customerProjectOptions = computed(() => {
@@ -110,78 +35,13 @@ const paymentTypeOptions = computed(() => {
   return expenseListsStore.PaymentTypes;
 });
 
-// const expenseTypeOptions1 = computed(() => {
-//   const expenseTypeName = 'AIRFARE';
-//   const relevantExpenseType = expenseTypeOptions.value.find(
-//     (x) => x.expenseTypeName === expenseTypeName
-//   );
-//   console.log('relevantExpenseType -', relevantExpenseType)
-//   const isBillableModify = relevantExpenseType ? relevantExpenseType.isBillableModify : null;
+const period = computed(() => {
+  return props.period;
+});
 
-//   console.log('Is billable modify -', isBillableModify)
-//   return isBillableModify;
-// })
-
-// console.log('Testing is billable modify -', expenseTypeOptions1.value)
-
-// function getIsBillableModifyValue(expenseTypeName) {
-//   const expenseTypeOption = '';
-//   forEach(expenseTypeOption in expenseTypeOptions){
-
-//   };
-// }
-
-// const billableOptions = ref([]);
-// billableOptions.value = [
-//   {
-//     label: 'Yes',
-//     value: true,
-//   },
-//   {
-//     label: 'No',
-//     value: false,
-//   },
-// ];
-
-/* const paymentMethod = ref([]);
-paymentMethod.value = [
-  {
-    label: 'Personal Cash/Check',
-    value: 1,
-  },
-  {
-    label: 'Personal CreditCard',
-    value: 2,
-  },
-  {
-    label: 'Company CreditCard',
-    value: 3,
-  },
-]; */
-
-/* const expenseTypes = ref([]);
-expenseTypes.value = [
-  {
-    id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
-    name: 'AUTORENTAL',
-  },
-  {
-    id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
-    name: 'AIRTRAVEL',
-  },
-  {
-    id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
-    name: 'HOTEL',
-  },
-]; */
-
-// const expenseDate = ref('');
-// expenseDate.value = dateTimeHelper.extractDateFromUtc(
-//   props.expense.expenseDate
-// );
-
-// const taskDate = ref('');
-// taskDate.value = 'July 20(Thu)';
+const datesList = computed(() => {
+  return expenseListsStore.getDatesBetweenStartEnd(period.value);
+});
 
 const airTravel = ref({
   arrivalAirport: '',
@@ -199,77 +59,42 @@ const autoRental = ref({
 
 const isBillableModify = ref(false);
 
-watch([test], ([newTest]) => {
-  getOrgApplications(newTest);
+const expenseTypeDefault = 'Select Expense Type';
+
+if (props.expenseDetail.expenseTypeName == '') {
+  props.expenseDetail.expenseTypeName = expenseTypeDefault;
+  isBillableModify.value = true;
+}
+
+watch([expenseTypeName], ([newTest]) => {
+  getExpenseTypeDetail(newTest);
 });
 
-function getOrgApplications(event) {
-  console.log('This is to test', test.value);
+function getExpenseTypeDetail(event) {
   if (event == null) {
-    event = test.value;
+    event = expenseTypeName.value;
   }
-  console.log('Testing event', event);
   const expenseType = expenseTypeOptions.value.find(
     (x) => x.expenseTypeName === event
   );
-  //console.log('Is Billable Modify - ', expenseType);
-  //console.log('Is Billable Modify value - ', expenseType.expenseTypeName);
+
   isBillableModify.value = expenseType.isBillableModify;
-  // if (newValue1) {
-  //   isBillableModify.value = false;
-  // }
-  // else {
-  //   isBillableModify.value = true;
-  // }
+  props.expenseDetail.billable = expenseType.isBillable;
 
   switch (event) {
     case 'AIRFARE':
-      // newValue1.value = expenseType.isBillableModify;
-      // if (newValue1.value == true) {
-      //   isBillableModify.value = false;
-      // }
-      // else {
-      //   isBillableModify.value = true;
-      // }
       props.expenseDetail.autoRentalExpense = null;
       break;
     case 'AUTORENTAL':
-      // newValue1.value = expenseType.isBillableModify;
-      // if (newValue1.value == true) {
-      //   isBillableModify.value = false;
-      // }
-      // else {
-      //   isBillableModify.value = true;
-      // }
       props.expenseDetail.airTravelExpense = null;
       break;
   }
-
 }
-
-//getOrgApplications(test.value);
-
-// const str = JSON.stringify(airTravel);
-// console.log(`onSubmit Expense Value: ${str}`);
-
-// const autoRental = ref([{
-//   rentalAgency: 'Sudhakar',
-//   city: 'Hyd',
-//   fromDate: '',
-//   toDate: '',
-// }]);
-
-// const autoRental = computed(() => {
-//   const data = props.expenseDetail.autoRentalExpense[0];
-//   console.log('ExpenseForm - autoRental', data);
-//   return data;
-// })
-
-//const expenseType = ref('');
-// eslint-disable-next-line vue/no-setup-props-destructure
-//expenseType.value = props.expenseDetail.expenseTypeName;
-
-// const selectedItem = ref('');
+// const storeDate = ref(props.expenseDetail.expenseDate);
+// const formattedStoreDate = ref('');
+// if (storeDate.value) {
+//   formattedStoreDate.value = storeDate.value.toLocaleDateString('en-US', { month: 'short', day: 'numeric', weekday: 'short' });
+// }
 </script>
 
 <template>
@@ -277,16 +102,19 @@ function getOrgApplications(event) {
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
-        <q-select label="Period" v-model="period" :options="periodOptions" map-options option-label="name" emit-label />
-
-        <q-select label="Expense Date" v-model="expenseDetail.expenseDate" :options="dateOptions" map-options
-          emit-label />
+        <q-item-label caption class="q-pt-md"> Period </q-item-label>
+        <q-item-label class="q-mb-sm">
+          {{ period }}
+        </q-item-label>
+        <q-select label="Expense Date" v-model="expenseDetail.expenseDate" :options="datesList" map-options
+          option-value="value" option-label="label" emit-value />
 
         <q-select label="Customer: Project" v-model="expenseDetail.projectName" :options="customerProjectOptions"
           option-label="name" option-value="name" map-options emit-value />
 
         <q-select label="Expense Type" v-model="expenseDetail.expenseTypeName" :options="expenseTypeOptions"
-          @update:model-value="getOrgApplications" option-label="expenseName" emit-value option-value="expenseTypeName"
+          :rules="[(val) => val !== expenseTypeDefault || 'Please select expense type..']"
+          @update:model-value="getExpenseTypeDetail" option-label="expenseName" emit-value option-value="expenseTypeName"
           map-options />
         <airTravelExpenseForm
           :airTravel="props.expenseDetail.airTravelExpense == null ? props.expenseDetail.airTravelExpense = airTravel : props.expenseDetail.airTravelExpense"

@@ -75,7 +75,42 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
       } catch (error) {
         console.error(error);
       }
-      console.log('expenseListStore > getExpensesList() - ended');
+      console.log('expenseListStore > getExpensesList() - ended', this.periods);
+    },
+
+    getDatesBetweenStartEnd(period: string) {
+      const expensePeriod = this.PeriodList.find((x) => x.name === period);
+      if (expensePeriod !== undefined) {
+        const dates = [];
+        let datesList = <Array<{ label: string; value: string }>>[];
+        const startDateUnix = new Date(expensePeriod?.start).getTime();
+        const endDateUnix = new Date(expensePeriod?.end).getTime();
+
+        // Calculate the difference between the start and end dates in days
+        const dayDifference =
+          (endDateUnix - startDateUnix) / (1000 * 60 * 60 * 24);
+
+        // Iterate over the days and add them to the array
+        for (let i = 0; i <= dayDifference; i++) {
+          const date = new Date(startDateUnix + i * 1000 * 60 * 60 * 24);
+          dates.push(date);
+        }
+
+        const formattedDates = dates.map((date) => {
+          return {
+            label: `${date.toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+            })}(${date.toLocaleDateString('en-US', { weekday: 'short' })})`,
+            value: date.toISOString(),
+          };
+        });
+
+        console.log('testing dates', datesList);
+        datesList = formattedDates;
+        // Return the array of dates
+        return datesList;
+      }
     },
 
     /*     async getExpenseListAll() {

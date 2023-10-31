@@ -1,21 +1,19 @@
 <script setup lang="ts">
 import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
-import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
-import { expenseDetails } from 'src/models/expense/expenseDetails';
-// import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const router = useRouter();
 const route = useRoute();
-const expenseDetailsStore = useExpenseDetailsStore();
 
-const expenseId = route.params.id;
+const period = computed(() => {
+  return route.params.period;
+});
 
 const expenseDetail = ref({
   accountName: '',
-  id: expenseId,
-  amount: '',
+  id: '',
+  amount: Number(''),
   billable: true,
   comments: '',
   description: '',
@@ -29,8 +27,9 @@ const expenseDetail = ref({
   expenseTypeSid: '',
   projectName: '',
   projectSid: '',
-  tax: '',
+  tax: Number(''),
   paymentType: '',
+  fromDate: '',
   autoRentalExpense: null,
   airTravelExpense: null,
   hotelExpense: null,
@@ -61,6 +60,7 @@ function onSubmit(e: any) {
     projectSid: expenseDetail.value.projectSid,
     tax: expenseDetail.value.tax,
     paymentType: expenseDetail.value.paymentType,
+    fromDate: expenseDetail.value.fromDate,
     autoRentalExpense: expenseDetail.value.autoRentalExpense,
     airTravelExpense: expenseDetail.value.airTravelExpense,
     hotelExpense: expenseDetail.value.hotelExpense,
@@ -88,10 +88,7 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <!-- <pre>
-            {{ expenseDetail }}
-          </pre> -->
-          <ExpenseForm :expenseDetail="expenseDetail" />
+          <ExpenseForm :expenseDetail="expenseDetail" :period="period" />
           <q-btn class="q-ml-md q-mb-md q-mt-md" label="Submit" type="submit" color="primary"></q-btn>
           <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
         </div>

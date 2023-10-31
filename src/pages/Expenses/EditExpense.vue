@@ -1,8 +1,10 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { onMounted, computed, onBeforeMount } from 'vue';
+import { onMounted, computed, onBeforeMount, ref, watch } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
+import { useExpenseSummaryStore } from '../../stores/expense/expenseSummaryStore';
+import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useRouter, useRoute } from 'vue-router';
 import {
   airTravelExpense,
@@ -11,25 +13,59 @@ import {
   mileageExpense,
   taxiExpense,
   telephoneExpense,
-  expenseDetails
+  expenseDetails,
 } from '../../models/expense/expenseDetails';
-import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue'
+import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
 import TestForm from '../../components/TestForm.vue';
 
 const expenseDetailsStore = useExpenseDetailsStore();
+const expenseSummaryStore = useExpenseSummaryStore();
+const expenseListStore = useExpenseListsStore();
 
 const router = useRouter();
 const route = useRoute();
 
-const editExpenseId = route.params.id;
+const id = computed(() => {
+  return route.params.id;
+});
+
+const expenseId = computed(() => {
+  return route.params.expenseSid;
+});
+
+console.log('Edit expense by Id', id.value);
 
 onMounted(() => {
-  expenseDetailsStore.getExpenseDetailById(route.params.id);
+  expenseDetailsStore.getExpenseDetailById(id.value);
+  expenseSummaryStore.getExpenseSummaryById(expenseId.value);
+  expenseListStore.getExpensesList();
 });
 
 const expenseDetail = computed(() => {
   return expenseDetailsStore.ExpenseDetails;
 });
+
+console.log('Edit expense get expense detail:', expenseDetail.value);
+
+const expenseSummary = computed(() => {
+  return expenseSummaryStore.ExpenseSummaryById;
+});
+
+const expensePeriod = computed(() => {
+  return expenseListStore.PeriodList;
+});
+
+console.log('Edit expense get period list:', expensePeriod.value);
+
+//const period = expensePeriod.find((y) => y.start.toString() === expenseDetail.value.fromDate)
+
+const period = computed(() => {
+  return expensePeriod.value.find(
+    (y) => y.start.toString() === expenseDetail.value?.fromDate
+  );
+});
+
+console.log('Edit expense get period:', period);
 
 function onSubmit(e: any) {
   e.preventDefault();
@@ -38,10 +74,9 @@ function onSubmit(e: any) {
   const taskDate = formData.get('newtaskDate');
 
   const editExpense: expenseDetails = {
-
     accountName: expenseDetail.value?.accountName as string,
     accountSid: expenseDetail.value?.accountSid as string,
-    amount: expenseDetail.value?.amount as number,
+    amount: Number(expenseDetail.value?.amount),
     billable: expenseDetail.value?.billable as boolean,
     comments: expenseDetail.value?.comments as string,
     description: expenseDetail.value?.description as string,
@@ -56,14 +91,16 @@ function onSubmit(e: any) {
     expenseTypeSid: expenseDetail.value?.expenseTypeSid as string,
     projectName: expenseDetail.value?.projectName as string,
     projectSid: expenseDetail.value?.projectSid as string,
-    tax: expenseDetail.value?.tax as number,
+    tax: Number(expenseDetail.value?.tax),
     paymentType: expenseDetail.value?.paymentType as string,
-    autoRentalExpense: expenseDetail.value?.autoRentalExpense as autoRentalExpense,
+    fromDate: expenseDetail.value?.fromDate as string,
+    autoRentalExpense: expenseDetail.value
+      ?.autoRentalExpense as autoRentalExpense,
     airTravelExpense: expenseDetail.value?.airTravelExpense as airTravelExpense,
     hotelExpense: expenseDetail.value?.hotelExpense as hotelExpense,
     mileageExpense: expenseDetail.value?.mileageExpense as mileageExpense,
     telephoneExpense: expenseDetail.value?.telephoneExpense as telephoneExpense,
-    taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense
+    taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense,
   };
 
   expenseDetailsStore.editExpense(editExpense);
@@ -85,9 +122,9 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <ExpenseForm :expenseDetail="expenseDetail" />
-          <!-- <pre>{{ expenseForm }}</pre> -->
-          <!-- <TestForm :expenseForm="expenseForm" /> -->
+          <!-- <ExpenseForm :expenseDetail="expenseDetail" :period="period?.name" /> -->
+          <!-- <pre>{{ expenseDetail?.accountName }}</pre> -->
+          <TestForm :testProps="expenseDetail" />
           <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>

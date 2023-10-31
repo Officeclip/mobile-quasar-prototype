@@ -1,18 +1,10 @@
 <script setup>
-import { defineProps, ref, onMounted, onUpdated } from 'vue';
+import { defineProps, ref, onBeforeMount, computed } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 
 const props = defineProps(['timesheet']);
 
-// const periodOptions = ref([])
-// periodOptions.value = [
-//   '2023-07-31',
-//   '2023-07-24',
-//   '2023-07-17',
-//   '2023-07-10',
-//   '2023-07-03'
-// ]
 const dateOptions = ref([]);
 dateOptions.value = [
   'Aug 27(Sun)',
@@ -25,21 +17,15 @@ dateOptions.value = [
 ];
 
 const sampleModel = ref(null);
-const sampleModel2 = ref('');
+// const sampleModel2 = ref('');
 
 const timesheetListStore = useTimesheetListStore();
 
-onMounted(() => {
+onBeforeMount(() => {
   timesheetListStore.getTimesheetListAll();
 });
 
-onUpdated(() => {
-  const selectedValue = sampleModel.value.id;
-  console.log('getting the id from option:', selectedValue);
-});
-
-const periodOptions = ref('');
-periodOptions.value = timesheetListStore.periodList;
+const periodOptions = timesheetListStore.PeriodList;
 
 const customerProjectOptions = ref('');
 customerProjectOptions.value = timesheetListStore.CustomerProjectsList;
@@ -65,11 +51,13 @@ billableOptions.value = [
   },
 ];
 
-const createdDate = ref('');
-createdDate.value = dateTimeHelper.extractDateFromUtc(
+const createdDate = dateTimeHelper.extractDateFromUtc(
   props.timesheet.createdDate
 );
 
+const newData = computed(() => {
+  return dateTimeHelper.extractDateFromUtc(props.timesheet.createdDate);
+});
 const taskDate = ref('');
 taskDate.value = 'July 20(Thu)';
 </script>
@@ -80,17 +68,16 @@ taskDate.value = 'July 20(Thu)';
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
         <q-select
-          name="newcreatedDate"
           label="Period"
-          v-model="createdDate"
+          :model-value="newData"
           :options="periodOptions"
           map-options
           option-label="name"
-          emit-label
+          option-value="start"
+          emit-value
         />
 
         <q-select
-          name="newtaskDate"
           label="Date"
           v-model="taskDate"
           :options="dateOptions"
@@ -107,14 +94,14 @@ taskDate.value = 'July 20(Thu)';
           map-options
           @update:model-value="handleSelectChange"
         />
-
         <q-select
           label="ServiceItems"
-          v-model="sampleModel2"
+          v-model="props.timesheet.serviceItemName"
           :options="serviceItemsOptions"
           option-label="name"
-          option-value="id"
+          option-value="name"
           map-options
+          emit-value
         />
 
         <q-select
