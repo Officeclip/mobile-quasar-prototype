@@ -94,7 +94,7 @@ const period = computed(() => {
 });
 
 const datesList = computed(() => {
-  return expenseListsStore.getDatesBetweenStartEnd(period);
+  return expenseListsStore.getDatesBetweenStartEnd(period.value);
 });
 
 // const expenseTypeOptions1 = computed(() => {
@@ -277,10 +277,10 @@ const date = ref('');
         <q-item-label class="q-mb-sm">
           {{ period }}
         </q-item-label>
-        <q-select label="Dates" v-model="date" :options="datesList" map-options option-value="value" option-label="label"
-          emit-value />
-        <q-select label="Expense Date" v-model="expenseDetail.expenseDate" :options="dateOptions" map-options
-          emit-label />
+        <q-select label="Expense Date" v-model="expenseDetail.expenseDate" :options="datesList" map-options
+          option-value="value" option-label="label" emit-value />
+        <!-- <q-select label="Expense Date" v-model="expenseDetail.expenseDate" :options="dateOptions" map-options
+          emit-label /> -->
 
         <q-select label="Customer: Project" v-model="expenseDetail.projectName" :options="customerProjectOptions"
           option-label="name" option-value="name" map-options emit-value />
