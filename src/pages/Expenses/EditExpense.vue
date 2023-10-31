@@ -76,7 +76,7 @@ function onSubmit(e: any) {
   const editExpense: expenseDetails = {
     accountName: expenseDetail.value?.accountName as string,
     accountSid: expenseDetail.value?.accountSid as string,
-    amount: expenseDetail.value?.amount as number,
+    amount: Number(expenseDetail.value?.amount),
     billable: expenseDetail.value?.billable as boolean,
     comments: expenseDetail.value?.comments as string,
     description: expenseDetail.value?.description as string,
@@ -91,7 +91,7 @@ function onSubmit(e: any) {
     expenseTypeSid: expenseDetail.value?.expenseTypeSid as string,
     projectName: expenseDetail.value?.projectName as string,
     projectSid: expenseDetail.value?.projectSid as string,
-    tax: expenseDetail.value?.tax as number,
+    tax: Number(expenseDetail.value?.tax),
     paymentType: expenseDetail.value?.paymentType as string,
     fromDate: expenseDetail.value?.fromDate as string,
     autoRentalExpense: expenseDetail.value
@@ -122,9 +122,9 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <ExpenseForm :expenseDetail="expenseDetail" :period="period?.name" />
+          <!-- <ExpenseForm :expenseDetail="expenseDetail" :period="period?.name" /> -->
           <!-- <pre>{{ expenseDetail?.accountName }}</pre> -->
-          <!-- <TestForm :testProps="expenseDetail" /> -->
+          <TestForm :testProps="expenseDetail" />
           <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>

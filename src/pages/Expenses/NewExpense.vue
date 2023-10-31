@@ -13,7 +13,7 @@ const period = computed(() => {
 const expenseDetail = ref({
   accountName: '',
   id: '',
-  amount: '',
+  amount: Number(''),
   billable: true,
   comments: '',
   description: '',
@@ -27,7 +27,7 @@ const expenseDetail = ref({
   expenseTypeSid: '',
   projectName: '',
   projectSid: '',
-  tax: '',
+  tax: Number(''),
   paymentType: '',
   fromDate: '',
   autoRentalExpense: null,

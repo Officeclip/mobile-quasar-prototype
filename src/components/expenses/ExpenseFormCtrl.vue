@@ -1,29 +1,9 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <script setup>
-import { defineProps, ref, onMounted, onUpdated, computed, watch } from 'vue';
+import { defineProps, ref, onMounted, computed, watch } from 'vue';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
-import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import airTravelExpenseForm from '../expenses/expenseTypes/airTravelExpenseForm.vue';
 import autoRentalExpenseForm from '../expenses/expenseTypes/autoRentalExpenseForm.vue';
-
-// const periodOptions = ref([])
-// periodOptions.value = [
-//   '2023-07-31',
-//   '2023-07-24',
-//   '2023-07-17',
-//   '2023-07-10',
-//   '2023-07-03'
-// ]
-const dateOptions = ref([]);
-dateOptions.value = [
-  'Aug 27(Sun)',
-  'Aug 28(Mon)',
-  'Aug 29(Tue)',
-  'Aug 30(Wed)',
-  'Aug 31(Thu)',
-  'Sep 01(Fri)',
-  'Sep 02(Sat)',
-];
 
 const props = defineProps(['expenseDetail', 'period']);
 
@@ -36,40 +16,6 @@ watch(
     }
   }
 );
-
-//const expenseTypeName = ref(props.expenseDetail.expenseTypeName);
-//const expenseTypeName = computed(() => {
-// debugger;
-// const expenseTypeName = props.expenseDetail.expenseTypeName;
-// console.log('To test expense name', expenseTypeName)
-// const expenseType = expenseTypeOptions.value.find(
-//   (x) => x.expenseTypeName === expenseTypeName.value
-// );
-// console.log('To test expense type', expenseType)
-// const isBillableModify = expenseType.isBillableModify;
-//return isBillableModify
-//console.log('Testing', test.value)
-//return test.value;
-//});
-
-// watch(expenseTypeName, (newValue, oldValue) => {
-//   console.log(`ExpenseType Name changed from ${oldValue} to ${newValue}`)
-// });
-
-// const expenseTypeObject = props.expenseDetail.
-
-// const expenseDetailsStore = useExpenseDetailsStore();
-
-// const editExpenseData = expenseDetailsStore.getExpenseDetailById(props.editExpenseId);
-
-// const expenseDetails = computed(() => {
-//   return editExpenseData.ExpenseDetails;
-// });
-
-
-// console.log('Edit expense details', expenseDetails.value)
-
-
 
 const expenseListsStore = useExpenseListsStore();
 
@@ -96,79 +42,6 @@ const period = computed(() => {
 const datesList = computed(() => {
   return expenseListsStore.getDatesBetweenStartEnd(period.value);
 });
-
-// const expenseTypeOptions1 = computed(() => {
-//   const expenseTypeName = 'AIRFARE';
-//   const relevantExpenseType = expenseTypeOptions.value.find(
-//     (x) => x.expenseTypeName === expenseTypeName
-//   );
-//   console.log('relevantExpenseType -', relevantExpenseType)
-//   const isBillableModify = relevantExpenseType ? relevantExpenseType.isBillableModify : null;
-
-//   console.log('Is billable modify -', isBillableModify)
-//   return isBillableModify;
-// })
-
-// console.log('Testing is billable modify -', expenseTypeOptions1.value)
-
-// function getIsBillableModifyValue(expenseTypeName) {
-//   const expenseTypeOption = '';
-//   forEach(expenseTypeOption in expenseTypeOptions){
-
-//   };
-// }
-
-// const billableOptions = ref([]);
-// billableOptions.value = [
-//   {
-//     label: 'Yes',
-//     value: true,
-//   },
-//   {
-//     label: 'No',
-//     value: false,
-//   },
-// ];
-
-/* const paymentMethod = ref([]);
-paymentMethod.value = [
-  {
-    label: 'Personal Cash/Check',
-    value: 1,
-  },
-  {
-    label: 'Personal CreditCard',
-    value: 2,
-  },
-  {
-    label: 'Company CreditCard',
-    value: 3,
-  },
-]; */
-
-/* const expenseTypes = ref([]);
-expenseTypes.value = [
-  {
-    id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
-    name: 'AUTORENTAL',
-  },
-  {
-    id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
-    name: 'AIRTRAVEL',
-  },
-  {
-    id: '4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ',
-    name: 'HOTEL',
-  },
-]; */
-
-// const expenseDate = ref('');
-// expenseDate.value = dateTimeHelper.extractDateFromUtc(
-//   props.expense.expenseDate
-// );
-
-// const taskDate = ref('');
-// taskDate.value = 'July 20(Thu)';
 
 const airTravel = ref({
   arrivalAirport: '',
@@ -217,54 +90,10 @@ function getExpenseTypeDetail(event) {
       break;
   }
 }
-
-const date = ref('');
-// const datesList = ref([]);
-
-// const getDatesBetween = (startDate, endDate) => {
-//   const dates = [];
-
-//   const startDateUnix = new Date(startDate).getTime();
-//   const endDateUnix = new Date(endDate).getTime();
-
-//   // Calculate the difference between the start and end dates in days
-//   const dayDifference = (endDateUnix - startDateUnix) / (1000 * 60 * 60 * 24);
-
-//   // Iterate over the days and add them to the array
-//   for (let i = 0; i <= dayDifference; i++) {
-//     const date = new Date(startDateUnix + (i * 1000 * 60 * 60 * 24));
-//     dates.push(date);
-//   }
-
-//   const formattedDates = dates.map((date) => {
-//     return {
-//       label: `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}(${date.toLocaleDateString('en-US', { weekday: 'short' })})`,
-//       value: date.toISOString(),
-//     };
-//   });
-
-//   datesList.value = formattedDates;
-
-//   console.log('testing dates', formattedDates)
-
-//   // Return the array of dates
-//   return formattedDates;
-// };
-
-
-// const getDatesBetweenStartEnd = () => {
-
-//   const expensePeriod = periodOptions.value.find(
-//     (x) => x.name === props.period.value
-//   );
-
-//   const dateStart = expensePeriod?.start;
-//   const dateEnd = expensePeriod?.end;
-
-//   console.log('Dates between start and end', dateStart, dateEnd)
-
-//   getDatesBetween(dateStart, dateEnd);
-
+// const storeDate = ref(props.expenseDetail.expenseDate);
+// const formattedStoreDate = ref('');
+// if (storeDate.value) {
+//   formattedStoreDate.value = storeDate.value.toLocaleDateString('en-US', { month: 'short', day: 'numeric', weekday: 'short' });
 // }
 </script>
 
@@ -279,8 +108,6 @@ const date = ref('');
         </q-item-label>
         <q-select label="Expense Date" v-model="expenseDetail.expenseDate" :options="datesList" map-options
           option-value="value" option-label="label" emit-value />
-        <!-- <q-select label="Expense Date" v-model="expenseDetail.expenseDate" :options="dateOptions" map-options
-          emit-label /> -->
 
         <q-select label="Customer: Project" v-model="expenseDetail.projectName" :options="customerProjectOptions"
           option-label="name" option-value="name" map-options emit-value />

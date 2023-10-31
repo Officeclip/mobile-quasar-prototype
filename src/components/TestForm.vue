@@ -4,7 +4,7 @@ import { computed, onMounted, ref } from 'vue';
 
 const props = defineProps(['testProps']);
 
-const accountName = computed(() => {
+const testProps = computed(() => {
   return props.testProps;
 });
 </script>
@@ -13,9 +13,9 @@ const accountName = computed(() => {
   <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <pre>
-  Account Name: {{ accountName }}
+  Account Name: {{ testProps }}
 </pre>
-    <q-input label="Account Name:" v-model="accountName.value.accountName" placeholder="enter here...">
+    <q-input label="Account Name:" v-model="testProps.accountName" placeholder="enter here...">
     </q-input>
   </div>
 </template>
