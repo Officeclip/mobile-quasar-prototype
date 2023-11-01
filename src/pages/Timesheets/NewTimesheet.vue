@@ -17,7 +17,7 @@ const timesheetStore = useTimesheetsStore();
 // const selectedPeriod = computed(() => {
 //   return timesheetListStore.SelectedPeriod;
 // });
-const timesheet: TimesheetDetails = ref({
+const TimesheetDetails = ref({
   id: Number(),
   timeDuration: Number(),
   isBillable: true,
@@ -42,9 +42,7 @@ const timesheet: TimesheetDetails = ref({
 });
 function onSubmit(e: any) {
   e.preventDefault();
-  // const newTimesheet = timesheet;
-  const newTimesheet = ref(timesheet);
-  console.log('new timesheet form values FFFFFF: ', newTimesheet.value);
+  const newTimesheet = ref(TimesheetDetails);
   timesheetStore.addTimesheetDetails(newTimesheet.value);
   router.push('/');
 }
@@ -70,8 +68,8 @@ function onSubmit(e: any) {
         <q-list>
           <q-form @submit="onSubmit" class="q-gutter-md">
             <TimesheetForm
-              v-if="timesheet"
-              :timesheet="timesheet"
+              v-if="TimesheetDetails"
+              :timesheet="TimesheetDetails"
               :periodName="periodName"
             />
             <q-btn label="Submit" type="submit" color="primary"></q-btn>
