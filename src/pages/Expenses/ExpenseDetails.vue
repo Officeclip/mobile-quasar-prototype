@@ -23,33 +23,53 @@ const expenseDetailsStore = useExpenseDetailsStore();
 //const expenseListStore = useExpenseListsStore();
 
 onMounted(() => {
-  expenseDetailsStore.getExpenseDetails(expenseDetailId.value);
-  // expenseDetailsStore.getExpenseDetailById(
-  //   'GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ1'
-  // );
+  const route = useRoute();
+  console.log('Expense Detail Id from route', route.params.id);
+  expenseDetailsStore.getExpenseDetails(route.params.id);
+  expenseDetailsStore.getExpenseDetailById(
+    'GJJBNHFCCCVEWCA3AZGYY69S5GFB669SF4TM6LQ1'
+  );
   //expenseListStore.getExpensesList();
+});
+
+const testMe = computed(() => {
+  // debugger;
+  return expenseDetailsStore.expenseDetails;
 });
 
 const expenseDetails = computed(() => {
   return expenseDetailsStore.expenseDetailsList;
 });
 
-console.log('Expense details in expense details', expenseDetails)
-
+console.log('Expense details in expense details', expenseDetails);
 </script>
 
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title> Expense Details </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
     <q-page-container class="q-ma-sm">
-      <q-list v-for="expenseDetail in expenseDetails" :key="expenseDetail.id" class="rounded-borders q-my-md bg-grey-3">
+      <q-list
+        v-for="expenseDetail in expenseDetails"
+        :key="expenseDetail.id"
+        class="rounded-borders q-my-md bg-grey-3"
+      >
+        <!-- <pre>xxx:{{ testMe?.accountName }}</pre> -->
+        <TestForm :testProps="testMe"></TestForm>
+
         <q-expansion-item expand-separator expand-icon-class="text-primary">
           <template v-slot:header>
             <q-item-section>
@@ -60,10 +80,10 @@ console.log('Expense details in expense details', expenseDetails)
               <q-item-label caption>
                 {{
                   expenseDetail.expenseDate
-                  ? dateTimeHelper.extractDateFromUtc(
-                    expenseDetail.expenseDate
-                  )
-                  : 'No Specific Date'
+                    ? dateTimeHelper.extractDateFromUtc(
+                        expenseDetail.expenseDate
+                      )
+                    : 'No Specific Date'
                 }}
               </q-item-label>
             </q-item-section>
@@ -71,13 +91,21 @@ console.log('Expense details in expense details', expenseDetails)
             <q-item-section side flex>
               <q-item-label caption>
                 {{ expenseDetail.amount }}
-                <q-btn :to="{
-                  name: 'editExpense',
-                  params: {
-                    id: expenseDetail?.id,
-                    expenseSid: expenseDetail?.expenseSid,
-                  },
-                }" size="sm" flat round dense icon="edit" class="q-ml-sm">
+                <q-btn
+                  :to="{
+                    name: 'editExpense',
+                    params: {
+                      id: expenseDetail?.id,
+                      expenseSid: expenseDetail?.expenseSid,
+                    },
+                  }"
+                  size="sm"
+                  flat
+                  round
+                  dense
+                  icon="edit"
+                  class="q-ml-sm"
+                >
                 </q-btn>
               </q-item-label>
             </q-item-section>
@@ -99,9 +127,15 @@ console.log('Expense details in expense details', expenseDetails)
               {{ expenseDetail.description }}
             </q-item-label>
 
-            <autoRentalExpense v-if="expenseDetail.autoRentalExpense" :expense="expenseDetail.autoRentalExpense" />
+            <autoRentalExpense
+              v-if="expenseDetail.autoRentalExpense"
+              :expense="expenseDetail.autoRentalExpense"
+            />
 
-            <airTravelExpense v-if="expenseDetail.airTravelExpense" :expense="expenseDetail.airTravelExpense" />
+            <airTravelExpense
+              v-if="expenseDetail.airTravelExpense"
+              :expense="expenseDetail.airTravelExpense"
+            />
 
             <!-- <hotelExpense v-if="expenseDetail.hotelExpense" :expense="expenseDetail.hotelExpense" />
 
@@ -114,18 +148,32 @@ console.log('Expense details in expense details', expenseDetails)
 
           <q-item-section side flex>
             <q-item-label>
-              <q-btn @click="
-                expenseDetailsStore.deleteExpense(expenseDetail?.id);
-              $router.go(-1);
-              " size="sm" flat round dense icon="delete" class="q-mr-sm q-mb-sm"></q-btn>
+              <q-btn
+                @click="
+                  expenseDetailsStore.deleteExpense(expenseDetail?.id);
+                  $router.go(-1);
+                "
+                size="sm"
+                flat
+                round
+                dense
+                icon="delete"
+                class="q-mr-sm q-mb-sm"
+              ></q-btn>
             </q-item-label>
           </q-item-section>
         </q-expansion-item>
       </q-list>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn :to="{
-          name: 'newExpense',
-        }" fab icon="add" color="accent" padding="sm">
+        <q-btn
+          :to="{
+            name: 'newExpense',
+          }"
+          fab
+          icon="add"
+          color="accent"
+          padding="sm"
+        >
         </q-btn>
       </q-page-sticky>
     </q-page-container>

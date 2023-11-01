@@ -114,7 +114,14 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title>Edit Expense</q-toolbar-title>
       </q-toolbar>
@@ -125,7 +132,12 @@ function onSubmit(e: any) {
           <!-- <ExpenseForm :expenseDetail="expenseDetail" :period="period?.name" /> -->
           <!-- <pre>{{ expenseDetail?.accountName }}</pre> -->
           <TestForm :testProps="expenseDetail" />
-          <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
+          <q-btn
+            class="q-ml-md q-mb-md"
+            label="Submit"
+            type="submit"
+            color="primary"
+          >
           </q-btn>
         </div>
       </q-form>

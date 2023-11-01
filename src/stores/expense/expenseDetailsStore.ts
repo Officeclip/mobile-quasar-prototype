@@ -28,6 +28,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
 
     // expenseDetails: [] as ExpenseDetail[],
     // expenseDetail: undefined as ExpenseDetail | undefined,
+    isLoading: false,
   }),
 
   getters: {
@@ -39,6 +40,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     MileageExpense: (state) => state.mileageExpense,
     TaxiExpense: (state) => state.taxiExpense,
     TelephoneExpense: (state) => state.telephoneExpense,
+    IsLoading: (state) => state.isLoading,
   },
 
   actions: {
@@ -56,6 +58,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     },
 
     async getExpenseDetailById(id: string | string[]) {
+      this.isLoading = true;
       console.log(
         'expenseDetailsStore.ts > getExpenseDetailById - started: ',
         id
@@ -75,6 +78,8 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       } catch (error) {
         alert(error);
         console.log(error);
+      } finally {
+        this.isLoading = false;
       }
       console.log('expenseDetailsStore.ts> getExpenseDetailById - ended');
     },
