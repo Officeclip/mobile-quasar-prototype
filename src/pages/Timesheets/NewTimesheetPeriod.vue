@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
-import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 const periodModel: any = ref('');
-const dateModel: any = ref('');
-const datesList: any = ref([]);
-const showDatesWarning = ref(false);
-
+// const periodModel1 = {
+//   end: '2023-12-16T00:00:00+05:30',
+//   name: 'Dec 03, 2023 - Dec 16, 2023',
+//   start: '2023-12-03T00:00:00+05:30',
+// };
 const periodsList = computed(() => {
   return timesheetListStore.PeriodList;
 });
@@ -16,18 +16,17 @@ onMounted(() => {
   timesheetListStore.getTimesheetListAll();
 });
 
-watch([periodModel, datesList], () => {
-  dateModel.value = '';
-  const startDate = periodModel.value.start;
-  const endDate = periodModel.value.end;
-  datesList.value = dateTimeHelper.populateDates(startDate, endDate);
-  showDatesWarning.value = false;
-});
-const checkDatesList = () => {
-  if (datesList.value.length === 0) {
-    showDatesWarning.value = true;
-  }
-};
+// timesheetListStore.selectedPeriod = computed(() => {
+//   return periodModel.value != '' ? periodModel.value : 'ERROR';
+// });
+
+// watch([periodModel, datesList], () => {
+//   dateModel.value = '';
+//   const startDate = periodModel.value.start;
+//   const endDate = periodModel.value.end;
+//   datesList.value = dateTimeHelper.populateDates(startDate, endDate);
+//   showDatesWarning.value = false;
+// });
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -58,23 +57,6 @@ const checkDatesList = () => {
               map-options
               option-label="name"
           /></q-item>
-          <pre>{{ dateModel }}</pre>
-          <p
-            v-if="showDatesWarning"
-            style="color: rgb(255, 149, 0); margin-top: 5px"
-          >
-            Warning: Please select the period first!
-          </p>
-          <q-item>
-            <q-select
-              @focus="checkDatesList"
-              class="full-width"
-              label="Dates"
-              v-model="dateModel"
-              :options="datesList"
-              map-options
-          /></q-item>
-
           <q-list>
             <q-btn
               class="q-ma-md"
@@ -82,7 +64,9 @@ const checkDatesList = () => {
               color="primary"
               :to="{
                 name: 'newTimesheet',
-                params: {},
+                params: {
+                  periodName: periodModel.name,
+                },
               }"
             ></q-btn></q-list
         ></q-list>
@@ -90,5 +74,3 @@ const checkDatesList = () => {
     </q-page-container>
   </q-layout>
 </template>
-
-<style scoped></style>

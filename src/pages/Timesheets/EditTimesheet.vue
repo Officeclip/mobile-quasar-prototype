@@ -24,10 +24,6 @@ const timesheet = computed(() => {
 
 function onSubmit(e: any) {
   e.preventDefault();
-  // const formData = new FormData(e.target);
-  // const createdDate = formData.get('newcreatedDate');
-  // const taskDate = formData.get('newtaskDate');
-  // console.log(`onSubmit Task Value: ${timesheet.value}`);
   const newData: any = timesheet?.value;
 
   const newTimesheet: TimesheetDetails = {
@@ -72,13 +68,13 @@ function onSubmit(e: any) {
           icon="arrow_back"
         >
         </q-btn>
-        <q-toolbar-title> Edit Task</q-toolbar-title>
+        <q-toolbar-title> Edit Timesheet</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <TimesheetForm :timesheet="timesheet" />
+          <TimesheetForm v-if="timesheet" :timesheet="timesheet" />
           <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"

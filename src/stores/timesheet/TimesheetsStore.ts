@@ -10,7 +10,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     timesheet: undefined as Timesheet | undefined,
 
     timesheetDetails: [] as TimesheetDetails[],
-    timesheetDetail: [] as TimesheetDetails[],
+    timesheetDetail: undefined as TimesheetDetails | undefined,
   }),
 
   getters: {
@@ -133,6 +133,16 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       } catch (error) {
         console.error(`deleteTimesheet Error: ${error}`);
       }
+    },
+
+    async addTimesheetDetails(timesheetDetail: TimesheetDetails) {
+      const callStr = `${Constants.endPointUrl}/timesheet-details`;
+      await fetch(callStr, {
+        method: 'POST',
+        body: JSON.stringify(timesheetDetail),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log(this.timesheetDetail);
     },
   },
 });

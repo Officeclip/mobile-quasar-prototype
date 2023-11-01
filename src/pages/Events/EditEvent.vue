@@ -104,6 +104,7 @@ function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <EventForm
+            v-if="event"
             :event="event"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"

@@ -73,56 +73,58 @@ function onSubmit(e: any) {
   // const end = formData.get('endDateTime');
   // console.log(`EditEvent: startDateTime: ${start}, ${end}`);
 
-  const startDateTime = event.value?.startDateTime;
-  const newStartDateTime = dateTimeHelper.convertLocalDateToUTC(startDateTime);
+  // not sure already it has converted in the form cntrl
+  // const startDateTime = event.value?.startDateTime;
+  // const newStartDateTime = dateTimeHelper.convertLocalDateToUTC(startDateTime);
 
-  const endDateTime = event.value?.endDateTime;
-  const newEndDateTime = dateTimeHelper.convertLocalDateToUTC(endDateTime);
+  // const endDateTime = event.value?.endDateTime;
+  // const newEndDateTime = dateTimeHelper.convertLocalDateToUTC(endDateTime);
 
-  if (!event.value.eventName) {
-    alert('Please add text');
-    return;
-  }
+  // if (!event.value.eventName) {
+  //   alert('Please add text');
+  //   return;
+  // }
 
-  const newEventDetails: eventDetails = {
-    id: event.value.id,
-    parentServiceType: event.value.parentServiceType,
-    eventType: event.value.eventType,
-    eventName: event.value.eventName,
-    eventDescription: event.value.eventDescription,
-    startDateTime: newStartDateTime,
-    endDateTime: newEndDateTime,
-    isAllDayEvent: event.value.isAllDayEvent,
-    eventLocation: event.value.eventLocation,
-    createdDate: event.value.createdDate,
-    createdGroupSId: event.value.createdGroupSId,
-    createdUserSid: event.value.createdUserSid,
-    parentSid: event.value.parentSid,
-    eventUserSid: event.value.eventUserSid,
-    isRsvp: event.value.isRsvp,
-    sendNotifications: event.value.sendNotifications,
-    repeatInfoText: event.value.repeatInfoText,
-    recurrenceRule: event.value.recurrenceRule,
-    modifiedDate: event.value.modifiedDate,
-    modifiedUserSid: event.value.modifiedUserSid,
-    timezoneId: event.value.timezoneId,
-    remindTo: event.value.remindTo,
-    remindBeforeMinutes: event.value.remindBeforeMinutes,
-    label: event.value.label,
-    meetingAttendees: event.value.meetingAttendees,
-    url: event.value.url,
-  };
+  // const newEventDetails: eventDetails = {
+  //   id: event.value.id,
+  //   parentServiceType: event.value.parentServiceType,
+  //   eventType: event.value.eventType,
+  //   eventName: event.value.eventName,
+  //   eventDescription: event.value.eventDescription,
+  //   startDateTime: event.value?.startDateTime,
+  //   endDateTime: event.value?.endDateTime,
+  //   isAllDayEvent: event.value.isAllDayEvent,
+  //   eventLocation: event.value.eventLocation,
+  //   createdDate: event.value.createdDate,
+  //   createdGroupSId: event.value.createdGroupSId,
+  //   createdUserSid: event.value.createdUserSid,
+  //   parentSid: event.value.parentSid,
+  //   eventUserSid: event.value.eventUserSid,
+  //   isRsvp: event.value.isRsvp,
+  //   sendNotifications: event.value.sendNotifications,
+  //   repeatInfoText: event.value.repeatInfoText,
+  //   recurrenceRule: event.value.recurrenceRule,
+  //   modifiedDate: event.value.modifiedDate,
+  //   modifiedUserSid: event.value.modifiedUserSid,
+  //   timezoneId: event.value.timezoneId,
+  //   remindTo: event.value.remindTo,
+  //   remindBeforeMinutes: event.value.remindBeforeMinutes,
+  //   label: event.value.label,
+  //   meetingAttendees: event.value.meetingAttendees,
+  //   url: event.value.url,
+  // };
 
+  const newEventDetails = ref(event);
   const newEventSummary: eventSummary = {
-    eventType: newEventDetails.eventType,
-    eventName: newEventDetails.eventName,
-    startDateTime: newEventDetails.startDateTime,
-    endDateTime: newEventDetails.endDateTime,
-    isAllDayEvent: newEventDetails.isAllDayEvent,
+    eventType: newEventDetails.value.eventType,
+    eventName: newEventDetails.value.eventName,
+    startDateTime: newEventDetails.value.startDateTime,
+    endDateTime: newEventDetails.value.endDateTime,
+    isAllDayEvent: newEventDetails.value.isAllDayEvent,
     id: '',
   };
   console.log('new event form values: ', newEventDetails);
-  eventDetailsStore.addEventDetails(newEventDetails);
+  eventDetailsStore.addEventDetails(newEventDetails.value);
   eventDetailsStore.addEventSummary(newEventSummary);
 
   router.push('/eventSummary');

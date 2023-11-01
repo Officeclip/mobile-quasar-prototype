@@ -18,6 +18,8 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
     serviceItemsList: [] as ServiceItem[],
     payrollsList: [] as Payroll[],
     customFieldsList: [] as CustomField[],
+    //using to store the selected period from newtimesheetPeriod page
+    // selectedPeriod: {} as any,
   }),
 
   getters: {
@@ -29,6 +31,8 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
     // ServiceItemsList: (state) => state.timesheetList?.serviceItems,
     PayrollsList: (state) => state.payrollsList,
     CustomFieldsList: (state) => state.customFieldsList,
+
+    // SelectedPeriod: (state) => state.selectedPeriod,
   },
 
   actions: {
