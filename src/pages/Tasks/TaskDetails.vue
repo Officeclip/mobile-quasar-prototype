@@ -1,6 +1,6 @@
 <!-- cleaned up with google bard with minor correction -->
 <script lang="ts" setup>
-import {computed, onMounted, ref, Ref} from 'vue';
+import {computed, onMounted, ref, Ref, ComputedRef} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
@@ -13,11 +13,11 @@ import SubtaskItem from "components/tasks/SubtaskItem.vue";
 
 const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
-const taskListStore = useTaskListsStore();
+// const taskListStore = useTaskListsStore();
 const isPrivate = ref<string>();
 const id = ref<string | string[]>('0');
 
-const taskDetail: Ref<taskDetails> = computed(() => {
+const taskDetail: ComputedRef<taskDetails> = computed(() => {
   if (taskDetailsStore.TaskDetail) return taskDetailsStore.TaskDetail;
   else {
     const emptyTaskDetail: taskDetails = {
@@ -68,7 +68,7 @@ onMounted(() => {
   // console.log('id=', route.params.id);
   id.value = route.params.id;
   taskDetailsStore.getTask(Number(route.params.id));
-  taskListStore.getTaskLists();
+  // taskListStore.getTaskLists();
 });
 
 isPrivate.value = taskDetail.value?.isPrivate ? 'Yes' : 'No';
@@ -164,17 +164,17 @@ function addSubtask(subtask: subTask) {
                 <div class="row">
                   <div class="col-4">
                     <q-item-label caption>Task Type</q-item-label>
-                    <q-item-label>{{ taskDetail.taskType.name }}</q-item-label>
+                    <q-item-label>{{ taskDetail?.taskType.name }}</q-item-label>
                   </div>
 
                   <div class="col-4">
                     <q-item-label caption>Priority</q-item-label>
-                    <q-item-label>{{ taskDetail.taskPriority.name }}</q-item-label>
+                    <q-item-label>{{ taskDetail?.taskPriority.name }}</q-item-label>
                   </div>
 
                   <div class="col-4">
                     <q-item-label caption>Status</q-item-label>
-                    <q-item-label>{{ taskDetail.taskStatus.name }}</q-item-label>
+                    <q-item-label>{{ taskDetail?.taskStatus.name }}</q-item-label>
                   </div>
                 </div>
 

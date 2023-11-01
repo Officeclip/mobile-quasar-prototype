@@ -2,8 +2,15 @@
 import {onBeforeMount, ref, Ref} from 'vue';
 import {useTaskListsStore} from "stores/task/taskListsStore";
 import {regardingContact} from "src/models/task/taskLists";
+import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
+import {searchFilter} from "src/models/task/searchFilter";
 
-const advancedOptions = ref({
+const advancedOptions: Ref<searchFilter> = ref({
+  filterString: '',
+  ownedByMeFilter: false,
+  assignedToMeFilter: false,
+  showAdvancedOptions: false,
+  userName: '',
   dueDateValue: '',
   dueDateOption: '',
   modifiedDateValue: '',
@@ -17,8 +24,12 @@ const advancedOptions = ref({
 })
 
 const emit = defineEmits(['advancedOptionsGenerated']);
+const props = defineProps(['parent']);
+const taskSummaryStore = useTaskSummaryStore();
 
 function emitOptions() {
+  taskSummaryStore.getFilteredTasks(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
+
   emit('advancedOptionsGenerated', advancedOptions.value);
 }
 
@@ -171,73 +182,3 @@ async function filterFn(val: string, update: any, abort: any) {
   margin: 5px; /* Adjust the margin as needed */
 }
 </style>
-
-<!--<script lang="ts" setup>-->
-<!--import {ref} from 'vue';-->
-
-<!--const advancedOptions = ref({-->
-<!--  dueDateValue: '',-->
-<!--  dueDateOption: '',-->
-<!--  modifiedDateValue: '',-->
-<!--  modifiedDateOption: '',-->
-<!--  statusValue: '',-->
-<!--  priorityValue: '',-->
-<!--  assignedTo: '',-->
-<!--  ownedBy: '',-->
-<!--  regarding: ''-->
-<!--})-->
-
-<!--const dateOptions = [-->
-<!--  {label: "Equal To", value: "EqualTo"},-->
-<!--  {label: "Not Equal To", value: "NotEqualTo"},-->
-<!--  {label: "Greater Than", value: "GreaterThan"},-->
-<!--  {label: "Less Than", value: "LessThan"},-->
-<!--  {label: "Greater Than or Equal To", value: "GreaterOrEqual"},-->
-<!--  {label: "Less Than or Equal To", value: "LessOrEqual"},-->
-<!--  {label: "Is Null", value: "isNull"},-->
-<!--  {label: "Is Not Null", value: "isNotNull"},-->
-<!--]-->
-
-<!--</script>-->
-
-<!--<template>-->
-<!--  <q-card style="width: 700px; max-width: 80vw;">-->
-
-<!--    <div class="q-pa-md row">-->
-<!--      <q-item-section>-->
-<!--        <q-item-label>Due Date</q-item-label>-->
-<!--        <q-input-->
-<!--          v-model="advancedOptions.dueDateValue"-->
-<!--          clearable-->
-<!--          label="Due Date"-->
-<!--          outlined-->
-<!--          type="date"-->
-<!--        />-->
-<!--        <q-select v-model="advancedOptions.dueDateOption" :options="dateOptions"/>-->
-<!--      </q-item-section>-->
-
-<!--      <q-item-section>-->
-<!--        <q-item-label>Modified Date</q-item-label>-->
-<!--        <q-input-->
-<!--          v-model="advancedOptions.modifiedDateValue"-->
-<!--          clearable-->
-<!--          label="Modified Date"-->
-<!--          outlined-->
-<!--          type="date"-->
-<!--        />-->
-<!--        <q-select v-model="advancedOptions.modifiedDateOption" :options="dateOptions"/>-->
-<!--      </q-item-section>-->
-<!--    </div>-->
-
-<!--    <q-card-actions>-->
-<!--      <q-btn v-close-popup color="primary" label="Save"/>-->
-<!--    </q-card-actions>-->
-<!--  </q-card>-->
-
-<!--</template>-->
-
-<!--<style scoped>-->
-<!--.select-spacing {-->
-<!--  margin: 5px; /* Adjust the margin as needed */-->
-<!--}-->
-<!--</style>-->
