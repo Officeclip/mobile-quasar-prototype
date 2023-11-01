@@ -10,6 +10,7 @@ import {useTaskSummaryStore} from 'stores/task/taskSummaryStore';
 const tasksDetailStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
 
+
 const route = useRoute();
 const router = useRouter();
 
