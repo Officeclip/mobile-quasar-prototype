@@ -134,5 +134,15 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         console.error(`deleteTimesheet Error: ${error}`);
       }
     },
+
+    async addTimesheetDetails(timesheetDetail: TimesheetDetails) {
+      const callStr = `${Constants.endPointUrl}/timesheet-details`;
+      await fetch(callStr, {
+        method: 'POST',
+        body: JSON.stringify(timesheetDetail),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log(this.timesheetDetail);
+    },
   },
 });

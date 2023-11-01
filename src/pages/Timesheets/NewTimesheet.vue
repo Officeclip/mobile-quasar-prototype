@@ -5,13 +5,14 @@ import { TimesheetDetails } from 'src/models/Timesheet/timesheetDetails';
 // import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, onMounted } from 'vue';
+import { useTimesheetsStore } from 'src/stores/timesheet/TimesheetsStore';
 
 const router = useRouter();
 const route = useRoute();
 const periodName = route.params.periodName;
 console.log('Sending the period option from new==> new', periodName);
 // const startDate = periods.value.start
-// const timesheetStore = useTimesheetsStore()
+const timesheetStore = useTimesheetsStore();
 // const timesheetListStore = useTimesheetListStore();
 // const selectedPeriod = computed(() => {
 //   return timesheetListStore.SelectedPeriod;
@@ -41,8 +42,10 @@ const timesheet: TimesheetDetails = ref({
 });
 function onSubmit(e: any) {
   e.preventDefault();
-  const newTimesheet = timesheet;
-  console.log('new timesheet form values FFFFFF: ', newTimesheet);
+  // const newTimesheet = timesheet;
+  const newTimesheet = ref(timesheet);
+  console.log('new timesheet form values FFFFFF: ', newTimesheet.value);
+  timesheetStore.addTimesheetDetails(newTimesheet.value);
   router.push('/');
 }
 </script>
