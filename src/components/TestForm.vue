@@ -3,8 +3,8 @@
 console.log('TestForm.vue > setup - started');
 import { computed, onMounted, ref, watch } from 'vue';
 
-const props = defineProps(['testProps', 'isLoading']);
-// const props = defineProps(['testProps']);
+// const props = defineProps(['testProps', 'isLoading']);
+const props = defineProps(['testProps']);
 // const accountName = ref('');
 // watch([props], () => {
 //   accountName.value = props.testProps.accountName;
