@@ -4,6 +4,8 @@ import {useTaskListsStore} from "stores/task/taskListsStore";
 import {regardingContact} from "src/models/task/taskLists";
 import {subTask} from "src/models/task/subtask";
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
+import {useUserSummaryStore} from "stores/userSummaryStore";
+import {userSummary} from "src/models/userSummary";
 
 const props = defineProps<{
   subtask: subTask
@@ -14,6 +16,8 @@ const {subtask} = toRefs(props);
 
 const taskListsStore = useTaskListsStore();
 const taskDetailsStore = useTaskDetailsStore();
+const userSummaryStore = useUserSummaryStore();
+
 
 function editSubtask() {
   taskDetailsStore.editSubtask(subtask.value);
@@ -21,24 +25,17 @@ function editSubtask() {
 
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
+  userSummaryStore.getUserSummaries();
+
 });
 
-const contactOptions: Ref<regardingContact[]> = ref([]);
+const contactOptions: Ref<userSummary[]> = ref([]);
 
 async function filterFn(val: string, update: any, abort: any) {
-  if (val.length < 2) {
-    abort();
-    return;
-  } else if (val.length === 2) {
-    contactOptions.value = [];
-    await taskListsStore.getRegardingContactListThatMatch(val);
-    contactOptions.value = taskListsStore.regardingContacts;
-  }
-
   update(() => {
     console.log('update');
     const needle = val.toLowerCase();
-    contactOptions.value = taskListsStore.regardingContacts.filter(
+    contactOptions.value = userSummaryStore.userSummaries.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
   });

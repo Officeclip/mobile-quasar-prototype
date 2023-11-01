@@ -5,11 +5,13 @@ import {useTaskListsStore} from "stores/task/taskListsStore";
 import {taskDetails} from "src/models/task/taskDetails";
 import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue";
 import EventsReminderDialog from "components/Events/EventsReminderDialog.vue";
-import {regardingContact} from "src/models/task/taskLists";
+import {userSummary} from "src/models/userSummary";
+import {useUserSummaryStore} from "stores/userSummaryStore";
 
 const props = defineProps<{
   task: taskDetails
 }>();
+const userSummaryStore = useUserSummaryStore();
 
 
 const isPrivate = ref('');
@@ -40,6 +42,7 @@ isPrivate.value = props.task.isPrivate ? 'Yes' : 'No';
 const taskListsStore = useTaskListsStore();
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
+  userSummaryStore.getUserSummaries();
 });
 
 const recurrenceDialogOpened = ref(false);
@@ -76,22 +79,13 @@ function handleReminderText(reminderText: string) {
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
 
-const shownOptions: Ref<regardingContact[]> = ref([]);
+const shownOptions: Ref<userSummary[]> = ref([]);
 
 async function filterFn(val: string, update: any, abort: any) {
-  if (val.length < 2) {
-    abort();
-    return;
-  } else if (val.length === 2) {
-    shownOptions.value = [];
-    await taskListsStore.getRegardingContactListThatMatch(val);
-    shownOptions.value = taskListsStore.regardingContacts;
-  }
-
   update(() => {
     console.log('update');
     const needle = val.toLowerCase();
-    shownOptions.value = taskListsStore.regardingContacts.filter(
+    shownOptions.value = userSummaryStore.userSummaries.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
   });
@@ -181,17 +175,16 @@ async function filterFn(val: string, update: any, abort: any) {
         />
 
         <q-select
-          label="Owned by"
           v-model="task.taskOwner"
           :options="shownOptions"
-          hint="Minimum 2 characters to trigger filtering"
+          clearable
+          emit-value
+          hint="Start typing"
           input-debounce="0"
+          label="Owned by"
           option-label="name"
-          option-value="name"
           use-input
           @filter="filterFn"
-          emit-value
-          clearable
         >
           <template v-slot:no-option>
             <q-item>
@@ -201,18 +194,17 @@ async function filterFn(val: string, update: any, abort: any) {
         </q-select>
 
         <q-select
-          label="Assigned to"
           v-model="task.assignees"
           :options="shownOptions"
-          multiple
-          hint="Minimum 2 characters to trigger filtering"
+          emit-value
+          hint="Start typing"
           input-debounce="0"
+          label="Assigned to"
+          multiple
           option-label="name"
-          option-value="name"
+          use-chips
           use-input
           @filter="filterFn"
-          emit-value
-          use-chips
         >
           <template v-slot:no-option>
             <q-item>
@@ -220,7 +212,6 @@ async function filterFn(val: string, update: any, abort: any) {
             </q-item>
           </template>
         </q-select>
-
 
         <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
           <q-item-section avatar>
