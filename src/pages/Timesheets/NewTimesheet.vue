@@ -3,12 +3,19 @@ import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
 import { TimesheetDetails } from 'src/models/Timesheet/timesheetDetails';
 // import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 // import dateTimeHelper from 'src/helpers/dateTimeHelper';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, onMounted } from 'vue';
 
 const router = useRouter();
+const route = useRoute();
+const periodName = route.params.periodName;
+console.log('Sending the period option from new==> new', periodName);
 // const startDate = periods.value.start
 // const timesheetStore = useTimesheetsStore()
+// const timesheetListStore = useTimesheetListStore();
+// const selectedPeriod = computed(() => {
+//   return timesheetListStore.SelectedPeriod;
+// });
 const timesheet: TimesheetDetails = ref({
   id: Number(),
   timeDuration: Number(),
@@ -32,33 +39,10 @@ const timesheet: TimesheetDetails = ref({
   taskDate: '',
   timesheetDetailSid: '',
 });
-// const timesheet = ref({
-//   createdDate: '',
-//   accountName: '',
-//   serviceItemName: '',
-//   isBillable: true,
-//   timeDuration: Number(),
-//   description: '',
-// });
-
 function onSubmit(e: any) {
   e.preventDefault();
-
-  const newTimesheet = {
-    // accountName: timesheet.value.accountName,
-    // accountId: '',
-    // createdDate: timesheet.value.createdDate,
-    // createdUserId: '',
-    // description: timesheet.value.description,
-    // isBillable: timesheet.value.isBillable,
-    // payrollName: '',
-    // projectName: '',
-    // projectId: '',
-    // serviceItemName: timesheet.value.serviceItemName,
-    // timeDuration: timesheet.value.timeDuration,
-  };
-  console.log(`onSubmit Timesheet Value: ${{ newTimesheet }}`);
-
+  const newTimesheet = timesheet;
+  console.log('new timesheet form values FFFFFF: ', newTimesheet);
   router.push('/');
 }
 </script>
@@ -82,7 +66,11 @@ function onSubmit(e: any) {
       <q-page>
         <q-list>
           <q-form @submit="onSubmit" class="q-gutter-md">
-            <TimesheetForm :timesheet="timesheet" />
+            <TimesheetForm
+              v-if="timesheet"
+              :timesheet="timesheet"
+              :periodName="periodName"
+            />
             <q-btn label="Submit" type="submit" color="primary"></q-btn>
             <q-btn
               label="Reset"

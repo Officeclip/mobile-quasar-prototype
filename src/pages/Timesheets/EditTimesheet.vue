@@ -24,10 +24,6 @@ const timesheet = computed(() => {
 
 function onSubmit(e: any) {
   e.preventDefault();
-  // const formData = new FormData(e.target);
-  // const createdDate = formData.get('newcreatedDate');
-  // const taskDate = formData.get('newtaskDate');
-  // console.log(`onSubmit Task Value: ${timesheet.value}`);
   const newData: any = timesheet?.value;
 
   const newTimesheet: TimesheetDetails = {

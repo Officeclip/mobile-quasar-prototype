@@ -168,7 +168,7 @@ const routes: RouteRecordRaw[] = [
     // params: true,
   },
   {
-    path: '/newTimesheet',
+    path: '/newTimesheet/:periodName',
     name: 'newTimesheet',
     component: () => import('../pages/Timesheets/NewTimesheet.vue'),
     // params: true,
