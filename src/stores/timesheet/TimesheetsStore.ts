@@ -10,7 +10,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     timesheet: undefined as Timesheet | undefined,
 
     timesheetDetails: [] as TimesheetDetails[],
-    timesheetDetail: [] as TimesheetDetails[],
+    timesheetDetail: undefined as TimesheetDetails | undefined,
   }),
 
   getters: {

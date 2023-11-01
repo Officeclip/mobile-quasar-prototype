@@ -72,13 +72,13 @@ function onSubmit(e: any) {
           icon="arrow_back"
         >
         </q-btn>
-        <q-toolbar-title> Edit Task</q-toolbar-title>
+        <q-toolbar-title> Edit Timesheet</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <TimesheetForm :timesheet="timesheet" />
+          <TimesheetForm v-if="timesheet" :timesheet="timesheet" />
           <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"

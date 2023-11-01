@@ -50,14 +50,13 @@ billableOptions.value = [
     value: false,
   },
 ];
-
 const createdDate = dateTimeHelper.extractDateFromUtc(
   props.timesheet.createdDate
 );
 
-const newData = computed(() => {
-  return dateTimeHelper.extractDateFromUtc(props.timesheet.createdDate);
-});
+// const createdDate = computed(() => {
+//   return dateTimeHelper.extractDateFromUtc(props.timesheet.createdDate);
+// });
 const taskDate = ref('');
 taskDate.value = 'July 20(Thu)';
 </script>
@@ -69,7 +68,7 @@ taskDate.value = 'July 20(Thu)';
       <div class="q-gutter-y-md column">
         <q-select
           label="Period"
-          :model-value="newData"
+          :model-value="createdDate"
           :options="periodOptions"
           map-options
           option-label="name"
