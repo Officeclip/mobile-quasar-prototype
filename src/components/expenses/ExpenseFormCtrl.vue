@@ -7,15 +7,19 @@ import autoRentalExpenseForm from '../expenses/expenseTypes/autoRentalExpenseFor
 
 const props = defineProps(['expenseDetail', 'period']);
 
-const expenseTypeName = ref('')
-watch(
-  () => props.expenseDetail,
-  (newVal) => {
-    if (newVal) {
-      expenseTypeName.value = props.expenseDetail.expenseTypeName;
-    }
-  }
-);
+// const expenseTypeName = ref('')
+// watch(
+//   () => props.expenseDetail,
+//   (newVal) => {
+//     if (newVal) {
+//       expenseTypeName.value = props.expenseDetail.expenseTypeName;
+//     }
+//   }
+// );
+
+const expenseTypeName = computed(() => {
+  return props.expenseDetail.expenseTypeName;
+});
 
 const expenseListsStore = useExpenseListsStore();
 
@@ -61,6 +65,8 @@ const isBillableModify = ref(false);
 
 const expenseTypeDefault = 'Select Expense Type';
 
+const isDetailRequired = ref(false);
+
 if (props.expenseDetail.expenseTypeName == '') {
   props.expenseDetail.expenseTypeName = expenseTypeDefault;
   isBillableModify.value = true;
@@ -79,6 +85,8 @@ function getExpenseTypeDetail(event) {
   );
 
   isBillableModify.value = expenseType.isBillableModify;
+  isDetailRequired.value = expenseType.isDetailsRequired;
+  console.log('Testing is detail required -', isDetailRequired.value)
   props.expenseDetail.billable = expenseType.isBillable;
 
   switch (event) {
@@ -118,11 +126,11 @@ function getExpenseTypeDetail(event) {
           map-options />
         <airTravelExpenseForm
           :airTravel="props.expenseDetail.airTravelExpense == null ? props.expenseDetail.airTravelExpense = airTravel : props.expenseDetail.airTravelExpense"
-          v-if="expenseDetail.expenseTypeName == 'AIRFARE'" />
+          :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'AIRFARE'" />
 
         <autoRentalExpenseForm
           :autoRental="props.expenseDetail.autoRentalExpense == null ? props.expenseDetail.autoRentalExpense = autoRental : props.expenseDetail.autoRentalExpense"
-          v-if="expenseDetail.expenseTypeName == 'AUTORENTAL'" />
+          :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'AUTORENTAL'" />
 
         <q-toggle label="Billable" :false-value="false" :true-value="true" :disable="!isBillableModify" color="primary"
           keep-color v-model="expenseDetail.billable" option-value="expenseTypeName" map-options></q-toggle>

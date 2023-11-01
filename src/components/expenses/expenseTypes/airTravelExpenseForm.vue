@@ -3,9 +3,9 @@
 import { defineProps, ref, computed } from 'vue';
 import dateTimeHelper from '../../../helpers/dateTimeHelper';
 
-const props = defineProps(['airTravel']);
+const props = defineProps(['airTravel', 'isDetailRequired']);
 
-console.log('AirTravel Form Control -', props.airTravel)
+console.log('AirTravel Form Control -', props.isDetailRequired)
 
 const dense = ref(false);
 
@@ -49,17 +49,16 @@ const dense = ref(false);
         <!-- <pre>{{ airtravelData }}</pre>
         <pre>{{ props.airTravel.departureAirport }}</pre> -->
         <q-input v-model="props.airTravel.departureAirport" label="Departure Airport *"
-          placeholder="enter departure airport name" :dense="dense" lazy-rules :rules="[
-            (val) => (val && val.length > 0) || 'enter departure airport name',
-          ]">
+          placeholder="enter departure airport name" :dense="dense" lazy-rules
+          :rules="[{ type: 'custom', message: 'enter departure airport name.', validate: () => isDetailRequired === true }]">
         </q-input>
         <q-input v-model="props.airTravel.arrivalAirport" label="Arrival Airport *"
           placeholder="enter arrival airport name" :dense="dense" lazy-rules :rules="[
-            (val) => (val && val.length > 0) || 'enter arrival airport name',
+            (val) => (!val.isDetailRequired) || 'enter arrival airport name',
           ]">
         </q-input>
         <q-input name="departureDate" v-model="props.airTravel.departureDate" label="Departure Date" :rules="[
-          (val) => (val && val.length > 0) || 'please select departure date',
+          (val) => (!val.isDetailRequired) || 'please select departure date',
         ]">
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
@@ -74,7 +73,7 @@ const dense = ref(false);
           </template>
         </q-input>
         <q-input name="arrivalDate" v-model="props.airTravel.arrivalDate" label="Arrival Date" :rules="[
-          (val) => (val && val.length > 0) || 'please select arival date',
+          (val) => (!val.isDetailRequired) || 'please select arival date',
         ]">
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">

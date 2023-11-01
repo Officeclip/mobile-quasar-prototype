@@ -1,9 +1,8 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { onMounted, computed, onBeforeMount, ref, watch } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
-import { useExpenseSummaryStore } from '../../stores/expense/expenseSummaryStore';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useRouter, useRoute } from 'vue-router';
 import {
@@ -16,10 +15,8 @@ import {
   expenseDetails,
 } from '../../models/expense/expenseDetails';
 import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
-import TestForm from '../../components/TestForm.vue';
 
 const expenseDetailsStore = useExpenseDetailsStore();
-const expenseSummaryStore = useExpenseSummaryStore();
 const expenseListStore = useExpenseListsStore();
 
 const router = useRouter();
@@ -28,16 +25,8 @@ const route = useRoute();
 const id = computed(() => {
   return route.params.id;
 });
-
-const expenseId = computed(() => {
-  return route.params.expenseSid;
-});
-
-console.log('Edit expense by Id', id.value);
-
 onMounted(() => {
   expenseDetailsStore.getExpenseDetailById(id.value);
-  expenseSummaryStore.getExpenseSummaryById(expenseId.value);
   expenseListStore.getExpensesList();
 });
 
@@ -45,19 +34,9 @@ const expenseDetail = computed(() => {
   return expenseDetailsStore.ExpenseDetails;
 });
 
-console.log('Edit expense get expense detail:', expenseDetail.value);
-
-const expenseSummary = computed(() => {
-  return expenseSummaryStore.ExpenseSummaryById;
-});
-
 const expensePeriod = computed(() => {
   return expenseListStore.PeriodList;
 });
-
-console.log('Edit expense get period list:', expensePeriod.value);
-
-//const period = expensePeriod.find((y) => y.start.toString() === expenseDetail.value.fromDate)
 
 const period = computed(() => {
   return expensePeriod.value.find(
@@ -84,7 +63,6 @@ function onSubmit(e: any) {
     employeeSid: expenseDetail.value?.employeeSid as string,
     expenseDate: expenseDetail.value?.expenseDate as string,
     id: expenseDetail.value?.id as string,
-    //expenseDetailSid: expenseDetail.value?.expenseDetailSid as string,
     expenseSid: expenseDetail.value?.expenseSid as string,
     expenseTypeName: expenseDetail.value?.expenseTypeName as string,
     expenseCategoryName: expenseDetail.value?.expenseCategoryName as string,
@@ -103,7 +81,7 @@ function onSubmit(e: any) {
     taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense,
   };
 
-  expenseDetailsStore.editExpense(editExpense);
+  // expenseDetailsStore.editExpense(editExpense);
   // router.push('-2');
 
   const str = JSON.stringify(editExpense);
@@ -114,14 +92,7 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title>Edit Expense</q-toolbar-title>
       </q-toolbar>
@@ -129,15 +100,8 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <!-- <ExpenseForm :expenseDetail="expenseDetail" :period="period?.name" /> -->
-          <!-- <pre>{{ expenseDetail?.accountName }}</pre> -->
-          <TestForm :testProps="expenseDetail" />
-          <q-btn
-            class="q-ml-md q-mb-md"
-            label="Submit"
-            type="submit"
-            color="primary"
-          >
+          <ExpenseForm v-if="expenseDetail" :expenseDetail="expenseDetail" :period="period?.name" />
+          <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>
       </q-form>

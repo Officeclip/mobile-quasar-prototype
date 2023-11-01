@@ -23,28 +23,22 @@ const getExpenses = computed(() => {
 </script>
 <template>
   <q-list v-for="expense in getExpenses" :key="expense.id">
-    <q-item
-      :to="{
-        name: 'expenseDetails',
-        params: {
-          id: expense.id,
-        },
-      }"
-      clickable
-      v-ripple
-    >
+    <q-item :to="{
+      name: 'expenseDetails',
+      params: {
+        id: expense.id,
+      },
+    }" clickable v-ripple>
       <q-item-section>
         <q-item-label>
           {{ expense.createdByUserName }}
         </q-item-label>
-        <q-item-label caption
-          >{{
-            expense.fromDate
-              ? dateTimeHelper.extractMonthFromUtc(expense.fromDate)
-              : 'NoData msg'
-          }}
-          - {{ expense.totalAmount }}</q-item-label
-        >
+        <q-item-label caption>{{
+          expense.fromDate
+          ? dateTimeHelper.extractMonthFromUtc(expense.fromDate)
+          : 'NoData msg'
+        }}
+          - {{ expense.totalAmount }}</q-item-label>
       </q-item-section>
       <q-item-section side>
         <q-icon color="primary" name="chevron_right" />
