@@ -1,20 +1,25 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { onMounted, onBeforeMount, computed } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
+import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useRouter, useRoute } from 'vue-router';
 import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
 import { TimesheetDetails } from '../../models/Timesheet/timesheetDetails';
 // import dateTimeHelper from '../../helpers/dateTimeHelper';
 
-const timesheetsStore = useTimesheetsStore();
-
 const route = useRoute();
 const router = useRouter();
 const timesheetDetailSid = route.params.id;
+const fromDate: any = route.params.fromDate;
 
-onBeforeMount(() => {
+const timesheetsStore = useTimesheetsStore();
+const timesheetListStore = useTimesheetListStore();
+const periodName = computed(() => {
+  return timesheetListStore.PeriodList.find((x) => x.start === fromDate);
+});
+onMounted(() => {
   timesheetsStore.getSingleTimesheetDetail(timesheetDetailSid);
 });
 
@@ -74,7 +79,11 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <TimesheetForm v-if="timesheet" :timesheet="timesheet" />
+          <TimesheetForm
+            v-if="timesheet"
+            :timesheet="timesheet"
+            :periodName="periodName?.name"
+          />
           <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"
