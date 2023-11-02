@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-setup-props-destructure -->
 <!-- eslint-disable vue/no-mutating-props -->
 <script setup>
 import { defineProps, ref, onBeforeMount, computed, watch } from 'vue';
@@ -5,11 +6,18 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 
 const props = defineProps(['timesheet', 'periodName']);
+
+const accountName = props.timesheet?.accountName;
+const serviceItemName = props.timesheet?.serviceItemName;
+const selectedCustomerProject = ref(
+  accountName ? `${accountName}:${serviceItemName}` : ''
+);
+const customerProjectModel = ref('');
 const taskDate = ref('');
-// eslint-disable-next-line vue/no-setup-props-destructure
 taskDate.value = props.timesheet?.taskDate
   ? props.timesheet?.taskDate
   : new Date();
+
 // format the taskDate and show for user interface like Nov 02(Fri)
 const formattedTaskDate = ref(
   `${new Date(taskDate.value).toLocaleString('en-US', {
@@ -21,7 +29,6 @@ const formattedTaskDate = ref(
 );
 
 const timesheetListStore = useTimesheetListStore();
-
 onBeforeMount(() => {
   timesheetListStore.getTimesheetListAll();
 });
@@ -64,6 +71,15 @@ watch([taskDate], ([newTaskDate]) => {
   formattedTaskDate.value = newTaskDate;
   props.timesheet.taskDate = newTaskDate;
 });
+watch([customerProjectModel], ([newCustomerProjectModel]) => {
+  selectedCustomerProject.value = newCustomerProjectModel;
+  const names = newCustomerProjectModel.name.split(':');
+  const ids = newCustomerProjectModel.id.split(':');
+  props.timesheet.accountName = names[0];
+  props.timesheet.serviceItemName = names[1];
+  props.timesheet.accountSid = ids[0];
+  props.timesheet.serviceItemSid = ids[1];
+});
 </script>
 
 <template>
@@ -82,14 +98,18 @@ watch([taskDate], ([newTaskDate]) => {
         map-options
         emit-label
       />
+      <!-- <pre>customer:project={{ selectedCustomerProject }}</pre>
+      <pre>cpModel:{{ customerProjectModel }}</pre>
+      <pre>Account:  {{ props.timesheet.accountName }}</pre>
+      <pre>ServiceItem:  {{ props.timesheet.serviceItemName }}</pre> -->
       <q-select
         label="Customer: Project"
-        v-model="props.timesheet.projectName"
+        :model-value="selectedCustomerProject"
+        @update:model-value="(newValue) => (customerProjectModel = newValue)"
         :options="customerProjectOptions"
         option-label="name"
         option-value="id"
         map-options
-        @update:model-value="handleSelectChange"
       />
       <q-select
         label="ServiceItems"
