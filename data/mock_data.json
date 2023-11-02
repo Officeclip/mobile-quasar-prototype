@@ -1969,17 +1969,7 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        10
-      ]
+      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
     }
   ],
   "generalUserProfile": [
@@ -2210,9 +2200,7 @@
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": [
-        "Kathiravan Sekar"
-      ],
+      "assignees": ["Kathiravan Sekar"],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
@@ -2898,7 +2886,7 @@
       "id": 1,
       "status": "Saved",
       "totalHours": 14.75,
-      "fromDate": "2020-11-02T10:43:32.203Z"
+      "fromDate": "2023-06-19T10:43:32.203Z"
     },
     {
       "createdByUserName": "Sudhakar Gundu",
@@ -2906,7 +2894,7 @@
       "id": 5,
       "status": "Saved",
       "totalHours": 44.08,
-      "fromDate": "2020-09-14T10:43:32.203Z"
+      "fromDate": "2023-06-05T10:43:32.203Z"
     },
     {
       "createdByUserName": "Sudhakar Gundu",
@@ -2914,7 +2902,7 @@
       "id": 9,
       "status": "Approved",
       "totalHours": 33.25,
-      "fromDate": "2020-07-06T10:43:32.203Z"
+      "fromDate": "2023-05-22T10:43:32.203Z"
     },
     {
       "createdByUserName": "Sudhakar Gundu",
@@ -2922,7 +2910,7 @@
       "id": 10,
       "status": "Rejected",
       "totalHours": 20.25,
-      "fromDate": "2020-06-15T10:43:32.203Z"
+      "fromDate": "2023-05-08T10:43:32.203Z"
     }
   ],
   "timesheet-details": [
@@ -3117,12 +3105,12 @@
         {
           "end": "2023-07-02T00:00:00+05:30",
           "name": "Jun 19, 2023 - Jul 02, 2023",
-          "start": "2023-06-19T00:00:00+05:30"
+          "start": "2023-06-19T10:43:32.203Z"
         },
         {
           "end": "2023-06-18T00:00:00+05:30",
           "name": "Jun 05, 2023 - Jun 18, 2023",
-          "start": "2023-06-05T00:00:00+05:30"
+          "start": "2023-06-05T10:43:32.203Z"
         },
         {
           "end": "2023-06-04T00:00:00+05:30",
@@ -3354,12 +3342,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-            "",
-            "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },
