@@ -1,21 +1,30 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <script setup>
-import { defineProps, ref, onBeforeMount, computed } from 'vue';
+import { defineProps, ref, onBeforeMount, computed, watch } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 
 const props = defineProps(['timesheet', 'periodName']);
+const taskDate = ref('');
+// eslint-disable-next-line vue/no-setup-props-destructure
+taskDate.value = props.timesheet?.taskDate
+  ? props.timesheet?.taskDate
+  : new Date();
+// format the taskDate and show for user interface like Nov 02(Fri)
+const formattedTaskDate = ref(
+  `${new Date(taskDate.value).toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  })}(${new Date(taskDate.value).toLocaleString('en-US', {
+    weekday: 'short',
+  })})`
+);
 
 const timesheetListStore = useTimesheetListStore();
 
 onBeforeMount(() => {
   timesheetListStore.getTimesheetListAll();
 });
-// eslint-disable-next-line vue/no-setup-props-destructure
-// const selectedPeriod = props.selectedPeriod;
-// const selectedPeriod = computed(() => {
-//   return timesheetListStore.selectedPeriod;
-// });
-
 const selectedPeriod = computed(() => {
   return timesheetListStore.PeriodList.find((x) => x.name === props.periodName);
 });
@@ -50,15 +59,11 @@ billableOptions.value = [
     value: false,
   },
 ];
-// const createdDate = dateTimeHelper.extractDateFromUtc(
-//   props.timesheet.createdDate
-// );
 
-// const createdDate = computed(() => {
-//   return dateTimeHelper.extractDateFromUtc(props.timesheet.createdDate);
-// });
-// const taskDate = ref('');
-// taskDate.value = 'July 20(Thu)';
+watch([taskDate], ([newTaskDate]) => {
+  formattedTaskDate.value = newTaskDate;
+  props.timesheet.taskDate = newTaskDate;
+});
 </script>
 
 <template>
@@ -71,7 +76,8 @@ billableOptions.value = [
       }}</q-item-label>
       <q-select
         label="Date"
-        v-model="props.timesheet.taskDate"
+        :model-value="formattedTaskDate"
+        @update:model-value="(newValue) => (taskDate = newValue)"
         :options="dateOptions"
         map-options
         emit-label
