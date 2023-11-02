@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {computed, onBeforeMount, ref, Ref, watch} from 'vue';
+import {computed, onBeforeMount, ref, Ref} from 'vue';
 import TaskSummaryItem from "components/tasks/TaskSummaryItem.vue";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import TaskAdvancedFilters from "components/tasks/taskAdvancedFilters.vue";
@@ -72,16 +72,36 @@ function clearFilterValues() {
   }
 }
 
-watch(filterOptions, (newValue, oldValue) => {
-  console.log("watched")
-  taskSummaryStore.getFilteredTasks(newValue, parent.parentObjectId, parent.parentObjectServiceType);
-});
+// watch(filterOptions, (newValue, oldValue) => {
+//   console.log("watched")
+//   taskSummaryStore.getFilteredTasks(newValue, parent.parentObjectId, parent.parentObjectServiceType);
+// });
+
+let currentPage = 1; // the current page number
+// const pageSize = ref(10); // number of items in one page
+let numItems = 0; // total number of items in the list
+let reachedEnd = ref(false); // indicate if all contacts have been loaded
+const batchSize = 5; // number of contacts to load in each batch
+
 
 onBeforeMount(() => {
-  taskSummaryStore.getTasks(Number(parent.parentObjectId), Number(parent.parentObjectServiceType));
+  taskSummaryStore
+    .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, currentPage)
+    .then(() => currentPage++);
 });
-
-const sortOption = ref('subject'); // Default sorting by subject
+const loadMore = (index: any, done: () => void) => {
+  const contactsSizeBeforeCall = getSortedSummaries.value.length;
+  setTimeout(() => {
+    taskSummaryStore
+      .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, currentPage)
+      .then(() => {
+        currentPage++;
+        const contactsAfterCall = getSortedSummaries.value.length;
+        reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
+        done();
+      });
+  }, 500);
+};
 
 function receiveAdvFilters(advancedOptions: any) {
   console.log(advancedOptions);
@@ -127,27 +147,42 @@ function receiveAdvFilters(advancedOptions: any) {
             />
           </div>
         </div>
-        <div class="column">
-          <div class="row">
+
+        <div class="row q-mt-md">
+          <div class="q-mr-md">
             <q-checkbox v-model="filterOptions.ownedByMeFilter" label="Owned by me"/>
+          </div>
+          <div class="q-mr-md">
             <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
           </div>
-          <div>
-            <q-btn class="q-ma-sm" label="Open  Filters" @click="filterOptions.showAdvancedOptions = true"/>
-            <q-btn class="q-ma-sm" label="Reset Filters" @click="clearFilterValues"/>
+          <div class="q-mr-md">
+            <q-btn flat @click="filterOptions.showAdvancedOptions = true">
+              <q-icon name="filter_list"/>
+            </q-btn>
+          </div>
+          <div class="q-mr-md">
+            <q-btn flat @click="clearFilterValues">
+              <q-icon name="clear"/>
+            </q-btn>
           </div>
         </div>
 
+        <q-infinite-scroll :disable="reachedEnd" :offset="250" @load="loadMore" >
 
-        <q-list v-for="task in getSortedSummaries" :key="task.id" class="q-pa-sm">
-          <taskSummaryItem :task="task"/>
-        </q-list>
+          <q-item v-for="task in getSortedSummaries" :key="task.id" class="q-pa-sm">
+            <taskSummaryItem :task="task" class="full-width"/>
+          </q-item>
+          <template v-slot:loading>
+            <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
+          </template>
+
+        </q-infinite-scroll>
 
         <q-dialog v-model="filterOptions.showAdvancedOptions">
           <task-advanced-filters :parent="parent" @advancedOptionsGenerated="receiveAdvFilters"/>
         </q-dialog>
 
-        <pre>{{ filterOptions }}</pre>
+<!--        <pre>{{ filterOptions }}</pre>-->
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
         <q-btn

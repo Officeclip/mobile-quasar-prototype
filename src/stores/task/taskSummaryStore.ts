@@ -101,17 +101,17 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
           });
         }
         // Owner=Me
-        if (filterOptions.ownedByMeFilter) {
-          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            return task.taskOwner === filterOptions.userName;
-          });
-        }
-        // Assignee=me
-        if (filterOptions.assignedToMeFilter) {
-          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            return task.assignee.includes(filterOptions.userName);
-          });
-        }
+        // if (filterOptions.ownedByMeFilter) {
+        //   filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+        //     return task.taskOwner === filterOptions.userName;
+        //   });
+        // }
+        // // Assignee=me
+        // if (filterOptions.assignedToMeFilter) {
+        //   filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+        //     return task.assignee.includes(filterOptions.userName);
+        //   });
+        // }
 
         // Status Filter
         if (filterOptions.statusName) {
@@ -127,23 +127,23 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
           });
         }
         // Task Type
-        if (filterOptions.taskTypeValue) {
-          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            return task.taskTypeId === filterOptions.taskTypeValue;
-          });
-        }
-        // Assigned To
-        if (filterOptions.assignedTo) {
-          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            return task.assignee.includes(filterOptions.assignedTo);
-          });
-        }
-        // Owned by
-        if (filterOptions.ownedBy) {
-          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            return task.taskOwner.includes(filterOptions.ownedBy);
-          });
-        }
+        // if (filterOptions.taskTypeValue) {
+        //   filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+        //     return task.taskTypeId === filterOptions.taskTypeValue;
+        //   });
+        // }
+        // // Assigned To
+        // if (filterOptions.assignedTo) {
+        //   filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+        //     return task.assignee.includes(filterOptions.assignedTo);
+        //   });
+        // }
+        // // Owned by
+        // if (filterOptions.ownedBy) {
+        //   filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+        //     return task.taskOwner.includes(filterOptions.ownedBy);
+        //   });
+        // }
 
         // Due Date
         if (filterOptions.dueDateOption) {
@@ -179,37 +179,37 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         }
 
         // Modified Date
-        if (filterOptions.modifiedDateOption) {
-          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            const taskModifiedDate = new Date(task.modifiedDate);
-            const filterModifiedDate = new Date(filterOptions.modifiedDateValue);
-
-            switch (filterOptions.modifiedDateOption) {
-              case 'EqualTo':
-                return taskModifiedDate.getDate() === filterModifiedDate.getDate() &&
-                  taskModifiedDate.getMonth() === filterModifiedDate.getMonth() &&
-                  taskModifiedDate.getFullYear() === filterModifiedDate.getFullYear();
-              case 'NotEqualTo':
-                return taskModifiedDate.getDate() !== filterModifiedDate.getDate() ||
-                  taskModifiedDate.getMonth() !== filterModifiedDate.getMonth() ||
-                  taskModifiedDate.getFullYear() !== filterModifiedDate.getFullYear();
-              case 'GreaterThan':
-                return taskModifiedDate > filterModifiedDate;
-              case 'LessThan':
-                return taskModifiedDate < filterModifiedDate;
-              case 'GreaterOrEqual':
-                return taskModifiedDate >= filterModifiedDate;
-              case 'LessOrEqual':
-                return taskModifiedDate <= filterModifiedDate;
-              case 'isNull':
-                return task.modifiedDate === null;
-              case 'isNotNull':
-                return task.modifiedDate !== null;
-              default:
-                return true;
-            }
-          });
-        }
+        // if (filterOptions.modifiedDateOption) {
+        //   filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+        //     const taskModifiedDate = new Date(task.modifiedDate);
+        //     const filterModifiedDate = new Date(filterOptions.modifiedDateValue);
+        //
+        //     switch (filterOptions.modifiedDateOption) {
+        //       case 'EqualTo':
+        //         return taskModifiedDate.getDate() === filterModifiedDate.getDate() &&
+        //           taskModifiedDate.getMonth() === filterModifiedDate.getMonth() &&
+        //           taskModifiedDate.getFullYear() === filterModifiedDate.getFullYear();
+        //       case 'NotEqualTo':
+        //         return taskModifiedDate.getDate() !== filterModifiedDate.getDate() ||
+        //           taskModifiedDate.getMonth() !== filterModifiedDate.getMonth() ||
+        //           taskModifiedDate.getFullYear() !== filterModifiedDate.getFullYear();
+        //       case 'GreaterThan':
+        //         return taskModifiedDate > filterModifiedDate;
+        //       case 'LessThan':
+        //         return taskModifiedDate < filterModifiedDate;
+        //       case 'GreaterOrEqual':
+        //         return taskModifiedDate >= filterModifiedDate;
+        //       case 'LessOrEqual':
+        //         return taskModifiedDate <= filterModifiedDate;
+        //       case 'isNull':
+        //         return task.modifiedDate === null;
+        //       case 'isNotNull':
+        //         return task.modifiedDate !== null;
+        //       default:
+        //         return true;
+        //     }
+        //   });
+        // }
 
         this.taskSummaries = filteredSummaries;
       } catch (error) {
@@ -217,5 +217,24 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
     },
 
+    async getTaskSummaryByBatch(parentObjectId: number, parentObjectServiceType: number, limit: number, page: number) {
+
+      const callStr =
+        parentObjectId > 0 && parentObjectServiceType > 0
+          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&_limit=${limit}&_page=${page}`
+          : `${Constants.endPointUrl}/task-summary?_limit=${limit}&_page=${page}`;
+      try {
+        const response = await axios.get(callStr);
+        this.taskSummaries.push(...response.data);
+      } catch (error) {
+        console.error(error);
+      }
+      // const callStr = `${Constants.endPointUrl}/contact-summary?_limit=${limit}&_page=${page}`;
+      // //console.log(`callStr: ${callStr}`)
+      // const res = await fetch(callStr);
+      // const data = await res.json();
+      // //console.log(data);
+      // this.contactSummary.push(...data);
+    },
   },
 });

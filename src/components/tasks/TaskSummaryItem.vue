@@ -28,6 +28,78 @@ function getTaskStatusIcon(status: string) {
   }
 }
 
+function getPriorityIconAndColor(priority: string) {
+  let icon = '';
+  let color = '';
+
+
+  switch (priority) {
+    case 'High':
+      icon = 'arrow_upward';
+      color = '#d85c5c';
+      break;
+    case 'Medium':
+      icon = 'horizontal_rule';
+      color = '#ea9a49';
+      break;
+    case 'Low':
+      icon = 'arrow_downward';
+      color = '#85e56a';
+      break;
+    default:
+      break;
+  }
+  return {icon, color};
+
+
+  // switch (priority) {
+  //   case 'High':
+  //     return { icon: 'error', color: '#FF0000' };
+  //   case 'Medium':
+  //     return { icon: 'error_outline', color: '#FFA500' };
+  //   case 'Low':
+  //     return { icon: 'report_problem', color: '#008000' };
+  //   default:
+  //     return { icon: '', color: '' };
+  // }
+
+  // switch (priority) {
+  //   case 'High':
+  //     return { icon: 'star', color: '#FF0000' };
+  //   case 'Medium':
+  //     return { icon: 'star_half', color: '#FFA500' };
+  //   case 'Low':
+  //     return { icon: 'star_outline', color: '#008000' };
+  //   default:
+  //     return { icon: '', color: '' };
+  // }
+
+  // switch (priority) {
+  //   case 'High':
+  //     return { icon: 'fiber_manual_record', color: '#FF0000' };
+  //   case 'Medium':
+  //     return { icon: 'lens', color: '#FFA500' };
+  //   case 'Low':
+  //     return { icon: 'radio_button_unchecked', color: '#008000' };
+  //   default:
+  //     return { icon: '', color: '' };
+  // }
+
+  // switch (priority) {
+  //   case 'High':
+  //     return { icon: 'looks_one', color: '#FF0000' };
+  //   case 'Medium':
+  //     return { icon: 'looks_two', color: '#FFA500' };
+  //   case 'Low':
+  //     return { icon: 'looks_3', color: '#008000' };
+  //   default:
+  //     return { icon: '', color: '' };
+  // }
+
+
+}
+
+
 </script>
 
 <style>
@@ -122,7 +194,7 @@ function getTaskStatusIcon(status: string) {
         </q-item-label>
       </div>
 
-      <div class= "StatusAndPriority">
+      <div class="StatusAndPriority">
         <q-item-label class="StatusLabel">
           {{ task.taskStatusName }}
           <q-icon :name="getTaskStatusIcon(task.taskStatusName)" class="StatusIcon"/>
@@ -130,7 +202,10 @@ function getTaskStatusIcon(status: string) {
 
         <q-item-label class="PriorityLabel">
           {{ task.taskPriorityName }}
-          <div :class="[task.taskPriorityName] + ' PriorityCircle'"></div>
+          <q-icon
+            :name="getPriorityIconAndColor(task.taskPriorityName).icon"
+            :style="{ color: getPriorityIconAndColor(task.taskPriorityName).color }"
+          />
         </q-item-label>
 
       </div>

@@ -2203,22 +2203,43 @@
         "category": "Pending"
       },
       "isPrivate": true,
-      "taskOwner": "Kathiravan Sekar",
+      "taskOwner": {
+        "id": "1",
+        "name": "Kathiravan Sekar",
+        "email": "kathiravanrs@gmail.com"
+      },
       "startDate": "",
-      "modifiedDate": "2023-10-23T20:11:00.849Z",
+      "modifiedDate": "2023-11-01T19:39:14.953Z",
       "dueDate": "2023-10-27",
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
       "assignees": [
-        "Kathiravan Sekar"
+        {
+          "id": "1",
+          "name": "Kathiravan Sekar",
+          "email": "kathiravanrs@gmail.com"
+        }
       ],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
       "recurrenceRule": "",
       "tags": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "",
+          "parentId": 101,
+          "title": "Subtask 1",
+          "description": "Subtask 1 description",
+          "assignee": {
+            "id": "17",
+            "name": "Benjamin White"
+          },
+          "isCompleted": false,
+          "completedDate": "2023-10-05T17:00:00Z"
+        }
+      ],
       "taskPriority": {
         "id": "2",
         "name": "Medium"
@@ -2243,11 +2264,115 @@
       "taskPriorityName": "Low"
     },
     {
+      "id": 103,
+      "subject": "3: Implement OAuth2 Authentication",
+      "taskStatusName": "Open",
+      "isPrivate": true,
+      "dueDate": "2023-11-05T17:00:00Z",
+      "taskPriorityName": "High"
+    },
+    {
+      "id": 104,
+      "subject": "4: Develop API Documentation",
+      "taskStatusName": "In Progress",
+      "isPrivate": false,
+      "dueDate": "2023-10-15T17:00:00Z",
+      "taskPriorityName": "Medium"
+    },
+    {
+      "id": 105,
+      "subject": "5: Optimize Database Queries",
+      "taskStatusName": "Pending",
+      "isPrivate": false,
+      "dueDate": "2023-11-01T17:00:00Z",
+      "taskPriorityName": "Medium"
+    },
+    {
+      "id": 106,
+      "subject": "6: Update User Interface",
+      "taskStatusName": "Open",
+      "isPrivate": false,
+      "dueDate": "2023-10-20T17:00:00Z",
+      "taskPriorityName": "Low"
+    },
+    {
+      "id": 107,
+      "subject": "7: Migrate to Cloud Hosting",
+      "taskStatusName": "Completed",
+      "isPrivate": true,
+      "dueDate": "2023-09-05T17:00:00Z",
+      "taskPriorityName": "High"
+    },
+    {
+      "id": 108,
+      "subject": "8: Security Audit and Compliance Check",
+      "taskStatusName": "In Progress",
+      "isPrivate": true,
+      "dueDate": "2023-12-01T17:00:00Z",
+      "taskPriorityName": "High"
+    },
+    {
+      "id": 109,
+      "subject": "9: Implement Automated Backups",
+      "taskStatusName": "Open",
+      "isPrivate": false,
+      "dueDate": "2023-10-25T17:00:00Z",
+      "taskPriorityName": "Medium"
+    },
+    {
+      "id": 110,
+      "subject": "10: Refactor Codebase",
+      "taskStatusName": "Pending",
+      "isPrivate": false,
+      "dueDate": "2023-11-10T17:00:00Z",
+      "taskPriorityName": "Medium"
+    },
+    {
+      "id": 111,
+      "subject": "11: Implement Data Encryption",
+      "taskStatusName": "Completed",
+      "isPrivate": false,
+      "dueDate": "2023-09-20T17:00:00Z",
+      "taskPriorityName": "High"
+    },
+    {
+      "id": 112,
+      "subject": "12: Setup Continuous Integration",
+      "taskStatusName": "Open",
+      "isPrivate": true,
+      "dueDate": "2023-10-10T17:00:00Z",
+      "taskPriorityName": "Low"
+    },
+    {
+      "id": 113,
+      "subject": "13: Conduct User Feedback Sessions",
+      "taskStatusName": "In Progress",
+      "isPrivate": false,
+      "dueDate": "2023-10-30T17:00:00Z",
+      "taskPriorityName": "Medium"
+    },
+    {
+      "id": 114,
+      "subject": "14: Improve Logging Mechanism",
+      "taskStatusName": "Pending",
+      "isPrivate": false,
+      "dueDate": "2023-11-15T17:00:00Z",
+      "taskPriorityName": "Low"
+    },
+    {
+      "id": 115,
+      "subject": "15: Train Staff on New Features",
+      "taskStatusName": "Completed",
+      "isPrivate": true,
+      "dueDate": "2023-09-10T17:00:00Z",
+      "taskPriorityName": "Medium"
+    },
+    {
       "dueDate": "2022-09-11T18:30:00Z",
       "isPrivate": false,
       "id": "TJCR7UD4G2GE789RN6KR6KUVT2GX3GDDB4YM6LQ",
       "subject": "#589: Create a test account for Dawn Swope to test QB export using IIF file",
-      "taskStatusName": "Completed",
+      "taskStatusName": "In Progress",
       "taskPriorityName": "Low"
     },
     {
