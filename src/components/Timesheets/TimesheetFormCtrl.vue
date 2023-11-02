@@ -49,11 +49,11 @@ const customerProjectOptions = computed(() => {
 const serviceItemsOptions = ref('');
 // serviceItemsOptions.value = timesheetListStore.ServiceItemsList
 
-const handleSelectChange = (sampleModel) => {
-  console.log('Selected value:', sampleModel.id);
-  serviceItemsOptions.value =
-    timesheetListStore.getServiceItemsBycustomerProjectId(sampleModel.id);
-};
+// const handleSelectChange = (sampleModel) => {
+//   console.log('Selected value:', sampleModel.id);
+//   serviceItemsOptions.value =
+//     timesheetListStore.getServiceItemsBycustomerProjectId(sampleModel.id);
+// };
 
 const billableOptions = ref([]);
 billableOptions.value = [
@@ -76,9 +76,13 @@ watch([customerProjectModel], ([newCustomerProjectModel]) => {
   const names = newCustomerProjectModel.name.split(':');
   const ids = newCustomerProjectModel.id.split(':');
   props.timesheet.accountName = names[0];
-  props.timesheet.serviceItemName = names[1];
+  props.timesheet.projectName = names[1];
   props.timesheet.accountSid = ids[0];
-  props.timesheet.serviceItemSid = ids[1];
+  props.timesheet.projectSid = ids[1];
+  serviceItemsOptions.value =
+    timesheetListStore.getServiceItemsBycustomerProjectId(
+      newCustomerProjectModel.id
+    );
 });
 </script>
 
@@ -98,10 +102,10 @@ watch([customerProjectModel], ([newCustomerProjectModel]) => {
         map-options
         emit-label
       />
-      <!-- <pre>customer:project={{ selectedCustomerProject }}</pre>
+      <!-- <pre>customer:project={{ selectedCustomerProject }}</pre> -->
       <pre>cpModel:{{ customerProjectModel }}</pre>
-      <pre>Account:  {{ props.timesheet.accountName }}</pre>
-      <pre>ServiceItem:  {{ props.timesheet.serviceItemName }}</pre> -->
+      <!-- <pre>Account:  {{ props.timesheet.accountName }}</pre> -->
+      <!-- <pre>ServiceItem:  {{ props.timesheet.serviceItemName }}</pre> -->
       <q-select
         label="Customer: Project"
         :model-value="selectedCustomerProject"
