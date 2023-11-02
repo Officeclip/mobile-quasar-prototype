@@ -214,7 +214,7 @@ function addSubtask(subtask: subTask) {
 
                   <div class="col-4">
                     <q-item-label caption>Owner</q-item-label>
-                    <q-chip dense>{{ taskDetail?.taskOwner }}</q-chip>
+                    <q-chip dense>{{ taskDetail?.taskOwner.name }}</q-chip>
                   </div>
                 </div>
 

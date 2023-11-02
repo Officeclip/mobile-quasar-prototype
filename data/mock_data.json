@@ -1969,7 +1969,17 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
+      "applicationIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10
+      ]
     }
   ],
   "generalUserProfile": [
@@ -2080,9 +2090,12 @@
         "name": "Completed"
       },
       "isPrivate": true,
-      "taskOwner": "Alice Johnson",
+      "taskOwner": {
+        "id": "15",
+        "name": "Elijah Hall"
+      },
       "startDate": "2023-10-01T10:00:00Z",
-      "modifiedDate": "2023-10-23T19:12:24.520Z",
+      "modifiedDate": "2023-11-01T18:20:39.510Z",
       "dueDate": "2023-10-05T17:00:00Z",
       "createdDate": "2023-09-30T08:45:00Z",
       "regardingType": 1,
@@ -2097,16 +2110,13 @@
           "name": "Jane Smith"
         },
         {
-          "id": 3,
-          "name": "Kathiravan Sekar"
-        },
-        {
           "id": 4,
           "name": "Oliver Johnson"
         },
         {
-          "id": 5,
-          "name": "Lily Jones"
+          "id": "1",
+          "name": "Kathiravan Sekar",
+          "email": "kathiravanrs@gmail.com"
         }
       ],
       "remindTo": "Me",
@@ -2131,7 +2141,8 @@
           "description": "Description for subtask 1",
           "assignee": {
             "id": "1",
-            "name": "Kathiravan Sekar"
+            "name": "Kathiravan Sekar",
+            "email": "kathiravanrs@gmail.com"
           },
           "isCompleted": false,
           "completedDate": "2023-10-05T17:00:00Z"
@@ -2158,6 +2169,18 @@
             "name": "Kathiravan Sekar"
           },
           "isCompleted": true,
+          "completedDate": "2023-10-05T17:00:00Z"
+        },
+        {
+          "id": "",
+          "parentId": 101,
+          "title": "Test Subtask 3",
+          "description": "Testing description",
+          "assignee": {
+            "id": "28",
+            "name": "Lily Brown"
+          },
+          "isCompleted": false,
           "completedDate": "2023-10-05T17:00:00Z"
         }
       ],
@@ -2187,7 +2210,9 @@
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": ["Kathiravan Sekar"],
+      "assignees": [
+        "Kathiravan Sekar"
+      ],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
@@ -3329,7 +3354,12 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": ["", "One", "Two", "Three"],
+          "items": [
+            "",
+            "One",
+            "Two",
+            "Three"
+          ],
           "name": "Custom Row",
           "uiType": "List"
         },
@@ -3792,7 +3822,7 @@
       ]
     }
   ],
-  "users": [
+  "user-summary": [
     {
       "id": "1",
       "name": "Kathiravan Sekar",

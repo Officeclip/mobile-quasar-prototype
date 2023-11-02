@@ -20,7 +20,7 @@ function getTaskStatusIcon(status: string) {
     case 'In Progress':
       return 'autorenew';
     case 'Pending':
-      return 'hourglass_empty';
+      return 'hourglass_top';
     case 'Completed':
       return 'check';
     default:
@@ -122,7 +122,7 @@ function getTaskStatusIcon(status: string) {
         </q-item-label>
       </div>
 
-      <div class="StatusAndPriority">
+      <div class= "StatusAndPriority">
         <q-item-label class="StatusLabel">
           {{ task.taskStatusName }}
           <q-icon :name="getTaskStatusIcon(task.taskStatusName)" class="StatusIcon"/>
