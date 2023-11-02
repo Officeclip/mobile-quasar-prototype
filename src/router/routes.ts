@@ -156,7 +156,7 @@ const routes: RouteRecordRaw[] = [
   //   // params: true,
   // },
   {
-    path: '/timesheetDetails/:id',
+    path: '/timesheetDetails/:id/:fromDate',
     name: 'timesheetDetails',
     component: () => import('../pages/Timesheets/TimesheetDetails.vue'),
     // params: true,
@@ -174,7 +174,7 @@ const routes: RouteRecordRaw[] = [
     // params: true,
   },
   {
-    path: '/editTimesheet/:id',
+    path: '/editTimesheet/:id/:fromDate',
     name: 'editTimesheet',
     component: () => import('../pages/Timesheets/EditTimesheet.vue'),
     // params: true,
@@ -192,7 +192,7 @@ const routes: RouteRecordRaw[] = [
     // params: true,
   },
   {
-    path: '/expenseDetails/:id',
+    path: '/expenseDetails/:id/:fromDate',
     name: 'expenseDetails',
     component: () => import('../pages/Expenses/ExpenseDetails.vue'),
     // params: true,
@@ -210,7 +210,7 @@ const routes: RouteRecordRaw[] = [
     // params: true,
   },
   {
-    path: '/editExpense/:id/:expenseSid',
+    path: '/editExpense/:id/:expenseSid/:fromDate',
     name: 'editExpense',
     component: () => import('../pages/Expenses/EditExpense.vue'),
     // params: true,

@@ -6,12 +6,15 @@ import { useRoute } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 
+const route = useRoute();
+const id = route.params.id;
+const fromDate = route.params.fromDate;
 const timesheetsStore = useTimesheetsStore();
 
 onMounted(() => {
-  const route = useRoute();
+  // const route = useRoute();
   console.log('id=', route.params.id);
-  timesheetsStore.getTimesheetDetails(Number(route.params.id));
+  timesheetsStore.getTimesheetDetails(Number(id));
 });
 
 const timesheetDetails = computed(() => {
@@ -67,6 +70,7 @@ const timesheetDetails = computed(() => {
                   name: 'editTimesheet',
                   params: {
                     id: timesheetDetail?.timesheetDetailSid,
+                    fromDate: fromDate,
                   },
                 }"
                 size="sm"
@@ -101,6 +105,18 @@ const timesheetDetails = computed(() => {
           <OCItem title="Description" :value="timesheetDetail.description" />
         </q-expansion-item>
       </q-list>
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-btn
+          :to="{
+            name: 'newTimesheetPeriod',
+          }"
+          fab
+          icon="add"
+          color="accent"
+          padding="sm"
+        >
+        </q-btn>
+      </q-page-sticky>
     </q-page-container>
   </q-layout>
 </template>

@@ -27,6 +27,7 @@ const getExpenses = computed(() => {
       name: 'expenseDetails',
       params: {
         id: expense.id,
+        fromDate: expense.fromDate
       },
     }" clickable v-ripple>
       <q-item-section>

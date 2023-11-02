@@ -1,21 +1,38 @@
+<!-- eslint-disable vue/no-setup-props-destructure -->
+<!-- eslint-disable vue/no-mutating-props -->
 <script setup>
-import { defineProps, ref, onBeforeMount, computed } from 'vue';
+import { defineProps, ref, onBeforeMount, computed, watch } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 
 const props = defineProps(['timesheet', 'periodName']);
 
-const timesheetListStore = useTimesheetListStore();
+const accountName = props.timesheet?.accountName;
+const projectName = props.timesheet?.projectName;
+const selectedCustomerProject = ref(
+  accountName ? `${accountName}:${projectName}` : ''
+);
 
+const customerProjectModel = ref('');
+const taskDate = ref('');
+taskDate.value = props.timesheet?.taskDate
+  ? props.timesheet?.taskDate
+  : new Date();
+
+// format the taskDate and show for user interface like Nov 02(Fri)
+const formattedTaskDate = ref(
+  `${new Date(taskDate.value).toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  })}(${new Date(taskDate.value).toLocaleString('en-US', {
+    weekday: 'short',
+  })})`
+);
+
+const timesheetListStore = useTimesheetListStore();
 onBeforeMount(() => {
   timesheetListStore.getTimesheetListAll();
 });
-// eslint-disable-next-line vue/no-setup-props-destructure
-// const selectedPeriod = props.selectedPeriod;
-// const selectedPeriod = computed(() => {
-//   return timesheetListStore.selectedPeriod;
-// });
-
 const selectedPeriod = computed(() => {
   return timesheetListStore.PeriodList.find((x) => x.name === props.periodName);
 });
@@ -30,14 +47,30 @@ const dateOptions = computed(() => {
 const customerProjectOptions = computed(() => {
   return timesheetListStore.CustomerProjectsList;
 });
-const serviceItemsOptions = ref('');
-// serviceItemsOptions.value = timesheetListStore.ServiceItemsList
 
-const handleSelectChange = (sampleModel) => {
-  console.log('Selected value:', sampleModel.id);
-  serviceItemsOptions.value =
-    timesheetListStore.getServiceItemsBycustomerProjectId(sampleModel.id);
-};
+const accountSid = props.timesheet?.accountSid;
+const projectSid = props.timesheet?.projectSid;
+const customerProjectId = ref(accountSid ? `${accountSid}:${projectSid}` : '');
+
+// const serviceItemsOptions = computed(() => {
+//   return customerProjectId.value
+//     ? timesheetListStore.getServiceItemsBycustomerProjectId(
+//         customerProjectId.value
+//       )
+//     : '';
+// });
+const serviceItemsOptions = ref('');
+// customerProjectId.value != ''
+//   ? computed(() => {
+//       return timesheetListStore.getServiceItemsBycustomerProjectId(
+//         customerProjectId.value
+//       );
+//     })
+//   : watch([customerProjectModel], ([newCustomerProjectModel]) => {
+//       timesheetListStore.getServiceItemsBycustomerProjectId(
+//         newCustomerProjectModel.id
+//       );
+//     });
 
 const billableOptions = ref([]);
 billableOptions.value = [
@@ -50,15 +83,29 @@ billableOptions.value = [
     value: false,
   },
 ];
-// const createdDate = dateTimeHelper.extractDateFromUtc(
-//   props.timesheet.createdDate
-// );
 
-// const createdDate = computed(() => {
-//   return dateTimeHelper.extractDateFromUtc(props.timesheet.createdDate);
-// });
-// const taskDate = ref('');
-// taskDate.value = 'July 20(Thu)';
+watch([taskDate], ([newTaskDate]) => {
+  formattedTaskDate.value = newTaskDate;
+  props.timesheet.taskDate = newTaskDate;
+});
+watch([customerProjectModel], ([newCustomerProjectModel]) => {
+  selectedCustomerProject.value = newCustomerProjectModel;
+  const names = newCustomerProjectModel.name.split(':');
+  const ids = newCustomerProjectModel.id.split(':');
+  props.timesheet.accountName = names[0];
+  props.timesheet.projectName = names[1];
+  props.timesheet.accountSid = ids[0];
+  props.timesheet.projectSid = ids[1];
+  serviceItemsOptions.value = newCustomerProjectModel.id
+    ? timesheetListStore.getServiceItemsBycustomerProjectId(
+        newCustomerProjectModel.id
+      )
+    : computed(() => {
+        return timesheetListStore.getServiceItemsBycustomerProjectId(
+          customerProjectId.value
+        );
+      });
+});
 </script>
 
 <template>
@@ -71,28 +118,32 @@ billableOptions.value = [
       }}</q-item-label>
       <q-select
         label="Date"
-        v-model="props.timesheet.taskDate"
+        :model-value="formattedTaskDate"
+        @update:model-value="(newValue) => (taskDate = newValue)"
         :options="dateOptions"
         map-options
         emit-label
       />
+      <!-- <pre>customer:project={{ selectedCustomerProject }}</pre> -->
+      <!-- <pre>cpModel:{{ customerProjectModel }}</pre> -->
+      <!-- <pre>Account:  {{ props.timesheet.accountName }}</pre> -->
+      <!-- <pre>ServiceItem:  {{ props.timesheet.serviceItemName }}</pre> -->
       <q-select
         label="Customer: Project"
-        v-model="props.timesheet.projectName"
+        :model-value="selectedCustomerProject"
+        @update:model-value="(newValue) => (customerProjectModel = newValue)"
         :options="customerProjectOptions"
         option-label="name"
         option-value="id"
         map-options
-        @update:model-value="handleSelectChange"
       />
+      <pre>{{ props.timesheet.serviceItemName }}</pre>
       <q-select
         label="ServiceItems"
         v-model="props.timesheet.serviceItemName"
         :options="serviceItemsOptions"
         option-label="name"
-        option-value="name"
         map-options
-        emit-value
       />
 
       <q-select
@@ -106,8 +157,6 @@ billableOptions.value = [
         label="Duration"
         v-model="props.timesheet.timeDuration"
         placeholder="enter here..."
-        lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       >
       </q-input>
 
@@ -115,8 +164,6 @@ billableOptions.value = [
         label="Description"
         v-model="props.timesheet.description"
         placeholder="enter here..."
-        lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       >
       </q-input>
 
@@ -124,8 +171,6 @@ billableOptions.value = [
         label="Comments"
         v-model="props.timesheet.description"
         placeholder="enter here..."
-        lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       >
       </q-input>
     </div>

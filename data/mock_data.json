@@ -2215,11 +2215,7 @@
       "regardingType": 0,
       "regardingValue": "",
       "assignees": [
-        {
-          "id": "1",
-          "name": "Kathiravan Sekar",
-          "email": "kathiravanrs@gmail.com"
-        }
+        "Kathiravan Sekar"
       ],
       "remindTo": "",
       "remindBeforeMinutes": 0,
@@ -4371,3 +4367,4 @@
     }
   ]
 }
+

@@ -25,6 +25,9 @@ const route = useRoute();
 const id = computed(() => {
   return route.params.id;
 });
+
+const fromDate = route.params.fromDate;
+
 onMounted(() => {
   expenseDetailsStore.getExpenseDetailById(id.value);
   expenseListStore.getExpensesList();
@@ -40,7 +43,7 @@ const expensePeriod = computed(() => {
 
 const period = computed(() => {
   return expensePeriod.value.find(
-    (y) => y.start.toString() === expenseDetail.value?.fromDate
+    (y) => y.start.toString() === fromDate
   );
 });
 
@@ -71,7 +74,6 @@ function onSubmit(e: any) {
     projectSid: expenseDetail.value?.projectSid as string,
     tax: Number(expenseDetail.value?.tax),
     paymentType: expenseDetail.value?.paymentType as string,
-    fromDate: expenseDetail.value?.fromDate as string,
     autoRentalExpense: expenseDetail.value
       ?.autoRentalExpense as autoRentalExpense,
     airTravelExpense: expenseDetail.value?.airTravelExpense as airTravelExpense,

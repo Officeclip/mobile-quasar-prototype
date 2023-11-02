@@ -11,10 +11,13 @@ import mileageExpense from '../../components/expenses/details/mileageExpense.vue
 import taxiExpense from '../../components/expenses/details/taxiExpense.vue';
 import telephoneExpense from '../../components/expenses/details/telephoneExpense.vue';
 
+const route = useRoute();
+
+const fromDate = route.params.fromDate;
+
 const expenseDetailsStore = useExpenseDetailsStore();
 
 onMounted(() => {
-  const route = useRoute();
   console.log('Expense Detail Id from route', route.params.id)
   expenseDetailsStore.getExpenseDetails(route.params.id);
 });
@@ -22,7 +25,6 @@ onMounted(() => {
 const expenseDetails = computed(() => {
   return expenseDetailsStore.expenseDetailsList;
 });
-console.log('expense detail in expense details', expenseDetails)
 </script>
 
 <template>
@@ -61,7 +63,8 @@ console.log('expense detail in expense details', expenseDetails)
                   name: 'editExpense',
                   params: {
                     id: expenseDetail?.id,
-                    expenseSid: expenseDetail?.expenseSid
+                    expenseSid: expenseDetail?.expenseSid,
+                    fromDate: fromDate
                   },
                 }" size="sm" flat round dense icon="edit" class="q-ml-sm">
                 </q-btn>
