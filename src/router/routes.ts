@@ -192,7 +192,7 @@ const routes: RouteRecordRaw[] = [
     // params: true,
   },
   {
-    path: '/expenseDetails/:id',
+    path: '/expenseDetails/:id/:fromDate',
     name: 'expenseDetails',
     component: () => import('../pages/Expenses/ExpenseDetails.vue'),
     // params: true,
@@ -210,7 +210,7 @@ const routes: RouteRecordRaw[] = [
     // params: true,
   },
   {
-    path: '/editExpense/:id/:expenseSid',
+    path: '/editExpense/:id/:expenseSid/:fromDate',
     name: 'editExpense',
     component: () => import('../pages/Expenses/EditExpense.vue'),
     // params: true,

@@ -25,7 +25,6 @@ export interface expenseDetails {
   projectSid: string;
   tax: number;
   paymentType: string;
-  fromDate: string;
   autoRentalExpense: autoRentalExpense;
   airTravelExpense: airTravelExpense;
   hotelExpense: hotelExpense;
