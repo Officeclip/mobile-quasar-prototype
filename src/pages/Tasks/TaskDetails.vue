@@ -1,11 +1,10 @@
 <!-- cleaned up with google bard with minor correction -->
 <script lang="ts" setup>
-import {computed, onMounted, ref, Ref, ComputedRef} from 'vue';
+import {computed, ComputedRef, onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
 import {taskDetails} from "src/models/task/taskDetails";
-import {useTaskListsStore} from "stores/task/taskListsStore";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import AddSubtaskDialog from "components/tasks/addSubtaskDialog.vue";
 import {subTask} from "src/models/task/subtask";

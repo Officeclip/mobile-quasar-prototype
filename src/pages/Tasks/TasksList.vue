@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import {computed, onBeforeMount, ref, Ref} from 'vue';
+import {computed, onBeforeMount, ref, Ref, watch} from 'vue';
 import TaskSummaryItem from "components/tasks/TaskSummaryItem.vue";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import TaskAdvancedFilters from "components/tasks/taskAdvancedFilters.vue";
 import {searchFilter} from "src/models/task/searchFilter";
-
 
 let filterOptions: Ref<searchFilter> = ref({
   filterString: '',
@@ -12,7 +11,6 @@ let filterOptions: Ref<searchFilter> = ref({
   assignedToMeFilter: false,
   showAdvancedOptions: false,
   userName: 'Alice Johnson',
-
   dueDateValue: '',
   dueDateOption: '',
   modifiedDateValue: '',
@@ -32,11 +30,13 @@ const parent = {
 
 const taskSummaryStore = useTaskSummaryStore();
 
-const getFilteredTaskSummaries = computed(() => {
-  // await taskSummaryStore.getFilteredTasks(filterOptions.value, parent.parentObjectId, parent.parentObjectServiceType);
+const getFilteredTaskSummaries = ref([...taskSummaryStore.taskSummaries]);
+// const getFilteredTaskSummaries = computed(() => {
+//   // await taskSummaryStore.getFilteredTasks(filterOptions.value, parent.parentObjectId, parent.parentObjectServiceType);
+//
+//   return taskSummaryStore.TaskSummaries;
+// });
 
-  return taskSummaryStore.TaskSummaries;
-});
 
 const getSortedSummaries = computed(() => {
   let sortedTasks = getFilteredTaskSummaries;
@@ -51,6 +51,8 @@ const getSortedSummaries = computed(() => {
   // });
   return sortedTasks.value;
 });
+
+
 
 function clearFilterValues() {
   filterOptions.value = {
@@ -72,11 +74,6 @@ function clearFilterValues() {
   }
 }
 
-// watch(filterOptions, (newValue, oldValue) => {
-//   console.log("watched")
-//   taskSummaryStore.getFilteredTasks(newValue, parent.parentObjectId, parent.parentObjectServiceType);
-// });
-
 let currentPage = 1; // the current page number
 // const pageSize = ref(10); // number of items in one page
 let numItems = 0; // total number of items in the list
@@ -89,6 +86,7 @@ onBeforeMount(() => {
     .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, currentPage)
     .then(() => currentPage++);
 });
+
 const loadMore = (index: any, done: () => void) => {
   const contactsSizeBeforeCall = getSortedSummaries.value.length;
   setTimeout(() => {
@@ -116,6 +114,28 @@ function receiveAdvFilters(advancedOptions: any) {
   filterOptions.value.regarding = advancedOptions.regarding;
   filterOptions.value.taskTypeValue = advancedOptions.taskTypeValue;
 }
+
+async function filterFn(val: string, update: any, abort: any) {
+  if (val.length < 2) {
+    abort();
+    return;
+  } else if (val.length === 2) {
+    getFilteredTaskSummaries.value = [];
+    await taskSummaryStore.getRegardingContactListThatMatch(val, parent.parentObjectId, parent.parentObjectServiceType);
+    getFilteredTaskSummaries.value = taskSummaryStore.TaskSummaries;
+  }
+
+  update(() => {
+    console.log('update');
+    const needle = val.toLowerCase();
+    getFilteredTaskSummaries.value = taskSummaryStore.TaskSummaries.filter(
+      (task) => task.subject.toLowerCase().indexOf(needle) > -1
+    );
+  });
+}
+watch(() => filterOptions.value.filterString, async (newVal) => {
+  await filterFn(newVal, () => {}, () => {});
+});
 
 </script>
 
@@ -167,7 +187,7 @@ function receiveAdvFilters(advancedOptions: any) {
           </div>
         </div>
 
-        <q-infinite-scroll :disable="reachedEnd" :offset="250" @load="loadMore" >
+        <q-infinite-scroll :disable="reachedEnd" :offset="250" @load="loadMore">
 
           <q-item v-for="task in getSortedSummaries" :key="task.id" class="q-pa-sm">
             <taskSummaryItem :task="task" class="full-width"/>
@@ -182,7 +202,7 @@ function receiveAdvFilters(advancedOptions: any) {
           <task-advanced-filters :parent="parent" @advancedOptionsGenerated="receiveAdvFilters"/>
         </q-dialog>
 
-<!--        <pre>{{ filterOptions }}</pre>-->
+        <!--        <pre>{{ filterOptions }}</pre>-->
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
         <q-btn

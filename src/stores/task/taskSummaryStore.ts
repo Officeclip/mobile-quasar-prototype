@@ -2,6 +2,7 @@ import {defineStore} from 'pinia';
 import axios from 'axios';
 import {taskSummary} from "src/models/task/taskSummary";
 import {Constants} from "stores/Constants";
+import {regardingContact} from "src/models/general/regardingAll";
 
 export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   state: () => ({
@@ -236,5 +237,22 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       // //console.log(data);
       // this.contactSummary.push(...data);
     },
+
+    async getRegardingContactListThatMatch(val: string, parentObjectId: number, parentObjectServiceType: number){
+      const callStr =
+        parentObjectId > 0 && parentObjectServiceType > 0
+          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : `${Constants.endPointUrl}/task-summary`;
+      try {
+        const response = await axios.get(callStr);
+        const taskSummaries = response.data;
+        const filtered = taskSummaries.filter((t: taskSummary) => {
+          return t.subject.toLowerCase().includes(val.toLowerCase());
+        });
+        this.taskSummaries = filtered;
+      } catch (error) {
+        console.error(error);
+      }
+    }
   },
 });
