@@ -96,11 +96,42 @@ function getExpenseTypeDetail(expTypeName) {
       break;
   }
 }
-// const storeDate = ref(props.expenseDetail.expenseDate);
-// const formattedStoreDate = ref('');
-// if (storeDate.value) {
-//   formattedStoreDate.value = storeDate.value.toLocaleDateString('en-US', { month: 'short', day: 'numeric', weekday: 'short' });
-// }
+
+const customerProjectValue = computed({
+  get() {
+    console.log(`Customer-Project: ${props.expenseDetail.accountName}:${props.expenseDetail.projectName}`)
+    return `${props.expenseDetail.accountName}  : ${props.expenseDetail.projectName}`;
+  },
+  set(newValue) {
+    let accountProjects = (newValue + '').split(':')
+    props.expenseDetail.accountSid = accountProjects[0];
+    props.expenseDetail.projectSid = accountProjects[1];
+
+    console.log('Formatted expenseSid in expense form control', props.expenseDetail.accountSid)
+    console.log('Formatted projectSid in expense form control', props.expenseDetail.projectSid)
+  }
+})
+
+const customerProject = ref('');
+customerProject.value = customerProjectValue.value;
+
+const expenseDateValue = computed({
+  get() {
+    const newExpenseDate = new Date(props.expenseDetail.expenseDate);
+    return `${newExpenseDate.toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+    })}(${newExpenseDate.toLocaleString('en-US', { weekday: 'short' })})`;
+  },
+  set(newValue) {
+    props.expenseDetail.expenseDate = newValue;
+    console.log('Formatted expense date in expense form control', props.expenseDetail.expenseDate)
+  }
+})
+
+const formattedExpenseDate = ref('');
+formattedExpenseDate.value = expenseDateValue.value;
+//console.log('Formatted expense date in expense form control', formattedExpenseDate)
 </script>
 
 <template>
@@ -112,11 +143,11 @@ function getExpenseTypeDetail(expTypeName) {
         <q-item-label class="q-mb-sm">
           {{ period }}
         </q-item-label>
-        <q-select label="Expense Date" v-model="expenseDetail.expenseDate" :options="datesList" map-options
+        <q-select label="Expense Date" v-model="formattedExpenseDate" :options="datesList" map-options
           option-value="value" option-label="label" emit-value />
 
-        <q-select label="Customer: Project" v-model="expenseDetail.projectName" :options="customerProjectOptions"
-          option-label="name" option-value="name" map-options emit-value />
+        <q-select label="Customer : Project" v-model="customerProjectValue" :options="customerProjectOptions"
+          option-label="name" map-options />
 
         <q-select label="Expense Type" v-model="expenseDetail.expenseTypeName" :options="expenseTypeOptions"
           :rules="[(val) => val !== expenseTypeDefault || 'Please select expense type..']"
