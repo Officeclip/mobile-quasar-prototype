@@ -17,9 +17,9 @@ const props = defineProps(['expenseDetail', 'period']);
 //   }
 // );
 
-const expenseTypeName = computed(() => {
-  return props.expenseDetail.expenseTypeName;
-});
+// const expenseTypeName = computed(() => {
+//   return props.expenseDetail.expenseTypeName;
+// });
 
 const expenseListsStore = useExpenseListsStore();
 
@@ -72,24 +72,22 @@ if (props.expenseDetail.expenseTypeName == '') {
   isBillableModify.value = true;
 }
 
-watch([expenseTypeName], ([newTest]) => {
-  getExpenseTypeDetail(newTest);
+watch([expenseTypeOptions], () => {
+  getExpenseTypeDetail(props.expenseDetail.expenseTypeName);
 });
 
-function getExpenseTypeDetail(event) {
-  if (event == null) {
-    event = expenseTypeName.value;
-  }
+function getExpenseTypeDetail(expTypeName) {
+
   const expenseType = expenseTypeOptions.value.find(
-    (x) => x.expenseTypeName === event
+    (x) => x.expenseTypeName === expTypeName
   );
+  if (expenseType != null) {
+    isBillableModify.value = expenseType.isBillableModify;
+    isDetailRequired.value = expenseType.isDetailsRequired;
+    props.expenseDetail.billable = expenseType.isBillable;
+  }
 
-  isBillableModify.value = expenseType.isBillableModify;
-  isDetailRequired.value = expenseType.isDetailsRequired;
-  console.log('Testing is detail required -', isDetailRequired.value)
-  props.expenseDetail.billable = expenseType.isBillable;
-
-  switch (event) {
+  switch (expTypeName) {
     case 'AIRFARE':
       props.expenseDetail.autoRentalExpense = null;
       break;
