@@ -1,12 +1,11 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <!-- eslint-disable vue/no-mutating-props -->
 <script setup>
-import { defineProps, ref, onBeforeMount, computed, watch } from 'vue';
+import { defineProps, ref, onMounted, computed, watch } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 
 const props = defineProps(['timesheet', 'periodName']);
-
 const accountName = props.timesheet?.accountName;
 const projectName = props.timesheet?.projectName;
 const selectedCustomerProject = ref(
@@ -30,13 +29,12 @@ const formattedTaskDate = ref(
 );
 
 const timesheetListStore = useTimesheetListStore();
-onBeforeMount(() => {
+onMounted(() => {
   timesheetListStore.getTimesheetListAll();
 });
 const selectedPeriod = computed(() => {
   return timesheetListStore.PeriodList.find((x) => x.name === props.periodName);
 });
-// const periodOptions = timesheetListStore.PeriodList;
 const dateOptions = computed(() => {
   return dateTimeHelper.populateDates(
     selectedPeriod.value?.start,
@@ -51,27 +49,9 @@ const customerProjectOptions = computed(() => {
 const accountSid = props.timesheet?.accountSid;
 const projectSid = props.timesheet?.projectSid;
 const customerProjectId = ref(accountSid ? `${accountSid}:${projectSid}` : '');
+// need to get initial service item list using the  customerProjectId
 
-// const serviceItemsOptions = computed(() => {
-//   return customerProjectId.value
-//     ? timesheetListStore.getServiceItemsBycustomerProjectId(
-//         customerProjectId.value
-//       )
-//     : '';
-// });
 const serviceItemsOptions = ref('');
-// customerProjectId.value != ''
-//   ? computed(() => {
-//       return timesheetListStore.getServiceItemsBycustomerProjectId(
-//         customerProjectId.value
-//       );
-//     })
-//   : watch([customerProjectModel], ([newCustomerProjectModel]) => {
-//       timesheetListStore.getServiceItemsBycustomerProjectId(
-//         newCustomerProjectModel.id
-//       );
-//     });
-
 const billableOptions = ref([]);
 billableOptions.value = [
   {
@@ -89,23 +69,19 @@ watch([taskDate], ([newTaskDate]) => {
   props.timesheet.taskDate = newTaskDate;
 });
 watch([customerProjectModel], ([newCustomerProjectModel]) => {
-  selectedCustomerProject.value = newCustomerProjectModel;
   const names = newCustomerProjectModel.name.split(':');
   const ids = newCustomerProjectModel.id.split(':');
   props.timesheet.accountName = names[0];
   props.timesheet.projectName = names[1];
   props.timesheet.accountSid = ids[0];
   props.timesheet.projectSid = ids[1];
-  serviceItemsOptions.value = newCustomerProjectModel.id
-    ? timesheetListStore.getServiceItemsBycustomerProjectId(
-        newCustomerProjectModel.id
-      )
-    : computed(() => {
-        return timesheetListStore.getServiceItemsBycustomerProjectId(
-          customerProjectId.value
-        );
-      });
 });
+const handleModelValue = (newValue) => {
+  customerProjectModel.value = newValue;
+  selectedCustomerProject.value = newValue;
+  serviceItemsOptions.value =
+    timesheetListStore.getServiceItemsBycustomerProjectId(newValue);
+};
 </script>
 
 <template>
@@ -124,14 +100,11 @@ watch([customerProjectModel], ([newCustomerProjectModel]) => {
         map-options
         emit-label
       />
-      <!-- <pre>customer:project={{ selectedCustomerProject }}</pre> -->
-      <!-- <pre>cpModel:{{ customerProjectModel }}</pre> -->
-      <!-- <pre>Account:  {{ props.timesheet.accountName }}</pre> -->
-      <!-- <pre>ServiceItem:  {{ props.timesheet.serviceItemName }}</pre> -->
+      <pre>{{ customerProjectModel }}</pre>
       <q-select
         label="Customer: Project"
         :model-value="selectedCustomerProject"
-        @update:model-value="(newValue) => (customerProjectModel = newValue)"
+        @update:model-value="handleModelValue"
         :options="customerProjectOptions"
         option-label="name"
         option-value="id"

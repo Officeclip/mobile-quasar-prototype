@@ -3019,7 +3019,7 @@
       "id": 1,
       "status": "Saved",
       "totalHours": 14.75,
-      "fromDate": "2020-11-02T10:43:32.203Z"
+      "fromDate": "2023-06-19T10:43:32.203Z"
     },
     {
       "createdByUserName": "Sudhakar Gundu",
@@ -3027,7 +3027,7 @@
       "id": 5,
       "status": "Saved",
       "totalHours": 44.08,
-      "fromDate": "2020-09-14T10:43:32.203Z"
+      "fromDate": "2023-06-05T10:43:32.203Z"
     },
     {
       "createdByUserName": "Sudhakar Gundu",
@@ -3035,7 +3035,7 @@
       "id": 9,
       "status": "Approved",
       "totalHours": 33.25,
-      "fromDate": "2020-07-06T10:43:32.203Z"
+      "fromDate": "2023-05-22T10:43:32.203Z"
     },
     {
       "createdByUserName": "Sudhakar Gundu",
@@ -3043,7 +3043,7 @@
       "id": 10,
       "status": "Rejected",
       "totalHours": 20.25,
-      "fromDate": "2020-06-15T10:43:32.203Z"
+      "fromDate": "2023-04-24T10:43:32.203Z"
     }
   ],
   "timesheet-details": [
@@ -3055,18 +3055,22 @@
       "checkOutTime": "2021-02-19T18:00:00Z",
       "createdDate": "2020-11-03T11:48:27Z",
       "createdUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
-      "description": "1.1.4.1.50.12.14 New Timesheet 3",
-      "isBillable": true,
+      "description": "QQQQQQQQQQ",
+      "isBillable": false,
       "modifiedDate": "2020-11-03T11:48:27Z",
       "modifiedUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
       "payrollName": "",
       "payrollSid": "ECHTWHSFBJ9CW39XAC5Q",
-      "projectName": "Sample Project",
-      "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
-      "serviceItemName": "Development",
+      "serviceItemName": {
+        "code": "T15",
+        "customerProjectId": "",
+        "id": "VMTV6WGXN6HE2CD4YJULWN9EC28Q2M9RH4TM6LQ",
+        "isBillable": "Y",
+        "name": "Research"
+      },
       "serviceItemSid": "VMTV6WGXN6HE2CD4HDGWXFJER86E369S5DYM6LQ",
-      "taskDate": "2020-11-02T18:30:00Z",
-      "timeDuration": 1,
+      "taskDate": "Jun 22(Thu)",
+      "timeDuration": "123",
       "timesheetDetailSid": "N48KW7A5FZFV77KFSZNUXZS3U6NXY2GC2CTM6LQ",
       "id": 1
     },
@@ -3238,12 +3242,12 @@
         {
           "end": "2023-07-02T00:00:00+05:30",
           "name": "Jun 19, 2023 - Jul 02, 2023",
-          "start": "2023-06-19T00:00:00+05:30"
+          "start": "2023-06-19T10:43:32.203Z"
         },
         {
           "end": "2023-06-18T00:00:00+05:30",
           "name": "Jun 05, 2023 - Jun 18, 2023",
-          "start": "2023-06-05T00:00:00+05:30"
+          "start": "023-06-05T10:43:32.203Z"
         },
         {
           "end": "2023-06-04T00:00:00+05:30",
@@ -4367,4 +4371,3 @@
     }
   ]
 }
-

@@ -13,7 +13,6 @@ const route = useRoute();
 const router = useRouter();
 const timesheetDetailSid = route.params.id;
 const fromDate: any = route.params.fromDate;
-
 const timesheetsStore = useTimesheetsStore();
 const timesheetListStore = useTimesheetListStore();
 const periodName = computed(() => {
