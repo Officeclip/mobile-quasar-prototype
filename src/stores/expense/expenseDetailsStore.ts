@@ -7,6 +7,7 @@ import {
   taxiExpense,
   telephoneExpense,
   expenseDetails,
+  expenseDetailsLite,
 } from '../../models/expense/expenseDetails';
 import axios from 'axios';
 import { Constants } from 'stores/Constants';
@@ -25,7 +26,8 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     mileageExpense: undefined as mileageExpense | undefined,
     taxiExpense: undefined as taxiExpense | undefined,
     telephoneExpense: undefined as telephoneExpense | undefined,
-
+    // customerProjectId: '',
+    // customerProjectName: '',
     // expenseDetails: [] as ExpenseDetail[],
     // expenseDetail: undefined as ExpenseDetail | undefined,
     // isLoading: false,
@@ -40,10 +42,35 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     MileageExpense: (state) => state.mileageExpense,
     TaxiExpense: (state) => state.taxiExpense,
     TelephoneExpense: (state) => state.telephoneExpense,
+    //CustomerProjectId: (state) => state.customerProjectId,
+    //CustomerProjectName: (state) => state.customerProjectName,
     // IsLoading: (state) => state.isLoading,
   },
 
   actions: {
+    setCustomerProjectId() {
+      if (this.expenseDetails) {
+        // this.expenseDetails.accountProjectIdName.id =
+        const id = `${this.expenseDetails.accountSid}:${this.expenseDetails.projectSid}`;
+        // this.expenseDetails.accountProjectIdName.name =
+        const name = `${this.expenseDetails.accountName}:${this.expenseDetails.projectName}`;
+        this.expenseDetails.accountProjectIdName = { id: id, name: name };
+      }
+    },
+
+    getCustomerProjectValue() {
+      if (this.expenseDetails) {
+        const splitIdValues =
+          this.expenseDetails.accountProjectIdName.id.split(':');
+        this.expenseDetails.accountSid = splitIdValues[0];
+        this.expenseDetails.projectSid = splitIdValues[1];
+        const splitNameValues =
+          this.expenseDetails.accountProjectIdName.name.split(':');
+        this.expenseDetails.accountName = splitNameValues[0];
+        this.expenseDetails.projectName = splitNameValues[1];
+      }
+    },
+
     async getExpenseDetails(expenseSid: string | string[]) {
       try {
         const response = await axios.get(
@@ -51,6 +78,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         );
         console.log('Getting Id', expenseSid);
         this.expenseDetailsList = response.data;
+        this.setCustomerProjectId();
         console.log(this.expenseDetailsList);
       } catch (error) {
         console.error(error);
@@ -71,6 +99,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         if (response.data && response.data.length > 0) {
           //this.expenseDetails = JSON.parse(JSON.stringify(response.data[0])); // see: https://stackoverflow.com/a/69204006/89256
           this.expenseDetails = response.data[0]; // see: https://stackoverflow.com/a/69204006/89256
+          this.setCustomerProjectId();
           console.log(
             `expenseDetailStore - getExpenseDetailById - expenseDetails: ${this.expenseDetails}`
           );
@@ -84,11 +113,25 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       console.log('expenseDetailsStore.ts> getExpenseDetailById - ended');
     },
 
+    convertExpenseDetailsToLite(
+      expenseDetails: expenseDetails
+    ): expenseDetailsLite {
+      const lite: expenseDetailsLite = new Object();
+      for (const k in expenseDetails) {
+        if (k !== 'accountProjectIdName') {
+          lite[k] = expenseDetails[k];
+        }
+      }
+      return lite;
+    },
+
     async addExpense(expenseDetails: expenseDetails) {
       try {
+        this.getCustomerProjectValue();
+        const lite = convertExpenseDetailsToLite(expenseDetails);
         const response = await axios.post(
           `${Constants.endPointUrl}/expense-details`,
-          expenseDetails
+          lite
         );
         if (response.status === 200) {
           //debugger;
@@ -103,6 +146,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       //console.log(`editExpense 1: ${this.expenseDetails?.id}`);
       // not added yet
       try {
+        this.getCustomerProjectValue();
         const response = await axios.put(
           `${Constants.endPointUrl}/expense-details/${expenseDetails.id}`,
           expenseDetails
@@ -115,6 +159,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         console.error(`editExpense Error: ${error}`);
       }
     },
+
     async deleteExpense(id: string | undefined) {
       try {
         const response = await axios.delete(

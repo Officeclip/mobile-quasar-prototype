@@ -1969,17 +1969,7 @@
       "orgId": 1,
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        10
-      ]
+      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
     }
   ],
   "generalUserProfile": [
@@ -2214,9 +2204,7 @@
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": [
-        "Kathiravan Sekar"
-      ],
+      "assignees": ["Kathiravan Sekar"],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
@@ -3479,12 +3467,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-            "",
-            "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },
@@ -3551,7 +3534,7 @@
     {
       "accountName": "OfficeClip LLC",
       "accountSid": "3M6RSUYV6GRX3USRFC5Q",
-      "amount": 12.22,
+      "amount": 12,
       "billable": true,
       "comments": "This is to test comments for expenses.",
       "description": "Ea earum aspernatur ratione tempora.",
@@ -3791,15 +3774,15 @@
           "name": "OfficeClip LLC"
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:7ANXN3JV2CJE7T9XH8GLB8FDBDUMNJSR3M9M6LQ",
+          "id": "1A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:7ANXN3JV2CJE7T9XH8GLB8FDBDUMNJSR3M9M6LQ",
           "name": "OfficeClip LLC:Bug Fixes Q3"
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:4DTKY6JXNBNCXXSDH2VUYJYEB8RX6YS4V89M6LQ",
+          "id": "2A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:4DTKY6JXNBNCXXSDH2VUYJYEB8RX6YS4V89M6LQ",
           "name": "OfficeClip LLC:Create OfficeClip for Amazon AMI"
         },
         {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:HA6Z2WHE54FR7BJXHAHXNMQFHAJTS4SCJJJM6LQ",
+          "id": "3A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:HA6Z2WHE54FR7BJXHAHXNMQFHAJTS4SCJJJM6LQ",
           "name": "OfficeClip LLC:Enhancement Q3 2022"
         },
         {
