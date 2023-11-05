@@ -58,10 +58,6 @@ console.log('Edit expense get period:', period);
 
 function onSubmit(e: any) {
   e.preventDefault();
-  // const formData = new FormData(e.target);
-  // const expenseDate = formData.get('newcreatedDate');
-  // const taskDate = formData.get('newtaskDate');
-
   const editExpense: expenseDetails = {
     accountName: expenseDetail.value?.accountName as string,
     accountSid: expenseDetail.value?.accountSid as string,
@@ -89,20 +85,7 @@ function onSubmit(e: any) {
     telephoneExpense: expenseDetail.value?.telephoneExpense as telephoneExpense,
     taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense,
     accountProjectIdName: expenseDetail.value?.accountProjectIdName as idName,
-    //accountProjectName: expenseDetail.value?.accountProjectName as string,
   };
-  // debugger;
-  // if (expenseDetail.value) {
-  //   const lite = expenseDetailsStore.convertExpenseDetailsToLite(
-  //     expenseDetail.value
-  //   );
-  //   console.log(`lite: ${lite}`);
-  //}
-  // expenseDetailsStore.editExpense(editExpense);
-  // router.push('-2');
-
-  // console.log(`customerProject: ${customerProject.value.name}`);
-
   const str = JSON.stringify(editExpense);
   console.log(`onSubmit Expense Value: ${str}`);
 }

@@ -7,20 +7,6 @@ import autoRentalExpenseForm from '../expenses/expenseTypes/autoRentalExpenseFor
 
 const props = defineProps(['expenseDetail', 'period']);
 
-// const expenseTypeName = ref('')
-// watch(
-//   () => props.expenseDetail,
-//   (newVal) => {
-//     if (newVal) {
-//       expenseTypeName.value = props.expenseDetail.expenseTypeName;
-//     }
-//   }
-// );
-
-// const expenseTypeName = computed(() => {
-//   return props.expenseDetail.expenseTypeName;
-// });
-
 const expenseListsStore = useExpenseListsStore();
 
 onMounted(() => {
@@ -96,24 +82,6 @@ function getExpenseTypeDetail(expTypeName) {
   }
 }
 
-// const customerProjectValue = computed({
-//   get() {
-//     console.log(`Customer-Project: ${props.expenseDetail.accountName}:${props.expenseDetail.projectName}`)
-//     return `${props.expenseDetail.accountName}  : ${props.expenseDetail.projectName}`;
-//   },
-//   set(newValue) {
-//     let accountProjects = (newValue + '').split(':')
-//     props.expenseDetail.accountSid = accountProjects[0];
-//     props.expenseDetail.projectSid = accountProjects[1];
-
-//     console.log('Formatted expenseSid in expense form control', props.expenseDetail.accountSid)
-//     console.log('Formatted projectSid in expense form control', props.expenseDetail.projectSid)
-//   }
-// })
-
-// const customerProject = ref('');
-// customerProject.value = customerProjectValue.value;
-
 const expenseDateValue = computed({
   get() {
     const newExpenseDate = new Date(props.expenseDetail.expenseDate);
@@ -133,21 +101,6 @@ const expenseDateValue = computed({
 
 const formattedExpenseDate = ref('');
 formattedExpenseDate.value = expenseDateValue.value;
-//console.log('Formatted expense date in expense form control', formattedExpenseDate)
-
-// const testCustProj = ref('3M6RSUYV6GRX3USRFC5Q:5JRMY8SR7JYVSHDRJC5Q')
-
-// const refCustomerProjectId = ref(null);
-// // refCustomerProjectId.value = {
-// //   name: 'OfficeClip LLC:Bug Fixes Q3',
-// //   value: props.customerProjectId,
-// // };
-// debugger;
-// refCustomerProjectId.value = customerProjectOptions.value.find(
-//   (o) => o.id === props.customerProjectId
-// );
-
-// const customerProject = ref(props.customerProject);
 </script>
 
 <template>
@@ -168,8 +121,6 @@ formattedExpenseDate.value = expenseDateValue.value;
           emit-value
           map-options
         />
-        <!-- <pre>CustomerProjectId: {{ customerProject }}</pre> -->
-        <!-- <pre>CustomerProjectId: {{ props.customerProjectId }}</pre> -->
         <q-select
           label="Customer : Project"
           v-model="expenseDetail.accountProjectIdName"
@@ -228,9 +179,6 @@ formattedExpenseDate.value = expenseDateValue.value;
           caption
           class="q-mb-md text-italic"
         >
-          <!-- <q-item-label class="q-mb-sm">
-              {{ newValue }}
-            </q-item-label> -->
           <q-icon name="hide_source" /> You do not permission to edit this item
         </div>
 
@@ -243,21 +191,20 @@ formattedExpenseDate.value = expenseDateValue.value;
           option-value="label"
         />
 
-        <!-- <q-select label="Billable" v-model="expenseDetail.billable" :options="billableOptions" map-options emit-value /> -->
         <q-input
           label="Amount"
-          v-model="expenseDetail.amount"
+          v-model.number="expenseDetail.amount"
           placeholder="enter here..."
           lazy-rules
           type="number"
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
         >
         </q-input>
 
         <q-input
           label="Tax"
-          v-model="expenseDetail.tax"
+          v-model.number="expenseDetail.tax"
           placeholder="enter here..."
+          type="number"
         >
         </q-input>
 

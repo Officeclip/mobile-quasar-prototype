@@ -116,25 +116,35 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     convertExpenseDetailsToLite(
       expenseDetails: expenseDetails
     ): expenseDetailsLite {
-      const lite: expenseDetailsLite = new Object();
-      for (const k in expenseDetails) {
-        if (k !== 'accountProjectIdName') {
-          lite[k] = expenseDetails[k];
-        }
-      }
+      //const lite: expenseDetailsLite = new expenseDetailsLite();
+      //const lite = {} as expenseDetailsLite; //https://stackoverflow.com/a/13142840
+      const lite = <expenseDetailsLite>{}; //https://stackoverflow.com/a/24250926
+
+      Object.keys(expenseDetails).forEach((key) => {
+        // https://stackoverflow.com/a/77134454
+        if (lite.hasOwnProperty(key))
+          lite[key as keyof expenseDetailsLite] = expenseDetails[
+            key as keyof expenseDetails
+          ] as never;
+      });
+
+      // for (const k in expenseDetails) {
+      //   if (k !== 'accountProjectIdName') {
+      //     lite[k] = expenseDetails[k];
+      //   }
+      // }
       return lite;
     },
 
     async addExpense(expenseDetails: expenseDetails) {
       try {
         this.getCustomerProjectValue();
-        const lite = convertExpenseDetailsToLite(expenseDetails);
+        const lite = this.convertExpenseDetailsToLite(expenseDetails);
         const response = await axios.post(
           `${Constants.endPointUrl}/expense-details`,
           lite
         );
         if (response.status === 200) {
-          //debugger;
           this.expenseDetails = response.data;
         }
       } catch (error) {
@@ -143,8 +153,6 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     },
 
     async editExpense(expenseDetails: expenseDetails) {
-      //console.log(`editExpense 1: ${this.expenseDetails?.id}`);
-      // not added yet
       try {
         this.getCustomerProjectValue();
         const response = await axios.put(
@@ -152,7 +160,6 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
           expenseDetails
         );
         if (response.status === 200) {
-          //debugger;
           this.expenseDetails = response.data;
         }
       } catch (error) {
@@ -166,7 +173,6 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
           `${Constants.endPointUrl}/expense-details/${id}`
         );
         if (response.status === 200) {
-          //debugger;
           this.expenseDetails = response.data;
         }
       } catch (error) {
