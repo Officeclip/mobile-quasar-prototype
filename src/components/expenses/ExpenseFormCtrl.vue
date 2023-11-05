@@ -6,6 +6,7 @@ import airTravelExpenseForm from '../expenses/expenseTypes/airTravelExpenseForm.
 import autoRentalExpenseForm from '../expenses/expenseTypes/autoRentalExpenseForm.vue';
 
 const props = defineProps(['expenseDetail', 'period']);
+const emits = defineEmits(['onIsDetailRequired']);
 
 const expenseListsStore = useExpenseListsStore();
 
@@ -63,12 +64,14 @@ watch([expenseTypeOptions], () => {
 });
 
 function getExpenseTypeDetail(expTypeName) {
+  console.log(`getExpenseTypeDetail( ${expTypeName} )`);
   const expenseType = expenseTypeOptions.value.find(
     (x) => x.expenseTypeName === expTypeName
   );
   if (expenseType != null) {
     isBillableModify.value = expenseType.isBillableModify;
     isDetailRequired.value = expenseType.isDetailsRequired;
+    emits('onIsDetailRequired', expenseType.isDetailsRequired);
     props.expenseDetail.billable = expenseType.isBillable;
   }
 

@@ -3911,7 +3911,7 @@
           "id": "D6JQ2UJFFMFCW8YXZZJZHDDDBBJLZJA5NMJM6LQ",
           "expenseTypeName": "TAXI",
           "expenseName": "Taxi Expense",
-          "isDetailsRequired": true,
+          "isDetailsRequired": false,
           "isBillable": true,
           "isBillableModify": false
         }

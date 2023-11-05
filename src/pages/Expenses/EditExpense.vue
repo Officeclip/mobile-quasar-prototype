@@ -89,6 +89,10 @@ function onSubmit(e: any) {
   const str = JSON.stringify(editExpense);
   console.log(`onSubmit Expense Value: ${str}`);
 }
+
+function isDetailRequired(val: boolean) {
+  console.log(`function isDetailRequired: ${val}`);
+}
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -113,7 +117,9 @@ function onSubmit(e: any) {
             v-if="expenseDetail"
             :expenseDetail="expenseDetail"
             :period="period?.name"
+            @onIsDetailRequired="isDetailRequired"
           />
+          <!-- https://stackoverflow.com/a/72850400 -->
           <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"
