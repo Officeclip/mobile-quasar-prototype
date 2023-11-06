@@ -31,7 +31,7 @@ function onSubmit(e: any) {
   const editTimesheet = ref(timesheet);
   console.log('OOOOOOOOO___+++++++OOOOO', editTimesheet.value);
   timesheetsStore.editTimesheet(editTimesheet.value);
-  router.push('-2');
+  router.push('-1');
 }
 </script>
 <template>

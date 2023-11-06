@@ -33,7 +33,6 @@ const formattedTaskDate = ref(
 );
 
 const timesheetListStore = useTimesheetListStore();
-// timesheetListStore.getTimesheetListAll();
 onMounted(() => {
   timesheetListStore.getTimesheetListAll();
 });
@@ -79,8 +78,8 @@ billableOptions.value = [
 ];
 
 watch([taskDate], ([newTaskDate]) => {
-  formattedTaskDate.value = newTaskDate;
-  props.timesheet.taskDate = newTaskDate;
+  formattedTaskDate.value = newTaskDate.name;
+  props.timesheet.taskDate = newTaskDate.startDate;
 });
 watch([serviceItemModel], ([newServiceItemModel]) => {
   props.timesheet.serviceItemSid = newServiceItemModel.id;
@@ -111,11 +110,13 @@ const handleModelValue = (newValue) => {
       <q-item-label v-if="selectedPeriod">{{
         selectedPeriod.name
       }}</q-item-label>
+      <pre>{{ taskDate }}</pre>
       <q-select
         label="Date"
         :model-value="formattedTaskDate"
         @update:model-value="(newValue) => (taskDate = newValue)"
         :options="dateOptions"
+        option-label="name"
         map-options
         emit-label
       />
