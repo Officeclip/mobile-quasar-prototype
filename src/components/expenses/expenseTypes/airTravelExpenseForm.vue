@@ -5,7 +5,7 @@ import dateTimeHelper from '../../../helpers/dateTimeHelper';
 
 const props = defineProps(['airTravel', 'isDetailRequired']);
 
-console.log('AirTravel Form Control -', props.isDetailRequired)
+console.log('AirTravel Form Control - isDetailRequired', props.isDetailRequired)
 
 const dense = ref(false);
 
@@ -48,18 +48,21 @@ const dense = ref(false);
       <div class="q-gutter-y-md column">
         <!-- <pre>{{ airtravelData }}</pre>
         <pre>{{ props.airTravel.departureAirport }}</pre> -->
-        <q-input v-model="props.airTravel.departureAirport" label="Departure Airport *"
-          placeholder="enter departure airport name" :dense="dense" lazy-rules
-          :rules="[{ type: 'custom', message: 'enter departure airport name.', validate: () => isDetailRequired === true }]">
+        <q-input v-model="props.airTravel.departureAirport" label="Departure Airport"
+          :label-color="props.isDetailRequired ? 'red' : ''" placeholder="enter departure airport name" :dense="dense"
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter departure airport name.']">
         </q-input>
-        <q-input v-model="props.airTravel.arrivalAirport" label="Arrival Airport *"
-          placeholder="enter arrival airport name" :dense="dense" lazy-rules :rules="[
-            (val) => (!val.isDetailRequired) || 'enter arrival airport name',
+        <q-input v-model="props.airTravel.arrivalAirport" label="Arrival Airport"
+          :label-color="props.isDetailRequired ? 'red' : ''" placeholder="enter arrival airport name" :dense="dense"
+          lazy-rules :rules="[
+            (val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter arrival airport name',
           ]">
         </q-input>
-        <q-input name="departureDate" v-model="props.airTravel.departureDate" label="Departure Date" :rules="[
-          (val) => (!val.isDetailRequired) || 'please select departure date',
-        ]">
+        <q-input name="departureDate" v-model="props.airTravel.departureDate" label="Departure Date"
+          :label-color="props.isDetailRequired ? 'red' : ''" :rules="[
+            (val) => (val && val.length > 0 || !props.isDetailRequired) || 'please select departure date',
+          ]">
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -72,9 +75,10 @@ const dense = ref(false);
             </q-icon>
           </template>
         </q-input>
-        <q-input name="arrivalDate" v-model="props.airTravel.arrivalDate" label="Arrival Date" :rules="[
-          (val) => (!val.isDetailRequired) || 'please select arival date',
-        ]">
+        <q-input name="arrivalDate" v-model="props.airTravel.arrivalDate" label="Arrival Date"
+          :label-color="props.isDetailRequired ? 'red' : ''" :rules="[
+            (val) => (val && val.length > 0 || !props.isDetailRequired) || 'please select arival date',
+          ]">
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">

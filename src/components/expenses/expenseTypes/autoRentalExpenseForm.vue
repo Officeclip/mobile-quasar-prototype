@@ -27,10 +27,6 @@ const formattedToDate = computed(() => {
   return dateValue;
 });
 
-const isDetailRequired = computed(() => {
-  return props.isDetailRequired;
-});
-
 const formattedToDate1 = toDate.value ? formattedToDate : toDate;
 </script>
 
@@ -39,77 +35,40 @@ const formattedToDate1 = toDate.value ? formattedToDate : toDate;
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
-        <q-input
-          v-model="props.autoRental.rentalAgency"
-          label="Rental Agency"
-          :label-color="isDetailRequired ? 'red' : ''"
-          placeholder="enter rental agency name"
-          :dense="dense"
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'enter agency name']"
-        >
+        <q-input v-model="props.autoRental.rentalAgency" label="Rental Agency"
+          :label-color="props.isDetailRequired ? 'red' : ''" placeholder="enter rental agency name" :dense="dense"
+          lazy-rules :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter agency name']">
         </q-input>
-        <q-input
-          v-model="props.autoRental.city"
-          label="City *"
-          placeholder="enter city name"
-          :dense="dense"
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'enter city name']"
-        >
+        <q-input v-model="props.autoRental.city" label="City" :label-color="props.isDetailRequired ? 'red' : ''"
+          placeholder="enter city name" :dense="dense" lazy-rules
+          :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter city name']">
         </q-input>
-        <q-input
-          name="fromDate"
-          v-model="formattedFromDate1"
-          label="From Date"
-          :rules="[
-            (val) => (val && val.length > 0) || 'please select from date',
-          ]"
-        >
+        <q-input name="fromDate" v-model="formattedFromDate1" label="From Date"
+          :label-color="props.isDetailRequired ? 'red' : ''" :rules="[
+            (val) => (val && val.length > 0 || !props.isDetailRequired) || 'please select from date',
+          ]">
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy
-                cover
-                transition-show="scale"
-                transition-hide="scale"
-              >
+              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                 <q-date v-model="fromDate" mask="YYYY-MM-DD">
                   <div class="row items-center justify-end">
-                    <q-btn
-                      v-close-popup
-                      label="Close"
-                      color="primary"
-                      flat
-                    ></q-btn>
+                    <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
                   </div>
                 </q-date>
               </q-popup-proxy>
             </q-icon>
           </template>
         </q-input>
-        <q-input
-          name="toDate"
-          v-model="formattedToDate1"
-          label="To Date"
-          :rules="[
-            (val) => (val && val.length > 0) || 'please select arival date',
-          ]"
-        >
+        <q-input name="toDate" v-model="formattedToDate1" label="To Date"
+          :label-color="props.isDetailRequired ? 'red' : ''" :rules="[
+            (val) => (val && val.length > 0 || !props.isDetailRequired) || 'please select arival date',
+          ]">
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy
-                cover
-                transition-show="scale"
-                transition-hide="scale"
-              >
+              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                 <q-date v-model="toDate" mask="YYYY-MM-DD">
                   <div class="row items-center justify-end">
-                    <q-btn
-                      v-close-popup
-                      label="Close"
-                      color="primary"
-                      flat
-                    ></q-btn>
+                    <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -123,5 +82,4 @@ const formattedToDate1 = toDate.value ? formattedToDate : toDate;
 <style scoped>
 .required {
   color: red;
-}
-</style>
+}</style>

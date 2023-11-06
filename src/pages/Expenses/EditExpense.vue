@@ -88,24 +88,19 @@ function onSubmit(e: any) {
   };
   const str = JSON.stringify(editExpense);
   console.log(`onSubmit Expense Value: ${str}`);
+  //expenseDetailsStore.editExpense(editExpense);
+  //router.push('-2');
 }
 
-function isDetailRequired(val: boolean) {
-  console.log(`function isDetailRequired: ${val}`);
-}
+// function isDetailRequired(val: boolean) {
+//   console.log(`function isDetailRequired: ${val}`);
+// }
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title>Edit Expense</q-toolbar-title>
       </q-toolbar>
@@ -113,19 +108,9 @@ function isDetailRequired(val: boolean) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <ExpenseForm
-            v-if="expenseDetail"
-            :expenseDetail="expenseDetail"
-            :period="period?.name"
-            @onIsDetailRequired="isDetailRequired"
-          />
+          <ExpenseForm v-if="expenseDetail" :expenseDetail="expenseDetail" :period="period?.name" />
           <!-- https://stackoverflow.com/a/72850400 -->
-          <q-btn
-            class="q-ml-md q-mb-md"
-            label="Submit"
-            type="submit"
-            color="primary"
-          >
+          <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>
       </q-form>

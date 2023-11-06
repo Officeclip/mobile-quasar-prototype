@@ -118,7 +118,11 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     ): expenseDetailsLite {
       //const lite: expenseDetailsLite = new expenseDetailsLite();
       //const lite = {} as expenseDetailsLite; //https://stackoverflow.com/a/13142840
-      const lite = <expenseDetailsLite>{}; //https://stackoverflow.com/a/24250926
+      //const lite = <expenseDetailsLite>{}; //https://stackoverflow.com/a/24250926
+      //const lite: expenseDetailsLite = {} as any as expenseDetailsLite;
+      const lite: expenseDetailsLite = JSON.parse(
+        JSON.stringify(expenseDetails)
+      );
 
       Object.keys(expenseDetails).forEach((key) => {
         // https://stackoverflow.com/a/77134454
@@ -138,6 +142,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
 
     async addExpense(expenseDetails: expenseDetails) {
       try {
+        this.expenseDetails = expenseDetails;
         this.getCustomerProjectValue();
         const lite = this.convertExpenseDetailsToLite(expenseDetails);
         const response = await axios.post(
@@ -154,10 +159,13 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
 
     async editExpense(expenseDetails: expenseDetails) {
       try {
+        this.expenseDetails = expenseDetails;
         this.getCustomerProjectValue();
+        const lite = this.convertExpenseDetailsToLite(expenseDetails);
+        console.log('Edit Expense in expense details store', lite);
         const response = await axios.put(
-          `${Constants.endPointUrl}/expense-details/${expenseDetails.id}`,
-          expenseDetails
+          `${Constants.endPointUrl}/expense-details/${lite.id}`,
+          lite
         );
         if (response.status === 200) {
           this.expenseDetails = response.data;

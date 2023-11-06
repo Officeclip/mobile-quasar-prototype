@@ -85,8 +85,13 @@ function getExpenseTypeDetail(expTypeName) {
   }
 }
 
+
+const formattedExpenseDate = ref('');
 const expenseDateValue = computed({
   get() {
+    if (props.expenseDetail.expenseDate == '') {
+      return;
+    }
     const newExpenseDate = new Date(props.expenseDetail.expenseDate);
     return `${newExpenseDate.toLocaleString('en-US', {
       month: 'short',
@@ -101,8 +106,6 @@ const expenseDateValue = computed({
     );
   },
 });
-
-const formattedExpenseDate = ref('');
 formattedExpenseDate.value = expenseDateValue.value;
 </script>
 
@@ -115,116 +118,47 @@ formattedExpenseDate.value = expenseDateValue.value;
         <q-item-label class="q-mb-sm">
           {{ period }}
         </q-item-label>
-        <q-select
-          label="Expense Date"
-          v-model="formattedExpenseDate"
-          :options="datesList"
-          option-value="value"
-          option-label="label"
-          emit-value
-          map-options
-        />
-        <q-select
-          label="Customer : Project"
-          v-model="expenseDetail.accountProjectIdName"
-          :options="customerProjectOptions"
-          option-label="name"
-          option-value="id"
-        />
+        <q-select label="Expense Date" v-model="formattedExpenseDate" :options="datesList" option-value="value"
+          option-label="label" emit-value map-options />
+        <q-select label="Customer : Project" v-model="expenseDetail.accountProjectIdName"
+          :options="customerProjectOptions" option-label="name" option-value="id" />
 
-        <q-select
-          label="Expense Type"
-          v-model="expenseDetail.expenseTypeName"
-          :options="expenseTypeOptions"
-          :rules="[
-            (val) =>
-              val !== expenseTypeDefault || 'Please select expense type..',
-          ]"
-          @update:model-value="getExpenseTypeDetail"
-          option-label="expenseName"
-          emit-value
-          option-value="expenseTypeName"
-          map-options
-        />
-        <airTravelExpenseForm
-          :airTravel="
-            props.expenseDetail.airTravelExpense == null
-              ? (props.expenseDetail.airTravelExpense = airTravel)
-              : props.expenseDetail.airTravelExpense
-          "
-          :isDetailRequired="isDetailRequired"
-          v-if="expenseDetail.expenseTypeName == 'AIRFARE'"
-        />
+        <q-select label="Expense Type" v-model="expenseDetail.expenseTypeName" :options="expenseTypeOptions" :rules="[
+          (val) =>
+            val !== expenseTypeDefault || 'Please select expense type..',
+        ]" @update:model-value="getExpenseTypeDetail" option-label="expenseName" emit-value
+          option-value="expenseTypeName" map-options />
+        <airTravelExpenseForm :airTravel="props.expenseDetail.airTravelExpense == null
+          ? (props.expenseDetail.airTravelExpense = airTravel)
+          : props.expenseDetail.airTravelExpense
+          " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'AIRFARE'" />
 
-        <autoRentalExpenseForm
-          :autoRental="
-            props.expenseDetail.autoRentalExpense == null
-              ? (props.expenseDetail.autoRentalExpense = autoRental)
-              : props.expenseDetail.autoRentalExpense
-          "
-          :isDetailRequired="isDetailRequired"
-          v-if="expenseDetail.expenseTypeName == 'AUTORENTAL'"
-        />
+        <autoRentalExpenseForm :autoRental="props.expenseDetail.autoRentalExpense == null
+          ? (props.expenseDetail.autoRentalExpense = autoRental)
+          : props.expenseDetail.autoRentalExpense
+          " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'AUTORENTAL'" />
 
-        <q-toggle
-          label="Billable"
-          :false-value="false"
-          :true-value="true"
-          :disable="!isBillableModify"
-          color="primary"
-          keep-color
-          v-model="expenseDetail.billable"
-          option-value="expenseTypeName"
-          map-options
-        ></q-toggle>
-        <div
-          v-if="isBillableModify === false"
-          caption
-          class="q-mb-md text-italic"
-        >
-          <q-icon name="hide_source" /> You do not permission to edit this item
+        <q-toggle label="Billable" :false-value="false" :true-value="true" :disable="!isBillableModify" color="primary"
+          keep-color v-model="expenseDetail.billable" option-value="expenseTypeName" map-options></q-toggle>
+        <div v-if="isBillableModify === false" caption class="q-mb-md text-italic">
+          <q-icon name="hide_source" /> You do not have permission to edit this item
         </div>
 
-        <q-select
-          label="Payment Method"
-          v-model="expenseDetail.paymentType"
-          :options="paymentTypeOptions"
-          map-options
-          emit-value
-          option-value="label"
-        />
+        <q-select label="Payment Method" v-model="expenseDetail.paymentType" :options="paymentTypeOptions" map-options
+          emit-value option-value="label" />
 
-        <q-input
-          label="Amount"
-          v-model.number="expenseDetail.amount"
-          placeholder="enter here..."
-          lazy-rules
-          type="number"
-        >
+        <q-input label="Amount" v-model.number="expenseDetail.amount" placeholder="enter here..." lazy-rules
+          type="number">
         </q-input>
 
-        <q-input
-          label="Tax"
-          v-model.number="expenseDetail.tax"
-          placeholder="enter here..."
-          type="number"
-        >
+        <q-input label="Tax" v-model.number="expenseDetail.tax" placeholder="enter here..." type="number">
         </q-input>
 
-        <q-input
-          label="Description"
-          v-model="expenseDetail.description"
-          placeholder="enter here..."
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        >
+        <q-input label="Description" v-model="expenseDetail.description" placeholder="enter here..." lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']">
         </q-input>
 
-        <q-input
-          label="Comments"
-          v-model="expenseDetail.comments"
-          placeholder="enter here..."
-        >
+        <q-input label="Comments" v-model="expenseDetail.comments" placeholder="enter here...">
         </q-input>
       </div>
     </div>
