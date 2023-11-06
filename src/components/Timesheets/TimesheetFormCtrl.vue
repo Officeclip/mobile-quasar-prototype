@@ -33,10 +33,10 @@ const formattedTaskDate = ref(
 );
 
 const timesheetListStore = useTimesheetListStore();
-timesheetListStore.getTimesheetListAll();
-// onMounted(() => {
-//   timesheetListStore.getTimesheetListAll();
-// });
+// timesheetListStore.getTimesheetListAll();
+onMounted(() => {
+  timesheetListStore.getTimesheetListAll();
+});
 const selectedPeriod = computed(() => {
   return timesheetListStore.PeriodList.find((x) => x.name === props.periodName);
 });
@@ -82,18 +82,17 @@ watch([taskDate], ([newTaskDate]) => {
   formattedTaskDate.value = newTaskDate;
   props.timesheet.taskDate = newTaskDate;
 });
-watch(
-  [customerProjectModel, serviceItemModel],
-  ([newCustomerProjectModel, newServiceItemModel]) => {
-    const names = newCustomerProjectModel.name.split(':');
-    const ids = newCustomerProjectModel.id.split(':');
-    props.timesheet.accountName = names[0];
-    props.timesheet.projectName = names[1];
-    props.timesheet.accountSid = ids[0];
-    props.timesheet.projectSid = ids[1];
-    props.timesheet.serviceItemSid = newServiceItemModel.id;
-  }
-);
+watch([serviceItemModel], ([newServiceItemModel]) => {
+  props.timesheet.serviceItemSid = newServiceItemModel.id;
+});
+watch([customerProjectModel], ([newCustomerProjectModel]) => {
+  const names = newCustomerProjectModel.name.split(':');
+  const ids = newCustomerProjectModel.id.split(':');
+  props.timesheet.accountName = names[0];
+  props.timesheet.projectName = names[1];
+  props.timesheet.accountSid = ids[0];
+  props.timesheet.projectSid = ids[1];
+});
 
 const handleModelValue = (newValue) => {
   customerProjectModel.value = newValue;
@@ -120,7 +119,7 @@ const handleModelValue = (newValue) => {
         map-options
         emit-label
       />
-      <pre>{{ customerProjectModel }}</pre>
+      <!-- <pre>{{ customerProjectModel }}</pre> -->
       <q-select
         label="Customer: Project"
         :model-value="selectedCustomerProject"
@@ -130,8 +129,8 @@ const handleModelValue = (newValue) => {
         option-value="id"
         map-options
       />
-      <pre>{{ props.timesheet.serviceItemName }}</pre>
-      <pre>{{ serviceItemModel }}</pre>
+      <!-- <pre>{{ props.timesheet.serviceItemName }}</pre> -->
+      <!-- <pre>{{ serviceItemModel }}</pre> -->
       <q-select
         label="ServiceItems"
         v-model="serviceItemModel"
