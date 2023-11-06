@@ -11,6 +11,10 @@ const projectName = props.timesheet?.projectName;
 const selectedCustomerProject = ref(
   accountName ? `${accountName}:${projectName}` : ''
 );
+const serviceItemModel = ref('');
+
+//to show the service item name initially when edit other wise we have to select the dropdown item
+serviceItemModel.value = props.timesheet ? props.timesheet.serviceItemName : '';
 const serviceItemsOptions = ref('');
 const customerProjectModel = ref('');
 const taskDate = ref('');
@@ -50,15 +54,16 @@ const customerProjectOptions = computed(() => {
 const accountSid = props.timesheet?.accountSid;
 const projectSid = props.timesheet?.projectSid;
 const customerProjectId = ref(accountSid ? `${accountSid}:${projectSid}` : '');
+
 //getting the service items list each time when click on service items dropdown
-function teest() {
+function getServiceItems() {
   if (customerProjectId.value) {
     return (serviceItemsOptions.value =
       timesheetListStore.getServiceItemsBycustomerProjectId(
         customerProjectId.value
       ));
   }
-  return '';
+  return alert('Select the Customer:Project first');
 }
 
 const billableOptions = ref([]);
@@ -77,14 +82,19 @@ watch([taskDate], ([newTaskDate]) => {
   formattedTaskDate.value = newTaskDate;
   props.timesheet.taskDate = newTaskDate;
 });
-watch([customerProjectModel], ([newCustomerProjectModel]) => {
-  const names = newCustomerProjectModel.name.split(':');
-  const ids = newCustomerProjectModel.id.split(':');
-  props.timesheet.accountName = names[0];
-  props.timesheet.projectName = names[1];
-  props.timesheet.accountSid = ids[0];
-  props.timesheet.projectSid = ids[1];
-});
+watch(
+  [customerProjectModel, serviceItemModel],
+  ([newCustomerProjectModel, newServiceItemModel]) => {
+    const names = newCustomerProjectModel.name.split(':');
+    const ids = newCustomerProjectModel.id.split(':');
+    props.timesheet.accountName = names[0];
+    props.timesheet.projectName = names[1];
+    props.timesheet.accountSid = ids[0];
+    props.timesheet.projectSid = ids[1];
+    props.timesheet.serviceItemSid = newServiceItemModel.id;
+  }
+);
+
 const handleModelValue = (newValue) => {
   customerProjectModel.value = newValue;
   selectedCustomerProject.value = newValue;
@@ -121,13 +131,18 @@ const handleModelValue = (newValue) => {
         map-options
       />
       <pre>{{ props.timesheet.serviceItemName }}</pre>
+      <pre>{{ serviceItemModel }}</pre>
       <q-select
         label="ServiceItems"
-        v-model="props.timesheet.serviceItemName"
+        v-model="serviceItemModel"
+        @update:model-value="
+          (newValue) => (props.timesheet.serviceItemName = newValue.name)
+        "
         :options="serviceItemsOptions"
         option-label="name"
+        option-value="id"
         map-options
-        @click="teest()"
+        @click="getServiceItems()"
       />
 
       <q-select
