@@ -11,7 +11,7 @@ const projectName = props.timesheet?.projectName;
 const selectedCustomerProject = ref(
   accountName ? `${accountName}:${projectName}` : ''
 );
-
+const serviceItemsOptions = ref('');
 const customerProjectModel = ref('');
 const taskDate = ref('');
 taskDate.value = props.timesheet?.taskDate
@@ -29,9 +29,10 @@ const formattedTaskDate = ref(
 );
 
 const timesheetListStore = useTimesheetListStore();
-onMounted(() => {
-  timesheetListStore.getTimesheetListAll();
-});
+timesheetListStore.getTimesheetListAll();
+// onMounted(() => {
+//   timesheetListStore.getTimesheetListAll();
+// });
 const selectedPeriod = computed(() => {
   return timesheetListStore.PeriodList.find((x) => x.name === props.periodName);
 });
@@ -49,9 +50,17 @@ const customerProjectOptions = computed(() => {
 const accountSid = props.timesheet?.accountSid;
 const projectSid = props.timesheet?.projectSid;
 const customerProjectId = ref(accountSid ? `${accountSid}:${projectSid}` : '');
-// need to get initial service item list using the  customerProjectId
+//getting the service items list each time when click on service items dropdown
+function teest() {
+  if (customerProjectId.value) {
+    return (serviceItemsOptions.value =
+      timesheetListStore.getServiceItemsBycustomerProjectId(
+        customerProjectId.value
+      ));
+  }
+  return '';
+}
 
-const serviceItemsOptions = ref('');
 const billableOptions = ref([]);
 billableOptions.value = [
   {
@@ -79,8 +88,9 @@ watch([customerProjectModel], ([newCustomerProjectModel]) => {
 const handleModelValue = (newValue) => {
   customerProjectModel.value = newValue;
   selectedCustomerProject.value = newValue;
-  serviceItemsOptions.value =
-    timesheetListStore.getServiceItemsBycustomerProjectId(newValue);
+  // serviceItemsOptions.value =
+  //   timesheetListStore.getServiceItemsBycustomerProjectId(newValue);
+  customerProjectId.value = newValue.id;
 };
 </script>
 
@@ -117,6 +127,7 @@ const handleModelValue = (newValue) => {
         :options="serviceItemsOptions"
         option-label="name"
         map-options
+        @click="teest()"
       />
 
       <q-select
