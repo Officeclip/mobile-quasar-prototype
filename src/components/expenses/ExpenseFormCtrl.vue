@@ -6,7 +6,6 @@ import airTravelExpenseForm from '../expenses/expenseTypes/airTravelExpenseForm.
 import autoRentalExpenseForm from '../expenses/expenseTypes/autoRentalExpenseForm.vue';
 
 const props = defineProps(['expenseDetail', 'period']);
-const emits = defineEmits(['onIsDetailRequired']);
 
 const expenseListsStore = useExpenseListsStore();
 
@@ -71,7 +70,6 @@ function getExpenseTypeDetail(expTypeName) {
   if (expenseType != null) {
     isBillableModify.value = expenseType.isBillableModify;
     isDetailRequired.value = expenseType.isDetailsRequired;
-    emits('onIsDetailRequired', expenseType.isDetailsRequired);
     props.expenseDetail.billable = expenseType.isBillable;
   }
 
@@ -107,6 +105,20 @@ const expenseDateValue = computed({
   },
 });
 formattedExpenseDate.value = expenseDateValue.value;
+
+const customerProjectValue = ref(
+  props.expenseDetail.accountName ? `${props.expenseDetail.accountName}:${props.expenseDetail.projectName}` : ''
+);
+
+const updateCustomerProject = (newValue) => {
+  const names = newValue.name.split(':');
+  const ids = newValue.id.split(':');
+  props.expenseDetail.accountName = names[0];
+  props.expenseDetail.projectName = names[1];
+  props.expenseDetail.accountSid = ids[0];
+  props.expenseDetail.projectSid = ids[1];
+};
+
 </script>
 
 <template>
@@ -120,8 +132,10 @@ formattedExpenseDate.value = expenseDateValue.value;
         </q-item-label>
         <q-select label="Expense Date" v-model="formattedExpenseDate" :options="datesList" option-value="value"
           option-label="label" emit-value map-options />
-        <q-select label="Customer : Project" v-model="expenseDetail.accountProjectIdName"
+        <q-select label="Customer : Project" v-model="customerProjectValue" @update:model-value="updateCustomerProject"
           :options="customerProjectOptions" option-label="name" option-value="id" />
+        <!-- <q-select label="Customer : Project" v-model="expenseDetail.accountProjectIdName"
+          :options="customerProjectOptions" option-label="name" option-value="id" /> -->
 
         <q-select label="Expense Type" v-model="expenseDetail.expenseTypeName" :options="expenseTypeOptions" :rules="[
           (val) =>

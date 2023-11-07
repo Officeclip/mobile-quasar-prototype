@@ -31,14 +31,6 @@ export interface expenseDetails {
   mileageExpense: mileageExpense;
   telephoneExpense: telephoneExpense;
   taxiExpense: taxiExpense;
-  accountProjectIdName: idName;
-}
-
-export type expenseDetailsLite = Omit<expenseDetails, 'accountProjectIdName'>;
-
-export interface idName {
-  id: string;
-  name: string;
 }
 
 export interface airTravelExpense {

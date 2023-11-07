@@ -3546,7 +3546,6 @@
       "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
       "tax": 12345,
       "paymentType": "Cash",
-      "fromDate": "2023-12-03T00:00:00+05:30",
       "autoRentalExpense": {
         "rentalAgency": "Zoom Car",
         "city": "Hyderabad",
@@ -3573,7 +3572,6 @@
       "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
       "tax": 12345,
       "paymentType": "Cash",
-      "fromDate": "2023-12-03T00:00:00+05:30",
       "airTravelExpense": {
         "arrivalAirport": "Hyderabad",
         "arrivalDate": "12-06-2020",
@@ -3827,7 +3825,7 @@
           "id": "J2BBXASXHAFW2ZSD2BKNWBGEB2LYYHFSGMJM6LQ",
           "expenseTypeName": "AIRFARE",
           "expenseName": "AIr",
-          "isDetailsRequired": true,
+          "isDetailsRequired": false,
           "isBillable": false,
           "isBillableModify": false
         },
