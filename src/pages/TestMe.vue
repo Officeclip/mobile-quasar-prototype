@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useSessionStore } from '../stores/SessionStore';
+import { ocSession } from '../helpers/util';
 
 const sessionStore = useSessionStore();
 
@@ -18,7 +19,8 @@ const expenseTypes = {
 };
 
 const session = computed(() => {
-  return sessionStore.Session;
+  //return sessionStore.Session;
+  return ocSession();
 });
 
 const newValue = ref(false);
@@ -30,7 +32,7 @@ console.log('Testing IsBillableModify', expenseTypes.isBillableModify);
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
   <div>
-    <pre>Session: {{ session }}</pre>
+    <pre>Session xxx: {{ session }}</pre>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
         <!-- <pre> {{ expenseForm.description }} </pre> -->
