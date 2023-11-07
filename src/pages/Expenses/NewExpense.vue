@@ -12,7 +12,7 @@ const period = computed(() => {
 
 const expenseDetail = ref({
   accountName: '',
-  id: '',
+  accountSid: '',
   amount: Number(''),
   billable: true,
   comments: '',
@@ -20,7 +20,7 @@ const expenseDetail = ref({
   employeeFullName: '',
   employeeSid: '',
   expenseDate: '',
-  expenseDetailSid: '',
+  id: '',
   expenseSid: '',
   expenseTypeName: '',
   expenseCategoryName: '',
@@ -42,7 +42,7 @@ function onSubmit(e: any) {
 
   const newExpense: any = {
     accountName: expenseDetail.value.accountName,
-    id: expenseDetail.value.id,
+    accountSid: expenseDetail.value.accountSid,
     amount: expenseDetail.value.amount,
     billable: expenseDetail.value.billable,
     comments: expenseDetail.value.comments,
@@ -50,7 +50,7 @@ function onSubmit(e: any) {
     employeeFullName: expenseDetail.value.employeeFullName,
     employeeSid: expenseDetail.value.employeeSid,
     expenseDate: expenseDetail.value.expenseDate,
-    expenseDetailSid: expenseDetail.value.expenseDetailSid,
+    id: expenseDetail.value.id,
     expenseSid: expenseDetail.value.expenseSid,
     expenseTypeName: expenseDetail.value.expenseTypeName,
     expenseCategoryName: expenseDetail.value.expenseCategoryName,

@@ -13,7 +13,6 @@ import {
   taxiExpense,
   telephoneExpense,
   expenseDetails,
-  idName,
 } from '../../models/expense/expenseDetails';
 import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
 
@@ -38,26 +37,24 @@ const expenseDetail = computed(() => {
   return expenseDetailsStore.ExpenseDetails;
 });
 
-// const customerProject = computed(() => {
-//   // return expenseDetailsStore.customerProjectName;
-//   return {
-//     id: expenseDetailsStore.customerProjectId,
-//     name: expenseDetailsStore.customerProjectName,
-//   };
-// });
-
 const expensePeriod = computed(() => {
   return expenseListStore.PeriodList;
 });
 
 const period = computed(() => {
-  return expensePeriod.value.find((y) => y.start.toString() === fromDate);
+  return expensePeriod.value.find(
+    (y) => y.start.toString() === fromDate
+  );
 });
 
 console.log('Edit expense get period:', period);
 
 function onSubmit(e: any) {
   e.preventDefault();
+  const formData = new FormData(e.target);
+  const expenseDate = formData.get('newcreatedDate');
+  const taskDate = formData.get('newtaskDate');
+
   const editExpense: expenseDetails = {
     accountName: expenseDetail.value?.accountName as string,
     accountSid: expenseDetail.value?.accountSid as string,
@@ -84,17 +81,14 @@ function onSubmit(e: any) {
     mileageExpense: expenseDetail.value?.mileageExpense as mileageExpense,
     telephoneExpense: expenseDetail.value?.telephoneExpense as telephoneExpense,
     taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense,
-    accountProjectIdName: expenseDetail.value?.accountProjectIdName as idName,
   };
+
+  // expenseDetailsStore.editExpense(editExpense);
+  // router.push('-2');
+
   const str = JSON.stringify(editExpense);
   console.log(`onSubmit Expense Value: ${str}`);
-  //expenseDetailsStore.editExpense(editExpense);
-  //router.push('-2');
 }
-
-// function isDetailRequired(val: boolean) {
-//   console.log(`function isDetailRequired: ${val}`);
-// }
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -109,7 +103,6 @@ function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <ExpenseForm v-if="expenseDetail" :expenseDetail="expenseDetail" :period="period?.name" />
-          <!-- https://stackoverflow.com/a/72850400 -->
           <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>
