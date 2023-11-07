@@ -33,35 +33,35 @@ function getPriorityIconAndColor(priority: string) {
   let color = '';
 
 
-  switch (priority) {
-    case 'High':
-      icon = 'arrow_upward';
-      color = '#d85c5c';
-      break;
-    case 'Medium':
-      icon = 'horizontal_rule';
-      color = '#ea9a49';
-      break;
-    case 'Low':
-      icon = 'arrow_downward';
-      color = '#85e56a';
-      break;
-    default:
-      break;
-  }
-  return {icon, color};
-
-
   // switch (priority) {
   //   case 'High':
-  //     return { icon: 'error', color: '#FF0000' };
+  //     icon = 'arrow_upward';
+  //     color = '#d85c5c';
+  //     break;
   //   case 'Medium':
-  //     return { icon: 'error_outline', color: '#FFA500' };
+  //     icon = 'horizontal_rule';
+  //     color = '#ea9a49';
+  //     break;
   //   case 'Low':
-  //     return { icon: 'report_problem', color: '#008000' };
+  //     icon = 'arrow_downward';
+  //     color = '#85e56a';
+  //     break;
   //   default:
-  //     return { icon: '', color: '' };
+  //     break;
   // }
+  // return {icon, color};
+
+
+  switch (priority) {
+    case 'High':
+      return { icon: 'error', color: '#FF0000' };
+    case 'Medium':
+      return { icon: 'error_outline', color: '#FFA500' };
+    case 'Low':
+      return { icon: 'report_problem', color: '#008000' };
+    default:
+      return { icon: '', color: '' };
+  }
 
   // switch (priority) {
   //   case 'High':
