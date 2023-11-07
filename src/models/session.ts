@@ -1,6 +1,6 @@
-export interface Session{
-  userId: number;
-  orgId: number;
+export interface Session {
+  userId: string;
+  orgId: string;
   userName: string;
   userEmail: string;
   applicationIds: Array<number>;
