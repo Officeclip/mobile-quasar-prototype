@@ -58,6 +58,35 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       }
     },
 
+    copyLiteobject(expenseDetails: expenseDetails): expenseDetailsLite {
+      return {
+        accountName: expenseDetails.accountName,
+        accountSid: expenseDetails.accountSid,
+        amount: expenseDetails.amount,
+        billable: expenseDetails.billable,
+        comments: expenseDetails.comments,
+        description: expenseDetails.description,
+        employeeFullName: expenseDetails.employeeFullName,
+        employeeSid: expenseDetails.employeeSid,
+        expenseDate: expenseDetails.expenseDate,
+        id: expenseDetails.id,
+        expenseSid: expenseDetails.expenseSid,
+        expenseTypeName: expenseDetails.expenseTypeName,
+        expenseCategoryName: expenseDetails.expenseCategoryName,
+        expenseTypeSid: expenseDetails.expenseTypeSid,
+        projectName: expenseDetails.projectName,
+        projectSid: expenseDetails.projectSid,
+        tax: expenseDetails.tax,
+        paymentType: expenseDetails.paymentType,
+        autoRentalExpense: expenseDetails.autoRentalExpense,
+        airTravelExpense: expenseDetails.airTravelExpense,
+        hotelExpense: expenseDetails.hotelExpense,
+        mileageExpense: expenseDetails.mileageExpense,
+        telephoneExpense: expenseDetails.telephoneExpense,
+        taxiExpense: expenseDetails.taxiExpense,
+      };
+    },
+
     getCustomerProjectValue() {
       if (this.expenseDetails) {
         const splitIdValues =
@@ -113,38 +142,38 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       console.log('expenseDetailsStore.ts> getExpenseDetailById - ended');
     },
 
-    convertExpenseDetailsToLite(
-      expenseDetails: expenseDetails
-    ): expenseDetailsLite {
-      //const lite: expenseDetailsLite = new expenseDetailsLite();
-      //const lite = {} as expenseDetailsLite; //https://stackoverflow.com/a/13142840
-      //const lite = <expenseDetailsLite>{}; //https://stackoverflow.com/a/24250926
-      //const lite: expenseDetailsLite = {} as any as expenseDetailsLite;
-      const lite: expenseDetailsLite = JSON.parse(
-        JSON.stringify(expenseDetails)
-      );
+    // convertExpenseDetailsToLite(
+    //   expenseDetails: expenseDetails
+    // ): expenseDetailsLite {
+    //   //const lite: expenseDetailsLite = new expenseDetailsLite();
+    //   //const lite = {} as expenseDetailsLite; //https://stackoverflow.com/a/13142840
+    //   //const lite = <expenseDetailsLite>{}; //https://stackoverflow.com/a/24250926
+    //   //const lite: expenseDetailsLite = {} as any as expenseDetailsLite;
+    //   const lite: expenseDetailsLite = JSON.parse(
+    //     JSON.stringify(expenseDetails)
+    //   );
 
-      Object.keys(expenseDetails).forEach((key) => {
-        // https://stackoverflow.com/a/77134454
-        if (lite.hasOwnProperty(key))
-          lite[key as keyof expenseDetailsLite] = expenseDetails[
-            key as keyof expenseDetails
-          ] as never;
-      });
+    //   Object.keys(expenseDetails).forEach((key) => {
+    //     // https://stackoverflow.com/a/77134454
+    //     if (lite.hasOwnProperty(key))
+    //       lite[key as keyof expenseDetailsLite] = expenseDetails[
+    //         key as keyof expenseDetails
+    //       ] as never;
+    //   });
 
-      // for (const k in expenseDetails) {
-      //   if (k !== 'accountProjectIdName') {
-      //     lite[k] = expenseDetails[k];
-      //   }
-      // }
-      return lite;
-    },
+    //   // for (const k in expenseDetails) {
+    //   //   if (k !== 'accountProjectIdName') {
+    //   //     lite[k] = expenseDetails[k];
+    //   //   }
+    //   // }
+    //   return lite;
+    // },
 
     async addExpense(expenseDetails: expenseDetails) {
       try {
         this.expenseDetails = expenseDetails;
         this.getCustomerProjectValue();
-        const lite = this.convertExpenseDetailsToLite(expenseDetails);
+        const lite = this.copyLiteobject(expenseDetails);
         const response = await axios.post(
           `${Constants.endPointUrl}/expense-details`,
           lite
@@ -161,7 +190,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       try {
         this.expenseDetails = expenseDetails;
         this.getCustomerProjectValue();
-        const lite = this.convertExpenseDetailsToLite(expenseDetails);
+        const lite = this.copyLiteobject(expenseDetails);
         console.log('Edit Expense in expense details store', lite);
         const response = await axios.put(
           `${Constants.endPointUrl}/expense-details/${lite.id}`,
