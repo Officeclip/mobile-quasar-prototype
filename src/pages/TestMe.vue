@@ -1,5 +1,13 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { useSessionStore } from '../stores/SessionStore';
+import { ocSession } from '../helpers/util';
+
+const sessionStore = useSessionStore();
+
+onMounted(() => {
+  sessionStore.getSession();
+});
 
 const expenseTypes = {
   id: 'J2BBXASXHAFW2ZSD2BKNWBGEB2LYYHFSGMJM6LQ',
@@ -10,6 +18,11 @@ const expenseTypes = {
   isBillableModify: true,
 };
 
+const session = computed(() => {
+  //return sessionStore.Session;
+  return ocSession();
+});
+
 const newValue = ref(false);
 newValue.value = expenseTypes.isBillable;
 
@@ -19,6 +32,7 @@ console.log('Testing IsBillableModify', expenseTypes.isBillableModify);
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
   <div>
+    <pre>Session xxx: {{ session }}</pre>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
         <!-- <pre> {{ expenseForm.description }} </pre> -->

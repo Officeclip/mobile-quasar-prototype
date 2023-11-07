@@ -51,7 +51,7 @@ const organizationItems = computed(() => {
 
 onBeforeMount(() => {
   // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
-  sessionStore.getSessions();
+  sessionStore.getSession();
   homeIconStore.getHomeIcons();
   userProfileStore.getUserProfiles();
   homeIconStore.getOrganizationItems();

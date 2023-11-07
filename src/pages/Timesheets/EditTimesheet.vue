@@ -13,7 +13,6 @@ const route = useRoute();
 const router = useRouter();
 const timesheetDetailSid = route.params.id;
 const fromDate: any = route.params.fromDate;
-
 const timesheetsStore = useTimesheetsStore();
 const timesheetListStore = useTimesheetListStore();
 const periodName = computed(() => {
@@ -29,38 +28,10 @@ const timesheet: Ref<TimesheetDetails> = computed(() => {
 
 function onSubmit(e: any) {
   e.preventDefault();
-  // const newData: any = timesheet?.value;
-
-  // const newTimesheet: TimesheetDetails = {
-  //   id: newData.id,
-  //   timeDuration: newData.timeDuration,
-  //   isBillable: newData.isBillable,
-  //   accountName: newData.accountName,
-  //   accountSid: newData.accountSid,
-  //   breakTime: newData.breakTime,
-  //   checkInTime: newData.checkInTime,
-  //   checkOutTime: newData.checkOutTime,
-  //   createdDate: newData.createdDate,
-  //   createdUserSid: newData.createdUserSid,
-  //   description: newData.description,
-  //   modifiedDate: newData.modifiedDate,
-  //   modifiedUserSid: newData.modifiedUserSid,
-  //   payrollName: newData.payrollName,
-  //   payrollSid: newData.payrollSid,
-  //   projectName: newData.projectName,
-  //   projectSid: newData.projectSid,
-  //   serviceItemName: newData.serviceItemName,
-  //   serviceItemSid: newData.serviceItemSid,
-  //   taskDate: newData.taskDate,
-  //   timesheetDetailSid: newData.timesheetDetailSid,
-  // };
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  //timesheetsStore.editTimesheet(timesheet.value!);
-
   const editTimesheet = ref(timesheet);
   console.log('OOOOOOOOO___+++++++OOOOO', editTimesheet.value);
   timesheetsStore.editTimesheet(editTimesheet.value);
-  router.push('-2');
+  router.go(-1);
 }
 </script>
 <template>

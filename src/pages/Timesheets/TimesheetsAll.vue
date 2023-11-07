@@ -66,6 +66,7 @@ watch([timesheetStatus], ([newModel]) => {
               params: {
                 id: item.id,
                 fromDate: item.fromDate,
+                status: item.status,
               },
             }"
             clickable
