@@ -5,6 +5,8 @@ import ocSession from '../helpers/util.ts';
 
 const sessionStore = useSessionStore();
 
+const status = ref('open');
+
 onMounted(() => {
   sessionStore.getSession();
 });
@@ -23,6 +25,11 @@ const session = computed(() => {
   return ocSession;
 });
 
+function getClass() {
+  if (status.value == 'open') return 'status-open';
+  return 'status-closed';
+}
+
 const newValue = ref(false);
 newValue.value = expenseTypes.isBillable;
 
@@ -31,6 +38,9 @@ console.log('Testing IsBillableModify', expenseTypes.isBillableModify);
 
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
+  <div>
+    <q-chip square :class="getClass()">{{ status }}</q-chip>
+  </div>
   <div>
     <pre>Session xxx: {{ session }}</pre>
     <div class="q-pa-md">
@@ -60,5 +70,6 @@ console.log('Testing IsBillableModify', expenseTypes.isBillableModify);
     </div>
   </div>
 </template>
-<style></style>
-../helpers/ocSession
+<style lang="scss">
+@import '../css/status.scss';
+</style>
