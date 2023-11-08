@@ -4346,5 +4346,11 @@
       "id": "104",
       "name": "Documentation"
     }
+  ],
+  "login": [
+    {
+      "ocJWT": "xxxxyyyy",
+      "expirationInHours": "24"
+    }
   ]
 }

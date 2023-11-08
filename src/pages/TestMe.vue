@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useSessionStore } from '../stores/SessionStore';
-import { ocSession } from '../helpers/util';
+import ocSession from '../helpers/util.ts';
 
 const sessionStore = useSessionStore();
 
@@ -20,7 +20,7 @@ const expenseTypes = {
 
 const session = computed(() => {
   //return sessionStore.Session;
-  return ocSession();
+  return ocSession;
 });
 
 const newValue = ref(false);
@@ -61,3 +61,4 @@ console.log('Testing IsBillableModify', expenseTypes.isBillableModify);
   </div>
 </template>
 <style></style>
+../helpers/ocSession

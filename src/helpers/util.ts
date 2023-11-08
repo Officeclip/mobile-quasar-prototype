@@ -4,9 +4,7 @@ import { SessionStorage } from 'quasar';
 const waitInSecs = async (seconds: number) =>
   await new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 
-const ocSession = () => {
-  return SessionStorage.getItem('oc-session');
-};
+const ocSession = () => SessionStorage.getItem('oc-session');
 
 export default {
   waitInSecs,
