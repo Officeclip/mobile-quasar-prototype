@@ -4,6 +4,10 @@ import { defineProps, ref, onMounted, computed, watch } from 'vue';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import airTravelExpenseForm from '../expenses/expenseTypes/airTravelExpenseForm.vue';
 import autoRentalExpenseForm from '../expenses/expenseTypes/autoRentalExpenseForm.vue';
+import hotelExpenseForm from '../expenses/expenseTypes/hotelExpenseForm.vue';
+import mileageExpenseForm from '../expenses/expenseTypes/mileageExpenseForm.vue';
+import taxiExpenseForm from '../expenses/expenseTypes/taxiExpenseForm.vue';
+import telephoneExpenseForm from '../expenses/expenseTypes/telephoneExpenseForm.vue';
 
 const props = defineProps(['expenseDetail', 'period']);
 
@@ -47,6 +51,27 @@ const autoRental = ref({
   toDate: '',
 });
 
+const hotel = ref({
+  hotelName: '',
+  city: '',
+  fromDate: '',
+  toDate: '',
+});
+
+const mileage = ref({
+  mileage: ''
+});
+
+const taxi = ref({
+  city: '',
+  taxiLineName: ''
+});
+
+const telephone = ref({
+  phoneNumber: '',
+  city: ''
+});
+
 const isBillableModify = ref(false);
 
 const expenseTypeDefault = 'Select Expense Type';
@@ -71,6 +96,7 @@ function getExpenseTypeDetail(expTypeName) {
     isBillableModify.value = expenseType.isBillableModify;
     isDetailRequired.value = expenseType.isDetailsRequired;
     props.expenseDetail.billable = expenseType.isBillable;
+    props.expenseDetail.expenseTypeSid = expenseType.id
   }
 
   switch (expTypeName) {
@@ -130,18 +156,20 @@ const updateCustomerProject = (newValue) => {
         <q-item-label class="q-mb-sm">
           {{ period }}
         </q-item-label>
-        <q-select label="Expense Date" v-model="formattedExpenseDate" :options="datesList" option-value="value"
-          option-label="label" emit-value map-options />
+
+        <q-select label="Expense Date" v-model="formattedExpenseDate"
+          @update:model-value="(newValue) => (props.expenseDetail.expenseDate = newValue)" :options="datesList"
+          option-value="value" option-label="label" emit-value map-options />
+
         <q-select label="Customer : Project" v-model="customerProjectValue" @update:model-value="updateCustomerProject"
           :options="customerProjectOptions" option-label="name" option-value="id" />
-        <!-- <q-select label="Customer : Project" v-model="expenseDetail.accountProjectIdName"
-          :options="customerProjectOptions" option-label="name" option-value="id" /> -->
 
         <q-select label="Expense Type" v-model="expenseDetail.expenseTypeName" :options="expenseTypeOptions" :rules="[
           (val) =>
             val !== expenseTypeDefault || 'Please select expense type..',
         ]" @update:model-value="getExpenseTypeDetail" option-label="expenseName" emit-value
           option-value="expenseTypeName" map-options />
+
         <airTravelExpenseForm :airTravel="props.expenseDetail.airTravelExpense == null
           ? (props.expenseDetail.airTravelExpense = airTravel)
           : props.expenseDetail.airTravelExpense
@@ -151,6 +179,26 @@ const updateCustomerProject = (newValue) => {
           ? (props.expenseDetail.autoRentalExpense = autoRental)
           : props.expenseDetail.autoRentalExpense
           " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'AUTORENTAL'" />
+
+        <hotelExpenseForm :hotel="props.expenseDetail.hotelExpense == null
+          ? (props.expenseDetail.hotelExpense = hotel)
+          : props.expenseDetail.hotelExpense
+          " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'HOTEL'" />
+
+        <mileageExpenseForm :mileage="props.expenseDetail.mileageExpense == null
+          ? (props.expenseDetail.mileageExpense = mileage)
+          : props.expenseDetail.mileageExpense
+          " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'MILEAGE'" />
+
+        <taxiExpenseForm :taxi="props.expenseDetail.taxiExpense == null
+          ? (props.expenseDetail.taxiExpense = taxi)
+          : props.expenseDetail.taxiExpense
+          " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'TAXI'" />
+
+        <telephoneExpenseForm :telephone="props.expenseDetail.telephoneExpense == null
+          ? (props.expenseDetail.telephoneExpense = telephone)
+          : props.expenseDetail.telephoneExpense
+          " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'TELEPHONE'" />
 
         <q-toggle label="Billable" :false-value="false" :true-value="true" :disable="!isBillableModify" color="primary"
           keep-color v-model="expenseDetail.billable" option-value="expenseTypeName" map-options></q-toggle>
