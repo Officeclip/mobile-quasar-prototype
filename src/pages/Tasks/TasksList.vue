@@ -4,6 +4,7 @@ import TaskSummaryItem from "components/tasks/TaskSummaryItem.vue";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import TaskAdvancedFilters from "components/tasks/taskAdvancedFilters.vue";
 import {searchFilter} from "src/models/task/searchFilter";
+import {taskSummary} from "src/models/task/taskSummary";
 
 let filterOptions: Ref<searchFilter> = ref({
   filterString: '',
@@ -53,7 +54,6 @@ const getSortedSummaries = computed(() => {
 });
 
 
-
 function clearFilterValues() {
   filterOptions.value = {
     filterString: '',
@@ -78,14 +78,23 @@ let currentPage = 1; // the current page number
 // const pageSize = ref(10); // number of items in one page
 let numItems = 0; // total number of items in the list
 let reachedEnd = ref(false); // indicate if all contacts have been loaded
-const batchSize = 5; // number of contacts to load in each batch
+const batchSize = 10; // number of contacts to load in each batch
 
-
-onBeforeMount(() => {
+async function getFirstBatch() {
+  await taskSummaryStore.resetTaskSummaryList();
+  currentPage = 1;
   taskSummaryStore
     .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, currentPage)
-    .then(() => currentPage++);
+    .then(() => {
+      getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
+      currentPage++
+    });
+}
+
+onBeforeMount(async () => {
+  await getFirstBatch();
 });
+
 
 const loadMore = (index: any, done: () => void) => {
   const contactsSizeBeforeCall = getSortedSummaries.value.length;
@@ -94,6 +103,8 @@ const loadMore = (index: any, done: () => void) => {
       .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, currentPage)
       .then(() => {
         currentPage++;
+        getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
+
         const contactsAfterCall = getSortedSummaries.value.length;
         reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
         done();
@@ -115,27 +126,37 @@ function receiveAdvFilters(advancedOptions: any) {
   filterOptions.value.taskTypeValue = advancedOptions.taskTypeValue;
 }
 
-async function filterFn(val: string, update: any, abort: any) {
-  if (val.length < 2) {
-    abort();
+async function filterFn(val: string) {
+  if (val.length === 0) {
+    await getFirstBatch();
+  } else if (val.length < 2) {
+    // abort();
     return;
   } else if (val.length === 2) {
     getFilteredTaskSummaries.value = [];
     await taskSummaryStore.getRegardingContactListThatMatch(val, parent.parentObjectId, parent.parentObjectServiceType);
     getFilteredTaskSummaries.value = taskSummaryStore.TaskSummaries;
+  } else {
+    getFilteredTaskSummaries.value = getFilteredTaskSummaries.value.filter((t: taskSummary) => {
+      return t.subject.toLowerCase().includes(val.toLowerCase());
+    });
   }
 
-  update(() => {
-    console.log('update');
-    const needle = val.toLowerCase();
-    getFilteredTaskSummaries.value = taskSummaryStore.TaskSummaries.filter(
-      (task) => task.subject.toLowerCase().indexOf(needle) > -1
-    );
-  });
+  // update(() => {
+  //   console.log('update');
+  //   const needle = val.toLowerCase();
+  //   getFilteredTaskSummaries.value = taskSummaryStore.TaskSummaries.filter(
+  //     (task) => task.subject.toLowerCase().indexOf(needle) > -1
+  //   );
+  // });
 }
-watch(() => filterOptions.value.filterString, async (newVal) => {
-  await filterFn(newVal, () => {}, () => {});
-});
+
+watch(
+  () => filterOptions.value.filterString,
+  async (newValue, oldValue) => {
+    await filterFn(newValue);
+  }
+);
 
 </script>
 
@@ -162,9 +183,16 @@ watch(() => filterOptions.value.filterString, async (newVal) => {
           <div>
             <q-input
               v-model="filterOptions.filterString"
+              clearable
               label="Search"
               outlined
-            />
+              type="search"
+              @clear=getFirstBatch
+            >
+              <template v-slot:append>
+                <q-icon name="search"/>
+              </template>
+            </q-input>
           </div>
         </div>
 

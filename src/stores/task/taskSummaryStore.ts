@@ -238,7 +238,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       // this.contactSummary.push(...data);
     },
 
-    async getRegardingContactListThatMatch(val: string, parentObjectId: number, parentObjectServiceType: number){
+    async getRegardingContactListThatMatch(val: string, parentObjectId: number, parentObjectServiceType: number) {
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
           ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
@@ -253,6 +253,10 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       } catch (error) {
         console.error(error);
       }
+    },
+
+    async resetTaskSummaryList(){
+      this.taskSummaries = [];
     }
   },
 });
