@@ -91,7 +91,6 @@ async function getFirstBatch() {
     });
 }
 
-
 onBeforeMount(async () => {
   await getFirstBatch();
 });
