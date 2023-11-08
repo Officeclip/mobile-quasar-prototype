@@ -9,6 +9,7 @@ import OCItem from '../../components/OCcomponents/OC-Item.vue';
 const route = useRoute();
 const id = route.params.id;
 const fromDate = route.params.fromDate;
+const status = route.params.status;
 const timesheetsStore = useTimesheetsStore();
 
 onMounted(() => {
@@ -40,18 +41,22 @@ const timesheetDetails = computed(() => {
     </q-header>
 
     <q-page-container>
-      <q-list
+      <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
-        class="q-mt-sm bg-grey-3"
+        class="q-ma-sm bg-grey-3"
       >
-        <q-expansion-item expand-separator expand-icon-class="text-primary">
+        <q-expansion-item
+          default-opened
+          expand-separator
+          expand-icon-class="text-primary"
+        >
           <template v-slot:header>
             <q-item-section>
-              <q-item-label>
+              <q-item-label caption>
                 {{ timesheetDetail.accountName }}
               </q-item-label>
-              <q-item-label caption>
+              <q-item-label>
                 {{
                   timesheetDetail.createdDate
                     ? dateTimeHelper.extractDateFromUtc(
@@ -66,6 +71,7 @@ const timesheetDetails = computed(() => {
             </q-item-section>
             <q-item-section side>
               <q-btn
+                v-if="status != 'Approved' && status != 'Submitted'"
                 :to="{
                   name: 'editTimesheet',
                   params: {
@@ -104,7 +110,7 @@ const timesheetDetails = computed(() => {
           />
           <OCItem title="Description" :value="timesheetDetail.description" />
         </q-expansion-item>
-      </q-list>
+      </q-card>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           :to="{
