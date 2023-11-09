@@ -1,12 +1,21 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useSessionStore } from '../stores/SessionStore';
-import { ocSession } from '../helpers/util';
+import ocSession from '../helpers/util.ts';
+import { useTestDuttaStore } from '../stores/TestDuttaStore';
 
+const testDuttaStore = useTestDuttaStore();
 const sessionStore = useSessionStore();
+
+const status = ref('open');
 
 onMounted(() => {
   sessionStore.getSession();
+  testDuttaStore.getDuttaTest();
+});
+
+const duttaValues = computed(() => {
+  return testDuttaStore.TestDutta;
 });
 
 const expenseTypes = {
@@ -20,8 +29,13 @@ const expenseTypes = {
 
 const session = computed(() => {
   //return sessionStore.Session;
-  return ocSession();
+  return ocSession;
 });
+
+function getClass() {
+  if (status.value == 'open') return 'status-open';
+  return 'status-closed';
+}
 
 const newValue = ref(false);
 newValue.value = expenseTypes.isBillable;
@@ -31,6 +45,10 @@ console.log('Testing IsBillableModify', expenseTypes.isBillableModify);
 
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
+  <pre>DuttaValues: {{ duttaValues }}</pre>
+  <div>
+    <q-chip square :class="getClass()">{{ status }}</q-chip>
+  </div>
   <div>
     <pre>Session xxx: {{ session }}</pre>
     <div class="q-pa-md">
@@ -60,4 +78,6 @@ console.log('Testing IsBillableModify', expenseTypes.isBillableModify);
     </div>
   </div>
 </template>
-<style></style>
+<style lang="scss">
+@import '../css/status.scss';
+</style>
