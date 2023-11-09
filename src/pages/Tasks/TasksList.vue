@@ -72,6 +72,7 @@ function clearFilterValues() {
     ownedBy: '',
     regarding: ''
   }
+  filterCount.value = 0;
 }
 
 let currentPage = 1; // the current page number
@@ -113,7 +114,6 @@ const loadMore = (index: any, done: () => void) => {
 };
 
 function receiveAdvFilters(advancedOptions: any) {
-  console.log(advancedOptions);
   filterOptions.value.dueDateValue = advancedOptions.dueDateValue;
   filterOptions.value.dueDateOption = advancedOptions.dueDateOption;
   filterOptions.value.modifiedDateValue = advancedOptions.modifiedDateValue;
@@ -158,6 +158,12 @@ watch(
   }
 );
 
+const filterCount = ref(0);
+
+function updateFilterCount(val:number){
+  filterCount.value = val;
+}
+
 </script>
 
 <template>
@@ -186,7 +192,6 @@ watch(
               clearable
               label="Search"
               outlined
-              type="search"
               @clear=getFirstBatch
             >
               <template v-slot:append>
@@ -204,13 +209,12 @@ watch(
             <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
           </div>
           <div class="q-mr-md">
-            <q-btn flat @click="filterOptions.showAdvancedOptions = true">
-              <q-icon name="filter_list"/>
+            <q-btn flat @click="filterOptions.showAdvancedOptions = true" icon="filter_list">
+              <q-badge color="red" floating v-if="filterCount!=0">{{filterCount}}</q-badge>
             </q-btn>
           </div>
           <div class="q-mr-md">
-            <q-btn flat @click="clearFilterValues">
-              <q-icon name="clear"/>
+            <q-btn flat @click="clearFilterValues" icon="clear">
             </q-btn>
           </div>
         </div>
@@ -227,7 +231,8 @@ watch(
         </q-infinite-scroll>
 
         <q-dialog v-model="filterOptions.showAdvancedOptions">
-          <task-advanced-filters :parent="parent" @advancedOptionsGenerated="receiveAdvFilters"/>
+          <task-advanced-filters :parent="parent" @advancedOptionsGenerated="receiveAdvFilters"
+          @filterCount="updateFilterCount"/>
         </q-dialog>
 
         <!--        <pre>{{ filterOptions }}</pre>-->

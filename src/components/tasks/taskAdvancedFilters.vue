@@ -5,6 +5,7 @@ import {regardingContact} from "src/models/task/taskLists";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import {searchFilter} from "src/models/task/searchFilter";
 
+
 const advancedOptions: Ref<searchFilter> = ref({
   filterString: '',
   ownedByMeFilter: false,
@@ -23,7 +24,26 @@ const advancedOptions: Ref<searchFilter> = ref({
   regarding: ''
 })
 
-const emit = defineEmits(['advancedOptionsGenerated']);
+function filterNumber(filter: searchFilter) {
+  let val = 0;
+
+  // Compare each field in the filter object against the advancedOptions defaults
+  val += filter.dueDateValue !== '' ? 1 : 0;
+  val += filter.dueDateOption !== '' ? 1 : 0;
+  val += filter.modifiedDateValue !== '' ? 1 : 0;
+  val += filter.modifiedDateOption !== '' ? 1 : 0;
+  val += filter.statusName !== '' ? 1 : 0;
+  val += filter.priorityName !== '' ? 1 : 0;
+  val += filter.taskTypeValue !== '' ? 1 : 0;
+  val += filter.assignedTo !== '' ? 1 : 0;
+  val += filter.ownedBy !== '' ? 1 : 0;
+  val += filter.regarding !== '' ? 1 : 0;
+
+  return val;
+}
+
+
+const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
 const props = defineProps(['parent']);
 const taskSummaryStore = useTaskSummaryStore();
 
@@ -31,6 +51,9 @@ function emitOptions() {
   taskSummaryStore.getFilteredTasks(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
 
   emit('advancedOptionsGenerated', advancedOptions.value);
+  emit('filterCount', filterNumber(advancedOptions.value));
+  // console.log(filterNumber(advancedOptions.value));
+
 }
 
 const taskListsStore = useTaskListsStore();
