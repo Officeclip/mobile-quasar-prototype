@@ -8,10 +8,11 @@ import {taskDetails} from "src/models/task/taskDetails";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import AddSubtaskDialog from "components/tasks/addSubtaskDialog.vue";
 import {subTask} from "src/models/task/subtask";
+import SubtaskItem from "components/tasks/SubtaskItem.vue";
 
 const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
-// const taskListStore = useTaskListsStore();
+
 const isPrivate = ref<string>();
 const id = ref<string | string[]>('0');
 
@@ -89,6 +90,26 @@ function addSubtask(subtask: subTask) {
 
 </script>
 
+<style>
+
+.chip-caption {
+  position: absolute;
+  top: -5px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed */
+  font-size: 0.65rem; /* Adjust as needed */
+  color: black; /* Adjust as needed */
+  background-color: white; /* To match the background */
+  padding: 0 4px; /* For slight padding around the text */
+  z-index: 2;
+}
+
+.relative-position {
+  position: relative;
+  display: inline-block; /* To contain the absolute-positioned caption */
+}
+
+</style>
+
 <template>
   <q-layout view="hHh Lpr lFf">
     <q-header bordered class="bg-primary text-white" reveal>
@@ -106,13 +127,13 @@ function addSubtask(subtask: subTask) {
       <q-card class="q-ma-md" flat>
         <q-card-section class="text-h5">{{ taskDetail?.subject }}</q-card-section>
 
-        <q-card-section>{{ taskDetail?.description}}</q-card-section>
+        <q-card-section>{{ taskDetail?.description }}</q-card-section>
 
-        <q-separator inset></q-separator>
+        <q-separator inset/>
 
-        <q-card-section>
+        <q-card-section class="row justify-between">
           <q-item>
-            <q-item-section side top>
+            <q-item-section center side>
               <q-icon name="event"/>
             </q-item-section>
             <q-item-section>
@@ -126,7 +147,7 @@ function addSubtask(subtask: subTask) {
             </q-item-section>
           </q-item>
           <q-item>
-            <q-item-section side top>
+            <q-item-section center side>
               <q-icon name="event_available"/>
             </q-item-section>
             <q-item-section>
@@ -141,89 +162,142 @@ function addSubtask(subtask: subTask) {
           </q-item>
         </q-card-section>
 
-        <q-separator inset></q-separator>
+        <q-separator inset/>
 
         <q-card-section>
-          <q-item>
-            <q-item-section side top>
-              <q-icon :name="isPrivate ? 'lock' : 'lock_open'"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Privacy</q-item-label>
-              <q-item-label description>{{ isPrivate ? 'Private' : 'Public' }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-card-section>
-
-        <q-separator inset></q-separator>
-
-        <q-card-section>
-          <div class="row items-center">
-            <q-chip class="q-mr-sm" color="info" outline>{{ taskDetail?.taskType.name }}</q-chip>
-            <q-chip class="q-mr-sm" color="amber" outline>{{ taskDetail?.taskPriority.name }}</q-chip>
-            <q-chip :color="taskDetail?.taskStatus.color" class="q-mr-sm" outline>{{
-                taskDetail?.taskStatus.name
-              }}
-            </q-chip>
+          <div class="row justify-around q-gutter-sm">
+            <div class="relative-position">
+              <span class="chip-caption">Type</span>
+              <q-chip color="info" outline>{{ taskDetail?.taskType.name }}</q-chip>
+            </div>
+            <div class="relative-position">
+              <span class="chip-caption">Priority</span>
+              <q-chip color="amber" outline>{{ taskDetail?.taskPriority.name }}</q-chip>
+            </div>
+            <div class="relative-position">
+              <span class="chip-caption">Status</span>
+              <q-chip :color="taskDetail?.taskStatus.color" outline>
+                {{ taskDetail?.taskStatus.name }}
+              </q-chip>
+            </div>
           </div>
         </q-card-section>
 
-        <q-separator inset></q-separator>
+        <q-separator inset/>
+
+        <q-item>
+          <q-item-section center side>
+            <q-icon name="group"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="q-pl-xs">Assignees</q-item-label>
+            <div class="q-pt-xs">
+              <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense>{{ assignee.name }}</q-chip>
+            </div>
+          </q-item-section>
+        </q-item>
+
+        <q-separator inset/>
 
         <q-card-section>
-          <div class="row q-col-gutter-sm">
-            <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense>{{ assignee.name }}</q-chip>
+          <div class="row justify-between">
+            <q-item>
+              <q-item-section center side>
+                <q-icon name="repeat"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label caption>Repeating</q-item-label>
+                <q-item-label description>{{
+                    taskDetail?.repeatInfoText || 'None'
+                  }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+
+              <q-item-section>
+                <q-item-label caption>Reminder</q-item-label>
+                <q-item-label description>{{ taskDetail?.remindBeforeMinutes }} minutes before</q-item-label>
+              </q-item-section>
+              <q-item-section center side>
+                <q-icon name="notifications_active"/>
+              </q-item-section>
+            </q-item>
+
           </div>
-        </q-card-section>
 
-        <q-card-section>
-          <q-item>
-            <q-item-section side top>
-              <q-icon name="repeat"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Repeating</q-item-label>
-              <q-item-label description>{{
-                  taskDetail?.repeatInfoText || 'None'
-                }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
+          <div class="row justify-between">
+            <q-item>
+              <q-item-section center side>
+                <q-icon name="person"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label caption>Owner</q-item-label>
+                <q-item-label description>{{ taskDetail?.taskOwner.name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-item-label caption>Privacy</q-item-label>
+                <q-item-label description>{{ isPrivate ? 'Private' : 'Public' }}</q-item-label>
+              </q-item-section>
+              <q-item-section center side>
+                <q-icon :name="isPrivate ? 'lock' : 'lock_open'"/>
+              </q-item-section>
 
-          <q-item>
-            <q-item-section side top>
-              <q-icon name="notifications_active"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Reminder</q-item-label>
-              <q-item-label description>{{ taskDetail?.remindBeforeMinutes }} minutes before</q-item-label>
-            </q-item-section>
-          </q-item>
+            </q-item>
+
+          </div>
 
           <q-item>
-            <q-item-section side top>
-              <q-icon name="person"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Owner</q-item-label>
-              <q-item-label description>{{ taskDetail?.taskOwner.name }}</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item>
-            <q-item-section side top>
+            <q-item-section center side>
               <q-icon name="label"/>
             </q-item-section>
             <q-item-section>
-              <q-item-label>Tags</q-item-label>
+              <q-item-label class="q-pl-xs">Tags</q-item-label>
               <div class="q-pt-xs">
                 <q-chip v-for="tag in taskDetail?.tags" :key="tag" dense>{{ tag.name }}</q-chip>
               </div>
             </q-item-section>
           </q-item>
-        </q-card-section>
-      </q-card>
 
+        </q-card-section>
+
+        <q-toolbar class="bg-primary text-white shadow-2">
+          <q-toolbar-title>Subtasks</q-toolbar-title>
+          <q-btn dense flat icon="add" round @click="showAddSubtaskDialog=true"/>
+
+        </q-toolbar>
+        <q-list bordered class="rounded-borders">
+          <q-item-label caption class="q-ma-sm">Pending</q-item-label>
+
+          <div v-for="subtask in taskDetail?.subtasks" :key="subtask.id">
+            <subtask-item v-if="!subtask.isCompleted" :subtask="subtask"/>
+          </div>
+          <q-separator spaced/>
+          <q-item-label caption class="q-ma-sm">Completed</q-item-label>
+
+          <div v-for="subtask in taskDetail?.subtasks" :key="subtask.id">
+            <subtask-item v-if="subtask.isCompleted" :subtask="subtask"/>
+          </div>
+        </q-list>
+
+      </q-card>
+      <q-page-sticky :offset="[18, 18]" position="bottom-right">
+        <q-fab color="purple" direction="up" icon="add" vertical-actions-align="right">
+          <q-fab-action color="primary" icon="add_task" label="Add subtask" @click="showAddSubtaskDialog=true"/>
+          <q-fab-action :to="{
+                  name: 'newTask',
+                  params: {
+                    id: -1,
+                  },
+                }" color="secondary" icon="add" label="Create New Task"/>
+        </q-fab>
+      </q-page-sticky>
+
+      <q-dialog v-model="showAddSubtaskDialog">
+        <add-subtask-dialog @save-subtask="addSubtask"/>
+      </q-dialog>
     </q-page-container>
   </q-layout>
 </template>

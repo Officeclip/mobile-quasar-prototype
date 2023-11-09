@@ -1,17 +1,10 @@
 <script lang="ts" setup>
 import {taskSummary} from "src/models/task/taskSummary";
-import {useTaskListsStore} from "stores/task/taskListsStore";
-import {onBeforeMount} from 'vue';
-
-const taskListStore = useTaskListsStore();
 
 const props = defineProps<{
   task: taskSummary
 }>();
 
-onBeforeMount(() => {
-  taskListStore.getTaskLists();
-})
 
 function getTaskStatusIcon(status: string) {
   switch (status) {
@@ -28,79 +21,120 @@ function getTaskStatusIcon(status: string) {
   }
 }
 
-function getPriorityIconAndColor(priority: string) {
-  let icon = '';
-  let color = '';
+function getTaskStatusColor(status: string) {
+  // Add or remove colors as needed
+  switch (status) {
+    case 'Open':
+      return 'grey'; // Grey for tasks that are open/not started
+    case 'In Progress':
+      return 'blue'; // Blue for tasks that are currently being worked on
+    case 'Pending':
+      return 'amber'; // Amber for tasks that are on hold or awaiting action
+    case 'Completed':
+      return 'green'; // Green for tasks that have been completed
+    // Add more status options here if necessary
+    default:
+      return ''; // Default case when the status does not match any of the above
+  }
+}
 
-
-  // switch (priority) {
-  //   case 'High':
-  //     icon = 'arrow_upward';
-  //     color = '#d85c5c';
-  //     break;
-  //   case 'Medium':
-  //     icon = 'horizontal_rule';
-  //     color = '#ea9a49';
-  //     break;
-  //   case 'Low':
-  //     icon = 'arrow_downward';
-  //     color = '#85e56a';
-  //     break;
-  //   default:
-  //     break;
-  // }
-  // return {icon, color};
-
-
+function getPriorityIcon(priority: string) {
   switch (priority) {
     case 'High':
-      return { icon: 'error', color: '#FF0000' };
+      return 'arrow_upward';
     case 'Medium':
-      return { icon: 'error_outline', color: '#FFA500' };
+      return 'horizontal_rule';
     case 'Low':
-      return { icon: 'report_problem', color: '#008000' };
+      return 'arrow_downward';
+
+    // case 'High':
+    //   return 'error';
+    // case 'Medium':
+    //   return 'error_outline';
+    // case 'Low':
+    //   return 'report_problem';
+
+
+    // case 'High':
+    //   return 'star';
+    // case 'Medium':
+    //   return 'star_half';
+    // case 'Low':
+    //   return 'star_outline';
+
     default:
-      return { icon: '', color: '' };
+      return '';
   }
+}
 
-  // switch (priority) {
-  //   case 'High':
-  //     return { icon: 'star', color: '#FF0000' };
-  //   case 'Medium':
-  //     return { icon: 'star_half', color: '#FFA500' };
-  //   case 'Low':
-  //     return { icon: 'star_outline', color: '#008000' };
-  //   default:
-  //     return { icon: '', color: '' };
-  // }
+function getPriorityColor(priority: string) {
+  switch (priority) {
 
-  // switch (priority) {
-  //   case 'High':
-  //     return { icon: 'fiber_manual_record', color: '#FF0000' };
-  //   case 'Medium':
-  //     return { icon: 'lens', color: '#FFA500' };
-  //   case 'Low':
-  //     return { icon: 'radio_button_unchecked', color: '#008000' };
-  //   default:
-  //     return { icon: '', color: '' };
-  // }
+    // case 'High':
+    //   return '#d85c5c';
+    // case 'Medium':
+    //   return '#ea9a49';
+    // case 'Low':
+    //   return '#85e56a';
 
-  // switch (priority) {
-  //   case 'High':
-  //     return { icon: 'looks_one', color: '#FF0000' };
-  //   case 'Medium':
-  //     return { icon: 'looks_two', color: '#FFA500' };
-  //   case 'Low':
-  //     return { icon: 'looks_3', color: '#008000' };
-  //   default:
-  //     return { icon: '', color: '' };
-  // }
+    case 'High':
+      return 'red';
+    case 'Medium':
+      return 'amber';
+    case 'Low':
+      return 'green';
 
-
+    default:
+      return '';
+  }
 }
 
 
 </script>
+
+
+<template>
+  <q-item
+    v-ripple
+    :to="{ name: 'taskDetails', params: { id: task.id }}"
+    class="TaskCard"
+    clickable>
+
+    <q-item-section class="TaskDetails">
+      <q-item-label class="TaskTitle">
+        {{ task.subject }}
+      </q-item-label>
+
+      <div class="DueDate">
+        <q-icon class="DueIcon" name="event"/>
+        <q-item-label>
+          Due: {{ new Date(task.dueDate).toLocaleDateString() }}
+        </q-item-label>
+      </div>
+
+      <div class="StatusAndPriority">
+        <q-chip
+
+          :color="getTaskStatusColor(task.taskStatusName)"
+          :icon-right="getTaskStatusIcon(task.taskStatusName)"
+          class="StatusLabel" square>
+          {{ task.taskStatusName }}
+        </q-chip>
+
+        <q-chip
+          :color="getPriorityColor(task.taskPriorityName)"
+          :icon-right="getPriorityIcon(task.taskPriorityName)"
+          class="PriorityLabel" square>
+          {{ task.taskPriorityName }}
+        </q-chip>
+
+      </div>
+    </q-item-section>
+    <q-item-section side>
+      <q-icon color="primary" name="chevron_right"/>
+    </q-item-section>
+  </q-item>
+</template>
 
 <style>
 .TaskCard {
@@ -174,42 +208,3 @@ function getPriorityIconAndColor(priority: string) {
 }
 
 </style>
-
-<template>
-  <q-item
-    v-ripple
-    :to="{ name: 'taskDetails', params: { id: task.id }}"
-    class="TaskCard"
-    clickable>
-
-    <q-item-section class="TaskDetails">
-      <q-item-label class="TaskTitle">
-        {{ task.subject }}
-      </q-item-label>
-
-      <div class="DueDate">
-        <q-icon class="DueIcon" name="event"/>
-        <q-item-label>
-          Due: {{ new Date(task.dueDate).toLocaleDateString() }}
-        </q-item-label>
-      </div>
-
-      <div class="StatusAndPriority">
-        <q-item-label class="StatusLabel">
-          {{ task.taskStatusName }}
-          <q-icon :name="getTaskStatusIcon(task.taskStatusName)" class="StatusIcon"/>
-        </q-item-label>
-
-        <q-item-label class="PriorityLabel">
-          {{ task.taskPriorityName }}
-          <q-icon
-            :name="getPriorityIconAndColor(task.taskPriorityName).icon"
-            :style="{ color: getPriorityIconAndColor(task.taskPriorityName).color }"
-          />
-        </q-item-label>
-
-      </div>
-    </q-item-section>
-  </q-item>
-</template>
-
