@@ -30,6 +30,7 @@ const timesheetDetails: TimesheetDetails = ref({
   createdDate: new Date(),
   createdUserSid: '',
   description: '',
+  comments: '',
   modifiedDate: '',
   modifiedUserSid: '',
   payrollName: '',
