@@ -4,7 +4,7 @@ import { TimesheetDetails } from 'src/models/Timesheet/timesheetDetails';
 // import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 // import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { useRouter, useRoute } from 'vue-router';
-import { ref, computed, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useTimesheetsStore } from 'src/stores/timesheet/TimesheetsStore';
 
 const router = useRouter();
@@ -70,8 +70,8 @@ function onSubmit(e: any) {
         <q-list>
           <q-form @submit="onSubmit" class="q-gutter-md">
             <TimesheetForm
-              v-if="TimesheetDetails"
-              :timesheet="TimesheetDetails"
+              v-if="timesheetDetails"
+              :timesheet="timesheetDetails"
               :periodName="periodName"
             />
             <q-btn label="Submit" type="submit" color="primary"></q-btn>
