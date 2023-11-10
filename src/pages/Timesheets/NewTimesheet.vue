@@ -18,7 +18,8 @@ const timesheetStore = useTimesheetsStore();
 //   return timesheetListStore.SelectedPeriod;
 // });
 const TimesheetDetails = ref({
-  id: Number(),
+  timesheetId: Number(),
+  id: '',
   timeDuration: Number(),
   isBillable: true,
   accountName: '',
