@@ -90,7 +90,9 @@ const timesheetDetails = computed(() => {
             <q-item-section side>
               <q-btn
                 @click="
-                  timesheetsStore.deleteTimesheet(timesheetDetail?.id);
+                  timesheetsStore.deleteTimesheet(
+                    timesheetDetail?.timesheetDetailSid
+                  );
                   $router.go(-1);
                 "
                 size="sm"
