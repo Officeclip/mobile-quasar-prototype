@@ -5,7 +5,7 @@ import ocSession from '../helpers/util.ts';
 
 const sessionStore = useSessionStore();
 
-const status = ref('open');
+const status = ref('closed');
 
 onMounted(() => {
   sessionStore.getSession();
