@@ -1,7 +1,8 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch, ref } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
+import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useRoute } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import autoRentalExpense from '../../components/expenses/details/autoRentalExpense.vue';
@@ -17,14 +18,32 @@ const fromDate = route.params.fromDate;
 
 const expenseDetailsStore = useExpenseDetailsStore();
 
+const expenseListsStore = useExpenseListsStore();
+
 onMounted(() => {
   console.log('Expense Detail Id from route', route.params.id)
   expenseDetailsStore.getExpenseDetails(route.params.id);
+  expenseListsStore.getExpensesList();
 });
 
 const expenseDetails = computed(() => {
   return expenseDetailsStore.expenseDetailsList;
 });
+
+const periodOptions = computed(() => {
+  return expenseListsStore.PeriodList;
+});
+
+const expensePeriod = ref('');
+
+watch([periodOptions], () => {
+
+  expensePeriod.value = periodOptions.value.find((x) => x.start.toString() === fromDate);
+
+  console.log('Expense period in Expense details', expensePeriod)
+});
+
+
 </script>
 
 <template>
@@ -87,13 +106,13 @@ const expenseDetails = computed(() => {
 
             <airTravelExpense v-if="expenseDetail.airTravelExpense" :expense="expenseDetail.airTravelExpense" />
 
-            <!-- <hotelExpense v-if="expenseDetail.hotelExpense" :expense="expenseDetail.hotelExpense" />
+            <hotelExpense v-if="expenseDetail.hotelExpense" :expense="expenseDetail.hotelExpense" />
 
             <mileageExpense v-if="expenseDetail.mileageExpense" :expense="expenseDetail.mileageExpense" />
 
             <taxiExpense v-if="expenseDetail.taxiExpense" :expense="expenseDetail.taxiExpense" />
 
-            <telephoneExpense v-if="expenseDetail.telephoneExpense" :expense="expenseDetail.telephoneExpense" /> -->
+            <telephoneExpense v-if="expenseDetail.telephoneExpense" :expense="expenseDetail.telephoneExpense" />
 
           </q-item-section>
 
@@ -109,7 +128,10 @@ const expenseDetails = computed(() => {
       </q-list>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn :to="{
-          name: 'newExpense'
+          name: 'newExpense',
+          params: {
+            period: expensePeriod?.name
+          }
         }" fab icon="add" color="accent" padding="sm">
         </q-btn>
       </q-page-sticky>

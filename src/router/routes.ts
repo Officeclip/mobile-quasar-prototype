@@ -179,16 +179,22 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Timesheets/EditTimesheet.vue'),
     // params: true,
   },
+  // {
+  //   path: '/expenseSummary',
+  //   name: 'expenseSummary',
+  //   component: () => import('../pages/Expenses/expenseSummary.vue'),
+  //   // params: true,
+  // },
+  // {
+  //   path: '/expenseSummaryFiltered/:id/:status',
+  //   name: 'expenseSummaryFiltered',
+  //   component: () => import('../pages/Expenses/expenseSummaryFiltered.vue'),
+  //   // params: true,
+  // },
   {
-    path: '/expenseSummary',
-    name: 'expenseSummary',
-    component: () => import('../pages/Expenses/expenseSummary.vue'),
-    // params: true,
-  },
-  {
-    path: '/expenseSummaryFiltered/:id/:status',
-    name: 'expenseSummaryFiltered',
-    component: () => import('../pages/Expenses/expenseSummaryFiltered.vue'),
+    path: '/expensesAll/',
+    name: 'expensesAll',
+    component: () => import('../pages/Expenses/ExpensesAll.vue'),
     // params: true,
   },
   {

@@ -8,11 +8,13 @@ import {
   telephoneExpense,
   expenseDetails,
 } from '../../models/expense/expenseDetails';
+import { expenseSummary } from 'src/models/expense/expenseSummary';
 import axios from 'axios';
 import { Constants } from 'stores/Constants';
 
 export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   state: () => ({
+    expenseSummary: [] as expenseSummary[],
     expenseDetailsList: [] as expenseDetails[],
     //expenseDetails: [] as expenseDetails[],
     expenseDetails: undefined as expenseDetails | undefined,
@@ -32,6 +34,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   }),
 
   getters: {
+    ExpenseSummary: (state) => state.expenseSummary,
     ExpenseDetailsList: (state) => state.expenseDetailsList,
     ExpenseDetails: (state) => state.expenseDetails,
     AirTravelExpense: (state) => state.airTravelExpense,
@@ -82,6 +85,32 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         // this.isLoading = false;
       }
       console.log('expenseDetailsStore.ts> getExpenseDetailById - ended');
+    },
+
+    getInOutboxList(status: string) {
+      switch (status) {
+        case 'Inbox':
+          return `${Constants.endPointUrl}/expense-summary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
+        case 'Outbox':
+          return `${Constants.endPointUrl}/expense-summary?status=Pending`;
+        case 'Archived':
+          return `${Constants.endPointUrl}/expense-summary?status=Saved&&status=Approved&&status=Rejected`;
+      }
+    },
+
+    // getting the expenses by status
+    async getExpensesByStatus(status: string) {
+      // const callStr =
+      //   status != ''
+      //     ? `${Constants.endPointUrl}/expense-summary?status=${status}`
+      //     : `${Constants.endPointUrl}/expense-summary`;
+      const callStr = this.getInOutboxList(status);
+      try {
+        const response = await axios.get(callStr ?? '');
+        this.expenseSummary = response.data;
+      } catch (error) {
+        console.error(error);
+      }
     },
 
     async addExpense(expenseDetails: expenseDetails) {

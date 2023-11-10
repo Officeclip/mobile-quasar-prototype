@@ -83,7 +83,7 @@ function onSubmit(e: any) {
     taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense,
   };
 
-  // expenseDetailsStore.editExpense(editExpense);
+  expenseDetailsStore.editExpense(editExpense);
   // router.push('-2');
 
   const str = JSON.stringify(editExpense);
