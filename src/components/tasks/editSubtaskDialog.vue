@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import {onBeforeMount, ref, Ref, toRefs} from 'vue';
 import {useTaskListsStore} from "stores/task/taskListsStore";
-import {regardingContact} from "src/models/task/taskLists";
 import {subTask} from "src/models/task/subtask";
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
 import {useUserSummaryStore} from "stores/userSummaryStore";

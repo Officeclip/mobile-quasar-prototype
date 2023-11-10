@@ -2,13 +2,20 @@
 import { ref, onMounted, computed } from 'vue';
 import { useSessionStore } from '../stores/SessionStore';
 import ocSession from '../helpers/util.ts';
+import { useTestDuttaStore } from '../stores/TestDuttaStore';
 
+const testDuttaStore = useTestDuttaStore();
 const sessionStore = useSessionStore();
 
 const status = ref('closed');
 
 onMounted(() => {
   sessionStore.getSession();
+  testDuttaStore.getDuttaTest();
+});
+
+const duttaValues = computed(() => {
+  return testDuttaStore.TestDutta;
 });
 
 const expenseTypes = {
@@ -38,6 +45,7 @@ console.log('Testing IsBillableModify', expenseTypes.isBillableModify);
 
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
+  <pre>DuttaValues: {{ duttaValues }}</pre>
   <div>
     <q-chip square :class="getClass()">{{ status }}</q-chip>
   </div>

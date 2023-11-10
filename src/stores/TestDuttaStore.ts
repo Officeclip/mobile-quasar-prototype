@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-//import { TestDutta } from '../models/testDutta';
-// import { Constants } from 'stores/Constants';
+import { Constants } from 'stores/Constants';
 
 export const useTestDuttaStore = defineStore('testDuttaStore', {
   state: () => ({
@@ -11,15 +10,16 @@ export const useTestDuttaStore = defineStore('testDuttaStore', {
     TestDutta: (state) => state.testDutta,
   },
   actions: {
-    async getDuttaTestById() {
+    async getDuttaTest() {
       try {
-        const response = await axios.get(
-          // `${Constants.endPointUrl}/testDuttas?id=${id}`
-          'http://localhost/officeclip/api/test'
-        );
+        const instance = axios.create({
+          baseURL: 'http://localhost/officeclip/api',
+        });
+        Constants.setupAxiosInstance(instance);
+        const response = await instance.get('/test/');
         this.testDutta = response.data[0];
         console.log(
-          `TestDuttaStore: getDuttaTestById - length - ${response.data.length}}`
+          `TestDuttaStore: getDuttaTestById - length - ${response.data.length}`
         );
       } catch (error) {
         alert(error);

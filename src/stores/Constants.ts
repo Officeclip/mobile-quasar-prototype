@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 export class Constants {
   static readonly endPointUrl =
     import.meta.env.VITE_API_ENDPOINT === undefined
@@ -7,6 +7,10 @@ export class Constants {
 
   static getAxiosInstance() {
     const instance = axios.create({ baseURL: Constants.endPointUrl });
+    Constants.setupAxiosInstance(instance);
+  }
+
+  static setupAxiosInstance(instance: AxiosInstance) {
     instance.defaults.headers.common['X-APIKey'] =
       import.meta.env.VITE_X_APIKey;
     instance.defaults.headers.common['X-OrgKey'] =
@@ -16,7 +20,6 @@ export class Constants {
       console.log(`axios request: ${JSON.stringify(x)}`);
       return x;
     });
-
     instance.interceptors.response.use((x) => {
       console.log(`axios response: ${JSON.stringify(x)}`);
       return x;
