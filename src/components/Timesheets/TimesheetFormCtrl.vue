@@ -84,21 +84,21 @@ watch([taskDate], ([newTaskDate]) => {
 watch([serviceItemModel], ([newServiceItemModel]) => {
   props.timesheet.serviceItemSid = newServiceItemModel.id;
 });
-watch([customerProjectModel], ([newCustomerProjectModel]) => {
-  const names = newCustomerProjectModel.name.split(':');
-  const ids = newCustomerProjectModel.id.split(':');
-  props.timesheet.accountName = names[0];
-  props.timesheet.projectName = names[1];
-  props.timesheet.accountSid = ids[0];
-  props.timesheet.projectSid = ids[1];
-});
 
 const handleModelValue = (newValue) => {
   customerProjectModel.value = newValue;
   selectedCustomerProject.value = newValue;
-  // serviceItemsOptions.value =
-  //   timesheetListStore.getServiceItemsBycustomerProjectId(newValue);
   customerProjectId.value = newValue.id;
+  serviceItemModel.value = '';
+  props.timesheet.serviceItemName = '';
+
+  // split and separated the properties, values and assing to them
+  const names = newValue.name.split(':');
+  const ids = newValue.id.split(':');
+  props.timesheet.accountName = names[0];
+  props.timesheet.projectName = names[1];
+  props.timesheet.accountSid = ids[0];
+  props.timesheet.projectSid = ids[1];
 };
 </script>
 
@@ -130,8 +130,8 @@ const handleModelValue = (newValue) => {
         option-value="id"
         map-options
       />
-      <!-- <pre>{{ props.timesheet.serviceItemName }}</pre> -->
-      <!-- <pre>{{ serviceItemModel }}</pre> -->
+      <!-- <pre>{{ props.timesheet.serviceItemName }}</pre>
+      <pre>{{ serviceItemModel }}</pre> -->
       <q-select
         label="ServiceItems"
         v-model="serviceItemModel"
@@ -168,7 +168,7 @@ const handleModelValue = (newValue) => {
 
       <q-input
         label="Comments"
-        v-model="props.timesheet.description"
+        v-model="props.timesheet.comments"
         placeholder="enter here..."
       >
       </q-input>

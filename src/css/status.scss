@@ -7,3 +7,18 @@
   color: $blue-1;
   background-color: $lime-4;
 }
+
+.status-approved {
+  color: black;
+  background-color: $green-2;
+}
+
+.status-pending {
+  color: black;
+  background-color: $yellow-3;
+}
+
+.status-rejected {
+  color: black;
+  background-color: $red-2;
+}

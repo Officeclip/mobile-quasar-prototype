@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
+import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import { ref, computed } from 'vue';
 
 const router = useRouter();
 const route = useRoute();
+const expenseDetailsStore = useExpenseDetailsStore();
 
 const period = computed(() => {
   return route.params.period;
@@ -69,9 +71,9 @@ function onSubmit(e: any) {
   const str = JSON.stringify(newExpense);
   console.log(`onSubmit Expense Value: ${str}`);
 
-  //expenseDetailsStore.addExpense(newExpense);
+  expenseDetailsStore.addExpense(newExpense);
 
-  //router.push('/');
+  router.push('/');
 }
 </script>
 <template>

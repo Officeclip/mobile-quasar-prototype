@@ -84,7 +84,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     async getTimesheetDetails(id: number) {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/timesheet-details?id=${id}`
+          `${Constants.endPointUrl}/timesheet-details?timesheetId=${id}`
         );
         this.timesheetDetails = response.data;
       } catch (error) {
@@ -121,7 +121,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         console.error(`editTimesheet Error: ${error}`);
       }
     },
-    async deleteTimesheet(id: number | undefined) {
+    async deleteTimesheet(id: string | string[]) {
       try {
         const response = await axios.delete(
           `${Constants.endPointUrl}/timesheet-details/${id}`

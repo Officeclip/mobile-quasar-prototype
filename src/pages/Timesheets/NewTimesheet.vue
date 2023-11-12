@@ -4,7 +4,7 @@ import { TimesheetDetails } from 'src/models/Timesheet/timesheetDetails';
 // import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 // import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { useRouter, useRoute } from 'vue-router';
-import { ref, computed, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useTimesheetsStore } from 'src/stores/timesheet/TimesheetsStore';
 
 const router = useRouter();
@@ -17,8 +17,9 @@ const timesheetStore = useTimesheetsStore();
 // const selectedPeriod = computed(() => {
 //   return timesheetListStore.SelectedPeriod;
 // });
-const TimesheetDetails = ref({
-  id: Number(),
+const timesheetDetails: TimesheetDetails = ref({
+  id: '',
+  timesheetId: Number(),
   timeDuration: Number(),
   isBillable: true,
   accountName: '',
@@ -29,6 +30,7 @@ const TimesheetDetails = ref({
   createdDate: new Date(),
   createdUserSid: '',
   description: '',
+  comments: '',
   modifiedDate: '',
   modifiedUserSid: '',
   payrollName: '',
@@ -42,7 +44,7 @@ const TimesheetDetails = ref({
 });
 function onSubmit(e: any) {
   e.preventDefault();
-  const newTimesheet = ref(TimesheetDetails);
+  const newTimesheet = ref(timesheetDetails);
   timesheetStore.addTimesheetDetails(newTimesheet.value);
   router.push('/');
 }
@@ -68,8 +70,8 @@ function onSubmit(e: any) {
         <q-list>
           <q-form @submit="onSubmit" class="q-gutter-md">
             <TimesheetForm
-              v-if="TimesheetDetails"
-              :timesheet="TimesheetDetails"
+              v-if="timesheetDetails"
+              :timesheet="timesheetDetails"
               :periodName="periodName"
             />
             <q-btn label="Submit" type="submit" color="primary"></q-btn>

@@ -102,9 +102,45 @@ function getExpenseTypeDetail(expTypeName) {
   switch (expTypeName) {
     case 'AIRFARE':
       props.expenseDetail.autoRentalExpense = null;
+      props.expenseDetail.hotelExpense = null;
+      props.expenseDetail.mileageExpense = null;
+      props.expenseDetail.taxiExpense = null;
+      props.expenseDetail.telephoneExpense = null;
       break;
     case 'AUTORENTAL':
       props.expenseDetail.airTravelExpense = null;
+      props.expenseDetail.hotelExpense = null;
+      props.expenseDetail.mileageExpense = null;
+      props.expenseDetail.taxiExpense = null;
+      props.expenseDetail.telephoneExpense = null;
+      break;
+    case 'HOTEL':
+      props.expenseDetail.airTravelExpense = null;
+      props.expenseDetail.autoRentalExpense = null;
+      props.expenseDetail.mileageExpense = null;
+      props.expenseDetail.taxiExpense = null;
+      props.expenseDetail.telephoneExpense = null;
+      break;
+    case 'MILEAGE':
+      props.expenseDetail.airTravelExpense = null;
+      props.expenseDetail.autoRentalExpense = null;
+      props.expenseDetail.mileageExpense = null;
+      props.expenseDetail.taxiExpense = null;
+      props.expenseDetail.telephoneExpense = null;
+      break;
+    case 'TAXI':
+      props.expenseDetail.airTravelExpense = null;
+      props.expenseDetail.autoRentalExpense = null;
+      props.expenseDetail.hotelExpense = null;
+      props.expenseDetail.mileageExpense = null;
+      props.expenseDetail.telephoneExpense = null;
+      break;
+    case 'TELEPHONE':
+      props.expenseDetail.airTravelExpense = null;
+      props.expenseDetail.autoRentalExpense = null;
+      props.expenseDetail.hotelExpense = null;
+      props.expenseDetail.mileageExpense = null;
+      props.expenseDetail.taxiExpense = null;
       break;
   }
 }
