@@ -6,7 +6,10 @@ export class Constants {
       : import.meta.env.VITE_API_ENDPOINT;
 
   static getAxiosInstance() {
-    const instance = axios.create({ baseURL: Constants.endPointUrl });
+    const instance = axios.create({
+      //withCredentials: true, //https://stackoverflow.com/a/43178070
+      baseURL: Constants.endPointUrl,
+    });
     Constants.setupAxiosInstance(instance);
   }
 

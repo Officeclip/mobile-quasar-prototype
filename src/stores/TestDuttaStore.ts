@@ -14,6 +14,7 @@ export const useTestDuttaStore = defineStore('testDuttaStore', {
       try {
         const instance = axios.create({
           baseURL: 'http://localhost/officeclip/api',
+          //withCredentials: true, //https://stackoverflow.com/a/43178070
         });
         Constants.setupAxiosInstance(instance);
         const response = await instance.get('/test/');
