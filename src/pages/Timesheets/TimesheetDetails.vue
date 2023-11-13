@@ -45,26 +45,20 @@ const workFlowOptions = [
         >
         </q-btn>
         <q-toolbar-title> Details </q-toolbar-title>
-        <q-select
-          class="q-mr-md"
-          style="
-            min-width: 150px;
-            background-color: #fff;
-            border-radius: 25px;
-            padding: 0px 12px;
-          "
-          label="Submitted to:"
+        <!-- <q-select
+          class="q-mr-md bg-white"
+          style="min-width: 150px; border-radius: 25px; padding: 0px 12px"
+          label="Submit to:"
           dense
           v-model="workFlowModel"
           :options="workFlowOptions"
           map-options
           emit-value
-        />
+        /> -->
         <q-btn
           flat
           round
           dense
-          size="sm"
           color="white"
           icon="delete"
           @click="
@@ -78,7 +72,7 @@ const workFlowOptions = [
 
     <q-page-container>
       <div class="row items-center justify-center q-my-md">
-        <q-item-label caption class="q-mr-md"> Submitted To: </q-item-label>
+        <q-item-label caption class="q-mr-md"> Submit To: </q-item-label>
         <q-select
           style="min-width: 200px"
           outlined
