@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
@@ -19,6 +19,18 @@ watch([timesheetStatus], ([newModel]) => {
   timesheetsStore.getTimesheetsByStatus(String(newModel));
   title.value = newModel;
 });
+
+function getStatusColor(status: string) {
+  if (status == 'Approved') {
+    return 'status-approved';
+  }
+  if (status == 'Pending') {
+    return 'status-pending';
+  }
+  if (status == 'Rejected') {
+    return 'status-rejected';
+  }
+}
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -85,9 +97,9 @@ watch([timesheetStatus], ([newModel]) => {
               </q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-item-label caption class="bg-teal-3 q-pa-xs">{{
-                item.status
-              }}</q-item-label>
+              <q-chip dense :class="getStatusColor(item.status)">
+                <q-item-label caption>{{ item.status }}</q-item-label>
+              </q-chip>
             </q-item-section>
             <q-item-section side>
               <q-icon color="primary" name="chevron_right" />
@@ -99,3 +111,6 @@ watch([timesheetStatus], ([newModel]) => {
     </q-page-container>
   </q-layout>
 </template>
+<style lang="scss">
+@import '../../css/status.scss';
+</style>

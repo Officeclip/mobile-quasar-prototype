@@ -1,6 +1,6 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import { useRoute } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
@@ -21,6 +21,14 @@ onMounted(() => {
 const timesheetDetails = computed(() => {
   return timesheetsStore.TimesheetDetails;
 });
+
+const workFlowModel = ref('Sk Dutta');
+const workFlowOptions = [
+  'Sk Dutta',
+  'Rao Narsimha',
+  'Sudhakar Gundu',
+  'Nagesh Kulkarni',
+];
 </script>
 
 <template>
@@ -37,10 +45,35 @@ const timesheetDetails = computed(() => {
         >
         </q-btn>
         <q-toolbar-title> Timesheet details </q-toolbar-title>
+        <q-btn
+          flat
+          round
+          dense
+          size="sm"
+          color="white"
+          icon="delete"
+          @click="
+            timesheetsStore.deleteAllTimesheets(id);
+            $router.go(-1);
+          "
+        >
+        </q-btn>
       </q-toolbar>
     </q-header>
 
     <q-page-container>
+      <div class="row items-center justify-center q-my-md">
+        <q-item-label caption class="q-mr-md"> Submitted To: </q-item-label>
+        <q-select
+          style="min-width: 200px"
+          outlined
+          dense
+          v-model="workFlowModel"
+          :options="workFlowOptions"
+          map-options
+          emit-value
+        />
+      </div>
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
