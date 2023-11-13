@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import { LocalStorage } from 'quasar';
 export class Constants {
   static readonly endPointUrl =
     import.meta.env.VITE_API_ENDPOINT === undefined
@@ -23,10 +24,22 @@ export class Constants {
       console.log(`axios request: ${JSON.stringify(x)}`);
       return x;
     });
+
     instance.interceptors.response.use((x) => {
       console.log(`axios response: ${JSON.stringify(x)}`);
       return x;
     });
+
     return instance;
+  }
+
+  static setupAxiosAuthorizationHeader(token: string) {
+    axios.defaults.headers.post[
+      'Authorization'
+    ] = `Bearer ${localStorage.getItem(token)}`;
+  }
+
+  static saveAuthorizationTokenInLocalStorage(token: string) {
+    LocalStorage.set('authorizationToken', token);
   }
 }
