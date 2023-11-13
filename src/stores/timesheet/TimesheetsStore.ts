@@ -135,6 +135,22 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       }
     },
 
+    // to remove whole timesheet top level delete need to make it work
+    async deleteAllTimesheets(timesheetId: any) {
+      try {
+        const response = await axios.delete(
+          `${Constants.endPointUrl}/timesheet-details/delete/${timesheetId}`
+        );
+
+        if (response.status === 200) {
+          // Assuming the response contains the updated timesheet details
+          this.timesheetDetails = response.data;
+        }
+      } catch (error) {
+        console.error(`deleteTimesheet Error: ${error}`);
+      }
+    },
+
     async addTimesheetDetails(timesheetDetail: TimesheetDetails) {
       const callStr = `${Constants.endPointUrl}/timesheet-details`;
       await fetch(callStr, {
