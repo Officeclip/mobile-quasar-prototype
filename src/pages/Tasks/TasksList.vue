@@ -160,6 +160,15 @@ watch(
   }
 );
 
+watch(
+  () => filterOptions.value.assignedToMeFilter,
+  async (newValue, oldValue)=>{
+    console.log(newValue)
+    await taskSummaryStore.resetTaskSummaryList();
+    await getFirstBatch();
+  }
+);
+
 const filterCount = ref(0);
 
 function updateFilterCount(val: number) {
