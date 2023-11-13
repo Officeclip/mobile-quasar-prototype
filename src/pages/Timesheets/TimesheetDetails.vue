@@ -44,7 +44,22 @@ const workFlowOptions = [
           icon="arrow_back"
         >
         </q-btn>
-        <q-toolbar-title> Timesheet details </q-toolbar-title>
+        <q-toolbar-title> Details </q-toolbar-title>
+        <q-select
+          class="q-mr-md"
+          style="
+            min-width: 150px;
+            background-color: #fff;
+            border-radius: 25px;
+            padding: 0px 12px;
+          "
+          label="Submitted to:"
+          dense
+          v-model="workFlowModel"
+          :options="workFlowOptions"
+          map-options
+          emit-value
+        />
         <q-btn
           flat
           round
