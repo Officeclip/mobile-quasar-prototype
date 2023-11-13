@@ -6,6 +6,10 @@ import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import {searchFilter} from "src/models/task/searchFilter";
 
 
+const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
+const props = defineProps(['parent', 'filterOptions']);
+const taskSummaryStore = useTaskSummaryStore();
+
 const advancedOptions: Ref<searchFilter> = ref({
   filterString: '',
   ownedByMeFilter: false,
@@ -43,10 +47,6 @@ function filterNumber(filter: searchFilter) {
 }
 
 
-const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
-const props = defineProps(['parent']);
-const taskSummaryStore = useTaskSummaryStore();
-
 function emitOptions() {
   taskSummaryStore.getFilteredTasks(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
 
@@ -59,6 +59,21 @@ function emitOptions() {
 const taskListsStore = useTaskListsStore();
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
+  advancedOptions.value.filterString = props.filterOptions?.filterString
+  advancedOptions.value.ownedByMeFilter = props.filterOptions?.ownedByMeFilter
+  advancedOptions.value.assignedToMeFilter = props.filterOptions?.assignedToMeFilter
+  advancedOptions.value.showAdvancedOptions = props.filterOptions?.showAdvancedOptions
+  advancedOptions.value.userName = props.filterOptions?.userName
+  advancedOptions.value.dueDateValue = props.filterOptions?.dueDateValue
+  advancedOptions.value.dueDateOption = props.filterOptions?.dueDateOption
+  advancedOptions.value.modifiedDateValue = props.filterOptions?.modifiedDateValue
+  advancedOptions.value.modifiedDateOption = props.filterOptions?.modifiedDateOption
+  advancedOptions.value.statusName = props.filterOptions?.statusName
+  advancedOptions.value.priorityName = props.filterOptions?.priorityName
+  advancedOptions.value.taskTypeValue = props.filterOptions?.taskTypeValue
+  advancedOptions.value.assignedTo = props.filterOptions?.assignedTo
+  advancedOptions.value.ownedBy = props.filterOptions?.ownedBy
+  advancedOptions.value.regarding = props.filterOptions?.regarding
 });
 
 const dateOptions = [

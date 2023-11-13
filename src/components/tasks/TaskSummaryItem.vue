@@ -31,14 +31,14 @@ const props = defineProps<{
         <q-chip
           :color="getTaskStatusColor(task.taskStatusName)"
           :icon-right="getTaskStatusIcon(task.taskStatusName)"
-          class="StatusLabel" square>
+          square text-color="white">
           {{ task.taskStatusName }}
         </q-chip>
 
         <q-chip
           :color="getPriorityColor(task.taskPriorityName)"
           :icon-right="getPriorityIcon(task.taskPriorityName)"
-          class="PriorityLabel" square>
+          square text-color="white">
           {{ task.taskPriorityName }}
         </q-chip>
 

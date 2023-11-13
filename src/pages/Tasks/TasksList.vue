@@ -124,6 +124,8 @@ function receiveAdvFilters(advancedOptions: any) {
   filterOptions.value.ownedBy = advancedOptions.ownedBy;
   filterOptions.value.regarding = advancedOptions.regarding;
   filterOptions.value.taskTypeValue = advancedOptions.taskTypeValue;
+
+  console.log(filterOptions.value);
 }
 
 async function filterFn(val: string) {
@@ -160,7 +162,7 @@ watch(
 
 const filterCount = ref(0);
 
-function updateFilterCount(val:number){
+function updateFilterCount(val: number) {
   filterCount.value = val;
 }
 
@@ -209,12 +211,12 @@ function updateFilterCount(val:number){
             <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
           </div>
           <div class="q-mr-md">
-            <q-btn flat @click="filterOptions.showAdvancedOptions = true" icon="filter_list">
-              <q-badge color="red" floating v-if="filterCount!=0">{{filterCount}}</q-badge>
+            <q-btn flat icon="filter_list" @click="filterOptions.showAdvancedOptions = true">
+              <q-badge v-if="filterCount!=0" color="red" floating>{{ filterCount }}</q-badge>
             </q-btn>
           </div>
           <div class="q-mr-md">
-            <q-btn flat @click="clearFilterValues" icon="clear">
+            <q-btn flat icon="clear" @click="clearFilterValues">
             </q-btn>
           </div>
         </div>
@@ -231,8 +233,9 @@ function updateFilterCount(val:number){
         </q-infinite-scroll>
 
         <q-dialog v-model="filterOptions.showAdvancedOptions">
-          <task-advanced-filters :parent="parent" @advancedOptionsGenerated="receiveAdvFilters"
-          @filterCount="updateFilterCount"/>
+          <task-advanced-filters :filter-options="filterOptions" :parent="parent"
+                                 @advancedOptionsGenerated="receiveAdvFilters"
+                                 @filterCount="updateFilterCount"/>
         </q-dialog>
 
         <!--        <pre>{{ filterOptions }}</pre>-->

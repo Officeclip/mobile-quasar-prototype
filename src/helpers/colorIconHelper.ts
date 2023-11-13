@@ -19,9 +19,9 @@ export function getTaskStatusColor(status: string) {
     case 'Open':
       return 'grey'; // Grey for tasks that are open/not started
     case 'In Progress':
-      return 'blue'; // Blue for tasks that are currently being worked on
+      return 'indigo'; // Blue for tasks that are currently being worked on
     case 'Pending':
-      return 'amber'; // Amber for tasks that are on hold or awaiting action
+      return 'amber-10'; // Amber for tasks that are on hold or awaiting action
     case 'Completed':
       return 'green'; // Green for tasks that have been completed
     // Add more status options here if necessary
@@ -72,7 +72,7 @@ export function getPriorityColor(priority: string) {
     case 'High':
       return 'red';
     case 'Medium':
-      return 'amber';
+      return 'amber-10';
     case 'Low':
       return 'green';
 
