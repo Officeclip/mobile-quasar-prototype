@@ -2,8 +2,20 @@
 import {onBeforeMount, ref, Ref} from 'vue';
 import {useTaskListsStore} from "stores/task/taskListsStore";
 import {regardingContact} from "src/models/task/taskLists";
+import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
+import {searchFilter} from "src/models/task/searchFilter";
 
-const advancedOptions = ref({
+
+const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
+const props = defineProps(['parent', 'filterOptions']);
+const taskSummaryStore = useTaskSummaryStore();
+
+const advancedOptions: Ref<searchFilter> = ref({
+  filterString: '',
+  ownedByMeFilter: false,
+  assignedToMeFilter: false,
+  showAdvancedOptions: false,
+  userName: '',
   dueDateValue: '',
   dueDateOption: '',
   modifiedDateValue: '',
@@ -16,15 +28,52 @@ const advancedOptions = ref({
   regarding: ''
 })
 
-const emit = defineEmits(['advancedOptionsGenerated']);
+function filterNumber(filter: searchFilter) {
+  let val = 0;
+
+  // Compare each field in the filter object against the advancedOptions defaults
+  val += filter.dueDateValue !== '' ? 1 : 0;
+  val += filter.dueDateOption !== '' ? 1 : 0;
+  val += filter.modifiedDateValue !== '' ? 1 : 0;
+  val += filter.modifiedDateOption !== '' ? 1 : 0;
+  val += filter.statusName !== '' ? 1 : 0;
+  val += filter.priorityName !== '' ? 1 : 0;
+  val += filter.taskTypeValue !== '' ? 1 : 0;
+  val += filter.assignedTo !== '' ? 1 : 0;
+  val += filter.ownedBy !== '' ? 1 : 0;
+  val += filter.regarding !== '' ? 1 : 0;
+
+  return val;
+}
+
 
 function emitOptions() {
+  taskSummaryStore.getFilteredTasks(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
+
   emit('advancedOptionsGenerated', advancedOptions.value);
+  emit('filterCount', filterNumber(advancedOptions.value));
+  // console.log(filterNumber(advancedOptions.value));
+
 }
 
 const taskListsStore = useTaskListsStore();
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
+  advancedOptions.value.filterString = props.filterOptions?.filterString
+  advancedOptions.value.ownedByMeFilter = props.filterOptions?.ownedByMeFilter
+  advancedOptions.value.assignedToMeFilter = props.filterOptions?.assignedToMeFilter
+  advancedOptions.value.showAdvancedOptions = props.filterOptions?.showAdvancedOptions
+  advancedOptions.value.userName = props.filterOptions?.userName
+  advancedOptions.value.dueDateValue = props.filterOptions?.dueDateValue
+  advancedOptions.value.dueDateOption = props.filterOptions?.dueDateOption
+  advancedOptions.value.modifiedDateValue = props.filterOptions?.modifiedDateValue
+  advancedOptions.value.modifiedDateOption = props.filterOptions?.modifiedDateOption
+  advancedOptions.value.statusName = props.filterOptions?.statusName
+  advancedOptions.value.priorityName = props.filterOptions?.priorityName
+  advancedOptions.value.taskTypeValue = props.filterOptions?.taskTypeValue
+  advancedOptions.value.assignedTo = props.filterOptions?.assignedTo
+  advancedOptions.value.ownedBy = props.filterOptions?.ownedBy
+  advancedOptions.value.regarding = props.filterOptions?.regarding
 });
 
 const dateOptions = [
@@ -171,73 +220,3 @@ async function filterFn(val: string, update: any, abort: any) {
   margin: 5px; /* Adjust the margin as needed */
 }
 </style>
-
-<!--<script lang="ts" setup>-->
-<!--import {ref} from 'vue';-->
-
-<!--const advancedOptions = ref({-->
-<!--  dueDateValue: '',-->
-<!--  dueDateOption: '',-->
-<!--  modifiedDateValue: '',-->
-<!--  modifiedDateOption: '',-->
-<!--  statusValue: '',-->
-<!--  priorityValue: '',-->
-<!--  assignedTo: '',-->
-<!--  ownedBy: '',-->
-<!--  regarding: ''-->
-<!--})-->
-
-<!--const dateOptions = [-->
-<!--  {label: "Equal To", value: "EqualTo"},-->
-<!--  {label: "Not Equal To", value: "NotEqualTo"},-->
-<!--  {label: "Greater Than", value: "GreaterThan"},-->
-<!--  {label: "Less Than", value: "LessThan"},-->
-<!--  {label: "Greater Than or Equal To", value: "GreaterOrEqual"},-->
-<!--  {label: "Less Than or Equal To", value: "LessOrEqual"},-->
-<!--  {label: "Is Null", value: "isNull"},-->
-<!--  {label: "Is Not Null", value: "isNotNull"},-->
-<!--]-->
-
-<!--</script>-->
-
-<!--<template>-->
-<!--  <q-card style="width: 700px; max-width: 80vw;">-->
-
-<!--    <div class="q-pa-md row">-->
-<!--      <q-item-section>-->
-<!--        <q-item-label>Due Date</q-item-label>-->
-<!--        <q-input-->
-<!--          v-model="advancedOptions.dueDateValue"-->
-<!--          clearable-->
-<!--          label="Due Date"-->
-<!--          outlined-->
-<!--          type="date"-->
-<!--        />-->
-<!--        <q-select v-model="advancedOptions.dueDateOption" :options="dateOptions"/>-->
-<!--      </q-item-section>-->
-
-<!--      <q-item-section>-->
-<!--        <q-item-label>Modified Date</q-item-label>-->
-<!--        <q-input-->
-<!--          v-model="advancedOptions.modifiedDateValue"-->
-<!--          clearable-->
-<!--          label="Modified Date"-->
-<!--          outlined-->
-<!--          type="date"-->
-<!--        />-->
-<!--        <q-select v-model="advancedOptions.modifiedDateOption" :options="dateOptions"/>-->
-<!--      </q-item-section>-->
-<!--    </div>-->
-
-<!--    <q-card-actions>-->
-<!--      <q-btn v-close-popup color="primary" label="Save"/>-->
-<!--    </q-card-actions>-->
-<!--  </q-card>-->
-
-<!--</template>-->
-
-<!--<style scoped>-->
-<!--.select-spacing {-->
-<!--  margin: 5px; /* Adjust the margin as needed */-->
-<!--}-->
-<!--</style>-->

@@ -1,35 +1,35 @@
 <script setup lang="ts">
 import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
-import { expenseDetails } from 'src/models/expense/expenseDetails';
-// import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const router = useRouter();
 const route = useRoute();
 const expenseDetailsStore = useExpenseDetailsStore();
 
-const expenseId = route.params.id;
+const period = computed(() => {
+  return route.params.period;
+});
 
 const expenseDetail = ref({
   accountName: '',
-  id: expenseId,
-  amount: '',
+  accountSid: '',
+  amount: Number(''),
   billable: true,
   comments: '',
   description: '',
   employeeFullName: '',
   employeeSid: '',
   expenseDate: '',
-  expenseDetailSid: '',
+  id: '',
   expenseSid: '',
   expenseTypeName: '',
   expenseCategoryName: '',
   expenseTypeSid: '',
   projectName: '',
   projectSid: '',
-  tax: '',
+  tax: Number(''),
   paymentType: '',
   autoRentalExpense: null,
   airTravelExpense: null,
@@ -44,7 +44,7 @@ function onSubmit(e: any) {
 
   const newExpense: any = {
     accountName: expenseDetail.value.accountName,
-    id: expenseDetail.value.id,
+    accountSid: expenseDetail.value.accountSid,
     amount: expenseDetail.value.amount,
     billable: expenseDetail.value.billable,
     comments: expenseDetail.value.comments,
@@ -52,7 +52,7 @@ function onSubmit(e: any) {
     employeeFullName: expenseDetail.value.employeeFullName,
     employeeSid: expenseDetail.value.employeeSid,
     expenseDate: expenseDetail.value.expenseDate,
-    expenseDetailSid: expenseDetail.value.expenseDetailSid,
+    id: expenseDetail.value.id,
     expenseSid: expenseDetail.value.expenseSid,
     expenseTypeName: expenseDetail.value.expenseTypeName,
     expenseCategoryName: expenseDetail.value.expenseCategoryName,
@@ -71,7 +71,7 @@ function onSubmit(e: any) {
   const str = JSON.stringify(newExpense);
   console.log(`onSubmit Expense Value: ${str}`);
 
-  //expenseDetailsStore.addExpense(newExpense);
+  expenseDetailsStore.addExpense(newExpense);
 
   router.push('/');
 }
@@ -88,10 +88,7 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <!-- <pre>
-            {{ expenseDetail }}
-          </pre> -->
-          <ExpenseForm :expenseDetail="expenseDetail" />
+          <ExpenseForm :expenseDetail="expenseDetail" :period="period" />
           <q-btn class="q-ml-md q-mb-md q-mt-md" label="Submit" type="submit" color="primary"></q-btn>
           <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
         </div>

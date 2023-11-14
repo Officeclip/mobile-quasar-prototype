@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { Timesheet } from '../../models/timesheet';
-import { TimesheetDetails } from '../../models/timesheetDetails';
+import { Timesheet } from '../../models/Timesheet/timesheet';
+import { TimesheetDetails } from '../../models/Timesheet/timesheetDetails';
 import axios from 'axios';
 import { Constants } from 'stores/Constants';
 
@@ -81,12 +81,26 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       }
     },
 
-    async getTimesheetDetails(id: number) {
+    async getTimesheetDetails(id: string | string[]) {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/timesheet-details?id=${id}`
+          `${Constants.endPointUrl}/timesheet-details?timesheetId=${id}`
         );
         this.timesheetDetails = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getSingleTimesheetDetail(id: string | string[]) {
+      try {
+        const response = await axios.get(
+          `${Constants.endPointUrl}/timesheet-details?timesheetDetailSid=${id}`
+        );
+        this.timesheetDetail = response.data[0];
+        console.log(
+          'Testing the single timesheet details by Id',
+          this.timesheetDetail
+        );
       } catch (error) {
         console.error(error);
       }
@@ -107,7 +121,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         console.error(`editTimesheet Error: ${error}`);
       }
     },
-    async deleteTimesheet(id: number | undefined) {
+    async deleteTimesheet(id: string | string[]) {
       try {
         const response = await axios.delete(
           `${Constants.endPointUrl}/timesheet-details/${id}`
@@ -119,6 +133,32 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       } catch (error) {
         console.error(`deleteTimesheet Error: ${error}`);
       }
+    },
+
+    // to remove whole timesheet top level delete need to make it work
+    async deleteAllTimesheets(id: string | string[]) {
+      try {
+        const response = await axios.delete(
+          `${Constants.endPointUrl}/timesheetSummary/${id}`
+        );
+
+        if (response.status === 200) {
+          // Assuming the response contains the updated timesheet details
+          this.timesheetDetails = response.data;
+        }
+      } catch (error) {
+        console.error(`deleteTimesheet Error: ${error}`);
+      }
+    },
+
+    async addTimesheetDetails(timesheetDetail: TimesheetDetails) {
+      const callStr = `${Constants.endPointUrl}/timesheet-details`;
+      await fetch(callStr, {
+        method: 'POST',
+        body: JSON.stringify(timesheetDetail),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log(this.timesheetDetail);
     },
   },
 });

@@ -1,7 +1,8 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch, ref } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
+import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useRoute } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import autoRentalExpense from '../../components/expenses/details/autoRentalExpense.vue';
@@ -11,18 +12,38 @@ import mileageExpense from '../../components/expenses/details/mileageExpense.vue
 import taxiExpense from '../../components/expenses/details/taxiExpense.vue';
 import telephoneExpense from '../../components/expenses/details/telephoneExpense.vue';
 
+const route = useRoute();
+
+const fromDate = route.params.fromDate;
+
 const expenseDetailsStore = useExpenseDetailsStore();
 
+const expenseListsStore = useExpenseListsStore();
+
 onMounted(() => {
-  const route = useRoute();
   console.log('Expense Detail Id from route', route.params.id)
   expenseDetailsStore.getExpenseDetails(route.params.id);
+  expenseListsStore.getExpensesList();
 });
 
 const expenseDetails = computed(() => {
   return expenseDetailsStore.expenseDetailsList;
 });
-console.log('expense detail in expense details', expenseDetails)
+
+const periodOptions = computed(() => {
+  return expenseListsStore.PeriodList;
+});
+
+const expensePeriod = ref('');
+
+watch([periodOptions], () => {
+
+  expensePeriod.value = periodOptions.value.find((x) => x.start.toString() === fromDate);
+
+  console.log('Expense period in Expense details', expensePeriod)
+});
+
+
 </script>
 
 <template>
@@ -61,18 +82,15 @@ console.log('expense detail in expense details', expenseDetails)
                   name: 'editExpense',
                   params: {
                     id: expenseDetail?.id,
+                    expenseSid: expenseDetail?.expenseSid,
+                    fromDate: fromDate
                   },
                 }" size="sm" flat round dense icon="edit" class="q-ml-sm">
                 </q-btn>
               </q-item-label>
             </q-item-section>
           </template>
-          <!-- <q-separator></q-separator> -->
           <q-item-section class="q-ma-md">
-            <!-- <q-item-label caption> Project </q-item-label>
-            <q-item-label class="q-mb-sm">
-              {{ expenseDetail.projectName }}
-            </q-item-label> -->
 
             <q-item-label caption> Billable </q-item-label>
             <q-item-label class="q-mb-sm">
@@ -88,13 +106,13 @@ console.log('expense detail in expense details', expenseDetails)
 
             <airTravelExpense v-if="expenseDetail.airTravelExpense" :expense="expenseDetail.airTravelExpense" />
 
-            <!-- <hotelExpense v-if="expenseDetail.hotelExpense" :expense="expenseDetail.hotelExpense" />
+            <hotelExpense v-if="expenseDetail.hotelExpense" :expense="expenseDetail.hotelExpense" />
 
             <mileageExpense v-if="expenseDetail.mileageExpense" :expense="expenseDetail.mileageExpense" />
 
             <taxiExpense v-if="expenseDetail.taxiExpense" :expense="expenseDetail.taxiExpense" />
 
-            <telephoneExpense v-if="expenseDetail.telephoneExpense" :expense="expenseDetail.telephoneExpense" /> -->
+            <telephoneExpense v-if="expenseDetail.telephoneExpense" :expense="expenseDetail.telephoneExpense" />
 
           </q-item-section>
 
@@ -108,8 +126,15 @@ console.log('expense detail in expense details', expenseDetails)
           </q-item-section>
         </q-expansion-item>
       </q-list>
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-btn :to="{
+          name: 'newExpense',
+          params: {
+            period: expensePeriod?.name
+          }
+        }" fab icon="add" color="accent" padding="sm">
+        </q-btn>
+      </q-page-sticky>
     </q-page-container>
   </q-layout>
 </template>
-
-<style></style>

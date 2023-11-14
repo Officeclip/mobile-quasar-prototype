@@ -1,24 +1,33 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { TestDutta } from '../models/testDutta';
-import {Constants} from "stores/Constants";
+import { Constants } from 'stores/Constants';
 
 export const useTestDuttaStore = defineStore('testDuttaStore', {
   state: () => ({
-    testDutta: undefined as TestDutta | undefined, // for single event access
+    testDutta: null, // for single event access
   }),
   getters: {
     TestDutta: (state) => state.testDutta,
   },
   actions: {
-    async getDuttaTestById(id: number) {
+    async getDuttaTest() {
       try {
-        const response = await axios.get(
-          `${Constants.endPointUrl}/testDuttas?id=${id}`
-        );
+        const instance = axios.create({
+          baseURL: 'http://localhost/officeclip/api',
+          //withCredentials: true, //https://stackoverflow.com/a/43178070
+        });
+        Constants.setupAxiosInstance(instance);
+        //debugger;
+        Constants.setupAxiosAuthorizationHeader(instance, 'x-token');
+        const response = await instance.get('/test/');
         this.testDutta = response.data[0];
+        //debugger;
+        const tokenHeader = response.headers['x-token'];
+        if (tokenHeader) {
+          Constants.saveAuthorizationTokenInLocalStorage(tokenHeader);
+        }
         console.log(
-          `TestDuttaStore: getDuttaTestById - length - ${response.data.length}, ${this.testDutta?.startDateTime}`
+          `TestDuttaStore: getDuttaTestById - length - ${response.headers}`
         );
       } catch (error) {
         alert(error);

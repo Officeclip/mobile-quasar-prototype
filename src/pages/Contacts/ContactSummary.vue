@@ -9,13 +9,14 @@ import { computed, onMounted, ref } from 'vue';
 
 const contactSummaryStore = useContactSummaryStore();
 
-const currentPage = ref(1); // the current page number
-// const pageSize = ref(10); // number of items in one page
-const numItems = ref<number>(0); // total number of items in the list
+
 const text = ref('');
 
-const reachedEnd = ref(false); // indicate if all contacts have been loaded
-const batchSize = ref(25); // number of contacts to load in each batch
+let currentPage = 1; // the current page number
+// const pageSize = ref(10); // number of items in one page
+let numItems = 0; // total number of items in the list
+let reachedEnd = ref(false); // indicate if all contacts have been loaded
+const batchSize = 25; // number of contacts to load in each batch
 
 const contacts = computed(() => {
   return contactSummaryStore.ContactSummary;
@@ -24,8 +25,8 @@ const contacts = computed(() => {
 onMounted(() => {
   //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
   contactSummaryStore
-    .getContactSummaryByBatch(batchSize.value, currentPage.value)
-    .then(() => currentPage.value++);
+    .getContactSummaryByBatch(batchSize, currentPage)
+    .then(() => currentPage++);
   // contactsStore.getContacts();
   //contacts.value = contactsStore.Contacts;
   // console.log(`onMounted: Contacts - ${contactsStore.Contacts}`);
@@ -35,10 +36,10 @@ const loadMore = (index: any, done: () => void) => {
   const contactsSizeBeforeCall = contacts.value.length;
   setTimeout(() => {
     contactSummaryStore
-      .getContactSummaryByBatch(batchSize.value, currentPage.value)
+      .getContactSummaryByBatch(batchSize, currentPage)
       .then(() => {
         done();
-        currentPage.value++;
+        currentPage++;
         const contactsAfterCall = contacts.value.length;
         reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
       });
@@ -65,7 +66,7 @@ const getData = computed(() => {
 
   //FIXME: Remove the lint suppress line from here. See: https://stackoverflow.com/a/54535439
   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-  numItems.value = filteredContacts.length;
+  numItems = filteredContacts.length;
   return filteredContacts;
 });
 </script>

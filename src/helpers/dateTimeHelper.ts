@@ -81,6 +81,24 @@ const convertDateTimeUTCtoLocal = (
   return null;
 };
 
+// populate dates between the start and end dates
+const populateDates = (startDate: Date, endDate: Date) => {
+  const newStartDate = new Date(startDate);
+  const newEndDate = new Date(endDate);
+  const dates = [];
+  while (newStartDate <= newEndDate) {
+    const formattedDate = `${newStartDate.toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+    })}(${newStartDate.toLocaleString('en-US', { weekday: 'short' })})`;
+
+    dates.push({ name: formattedDate, startDate: newStartDate.toISOString() });
+
+    newStartDate.setDate(newStartDate.getDate() + 1);
+  }
+  return dates;
+};
+
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
@@ -91,4 +109,5 @@ export default {
   convertDateToUtc,
   convertLocalDateToUTC,
   convertDateTimeUTCtoLocal,
+  populateDates,
 };

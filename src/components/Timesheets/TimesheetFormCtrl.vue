@@ -1,55 +1,69 @@
+<!-- eslint-disable vue/no-setup-props-destructure -->
+<!-- eslint-disable vue/no-mutating-props -->
 <script setup>
-import { defineProps, ref, onMounted, onUpdated } from 'vue';
+import { defineProps, ref, onMounted, computed, watch } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 
-// const periodOptions = ref([])
-// periodOptions.value = [
-//   '2023-07-31',
-//   '2023-07-24',
-//   '2023-07-17',
-//   '2023-07-10',
-//   '2023-07-03'
-// ]
-const dateOptions = ref([]);
-dateOptions.value = [
-  'Aug 27(Sun)',
-  'Aug 28(Mon)',
-  'Aug 29(Tue)',
-  'Aug 30(Wed)',
-  'Aug 31(Thu)',
-  'Aug 01(Fri)',
-  'Aug 02(Sat)',
-];
+const props = defineProps(['timesheet', 'periodName']);
+const accountName = props.timesheet?.accountName;
+const projectName = props.timesheet?.projectName;
+const selectedCustomerProject = ref(
+  accountName ? `${accountName}:${projectName}` : ''
+);
+const serviceItemModel = ref('');
 
-const sampleModel = ref(null);
-const sampleModel2 = ref('');
+//to show the service item name initially when edit other wise we have to select the dropdown item
+serviceItemModel.value = props.timesheet ? props.timesheet.serviceItemName : '';
+const serviceItemsOptions = ref('');
+const customerProjectModel = ref('');
+const taskDate = ref('');
+taskDate.value = props.timesheet?.taskDate
+  ? props.timesheet?.taskDate
+  : new Date();
+
+// format the taskDate and show for user interface like Nov 02(Fri)
+const formattedTaskDate = ref(
+  `${new Date(taskDate.value).toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  })}(${new Date(taskDate.value).toLocaleString('en-US', {
+    weekday: 'short',
+  })})`
+);
 
 const timesheetListStore = useTimesheetListStore();
-
 onMounted(() => {
   timesheetListStore.getTimesheetListAll();
 });
-
-onUpdated(() => {
-  const selectedValue = sampleModel.value.id;
-  console.log('getting the id from option:', selectedValue);
+const selectedPeriod = computed(() => {
+  return timesheetListStore.PeriodList.find((x) => x.name === props.periodName);
+});
+const dateOptions = computed(() => {
+  return dateTimeHelper.populateDates(
+    selectedPeriod.value?.start,
+    selectedPeriod.value?.end
+  );
 });
 
-const periodOptions = ref('');
-periodOptions.value = timesheetListStore.periodList;
+const customerProjectOptions = computed(() => {
+  return timesheetListStore.CustomerProjectsList;
+});
 
-const customerProjectOptions = ref('');
-customerProjectOptions.value = timesheetListStore.CustomerProjectsList;
+const accountSid = props.timesheet?.accountSid;
+const projectSid = props.timesheet?.projectSid;
+const customerProjectId = ref(accountSid ? `${accountSid}:${projectSid}` : '');
 
-const serviceItemsOptions = ref('');
-// serviceItemsOptions.value = timesheetListStore.ServiceItemsList
-
-const handleSelectChange = (sampleModel) => {
-  console.log('Selected value:', sampleModel.id);
-  serviceItemsOptions.value =
-    timesheetListStore.getServiceItemsBycustomerProjectId(sampleModel.id);
-};
+//getting the service items list each time when click on service items dropdown
+function getServiceItems() {
+  if (customerProjectId.value) {
+    return (serviceItemsOptions.value =
+      timesheetListStore.getServiceItemsBycustomerProjectId(
+        customerProjectId.value
+      ));
+  }
+  return alert('Select the Customer:Project first');
+}
 
 const billableOptions = ref([]);
 billableOptions.value = [
@@ -63,94 +77,101 @@ billableOptions.value = [
   },
 ];
 
-const props = defineProps(['timesheet']);
+watch([taskDate], ([newTaskDate]) => {
+  formattedTaskDate.value = newTaskDate.name;
+  props.timesheet.taskDate = newTaskDate.startDate;
+});
+watch([serviceItemModel], ([newServiceItemModel]) => {
+  props.timesheet.serviceItemSid = newServiceItemModel.id;
+});
 
-const createdDate = ref('');
-createdDate.value = dateTimeHelper.extractDateFromUtc(
-  props.timesheet.createdDate
-);
+const handleModelValue = (newValue) => {
+  customerProjectModel.value = newValue;
+  selectedCustomerProject.value = newValue;
+  customerProjectId.value = newValue.id;
+  serviceItemModel.value = '';
+  props.timesheet.serviceItemName = '';
 
-const taskDate = ref('');
-taskDate.value = 'July 20(Thu)';
+  // split and separated the properties, values and assing to them
+  const names = newValue.name.split(':');
+  const ids = newValue.id.split(':');
+  props.timesheet.accountName = names[0];
+  props.timesheet.projectName = names[1];
+  props.timesheet.accountSid = ids[0];
+  props.timesheet.projectSid = ids[1];
+};
 </script>
 
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
-  <div>
-    <div class="q-pa-md">
-      <div class="q-gutter-y-md column">
-        <q-select
-          name="newcreatedDate"
-          label="Period"
-          v-model="createdDate"
-          :options="periodOptions"
-          map-options
-          option-label="name"
-          emit-label
-        />
+  <div class="q-ma-lg">
+    <div class="q-ml-sm">
+      <q-item-label caption>Period</q-item-label>
+      <q-item-label v-if="selectedPeriod">{{
+        selectedPeriod.name
+      }}</q-item-label>
+      <pre>{{ taskDate }}</pre>
+      <q-select
+        label="Date"
+        :model-value="formattedTaskDate"
+        @update:model-value="(newValue) => (taskDate = newValue)"
+        :options="dateOptions"
+        option-label="name"
+        map-options
+        emit-label
+      />
+      <!-- <pre>{{ customerProjectModel }}</pre> -->
+      <q-select
+        label="Customer: Project"
+        :model-value="selectedCustomerProject"
+        @update:model-value="handleModelValue"
+        :options="customerProjectOptions"
+        option-label="name"
+        option-value="id"
+        map-options
+      />
+      <!-- <pre>{{ props.timesheet.serviceItemName }}</pre>
+      <pre>{{ serviceItemModel }}</pre> -->
+      <q-select
+        label="ServiceItems"
+        v-model="serviceItemModel"
+        @update:model-value="
+          (newValue) => (props.timesheet.serviceItemName = newValue.name)
+        "
+        :options="serviceItemsOptions"
+        option-label="name"
+        option-value="id"
+        map-options
+        @click="getServiceItems()"
+      />
 
-        <q-select
-          name="newtaskDate"
-          label="Date"
-          v-model="taskDate"
-          :options="dateOptions"
-          map-options
-          emit-label
-        />
-        <pre>{{ sampleModel }}</pre>
-        <q-select
-          label="Customer: Project"
-          v-model="sampleModel"
-          :options="customerProjectOptions"
-          option-label="name"
-          option-value="id"
-          map-options
-          @update:model-value="handleSelectChange"
-        />
+      <q-select
+        label="Billable"
+        v-model="props.timesheet.isBillable"
+        :options="billableOptions"
+        map-options
+        emit-value
+      />
+      <q-input
+        label="Duration"
+        v-model="props.timesheet.timeDuration"
+        placeholder="enter here..."
+      >
+      </q-input>
 
-        <q-select
-          label="ServiceItems"
-          v-model="sampleModel2"
-          :options="serviceItemsOptions"
-          option-label="name"
-          option-value="id"
-          map-options
-        />
+      <q-input
+        label="Description"
+        v-model="props.timesheet.description"
+        placeholder="enter here..."
+      >
+      </q-input>
 
-        <q-select
-          label="Billable"
-          v-model="props.timesheet.isBillable"
-          :options="billableOptions"
-          map-options
-          emit-value
-        />
-        <q-input
-          label="Duration"
-          v-model="props.timesheet.timeDuration"
-          placeholder="enter here..."
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        >
-        </q-input>
-
-        <q-input
-          label="Description"
-          v-model="props.timesheet.description"
-          placeholder="enter here..."
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        >
-        </q-input>
-
-        <q-input
-          label="Comments"
-          v-model="props.timesheet.description"
-          placeholder="enter here..."
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        >
-        </q-input>
-      </div>
+      <q-input
+        label="Comments"
+        v-model="props.timesheet.comments"
+        placeholder="enter here..."
+      >
+      </q-input>
     </div>
   </div>
 </template>

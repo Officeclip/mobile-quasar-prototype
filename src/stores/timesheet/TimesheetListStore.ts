@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia';
-/* import { CustomerProject } from '../models/Timesheet/customerProject';
-import { ServiceItems } from '../models/Timesheet/serviceItems';
-import { Period } from '../models/Timesheet/periods'; */
 import {
   TimesheetList,
   CustomerProject,
   ServiceItem,
   Period,
+  Payroll,
+  CustomField,
 } from '../../models/Timesheet/timesheetList';
 import axios from 'axios';
 import { Constants } from '../Constants';
@@ -14,41 +13,45 @@ import { Constants } from '../Constants';
 export const useTimesheetListStore = defineStore('timesheetListStore', {
   state: () => ({
     // timesheetList: undefined as TimesheetList | undefined,
+    periodList: [] as Period[],
     customerProjectsList: [] as CustomerProject[],
     serviceItemsList: [] as ServiceItem[],
-    periodList: [] as Period[],
+    payrollsList: [] as Payroll[],
+    customFieldsList: [] as CustomField[],
+    //using to store the selected period from newtimesheetPeriod page
+    // selectedPeriod: {} as any,
   }),
 
   getters: {
+    PeriodList: (state) => state.periodList,
+    // PeriodList: (state) => state.timesheetList?.periods,
     CustomerProjectsList: (state) => state.customerProjectsList,
     //CustomerProjectsList: (state) => state.timesheetList?.customerProjects,
     ServiceItemsList: (state) => state.serviceItemsList,
     // ServiceItemsList: (state) => state.timesheetList?.serviceItems,
-    PeriodList: (state) => state.periodList,
-    // PeriodList: (state) => state.timesheetList?.periods,
+    PayrollsList: (state) => state.payrollsList,
+    CustomFieldsList: (state) => state.customFieldsList,
+
+    // SelectedPeriod: (state) => state.selectedPeriod,
   },
 
   actions: {
-    // getting all the timesheets for testing only, probably no where this use
-    // TODO: Get all the list item at one time.
-    async getTimesheetsList(name: string) {
+    async getTimesheetListAll() {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}timesheet-List?name=${name}`
+          `${Constants.endPointUrl}/timesheet-List`
         );
-        console.log('Response', response);
-        const data = response.data[0].items;
-        const newData = Object.keys(data).map((key) => data[key]);
-
-        console.log('New Data', newData);
-
-        if (name == 'CustomerProjects') {
-          this.customerProjectsList = newData;
-        } else if (name == 'Periods') {
-          this.periodList = newData;
-        } else {
-          this.serviceItemsList = newData;
-        }
+        const newData = response.data[0];
+        const periods = newData.periods;
+        const customerProjects = newData.customerProjects;
+        const serviceItems = newData.serviceItems;
+        const payrolls = newData.payrolls;
+        const customFields = newData.customFields;
+        this.periodList = periods;
+        this.customerProjectsList = customerProjects;
+        this.serviceItemsList = serviceItems;
+        this.payrollsList = payrolls;
+        this.customFieldsList = customFields;
       } catch (error) {
         console.error(error);
       }
@@ -73,11 +76,11 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
       }
     },
 
-    async getTimesheetListAll() {
-      await this.getTimesheetsList('CustomerProjects');
-      await this.getTimesheetsList('ServiceItems');
-      await this.getTimesheetsList('Periods');
-    },
+    // async getTimesheetListAll() {
+    //   await this.getTimesheetsList('CustomerProjects');
+    //   await this.getTimesheetsList('ServiceItems');
+    //   await this.getTimesheetsList('Periods');
+    // },
 
     getServiceItemsBycustomerProjectId(customerProjectId: string) {
       console.log(
@@ -85,7 +88,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
         customerProjectId,
         this.ServiceItemsList
       );
-      const newItems: ServiceItem[] = this.serviceItemsList.filter((t) => {
+      const newItems = this.ServiceItemsList.filter((t) => {
         return (
           t.customerProjectId === '' ||
           t.customerProjectId === customerProjectId

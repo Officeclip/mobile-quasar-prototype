@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
-import dateTimeHelper from '../../helpers/dateTimeHelper';
+// import dateTimeHelper from '../../helpers/dateTimeHelper';
+import { eventDetails } from 'src/models/event/eventDetails';
 
 const route = useRoute();
 const router = useRouter();
@@ -11,7 +12,7 @@ const eventDetailsStore = useEventDetailsStore();
 
 const paramsId = route.params.id;
 eventDetailsStore.getEventDetailsById(paramsId);
-const event = computed(() => {
+const event: Ref<eventDetails> = computed(() => {
   return eventDetailsStore.EventDetails;
 });
 function handleRRule(rrule: string) {
@@ -35,41 +36,46 @@ function onSubmit(e: any) {
   // const start = formData.get('startDateTime');
 
   // convert local start/end datetime to utc while saving into the json
-  const startDateTime = event.value?.startDateTime;
-  const newStartDateTime = dateTimeHelper.convertLocalDateToUTC(startDateTime);
 
-  const endDateTime = event.value?.endDateTime;
-  const newEndDateTime = dateTimeHelper.convertLocalDateToUTC(endDateTime);
+  // not sure why i am converting local to utc it automatically saved as utc into the json
 
-  const editEvent: event = {
-    id: event.value?.id as string,
-    parentServiceType: event.value?.parentServiceType as number,
-    eventType: event.value?.eventType as string,
-    eventName: event.value?.eventName as string,
-    eventDescription: event.value?.eventDescription,
-    startDateTime: newStartDateTime,
-    endDateTime: newEndDateTime,
-    isAllDayEvent: event.value?.isAllDayEvent as boolean,
-    eventLocation: event.value?.eventLocation,
-    createdDate: event.value?.createdDate,
-    createdGroupSId: event.value?.createdGroupSId,
-    createdUserSid: event.value?.createdUserSid,
-    parentSid: event.value?.parentSid,
-    eventUserSid: event.value?.eventUserSid,
-    isRsvp: event.value?.isRsvp,
-    sendNotifications: event.value?.sendNotifications,
-    repeatInfoText: event.value?.repeatInfoText,
-    recurrenceRule: event.value?.recurrenceRule,
-    modifiedDate: event.value?.modifiedDate,
-    modifiedUserSid: event.value?.modifiedUserSid,
-    timezoneId: event.value?.timezoneId,
-    remindTo: event.value?.remindTo,
-    remindBeforeMinutes: event.value?.remindBeforeMinutes,
-    label: event.value?.label,
-    meetingAttendees: event.value?.meetingAttendees,
-    url: event.value?.url,
-  };
-  eventDetailsStore.editEventDetails(editEvent);
+  // const startDateTime = event.value?.startDateTime;
+  // const newStartDateTime = dateTimeHelper.convertLocalDateToUTC(startDateTime);
+  // const endDateTime = event.value?.endDateTime;
+  // const newEndDateTime = dateTimeHelper.convertLocalDateToUTC(endDateTime);
+
+  // why unnecessarly populating new object with existing one, not sure will review later
+  // const editEvent: event = {
+  //   id: event.value?.id as string,
+  //   parentServiceType: event.value?.parentServiceType as number,
+  //   eventType: event.value?.eventType as string,
+  //   eventName: event.value?.eventName as string,
+  //   eventDescription: event.value?.eventDescription,
+  //   startDateTime: event.value?.startDateTime,
+  //   endDateTime: event.value?.endDateTime,
+  //   isAllDayEvent: event.value?.isAllDayEvent as boolean,
+  //   eventLocation: event.value?.eventLocation,
+  //   createdDate: event.value?.createdDate,
+  //   createdGroupSId: event.value?.createdGroupSId,
+  //   createdUserSid: event.value?.createdUserSid,
+  //   parentSid: event.value?.parentSid,
+  //   eventUserSid: event.value?.eventUserSid,
+  //   isRsvp: event.value?.isRsvp,
+  //   sendNotifications: event.value?.sendNotifications,
+  //   repeatInfoText: event.value?.repeatInfoText,
+  //   recurrenceRule: event.value?.recurrenceRule,
+  //   modifiedDate: event.value?.modifiedDate,
+  //   modifiedUserSid: event.value?.modifiedUserSid,
+  //   timezoneId: event.value?.timezoneId,
+  //   remindTo: event.value?.remindTo,
+  //   remindBeforeMinutes: event.value?.remindBeforeMinutes,
+  //   label: event.value?.label,
+  //   meetingAttendees: event.value?.meetingAttendees,
+  //   url: event.value?.url,
+  // };
+
+  const editEventDetails = ref(event);
+  eventDetailsStore.editEventDetails(editEventDetails.value);
   router.push('/eventSummary');
 }
 </script>
@@ -104,6 +110,7 @@ function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <EventForm
+            v-if="event"
             :event="event"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"

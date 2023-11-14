@@ -46,8 +46,11 @@ watch(
     const utcDateStart = new Date(`${newStartDate}T${newStartTime}Z`);
     const utcDateEnd = new Date(`${newEndDate}T${newEndTime}Z`);
 
-    props.event.startDateTime = utcDateStart.toISOString();
-    props.event.endDateTime = utcDateEnd.toISOString();
+    //not sure why i am converting here
+    // props.event.startDateTime = utcDateStart.toISOString();
+    // props.event.endDateTime = utcDateEnd.toISOString();
+    props.event.startDateTime = utcDateStart;
+    props.event.endDateTime = utcDateEnd;
   }
 );
 

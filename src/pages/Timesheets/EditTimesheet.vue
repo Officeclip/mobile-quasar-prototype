@@ -1,50 +1,37 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
-import { useRouter } from 'vue-router';
+import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
+import { useRouter, useRoute } from 'vue-router';
 import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
+import { TimesheetDetails } from '../../models/Timesheet/timesheetDetails';
 // import dateTimeHelper from '../../helpers/dateTimeHelper';
 
-const timesheetsStore = useTimesheetsStore();
-
-// const route = useRoute();
+const route = useRoute();
 const router = useRouter();
-console.log('Edit Timesheet Started');
-
-// const id = ref<string | string[]>(route.params.id);
-
+const timesheetDetailSid = route.params.id;
+const fromDate: any = route.params.fromDate;
+const timesheetsStore = useTimesheetsStore();
+const timesheetListStore = useTimesheetListStore();
+const periodName = computed(() => {
+  return timesheetListStore.PeriodList.find((x) => x.start === fromDate);
+});
 onMounted(() => {
-  timesheetsStore.getTimesheets();
+  timesheetsStore.getSingleTimesheetDetail(timesheetDetailSid);
 });
 
-const timesheet = computed(() => {
-  return timesheetsStore.TimesheetDetails[0];
+const timesheet: Ref<TimesheetDetails> = computed(() => {
+  return timesheetsStore.TimesheetDetail;
 });
 
 function onSubmit(e: any) {
   e.preventDefault();
-  const formData = new FormData(e.target);
-  const createdDate = formData.get('newcreatedDate');
-  const taskDate = formData.get('newtaskDate');
-  console.log(`onSubmit Task Value: ${timesheet.value}`);
-
-  const newTimesheet: any = {
-    id: timesheet.value?.id,
-    accountName: timesheet.value?.accountName,
-    projectName: timesheet.value?.projectName,
-    serviceItemName: timesheet.value?.serviceItemName,
-    isBillable: timesheet.value?.isBillable,
-    description: timesheet.value?.description,
-    createdDate: createdDate,
-    taskDate: taskDate,
-    timeDuration: timesheet.value?.timeDuration,
-  };
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  //timesheetsStore.editTimesheet(timesheet.value!);
-  timesheetsStore.editTimesheet(newTimesheet);
-  router.push('-2');
+  const editTimesheet = ref(timesheet);
+  console.log('OOOOOOOOO___+++++++OOOOO', editTimesheet.value);
+  timesheetsStore.editTimesheet(editTimesheet.value);
+  router.go(-1);
 }
 </script>
 <template>
@@ -60,13 +47,17 @@ function onSubmit(e: any) {
           icon="arrow_back"
         >
         </q-btn>
-        <q-toolbar-title> Edit Task</q-toolbar-title>
+        <q-toolbar-title> Edit Timesheet</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <TimesheetForm :timesheet="timesheet" />
+          <TimesheetForm
+            v-if="timesheet"
+            :timesheet="timesheet"
+            :periodName="periodName?.name"
+          />
           <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"

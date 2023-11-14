@@ -6,6 +6,7 @@ import { useReminderDataStore } from 'stores/reminder/reminderData';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
+import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -36,21 +37,6 @@ const selectedTime = computed(() => {
   return obj ? obj : 'null';
 });
 
-const id = ref<string | string[]>('0');
-
-const showConfirmationDialog = ref(false);
-
-function displayConfirmationDialog() {
-  showConfirmationDialog.value = true;
-}
-
-function confirmDeleteEvent() {
-  console.log('deleted event id is :', event.value?.id);
-  eventDetailsStore.deleteEventDetails(event.value?.id).then(() => {
-    showConfirmationDialog.value = false;
-    router.go(-1);
-  });
-}
 function showMeetingType(eventType: string | undefined) {
   switch (eventType) {
     case '1':
@@ -109,7 +95,21 @@ const labelNameById = computed(() => {
   const obj = labelData.find((obj: any) => obj.id === event.value?.label);
   return obj ? obj : null;
 });
-console.log('Testing the label object by labelid::', labelNameById);
+const title = ref('Confirm');
+const message = ref('Are you sure you want to delete this event?');
+const showConfirmationDialog = ref(false);
+const displayConfirmationDialog = () => {
+  showConfirmationDialog.value = true;
+};
+const cancelConfirmation = () => {
+  showConfirmationDialog.value = false;
+};
+const confirmDeletion = () => {
+  eventDetailsStore.deleteEventDetails(event.value?.id).then(() => {
+    showConfirmationDialog.value = false;
+    router.go(-1);
+  });
+};
 </script>
 
 <template>
@@ -205,28 +205,12 @@ console.log('Testing the label object by labelid::', labelNameById);
     </q-page-container>
   </q-layout>
 
-  <q-dialog v-model="showConfirmationDialog">
-    <q-card>
-      <q-card-section>
-        <q-item-label>Confirm</q-item-label>
-        <q-item-label>Are you sure you want to delete this event?</q-item-label>
-        <q-card-actions align="right">
-          <q-btn
-            no-caps
-            dense
-            color="primary"
-            label="Cancel"
-            @click="showConfirmationDialog = false"
-          />
-          <q-btn
-            no-caps
-            dense
-            color="negative"
-            label="Delete"
-            @click="confirmDeleteEvent"
-          />
-        </q-card-actions>
-      </q-card-section>
-    </q-card>
-  </q-dialog>
+  <ConfirmationDialog
+    v-if="showConfirmationDialog"
+    :showConfirmationDialog="showConfirmationDialog"
+    :title="title"
+    :message="message"
+    @cancel="cancelConfirmation"
+    @confirm="confirmDeletion"
+  />
 </template>

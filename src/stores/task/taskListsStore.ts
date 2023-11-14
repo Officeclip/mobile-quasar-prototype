@@ -28,7 +28,7 @@ export const useTaskListsStore = defineStore('taskListsStore', {
         );
 
         const taskLists:taskLists = response.data[0];
-        console.log('eventLists', taskLists);
+        console.log('taskLists', taskLists);
 
         this.taskTypes = taskLists.taskType;
         this.taskPriorities = taskLists.taskPriority;

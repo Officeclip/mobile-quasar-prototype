@@ -2,6 +2,8 @@
 import {onBeforeMount, ref, Ref} from 'vue';
 import {useTaskListsStore} from "stores/task/taskListsStore";
 import {regardingContact} from "src/models/task/taskLists";
+import {useUserSummaryStore} from "stores/userSummaryStore";
+import {userSummary} from "src/models/userSummary";
 
 
 const subtask = ref({
@@ -24,26 +26,20 @@ function emitSubtask() {
 }
 
 const taskListsStore = useTaskListsStore();
+const userSummaryStore = useUserSummaryStore();
+
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
+  userSummaryStore.getUserSummaries();
 });
 
-const contactOptions: Ref<regardingContact[]> = ref([]);
+const contactOptions: Ref<userSummary[]> = ref([]);
 
 async function filterFn(val: string, update: any, abort: any) {
-  if (val.length < 2) {
-    abort();
-    return;
-  } else if (val.length === 2) {
-    contactOptions.value = [];
-    await taskListsStore.getRegardingContactListThatMatch(val);
-    contactOptions.value = taskListsStore.regardingContacts;
-  }
-
   update(() => {
     console.log('update');
     const needle = val.toLowerCase();
-    contactOptions.value = taskListsStore.regardingContacts.filter(
+    contactOptions.value = userSummaryStore.userSummaries.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
   });
@@ -54,7 +50,6 @@ async function filterFn(val: string, update: any, abort: any) {
 
 <template>
   <q-card>
-
     <div class="q-pa-md column">
       <q-input
         v-model="subtask.title"
@@ -77,7 +72,6 @@ async function filterFn(val: string, update: any, abort: any) {
           :options="contactOptions"
           label="Assigned to"
           option-label="name"
-          option-value="name"
           use-chips
           use-input
           @filter="filterFn"

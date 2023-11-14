@@ -1,68 +1,55 @@
+<!-- eslint-disable vue/valid-v-model -->
 <script lang="ts" setup>
 console.log('TestForm.vue > setup - started');
-import { computed, onMounted, ref } from 'vue';
-import { useExpenseListsStore } from '../stores/expense/expenseListsStore';
-import {
-  customerProject,
-  period,
-  expenseType,
-  paymentType,
-} from '../models/expense/expenseLists';
+import { computed, onMounted, ref, watch } from 'vue';
 
-const expenseListsStore = useExpenseListsStore();
+// const props = defineProps(['testProps', 'isLoading']);
+const props = defineProps(['testProps']);
+// const accountName = ref('');
+// watch([props], () => {
+//   accountName.value = props.testProps.accountName;
+//   console.log(`watch: ${accountName.value}`);
+// });
 
-const props = defineProps(['expenseForm']);
-const newValue = ref(null);
+//defineProps(['testProps']);
 
-const getBillableModify = computed(() => {
-  const expenseTypeStr = props.expenseForm?.expenseTypeName;
-  console.log(
-    `TestForm > getIsBillableModify - expenseTypeStr: ${expenseTypeStr}`
-  );
-  const expenseTypes: expenseType[] = expenseListsStore.expenseTypes;
-  console.log(`TestForm > getIsBillableModify - expenseTypes: ${expenseTypes}`);
+// const accountName = computed({
+//   get() {
+//     return props.testProps?.accountName;
+//   },
+//   set(newValue) {
+//     // eslint-disable-next-line vue/no-mutating-props
+//     props.testProps.accountName = newValue;
+//   },
+// });
 
-  const expenseType = expenseTypes.filter((t) => {
-    return t.expenseTypeName == expenseTypeStr;
-  });
-  console.log(
-    `TestForm > getIsBillableModify - expenseType[0]: ${expenseType[0]}`
-  );
-  return expenseType[0].isBillableModify;
-});
+// const accountName1 = computed(() => {
+//   return props.testProps?.accountName;
+// });
 
-onMounted(() => {
-  console.log('TestForm.vue > onMounted - started');
-  expenseListsStore.getExpensesList();
-  console.log('TestForm.vue > onMounted - ended');
-});
-console.log('TestForm.vue > setup - ended');
+//const accountName = ref(props.testProps?.accountName);
+// accountName.value = accountName1.value;
+//accountName.value = props.testProps?.accountName
 </script>
 
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
   <div>
-    <div class="q-pa-md">
-      <div class="q-gutter-y-md column">
-        <pre> {{ props.expenseForm }} </pre>
-        <!-- <pre>{{ getBillableModify }}</pre> -->
-        <!-- <q-toggle
-          v-if="getBillableModify"
-          label="labelName"
-          :false-value="false"
-          :true-value="true"
-          color="primary"
-          keep-color
-          v-model="newValue"
-        ></q-toggle>
-        <div v-else caption class="q-mb-md text-italic">
-          <q-item-label class="q-mb-sm">
-            {{ newValue }}
-          </q-item-label>
-          <q-icon name="hide_source" /> You do not permission to edit this item
-        </div> -->
-      </div>
-    </div>
+    <pre>
+      Account Name: {{ props.testProps?.accountName }}
+  <!-- Account Name: {{ accountName }} -->
+</pre>
+    <!-- <q-item-label caption class="q-pt-md"> {{ testProps.accountName }} </q-item-label> -->
+
+    <q-input
+      label="xxx:"
+      v-if="props.testProps"
+      v-model="props.testProps.accountName"
+      placeholder="enter here..."
+    >
+    </q-input>
+    <!-- <q-input label="xxx:" v-model="accountName" placeholder="enter here...">
+    </q-input> -->
   </div>
 </template>
 <style></style>

@@ -1,47 +1,93 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useExpensesStore } from '../../stores/ExpensesStore';
+import { ref, onMounted, computed, watch } from 'vue';
+import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
+import dateTimeHelper from '../../helpers/dateTimeHelper';
 
-const data = useExpensesStore();
-const arr = data.expenses
+const expensesDetailsStore = useExpenseDetailsStore();
+const expenseStatus = ref('Inbox');
+const title = ref(expenseStatus.value);
 
-const allExpenses = [
+onMounted(() => {
+  expensesDetailsStore.getExpensesByStatus(String(expenseStatus.value));
+});
+
+const allExpenses = computed(() => {
+  console.log('Expenses All', expensesDetailsStore.expenseSummary)
+  return expensesDetailsStore.ExpenseSummary;
+});
+
+watch([expenseStatus], ([newModel]) => {
+  expensesDetailsStore.getExpensesByStatus(String(newModel));
+  title.value = newModel;
+});
+
+function getStatusColor(status: string) {
+  if (status == 'Approved') {
+    return 'status-approved'
+  }
+  if (status == 'Pending') {
+    return 'status-pending'
+  }
+  if (status == 'Rejected') {
+    return 'status-rejected'
+  }
+}
+
+const tabs = [
   {
     id: 1,
-    icon: 'schedule',
-    color: 'black',
-    status: 'Saved',
-    description: 'Expense(s) saved but not yet submitted'
+    name: 'Inbox',
+    status: 'Inbox',
   },
   {
     id: 2,
-    icon: 'schedule',
-    color: 'secondary',
-    status: 'Pending',
-    description: 'Your Expense(s) submitted for approval'
+    name: 'Outbox',
+    status: 'Outbox',
   },
   {
     id: 3,
-    icon: 'schedule',
-    color: 'teal',
-    status: 'Submitted',
-    description: 'Expense(s) submitted to you for approval'
-  },
-  {
-    id: 4,
-    icon: 'schedule',
-    color: 'primary',
-    status: 'Approved',
-    description: 'All your approval Expense(s)'
-  },
-  {
-    id: 5,
-    icon: 'schedule',
-    color: 'red',
-    status: 'Rejected',
-    description: 'All your rejected Expense(s)'
+    name: 'Archived',
+    status: 'Archived',
   }
-]
+];
+
+// const allExpenses = [
+//   {
+//     id: 1,
+//     icon: 'schedule',
+//     color: 'black',
+//     status: 'Saved',
+//     description: 'Expense(s) saved but not yet submitted'
+//   },
+//   {
+//     id: 2,
+//     icon: 'schedule',
+//     color: 'secondary',
+//     status: 'Pending',
+//     description: 'Your Expense(s) submitted for approval'
+//   },
+//   {
+//     id: 3,
+//     icon: 'schedule',
+//     color: 'teal',
+//     status: 'Submitted',
+//     description: 'Expense(s) submitted to you for approval'
+//   },
+//   {
+//     id: 4,
+//     icon: 'schedule',
+//     color: 'primary',
+//     status: 'Approved',
+//     description: 'All your approval Expense(s)'
+//   },
+//   {
+//     id: 5,
+//     icon: 'schedule',
+//     color: 'red',
+//     status: 'Rejected',
+//     description: 'All your rejected Expense(s)'
+//   }
+// ]
 
 </script>
 
@@ -51,30 +97,37 @@ const allExpenses = [
       <q-toolbar class="glossy">
         <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
-        <q-toolbar-title> Expenses </q-toolbar-title>
+        <q-toolbar-title>{{ title }} Expenses </q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <q-space class="q-mt-sm"></q-space>
+    <q-footer elevated>
+      <q-tabs v-model="expenseStatus" no-caps inline-label class="bg-primary text-white shadow-2" align="justify">
+        <q-tab v-for="item in tabs" :name="item.name" :key="item.id" :label="item.status" />
+      </q-tabs>
+    </q-footer>
     <q-page-container>
       <q-page>
         <q-list v-for="expense in allExpenses" :key="expense.id">
           <q-item :to="{
-            name: 'expenseList',
+            name: 'expenseDetails',
             params: {
               id: expense.id,
-              status: expense.status,
+              fromDate: expense.fromDate,
             },
           }" clickable v-ripple>
-
-            <q-item-section avatar>
-              <q-icon :name='expense.icon' :color='expense.color'>
-              </q-icon>
-            </q-item-section>
             <q-item-section>
               <q-item-label>
-                {{ expense.status }} expenses
+                {{ expense.createdByUserName }}
               </q-item-label>
-              <q-item-label caption>{{ expense.description }}</q-item-label>
+              <q-item-label caption>{{ expense.fromDate
+                ? dateTimeHelper.extractDateFromUtc(expense.fromDate)
+                : 'No Specific Date' }}</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-chip square :class="getStatusColor(expense.status)">{{ expense.status }}</q-chip>
+              <!-- <q-item-label caption class="bg-teal-3 q-pa-xs">{{
+                expense.status
+              }}</q-item-label> -->
             </q-item-section>
             <q-item-section side>
               <q-icon color="primary" name="chevron_right" />
@@ -83,9 +136,18 @@ const allExpenses = [
           <q-separator></q-separator>
         </q-list>
       </q-page>
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-btn :to="{
+          name: 'newPeriodExpense'
+        }" fab icon="add" color="accent" padding="sm">
+        </q-btn>
+      </q-page-sticky>
     </q-page-container>
   </q-layout>
 </template>
+<style lang="scss">
+@import '../../css/status.scss'
+</style>
 
 <style scoped>
 .q-router-link--active {

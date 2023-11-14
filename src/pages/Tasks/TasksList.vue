@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import {computed, onBeforeMount, ref} from 'vue';
+import {computed, onBeforeMount, ref, Ref, watch} from 'vue';
 import TaskSummaryItem from "components/tasks/TaskSummaryItem.vue";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import TaskAdvancedFilters from "components/tasks/taskAdvancedFilters.vue";
+import {searchFilter} from "src/models/task/searchFilter";
+import {taskSummary} from "src/models/task/taskSummary";
 
-
-let filterOptions = {
+let filterOptions: Ref<searchFilter> = ref({
   filterString: '',
   ownedByMeFilter: false,
   assignedToMeFilter: false,
   showAdvancedOptions: false,
   userName: 'Alice Johnson',
-
   dueDateValue: '',
   dueDateOption: '',
   modifiedDateValue: '',
@@ -22,20 +22,22 @@ let filterOptions = {
   assignedTo: '',
   ownedBy: '',
   regarding: ''
-};
+});
 
-const parent = ref({
+const parent = {
   parentObjectId: -1,
   parentObjectServiceType: -1,
-});
+};
 
 const taskSummaryStore = useTaskSummaryStore();
 
-const getFilteredTaskSummaries = computed(() => {
+const getFilteredTaskSummaries = ref([...taskSummaryStore.taskSummaries]);
+// const getFilteredTaskSummaries = computed(() => {
+//   // await taskSummaryStore.getFilteredTasks(filterOptions.value, parent.parentObjectId, parent.parentObjectServiceType);
+//
+//   return taskSummaryStore.TaskSummaries;
+// });
 
-  taskSummaryStore.getFilteredTasks(filterOptions, Number(parent.value.parentObjectId), Number(parent.value.parentObjectServiceType));
-  return taskSummaryStore.TaskSummaries;
-});
 
 const getSortedSummaries = computed(() => {
   let sortedTasks = getFilteredTaskSummaries;
@@ -51,14 +53,14 @@ const getSortedSummaries = computed(() => {
   return sortedTasks.value;
 });
 
+
 function clearFilterValues() {
-  filterOptions = {
+  filterOptions.value = {
     filterString: '',
     ownedByMeFilter: false,
     assignedToMeFilter: false,
     showAdvancedOptions: false,
     userName: 'Alice Johnson',
-
     dueDateValue: '',
     dueDateOption: '',
     modifiedDateValue: '',
@@ -70,26 +72,107 @@ function clearFilterValues() {
     ownedBy: '',
     regarding: ''
   }
+  filterCount.value = 0;
 }
 
-onBeforeMount(() => {
-  taskSummaryStore.getTasks(Number(parent.value.parentObjectId), Number(parent.value.parentObjectServiceType));
+let currentPage = 1; // the current page number
+// const pageSize = ref(10); // number of items in one page
+let numItems = 0; // total number of items in the list
+let reachedEnd = ref(false); // indicate if all contacts have been loaded
+const batchSize = 10; // number of contacts to load in each batch
+
+async function getFirstBatch() {
+  await taskSummaryStore.resetTaskSummaryList();
+  currentPage = 1;
+  taskSummaryStore
+    .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, currentPage)
+    .then(() => {
+      getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
+      currentPage++
+    });
+}
+
+onBeforeMount(async () => {
+  await getFirstBatch();
 });
 
-const sortOption = ref('subject'); // Default sorting by subject
+
+const loadMore = (index: any, done: () => void) => {
+  const contactsSizeBeforeCall = getSortedSummaries.value.length;
+  setTimeout(() => {
+    taskSummaryStore
+      .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, currentPage)
+      .then(() => {
+        currentPage++;
+        getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
+
+        const contactsAfterCall = getSortedSummaries.value.length;
+        reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
+        done();
+      });
+  }, 500);
+};
 
 function receiveAdvFilters(advancedOptions: any) {
-  console.log(advancedOptions);
-  filterOptions.dueDateValue = advancedOptions.dueDateValue;
-  filterOptions.dueDateOption = advancedOptions.dueDateOption;
-  filterOptions.modifiedDateValue = advancedOptions.modifiedDateValue;
-  filterOptions.modifiedDateOption = advancedOptions.modifiedDateOption;
-  filterOptions.statusName = advancedOptions.statusName;
-  filterOptions.priorityName = advancedOptions.priorityName;
-  filterOptions.assignedTo = advancedOptions.assignedTo;
-  filterOptions.ownedBy = advancedOptions.ownedBy;
-  filterOptions.regarding = advancedOptions.regarding;
-  filterOptions.taskTypeValue = advancedOptions.taskTypeValue;
+  filterOptions.value.dueDateValue = advancedOptions.dueDateValue;
+  filterOptions.value.dueDateOption = advancedOptions.dueDateOption;
+  filterOptions.value.modifiedDateValue = advancedOptions.modifiedDateValue;
+  filterOptions.value.modifiedDateOption = advancedOptions.modifiedDateOption;
+  filterOptions.value.statusName = advancedOptions.statusName;
+  filterOptions.value.priorityName = advancedOptions.priorityName;
+  filterOptions.value.assignedTo = advancedOptions.assignedTo;
+  filterOptions.value.ownedBy = advancedOptions.ownedBy;
+  filterOptions.value.regarding = advancedOptions.regarding;
+  filterOptions.value.taskTypeValue = advancedOptions.taskTypeValue;
+
+  console.log(filterOptions.value);
+}
+
+async function filterFn(val: string) {
+  if (val.length === 0) {
+    await getFirstBatch();
+  } else if (val.length < 2) {
+    // abort();
+    return;
+  } else if (val.length === 2) {
+    getFilteredTaskSummaries.value = [];
+    await taskSummaryStore.getRegardingContactListThatMatch(val, parent.parentObjectId, parent.parentObjectServiceType);
+    getFilteredTaskSummaries.value = taskSummaryStore.TaskSummaries;
+  } else {
+    getFilteredTaskSummaries.value = getFilteredTaskSummaries.value.filter((t: taskSummary) => {
+      return t.subject.toLowerCase().includes(val.toLowerCase());
+    });
+  }
+
+  // update(() => {
+  //   console.log('update');
+  //   const needle = val.toLowerCase();
+  //   getFilteredTaskSummaries.value = taskSummaryStore.TaskSummaries.filter(
+  //     (task) => task.subject.toLowerCase().indexOf(needle) > -1
+  //   );
+  // });
+}
+
+watch(
+  () => filterOptions.value.filterString,
+  async (newValue, oldValue) => {
+    await filterFn(newValue);
+  }
+);
+
+watch(
+  () => filterOptions.value.assignedToMeFilter,
+  async (newValue, oldValue)=>{
+    console.log(newValue)
+    await taskSummaryStore.resetTaskSummaryList();
+    await getFirstBatch();
+  }
+);
+
+const filterCount = ref(0);
+
+function updateFilterCount(val: number) {
+  filterCount.value = val;
 }
 
 </script>
@@ -113,35 +196,58 @@ function receiveAdvFilters(advancedOptions: any) {
     <q-space class="q-mt-sm"/>
     <q-page-container>
       <q-page>
-        <div class="q-pa-sm row text-center">
-          <div class="row">
+        <div class="q-pa-sm text-center">
+          <div>
             <q-input
               v-model="filterOptions.filterString"
+              clearable
               label="Search"
               outlined
-            />
-          </div>
-          <div class="column">
-            <div class="row">
-              <q-checkbox v-model="filterOptions.ownedByMeFilter" label="Owned by me"/>
-              <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
-            </div>
-            <div>
-              <q-btn class="q-ma-sm" label="Open Advanced Filters" @click="filterOptions.showAdvancedOptions = true"/>
-              <q-btn class="q-ma-sm" label="Reset Filters" @click="clearFilterValues"/>
-            </div>
+              @clear=getFirstBatch
+            >
+              <template v-slot:append>
+                <q-icon name="search"/>
+              </template>
+            </q-input>
           </div>
         </div>
 
-        <q-list v-for="task in getSortedSummaries" :key="task.id" class="q-pa-xs">
-          <taskSummaryItem :task="task"/>
-        </q-list>
+        <div class="row q-mt-md">
+          <div class="q-mr-md">
+            <q-checkbox v-model="filterOptions.ownedByMeFilter" label="Owned by me"/>
+          </div>
+          <div class="q-mr-md">
+            <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
+          </div>
+          <div class="q-mr-md">
+            <q-btn flat icon="filter_list" @click="filterOptions.showAdvancedOptions = true">
+              <q-badge v-if="filterCount!=0" color="red" floating>{{ filterCount }}</q-badge>
+            </q-btn>
+          </div>
+          <div class="q-mr-md">
+            <q-btn flat icon="clear" @click="clearFilterValues">
+            </q-btn>
+          </div>
+        </div>
+
+        <q-infinite-scroll :disable="reachedEnd" :offset="250" @load="loadMore">
+
+          <q-item v-for="task in getSortedSummaries" :key="task.id" class="q-pa-sm">
+            <taskSummaryItem :task="task" class="full-width"/>
+          </q-item>
+          <template v-slot:loading>
+            <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
+          </template>
+
+        </q-infinite-scroll>
 
         <q-dialog v-model="filterOptions.showAdvancedOptions">
-          <task-advanced-filters @advancedOptionsGenerated="receiveAdvFilters"/>
+          <task-advanced-filters :filter-options="filterOptions" :parent="parent"
+                                 @advancedOptionsGenerated="receiveAdvFilters"
+                                 @filterCount="updateFilterCount"/>
         </q-dialog>
 
-        <pre>{{ filterOptions }}</pre>
+        <!--        <pre>{{ filterOptions }}</pre>-->
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
         <q-btn

@@ -1,8 +1,9 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { onMounted, computed, onBeforeMount } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
+import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useRouter, useRoute } from 'vue-router';
 import {
   airTravelExpense,
@@ -11,25 +12,42 @@ import {
   mileageExpense,
   taxiExpense,
   telephoneExpense,
-  expenseDetails
+  expenseDetails,
 } from '../../models/expense/expenseDetails';
-import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue'
-import TestForm from '../../components/TestForm.vue';
+import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
 
 const expenseDetailsStore = useExpenseDetailsStore();
+const expenseListStore = useExpenseListsStore();
 
 const router = useRouter();
 const route = useRoute();
 
-const editExpenseId = route.params.id;
+const id = computed(() => {
+  return route.params.id;
+});
+
+const fromDate = route.params.fromDate;
 
 onMounted(() => {
-  expenseDetailsStore.getExpenseDetailById(route.params.id);
+  expenseDetailsStore.getExpenseDetailById(id.value);
+  expenseListStore.getExpensesList();
 });
 
 const expenseDetail = computed(() => {
   return expenseDetailsStore.ExpenseDetails;
 });
+
+const expensePeriod = computed(() => {
+  return expenseListStore.PeriodList;
+});
+
+const period = computed(() => {
+  return expensePeriod.value.find(
+    (y) => y.start.toString() === fromDate
+  );
+});
+
+console.log('Edit expense get period:', period);
 
 function onSubmit(e: any) {
   e.preventDefault();
@@ -38,10 +56,9 @@ function onSubmit(e: any) {
   const taskDate = formData.get('newtaskDate');
 
   const editExpense: expenseDetails = {
-
     accountName: expenseDetail.value?.accountName as string,
     accountSid: expenseDetail.value?.accountSid as string,
-    amount: expenseDetail.value?.amount as number,
+    amount: Number(expenseDetail.value?.amount),
     billable: expenseDetail.value?.billable as boolean,
     comments: expenseDetail.value?.comments as string,
     description: expenseDetail.value?.description as string,
@@ -49,21 +66,21 @@ function onSubmit(e: any) {
     employeeSid: expenseDetail.value?.employeeSid as string,
     expenseDate: expenseDetail.value?.expenseDate as string,
     id: expenseDetail.value?.id as string,
-    //expenseDetailSid: expenseDetail.value?.expenseDetailSid as string,
     expenseSid: expenseDetail.value?.expenseSid as string,
     expenseTypeName: expenseDetail.value?.expenseTypeName as string,
     expenseCategoryName: expenseDetail.value?.expenseCategoryName as string,
     expenseTypeSid: expenseDetail.value?.expenseTypeSid as string,
     projectName: expenseDetail.value?.projectName as string,
     projectSid: expenseDetail.value?.projectSid as string,
-    tax: expenseDetail.value?.tax as number,
+    tax: Number(expenseDetail.value?.tax),
     paymentType: expenseDetail.value?.paymentType as string,
-    autoRentalExpense: expenseDetail.value?.autoRentalExpense as autoRentalExpense,
+    autoRentalExpense: expenseDetail.value
+      ?.autoRentalExpense as autoRentalExpense,
     airTravelExpense: expenseDetail.value?.airTravelExpense as airTravelExpense,
     hotelExpense: expenseDetail.value?.hotelExpense as hotelExpense,
     mileageExpense: expenseDetail.value?.mileageExpense as mileageExpense,
     telephoneExpense: expenseDetail.value?.telephoneExpense as telephoneExpense,
-    taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense
+    taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense,
   };
 
   expenseDetailsStore.editExpense(editExpense);
@@ -85,9 +102,7 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <ExpenseForm :expenseDetail="expenseDetail" />
-          <!-- <pre>{{ expenseForm }}</pre> -->
-          <!-- <TestForm :expenseForm="expenseForm" /> -->
+          <ExpenseForm v-if="expenseDetail" :expenseDetail="expenseDetail" :period="period?.name" />
           <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>
