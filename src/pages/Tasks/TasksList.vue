@@ -162,10 +162,22 @@ watch(
 
 watch(
   () => filterOptions.value.assignedToMeFilter,
-  async (newValue, oldValue)=>{
-    console.log(newValue)
+  async (newValue, oldValue) => {
     await taskSummaryStore.resetTaskSummaryList();
-    await getFirstBatch();
+    getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
+    setTimeout(async () => {
+      await getFirstBatch();
+    }, 200);
+  }
+);
+watch(
+  () => filterOptions.value.ownedByMeFilter,
+  async (newValue, oldValue) => {
+    await taskSummaryStore.resetTaskSummaryList();
+    getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
+    setTimeout(async () => {
+      await getFirstBatch();
+    }, 200);
   }
 );
 
@@ -196,20 +208,18 @@ function updateFilterCount(val: number) {
     <q-space class="q-mt-sm"/>
     <q-page-container>
       <q-page>
-        <div class="q-pa-sm text-center">
-          <div>
-            <q-input
-              v-model="filterOptions.filterString"
-              clearable
-              label="Search"
-              outlined
-              @clear=getFirstBatch
-            >
-              <template v-slot:append>
-                <q-icon name="search"/>
-              </template>
-            </q-input>
-          </div>
+        <div class="q-pa-sm">
+          <q-input
+            v-model="filterOptions.filterString"
+            clearable
+            label="Search"
+            outlined
+            @clear=getFirstBatch
+          >
+            <template v-slot:append>
+              <q-icon name="search"/>
+            </template>
+          </q-input>
         </div>
 
         <div class="row q-mt-md">
