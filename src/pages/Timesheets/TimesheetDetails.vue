@@ -16,7 +16,7 @@ const timesheetsStore = useTimesheetsStore();
 onMounted(() => {
   // const route = useRoute();
   console.log('id=', route.params.id);
-  timesheetsStore.getTimesheetDetails(Number(id));
+  timesheetsStore.getTimesheetDetails(id);
 });
 
 const timesheetDetails = computed(() => {

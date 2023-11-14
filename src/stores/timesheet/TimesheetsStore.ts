@@ -81,7 +81,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       }
     },
 
-    async getTimesheetDetails(id: number) {
+    async getTimesheetDetails(id: string | string[]) {
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/timesheet-details?timesheetId=${id}`

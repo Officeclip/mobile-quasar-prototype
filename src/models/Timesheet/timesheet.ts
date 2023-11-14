@@ -1,5 +1,5 @@
 export interface Timesheet {
-  id: number;
+  id: string;
   totalHours: number;
   createdByUserName: string;
   employeeId: string;
