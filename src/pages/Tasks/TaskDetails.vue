@@ -4,7 +4,6 @@ import {computed, ComputedRef, onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
-import {taskDetails} from "src/models/task/taskDetails";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import AddSubtaskDialog from "components/tasks/addSubtaskDialog.vue";
 import {subTask} from "src/models/task/subtask";
@@ -116,9 +115,20 @@ function addSubtask(subtask: subTask) {
       <q-toolbar>
         <q-btn dense flat icon="arrow_back" round @click="$router.go(-1)"/>
         <q-toolbar-title>Task Details</q-toolbar-title>
-        <div>
-          <q-btn :to="{ name: 'editTask', params: { id: id } }" dense flat icon="edit" round/>
-          <q-btn dense flat icon="delete" round @click="deleteTask(); $router.go(-1);"/>
+        <div v-if="taskDetail?.isEditable">
+          <q-btn :to="{ name: 'editTask', params: { id: id } }" dense flat icon="edit"
+                 round/>
+          <q-btn dense flat icon="delete" round/>
+        </div>
+        <div v-if="!taskDetail?.isEditable">
+          <q-btn dense disable flat icon="edit"
+                 round>
+            <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>
+
+          </q-btn>
+          <q-btn dense disable flat icon="delete" round>
+            <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>
+          </q-btn>
         </div>
       </q-toolbar>
     </q-header>

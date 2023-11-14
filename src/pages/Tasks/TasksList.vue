@@ -167,9 +167,10 @@ watch(
     getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
     setTimeout(async () => {
       await getFirstBatch();
-    }, 200);
+    }, 300);
   }
 );
+
 watch(
   () => filterOptions.value.ownedByMeFilter,
   async (newValue, oldValue) => {
@@ -177,7 +178,7 @@ watch(
     getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
     setTimeout(async () => {
       await getFirstBatch();
-    }, 200);
+    }, 300);
   }
 );
 
@@ -241,14 +242,12 @@ function updateFilterCount(val: number) {
         </div>
 
         <q-infinite-scroll :disable="reachedEnd" :offset="250" @load="loadMore">
-
           <q-item v-for="task in getSortedSummaries" :key="task.id" class="q-pa-sm">
             <taskSummaryItem :task="task" class="full-width"/>
           </q-item>
           <template v-slot:loading>
             <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
           </template>
-
         </q-infinite-scroll>
 
         <q-dialog v-model="filterOptions.showAdvancedOptions">
