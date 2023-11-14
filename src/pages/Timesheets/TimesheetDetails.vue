@@ -2,10 +2,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 
+const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
 const fromDate = route.params.fromDate;
@@ -22,6 +23,17 @@ onMounted(() => {
 const timesheetDetails = computed(() => {
   return timesheetsStore.TimesheetDetails;
 });
+
+const showConfirmationDialog = ref(false);
+function displayConfirmationDialog() {
+  showConfirmationDialog.value = true;
+}
+function confirmDelete() {
+  timesheetsStore.deleteAllTimesheets(id).then(() => {
+    showConfirmationDialog.value = false;
+    router.go(-1);
+  });
+}
 
 const workFlowModel = ref('Sk Dutta');
 const workFlowOptions = [
@@ -52,10 +64,7 @@ const workFlowOptions = [
           dense
           color="white"
           icon="delete"
-          @click="
-            timesheetsStore.deleteAllTimesheets(id);
-            $router.go(-1);
-          "
+          @click="displayConfirmationDialog"
         >
         </q-btn>
       </q-toolbar>
@@ -160,6 +169,31 @@ const workFlowOptions = [
       </q-page-sticky>
     </q-page-container>
   </q-layout>
+
+  <q-dialog v-model="showConfirmationDialog">
+    <q-card>
+      <q-card-section>
+        <q-item-label>Confirm</q-item-label>
+        <q-item-label>Are you sure you want to delete this event?</q-item-label>
+        <q-card-actions align="right">
+          <q-btn
+            no-caps
+            dense
+            color="primary"
+            label="Cancel"
+            @click="showConfirmationDialog = false"
+          />
+          <q-btn
+            no-caps
+            dense
+            color="negative"
+            label="Delete"
+            @click="confirmDelete"
+          />
+        </q-card-actions>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <style scoped>
