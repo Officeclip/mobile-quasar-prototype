@@ -34,12 +34,14 @@ export class Constants {
   }
 
   static setupAxiosAuthorizationHeader(token: string) {
-    axios.defaults.headers.post[
-      'Authorization'
-    ] = `Bearer ${localStorage.getItem(token)}`;
+    if (LocalStorage.has(token)) {
+      axios.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${LocalStorage.getItem(token)}`;
+    }
   }
 
   static saveAuthorizationTokenInLocalStorage(token: string) {
-    LocalStorage.set('authorizationToken', token);
+    LocalStorage.set('x-token', token);
   }
 }

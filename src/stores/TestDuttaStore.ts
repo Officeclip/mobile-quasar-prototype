@@ -19,8 +19,13 @@ export const useTestDuttaStore = defineStore('testDuttaStore', {
         Constants.setupAxiosInstance(instance);
         const response = await instance.get('/test/');
         this.testDutta = response.data[0];
+        //debugger;
+        const tokenHeader = response.headers['x-token'];
+        if (tokenHeader) {
+          Constants.saveAuthorizationTokenInLocalStorage(tokenHeader);
+        }
         console.log(
-          `TestDuttaStore: getDuttaTestById - length - ${response.data.length}`
+          `TestDuttaStore: getDuttaTestById - length - ${response.headers}`
         );
       } catch (error) {
         alert(error);
