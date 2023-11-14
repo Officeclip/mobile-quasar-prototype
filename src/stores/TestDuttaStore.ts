@@ -17,6 +17,8 @@ export const useTestDuttaStore = defineStore('testDuttaStore', {
           //withCredentials: true, //https://stackoverflow.com/a/43178070
         });
         Constants.setupAxiosInstance(instance);
+        //debugger;
+        Constants.setupAxiosAuthorizationHeader(instance, 'x-token');
         const response = await instance.get('/test/');
         this.testDutta = response.data[0];
         //debugger;

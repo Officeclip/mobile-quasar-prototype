@@ -33,9 +33,9 @@ export class Constants {
     return instance;
   }
 
-  static setupAxiosAuthorizationHeader(token: string) {
+  static setupAxiosAuthorizationHeader(instance: AxiosInstance, token: string) {
     if (LocalStorage.has(token)) {
-      axios.defaults.headers.common[
+      instance.defaults.headers.common[
         'Authorization'
       ] = `Bearer ${LocalStorage.getItem(token)}`;
     }
