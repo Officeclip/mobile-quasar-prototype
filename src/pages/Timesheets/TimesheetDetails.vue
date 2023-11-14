@@ -33,6 +33,7 @@ const displayConfirmationDialog = () => {
 };
 const cancelConfirmation = () => {
   showConfirmationDialog.value = false;
+  newId.value = '';
 };
 const confirmDeletion = () => {
   if (newId.value) {
@@ -40,11 +41,17 @@ const confirmDeletion = () => {
       showConfirmationDialog.value = false;
       router.go(-1);
     });
+  } else {
+    timesheetsStore.deleteAllTimesheets(id).then(() => {
+      showConfirmationDialog.value = false;
+      router.go(-1);
+    });
   }
-  timesheetsStore.deleteAllTimesheets(id).then(() => {
-    showConfirmationDialog.value = false;
-    router.go(-1);
-  });
+};
+
+const getTimesheetDetailId = (timesheetDetailId: string) => {
+  newId.value = timesheetDetailId;
+  displayConfirmationDialog();
 };
 
 const workFlowModel = ref('Sk Dutta');
@@ -55,10 +62,11 @@ const workFlowOptions = [
   'Nagesh Kulkarni',
 ];
 
-function test(timesheetId: string) {
-  displayConfirmationDialog();
-  return (newId.value = timesheetId);
-}
+// function test(timesheetId: string) {
+//   newId.value = timesheetId;
+//   displayConfirmationDialog();
+//   return;
+// }
 </script>
 
 <template>
@@ -148,7 +156,9 @@ function test(timesheetId: string) {
             </q-item-section>
             <q-item-section side>
               <q-btn
-                @click="test(timesheetDetail?.timesheetDetailSid)"
+                @click="
+                  getTimesheetDetailId(timesheetDetail?.timesheetDetailSid)
+                "
                 size="sm"
                 flat
                 round
