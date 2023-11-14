@@ -1,22 +1,23 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, Ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
+import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 
 const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
+const newId: Ref<string | string[]> = ref('');
+// newId.value = id;
 const fromDate = route.params.fromDate;
 // made the readOnly params type as boolean, by default always coming as string only
 const readOnly = route.params.readOnly === 'true';
 const timesheetsStore = useTimesheetsStore();
 
 onMounted(() => {
-  // const route = useRoute();
-  console.log('id=', route.params.id);
   timesheetsStore.getTimesheetDetails(id);
 });
 
@@ -24,16 +25,27 @@ const timesheetDetails = computed(() => {
   return timesheetsStore.TimesheetDetails;
 });
 
+const title = ref('Confirm');
+const message = ref('Are you sure you want to delete this timesheet?');
 const showConfirmationDialog = ref(false);
-function displayConfirmationDialog() {
+const displayConfirmationDialog = () => {
   showConfirmationDialog.value = true;
-}
-function confirmDelete() {
+};
+const cancelConfirmation = () => {
+  showConfirmationDialog.value = false;
+};
+const confirmDeletion = () => {
+  if (newId.value) {
+    timesheetsStore.deleteTimesheet(newId.value).then(() => {
+      showConfirmationDialog.value = false;
+      router.go(-1);
+    });
+  }
   timesheetsStore.deleteAllTimesheets(id).then(() => {
     showConfirmationDialog.value = false;
     router.go(-1);
   });
-}
+};
 
 const workFlowModel = ref('Sk Dutta');
 const workFlowOptions = [
@@ -42,6 +54,11 @@ const workFlowOptions = [
   'Sudhakar Gundu',
   'Nagesh Kulkarni',
 ];
+
+function test(timesheetId: string) {
+  displayConfirmationDialog();
+  return (newId.value = timesheetId);
+}
 </script>
 
 <template>
@@ -131,12 +148,7 @@ const workFlowOptions = [
             </q-item-section>
             <q-item-section side>
               <q-btn
-                @click="
-                  timesheetsStore.deleteTimesheet(
-                    timesheetDetail?.timesheetDetailSid
-                  );
-                  $router.go(-1);
-                "
+                @click="test(timesheetDetail?.timesheetDetailSid)"
                 size="sm"
                 flat
                 round
@@ -170,30 +182,14 @@ const workFlowOptions = [
     </q-page-container>
   </q-layout>
 
-  <q-dialog v-model="showConfirmationDialog">
-    <q-card>
-      <q-card-section>
-        <q-item-label>Confirm</q-item-label>
-        <q-item-label>Are you sure you want to delete this event?</q-item-label>
-        <q-card-actions align="right">
-          <q-btn
-            no-caps
-            dense
-            color="primary"
-            label="Cancel"
-            @click="showConfirmationDialog = false"
-          />
-          <q-btn
-            no-caps
-            dense
-            color="negative"
-            label="Delete"
-            @click="confirmDelete"
-          />
-        </q-card-actions>
-      </q-card-section>
-    </q-card>
-  </q-dialog>
+  <ConfirmationDialog
+    v-if="showConfirmationDialog"
+    :showConfirmationDialog="showConfirmationDialog"
+    :title="title"
+    :message="message"
+    @cancel="cancelConfirmation"
+    @confirm="confirmDeletion"
+  />
 </template>
 
 <style scoped>
