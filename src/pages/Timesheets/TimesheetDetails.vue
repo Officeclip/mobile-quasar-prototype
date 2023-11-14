@@ -1,34 +1,73 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, Ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
+import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
+import WorkFlow from '../../components/general/WorkFlow.vue';
 
+const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
+const newId: Ref<string | string[]> = ref('');
+// newId.value = id;
 const fromDate = route.params.fromDate;
-const status = route.params.status;
+// made the readOnly params type as boolean, by default always coming as string only
+const readOnly = route.params.readOnly === 'true';
 const timesheetsStore = useTimesheetsStore();
 
 onMounted(() => {
-  // const route = useRoute();
-  console.log('id=', route.params.id);
-  timesheetsStore.getTimesheetDetails(Number(id));
+  timesheetsStore.getTimesheetDetails(id);
 });
 
 const timesheetDetails = computed(() => {
   return timesheetsStore.TimesheetDetails;
 });
 
-const workFlowModel = ref('Sk Dutta');
-const workFlowOptions = [
-  'Sk Dutta',
-  'Rao Narsimha',
-  'Sudhakar Gundu',
-  'Nagesh Kulkarni',
-];
+const title = ref('Confirm');
+const message = ref('Are you sure you want to delete this timesheet?');
+const showConfirmationDialog = ref(false);
+const displayConfirmationDialog = () => {
+  showConfirmationDialog.value = true;
+};
+const cancelConfirmation = () => {
+  showConfirmationDialog.value = false;
+  newId.value = '';
+};
+const confirmDeletion = () => {
+  if (newId.value) {
+    timesheetsStore.deleteTimesheet(newId.value).then(() => {
+      showConfirmationDialog.value = false;
+      router.go(-1);
+    });
+  } else {
+    timesheetsStore.deleteAllTimesheets(id).then(() => {
+      showConfirmationDialog.value = false;
+      router.go(-1);
+    });
+  }
+};
+
+const getTimesheetDetailId = (timesheetDetailId: string) => {
+  newId.value = timesheetDetailId;
+  displayConfirmationDialog();
+};
+
+// const workFlowModel = ref('Sk Dutta');
+// const workFlowOptions = [
+//   'Sk Dutta',
+//   'Rao Narsimha',
+//   'Sudhakar Gundu',
+//   'Nagesh Kulkarni',
+// ];
+
+// function test(timesheetId: string) {
+//   newId.value = timesheetId;
+//   displayConfirmationDialog();
+//   return;
+// }
 </script>
 
 <template>
@@ -45,33 +84,23 @@ const workFlowOptions = [
         >
         </q-btn>
         <q-toolbar-title> Details </q-toolbar-title>
-        <!-- <q-select
-          class="q-mr-md bg-white"
-          style="min-width: 150px; border-radius: 25px; padding: 0px 12px"
-          label="Submit to:"
-          dense
-          v-model="workFlowModel"
-          :options="workFlowOptions"
-          map-options
-          emit-value
-        /> -->
         <q-btn
           flat
           round
           dense
           color="white"
           icon="delete"
-          @click="
-            timesheetsStore.deleteAllTimesheets(id);
-            $router.go(-1);
-          "
+          @click="displayConfirmationDialog"
         >
         </q-btn>
       </q-toolbar>
     </q-header>
 
     <q-page-container>
-      <div class="row items-center justify-center q-my-md">
+      <div>
+        <WorkFlow />
+      </div>
+      <!-- <div class="row items-center justify-center q-my-md">
         <q-item-label caption class="q-mr-md"> Submit To: </q-item-label>
         <q-select
           style="min-width: 200px"
@@ -82,7 +111,7 @@ const workFlowOptions = [
           map-options
           emit-value
         />
-      </div>
+      </div> -->
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
@@ -113,7 +142,7 @@ const workFlowOptions = [
             </q-item-section>
             <q-item-section side>
               <q-btn
-                v-if="status != 'Approved' && status != 'Submitted'"
+                v-if="!readOnly"
                 :to="{
                   name: 'editTimesheet',
                   params: {
@@ -132,10 +161,7 @@ const workFlowOptions = [
             <q-item-section side>
               <q-btn
                 @click="
-                  timesheetsStore.deleteTimesheet(
-                    timesheetDetail?.timesheetDetailSid
-                  );
-                  $router.go(-1);
+                  getTimesheetDetailId(timesheetDetail?.timesheetDetailSid)
                 "
                 size="sm"
                 flat
@@ -169,6 +195,15 @@ const workFlowOptions = [
       </q-page-sticky>
     </q-page-container>
   </q-layout>
+
+  <ConfirmationDialog
+    v-if="showConfirmationDialog"
+    :showConfirmationDialog="showConfirmationDialog"
+    :title="title"
+    :message="message"
+    @cancel="cancelConfirmation"
+    @confirm="confirmDeletion"
+  />
 </template>
 
 <style scoped>

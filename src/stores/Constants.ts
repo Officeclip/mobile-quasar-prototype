@@ -12,6 +12,7 @@ export class Constants {
       baseURL: Constants.endPointUrl,
     });
     Constants.setupAxiosInstance(instance);
+    return instance;
   }
 
   static setupAxiosInstance(instance: AxiosInstance) {
@@ -33,13 +34,15 @@ export class Constants {
     return instance;
   }
 
-  static setupAxiosAuthorizationHeader(token: string) {
-    axios.defaults.headers.post[
-      'Authorization'
-    ] = `Bearer ${localStorage.getItem(token)}`;
+  static setupAxiosAuthorizationHeader(instance: AxiosInstance, token: string) {
+    if (LocalStorage.has(token)) {
+      instance.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${LocalStorage.getItem(token)}`;
+    }
   }
 
   static saveAuthorizationTokenInLocalStorage(token: string) {
-    LocalStorage.set('authorizationToken', token);
+    LocalStorage.set('x-token', token);
   }
 }
