@@ -5,4 +5,5 @@ export interface Timesheet {
   employeeId: string;
   status: string;
   fromDate: string;
+  readOnly: boolean;
 }

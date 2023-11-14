@@ -136,10 +136,10 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     },
 
     // to remove whole timesheet top level delete need to make it work
-    async deleteAllTimesheets(timesheetId: any) {
+    async deleteAllTimesheets(id: string | string[]) {
       try {
         const response = await axios.delete(
-          `${Constants.endPointUrl}/timesheet-details/delete/${timesheetId}`
+          `${Constants.endPointUrl}/timesheetSummary/${id}`
         );
 
         if (response.status === 200) {

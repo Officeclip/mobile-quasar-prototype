@@ -9,7 +9,8 @@ import OCItem from '../../components/OCcomponents/OC-Item.vue';
 const route = useRoute();
 const id = route.params.id;
 const fromDate = route.params.fromDate;
-const status = route.params.status;
+// made the readOnly params type as boolean, by default always coming as string only
+const readOnly = route.params.readOnly === 'true';
 const timesheetsStore = useTimesheetsStore();
 
 onMounted(() => {
@@ -45,16 +46,6 @@ const workFlowOptions = [
         >
         </q-btn>
         <q-toolbar-title> Details </q-toolbar-title>
-        <!-- <q-select
-          class="q-mr-md bg-white"
-          style="min-width: 150px; border-radius: 25px; padding: 0px 12px"
-          label="Submit to:"
-          dense
-          v-model="workFlowModel"
-          :options="workFlowOptions"
-          map-options
-          emit-value
-        /> -->
         <q-btn
           flat
           round
@@ -113,7 +104,7 @@ const workFlowOptions = [
             </q-item-section>
             <q-item-section side>
               <q-btn
-                v-if="status != 'Approved' && status != 'Submitted'"
+                v-if="!readOnly"
                 :to="{
                   name: 'editTimesheet',
                   params: {

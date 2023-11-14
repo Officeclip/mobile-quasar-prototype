@@ -78,7 +78,7 @@ function getStatusColor(status: string) {
               params: {
                 id: item.id,
                 fromDate: item.fromDate,
-                status: item.status,
+                readOnly: item.readOnly,
               },
             }"
             clickable
