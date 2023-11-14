@@ -6,6 +6,7 @@ import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
+import WorkFlow from '../../components/general/WorkFlow.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -54,13 +55,13 @@ const getTimesheetDetailId = (timesheetDetailId: string) => {
   displayConfirmationDialog();
 };
 
-const workFlowModel = ref('Sk Dutta');
-const workFlowOptions = [
-  'Sk Dutta',
-  'Rao Narsimha',
-  'Sudhakar Gundu',
-  'Nagesh Kulkarni',
-];
+// const workFlowModel = ref('Sk Dutta');
+// const workFlowOptions = [
+//   'Sk Dutta',
+//   'Rao Narsimha',
+//   'Sudhakar Gundu',
+//   'Nagesh Kulkarni',
+// ];
 
 // function test(timesheetId: string) {
 //   newId.value = timesheetId;
@@ -96,7 +97,10 @@ const workFlowOptions = [
     </q-header>
 
     <q-page-container>
-      <div class="row items-center justify-center q-my-md">
+      <div>
+        <WorkFlow />
+      </div>
+      <!-- <div class="row items-center justify-center q-my-md">
         <q-item-label caption class="q-mr-md"> Submit To: </q-item-label>
         <q-select
           style="min-width: 200px"
@@ -107,7 +111,7 @@ const workFlowOptions = [
           map-options
           emit-value
         />
-      </div>
+      </div> -->
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
