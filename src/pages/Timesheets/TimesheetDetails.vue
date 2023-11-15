@@ -5,13 +5,13 @@ import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
-import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
+import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import WorkFlow from '../../components/general/WorkFlow.vue';
 
 const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
-const newId: Ref<string | string[]> = ref('');
+const timesheetDetailSid = ref('');
 // newId.value = id;
 const fromDate = route.params.fromDate;
 // made the readOnly params type as boolean, by default always coming as string only
@@ -28,46 +28,37 @@ const timesheetDetails = computed(() => {
 
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this timesheet?');
-const showConfirmationDialog = ref(false);
+
+const showDeleteTimesheetDetail = ref(false);
+const displayShowDeleteTimesheetDetail = (id: string) => {
+  timesheetDetailSid.value = id;
+  showDeleteTimesheetDetail.value = true;
+};
+
+const showDeleteTimesheet = ref(false);
 const displayConfirmationDialog = () => {
-  showConfirmationDialog.value = true;
+  showDeleteTimesheet.value = true;
 };
 const cancelConfirmation = () => {
-  showConfirmationDialog.value = false;
-  newId.value = '';
+  showDeleteTimesheet.value = false;
+  showDeleteTimesheetDetail.value = false;
 };
-const confirmDeletion = () => {
-  if (newId.value) {
-    timesheetsStore.deleteTimesheet(newId.value).then(() => {
-      showConfirmationDialog.value = false;
-      router.go(-1);
-    });
-  } else {
+const deleteTimesheet = (id: string) => {
+  {
     timesheetsStore.deleteAllTimesheets(id).then(() => {
-      showConfirmationDialog.value = false;
+      showDeleteTimesheet.value = false;
       router.go(-1);
     });
   }
 };
-
-const getTimesheetDetailId = (timesheetDetailId: string) => {
-  newId.value = timesheetDetailId;
-  displayConfirmationDialog();
+const deleteTimesheetDetail = (id: string) => {
+  {
+    timesheetsStore.deleteTimesheet(id).then(() => {
+      showDeleteTimesheetDetail.value = false;
+      router.go(-1);
+    });
+  }
 };
-
-// const workFlowModel = ref('Sk Dutta');
-// const workFlowOptions = [
-//   'Sk Dutta',
-//   'Rao Narsimha',
-//   'Sudhakar Gundu',
-//   'Nagesh Kulkarni',
-// ];
-
-// function test(timesheetId: string) {
-//   newId.value = timesheetId;
-//   displayConfirmationDialog();
-//   return;
-// }
 </script>
 
 <template>
@@ -100,18 +91,6 @@ const getTimesheetDetailId = (timesheetDetailId: string) => {
       <div>
         <WorkFlow />
       </div>
-      <!-- <div class="row items-center justify-center q-my-md">
-        <q-item-label caption class="q-mr-md"> Submit To: </q-item-label>
-        <q-select
-          style="min-width: 200px"
-          outlined
-          dense
-          v-model="workFlowModel"
-          :options="workFlowOptions"
-          map-options
-          emit-value
-        />
-      </div> -->
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
@@ -161,7 +140,9 @@ const getTimesheetDetailId = (timesheetDetailId: string) => {
             <q-item-section side>
               <q-btn
                 @click="
-                  getTimesheetDetailId(timesheetDetail?.timesheetDetailSid)
+                  displayShowDeleteTimesheetDetail(
+                    timesheetDetail?.timesheetDetailSid
+                  )
                 "
                 size="sm"
                 flat
@@ -196,13 +177,23 @@ const getTimesheetDetailId = (timesheetDetailId: string) => {
     </q-page-container>
   </q-layout>
 
-  <ConfirmationDialog
-    v-if="showConfirmationDialog"
-    :showConfirmationDialog="showConfirmationDialog"
+  <ConfirmDelete
+    v-if="showDeleteTimesheet"
+    :showConfirmationDialog="showDeleteTimesheet"
+    :id="id"
     :title="title"
     :message="message"
     @cancel="cancelConfirmation"
-    @confirm="confirmDeletion"
+    @confirm="deleteTimesheet"
+  />
+  <ConfirmDelete
+    v-if="showDeleteTimesheetDetail"
+    :showConfirmationDialog="showDeleteTimesheetDetail"
+    :id="timesheetDetailSid"
+    :title="title"
+    :message="message"
+    @cancel="cancelConfirmation"
+    @confirm="deleteTimesheetDetail"
   />
 </template>
 

@@ -2,7 +2,7 @@
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue';
 
-const props = defineProps(['showConfirmationDialog', 'title', 'message']);
+const props = defineProps(['showConfirmationDialog', 'id', 'title', 'message']);
 const showConfirmationDialog = ref(props.showConfirmationDialog);
 const emit = defineEmits(['cancel', 'confirm']);
 
@@ -11,7 +11,7 @@ const cancel = () => {
 };
 
 const confirm = () => {
-  emit('confirm');
+  emit('confirm', props.id);
 };
 </script>
 <template>
