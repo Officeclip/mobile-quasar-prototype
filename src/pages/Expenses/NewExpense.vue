@@ -12,6 +12,10 @@ const period = computed(() => {
   return route.params.period;
 });
 
+const expenseSid = computed(() => {
+  return route.params.expenseSid;
+});
+
 const expenseDetail = ref({
   accountName: '',
   accountSid: '',
@@ -23,7 +27,7 @@ const expenseDetail = ref({
   employeeSid: '',
   expenseDate: '',
   id: '',
-  expenseSid: '',
+  expenseSid: expenseSid,
   expenseTypeName: '',
   expenseCategoryName: '',
   expenseTypeSid: '',

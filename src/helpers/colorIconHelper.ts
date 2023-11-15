@@ -46,7 +46,6 @@ export function getPriorityIcon(priority: string) {
     // case 'Low':
     //   return 'report_problem';
 
-
     // case 'High':
     //   return 'star';
     // case 'Medium':
@@ -61,7 +60,6 @@ export function getPriorityIcon(priority: string) {
 
 export function getPriorityColor(priority: string) {
   switch (priority) {
-
     // case 'High':
     //   return '#d85c5c';
     // case 'Medium':
@@ -76,6 +74,19 @@ export function getPriorityColor(priority: string) {
     case 'Low':
       return 'green-8';
 
+    default:
+      return '';
+  }
+}
+
+export function getExpenseStatusColor(status: string) {
+  switch (status) {
+    case 'Approved':
+      return 'green-2';
+    case 'Pending':
+      return 'yellow-3';
+    case 'Rejected':
+      return 'red-2';
     default:
       return '';
   }

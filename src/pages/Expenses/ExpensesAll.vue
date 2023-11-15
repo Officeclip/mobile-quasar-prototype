@@ -2,6 +2,7 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
+import { getExpenseStatusColor } from 'src/helpers/colorIconHelper';
 
 const expensesDetailsStore = useExpenseDetailsStore();
 const expenseStatus = ref('Inbox');
@@ -21,17 +22,17 @@ watch([expenseStatus], ([newModel]) => {
   title.value = newModel;
 });
 
-function getStatusColor(status: string) {
-  if (status == 'Approved') {
-    return 'status-approved'
-  }
-  if (status == 'Pending') {
-    return 'status-pending'
-  }
-  if (status == 'Rejected') {
-    return 'status-rejected'
-  }
-}
+// function getStatusColor(status: string) {
+//   if (status == 'Approved') {
+//     return 'status-approved'
+//   }
+//   if (status == 'Pending') {
+//     return 'status-pending'
+//   }
+//   if (status == 'Rejected') {
+//     return 'status-rejected'
+//   }
+// }
 
 const tabs = [
   {
@@ -124,7 +125,7 @@ const tabs = [
                 : 'No Specific Date' }}</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-chip square :class="getStatusColor(expense.status)">{{ expense.status }}</q-chip>
+              <q-chip square :color="getExpenseStatusColor(expense.status)">{{ expense.status }}</q-chip>
               <!-- <q-item-label caption class="bg-teal-3 q-pa-xs">{{
                 expense.status
               }}</q-item-label> -->
@@ -145,9 +146,9 @@ const tabs = [
     </q-page-container>
   </q-layout>
 </template>
-<style lang="scss">
+<!-- <style lang="scss">
 @import '../../css/status.scss'
-</style>
+</style> -->
 
 <style scoped>
 .q-router-link--active {

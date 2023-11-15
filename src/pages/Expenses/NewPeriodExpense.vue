@@ -12,6 +12,8 @@ const periodOptions = computed(() => {
   return expenseListsStore.PeriodList;
 });
 
+const expenseSid = '';
+
 const period = ref('');
 
 const expensePeriod = periodOptions.value.find((x) => x.name === period.value);
@@ -57,14 +59,7 @@ const getDatesBetweenStartEnd = (startDate: any, endDate: any) => {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> New Expense</q-toolbar-title>
       </q-toolbar>
@@ -73,35 +68,22 @@ const getDatesBetweenStartEnd = (startDate: any, endDate: any) => {
       <div>
         <div class="q-pa-md">
           <div class="q-gutter-y-md column">
-            <q-select
-              label="Period"
-              v-model="period"
-              :options="periodOptions"
-              map-options
-              option-value="name"
+            <q-select label="Period" v-model="period" :options="periodOptions" map-options option-value="name"
               @update:model-value="
                 getDatesBetweenStartEnd(
                   expensePeriod?.start,
                   expensePeriod?.end
                 )
-              "
-              option-label="name"
-              emit-value
-            />
+                " option-label="name" emit-value />
           </div>
         </div>
-        <q-btn
-          v-if="period != ''"
-          class="q-ml-md q-mb-md q-mt-md"
-          label="Next"
-          color="primary"
-          :to="{
-            name: 'newExpense',
-            params: {
-              period: period,
-            },
-          }"
-        ></q-btn>
+        <q-btn v-if="period != ''" class="q-ml-md q-mb-md q-mt-md" label="Next" color="primary" :to="{
+          name: 'newExpense',
+          params: {
+            expenseSid: '-1',
+            period: period
+          },
+        }"></q-btn>
         <!-- <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn> -->
       </div>
     </q-page-container>
