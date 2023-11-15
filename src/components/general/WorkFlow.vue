@@ -30,12 +30,38 @@ const rejectToUserName = computed(() => {
 <template>
   <div class="row items-center justify-center q-my-md">
     <q-item-label caption> Submit To: </q-item-label>
-    <q-item-label
-      v-if="workFlow?.workflowType == 'auto'"
-      class="q-mb-xs q-ml-sm"
-    >
-      {{ submitToUserName?.name }}
-    </q-item-label>
+
+    <div v-if="workFlow?.workflowType == 'auto'">
+      <q-item-label class="q-mb-xs q-ml-sm">
+        {{ submitToUserName?.name }}
+      </q-item-label>
+      <div class="row">
+        <div class="column">
+          <q-btn
+            no-caps
+            class="q-px-sm q-mx-sm"
+            dense
+            color="primary"
+            label="Approve"
+          />
+          <span class="q-mx-sm text-caption"
+            >to: {{ approveToUserName?.name }}</span
+          >
+        </div>
+        <div class="column">
+          <q-btn
+            no-caps
+            class="q-px-sm q-mx-sm"
+            dense
+            color="negative"
+            label="Reject"
+          />
+          <span class="q-mx-sm text-caption"
+            >to: {{ rejectToUserName?.name }}</span
+          >
+        </div>
+      </div>
+    </div>
     <q-select
       v-if="workFlow.workflowType == 'manual'"
       class="q-mx-md"
