@@ -6,7 +6,7 @@ import { Constants } from 'stores/Constants';
 
 export const useTimesheetWorkFlowStore = defineStore('timesheetWorkFlowStore', {
   state: () => ({
-    workFlow: [],
+    workFlow: {},
     workFlowUsers: [],
   }),
 

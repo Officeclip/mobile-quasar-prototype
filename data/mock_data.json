@@ -1988,17 +1988,7 @@
       "orgId": "123",
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        10
-      ]
+      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
     }
   ],
   "generalUserProfile": [
@@ -2235,9 +2225,7 @@
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": [
-        "Kathiravan Sekar"
-      ],
+      "assignees": ["Kathiravan Sekar"],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
@@ -3256,12 +3244,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-            "",
-            "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },
@@ -4378,7 +4361,7 @@
     {
       "entityId": "123de3434",
       "entityType": "timesheet",
-      "workflowType": "manual",
+      "workflowType": "auto",
       "submitToUserId": "2345",
       "approveToUserId": "2345",
       "rejectToUserId": "1234",
