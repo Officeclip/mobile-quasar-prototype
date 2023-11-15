@@ -1042,6 +1042,7 @@
       "remindTo": "me",
       "remindBeforeMinutes": 720,
       "label": "1",
+      "ShowTimeAs": "2",
       "meetingAttendees": [
         {
           "id": "1",
@@ -1063,6 +1064,24 @@
   ],
   "event-lists": [
     {
+      "showTimeAs": [
+        {
+          "id": "1",
+          "name": "Busy"
+        },
+        {
+          "id": "2",
+          "name": "Free"
+        },
+        {
+          "id": "3",
+          "name": "OutOfOffice"
+        },
+        {
+          "id": "4",
+          "name": "Tentative"
+        }
+      ],
       "label": [
         {
           "id": "1",
@@ -1969,7 +1988,17 @@
       "orgId": "123",
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
+      "applicationIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10
+      ]
     }
   ],
   "generalUserProfile": [
@@ -2079,6 +2108,7 @@
         "id": "3",
         "name": "Completed"
       },
+      "isEditable": false,
       "isPrivate": true,
       "taskOwner": {
         "id": "15",
@@ -2193,6 +2223,7 @@
         "category": "Pending"
       },
       "isPrivate": true,
+      "isEditable": true,
       "taskOwner": {
         "id": "1",
         "name": "Kathiravan Sekar",
@@ -2204,7 +2235,9 @@
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": ["Kathiravan Sekar"],
+      "assignees": [
+        "Kathiravan Sekar"
+      ],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
@@ -2434,21 +2467,29 @@
   ],
   "task-lists": [
     {
-      "taskType": [
+      "status": [
         {
-          "id": "1",
-          "name": "Development"
+          "id": "5",
+          "name": "Open"
         },
         {
-          "id": "2",
-          "name": "Design"
+          "id": "6",
+          "name": "Closed"
         },
         {
-          "id": "3",
-          "name": "Testing"
+          "id": "7",
+          "name": "Pending"
+        },
+        {
+          "id": "8",
+          "name": "Completed"
         }
       ],
-      "taskPriority": [
+      "priority": [
+        {
+          "id": "0",
+          "name": ""
+        },
         {
           "id": "1",
           "name": "High"
@@ -2460,430 +2501,162 @@
         {
           "id": "3",
           "name": "Low"
-        }
-      ],
-      "taskStatus": [
-        {
-          "id": "1",
-          "name": "Open",
-          "category": "Open"
-        },
-        {
-          "id": "2",
-          "name": "In Progress",
-          "category": "Active"
-        },
-        {
-          "id": "3",
-          "name": "Completed",
-          "category": "Completed"
         },
         {
           "id": "4",
-          "name": "Pending",
-          "category": "Pending"
+          "name": "Other"
         }
       ],
-      "regardingContact": [
+      "taskType": [
         {
-          "id": "1",
-          "name": "Kathiravan Sekar"
+          "id": "-1",
+          "name": ""
         },
         {
-          "id": "2",
-          "name": "John Doe"
+          "id": "205",
+          "name": "Test123"
         },
         {
-          "id": "3",
-          "name": "Jane Smith"
-        },
-        {
-          "id": "4",
-          "name": "Alice Johnson"
+          "id": "200",
+          "name": "Development ToDo"
         },
         {
           "id": "5",
-          "name": "Bob Anderson"
-        },
-        {
-          "id": "6",
-          "name": "Emily Davis"
+          "name": "Telephone"
         },
         {
           "id": "7",
-          "name": "David Brown"
+          "name": "Email"
         },
         {
           "id": "8",
-          "name": "Grace Wilson"
+          "name": "Other"
         },
         {
-          "id": "9",
-          "name": "Michael Lee"
+          "id": "6",
+          "name": "To Do"
         },
         {
-          "id": "10",
-          "name": "Olivia Adams"
+          "id": "267",
+          "name": "Marketing"
         },
         {
-          "id": "11",
-          "name": "Liam Martin"
-        },
-        {
-          "id": "12",
-          "name": "Ava Thompson"
-        },
-        {
-          "id": "13",
-          "name": "Noah Lewis"
-        },
+          "id": "268",
+          "name": "Development"
+        }
+      ],
+      "regardingParentTypes": [
         {
           "id": "14",
-          "name": "Sophia Harris"
-        },
-        {
-          "id": "15",
-          "name": "Elijah Hall"
-        },
-        {
-          "id": "16",
-          "name": "Mia Turner"
-        },
-        {
-          "id": "17",
-          "name": "Benjamin White"
-        },
-        {
-          "id": "18",
-          "name": "Abigail Green"
-        },
-        {
-          "id": "19",
-          "name": "William Clark"
-        },
-        {
-          "id": "20",
-          "name": "Ella Perez"
+          "name": "Contacts"
         },
         {
           "id": "21",
-          "name": "James Rodriguez"
-        },
-        {
-          "id": "22",
-          "name": "Charlotte Martinez"
+          "name": "Campaigns"
         },
         {
           "id": "23",
-          "name": "Alexander Young"
+          "name": "Account"
         },
         {
           "id": "24",
-          "name": "Sofia Walker"
-        },
-        {
-          "id": "25",
-          "name": "Henry Hall"
-        },
-        {
-          "id": "26",
-          "name": "Scarlett Adams"
-        },
-        {
-          "id": "27",
-          "name": "Daniel Wilson"
+          "name": "Opportunities"
         },
         {
           "id": "28",
-          "name": "Lily Brown"
-        },
-        {
-          "id": "29",
-          "name": "Matthew Turner"
-        },
-        {
-          "id": "30",
-          "name": "Grace Lewis"
-        },
-        {
-          "id": "31",
-          "name": "Joseph Anderson"
-        },
-        {
-          "id": "32",
-          "name": "Chloe Johnson"
-        },
-        {
-          "id": "33",
-          "name": "Andrew Davis"
+          "name": "Projects"
         },
         {
           "id": "34",
-          "name": "Zoe Thompson"
-        },
-        {
-          "id": "35",
-          "name": "David Martin"
-        },
-        {
-          "id": "36",
-          "name": "Sophia Smith"
-        },
-        {
-          "id": "37",
-          "name": "Christopher Harris"
-        },
-        {
-          "id": "38",
-          "name": "Ava Lewis"
-        },
-        {
-          "id": "39",
-          "name": "Joseph Clark"
-        },
-        {
-          "id": "40",
-          "name": "Emily Adams"
-        },
-        {
-          "id": "41",
-          "name": "Liam Taylor"
-        },
-        {
-          "id": "42",
-          "name": "Olivia Scott"
-        },
-        {
-          "id": "43",
-          "name": "Ethan Perez"
-        },
-        {
-          "id": "44",
-          "name": "Isabella Turner"
-        },
-        {
-          "id": "45",
-          "name": "Mason White"
-        },
-        {
-          "id": "46",
-          "name": "Sophia Brown"
-        },
-        {
-          "id": "47",
-          "name": "Logan Green"
-        },
-        {
-          "id": "48",
-          "name": "Mia Davis"
-        },
-        {
-          "id": "49",
-          "name": "Jackson Harris"
-        },
-        {
-          "id": "50",
-          "name": "Aiden Miller"
-        },
-        {
-          "id": "51",
-          "name": "Oliver Johnson"
-        },
-        {
-          "id": "52",
-          "name": "Amelia Williams"
-        },
-        {
-          "id": "53",
-          "name": "Lucas Brown"
-        },
-        {
-          "id": "54",
-          "name": "Lily Jones"
-        },
-        {
-          "id": "55",
-          "name": "Benjamin Miller"
-        },
-        {
-          "id": "56",
-          "name": "Abigail Davis"
-        },
-        {
-          "id": "57",
-          "name": "James Rodriguez"
-        },
-        {
-          "id": "58",
-          "name": "Charlotte Taylor"
-        },
-        {
-          "id": "59",
-          "name": "Alexander Scott"
-        },
-        {
-          "id": "60",
-          "name": "Sofia Perez"
-        },
-        {
-          "id": "61",
-          "name": "Henry Turner"
-        },
-        {
-          "id": "62",
-          "name": "Scarlett White"
-        },
-        {
-          "id": "63",
-          "name": "Daniel Brown"
-        },
-        {
-          "id": "64",
-          "name": "Lily Green"
-        },
-        {
-          "id": "65",
-          "name": "Matthew Davis"
-        },
-        {
-          "id": "66",
-          "name": "Grace Harris"
-        },
-        {
-          "id": "67",
-          "name": "Joseph Miller"
-        },
-        {
-          "id": "68",
-          "name": "Chloe Davis"
-        },
+          "name": "Competitor"
+        }
+      ],
+      "tags": [
         {
-          "id": "69",
-          "name": "Andrew Rodriguez"
+          "id": "7211",
+          "name": "meeting"
         },
         {
-          "id": "70",
-          "name": "Zoe Taylor"
+          "id": "7231",
+          "name": "marketing"
         },
         {
-          "id": "71",
-          "name": "David Scott"
+          "id": "7232",
+          "name": "helpfiles"
         },
         {
-          "id": "72",
-          "name": "Sophia Perez"
+          "id": "7233",
+          "name": "CRM"
         },
         {
-          "id": "73",
-          "name": "Christopher Turner"
+          "id": "7234",
+          "name": "timesheet"
         },
         {
-          "id": "74",
-          "name": "Ava White"
+          "id": "7235",
+          "name": "blog"
         },
         {
-          "id": "75",
-          "name": "Joseph Brown"
+          "id": "7338",
+          "name": "accounting"
         },
         {
-          "id": "76",
-          "name": "Emily Green"
+          "id": "7339",
+          "name": "testing"
         },
         {
-          "id": "77",
-          "name": "Liam Davis"
+          "id": "7409",
+          "name": "marketing"
         },
         {
-          "id": "78",
-          "name": "Olivia Harris"
+          "id": "7427",
+          "name": "marketing"
         },
         {
-          "id": "79",
-          "name": "Ethan Miller"
-        },
-        {
-          "id": "80",
-          "name": "Isabella Davis"
-        },
-        {
-          "id": "81",
-          "name": "Mason Rodriguez"
-        },
-        {
-          "id": "82",
-          "name": "Sophia Taylor"
-        },
-        {
-          "id": "83",
-          "name": "Logan Scott"
-        },
-        {
-          "id": "84",
-          "name": "Mia Perez"
-        },
-        {
-          "id": "85",
-          "name": "Jackson Turner"
-        },
-        {
-          "id": "86",
-          "name": "Aiden White"
-        },
-        {
-          "id": "87",
-          "name": "Oliver Brown"
-        },
-        {
-          "id": "88",
-          "name": "Amelia Green"
-        },
-        {
-          "id": "89",
-          "name": "Lucas Davis"
-        },
-        {
-          "id": "90",
-          "name": "Lily Harris"
-        },
+          "id": "7445",
+          "name": "marketing"
+        }
+      ],
+      "users": [
         {
-          "id": "91",
-          "name": "Benjamin Miller"
+          "id": "2",
+          "name": "Dutta, SK (_skd@officeclip.com)"
         },
         {
-          "id": "92",
-          "name": "Abigail Davis"
+          "id": "34636",
+          "name": "Gundu, Sudhakar (_sudhakar@officeclip.com)"
         },
         {
-          "id": "93",
-          "name": "James Rodriguez"
+          "id": "1",
+          "name": "Herschol, Loraine (ocdemo@officeclip.com)"
         },
         {
-          "id": "94",
-          "name": "Charlotte Taylor"
+          "id": "35566",
+          "name": "Jung, Kim (_kimjung@koreanmail.com)"
         },
         {
-          "id": "95",
-          "name": "Alexander Scott"
+          "id": "22091",
+          "name": "Kapoor, Deepa (_deepa@officeclip.com)"
         },
         {
-          "id": "96",
-          "name": "Sofia Perez"
+          "id": "31519",
+          "name": "Kulkarni, Nagesh (_nagesh@officeclip.com)"
         },
         {
-          "id": "97",
-          "name": "Henry Turner"
+          "id": "24380",
+          "name": "Maharana, Netrananda (_netrananda@officeclip.com)"
         },
         {
-          "id": "98",
-          "name": "Scarlett White"
+          "id": "902",
+          "name": "Patnaik, Sidharta (_sidhartha@officeclip.com)"
         },
         {
-          "id": "99",
-          "name": "Daniel Brown"
+          "id": "24883",
+          "name": "Rao, Narsimha (_narsimha@officeclip.com)"
         },
         {
-          "id": "100",
-          "name": "Lily Green"
+          "id": "24882",
+          "name": "Yenumula, Shrawan (_k.narsimharao@gmail.com)"
         }
       ]
     }
@@ -3004,34 +2777,38 @@
     {
       "createdByUserName": "Sudhakar Gundu",
       "employeeId": "OCHYD-003",
-      "id": 1,
+      "id": "1",
       "status": "Saved",
       "totalHours": 14.75,
-      "fromDate": "2023-06-19T10:43:32.203Z"
+      "fromDate": "2023-06-19T10:43:32.203Z",
+      "readOnly": false
     },
     {
       "createdByUserName": "Sudhakar Gundu",
       "employeeId": "OCHYD-003",
-      "id": 5,
+      "id": "5",
       "status": "Saved",
       "totalHours": 44.08,
-      "fromDate": "2023-06-05T10:43:32.203Z"
+      "fromDate": "2023-06-05T10:43:32.203Z",
+      "readOnly": true
     },
     {
       "createdByUserName": "Sudhakar Gundu",
       "employeeId": "OCHYD-003",
-      "id": 9,
+      "id": "9",
       "status": "Approved",
       "totalHours": 33.25,
-      "fromDate": "2023-05-22T10:43:32.203Z"
+      "fromDate": "2023-05-22T10:43:32.203Z",
+      "readOnly": false
     },
     {
       "createdByUserName": "Sudhakar Gundu",
       "employeeId": "OCHYD-003",
-      "id": 10,
+      "id": "10",
       "status": "Rejected",
       "totalHours": 20.25,
-      "fromDate": "2023-04-24T10:43:32.203Z"
+      "fromDate": "2023-04-24T10:43:32.203Z",
+      "readOnly": true
     }
   ],
   "timesheet-details": [
@@ -3058,7 +2835,7 @@
       "timeDuration": 1,
       "timesheetDetailSid": "N48KW7A5FZFV77KFSZNUXZS3U6NXY2GC2CTM6LQ",
       "id": "N48KW7A5FZFV77KFSZNUXZS3U6NXY2GC2CTM6LQ",
-      "timesheetId": 1
+      "timesheetId": "1"
     },
     {
       "accountName": "OfficeClip LLC",
@@ -3083,7 +2860,7 @@
       "timeDuration": 3,
       "timesheetDetailSid": "N48KW7A5FZFV77KF3CNRY2HXB26KX2S5789M6LQ",
       "id": "N48KW7A5FZFV77KF3CNRY2HXB26KX2S5789M6LQ",
-      "timesheetId": 2
+      "timesheetId": "2"
     },
     {
       "accountName": "Banyan Solution Ltd",
@@ -3108,7 +2885,7 @@
       "timeDuration": 3,
       "timesheetDetailSid": "N48KW7A5FZFV77KF3C8VWHFVXZVZS3ADYDTM6LQ",
       "id": "N48KW7A5FZFV77KF3C8VWHFVXZVZS3ADYDTM6LQ",
-      "timesheetId": 1
+      "timesheetId": "1"
     },
     {
       "accountName": "TLR Business LLC",
@@ -3133,7 +2910,7 @@
       "timeDuration": 2,
       "timesheetDetailSid": "N48KW7A5FZFV77KFEZRX7KRF248LB6D56DYM6LQ",
       "id": "N48KW7A5FZFV77KFEZRX7KRF248LB6D56DYM6LQ",
-      "timesheetId": 3
+      "timesheetId": "3"
     },
     {
       "accountName": "OfficeClip LLC",
@@ -3158,7 +2935,7 @@
       "timeDuration": 1,
       "timesheetDetailSid": "N48KW7A5FZFV77KF3BBWSWJFBGMENUTEXCTM6LQ",
       "id": "N48KW7A5FZFV77KF3BBWSWJFBGMENUTEXCTM6LQ",
-      "timesheetId": 5
+      "timesheetId": "5"
     },
     {
       "accountName": "OfficeClip LLC",
@@ -3183,7 +2960,7 @@
       "timeDuration": 1.25,
       "timesheetDetailSid": "N48KW7A5FZFV77KFSMHEH8EXBCHWWEJVFCYM6LQ",
       "id": "N48KW7A5FZFV77KFSMHEH8EXBCHWWEJVFCYM6LQ",
-      "timesheetId": 8
+      "timesheetId": "8"
     },
     {
       "accountName": "OfficeClip LLC",
@@ -3208,7 +2985,7 @@
       "timeDuration": 1,
       "timesheetDetailSid": "N48KW7A5FZFV77KFSZNYXMYEGC6V7EGEW89M6LQ",
       "id": "N48KW7A5FZFV77KFSZNYXMYEGC6V7EGEW89M6LQ",
-      "timesheetId": 9
+      "timesheetId": "9"
     },
     {
       "accountName": "OfficeClip LLC",
@@ -3233,7 +3010,7 @@
       "timeDuration": 2.5,
       "timesheetDetailSid": "N48KW7A5FZFV77KFEBFWH4SCC8YRN8Q574TM6LQ",
       "id": "N48KW7A5FZFV77KFEBFWH4SCC8YRN8Q574TM6LQ",
-      "timesheetId": 4
+      "timesheetId": "4"
     }
   ],
   "timesheet-List": [
@@ -3479,7 +3256,12 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": ["", "One", "Two", "Three"],
+          "items": [
+            "",
+            "One",
+            "Two",
+            "Three"
+          ],
           "name": "Custom Row",
           "uiType": "List"
         },
@@ -3760,59 +3542,221 @@
     {
       "periods": [
         {
-          "end": "2023-12-16T00:00:00+05:30",
-          "name": "Dec 03, 2023 - Dec 16, 2023",
-          "start": "2023-12-03T00:00:00+05:30"
+          "end": "2024-01-28T00:00:00+05:30",
+          "name": "Jan 15, 2024 - Jan 28, 2024",
+          "start": "2024-01-15T00:00:00+05:30",
+          "error": "",
+          "warning": ""
         },
         {
-          "end": "2023-12-02T00:00:00+05:30",
-          "name": "Nov 19, 2023 - Dec 02, 2023",
-          "start": "2023-11-19T00:00:00+05:30"
+          "end": "2024-01-14T00:00:00+05:30",
+          "name": "Jan 01, 2024 - Jan 14, 2024",
+          "start": "2024-01-01T00:00:00+05:30",
+          "error": "",
+          "warning": ""
         },
         {
-          "end": "2023-11-18T00:00:00+05:30",
-          "name": "Nov 05, 2023 - Nov 18, 2023",
-          "start": "2023-11-05T00:00:00+05:30"
+          "end": "2023-12-31T00:00:00+05:30",
+          "name": "Dec 18, 2023 - Dec 31, 2023",
+          "start": "2023-12-18T00:00:00+05:30",
+          "error": "",
+          "warning": ""
         },
         {
-          "end": "2023-11-04T00:00:00+05:30",
-          "name": "Oct 22, 2023 - Nov 04, 2023",
-          "start": "2023-10-22T00:00:00+05:30"
+          "end": "2023-12-17T00:00:00+05:30",
+          "name": "Dec 04, 2023 - Dec 17, 2023",
+          "start": "2023-12-04T00:00:00+05:30",
+          "error": "",
+          "warning": ""
         },
         {
-          "end": "2023-10-21T00:00:00+05:30",
-          "name": "Oct 08, 2023 - Oct 21, 2023",
-          "start": "2023-10-08T10:43:32.203Z"
+          "end": "2023-12-03T00:00:00+05:30",
+          "name": "Nov 20, 2023 - Dec 03, 2023",
+          "start": "2023-11-20T00:00:00+05:30",
+          "error": "",
+          "warning": ""
         },
         {
-          "end": "2023-10-07T00:00:00+05:30",
-          "name": "Sep 24, 2023 - Oct 07, 2023",
-          "start": "2023-09-24T00:00:00+05:30"
+          "end": "2023-11-19T00:00:00+05:30",
+          "name": "Nov 06, 2023 - Nov 19, 2023",
+          "start": "2023-11-06T00:00:00+05:30",
+          "error": "",
+          "warning": ""
         },
         {
-          "end": "2023-09-23T00:00:00+05:30",
-          "name": "Sep 10, 2023 - Sep 23, 2023",
-          "start": "2023-09-10T00:00:00+05:30"
+          "end": "2023-11-05T00:00:00+05:30",
+          "name": "Oct 23, 2023 - Nov 05, 2023",
+          "start": "2023-10-23T00:00:00+05:30",
+          "error": "",
+          "warning": "You have already created an Expense Report for this period and for this organization."
         },
         {
-          "end": "2023-09-09T00:00:00+05:30",
-          "name": "Aug 27, 2023 - Sep 09, 2023",
-          "start": "2023-08-27T00:00:00+05:30"
+          "end": "2023-10-22T00:00:00+05:30",
+          "name": "Oct 09, 2023 - Oct 22, 2023",
+          "start": "2023-10-09T00:00:00+05:30",
+          "error": "",
+          "warning": ""
         },
         {
-          "end": "2023-08-26T00:00:00+05:30",
-          "name": "Aug 13, 2023 - Aug 26, 2023",
-          "start": "2023-08-13T00:00:00+05:30"
+          "end": "2023-10-08T00:00:00+05:30",
+          "name": "Sep 25, 2023 - Oct 08, 2023",
+          "start": "2023-09-25T00:00:00+05:30",
+          "error": "",
+          "warning": ""
         },
         {
-          "end": "2023-08-12T00:00:00+05:30",
-          "name": "Jul 30, 2023 - Aug 12, 2023",
-          "start": "2023-07-30T00:00:00+05:30"
+          "end": "2023-09-24T00:00:00+05:30",
+          "name": "Sep 11, 2023 - Sep 24, 2023",
+          "start": "2023-09-11T00:00:00+05:30",
+          "error": "",
+          "warning": ""
         },
         {
-          "end": "2023-07-29T00:00:00+05:30",
-          "name": "Jul 16, 2023 - Jul 29, 2023",
-          "start": "2023-07-16T00:00:00+05:30"
+          "end": "2023-09-10T00:00:00+05:30",
+          "name": "Aug 28, 2023 - Sep 10, 2023",
+          "start": "2023-08-28T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-08-27T00:00:00+05:30",
+          "name": "Aug 14, 2023 - Aug 27, 2023",
+          "start": "2023-08-14T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-08-13T00:00:00+05:30",
+          "name": "Jul 31, 2023 - Aug 13, 2023",
+          "start": "2023-07-31T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-07-30T00:00:00+05:30",
+          "name": "Jul 17, 2023 - Jul 30, 2023",
+          "start": "2023-07-17T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-07-16T00:00:00+05:30",
+          "name": "Jul 03, 2023 - Jul 16, 2023",
+          "start": "2023-07-03T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-07-02T00:00:00+05:30",
+          "name": "Jun 19, 2023 - Jul 02, 2023",
+          "start": "2023-06-19T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-06-18T00:00:00+05:30",
+          "name": "Jun 05, 2023 - Jun 18, 2023",
+          "start": "2023-06-05T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-06-04T00:00:00+05:30",
+          "name": "May 22, 2023 - Jun 04, 2023",
+          "start": "2023-05-22T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-05-21T00:00:00+05:30",
+          "name": "May 08, 2023 - May 21, 2023",
+          "start": "2023-05-08T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-05-07T00:00:00+05:30",
+          "name": "Apr 24, 2023 - May 07, 2023",
+          "start": "2023-04-24T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-04-23T00:00:00+05:30",
+          "name": "Apr 10, 2023 - Apr 23, 2023",
+          "start": "2023-04-10T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-04-09T00:00:00+05:30",
+          "name": "Mar 27, 2023 - Apr 09, 2023",
+          "start": "2023-03-27T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-03-26T00:00:00+05:30",
+          "name": "Mar 13, 2023 - Mar 26, 2023",
+          "start": "2023-03-13T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-03-12T00:00:00+05:30",
+          "name": "Feb 27, 2023 - Mar 12, 2023",
+          "start": "2023-02-27T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-02-26T00:00:00+05:30",
+          "name": "Feb 13, 2023 - Feb 26, 2023",
+          "start": "2023-02-13T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-02-12T00:00:00+05:30",
+          "name": "Jan 30, 2023 - Feb 12, 2023",
+          "start": "2023-01-30T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-01-29T00:00:00+05:30",
+          "name": "Jan 16, 2023 - Jan 29, 2023",
+          "start": "2023-01-16T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-01-15T00:00:00+05:30",
+          "name": "Jan 02, 2023 - Jan 15, 2023",
+          "start": "2023-01-02T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2023-01-01T00:00:00+05:30",
+          "name": "Dec 19, 2022 - Jan 01, 2023",
+          "start": "2022-12-19T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2022-12-18T00:00:00+05:30",
+          "name": "Dec 05, 2022 - Dec 18, 2022",
+          "start": "2022-12-05T00:00:00+05:30",
+          "error": "",
+          "warning": ""
+        },
+        {
+          "end": "2022-12-04T00:00:00+05:30",
+          "name": "Nov 21, 2022 - Dec 04, 2022",
+          "start": "2022-11-21T00:00:00+05:30",
+          "error": "",
+          "warning": ""
         }
       ],
       "customerProjects": [
@@ -3821,15 +3765,15 @@
           "name": "OfficeClip LLC"
         },
         {
-          "id": "1A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:7ANXN3JV2CJE7T9XH8GLB8FDBDUMNJSR3M9M6LQ",
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:7ANXN3JV2CJE7T9XH8GLB8FDBDUMNJSR3M9M6LQ",
           "name": "OfficeClip LLC:Bug Fixes Q3"
         },
         {
-          "id": "2A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:4DTKY6JXNBNCXXSDH2VUYJYEB8RX6YS4V89M6LQ",
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:4DTKY6JXNBNCXXSDH2VUYJYEB8RX6YS4V89M6LQ",
           "name": "OfficeClip LLC:Create OfficeClip for Amazon AMI"
         },
         {
-          "id": "3A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:HA6Z2WHE54FR7BJXHAHXNMQFHAJTS4SCJJJM6LQ",
+          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:HA6Z2WHE54FR7BJXHAHXNMQFHAJTS4SCJJJM6LQ",
           "name": "OfficeClip LLC:Enhancement Q3 2022"
         },
         {
@@ -3875,106 +3819,130 @@
       ],
       "expenseTypes": [
         {
-          "id": "J2BBXASXHAFW2ZSD2BKNWBGEB2LYYHFSGMJM6LQ",
+          "expenseTypeId": "MMJUN6FRBZRC34HVMMGZYHYDYZGYXKHXJCYM6LQ",
           "expenseTypeName": "AIRFARE",
           "expenseName": "Air Travel",
           "isDetailsRequired": false,
-          "isBillable": false,
-          "isBillableModify": false
-        },
-        {
-          "id": "J2BBXASXHAFW2ZSDWB6BWJJDMBJCH4SFUJJM6LQ",
-          "expenseTypeName": "TELEPHONE",
-          "expenseName": "Telephone",
-          "isDetailsRequired": true,
-          "isBillable": false,
-          "isBillableModify": false
-        },
-        {
-          "id": "JBKR37FSM6JZXJGRT89LYT9RC4RY37SR24TM6LQ",
-          "expenseTypeName": "MILEAGE",
-          "expenseName": "Mileage",
-          "isDetailsRequired": true,
           "isBillable": true,
           "isBillableModify": true
         },
         {
-          "id": "D6JQ2UJFFMFCW8YXWZVVN7AFMBLRN6FSGCTM6LQ",
+          "expenseTypeId": "MMJUN6FRBZRC34HVZ88UWKKDVBTT32HEGJ9M6LQ",
           "expenseTypeName": "HOTEL",
-          "expenseName": "Hotel",
-          "isDetailsRequired": true,
+          "expenseName": "Hotel Stay",
+          "isDetailsRequired": false,
           "isBillable": true,
-          "isBillableModify": false
+          "isBillableModify": true
         },
         {
-          "id": "D6JQ2UJFFMFCW8YXZBTUNCDF5DNE6QGCYJJM6LQ",
+          "expenseTypeId": "MMJUN6FRBZRC34HVJB8R2B9DW6GRHUE5A4TM6LQ",
           "expenseTypeName": "AUTORENTAL",
           "expenseName": "Auto Rental",
-          "isDetailsRequired": true,
+          "isDetailsRequired": false,
           "isBillable": true,
           "isBillableModify": true
         },
         {
-          "id": "D6JQ2UJFFMFCW8YXZZJZHDDDBBJLZJA5NMJM6LQ",
+          "expenseTypeId": "MMJUN6FRBZRC34HVA2FV22HVUGBZHHYF64YM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Other Expenses",
+          "isDetailsRequired": false,
+          "isBillable": true,
+          "isBillableModify": true
+        },
+        {
+          "expenseTypeId": "MMJUN6FRBZRC34HVZ8GCHG9C7BYLBMSXDMJM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Food",
+          "isDetailsRequired": false,
+          "isBillable": true,
+          "isBillableModify": true
+        },
+        {
+          "expenseTypeId": "MMJUN6FRBZRC34HVA8TBXGAFBZJT3JKDYM9M6LQ",
           "expenseTypeName": "TAXI",
-          "expenseName": "Taxi Expense",
+          "expenseName": "Taxi",
+          "isDetailsRequired": false,
+          "isBillable": true,
+          "isBillableModify": true
+        },
+        {
+          "expenseTypeId": "MMJUN6FRBZRC34HVMCBVW39VS4HT3JWVVM9M6LQ",
+          "expenseTypeName": "TELEPHONE",
+          "expenseName": "Telephone",
+          "isDetailsRequired": false,
+          "isBillable": true,
+          "isBillableModify": true
+        },
+        {
+          "expenseTypeId": "MMJUN6FRBZRC34HVZ8BYYHAFZ8CE3GFSVM9M6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Parking",
+          "isDetailsRequired": false,
+          "isBillable": true,
+          "isBillableModify": true
+        },
+        {
+          "expenseTypeId": "MMJUN6FRBZRC34HVA4YCWGFFG4RC2CA3U8JM6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Tolls",
+          "isDetailsRequired": false,
+          "isBillable": true,
+          "isBillableModify": true
+        },
+        {
+          "expenseTypeId": "5M9XHMEXGGMKX6DV54TY3NGX4J4Q2ESVTJ9M6LQ",
+          "expenseTypeName": "",
+          "expenseName": "Entertainment",
+          "isDetailsRequired": false,
+          "isBillable": true,
+          "isBillableModify": true
+        },
+        {
+          "expenseTypeId": "7BKVSMERMBRZ6GA3FBRWNKJF44HLXSGFB8JM6LQ",
+          "expenseTypeName": "TELEPHONE",
+          "expenseName": "Internet",
           "isDetailsRequired": false,
           "isBillable": true,
           "isBillableModify": false
         },
         {
-          "id": "YB9EHHEV3MRYSUGFS2BC62SC5DYR6RDRCMJM6LQ",
-          "expenseTypeName": "",
-          "expenseName": "Lodgeing",
-          "isDetailsRequired": true,
-          "isBillable": true,
-          "isBillableModify": true
+          "expenseTypeId": "A68Q7AFSG6HCYURXU8JMXRSFZ4NE7HHDCMJM6LQ",
+          "expenseTypeName": "MILEAGE",
+          "expenseName": "Mileage",
+          "isDetailsRequired": false,
+          "isBillable": false,
+          "isBillableModify": false
         },
         {
-          "id": "YB9EHHEV3MRYSUGFX6TNWYAFJJ6XHWD5DCYM6LQ",
-          "expenseTypeName": "",
-          "expenseName": "Taxi Fare",
-          "isDetailsRequired": true,
-          "isBillable": true,
-          "isBillableModify": true
+          "expenseTypeId": "R8HWXBSF58MTSWGVR4RYYHFVCBJWX4HC7JJM6LQ",
+          "expenseTypeName": "TELEPHONE",
+          "expenseName": "SMS",
+          "isDetailsRequired": false,
+          "isBillable": false,
+          "isBillableModify": false
         },
         {
-          "id": "YB9EHHEV3MRYSUGF28KZ2UWDV4LE2KRSYDYM6LQ",
+          "expenseTypeId": "V2BESN9EU2JRNTS4F4RCNDHFHMYCXEJV2MJM6LQ",
           "expenseTypeName": "",
-          "expenseName": "Milage",
+          "expenseName": "Office Expenses",
           "isDetailsRequired": true,
           "isBillable": true,
-          "isBillableModify": true
-        },
-        {
-          "id": "JBKR37FSM6JZXJGRG2HV73AXBM9YH3FE34YM6LQ",
-          "expenseTypeName": "",
-          "expenseName": "Lodgeing",
-          "isDetailsRequired": true,
-          "isBillable": true,
-          "isBillableModify": true
-        },
-        {
-          "id": "JBKR37FSM6JZXJGRG2KT77WR2M9CX8HRRMJM6LQ",
-          "expenseTypeName": "",
-          "expenseName": "Taxi Fare",
-          "isDetailsRequired": true,
-          "isBillable": true,
-          "isBillableModify": true
+          "isBillableModify": false
         }
       ],
-      "paymentTypes": [
+      "paymentMethods": [
         {
-          "label": "Personal Cash/Check",
-          "value": 1
+          "Id": "1",
+          "Name": "Personal Cash/Check"
         },
         {
-          "label": "Personal CreditCard",
-          "value": 2
+          "Id": "2",
+          "Name": "Personal Credit Card"
         },
         {
-          "label": "Company CreditCard",
-          "value": 3
+          "Id": "3",
+          "Name": "Company Credit Card"
         }
       ]
     }

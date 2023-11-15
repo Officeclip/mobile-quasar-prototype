@@ -12,6 +12,7 @@ export class Constants {
       baseURL: Constants.endPointUrl,
     });
     Constants.setupAxiosInstance(instance);
+    return instance;
   }
 
   static setupAxiosInstance(instance: AxiosInstance) {

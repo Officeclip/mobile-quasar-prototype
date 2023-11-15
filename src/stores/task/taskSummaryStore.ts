@@ -2,7 +2,6 @@ import {defineStore} from 'pinia';
 import axios from 'axios';
 import {taskSummary} from "src/models/task/taskSummary";
 import {Constants} from "stores/Constants";
-import {regardingContact} from "src/models/general/regardingAll";
 
 export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   state: () => ({
@@ -255,7 +254,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
     },
 
-    async resetTaskSummaryList(){
+    async resetTaskSummaryList() {
       this.taskSummaries = [];
     }
   },

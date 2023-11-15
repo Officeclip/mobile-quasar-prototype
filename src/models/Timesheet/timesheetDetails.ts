@@ -1,6 +1,6 @@
 export interface TimesheetDetails {
   id: string;
-  timesheetId: number;
+  timesheetId: string;
   timeDuration: number;
   isBillable: boolean;
   accountName: string;

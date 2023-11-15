@@ -70,7 +70,6 @@ function getStatusColor(status: string) {
     </q-footer>
     <q-page-container>
       <q-page>
-        <pre>{{ timesheetStatus }}</pre>
         <q-list v-for="item in timesheetsAll" :key="item.id">
           <q-item
             :to="{
@@ -78,7 +77,7 @@ function getStatusColor(status: string) {
               params: {
                 id: item.id,
                 fromDate: item.fromDate,
-                status: item.status,
+                readOnly: item.readOnly,
               },
             }"
             clickable
