@@ -28,59 +28,71 @@ const rejectToUserName = computed(() => {
 });
 </script>
 <template>
-  <div class="row items-center justify-center q-my-md">
-    <q-item-label caption> Submit To: </q-item-label>
-
-    <div v-if="workFlow?.workflowType == 'auto'">
-      <q-item-label class="q-mb-xs q-ml-sm">
+  <div class="q-mt-md">
+    <!-- if submitToUserId there then it comes up -->
+    <div
+      v-if="workFlow?.submitToUserId"
+      class="row items-center justify-center q-my-md"
+    >
+      <q-item-label caption> Submit Button: </q-item-label>
+      <q-item-label class="q-ml-sm q-mb-xs">
         {{ submitToUserName?.name }}
       </q-item-label>
-      <div class="row">
-        <div class="column">
-          <q-btn
-            no-caps
-            class="q-px-sm q-mx-sm"
-            dense
-            color="primary"
-            label="Approve"
-          />
-          <span class="q-mx-sm text-caption"
-            >to: {{ approveToUserName?.name }}</span
-          >
-        </div>
-        <div class="column">
-          <q-btn
-            no-caps
-            class="q-px-sm q-mx-sm"
-            dense
-            color="negative"
-            label="Reject"
-          />
-          <span class="q-mx-sm text-caption"
-            >to: {{ rejectToUserName?.name }}</span
-          >
-        </div>
+    </div>
+
+    <!-- if workflow routing setup as automatic this will comes up -->
+    <div
+      v-if="workFlow?.workflowType == 'auto'"
+      class="row items-center justify-center"
+    >
+      <div class="column">
+        <q-btn
+          no-caps
+          class="q-px-sm q-mx-sm"
+          dense
+          color="primary"
+          label="Approve"
+        />
+        <span class="q-mx-sm text-caption"
+          >to: {{ approveToUserName?.name }}</span
+        >
+      </div>
+      <div class="column">
+        <q-btn
+          no-caps
+          class="q-px-sm q-mx-sm"
+          dense
+          color="negative"
+          label="Reject"
+        />
+        <span class="q-mx-sm text-caption"
+          >to: {{ rejectToUserName?.name }}</span
+        >
       </div>
     </div>
-    <q-select
-      v-if="workFlow.workflowType == 'manual'"
-      class="q-mx-md"
-      style="min-width: 160px"
-      outlined
-      dense
-      v-model="workFlowModel"
-      :options="workFlowUsers"
-      option-label="name"
-      map-options
-      emit-value
-    />
-    <q-btn
-      v-if="workFlowModel"
-      no-caps
-      class="q-px-sm"
-      dense
-      color="primary"
-      label="Submit"
-    />
+
+    <!-- if the workflow routing setup as manual this will come up -->
+    <div class="row items-center justify-center">
+      <q-item-label caption> Submit To: </q-item-label>
+      <q-select
+        v-if="workFlow.workflowType == 'manual'"
+        style="min-width: 160px"
+        outlined
+        dense
+        v-model="workFlowModel"
+        :options="workFlowUsers"
+        option-label="name"
+        map-options
+        emit-value
+      />
+      <q-btn
+        v-if="workFlowModel"
+        class="q-mx-md q-px-sm"
+        no-caps
+        dense
+        color="primary"
+        label="Submit"
+      />
+    </div>
   </div>
 </template>
