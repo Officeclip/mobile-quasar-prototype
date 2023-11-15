@@ -201,8 +201,7 @@ function updateFilterCount(val: number) {
           icon="arrow_back"
           round
           @click="$router.go(-1)"
-        >
-        </q-btn>
+        />
         <q-toolbar-title> Tasks</q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -211,11 +210,11 @@ function updateFilterCount(val: number) {
       <q-page>
         <div class="q-pa-sm">
           <q-input
-            v-model="filterOptions.filterString"
-            clearable
-            label="Search"
-            outlined
-            @clear=getFirstBatch
+              v-model="filterOptions.filterString"
+              clearable
+              label="Search"
+              outlined
+              @clear=getFirstBatch
           >
             <template v-slot:append>
               <q-icon name="search"/>
@@ -223,10 +222,10 @@ function updateFilterCount(val: number) {
           </q-input>
         </div>
 
-        <div class="row q-mt-md">
-          <div class="q-mr-md">
-            <q-checkbox v-model="filterOptions.ownedByMeFilter" label="Owned by me"/>
-          </div>
+        <div class="row q-pa-sm">
+<!--          <div class="q-mr-md">-->
+<!--            <q-checkbox v-model="filterOptions.ownedByMeFilter" label="Owned by me"/>-->
+<!--          </div>-->
           <div class="q-mr-md">
             <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
           </div>
@@ -255,8 +254,6 @@ function updateFilterCount(val: number) {
                                  @advancedOptionsGenerated="receiveAdvFilters"
                                  @filterCount="updateFilterCount"/>
         </q-dialog>
-
-        <!--        <pre>{{ filterOptions }}</pre>-->
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
         <q-btn

@@ -1,7 +1,9 @@
 export interface taskLists {
   taskType: taskType[];
-  taskPriority: taskPriority[];
-  taskStatus: taskStatus[];
+  priority: taskPriority[];
+  status: taskStatus[];
+  tags: tag[];
+  users: user[];
 }
 
 export interface taskType {
@@ -23,3 +25,13 @@ export interface regardingContact {
   id: string;
   name: string;
 }
+
+export interface tag {
+  id: string;
+  name: string;
+}
+export interface user {
+  id: string;
+  name: string;
+}
+
