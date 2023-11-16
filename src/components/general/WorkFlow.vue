@@ -80,7 +80,7 @@ const rejectButtonWorlFlow = () => {
 };
 </script>
 <template>
-  <div class="q-mt-md">
+  <div class="q-mt-sm">
     <!-- if submitToUserId there then this will comes up -->
     <div
       v-if="workFlow?.submitToUserId && workFlow?.workflowType == 'auto'"
@@ -106,7 +106,7 @@ const rejectButtonWorlFlow = () => {
       v-if="workFlow?.workflowType == 'auto'"
       class="row items-center justify-center"
     >
-      <div class="column">
+      <div>
         <q-btn
           no-caps
           class="q-px-sm q-mx-sm"
@@ -115,11 +115,11 @@ const rejectButtonWorlFlow = () => {
           label="Approve"
           @click="approveButtonWorlFlow"
         />
-        <span class="q-mx-sm text-caption"
-          >to: {{ approveToUserName?.name }}</span
+        <q-item-label class="text-caption q-mx-sm"
+          >to: {{ approveToUserName?.name }}</q-item-label
         >
       </div>
-      <div class="column">
+      <div>
         <q-btn
           no-caps
           class="q-px-sm q-mx-sm"
@@ -128,8 +128,8 @@ const rejectButtonWorlFlow = () => {
           label="Reject"
           @click="rejectButtonWorlFlow"
         />
-        <span class="q-mx-sm text-caption"
-          >to: {{ rejectToUserName?.name }}</span
+        <q-item-label class="text-caption q-mx-sm"
+          >to: {{ rejectToUserName?.name }}</q-item-label
         >
       </div>
     </div>
