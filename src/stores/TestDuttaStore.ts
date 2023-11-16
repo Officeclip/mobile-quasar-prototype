@@ -18,11 +18,11 @@ export const useTestDuttaStore = defineStore('testDuttaStore', {
         });
         Constants.setupAxiosInstance(instance);
         //debugger;
-        Constants.setupAxiosAuthorizationHeader(instance, 'x-token');
+        Constants.setupAxiosAuthorizationHeader(instance, 'X-Token');
         const response = await instance.get('/test/');
         this.testDutta = response.data[0];
         //debugger;
-        const tokenHeader = response.headers['x-token'];
+        const tokenHeader = response.headers['X-Token'];
         if (tokenHeader) {
           Constants.saveAuthorizationTokenInLocalStorage(tokenHeader);
         }
