@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onBeforeMount, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTimesheetWorkFlowStore } from 'src/stores/timesheet/TimesheetWorkFlow';
@@ -20,13 +20,19 @@ const approveToUserId = workFlow.value?.approveToUserId;
 const rejectToUserId = workFlow.value?.rejectToUserId;
 
 const submitToUserName = computed(() => {
-  return workFlowUsers.value?.find((x) => x.id === submitToUserId);
+  return workFlowUsers.value?.find(
+    (x: { id: string }) => x.id === submitToUserId
+  );
 });
 const approveToUserName = computed(() => {
-  return workFlowUsers.value?.find((x) => x.id === approveToUserId);
+  return workFlowUsers.value?.find(
+    (x: { id: string }) => x.id === approveToUserId
+  );
 });
 const rejectToUserName = computed(() => {
-  return workFlowUsers.value?.find((x) => x.id === rejectToUserId);
+  return workFlowUsers.value?.find(
+    (x: { id: string }) => x.id === rejectToUserId
+  );
 });
 
 const upDateWorkFlow = () => {
@@ -86,11 +92,11 @@ const upDateWorkFlow = () => {
 
     <!-- if the workflow routing setup as manual this will come up -->
     <div
-      v-if="workFlow.workflowType == 'manual'"
+      v-if="workFlow?.workflowType == 'manual'"
       class="row items-center justify-center"
     >
-      <pre>{{ workFlow }}</pre>
-      <pre>{{ workFlowModel }}</pre>
+      <!-- <pre>{{ workFlow }}</pre>
+      <pre>{{ workFlowModel }}</pre> -->
       <q-item-label caption> Submit To: </q-item-label>
 
       <q-select

@@ -1,6 +1,6 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
-import { ref, Ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';

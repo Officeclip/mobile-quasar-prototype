@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia';
-// import { Timesheet } from '../../models/Timesheet/timesheet';
-// import { TimesheetDetails } from '../../models/Timesheet/timesheetDetails';
+import { workFlow, users } from '../../models/workFlow';
 import axios from 'axios';
 import { Constants } from 'stores/Constants';
 
 export const useTimesheetWorkFlowStore = defineStore('timesheetWorkFlowStore', {
   state: () => ({
-    workFlow: {},
-    workFlowUsers: [],
+    workFlow: undefined as workFlow | undefined,
+    workFlowUsers: [] as users[],
   }),
 
   getters: {
@@ -21,13 +20,12 @@ export const useTimesheetWorkFlowStore = defineStore('timesheetWorkFlowStore', {
         const response = await axios.get(`${Constants.endPointUrl}/workflow`);
         this.workFlow = response.data[0];
         this.workFlowUsers = response.data[0].users;
-        console.log('CHJCHJHCJHJCHC Workflow', this.workFlowUsers);
       } catch (error) {
         console.error(error);
       }
     },
 
-    async submitWorkFlow(workFlow: any) {
+    async submitWorkFlow(workFlow: workFlow) {
       try {
         const response = await axios.put(
           `${Constants.endPointUrl}/workflow/${workFlow.id}`,
