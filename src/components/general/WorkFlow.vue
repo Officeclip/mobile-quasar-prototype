@@ -3,11 +3,18 @@ import { onBeforeMount, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTimesheetWorkFlowStore } from 'src/stores/timesheet/TimesheetWorkFlow';
 
+const props = defineProps(['entityId', 'entityType']);
+// const entityId = props?.entityId;
+// const entityType = props?.entityType;
+
 const router = useRouter();
 const workFlowModel = ref('');
 const timesheetWorkFlowStore = useTimesheetWorkFlowStore();
 onBeforeMount(() => {
-  timesheetWorkFlowStore.getTimesheetWorkFlow();
+  timesheetWorkFlowStore.getTimesheetWorkFlow(
+    props?.entityId,
+    props?.entityType
+  );
 });
 const workFlowUsers = computed(() => {
   return timesheetWorkFlowStore.WorkFlowUsers;
@@ -132,7 +139,6 @@ const rejectButtonWorlFlow = () => {
       v-if="workFlow?.workflowType == 'manual'"
       class="row items-center justify-center"
     >
-      <pre>{{ workFlow }}</pre>
       <q-select
         style="min-width: 160px"
         outlined

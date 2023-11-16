@@ -15,9 +15,11 @@ export const useTimesheetWorkFlowStore = defineStore('timesheetWorkFlowStore', {
   },
 
   actions: {
-    async getTimesheetWorkFlow() {
+    async getTimesheetWorkFlow(entityId: string, entityType: string) {
       try {
-        const response = await axios.get(`${Constants.endPointUrl}/workflow`);
+        const response = await axios.get(
+          `${Constants.endPointUrl}/workflow?entityId=${entityId}&&entityType=${entityType}`
+        );
         this.workFlow = response.data[0];
         this.workFlowUsers = response.data[0].users;
       } catch (error) {
