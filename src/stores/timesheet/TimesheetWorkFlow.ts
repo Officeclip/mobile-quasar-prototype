@@ -25,19 +25,29 @@ export const useTimesheetWorkFlowStore = defineStore('timesheetWorkFlowStore', {
       }
     },
 
+    // async submitWorkFlow(workFlow: workFlow) {
+    //   try {
+    //     const response = await axios.put(
+    //       `${Constants.endPointUrl}/workflow/${workFlow.id}`,
+    //       workFlow
+    //     );
+    //     if (response.status === 200) {
+    //       //debugger;
+    //       this.workFlow = response.data;
+    //     }
+    //   } catch (error) {
+    //     console.error(`workFlow Error: ${error}`);
+    //   }
+    // },
+
     async submitWorkFlow(workFlow: workFlow) {
-      try {
-        const response = await axios.put(
-          `${Constants.endPointUrl}/workflow/${workFlow.id}`,
-          workFlow
-        );
-        if (response.status === 200) {
-          //debugger;
-          this.workFlow = response.data;
-        }
-      } catch (error) {
-        console.error(`workFlow Error: ${error}`);
-      }
+      const callStr = `${Constants.endPointUrl}/workflow`;
+      await fetch(callStr, {
+        method: 'POST',
+        body: JSON.stringify(workFlow),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log('new workFlow Object', this.workFlow);
     },
   },
 });
