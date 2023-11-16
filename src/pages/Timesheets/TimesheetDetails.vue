@@ -1,6 +1,6 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
-import { ref, Ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
@@ -11,6 +11,7 @@ import WorkFlow from '../../components/general/WorkFlow.vue';
 const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
+const entityType = 'timesheet';
 const timesheetDetailSid = ref('');
 // newId.value = id;
 const fromDate = route.params.fromDate;
@@ -89,7 +90,7 @@ const deleteTimesheetDetail = (id: string) => {
 
     <q-page-container>
       <div>
-        <WorkFlow />
+        <WorkFlow :entityId="id" :entityType="entityType" />
       </div>
       <q-card
         v-for="timesheetDetail in timesheetDetails"

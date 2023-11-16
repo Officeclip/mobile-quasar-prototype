@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {onBeforeMount, ref, Ref} from 'vue';
 import {useTaskListsStore} from "stores/task/taskListsStore";
-import {regardingContact} from "src/models/task/taskLists";
+import {regardingContact, user} from "src/models/task/taskLists";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import {searchFilter} from "src/models/task/searchFilter";
 
@@ -87,7 +87,7 @@ const dateOptions = [
   {label: "Any date", value: "isNotNull"},
 ];
 
-const contactOptions: Ref<regardingContact[]> = ref([]);
+const contactOptions: Ref<user[]> = ref([]);
 
 async function filterFn(val: string, update: any, abort: any) {
   if (val.length < 2) {
@@ -96,13 +96,13 @@ async function filterFn(val: string, update: any, abort: any) {
   } else if (val.length === 2) {
     contactOptions.value = [];
     await taskListsStore.getRegardingContactListThatMatch(val);
-    contactOptions.value = taskListsStore.regardingContacts;
+    contactOptions.value = taskListsStore.users;
   }
 
   update(() => {
     console.log('update');
     const needle = val.toLowerCase();
-    contactOptions.value = taskListsStore.regardingContacts.filter(
+    contactOptions.value = taskListsStore.users.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
   });
