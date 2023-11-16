@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import {onBeforeMount, ref, Ref} from 'vue';
 import {useTaskListsStore} from "stores/task/taskListsStore";
-import {regardingContact, user} from "src/models/task/taskLists";
+import {user} from "src/models/task/taskLists";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import {searchFilter} from "src/models/task/searchFilter";
-
 
 const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
 const props = defineProps(['parent', 'filterOptions']);
@@ -49,7 +48,7 @@ function filterNumber(filter: searchFilter) {
 
 function emitOptions() {
   taskSummaryStore.getFilteredTasks(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
-
+  // console.log(taskSummaryStore.taskSummaries);
   emit('advancedOptionsGenerated', advancedOptions.value);
   emit('filterCount', filterNumber(advancedOptions.value));
   // console.log(filterNumber(advancedOptions.value));
@@ -107,8 +106,6 @@ async function filterFn(val: string, update: any, abort: any) {
     );
   });
 }
-
-
 </script>
 
 <template>

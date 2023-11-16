@@ -57,6 +57,5 @@ export const useTaskListsStore = defineStore('taskListsStore', {
         console.error(error);
       }
     },
-
   },
 });

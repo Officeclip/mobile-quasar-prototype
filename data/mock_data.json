@@ -1988,7 +1988,17 @@
       "orgId": "123",
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
+      "applicationIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10
+      ]
     }
   ],
   "generalUserProfile": [
@@ -2225,7 +2235,9 @@
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": ["Kathiravan Sekar"],
+      "assignees": [
+        "Kathiravan Sekar"
+      ],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
@@ -2245,6 +2257,50 @@
           "completedDate": "2023-10-05T17:00:00Z"
         }
       ],
+      "taskPriority": {
+        "id": "2",
+        "name": "Medium"
+      }
+    },
+    {
+      "id": 116,
+      "subject": "Test",
+      "description": "Tested",
+      "taskType": {
+        "id": "5",
+        "name": "Telephone"
+      },
+      "taskStatus": {
+        "id": "7",
+        "name": "Pending"
+      },
+      "isPrivate": true,
+      "taskOwner": {
+        "id": "10",
+        "name": "Olivia Adams"
+      },
+      "parentObject": {
+        "id": 0,
+        "serviceType": 0
+      },
+      "startDate": "",
+      "modifiedDate": "2023-11-16T17:26:05.236Z",
+      "dueDate": "2023-11-16",
+      "createdDate": "2023-11-10",
+      "regardingType": 0,
+      "regardingValue": "",
+      "assignees": [
+        {
+          "id": "7",
+          "name": "David Brown"
+        }
+      ],
+      "remindTo": "everyone",
+      "remindBeforeMinutes": 180,
+      "repeatInfoText": "Every month on Monday",
+      "recurrenceRule": "DTSTART:20231116T172548Z\nRRULE:FREQ=MONTHLY;INTERVAL=1;BYDAY=MO;BYSETPOS=1",
+      "tags": [],
+      "subtasks": [],
       "taskPriority": {
         "id": "2",
         "name": "Medium"
@@ -2451,6 +2507,14 @@
       "subject": "#463: Convert all Server times to UTC (in database)",
       "taskStatusName": "Completed",
       "taskPriorityName": "High"
+    },
+    {
+      "id": 116,
+      "subject": "Test",
+      "taskStatusName": "Pending",
+      "isPrivate": true,
+      "dueDate": "2023-11-16",
+      "taskPriorityName": "Medium"
     }
   ],
   "task-lists": [
@@ -3244,7 +3308,12 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": ["", "One", "Two", "Three"],
+          "items": [
+            "",
+            "One",
+            "Two",
+            "Three"
+          ],
           "name": "Custom Row",
           "uiType": "List"
         },

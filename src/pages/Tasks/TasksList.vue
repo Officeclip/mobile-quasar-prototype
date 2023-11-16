@@ -31,16 +31,15 @@ const parent = {
 
 const taskSummaryStore = useTaskSummaryStore();
 
-const getFilteredTaskSummaries = ref([...taskSummaryStore.taskSummaries]);
+// const getFilteredTaskSummaries = ref([...taskSummaryStore.taskSummaries]);
 // const getFilteredTaskSummaries = computed(() => {
 //   // await taskSummaryStore.getFilteredTasks(filterOptions.value, parent.parentObjectId, parent.parentObjectServiceType);
 //
 //   return taskSummaryStore.TaskSummaries;
 // });
 
-
 const getSortedSummaries = computed(() => {
-  let sortedTasks = getFilteredTaskSummaries;
+  // let sortedTasks = getFilteredTaskSummaries;
   // sortedTasks.value.sort((a, b) => {
   //   if (sortOption.value === 'createdDate') {
   //     return a.createdDate.localeCompare(b.createdDate);
@@ -50,9 +49,8 @@ const getSortedSummaries = computed(() => {
   //     return a.subject.localeCompare(b.subject);
   //   }
   // });
-  return sortedTasks.value;
+  return taskSummaryStore.taskSummaries;
 });
-
 
 function clearFilterValues() {
   filterOptions.value = {
@@ -87,7 +85,7 @@ async function getFirstBatch() {
   taskSummaryStore
     .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, currentPage)
     .then(() => {
-      getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
+      // getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
       currentPage++
     });
 }
@@ -96,7 +94,6 @@ onBeforeMount(async () => {
   await getFirstBatch();
 });
 
-
 const loadMore = (index: any, done: () => void) => {
   const contactsSizeBeforeCall = getSortedSummaries.value.length;
   setTimeout(() => {
@@ -104,7 +101,7 @@ const loadMore = (index: any, done: () => void) => {
       .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, currentPage)
       .then(() => {
         currentPage++;
-        getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
+        // getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
 
         const contactsAfterCall = getSortedSummaries.value.length;
         reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
@@ -125,7 +122,8 @@ function receiveAdvFilters(advancedOptions: any) {
   filterOptions.value.regarding = advancedOptions.regarding;
   filterOptions.value.taskTypeValue = advancedOptions.taskTypeValue;
 
-  console.log(filterOptions.value);
+  // console.log(filterOptions.value);
+
 }
 
 async function filterFn(val: string) {
@@ -135,11 +133,15 @@ async function filterFn(val: string) {
     // abort();
     return;
   } else if (val.length === 2) {
-    getFilteredTaskSummaries.value = [];
+    // getFilteredTaskSummaries.value = [];
     await taskSummaryStore.getRegardingContactListThatMatch(val, parent.parentObjectId, parent.parentObjectServiceType);
-    getFilteredTaskSummaries.value = taskSummaryStore.TaskSummaries;
+    // getFilteredTaskSummaries.value = taskSummaryStore.TaskSummaries;
   } else {
-    getFilteredTaskSummaries.value = getFilteredTaskSummaries.value.filter((t: taskSummary) => {
+    // getFilteredTaskSummaries.value = getFilteredTaskSummaries.value.filter((t: taskSummary) => {
+    //   return t.subject.toLowerCase().includes(val.toLowerCase());
+    // });
+
+    taskSummaryStore.taskSummaries = taskSummaryStore.taskSummaries.filter((t: taskSummary) => {
       return t.subject.toLowerCase().includes(val.toLowerCase());
     });
   }
@@ -164,7 +166,7 @@ watch(
   () => filterOptions.value.assignedToMeFilter,
   async (newValue, oldValue) => {
     await taskSummaryStore.resetTaskSummaryList();
-    getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
+    // getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
     setTimeout(async () => {
       await getFirstBatch();
     }, 300);
@@ -175,7 +177,7 @@ watch(
   () => filterOptions.value.ownedByMeFilter,
   async (newValue, oldValue) => {
     await taskSummaryStore.resetTaskSummaryList();
-    getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
+    // getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
     setTimeout(async () => {
       await getFirstBatch();
     }, 300);
@@ -210,11 +212,11 @@ function updateFilterCount(val: number) {
       <q-page>
         <div class="q-pa-sm">
           <q-input
-              v-model="filterOptions.filterString"
-              clearable
-              label="Search"
-              outlined
-              @clear=getFirstBatch
+            v-model="filterOptions.filterString"
+            clearable
+            label="Search"
+            outlined
+            @clear=getFirstBatch
           >
             <template v-slot:append>
               <q-icon name="search"/>
@@ -222,21 +224,20 @@ function updateFilterCount(val: number) {
           </q-input>
         </div>
 
-        <div class="row q-pa-sm">
-<!--          <div class="q-mr-md">-->
-<!--            <q-checkbox v-model="filterOptions.ownedByMeFilter" label="Owned by me"/>-->
-<!--          </div>-->
+        <div class="row q-pa-sm justify-between">
           <div class="q-mr-md">
             <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
           </div>
-          <div class="q-mr-md">
-            <q-btn flat icon="filter_list" @click="filterOptions.showAdvancedOptions = true">
-              <q-badge v-if="filterCount!=0" color="red" floating>{{ filterCount }}</q-badge>
-            </q-btn>
-          </div>
-          <div class="q-mr-md">
-            <q-btn flat icon="clear" @click="clearFilterValues">
-            </q-btn>
+          <div class="row">
+            <div class="q-mr-md">
+              <q-btn flat icon="filter_list" @click="filterOptions.showAdvancedOptions = true">
+                <q-badge v-if="filterCount!=0" color="red" floating>{{ filterCount }}</q-badge>
+              </q-btn>
+            </div>
+            <div class="q-mr-md">
+              <q-btn flat icon="clear" @click="clearFilterValues">
+              </q-btn>
+            </div>
           </div>
         </div>
 

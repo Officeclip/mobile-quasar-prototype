@@ -94,6 +94,8 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         const response = await axios.get(callStr);
         let filteredSummaries = response.data;
 
+        console.log(filterOptions);
+
         //Search String
         if (filterOptions.filterString) {
           filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
@@ -116,9 +118,11 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         // Status Filter
         if (filterOptions.statusName) {
           filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+            console.log(task.taskStatusName);
             return task.taskStatusName === filterOptions.statusName;
           });
         }
+
 
         // Priority Filter
         if (filterOptions.priorityName) {
@@ -211,6 +215,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         //   });
         // }
 
+        console.log(filteredSummaries)
         this.taskSummaries = filteredSummaries;
       } catch (error) {
         console.error(error);
