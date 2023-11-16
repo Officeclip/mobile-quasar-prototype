@@ -16,8 +16,8 @@ export class Constants {
   }
 
   static setupAxiosInstance(instance: AxiosInstance) {
-    instance.defaults.headers.common['X-APIKey'] =
-      import.meta.env.VITE_X_APIKey;
+    // instance.defaults.headers.common['X-APIKey'] =
+    //   import.meta.env.VITE_X_APIKey;
     instance.defaults.headers.common['X-OrgKey'] =
       import.meta.env.VITE_X_OrgKey;
 
@@ -36,9 +36,9 @@ export class Constants {
 
   static setupAxiosAuthorizationHeader(instance: AxiosInstance, token: string) {
     if (LocalStorage.has(token)) {
-      instance.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${LocalStorage.getItem(token)}`;
+      instance.defaults.headers.common['X-Token'] = String(
+        LocalStorage.getItem(token)
+      );
     }
   }
 
