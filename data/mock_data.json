@@ -4359,9 +4359,10 @@
   ],
   "workflow": [
     {
+      "id": "1",
       "entityId": "123de3434",
       "entityType": "timesheet",
-      "workflowType": "auto",
+      "workflowType": "manual",
       "submitToUserId": "2345",
       "approveToUserId": "2345",
       "rejectToUserId": "1234",

@@ -26,5 +26,20 @@ export const useTimesheetWorkFlowStore = defineStore('timesheetWorkFlowStore', {
         console.error(error);
       }
     },
+
+    async submitWorkFlow(workFlow: any) {
+      try {
+        const response = await axios.put(
+          `${Constants.endPointUrl}/workflow/${workFlow.id}`,
+          workFlow
+        );
+        if (response.status === 200) {
+          //debugger;
+          this.workFlow = response.data;
+        }
+      } catch (error) {
+        console.error(`workFlow Error: ${error}`);
+      }
+    },
   },
 });

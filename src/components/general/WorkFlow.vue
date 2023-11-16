@@ -1,7 +1,9 @@
 <script setup>
 import { onBeforeMount, ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useTimesheetWorkFlowStore } from 'src/stores/timesheet/TimesheetWorkFlow';
 
+const router = useRouter();
 const workFlowModel = ref('');
 const timesheetWorkFlowStore = useTimesheetWorkFlowStore();
 onBeforeMount(() => {
@@ -26,6 +28,11 @@ const approveToUserName = computed(() => {
 const rejectToUserName = computed(() => {
   return workFlowUsers.value?.find((x) => x.id === rejectToUserId);
 });
+
+const upDateWorkFlow = () => {
+  timesheetWorkFlowStore.submitWorkFlow(workFlow.value);
+  router.go(-1);
+};
 </script>
 <template>
   <div class="q-mt-md">
@@ -34,9 +41,15 @@ const rejectToUserName = computed(() => {
       v-if="workFlow?.submitToUserId"
       class="row items-center justify-center q-my-md"
     >
-      <q-item-label caption> Submit Button: </q-item-label>
+      <q-btn
+        class="q-mx-md q-px-sm"
+        no-caps
+        dense
+        color="primary"
+        label="Submit"
+      />
       <q-item-label class="q-ml-sm q-mb-xs">
-        {{ submitToUserName?.name }}
+        to: {{ submitToUserName?.name }}
       </q-item-label>
     </div>
 
@@ -72,18 +85,25 @@ const rejectToUserName = computed(() => {
     </div>
 
     <!-- if the workflow routing setup as manual this will come up -->
-    <div class="row items-center justify-center">
+    <div
+      v-if="workFlow.workflowType == 'manual'"
+      class="row items-center justify-center"
+    >
+      <pre>{{ workFlow }}</pre>
+      <pre>{{ workFlowModel }}</pre>
       <q-item-label caption> Submit To: </q-item-label>
+
       <q-select
-        v-if="workFlow.workflowType == 'manual'"
         style="min-width: 160px"
         outlined
         dense
         v-model="workFlowModel"
         :options="workFlowUsers"
         option-label="name"
+        option-value="id"
         map-options
         emit-value
+        @update:model-value="(newValue) => (workFlow.submitToUserId = newValue)"
       />
       <q-btn
         v-if="workFlowModel"
@@ -92,6 +112,7 @@ const rejectToUserName = computed(() => {
         dense
         color="primary"
         label="Submit"
+        @click="upDateWorkFlow"
       />
     </div>
   </div>
