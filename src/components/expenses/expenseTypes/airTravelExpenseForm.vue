@@ -43,59 +43,57 @@ const dense = ref(false);
 
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
-  <div>
-    <div class="q-pa-md">
-      <div class="q-gutter-y-md column">
-        <!-- <pre>{{ airtravelData }}</pre>
+  <div class="q-ma-lg">
+    <div class="q-ml-sm">
+      <!-- <pre>{{ airtravelData }}</pre>
         <pre>{{ props.airTravel.departureAirport }}</pre> -->
-        <q-input v-model="props.airTravel.departureAirport" label="Departure Airport"
-          :label-color="props.isDetailRequired ? 'red' : ''" placeholder="enter departure airport name" :dense="dense"
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter departure airport name.']">
-        </q-input>
-        <q-input v-model="props.airTravel.arrivalAirport" label="Arrival Airport"
-          :label-color="props.isDetailRequired ? 'red' : ''" placeholder="enter arrival airport name" :dense="dense"
-          lazy-rules :rules="[
-            (val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter arrival airport name',
-          ]">
-        </q-input>
-        <q-input name="departureDate" v-model="props.airTravel.departureDate" label="Departure Date"
-          :label-color="props.isDetailRequired ? 'red' : ''" :rules="[
-            (val) => (val && val.length > 0 || !props.isDetailRequired) || 'please select departure date',
-          ]">
-          <template v-slot:prepend>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="props.airTravel.departureDate" mask='YYYY-MM-DD'>
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-        <q-input name="arrivalDate" v-model="props.airTravel.arrivalDate" label="Arrival Date"
-          :label-color="props.isDetailRequired ? 'red' : ''" :rules="[
-            (val) => (val && val.length > 0 || !props.isDetailRequired) || 'please select arival date',
-          ]">
-          <template v-slot:prepend>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="props.airTravel.arrivalDate" mask='YYYY-MM-DD'>
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-      </div>
-      <!-- <pre>{{ props.airTravel }}</pre> -->
-      <!-- <q-list>
+      <q-input v-model="props.airTravel.departureAirport" label="Departure Airport"
+        :label-color="props.isDetailRequired ? 'red' : ''" placeholder="enter departure airport name" :dense="dense"
+        lazy-rules
+        :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter departure airport name.']">
+      </q-input>
+      <q-input v-model="props.airTravel.arrivalAirport" label="Arrival Airport"
+        :label-color="props.isDetailRequired ? 'red' : ''" placeholder="enter arrival airport name" :dense="dense"
+        lazy-rules :rules="[
+          (val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter arrival airport name',
+        ]">
+      </q-input>
+      <q-input name="departureDate" v-model="props.airTravel.departureDate" label="Departure Date"
+        :label-color="props.isDetailRequired ? 'red' : ''" :rules="[
+          (val) => (val && val.length > 0 || !props.isDetailRequired) || 'please select departure date',
+        ]">
+        <template v-slot:prepend>
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+              <q-date v-model="props.airTravel.departureDate" mask='YYYY-MM-DD'>
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
+      <q-input name="arrivalDate" v-model="props.airTravel.arrivalDate" label="Arrival Date"
+        :label-color="props.isDetailRequired ? 'red' : ''" :rules="[
+          (val) => (val && val.length > 0 || !props.isDetailRequired) || 'please select arival date',
+        ]">
+        <template v-slot:prepend>
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+              <q-date v-model="props.airTravel.arrivalDate" mask='YYYY-MM-DD'>
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
+    </div>
+    <!-- <pre>{{ props.airTravel }}</pre> -->
+    <!-- <q-list>
         <q-item-label>Testing</q-item-label>
       </q-list> -->
-    </div>
   </div>
 </template>

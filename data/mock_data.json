@@ -1988,17 +1988,7 @@
       "orgId": "123",
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        10
-      ]
+      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10]
     }
   ],
   "generalUserProfile": [
@@ -2235,9 +2225,7 @@
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": [
-        "Kathiravan Sekar"
-      ],
+      "assignees": ["Kathiravan Sekar"],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
@@ -3308,12 +3296,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-            "",
-            "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },
@@ -3349,7 +3332,7 @@
       "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
       "status": "Saved",
       "totalAmount": "255.00",
-      "fromDate": "2023-12-03T00:00:00+05:30"
+      "fromDate": "2023-11-20T00:00:00+05:30"
     },
     {
       "createdByUserName": "Nagesh Kulkarni",
@@ -3357,7 +3340,7 @@
       "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
       "status": "Pending",
       "totalAmount": "9999.00",
-      "fromDate": "2023-10-08T10:43:32.203Z"
+      "fromDate": "2023-09-25T00:00:00+05:30"
     },
     {
       "createdByUserName": "Nagesh Kulkarni",
@@ -3365,7 +3348,7 @@
       "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
       "status": "Approved",
       "totalAmount": "10000.00",
-      "fromDate": "2023-11-05T00:00:00+05:30"
+      "fromDate": "2023-10-23T00:00:00+05:30"
     },
     {
       "createdByUserName": "Nagesh Kulkarni",
@@ -3373,7 +3356,7 @@
       "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
       "status": "Rejected",
       "totalAmount": "12000.00",
-      "fromDate": "2023-10-22T00:00:00+05:30"
+      "fromDate": "2023-10-09T00:00:00+05:30"
     }
   ],
   "expense-details": [

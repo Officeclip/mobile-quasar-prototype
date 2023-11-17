@@ -10,18 +10,16 @@ const dense = ref(false);
 
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
-  <div>
-    <div class="q-pa-md">
-      <div class="q-gutter-y-md column">
-        <q-input v-model="props.taxi.taxiLineName" label="Taxi Line Name"
-          :label-color="props.isDetailRequired ? 'red' : ''" placeholder="enter taxi line name" :dense="dense" lazy-rules
-          :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter taxi line name']">
-        </q-input>
-        <q-input v-model="props.taxi.city" label="City" :label-color="props.isDetailRequired ? 'red' : ''"
-          placeholder="enter city name" :dense="dense" lazy-rules
-          :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter city name']">
-        </q-input>
-      </div>
+  <div class="q-ma-lg">
+    <div class="q-ml-sm">
+      <q-input v-model="props.taxi.taxiLineName" label="Taxi Line Name" :label-color="props.isDetailRequired ? 'red' : ''"
+        placeholder="enter taxi line name" :dense="dense" lazy-rules
+        :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter taxi line name']">
+      </q-input>
+      <q-input v-model="props.taxi.city" label="City" :label-color="props.isDetailRequired ? 'red' : ''"
+        placeholder="enter city name" :dense="dense" lazy-rules
+        :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter city name']">
+      </q-input>
     </div>
   </div>
 </template>

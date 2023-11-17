@@ -10,14 +10,12 @@ const dense = ref(false);
 
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
-  <div>
-    <div class="q-pa-md">
-      <div class="q-gutter-y-md column">
-        <q-input v-model="props.mileage.mileage" label="Mileage" :label-color="props.isDetailRequired ? 'red' : ''"
-          placeholder="enter mileage" :dense="dense" lazy-rules
-          :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter mileage']">
-        </q-input>
-      </div>
+  <div class="q-ma-lg">
+    <div class="q-ml-sm">
+      <q-input v-model="props.mileage.mileage" label="Mileage" :label-color="props.isDetailRequired ? 'red' : ''"
+        placeholder="enter mileage" :dense="dense" lazy-rules
+        :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter mileage']">
+      </q-input>
     </div>
   </div>
 </template>

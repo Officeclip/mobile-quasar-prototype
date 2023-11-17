@@ -3,7 +3,7 @@
 import { computed, onMounted, watch, ref } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import autoRentalExpense from '../../components/expenses/details/autoRentalExpense.vue';
 import airTravelExpense from '../../components/expenses/details/airTravelExpense.vue';
@@ -11,8 +11,10 @@ import hotelExpense from '../../components/expenses/details/hotelExpense.vue';
 import mileageExpense from '../../components/expenses/details/mileageExpense.vue';
 import taxiExpense from '../../components/expenses/details/taxiExpense.vue';
 import telephoneExpense from '../../components/expenses/details/telephoneExpense.vue';
+import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 
 const route = useRoute();
+const router = useRouter();
 
 const fromDate = route.params.fromDate;
 
@@ -43,6 +45,40 @@ watch([periodOptions], () => {
   console.log('Expense period in Expense details', expensePeriod)
 });
 
+const title = ref('Confirm');
+const message = ref('Are you sure you want to delete this expense?');
+
+const isExpenseDetailDelete = ref(false);
+const showExpenseDetailDelete = (id: string) => {
+  //timesheetDetailSid.value = id;
+  isExpenseDetailDelete.value = true;
+};
+
+const isExpenseDelete = ref(false);
+const displayConfirmationDialog = () => {
+  isExpenseDelete.value = true;
+};
+const cancelConfirmation = () => {
+  isExpenseDelete.value = false;
+  isExpenseDetailDelete.value = false;
+};
+const deleteExpense = (id: string) => {
+  {
+    expenseDetailsStore.deleteExpense(id).then(() => {
+      isExpenseDelete.value = false;
+      router.go(-1);
+    });
+  }
+};
+const deleteExpenseDetail = (id: string) => {
+  {
+    expenseDetailsStore.deleteExpenseDetail(id).then(() => {
+      isExpenseDetailDelete.value = false;
+      router.go(-1);
+    });
+  }
+};
+
 
 </script>
 
@@ -53,6 +89,8 @@ watch([periodOptions], () => {
         <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> Expense Details </q-toolbar-title>
+        <q-btn flat round dense color="white" icon="delete" @click="displayConfirmationDialog">
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -90,6 +128,13 @@ watch([periodOptions], () => {
                   </q-btn>
                 </q-item-label>
               </q-item-section>
+              <q-item-section side>
+                <q-btn @click="
+                  showExpenseDetailDelete(
+                    expenseDetail?.expenseSid
+                  )
+                  " size="sm" flat round dense icon="delete" class="q-btn-hover:hover"></q-btn>
+              </q-item-section>
             </template>
             <q-item-section class="q-ma-md">
 
@@ -117,14 +162,14 @@ watch([periodOptions], () => {
 
             </q-item-section>
 
-            <q-item-section side flex>
+            <!-- <q-item-section side flex>
               <q-item-label>
                 <q-btn @click="
                   expenseDetailsStore.deleteExpense(expenseDetail?.id);
                 $router.go(-1);
                 " size="sm" flat round dense icon="delete" class="q-mr-sm q-mb-sm"></q-btn>
               </q-item-label>
-            </q-item-section>
+            </q-item-section> -->
           </q-expansion-item>
         </q-list>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -137,6 +182,11 @@ watch([periodOptions], () => {
           }" fab icon="add" color="accent" padding="sm">
           </q-btn>
         </q-page-sticky>
+
+        <ConfirmDelete v-if="isExpenseDelete" :showConfirmationDialog="isExpenseDelete" :id="route.params.id"
+          :title="title" :message="message" @cancel="cancelConfirmation" @confirm="deleteExpense" />
+        <ConfirmDelete v-if="isExpenseDetailDelete" :showConfirmationDialog="isExpenseDetailDelete" :id="expenseDetail.id"
+          :title="title" :message="message" @cancel="cancelConfirmation" @confirm="deleteExpenseDetail" />
       </div>
     </q-page-container>
   </q-layout>

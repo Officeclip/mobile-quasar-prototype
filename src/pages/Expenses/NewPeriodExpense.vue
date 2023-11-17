@@ -12,8 +12,6 @@ const periodOptions = computed(() => {
   return expenseListsStore.PeriodList;
 });
 
-const expenseSid = '';
-
 const period = ref('');
 
 const expensePeriod = periodOptions.value.find((x) => x.name === period.value);
