@@ -3,19 +3,19 @@ import { workFlow, users } from '../../models/workFlow';
 import axios from 'axios';
 import { Constants } from 'stores/Constants';
 
-export const useTimesheetWorkFlowStore = defineStore('timesheetWorkFlowStore', {
+export const useWorkFlowStore = defineStore('workFlowStore', {
   state: () => ({
     workFlow: {} as workFlow,
     workFlowUsers: [] as users[],
   }),
 
   getters: {
-    TimesheetWorkFlow: (state) => state.workFlow,
+    WorkFlow: (state) => state.workFlow,
     WorkFlowUsers: (state) => state.workFlowUsers,
   },
 
   actions: {
-    async getTimesheetWorkFlow(entityId: string, entityType: string) {
+    async getWorkFlow(entityId: string, entityType: string) {
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/workflow?entityId=${entityId}&&entityType=${entityType}`
