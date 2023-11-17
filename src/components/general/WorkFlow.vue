@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeMount, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useWorkFlowStore } from 'src/stores/timesheet/WorkFlow';
+import { useWorkFlowStore } from 'src/stores/workFlow/WorkFlow';
 
 const props = defineProps(['entityId', 'entityType']);
 
