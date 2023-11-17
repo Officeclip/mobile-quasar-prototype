@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import {computed, onBeforeMount, ref, Ref, watch} from 'vue';
+import { useQuasar } from 'quasar'
+
 import TaskSummaryItem from "components/tasks/TaskSummaryItem.vue";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import TaskAdvancedFilters from "components/tasks/taskAdvancedFilters.vue";
@@ -21,7 +23,8 @@ let filterOptions: Ref<searchFilter> = ref({
   taskTypeValue: '',
   assignedTo: '',
   ownedBy: '',
-  regarding: ''
+  regarding: '',
+  hideCompleted: true
 });
 
 const parent = {
@@ -68,9 +71,11 @@ function clearFilterValues() {
     taskTypeValue: '',
     assignedTo: '',
     ownedBy: '',
-    regarding: ''
+    regarding: '',
+    hideCompleted: true,
   }
   filterCount.value = 0;
+  getFirstBatch();
 }
 
 let currentPage = 1; // the current page number
@@ -89,10 +94,6 @@ async function getFirstBatch() {
       currentPage++
     });
 }
-
-onBeforeMount(async () => {
-  await getFirstBatch();
-});
 
 const loadMore = (index: any, done: () => void) => {
   const contactsSizeBeforeCall = getSortedSummaries.value.length;
@@ -189,6 +190,22 @@ const filterCount = ref(0);
 function updateFilterCount(val: number) {
   filterCount.value = val;
 }
+
+const $q = useQuasar()
+
+function showNotif () {
+  $q.notify({
+    type: 'info',
+
+    message: 'COMPLETED TASKS ARE HIDDEN',
+  })
+}
+
+onBeforeMount(async () => {
+  await getFirstBatch();
+  showNotif();
+});
+
 
 </script>
 

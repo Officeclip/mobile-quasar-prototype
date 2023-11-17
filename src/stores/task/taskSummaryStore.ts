@@ -96,6 +96,14 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
         console.log(filterOptions);
 
+        if (filterOptions.hideCompleted) {
+          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
+            console.log(task.taskStatusName)
+            return task.taskStatusName != 'Completed';
+          });
+        }
+
+
         //Search String
         if (filterOptions.filterString) {
           filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
@@ -229,8 +237,12 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
           ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&_limit=${limit}&_page=${page}`
           : `${Constants.endPointUrl}/task-summary?_limit=${limit}&_page=${page}`;
       try {
-        const response = await axios.get(callStr);
-        this.taskSummaries.push(...response.data);
+        const res = await axios.get(callStr);
+        const response = res.data.filter((task: taskSummary) => {
+          console.log(task.taskStatusName)
+          return task.taskStatusName != 'Completed';
+        });
+        this.taskSummaries.push(...response);
       } catch (error) {
         console.error(error);
       }

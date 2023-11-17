@@ -24,7 +24,8 @@ const advancedOptions: Ref<searchFilter> = ref({
   taskTypeValue: '',
   assignedTo: '',
   ownedBy: '',
-  regarding: ''
+  regarding: '',
+  hideCompleted: true,
 })
 
 function filterNumber(filter: searchFilter) {
@@ -41,6 +42,7 @@ function filterNumber(filter: searchFilter) {
   val += filter.assignedTo !== '' ? 1 : 0;
   val += filter.ownedBy !== '' ? 1 : 0;
   val += filter.regarding !== '' ? 1 : 0;
+  val += !filter.hideCompleted ? 1 : 0;
 
   return val;
 }
@@ -73,6 +75,7 @@ onBeforeMount(() => {
   advancedOptions.value.assignedTo = props.filterOptions?.assignedTo
   advancedOptions.value.ownedBy = props.filterOptions?.ownedBy
   advancedOptions.value.regarding = props.filterOptions?.regarding
+  advancedOptions.value.hideCompleted = props.filterOptions?.hideCompleted
 });
 
 const dateOptions = [
@@ -204,7 +207,15 @@ async function filterFn(val: string, update: any, abort: any) {
                   @filter="filterFn"/>
       </q-item-section>
     </div>
+    <div class="q-pa-md row">
 
+      <q-item-section>
+        <div class="q-mr-md">
+          <q-checkbox v-model="advancedOptions.hideCompleted" label="Hide completed tasks"/>
+        </div>
+      </q-item-section>
+
+    </div>
     <q-card-actions>
       <q-btn v-close-popup color="primary" label="Apply" @click="emitOptions"/>
     </q-card-actions>
