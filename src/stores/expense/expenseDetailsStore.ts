@@ -144,13 +144,29 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         console.error(`editExpense Error: ${error}`);
       }
     },
-    async deleteExpense(id: string | undefined) {
+    async deleteExpenseDetail(id: string | undefined) {
       try {
         const response = await axios.delete(
           `${Constants.endPointUrl}/expense-details/${id}`
         );
         if (response.status === 200) {
           //debugger;
+          this.expenseDetails = response.data;
+        }
+      } catch (error) {
+        console.error(`deleteExpense Error: ${error}`);
+      }
+    },
+
+    // to remove whole timesheet top level delete need to make it work
+    async deleteExpense(id: string | string[]) {
+      try {
+        const response = await axios.delete(
+          `${Constants.endPointUrl}/expense-summary/${id}`
+        );
+
+        if (response.status === 200) {
+          // Assuming the response contains the updated timesheet details
           this.expenseDetails = response.data;
         }
       } catch (error) {
