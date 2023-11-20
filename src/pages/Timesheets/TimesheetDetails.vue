@@ -176,12 +176,17 @@ const toggleList = () => {
         </q-expansion-item>
       </q-card>
       <div class="q-ma-sm">
-        <q-btn no-caps @click="toggleList"
-          >{{ showComments ? 'Hide Comments' : 'Show Comments'
-          }}<q-badge v-if="!showComments" color="red" rounded floating
-            >4</q-badge
-          ></q-btn
-        >
+        <div class="row justify-between items-center">
+          <q-btn no-caps @click="toggleList" class="btn-Comment"
+            >{{ showComments ? 'Hide Comments' : 'Show Comments'
+            }}<q-badge v-if="!showComments" color="red" rounded floating
+              >4</q-badge
+            ></q-btn
+          >
+          <q-btn v-if="showComments" size="sm" no-caps dense class="btn-Comment"
+            >New Comment</q-btn
+          >
+        </div>
 
         <q-card v-if="showComments" flat bordered>
           <q-list>
@@ -230,5 +235,8 @@ const toggleList = () => {
 .q-btn:hover {
   background-color: #333; /* Change the background color on hover */
   color: #fff; /* Change the text color on hover */
+}
+.btn-Comment {
+  border: 1px solid rgb(15, 86, 110); /* Change the text color on hover */
 }
 </style>
