@@ -179,12 +179,18 @@ const toggleList = () => {
         <div class="row justify-between items-center q-mt-md">
           <q-btn no-caps @click="toggleList" class="btn-Comment"
             >{{ showComments ? 'Hide Comments' : 'Show Comments'
-            }}<q-badge v-if="!showComments" color="red" rounded floating
-              >4</q-badge
-            ></q-btn
+            }}<q-badge v-if="!showComments" color="red" rounded floating>{{
+              commentsList.length
+            }}</q-badge></q-btn
           >
-          <q-btn v-if="showComments" size="sm" no-caps dense class="btn-Comment"
-            >New Comment</q-btn
+          <q-btn
+            v-if="showComments"
+            size="sm"
+            icon="add"
+            no-caps
+            dense
+            class="btn-Comment"
+            >New</q-btn
           >
         </div>
 
