@@ -2863,6 +2863,44 @@
       "readOnly": true
     }
   ],
+  "timesheet-comments": [
+    {
+      "id": "1",
+      "isDcaa": true,
+      "comments": [
+        {
+          "id": "1",
+          "comment": "Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document  ",
+          "createdBy": "SK Dutta",
+          "createdDate": "2020-03-05T15:01:17Z"
+        },
+        {
+          "id": "2",
+          "comment": "Lorem ipsum may be used as a placeholder before final copy is available.",
+          "createdBy": "Sudhakar Gundu",
+          "createdDate": "2020-03-06T15:01:17Z"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "isDcaa": true,
+      "comments": [
+        {
+          "id": "1",
+          "comment": "test zzzzz",
+          "createdBy": "SK Dutta",
+          "createdDate": "2020-03-05T15:01:17Z"
+        },
+        {
+          "id": "2",
+          "comment": "test qqqqqq",
+          "createdBy": "Sudhakar Gundu",
+          "createdDate": "2020-03-06T15:01:17Z"
+        }
+      ]
+    }
+  ],
   "timesheet-details": [
     {
       "accountName": "OfficeClip LLC",
@@ -2873,7 +2911,6 @@
       "createdDate": "2020-11-03T11:48:27Z",
       "createdUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
       "description": "1.1.4.1.50.12.14 New Timesheet 3",
-      "comments": "",
       "isBillable": true,
       "modifiedDate": "2020-11-03T11:48:27Z",
       "modifiedUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
@@ -2898,7 +2935,6 @@
       "createdDate": "2020-11-03T11:48:27Z",
       "createdUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
       "description": "Reviewed screens and reported issues in google drive.\nReview Contact ADMIN still pending",
-      "comments": "",
       "isBillable": true,
       "modifiedDate": "2020-11-03T11:48:27Z",
       "modifiedUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
@@ -2923,7 +2959,6 @@
       "createdDate": "2020-11-04T15:03:49Z",
       "createdUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
       "description": "1.1.4.1.56.1 CRM Module",
-      "comments": "",
       "isBillable": true,
       "modifiedDate": "2020-11-04T15:03:49Z",
       "modifiedUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
@@ -2948,7 +2983,6 @@
       "createdDate": "2020-11-04T15:03:49Z",
       "createdUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
       "description": "Facing issue with the new release.\nDiscussed with the team and finalized to fix the issue and make a new release 10.9.9",
-      "comments": "",
       "isBillable": true,
       "modifiedDate": "2020-11-04T15:03:49Z",
       "modifiedUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
@@ -2973,7 +3007,6 @@
       "createdDate": "2020-11-04T05:46:05Z",
       "createdUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
       "description": "Meeting with team regarding the status what is done and what needs to be done.",
-      "comments": "",
       "isBillable": true,
       "modifiedDate": "2020-11-04T05:46:05Z",
       "modifiedUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
@@ -2998,7 +3031,6 @@
       "createdDate": "2020-11-04T15:43:52Z",
       "createdUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
       "description": "Meeting with team regarding status that is done and that needs to be done.",
-      "comments": "",
       "isBillable": true,
       "modifiedDate": "2020-11-04T15:43:52Z",
       "modifiedUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
@@ -3023,7 +3055,6 @@
       "createdDate": "2020-11-03T02:44:42Z",
       "createdUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
       "description": "Meeting with Dutta and Sudhakar regarding the work that needs to be done.",
-      "comments": "",
       "isBillable": true,
       "modifiedDate": "2020-11-03T09:22:39Z",
       "modifiedUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
@@ -3048,7 +3079,6 @@
       "createdDate": "2020-11-04T15:09:26Z",
       "createdUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
       "description": "Tried to install new version but still facing couple of issues. \nAsked help for Narsimha. In mean time tried to to create a new database and install on it. It is working fine.\nNarsimha figured the issue and suggested to revert the version but still facing issue of null value exception.\nHe will get back to me with the fix,",
-      "comments": "",
       "isBillable": true,
       "modifiedDate": "2020-11-04T15:09:26Z",
       "modifiedUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",

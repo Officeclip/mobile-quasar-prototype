@@ -165,13 +165,6 @@ const handleModelValue = (newValue) => {
         placeholder="enter here..."
       >
       </q-input>
-
-      <q-input
-        label="Comments"
-        v-model="props.timesheet.comments"
-        placeholder="enter here..."
-      >
-      </q-input>
     </div>
   </div>
 </template>
