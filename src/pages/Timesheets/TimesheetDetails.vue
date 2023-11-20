@@ -60,6 +60,13 @@ const deleteTimesheetDetail = (id: string) => {
     });
   }
 };
+
+const showList = ref(false);
+const itemList = ref(['Item 1', 'Item 2', 'Item 3']);
+
+const toggleList = () => {
+  showList.value = !showList.value;
+};
 </script>
 
 <template>
@@ -163,6 +170,20 @@ const deleteTimesheetDetail = (id: string) => {
           <OCItem title="Description" :value="timesheetDetail.description" />
         </q-expansion-item>
       </q-card>
+      <div class="q-ma-sm">
+        <q-btn no-caps @click="toggleList"
+          >{{ showList ? 'Hide Comments' : 'Show Comments'
+          }}<q-badge color="red" rounded floating>4</q-badge></q-btn
+        >
+
+        <q-card v-if="showList" flat bordered>
+          <q-list>
+            <q-item v-for="(item, index) in itemList" :key="index">
+              <q-item-section>{{ item }}</q-item-section>
+            </q-item>
+          </q-list>
+        </q-card>
+      </div>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           :to="{
