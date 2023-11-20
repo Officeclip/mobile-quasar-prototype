@@ -2,6 +2,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
+import { useTimesheetCommentsStore } from '../../stores/timesheet/timesheetCommentsStore';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
@@ -18,9 +19,11 @@ const fromDate = route.params.fromDate;
 // made the readOnly params type as boolean, by default always coming as string only
 const readOnly = route.params.readOnly === 'true';
 const timesheetsStore = useTimesheetsStore();
+const timesheetCommentsStore = useTimesheetCommentsStore();
 
 onMounted(() => {
   timesheetsStore.getTimesheetDetails(id);
+  timesheetCommentsStore.getTimesheetComments(id);
 });
 
 const timesheetDetails = computed(() => {
@@ -61,11 +64,13 @@ const deleteTimesheetDetail = (id: string) => {
   }
 };
 
-const showList = ref(false);
-const itemList = ref(['Item 1', 'Item 2', 'Item 3']);
+const showComments = ref(false);
+const commentsList = computed(() => {
+  return timesheetCommentsStore.CommentsList;
+});
 
 const toggleList = () => {
-  showList.value = !showList.value;
+  showComments.value = !showComments.value;
 };
 </script>
 
@@ -172,14 +177,16 @@ const toggleList = () => {
       </q-card>
       <div class="q-ma-sm">
         <q-btn no-caps @click="toggleList"
-          >{{ showList ? 'Hide Comments' : 'Show Comments'
-          }}<q-badge color="red" rounded floating>4</q-badge></q-btn
+          >{{ showComments ? 'Hide Comments' : 'Show Comments'
+          }}<q-badge v-if="!showComments" color="red" rounded floating
+            >4</q-badge
+          ></q-btn
         >
 
-        <q-card v-if="showList" flat bordered>
+        <q-card v-if="showComments" flat bordered>
           <q-list>
-            <q-item v-for="(item, index) in itemList" :key="index">
-              <q-item-section>{{ item }}</q-item-section>
+            <q-item dense v-for="(item, index) in commentsList" :key="index">
+              <q-item-section>{{ item.comment }}</q-item-section>
             </q-item>
           </q-list>
         </q-card>
