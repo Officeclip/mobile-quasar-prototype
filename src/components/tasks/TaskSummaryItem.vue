@@ -6,6 +6,10 @@ const props = defineProps<{
   task: taskSummary
 }>();
 
+function markTaskAsCompleted(){
+ console.log("Task Done")
+}
+
 </script>
 
 <template>
@@ -44,6 +48,13 @@ const props = defineProps<{
 
       </div>
     </q-item-section>
+
+    <q-item-section side v-if="task.taskStatusName!='Completed'" @click.stop="markTaskAsCompleted">
+      <q-icon color="primary" name="done"/>
+      <caption>Mark as done</caption>
+    </q-item-section>
+
+
     <q-item-section side>
       <q-icon color="primary" name="chevron_right"/>
     </q-item-section>
@@ -60,10 +71,7 @@ const props = defineProps<{
   transition: all 0.3s ease;
 }
 
-.TaskCard:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  scale: 1.015;
-}
+
 
 .TaskTitle {
   font-size: 18px;

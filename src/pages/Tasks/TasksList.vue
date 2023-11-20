@@ -196,7 +196,6 @@ const $q = useQuasar()
 function showNotif () {
   $q.notify({
     type: 'info',
-
     message: 'COMPLETED TASKS ARE HIDDEN',
   })
 }

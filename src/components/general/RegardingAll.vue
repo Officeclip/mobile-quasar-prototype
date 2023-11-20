@@ -48,7 +48,7 @@ async function filterContacts(
       <q-item-section class="q-mr-sm">
         <!-- <pre>{{ parentServiceType }}</pre> -->
         <q-select
-          label="Regardings"
+          label="Regarding"
           v-model="parentServiceType"
           :options="metaTypeOptions"
           dense
