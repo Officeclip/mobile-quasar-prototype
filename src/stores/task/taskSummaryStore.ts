@@ -53,7 +53,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     },
 
     async editTask(taskSummary: taskSummary) {
-      console.log(`editNote 1: ${this.taskSummary?.id}`);
+      console.log(`editTask: ${this.taskSummary?.id}`);
       // not added yet
       try {
         const response = await axios.put(
@@ -239,7 +239,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       try {
         const res = await axios.get(callStr);
         const response = res.data.filter((task: taskSummary) => {
-          console.log(task.taskStatusName)
+          // console.log(task.taskStatusName)
           return task.taskStatusName != 'Completed';
         });
         this.taskSummaries.push(...response);

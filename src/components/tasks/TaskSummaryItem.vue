@@ -1,13 +1,34 @@
 <script lang="ts" setup>
+import {onBeforeMount, ref} from 'vue';
 import {taskSummary} from "src/models/task/taskSummary";
 import {getPriorityColor, getPriorityIcon, getTaskStatusColor, getTaskStatusIcon} from "src/helpers/colorIconHelper"
+import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 
 const props = defineProps<{
   task: taskSummary
 }>();
 
-function markTaskAsCompleted(){
- console.log("Task Done")
+const taskSummaryStore = useTaskSummaryStore();
+
+
+const taskDone = ref(false);
+onBeforeMount(() => {
+    taskDone.value = props.task.taskStatusName === 'Completed';
+  }
+);
+
+function markTaskAsCompleted() {
+  let completedTask: taskSummary = props.task;
+  completedTask.taskStatusName = 'Completed';
+  taskSummaryStore.editTask(completedTask);
+  console.log(props.task.id + "Task Done")
+}
+
+function markTaskAsOpen() {
+  let openTask: taskSummary = props.task;
+  openTask.taskStatusName = 'Open';
+  taskSummaryStore.editTask(openTask);
+  console.log(props.task.id + "Task opened")
 }
 
 </script>
@@ -17,7 +38,7 @@ function markTaskAsCompleted(){
     v-ripple
     :to="{ name: 'taskDetails', params: { id: task.id }}"
     class="TaskCard"
-    clickable>
+  >
 
     <q-item-section class="TaskDetails">
       <q-item-label class="TaskTitle">
@@ -49,11 +70,14 @@ function markTaskAsCompleted(){
       </div>
     </q-item-section>
 
-    <q-item-section side v-if="task.taskStatusName!='Completed'" @click.stop="markTaskAsCompleted">
-      <q-icon color="primary" name="done"/>
-      <caption>Mark as done</caption>
-    </q-item-section>
+    <q-item-section class="col-auto">
+      <q-chip v-if="task.taskStatusName!='Completed'" clickable label="Mark as done" square
+              @click.prevent="markTaskAsCompleted"/>
 
+      <q-chip v-else clickable label="Mark as Open" square
+              @click.prevent="markTaskAsOpen"/>
+
+    </q-item-section>
 
     <q-item-section side>
       <q-icon color="primary" name="chevron_right"/>
@@ -70,7 +94,6 @@ function markTaskAsCompleted(){
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
-
 
 
 .TaskTitle {
