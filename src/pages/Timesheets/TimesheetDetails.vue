@@ -176,7 +176,7 @@ const toggleList = () => {
         </q-expansion-item>
       </q-card>
       <div class="q-ma-sm">
-        <div class="row justify-between items-center">
+        <div class="row justify-between items-center q-mt-md">
           <q-btn no-caps @click="toggleList" class="btn-Comment"
             >{{ showComments ? 'Hide Comments' : 'Show Comments'
             }}<q-badge v-if="!showComments" color="red" rounded floating

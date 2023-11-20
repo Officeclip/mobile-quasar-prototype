@@ -11,7 +11,6 @@ export interface TimesheetDetails {
   createdDate: string;
   createdUserSid: string;
   description: string;
-  comments: string;
   modifiedDate: string;
   modifiedUserSid: string;
   payrollName: string;
