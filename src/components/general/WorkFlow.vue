@@ -1,26 +1,21 @@
 <script setup lang="ts">
 import { onBeforeMount, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useTimesheetWorkFlowStore } from 'src/stores/timesheet/TimesheetWorkFlow';
+import { useWorkFlowStore } from 'src/stores/workFlow/WorkFlow';
 
 const props = defineProps(['entityId', 'entityType']);
-// const entityId = props?.entityId;
-// const entityType = props?.entityType;
 
 const router = useRouter();
 const workFlowModel = ref('');
-const timesheetWorkFlowStore = useTimesheetWorkFlowStore();
+const workFlowStore = useWorkFlowStore();
 onBeforeMount(() => {
-  timesheetWorkFlowStore.getTimesheetWorkFlow(
-    props?.entityId,
-    props?.entityType
-  );
+  workFlowStore.getWorkFlow(props?.entityId, props?.entityType);
 });
 const workFlowUsers = computed(() => {
-  return timesheetWorkFlowStore.WorkFlowUsers;
+  return workFlowStore.WorkFlowUsers;
 });
 const workFlow = computed(() => {
-  return timesheetWorkFlowStore.TimesheetWorkFlow;
+  return workFlowStore.WorkFlow;
 });
 
 const submitToUserId = computed(() => {
@@ -49,7 +44,7 @@ const rejectToUserName = computed(() => {
 });
 
 const upDateWorkFlow = () => {
-  timesheetWorkFlowStore.submitWorkFlow(workFlow.value);
+  workFlowStore.submitWorkFlow(workFlow.value);
   router.go(-1);
 };
 
@@ -60,19 +55,19 @@ const manualWorkflow = (newValue: string) => {
   workFlow.value.rejectToUserId = '';
 };
 
-const submitButtonWorlFlow = () => {
+const submitButtonWorkFlow = () => {
   workFlow.value.id = '';
   workFlow.value.approveToUserId = '';
   workFlow.value.rejectToUserId = '';
   upDateWorkFlow();
 };
-const approveButtonWorlFlow = () => {
+const approveButtonWorkFlow = () => {
   workFlow.value.id = '';
   workFlow.value.submitToUserId = '';
   workFlow.value.rejectToUserId = '';
   upDateWorkFlow();
 };
-const rejectButtonWorlFlow = () => {
+const rejectButtonWorkFlow = () => {
   workFlow.value.id = '';
   workFlow.value.submitToUserId = '';
   workFlow.value.approveToUserId = '';
@@ -93,7 +88,7 @@ const rejectButtonWorlFlow = () => {
           dense
           color="primary"
           label="Submit"
-          @click="submitButtonWorlFlow"
+          @click="submitButtonWorkFlow"
         />
         <q-item-label class="text-caption">
           to: {{ submitToUserName?.name }}
@@ -113,7 +108,7 @@ const rejectButtonWorlFlow = () => {
           dense
           color="primary"
           label="Approve"
-          @click="approveButtonWorlFlow"
+          @click="approveButtonWorkFlow"
         />
         <q-item-label class="text-caption q-mx-sm"
           >to: {{ approveToUserName?.name }}</q-item-label
@@ -126,7 +121,7 @@ const rejectButtonWorlFlow = () => {
           dense
           color="negative"
           label="Reject"
-          @click="rejectButtonWorlFlow"
+          @click="rejectButtonWorkFlow"
         />
         <q-item-label class="text-caption q-mx-sm"
           >to: {{ rejectToUserName?.name }}</q-item-label
