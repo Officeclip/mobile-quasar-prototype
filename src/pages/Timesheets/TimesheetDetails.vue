@@ -3,6 +3,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import { useTimesheetCommentsStore } from '../../stores/timesheet/timesheetCommentsStore';
+import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
@@ -20,10 +21,12 @@ const fromDate = route.params.fromDate;
 const readOnly = route.params.readOnly === 'true';
 const timesheetsStore = useTimesheetsStore();
 const timesheetCommentsStore = useTimesheetCommentsStore();
+const timesheetListsStore = useTimesheetListStore();
 
 onMounted(() => {
   timesheetsStore.getTimesheetDetails(id);
   timesheetCommentsStore.getTimesheetComments(id);
+  timesheetListsStore.getTimesheetListAll();
 });
 
 const timesheetDetails = computed(() => {
@@ -72,6 +75,15 @@ const commentsList = computed(() => {
 const toggleList = () => {
   showComments.value = !showComments.value;
 };
+
+//trying to get the period name from periodOptions  find by fromDate
+const periodOptions = computed(() => {
+  return timesheetListsStore.PeriodList;
+});
+
+const timesheetPeriod = computed(() => {
+  return periodOptions.value?.find((x) => x.start.toString() === fromDate);
+});
 </script>
 
 <template>
@@ -104,6 +116,7 @@ const toggleList = () => {
       <div>
         <WorkFlow :entityId="id" :entityType="entityType" />
       </div>
+      <!-- <pre>{{ timesheetPeriod }}</pre> -->
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
@@ -205,7 +218,10 @@ const toggleList = () => {
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           :to="{
-            name: 'newTimesheetPeriod',
+            name: 'newTimesheet',
+            params: {
+              periodName: timesheetPeriod?.name,
+            },
           }"
           fab
           icon="add"
