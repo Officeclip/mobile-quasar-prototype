@@ -545,6 +545,7 @@ function isValidURL(url: string) {
       <div>
         <RegardingAll />
       </div>
+
       <q-item>
         <!-- <FilePicker @get-attachments-generated="handleAttachments" /> -->
         <FilePicker />

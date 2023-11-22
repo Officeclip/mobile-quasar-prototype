@@ -115,7 +115,23 @@ function addSubtask(subtask: subTask) {
       <q-toolbar>
         <q-btn dense flat icon="arrow_back" round @click="$router.go(-1)"/>
         <q-toolbar-title>Task Details</q-toolbar-title>
-        <div v-if="!taskDetail?.isEditable">
+<!--        <div v-if="!taskDetail?.isEditable">-->
+<!--          <q-btn dense disable flat icon="edit"-->
+<!--                 round>-->
+<!--            <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>-->
+
+<!--          </q-btn>-->
+<!--          <q-btn dense disable flat icon="delete" round>-->
+<!--            <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>-->
+<!--          </q-btn>-->
+<!--        </div>-->
+        <div v-if="taskDetail?.isEditable==null||taskDetail?.isEditable">
+          <q-btn :to="{ name: 'editTask', params: { id: id } }" dense flat icon="edit"
+                 round/>
+          <q-btn dense flat icon="delete" round/>
+        </div>
+
+        <div v-else>
           <q-btn dense disable flat icon="edit"
                  round>
             <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>
@@ -124,13 +140,6 @@ function addSubtask(subtask: subTask) {
           <q-btn dense disable flat icon="delete" round>
             <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>
           </q-btn>
-
-
-        </div>
-        <div v-else>
-          <q-btn :to="{ name: 'editTask', params: { id: id } }" dense flat icon="edit"
-                 round/>
-          <q-btn dense flat icon="delete" round/>
         </div>
       </q-toolbar>
     </q-header>

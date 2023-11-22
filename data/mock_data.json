@@ -2305,6 +2305,114 @@
         "id": "2",
         "name": "Medium"
       }
+    },
+    {
+      "id": 117,
+      "subject": "Task 1010101",
+      "description": "101010",
+      "taskType": {
+        "id": "5",
+        "name": "Telephone"
+      },
+      "taskStatus": {
+        "id": "7",
+        "name": "Pending"
+      },
+      "isPrivate": false,
+      "taskOwner": {
+        "id": "1",
+        "name": "Kathiravan Sekar",
+        "email": "kathiravanrs@gmail.com"
+      },
+      "parentObject": {
+        "id": 0,
+        "serviceType": 0
+      },
+      "startDate": "",
+      "modifiedDate": "2023-11-22T00:18:01.843Z",
+      "dueDate": "2023-11-30",
+      "createdDate": "2023-11-20",
+      "regardingType": 0,
+      "regardingValue": "",
+      "assignees": [
+        {
+          "id": "67",
+          "name": "Joseph Miller"
+        }
+      ],
+      "remindTo": "me",
+      "remindBeforeMinutes": 60,
+      "repeatInfoText": "Every weekday for 10 times",
+      "recurrenceRule": "DTSTART:20231122T001755Z\nRRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR;COUNT=10",
+      "tags": [
+        {
+          "id": "7427",
+          "name": "marketing"
+        },
+        {
+          "id": "7234",
+          "name": "timesheet"
+        }
+      ],
+      "subtasks": [],
+      "taskPriority": {
+        "id": "2",
+        "name": "Medium"
+      }
+    },
+    {
+      "id": 118,
+      "subject": "Task 1010101",
+      "description": "101010",
+      "taskType": {
+        "id": "5",
+        "name": "Telephone"
+      },
+      "taskStatus": {
+        "id": "7",
+        "name": "Pending"
+      },
+      "isPrivate": false,
+      "taskOwner": {
+        "id": "1",
+        "name": "Kathiravan Sekar",
+        "email": "kathiravanrs@gmail.com"
+      },
+      "parentObject": {
+        "id": 0,
+        "serviceType": 0
+      },
+      "startDate": "",
+      "modifiedDate": "2023-11-22T00:18:01.843Z",
+      "dueDate": "2023-11-30",
+      "createdDate": "2023-11-20",
+      "regardingType": 0,
+      "regardingValue": "",
+      "assignees": [
+        {
+          "id": "67",
+          "name": "Joseph Miller"
+        }
+      ],
+      "remindTo": "me",
+      "remindBeforeMinutes": 60,
+      "repeatInfoText": "Every weekday for 10 times",
+      "recurrenceRule": "DTSTART:20231122T001755Z\nRRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR;COUNT=10",
+      "tags": [
+        {
+          "id": "7427",
+          "name": "marketing"
+        },
+        {
+          "id": "7234",
+          "name": "timesheet"
+        }
+      ],
+      "subtasks": [],
+      "taskPriority": {
+        "id": "2",
+        "name": "Medium"
+      }
     }
   ],
   "task-summary": [
@@ -2335,7 +2443,7 @@
     {
       "id": 104,
       "subject": "4: Develop API Documentation",
-      "taskStatusName": "In Progress",
+      "taskStatusName": "Completed",
       "isPrivate": false,
       "dueDate": "2023-10-15T17:00:00Z",
       "taskPriorityName": "Medium"
@@ -2514,6 +2622,14 @@
       "taskStatusName": "Pending",
       "isPrivate": true,
       "dueDate": "2023-11-16",
+      "taskPriorityName": "Medium"
+    },
+    {
+      "id": 117,
+      "subject": "Task 1010101",
+      "taskStatusName": "Pending",
+      "isPrivate": false,
+      "dueDate": "2023-11-30",
       "taskPriorityName": "Medium"
     }
   ],

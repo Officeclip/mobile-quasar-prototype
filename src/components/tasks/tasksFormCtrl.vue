@@ -8,6 +8,7 @@ import EventsReminderDialog from "components/Events/EventsReminderDialog.vue";
 import {userSummary} from "src/models/userSummary";
 import {useUserSummaryStore} from "stores/userSummaryStore";
 import RegardingAll from "components/general/RegardingAll.vue";
+import {tag} from "src/models/task/taskLists";
 
 const props = defineProps<{
   task: taskDetails
@@ -81,12 +82,23 @@ const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
 
 const shownOptions: Ref<userSummary[]> = ref([]);
+const shownTagOptions: Ref<tag[]> = ref([]);
 
 async function filterFn(val: string, update: any, abort: any) {
   update(() => {
     console.log('update');
     const needle = val.toLowerCase();
     shownOptions.value = userSummaryStore.userSummaries.filter(
+      (v) => v.name.toLowerCase().indexOf(needle) > -1
+    );
+  });
+}
+
+async function filterTagFn(val: string, update: any, abort: any) {
+  update(() => {
+    console.log('update');
+    const needle = val.toLowerCase();
+    shownTagOptions.value = taskListsStore.tags.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
   });
@@ -206,6 +218,26 @@ async function filterFn(val: string, update: any, abort: any) {
           use-chips
           use-input
           @filter="filterFn"
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> No results</q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+
+        <q-select
+          v-model="task.tags"
+          :options="shownTagOptions"
+          emit-value
+          hint="Start typing"
+          input-debounce="0"
+          label="Tags"
+          multiple
+          option-label="name"
+          use-chips
+          use-input
+          @filter="filterTagFn"
         >
           <template v-slot:no-option>
             <q-item>
