@@ -42,7 +42,10 @@ export class Constants {
     }
   }
 
-  static saveAuthorizationTokenInLocalStorage(token: string) {
-    LocalStorage.set('x-token', token);
+  static saveAuthorizationTokenInLocalStorage(
+    token: string,
+    expirationUnixEpoch: number
+  ) {
+    LocalStorage.set('x-token', `${token},${expirationUnixEpoch}`);
   }
 }

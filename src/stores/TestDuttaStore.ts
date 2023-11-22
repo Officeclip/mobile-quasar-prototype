@@ -24,7 +24,7 @@ export const useTestDuttaStore = defineStore('testDuttaStore', {
         //debugger;
         const tokenHeader = response.headers['X-Token'];
         if (tokenHeader) {
-          Constants.saveAuthorizationTokenInLocalStorage(tokenHeader);
+          Constants.saveAuthorizationTokenInLocalStorage(tokenHeader, 12345);
         }
         console.log(
           `TestDuttaStore: getDuttaTestById - length - ${response.headers}`

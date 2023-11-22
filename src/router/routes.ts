@@ -119,9 +119,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/TestMe.vue'),
   },
   {
-    path: '/timesheetL/:id',
-    name: 'timesheetL',
-    component: () => import('../pages/CustomerProjectList.vue'),
+    path: '/dTest',
+    name: 'dTest',
+    component: () => import('../pages/dTest.vue'),
   },
   {
     path: '/formData',

@@ -87,12 +87,12 @@ const submitLogin = () => {
             <div class="column m-t-md">
               <q-btn
                 :to="{
-                  name: 'timesheetL',
+                  name: 'dTest',
                   params: {
                     id: 1,
                   },
                 }"
-                label="Timesheet List"
+                label="D Login"
               />
             </div>
             <div class="column m-t-md">
