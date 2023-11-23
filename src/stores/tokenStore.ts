@@ -6,7 +6,7 @@ import { Constants } from './Constants';
 
 export const useTokenStore = defineStore('loginStore', {
   state: () => ({
-    token: undefined as Token | undefined,
+    token: {} as Token,
   }),
 
   getters: {
@@ -24,10 +24,11 @@ export const useTokenStore = defineStore('loginStore', {
         //   login
         // );
         console.log(`Login: ${login}`);
+        debugger;
         const response = await axios.get(`${Constants.endPointUrl}/token`);
-        if (response.status === 200) {
+        if (response.data && response.data.length > 0) {
           //debugger;
-          this.token = response.data;
+          this.token = response.data[0];
         }
         //console.log(`ContactsStore: getContacts - ${this.contacts}`);
       } catch (error) {

@@ -19,6 +19,8 @@ function onClick(e: any) {
     };
     tokenStore.validateLogin(login);
     const token = tokenStore.Token;
+    if (!token) return;
+    console.log(`token: ${token.token}`);
     // Now store the token in the local storage
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     if (token) {
