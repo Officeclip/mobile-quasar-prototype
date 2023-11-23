@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 
 const expenseListsStore = useExpenseListsStore();
@@ -12,9 +12,14 @@ const periodOptions = computed(() => {
   return expenseListsStore.PeriodList;
 });
 
+const errorMessage = ref('');
+
+const errorMsg = ref('');
+
 const period = ref('');
 
 const expensePeriod = periodOptions.value.find((x) => x.name === period.value);
+console.log(expensePeriod);
 
 function validatePeriod(event: string) {
   if (event == '') {
@@ -23,7 +28,26 @@ function validatePeriod(event: string) {
 }
 const datesList = ref<Array<{ label: string; value: string }>>([]);
 
+// watch([periodOptions], () => {
+//   const expensePeriod = periodOptions.value.find((x) => x.name === period.value);
+//   console.log('watch for period option in new period expense', expensePeriod);
+// });
+
 const getDatesBetweenStartEnd = (startDate: any, endDate: any) => {
+  const expensePeriodOption = periodOptions.value.find((x) => x.name === period.value);
+  errorMessage.value = '';
+  errorMsg.value = '';
+
+  if (expensePeriodOption?.warning !== '') {
+    errorMessage.value = expensePeriodOption?.warning as string;
+  }
+
+  if (expensePeriodOption?.error !== '') {
+    errorMessage.value = expensePeriodOption?.error as string;
+    errorMsg.value = errorMessage.value;
+    console.log('Expense period error message', errorMsg.value);
+  }
+
   const dates = [];
   const startDateUnix = new Date(startDate).getTime();
   const endDateUnix = new Date(endDate).getTime();
@@ -66,6 +90,7 @@ const getDatesBetweenStartEnd = (startDate: any, endDate: any) => {
       <div>
         <div class="q-pa-md">
           <div class="q-gutter-y-md column">
+            <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
             <q-select label="Period" v-model="period" :options="periodOptions" map-options option-value="name"
               @update:model-value="
                 getDatesBetweenStartEnd(
@@ -75,7 +100,7 @@ const getDatesBetweenStartEnd = (startDate: any, endDate: any) => {
                 " option-label="name" emit-value />
           </div>
         </div>
-        <q-btn v-if="period != ''" class="q-ml-md q-mb-md q-mt-md" label="Next" color="primary" :to="{
+        <q-btn v-if="period != '' && errorMsg == ''" class="q-ml-md q-mb-md q-mt-md" label="Next" color="primary" :to="{
           name: 'newExpense',
           params: {
             expenseSid: '-1',
@@ -88,4 +113,8 @@ const getDatesBetweenStartEnd = (startDate: any, endDate: any) => {
   </q-layout>
 </template>
 
-<style scoped></style>
+<style scoped>
+.error-message {
+  color: red;
+}
+</style>

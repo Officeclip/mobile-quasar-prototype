@@ -12,9 +12,12 @@ import mileageExpense from '../../components/expenses/details/mileageExpense.vue
 import taxiExpense from '../../components/expenses/details/taxiExpense.vue';
 import telephoneExpense from '../../components/expenses/details/telephoneExpense.vue';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
+import WorkFlow from '../../components/general/WorkFlow.vue';
 
 const route = useRoute();
 const router = useRouter();
+
+const entityType = 'expense';
 
 const fromDate = route.params.fromDate;
 
@@ -95,6 +98,9 @@ const deleteExpenseDetail = (id: string) => {
     </q-header>
 
     <q-page-container class="q-ma-sm">
+      <div>
+        <WorkFlow :entityId="route.params.id" :entityType="entityType" />
+      </div>
       <div v-for="expenseDetail in expenseDetails" :key="expenseDetail.id">
         <q-list class="rounded-borders q-my-md bg-grey-3">
           <q-expansion-item expand-separator expand-icon-class="text-primary">
