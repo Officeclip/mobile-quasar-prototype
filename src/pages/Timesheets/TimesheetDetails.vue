@@ -2,6 +2,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
+import { useTimesheetCommentsStore } from '../../stores/timesheet/timesheetCommentsStore';
+import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
@@ -18,9 +20,13 @@ const fromDate = route.params.fromDate;
 // made the readOnly params type as boolean, by default always coming as string only
 const readOnly = route.params.readOnly === 'true';
 const timesheetsStore = useTimesheetsStore();
+const timesheetCommentsStore = useTimesheetCommentsStore();
+const timesheetListsStore = useTimesheetListStore();
 
 onMounted(() => {
   timesheetsStore.getTimesheetDetails(id);
+  timesheetCommentsStore.getTimesheetComments(id);
+  timesheetListsStore.getTimesheetListAll();
 });
 
 const timesheetDetails = computed(() => {
@@ -60,6 +66,24 @@ const deleteTimesheetDetail = (id: string) => {
     });
   }
 };
+
+const showComments = ref(false);
+const commentsList = computed(() => {
+  return timesheetCommentsStore.CommentsList;
+});
+
+const toggleList = () => {
+  showComments.value = !showComments.value;
+};
+
+//trying to get the period name from periodOptions  find by fromDate
+const periodOptions = computed(() => {
+  return timesheetListsStore.PeriodList;
+});
+
+const timesheetPeriod = computed(() => {
+  return periodOptions.value?.find((x) => x.start.toString() === fromDate);
+});
 </script>
 
 <template>
@@ -92,6 +116,7 @@ const deleteTimesheetDetail = (id: string) => {
       <div>
         <WorkFlow :entityId="id" :entityType="entityType" />
       </div>
+      <!-- <pre>{{ timesheetPeriod }}</pre> -->
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
@@ -163,10 +188,40 @@ const deleteTimesheetDetail = (id: string) => {
           <OCItem title="Description" :value="timesheetDetail.description" />
         </q-expansion-item>
       </q-card>
+      <div class="q-ma-sm">
+        <div class="row justify-between items-center q-mt-md">
+          <q-btn no-caps @click="toggleList" class="btn-Comment"
+            >{{ showComments ? 'Hide Comments' : 'Show Comments'
+            }}<q-badge v-if="!showComments" color="red" rounded floating>{{
+              commentsList.length
+            }}</q-badge></q-btn
+          >
+          <q-btn
+            v-if="showComments"
+            size="sm"
+            icon="add"
+            no-caps
+            dense
+            class="btn-Comment"
+            >New</q-btn
+          >
+        </div>
+
+        <q-card v-if="showComments" flat bordered>
+          <q-list>
+            <q-item dense v-for="(item, index) in commentsList" :key="index">
+              <q-item-section>{{ item.comment }}</q-item-section>
+            </q-item>
+          </q-list>
+        </q-card>
+      </div>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           :to="{
-            name: 'newTimesheetPeriod',
+            name: 'newTimesheet',
+            params: {
+              periodName: timesheetPeriod?.name,
+            },
           }"
           fab
           icon="add"
@@ -202,5 +257,8 @@ const deleteTimesheetDetail = (id: string) => {
 .q-btn:hover {
   background-color: #333; /* Change the background color on hover */
   color: #fff; /* Change the text color on hover */
+}
+.btn-Comment {
+  border: 1px solid rgb(15, 86, 110); /* Change the text color on hover */
 }
 </style>

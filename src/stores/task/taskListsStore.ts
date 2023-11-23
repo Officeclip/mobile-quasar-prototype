@@ -1,19 +1,21 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { Constants } from '../Constants';
-import {taskLists, taskPriority, taskStatus, taskType, user} from "src/models/task/taskLists";
+import {tag, taskLists, taskPriority, taskStatus, taskType, user} from "src/models/task/taskLists";
 import {regardingContact} from "src/models/task/taskLists";
 
 export const useTaskListsStore = defineStore('taskListsStore', {
   state: () => ({
     // timesheetList: undefined as TimesheetList | undefined,
     taskTypes: [] as taskType[],
+    tags: [] as tag[],
     taskPriorities: [] as taskPriority[],
     users: [] as user[],
     taskStatuses: [] as taskStatus[],
   }),
 
   getters: {
+    Tags: (state) => state.tags,
     TaskTypes: (state) => state.taskTypes,
     Users: (state) => state.users,
     TaskPriorities: (state) => state.taskPriorities,
@@ -30,6 +32,7 @@ export const useTaskListsStore = defineStore('taskListsStore', {
         const taskLists:taskLists = response.data[0];
         console.log('taskLists', taskLists);
 
+        this.tags = taskLists.tags;
         this.taskTypes = taskLists.taskType;
         this.taskPriorities = taskLists.priority;
         this.taskStatuses = taskLists.status;
@@ -38,6 +41,7 @@ export const useTaskListsStore = defineStore('taskListsStore', {
         console.error(error);
       }
     },
+
     async getRegardingContactListThatMatch(searchString: string) {
       try {
         this.users = [];

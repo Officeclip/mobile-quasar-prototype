@@ -7,10 +7,12 @@ const parentServiceType = ref('');
 
 const regardingAllStore = useRegardingAllStore();
 regardingAllStore.getMetaTypes();
+
 const metaTypeOptions = computed(() => {
   return regardingAllStore.MetaTypes;
 });
 //disabled regarding contacts unless select the option from regarding types
+
 const disabled = computed(() => {
   return parentServiceType.value == '' ? true : false;
 });

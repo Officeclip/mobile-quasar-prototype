@@ -106,6 +106,18 @@ function getStatusColor(status: string) {
           </q-item>
           <q-separator></q-separator>
         </q-list>
+        <q-page-sticky position="bottom-right" :offset="[18, 18]">
+          <q-btn
+            :to="{
+              name: 'newTimesheetPeriod',
+            }"
+            fab
+            icon="add"
+            color="accent"
+            padding="sm"
+          >
+          </q-btn>
+        </q-page-sticky>
       </q-page>
     </q-page-container>
   </q-layout>
