@@ -9,7 +9,7 @@ const tokenStore = useTokenStore();
 const email = ref('');
 const pw = ref('');
 
-function onClick(e: any) {
+async function onClick(e: any) {
   e.preventDefault(); // mandatory; we choose when we navigate
   // then we never call go()
   try {
@@ -17,7 +17,7 @@ function onClick(e: any) {
       userName: email.value,
       password: pw.value,
     };
-    tokenStore.validateLogin(login);
+    await tokenStore.validateLogin(login);
     const token = tokenStore.Token;
     if (!token) return;
     console.log(`token: ${token.token}`);

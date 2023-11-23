@@ -23,8 +23,8 @@ export const useTokenStore = defineStore('loginStore', {
         //   `${Constants.endPointUrl}/login`,
         //   login
         // );
-        console.log(`Login: ${login}`);
-        debugger;
+        //console.log(`Login: ${login}`);
+        //debugger;
         const response = await axios.get(`${Constants.endPointUrl}/token`);
         if (response.data && response.data.length > 0) {
           //debugger;
