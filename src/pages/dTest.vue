@@ -1,23 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { Ref, ref } from 'vue';
 import { Login } from '../models/login';
 import { useTokenStore } from '../stores/tokenStore';
 import { Constants } from 'src/stores/Constants';
 
 const tokenStore = useTokenStore();
 
-const email = ref('');
-const pw = ref('');
+const login: Ref<Login> = ref({
+  userName: '',
+  password: '',
+});
 
 async function onClick(e: any) {
   e.preventDefault(); // mandatory; we choose when we navigate
   // then we never call go()
   try {
-    const login: Login = {
-      userName: email.value,
-      password: pw.value,
-    };
-    await tokenStore.validateLogin(login);
+    await tokenStore.validateLogin(login.value);
     const token = tokenStore.Token;
     if (!token) return;
     console.log(`token: ${token.token}`);
@@ -48,14 +46,14 @@ async function onClick(e: any) {
             <q-input
               dense
               outlined
-              v-model="email"
+              v-model="login.userName"
               label="Email Address"
             ></q-input>
             <q-input
               dense
               outlined
               class="q-mt-md"
-              v-model="pw"
+              v-model="login.password"
               type="password"
               label="Password"
             ></q-input>
