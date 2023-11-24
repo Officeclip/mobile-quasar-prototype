@@ -10,8 +10,8 @@ import { useQuasar } from 'quasar';
 const tokenStore = useTokenStore();
 
 const login: Ref<Login> = ref({
-  userName: '',
-  password: '',
+  userName: 'nagesh@officeclip.com',
+  password: 'qa123',
 });
 
 const rules = {
@@ -23,8 +23,8 @@ const v$ = useVuelidate(rules, login);
 const $q = useQuasar();
 
 async function onSubmit(e: any) {
-  e.preventDefault(); // mandatory; we choose when we navigate
-  // then we never call go()
+  e.preventDefault();
+
   try {
     const isFormCorrect = await v$.value.$validate();
     if (!isFormCorrect) {
@@ -35,23 +35,25 @@ async function onSubmit(e: any) {
           color: 'red',
         });
       }
+      return;
     }
-    //console.log(`errors: ${v$.value.$validate()}`);
+    //debugger;
     await tokenStore.validateLogin(login.value);
     const token = tokenStore.Token;
-    // if (!token) return;
-    //console.log(`token: ${token.token}`);
-    // Now store the token in the local storage
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     if (token) {
       Constants.saveAuthorizationTokenInLocalStorage(
         token.token,
         token.expirationUnixEpoch
       );
     } else {
-      // show what to do for error
+      throw new Error('Could not get the token');
     }
-  } catch (error) {}
+  } catch (error) {
+    $q.notify({
+      message: error as string,
+      color: 'red',
+    });
+  }
 }
 </script>
 

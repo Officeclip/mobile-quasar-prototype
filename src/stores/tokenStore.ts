@@ -19,21 +19,36 @@ export const useTokenStore = defineStore('loginStore', {
       // this will happen in the actual call, so we will bypass this for now as json-server
       // cannot process what we are trying to do.
       try {
-        // const response = await axios.post(
-        //   `${Constants.endPointUrl}/login`,
-        //   login
-        // );
-        //console.log(`Login: ${login}`);
         //debugger;
-        const response = await axios.get(`${Constants.endPointUrl}/token`);
+
+        const response = await axios.post(
+          `${Constants.endPointUrl}/login`,
+          login
+        );
         if (response.data && response.data.length > 0) {
-          //debugger;
           this.token = response.data[0];
         }
-        //console.log(`ContactsStore: getContacts - ${this.contacts}`);
+
+        const response2 = await axios.get(`${Constants.endPointUrl}/token`);
+        if (response2.data && response2.data.length > 0) {
+          this.token = response2.data[0];
+        }
       } catch (error) {
-        alert(error);
-        console.log(error);
+        console.log(`tokenStore error: ${error}`);
+        //debugger;
+        if (axios.isAxiosError(error)) {
+          // if (error.response) {
+          //   throw new Error(error.response.data);
+          // } else if (error.request) {
+          //   throw new Error('The request never completed');
+          // } else {
+          //   throw new Error('axios error');
+          // }
+          //https://stackoverflow.com/a/69264807/89256
+          //throw new Error(error.message);
+          //throw new Error(error?.response?.data);
+        }
+        throw new Error((error as Error).message);
       }
     },
   },
