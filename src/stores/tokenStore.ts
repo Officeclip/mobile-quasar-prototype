@@ -19,8 +19,6 @@ export const useTokenStore = defineStore('loginStore', {
       // this will happen in the actual call, so we will bypass this for now as json-server
       // cannot process what we are trying to do.
       try {
-        //debugger;
-
         const response = await axios.post(
           `${Constants.endPointUrl}/login`,
           login
@@ -34,21 +32,11 @@ export const useTokenStore = defineStore('loginStore', {
           this.token = response2.data[0];
         }
       } catch (error) {
-        console.log(`tokenStore error: ${error}`);
-        //debugger;
+        console.log(JSON.stringify(error));
         if (axios.isAxiosError(error)) {
-          // if (error.response) {
-          //   throw new Error(error.response.data);
-          // } else if (error.request) {
-          //   throw new Error('The request never completed');
-          // } else {
-          //   throw new Error('axios error');
-          // }
-          //https://stackoverflow.com/a/69264807/89256
-          //throw new Error(error.message);
-          //throw new Error(error?.response?.data);
+          throw `Axios error: ${error.message}`;
         }
-        throw new Error((error as Error).message);
+        throw 'Error: ' + (error as string);
       }
     },
   },
