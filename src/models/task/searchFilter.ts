@@ -14,5 +14,5 @@ export interface searchFilter{
   assignedTo: string,
   ownedBy: string,
   regarding: string
-  hideCompleted:boolean
+  showCompleted:boolean
 }

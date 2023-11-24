@@ -24,7 +24,7 @@ let filterOptions: Ref<searchFilter> = ref({
   assignedTo: '',
   ownedBy: '',
   regarding: '',
-  hideCompleted: true
+  showCompleted: false
 });
 
 const parent = {
@@ -197,6 +197,10 @@ function showNotif () {
   $q.notify({
     type: 'info',
     message: 'COMPLETED TASKS ARE HIDDEN',
+    timeout:10000,
+    actions: [
+      { icon: 'close', color: 'white', round: true, handler: () => { /* ... */ } }
+    ]
   })
 }
 

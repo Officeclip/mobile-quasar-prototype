@@ -25,7 +25,7 @@ const advancedOptions: Ref<searchFilter> = ref({
   assignedTo: '',
   ownedBy: '',
   regarding: '',
-  hideCompleted: true,
+  showCompleted: false,
 })
 
 function filterNumber(filter: searchFilter) {
@@ -212,7 +212,7 @@ async function filterFn(val: string, update: any, abort: any) {
 
       <q-item-section>
         <div class="q-mr-md">
-          <q-checkbox v-model="advancedOptions.hideCompleted" label="Hide completed tasks"/>
+          <q-checkbox v-model="advancedOptions.showCompleted" label="Show completed tasks"/>
         </div>
       </q-item-section>
 
