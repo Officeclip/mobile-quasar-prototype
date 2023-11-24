@@ -1988,16 +1988,17 @@
       "orgId": "123",
       "userName": "SK Dutta",
       "userEmail": "skd@officeclip.com",
-      "applicationIds": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        10
+      "isAdmin": true,
+      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10],
+      "roleAccess": [
+        {
+          "name": "TrackerEditCase",
+          "access": false
+        },
+        {
+          "name": "TrackerCreateNewCase",
+          "access": true
+        }
       ]
     }
   ],
@@ -2207,6 +2208,12 @@
       "taskPriority": {
         "id": "2",
         "name": "Medium"
+      },
+      "security": {
+        "read": true,
+        "write": true,
+        "append": false,
+        "delete": false
       }
     },
     {
@@ -2235,9 +2242,7 @@
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": [
-        "Kathiravan Sekar"
-      ],
+      "assignees": ["Kathiravan Sekar"],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
@@ -2422,7 +2427,13 @@
       "taskStatusName": "Open",
       "isPrivate": true,
       "dueDate": "2023-10-05T17:00:00Z",
-      "taskPriorityName": "Medium"
+      "taskPriorityName": "Medium",
+      "security": {
+        "read": true,
+        "write": true,
+        "append": false,
+        "delete": false
+      }
     },
     {
       "id": 102,
@@ -2853,78 +2864,6 @@
       },
       "isCompleted": false,
       "completedDate": "2023-10-05T17:00:00Z"
-    }
-  ],
-  "tasks": [
-    {
-      "id": 1,
-      "subject": "Testing Task new az",
-      "description": "This is to test <b>Task </b>New 1234",
-      "startDate": "2023-06-22 08:00 am",
-      "dueDate": "2023-06-30 12:00 am",
-      "taskTypeName": "Todo",
-      "taskPriorityName": "High",
-      "taskStatusName": "Open",
-      "isPrivate": true,
-      "taskOwnerName": "Rao, Narsimha(_narsimha@officeclip.com)"
-    },
-    {
-      "id": 2,
-      "actualDuration": 10,
-      "completionDate": "2019-03-14T00:00:00.0000000Z",
-      "description": "This is to test Task new",
-      "dueDate": "2019-04-14T00:00:00.0000000Z",
-      "estimatedDuration": 20,
-      "isLock": false,
-      "isPrivate": false,
-      "parentObjectServiceType": 14,
-      "parentObjectId": 4,
-      "regarding": "",
-      "startDate": "2019-01-14T00:00:00.0000000Z",
-      "subject": "Testing Task new",
-      "tag": "",
-      "taskOwnerName": "Dutta, Sk(_skd@officeclip.com)",
-      "taskOwnerSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
-      "taskPriorityName": "Other",
-      "taskPriorityId": "4",
-      "taskStatusName": "Other",
-      "taskStatusId": "5",
-      "taskTypeName": "Other",
-      "taskTypeId": "4",
-      "assignmentSids": "",
-      "assignments": "",
-      "createdByUserSid": "UABCHHS5NAJQHC9XUD5Q",
-      "createdDate": "0001-01-01T00:00:00.0000000Z",
-      "modifiedByUserSid": "UABCHHS5NAJQHC9XUD5Q",
-      "modifiedDate": "0001-01-01T00:00:00.0000000Z"
-    },
-    {
-      "id": 3,
-      "subject": "test",
-      "description": "",
-      "taskTypeName": "",
-      "taskPriorityName": "",
-      "startDate": "2023-09-01",
-      "dueDate": "2023-09-30",
-      "taskStatusName": "",
-      "isPrivate": false,
-      "taskOwnerName": "test",
-      "parentObjectServiceType": 14,
-      "parentObjectId": -1
-    },
-    {
-      "id": 4,
-      "subject": "NeW Test Task",
-      "description": "Task Description",
-      "taskTypeName": "Todo",
-      "taskPriorityName": "High",
-      "startDate": "2023-09-29",
-      "dueDate": "2023-09-28",
-      "taskStatusName": "Open",
-      "isPrivate": false,
-      "taskOwnerName": "Kathiravan",
-      "parentObjectServiceType": 14,
-      "parentObjectId": -1
     }
   ],
   "testMes": [
@@ -3454,12 +3393,7 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": [
-            "",
-            "One",
-            "Two",
-            "Three"
-          ],
+          "items": ["", "One", "Two", "Three"],
           "name": "Custom Row",
           "uiType": "List"
         },
@@ -3778,7 +3712,7 @@
           "end": "2023-11-19T00:00:00+05:30",
           "name": "Nov 06, 2023 - Nov 19, 2023",
           "start": "2023-11-06T00:00:00+05:30",
-          "error": "",
+          "error": "Testing",
           "warning": ""
         },
         {
@@ -4566,10 +4500,17 @@
       "name": "Documentation"
     }
   ],
+  "token": [
+    {
+      "token": "xxxxyyyy",
+      "expirationUnixEpoch": 1732314106
+    }
+  ],
   "login": [
     {
-      "ocJWT": "xxxxyyyy",
-      "expirationInHours": "24"
+      "id": 1,
+      "userName": "nagesh@officeclip.com",
+      "password": "qa123"
     }
   ],
   "workflow": [
@@ -4591,6 +4532,27 @@
           "id": "1234",
           "name": "Sudhakar Gundu",
           "email": "sudhakar@officeclip.com"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "entityId": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
+      "entityType": "expense",
+      "workflowType": "manual",
+      "submitToUserId": "2345",
+      "approveToUserId": "2345",
+      "rejectToUserId": "1234",
+      "users": [
+        {
+          "id": "2345",
+          "name": "SK Dutta",
+          "email": "skd@officeclip.com"
+        },
+        {
+          "id": "1234",
+          "name": "Nagesh Kulkarni",
+          "email": "nagesh@officeclip.com"
         }
       ]
     }

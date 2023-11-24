@@ -31,6 +31,8 @@ export interface period {
   end: Date;
   name: string;
   start: Date;
+  error: string;
+  warning: string;
 }
 
 export interface paymentType {
