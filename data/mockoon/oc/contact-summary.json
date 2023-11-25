@@ -1,0 +1,13 @@
+[
+  {{#repeat 50}}
+    {
+      "id": "{{faker 'string.alphanumeric' 10}}",
+      "email": "{{faker 'internet.email'}}",
+      "phone": "{{faker 'phone.number'}}",
+      "first_name": "{{faker 'person.firstName'}}",
+      "last_name": "{{faker 'person.lastName'}}",
+      "thumbnail": "https://robohash.org/{{add @index 1}}.png?size=50x50"
+    }
+    {{#unless @last}},{{/unless}}
+  {{/repeat}}
+]

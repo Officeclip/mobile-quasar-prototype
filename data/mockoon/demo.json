@@ -1,0 +1,393 @@
+{
+  "uuid": "e6ddcf68-9a46-47fb-b646-b5fd2d788b48",
+  "lastMigration": 29,
+  "name": "Demo API",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "4852cbac-cb25-4c48-bdbe-72db56d5346e",
+      "type": "http",
+      "documentation": "Global rules",
+      "method": "all",
+      "endpoint": "*",
+      "responses": [
+        {
+          "uuid": "870fd7f9-0845-4ad0-ba87-2f3467e3d8ef",
+          "body": "{\n  \"error\": \"Unauthorized\"\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Requires the presence of an 'Authorization' header",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "operator": "null",
+              "invert": false,
+              "value": ""
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": false,
+      "responseMode": "FALLBACK"
+    },
+    {
+      "uuid": "a9e23d55-1a58-4b81-a559-21663bae0103",
+      "type": "crud",
+      "documentation": "Endpoint performing CRUD operations on a data bucket",
+      "method": "",
+      "endpoint": "users",
+      "responses": [
+        {
+          "uuid": "b6e34fe7-5f9f-446b-a5f0-88924cfe37d3",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "vhcc",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "3dd25f5c-0dcc-4462-8616-d8b9381ffa22",
+      "type": "http",
+      "documentation": "Generate random body (JSON, text, CSV, etc) with templating",
+      "method": "get",
+      "endpoint": "template",
+      "responses": [
+        {
+          "uuid": "b9ba8b7d-b42f-40e5-8dd3-05156e5333f9",
+          "body": "{\n  \"Templating example\": \"For more information about templating, click the blue 'i' above this editor\",\n  \"users\": [\n    {{# repeat (queryParam 'total' '10') }}\n      {\n        \"userId\": \"{{ faker 'number.int' min=10000 max=100000 }}\",\n        \"firstname\": \"{{ faker 'person.firstName' }}\",\n        \"lastname\": \"{{ faker 'person.lastName' }}\",\n        \"friends\": [\n          {{# repeat (faker 'number.int' 5) }}\n            {\n              \"id\": \"{{ faker 'string.uuid' }}\"\n            }\n          {{/ repeat }}\n        ]\n      },\n    {{/ repeat }}\n  ],\n  \"total\": \"{{queryParam 'total' '10'}}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Creates 10 random users, or the amount specified in the 'total' query param",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "5140dade-0ee1-46ef-9db0-f7181a7505cb",
+      "type": "http",
+      "documentation": "Use multiple responses with rules",
+      "method": "post",
+      "endpoint": "content/:param1",
+      "responses": [
+        {
+          "uuid": "55d14069-dee0-461f-8431-ddbda5e07688",
+          "body": "{\n  \"Rules example\": \"Default response. Served if route param 'param1' is not present.\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Default response",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "254066fa-cfb0-48b0-a599-b52aa727830f",
+          "body": "{\n  \"Rules example\": \"Content XYZ. Served if route param 'param1' equals 'xyz'. (See in 'Rules' tab)\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Content XYZ",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "param1",
+              "value": "xyz",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "924c9da7-32da-4e8d-8eef-0d4e72338e7d",
+          "body": "{\n  \"Rules example\": \"Content not found. Served if route param 'param1' is not equal to 'xyz'. (See in 'Rules' tab)\"\n}\n",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "Content not found",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "param1",
+              "value": "^(?!.*xyz).*$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "47bcecf6-bdbd-483a-b1c0-a8ea39522e5a",
+      "type": "http",
+      "documentation": "Serve a file dynamically depending on the path param 'pageName'.",
+      "method": "get",
+      "endpoint": "file/:pageName",
+      "responses": [
+        {
+          "uuid": "4f3349e0-0484-4314-9cc9-9e5a384bba9a",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Templating is also supported in file path",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "text/html"
+            }
+          ],
+          "bodyType": "FILE",
+          "filePath": "./page{{urlParam 'pageName'}}.html",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "c84ea630-8d9d-461d-840f-f01e23bf28e6",
+      "type": "http",
+      "documentation": "Path supports various patterns",
+      "method": "put",
+      "endpoint": "path/with/pattern(s)?/*",
+      "responses": [
+        {
+          "uuid": "2862b72b-fa46-4d26-98c3-0207b60c2d3e",
+          "body": "The current path will match the following routes: \nhttp://localhost:3000/path/with/pattern/\nhttp://localhost:3000/path/with/patterns/\nhttp://localhost:3000/path/with/patterns/anything-else\n\nLearn more about Mockoon's routing: https://mockoon.com/docs/latest/api-endpoints/routing/",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "3fd98815-560a-4c6e-99f8-07d275101ad0",
+      "type": "http",
+      "documentation": "Can Mockoon forward or record entering requests?",
+      "method": "get",
+      "endpoint": "forward-and-record",
+      "responses": [
+        {
+          "uuid": "6a07f47c-7735-4a26-a0cd-658312623a56",
+          "body": "Mockoon can also act as a proxy and forward all entering requests that are not caught by declared routes. \nYou can activate this option in the environment settings ('cog' icon in the upper right corner). \nTo learn more: https://mockoon.com/docs/latest/server-configuration/proxy-mode/\n\nAs always, all entering requests, and responses from the proxied server will be recorded ('clock' icon in the upper right corner).\nTo learn more: https://mockoon.com/docs/latest/logging-and-recording/requests-logging/",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "babd27ee-12ef-4391-8df2-b115ab9e96d8",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "contact-summary",
+      "responses": [
+        {
+          "uuid": "8c5eb6ee-5d23-4c89-a4b6-edb4bd9096df",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "C:\\temp\\Mockoon\\oc\\contact-summary.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "4852cbac-cb25-4c48-bdbe-72db56d5346e"
+    },
+    {
+      "type": "route",
+      "uuid": "a9e23d55-1a58-4b81-a559-21663bae0103"
+    },
+    {
+      "type": "route",
+      "uuid": "3dd25f5c-0dcc-4462-8616-d8b9381ffa22"
+    },
+    {
+      "type": "route",
+      "uuid": "5140dade-0ee1-46ef-9db0-f7181a7505cb"
+    },
+    {
+      "type": "route",
+      "uuid": "47bcecf6-bdbd-483a-b1c0-a8ea39522e5a"
+    },
+    {
+      "type": "route",
+      "uuid": "c84ea630-8d9d-461d-840f-f01e23bf28e6"
+    },
+    {
+      "type": "route",
+      "uuid": "3fd98815-560a-4c6e-99f8-07d275101ad0"
+    },
+    {
+      "type": "route",
+      "uuid": "babd27ee-12ef-4391-8df2-b115ab9e96d8"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "7ae86275-c26f-42b7-9a79-e41fa8130ccc",
+      "id": "vhcc",
+      "name": "Users",
+      "documentation": "",
+      "value": "[\n  {{#repeat 50}}\n  {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"username\": \"{{faker 'internet.userName'}}\"\n  }\n  {{/repeat}}\n]"
+    }
+  ]
+}

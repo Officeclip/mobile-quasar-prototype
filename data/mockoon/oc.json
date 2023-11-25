@@ -1,0 +1,87 @@
+{
+  "uuid": "c59da90f-e64f-4cfb-87c6-3fc58cfc5d76",
+  "lastMigration": 29,
+  "name": "Oc",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "718a59f0-1463-45b1-8bd9-3ec8a8198303",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "contact-summary",
+      "responses": [
+        {
+          "uuid": "bb725d3a-2815-4160-884e-a7c9af0eaf56",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Success",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\contact-summary.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "718a59f0-1463-45b1-8bd9-3ec8a8198303"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "8bfc2f82-7068-4c62-8b26-45d705c49936",
+      "id": "93cc",
+      "name": "Addresses",
+      "documentation": "",
+      "value": "[\n  {{#repeat 10}}\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"street\": \"{{faker 'location.streetAddress'}}\",\n      \"city\": \"{{faker 'location.city'}}\",\n      \"state\": \"{{faker 'location.stateAbbr'}}\",\n      \"zip\": {{faker 'location.zipCode'}},\n      \"country\": \"{{faker 'location.country'}}\",\n      \"latitude\": {{faker 'location.latitude'}},\n      \"longitude\": {{faker 'location.longitude'}},\n      \"phone\": \"{{faker 'phone.number'}}\",\n      \"email\": \"{{faker 'internet.email'}}\",\n      \"website\": \"{{faker 'internet.url'}}\"\n    }\n    {{#unless @last}},{{/unless}}\n  {{/repeat}}\n]"
+    }
+  ]
+}
