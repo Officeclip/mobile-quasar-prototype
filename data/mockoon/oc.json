@@ -6,7 +6,50 @@
   "latency": 0,
   "port": 3000,
   "hostname": "",
-  "folders": [],
+  "folders": [
+    {
+      "uuid": "17495988-91b8-493e-b85a-c301b08a1ae3",
+      "name": "Contacts",
+      "collapsed": false,
+      "children": [
+        {
+          "type": "route",
+          "uuid": "718a59f0-1463-45b1-8bd9-3ec8a8198303"
+        },
+        {
+          "type": "route",
+          "uuid": "322aa2ba-f5ed-4721-ad38-1c39a9cc67c5"
+        },
+        {
+          "type": "route",
+          "uuid": "a0169fd8-9485-4f8c-b1e9-ba80ca643f38"
+        }
+      ]
+    },
+    {
+      "uuid": "494a50ba-7311-4e97-bf96-e31be816bc10",
+      "name": "General",
+      "collapsed": false,
+      "children": [
+        {
+          "type": "route",
+          "uuid": "54670a8c-a10c-4c58-945e-ef1326fe7e9d"
+        },
+        {
+          "type": "route",
+          "uuid": "f664d598-bf86-4b6d-8f18-441957c17885"
+        },
+        {
+          "type": "route",
+          "uuid": "284f729b-7be2-4931-baa4-cf2049f998e4"
+        },
+        {
+          "type": "route",
+          "uuid": "1625bbc0-a7e1-4c46-9205-b369568c0a4e"
+        }
+      ]
+    }
+  ],
   "routes": [
     {
       "uuid": "718a59f0-1463-45b1-8bd9-3ec8a8198303",
@@ -21,11 +64,215 @@
           "latency": 0,
           "statusCode": 200,
           "label": "Success",
-          "headers": [],
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
           "bodyType": "FILE",
-          "filePath": "oc\\contact-summary.json",
+          "filePath": "oc\\contacts\\contact-summary.txt",
           "databucketID": "",
           "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "54670a8c-a10c-4c58-945e-ef1326fe7e9d",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "login",
+      "responses": [
+        {
+          "uuid": "fc5e37e3-b946-4dbd-8ce4-e7a402439ea8",
+          "body": "{\r\n  \"token\": \"xxxxyyyy\",\r\n  \"expirationUnixEpoch\": 1732314106\r\n}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "C:\\OfficeClipNew\\mobile\\mobile-quasar-prototype\\data\\mockoon\\oc\\login.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "f664d598-bf86-4b6d-8f18-441957c17885",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "session",
+      "responses": [
+        {
+          "uuid": "889b9232-10c3-4e9d-9b31-c3fdc13005c6",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "FILE",
+          "filePath": "oc\\general\\session.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "284f729b-7be2-4931-baa4-cf2049f998e4",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "orgs",
+      "responses": [
+        {
+          "uuid": "60e2dee2-37c4-4336-8659-7ca05f741880",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "FILE",
+          "filePath": "oc\\general\\orgs.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "1625bbc0-a7e1-4c46-9205-b369568c0a4e",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "home-icons",
+      "responses": [
+        {
+          "uuid": "7d9d9eaf-0337-4920-9c97-08ddf321e17d",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "FILE",
+          "filePath": "oc\\general\\jome-icons",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "322aa2ba-f5ed-4721-ad38-1c39a9cc67c5",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "contact-lists",
+      "responses": [
+        {
+          "uuid": "7125f3e8-3ba3-4c77-bcf6-0845155c7be4",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\contacts\\contact-lists.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "a0169fd8-9485-4f8c-b1e9-ba80ca643f38",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "contact-details/:id",
+      "responses": [
+        {
+          "uuid": "21307723-83ac-4bfc-aef8-29c07a302459",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "93cc",
+          "sendFileAsBody": false,
           "rules": [],
           "rulesOperator": "OR",
           "disableTemplating": false,
@@ -40,8 +287,12 @@
   ],
   "rootChildren": [
     {
-      "type": "route",
-      "uuid": "718a59f0-1463-45b1-8bd9-3ec8a8198303"
+      "type": "folder",
+      "uuid": "494a50ba-7311-4e97-bf96-e31be816bc10"
+    },
+    {
+      "type": "folder",
+      "uuid": "17495988-91b8-493e-b85a-c301b08a1ae3"
     }
   ],
   "proxyMode": false,
@@ -79,9 +330,9 @@
     {
       "uuid": "8bfc2f82-7068-4c62-8b26-45d705c49936",
       "id": "93cc",
-      "name": "Addresses",
+      "name": "contact-details",
       "documentation": "",
-      "value": "[\n  {{#repeat 10}}\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"street\": \"{{faker 'location.streetAddress'}}\",\n      \"city\": \"{{faker 'location.city'}}\",\n      \"state\": \"{{faker 'location.stateAbbr'}}\",\n      \"zip\": {{faker 'location.zipCode'}},\n      \"country\": \"{{faker 'location.country'}}\",\n      \"latitude\": {{faker 'location.latitude'}},\n      \"longitude\": {{faker 'location.longitude'}},\n      \"phone\": \"{{faker 'phone.number'}}\",\n      \"email\": \"{{faker 'internet.email'}}\",\n      \"website\": \"{{faker 'internet.url'}}\"\n    }\n    {{#unless @last}},{{/unless}}\n  {{/repeat}}\n]"
+      "value": "{\r\n      \"id\": \"1234567\",\r\n      \"first_name\": \"Cloe\",\r\n      \"last_name\": \"Sich\",\r\n      \"title\": \"Systems Administrator IV\",\r\n      \"email\": \"csich3@google.pl\",\r\n      \"street_address\": \"56 Pawling Drive\",\r\n      \"city\": \"Tuanjie\",\r\n      \"state\": \"Georgia\",\r\n      \"postal_code\": null,\r\n      \"country\": \"US\",\r\n      \"work_phone\": \"714-364-3586\",\r\n      \"home_phone\": \"990-228-6350\",\r\n      \"thumbnail\": \"https://robohash.org/4.png?size=50x50\",\r\n      \"picture\": \"https://robohash.org/4.png?size=250x250\"\r\n}"
     }
   ]
 }

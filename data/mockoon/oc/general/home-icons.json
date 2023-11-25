@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "Calendar",
+    "icon": "calendar_month",
+    "url": "/eventSummary"
+  },
+  {
+    "id": 2,
+    "name": "Contacts",
+    "icon": "person",
+    "url": "/contactSummary"
+  },
+  {
+    "id": 3,
+    "icon": "business_center",
+    "name": "Accounts",
+    "url": ""
+  },
+  {
+    "id": 4,
+    "icon": "request_quote",
+    "name": "Opportunities",
+    "url": ""
+  },
+  {
+    "id": 5,
+    "icon": "contact_mail",
+    "name": "Campaigns",
+    "url": ""
+  },
+  {
+    "id": 6,
+    "icon": "schedule",
+    "name": "Timesheet",
+    "url": "/timesheetsAll"
+  },
+  {
+    "id": 7,
+    "icon": "card_travel",
+    "name": "Expenses",
+    "url": "/expensesAll"
+  },
+  {
+    "id": 8,
+    "icon": "checklist",
+    "name": "Tasks",
+    "url": "/tasksList"
+  },
+  {
+    "id": 9,
+    "icon": "subject",
+    "name": "Notes",
+    "url": "/notesList"
+  },
+  {
+    "id": 10,
+    "icon": "support_agent",
+    "name": "Support Desk",
+    "url": ""
+  }
+]
