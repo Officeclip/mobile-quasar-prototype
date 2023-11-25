@@ -1982,26 +1982,24 @@
       "name": "My New Org"
     }
   ],
-  "session": [
-    {
-      "userId": "1234",
-      "orgId": "123",
-      "userName": "SK Dutta",
-      "userEmail": "skd@officeclip.com",
-      "isAdmin": true,
-      "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10],
-      "roleAccess": [
-        {
-          "name": "TrackerEditCase",
-          "access": false
-        },
-        {
-          "name": "TrackerCreateNewCase",
-          "access": true
-        }
-      ]
-    }
-  ],
+  "session": {
+    "userId": "1234",
+    "orgId": "123",
+    "userName": "SK Dutta",
+    "userEmail": "skd@officeclip.com",
+    "isAdmin": true,
+    "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10],
+    "roleAccesses": [
+      {
+        "name": "TrackerEditCase",
+        "access": false
+      },
+      {
+        "name": "TrackerCreateNewCase",
+        "access": true
+      }
+    ]
+  },
   "generalUserProfile": [
     {
       "userIcon": "https://cdn-icons-png.flaticon.com/256/5556/5556468.png",
@@ -4500,12 +4498,10 @@
       "name": "Documentation"
     }
   ],
-  "token": [
-    {
-      "token": "xxxxyyyy",
-      "expirationUnixEpoch": 1732314106
-    }
-  ],
+  "token": {
+    "token": "xxxxyyyy",
+    "expirationUnixEpoch": 1732314106
+  },
   "login": [
     {
       "id": 1,

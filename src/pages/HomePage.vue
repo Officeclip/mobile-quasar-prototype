@@ -36,8 +36,8 @@ const filteredHomeIcons = computed(() => {
 });
 
 const session: ComputedRef<Session> = computed(() => {
-  console.log('Sessions stores', sessionStore.Sessions[0]);
-  return sessionStore.Sessions[0];
+  console.log('Sessions stores', sessionStore.Session);
+  return sessionStore.Session;
 });
 
 const userProfile: ComputedRef<UserProfile> = computed(() => {

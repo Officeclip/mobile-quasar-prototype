@@ -19,18 +19,20 @@ export const useTokenStore = defineStore('loginStore', {
       // this will happen in the actual call, so we will bypass this for now as json-server
       // cannot process what we are trying to do.
       try {
-        const response = await axios.post(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(
           `${Constants.endPointUrl}/login`,
           login
         );
-        if (response.data && response.data.length > 0) {
-          this.token = response.data[0];
+        debugger;
+        if (response.data) {
+          this.token = response.data;
         }
 
-        const response2 = await axios.get(`${Constants.endPointUrl}/token`);
-        if (response2.data && response2.data.length > 0) {
-          this.token = response2.data[0];
-        }
+        // const response2 = await axios.get(`${Constants.endPointUrl}/token`);
+        // if (response2.data && response2.data.length > 0) {
+        //   this.token = response2.data[0];
+        // }
       } catch (error) {
         console.log(JSON.stringify(error));
         if (axios.isAxiosError(error)) {

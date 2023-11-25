@@ -64,12 +64,7 @@
           "latency": 0,
           "statusCode": 200,
           "label": "Success",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
+          "headers": [],
           "bodyType": "FILE",
           "filePath": "oc\\contacts\\contact-summary.txt",
           "databucketID": "",
@@ -94,16 +89,11 @@
       "responses": [
         {
           "uuid": "fc5e37e3-b946-4dbd-8ce4-e7a402439ea8",
-          "body": "{\r\n  \"token\": \"xxxxyyyy\",\r\n  \"expirationUnixEpoch\": 1732314106\r\n}",
+          "body": "{\r\n  \"token\": \"xxxxyyyyzzz\",\r\n  \"expirationUnixEpoch\": 1732314106\r\n}",
           "latency": 0,
           "statusCode": 201,
           "label": "",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
+          "headers": [],
           "bodyType": "INLINE",
           "filePath": "C:\\OfficeClipNew\\mobile\\mobile-quasar-prototype\\data\\mockoon\\oc\\login.json",
           "databucketID": "",
@@ -132,12 +122,7 @@
           "latency": 0,
           "statusCode": 200,
           "label": "",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
+          "headers": [],
           "bodyType": "FILE",
           "filePath": "oc\\general\\session.json",
           "databucketID": "",
@@ -166,12 +151,7 @@
           "latency": 0,
           "statusCode": 200,
           "label": "",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
+          "headers": [],
           "bodyType": "FILE",
           "filePath": "oc\\general\\orgs.json",
           "databucketID": "",
@@ -192,7 +172,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "home-icons",
+      "endpoint": "homeIcons",
       "responses": [
         {
           "uuid": "7d9d9eaf-0337-4920-9c97-08ddf321e17d",
@@ -200,14 +180,9 @@
           "latency": 0,
           "statusCode": 200,
           "label": "",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
+          "headers": [],
           "bodyType": "FILE",
-          "filePath": "oc\\general\\jome-icons",
+          "filePath": "oc\\general\\homeIcons",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [],
@@ -263,12 +238,7 @@
           "latency": 0,
           "statusCode": 200,
           "label": "",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
+          "headers": [],
           "bodyType": "DATABUCKET",
           "filePath": "",
           "databucketID": "93cc",
@@ -312,6 +282,18 @@
     {
       "key": "Content-Type",
       "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With, x-orgKey"
     }
   ],
   "proxyReqHeaders": [
