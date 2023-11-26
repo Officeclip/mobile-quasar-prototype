@@ -46,6 +46,10 @@
         {
           "type": "route",
           "uuid": "1625bbc0-a7e1-4c46-9205-b369568c0a4e"
+        },
+        {
+          "type": "route",
+          "uuid": "3730580d-b97d-465a-b6c0-a7a92ef776ce"
         }
       ]
     }
@@ -243,6 +247,35 @@
           "filePath": "",
           "databucketID": "93cc",
           "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "3730580d-b97d-465a-b6c0-a7a92ef776ce",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "generalUserProfile",
+      "responses": [
+        {
+          "uuid": "5f4d4fb1-8338-4540-b1b1-603d269f4c16",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\general\\generalUserProfile.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
           "rules": [],
           "rulesOperator": "OR",
           "disableTemplating": false,

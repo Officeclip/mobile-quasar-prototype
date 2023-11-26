@@ -41,8 +41,8 @@ const session: ComputedRef<Session> = computed(() => {
 });
 
 const userProfile: ComputedRef<UserProfile> = computed(() => {
-  console.log('UserProfile store', userProfileStore.UserProfiles[0]);
-  return userProfileStore.UserProfiles[0];
+  console.log('UserProfile store', userProfileStore.UserProfile);
+  return userProfileStore.UserProfile;
 });
 
 const organizationItems = computed(() => {

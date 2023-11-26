@@ -2000,13 +2000,11 @@
       }
     ]
   },
-  "generalUserProfile": [
-    {
-      "userIcon": "https://cdn-icons-png.flaticon.com/256/5556/5556468.png",
-      "userPhoto": "https://cdn-icons-png.flaticon.com/256/5556/5556468.png",
-      "background": "https://cdn.quasar.dev/img/material.png"
-    }
-  ],
+  "generalUserProfile": {
+    "userIcon": "https://cdn-icons-png.flaticon.com/256/5556/5556468.png",
+    "userPhoto": "https://cdn-icons-png.flaticon.com/256/5556/5556468.png",
+    "background": "https://cdn.quasar.dev/img/material.png"
+  },
   "regionalSettings": [
     {
       "shortDateFormat": "M/d/yyyy",
