@@ -75,6 +75,25 @@
           "uuid": "abc3ed35-f379-4ae1-846f-e6b3f5c22eb2"
         }
       ]
+    },
+    {
+      "uuid": "0b406ada-d4d4-4e17-bc96-7beb7f464fd4",
+      "name": "Tasks",
+      "collapsed": false,
+      "children": [
+        {
+          "type": "route",
+          "uuid": "3c13fbeb-92d9-4b22-91c8-10a2bfd849f7"
+        },
+        {
+          "type": "route",
+          "uuid": "f80688cc-69d6-4ce9-9ec7-4909c20d991f"
+        },
+        {
+          "type": "route",
+          "uuid": "54c98b34-d0db-4471-a57c-922fc3984990"
+        }
+      ]
     }
   ],
   "routes": [
@@ -425,6 +444,93 @@
       ],
       "enabled": true,
       "responseMode": null
+    },
+    {
+      "uuid": "3c13fbeb-92d9-4b22-91c8-10a2bfd849f7",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "task-details",
+      "responses": [
+        {
+          "uuid": "b65302c5-e09f-41e6-bf3f-6af6fd6864e8",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "fmut",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "f80688cc-69d6-4ce9-9ec7-4909c20d991f",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "task-lists",
+      "responses": [
+        {
+          "uuid": "254da3da-d24b-49ca-9738-c67b4b4194ea",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\tasks\\task-lists.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "54c98b34-d0db-4471-a57c-922fc3984990",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "task-summary",
+      "responses": [
+        {
+          "uuid": "b8eaaa6e-8a41-4f55-b797-568e8180924e",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "as9n",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -439,6 +545,10 @@
     {
       "type": "folder",
       "uuid": "91b3e99b-2b50-4659-84d3-e5ec20ef5dd7"
+    },
+    {
+      "type": "folder",
+      "uuid": "0b406ada-d4d4-4e17-bc96-7beb7f464fd4"
     }
   ],
   "proxyMode": false,
@@ -498,6 +608,20 @@
       "name": "event-details",
       "documentation": "",
       "value": "[\r\n  {\r\n      \"id\": \"5\",\r\n      \"createdDate\": \"2020-03-05T15:01:17Z\",\r\n      \"createdGroupSId\": \"YZMX3M9D4BLNXA9S545Q\",\r\n      \"createdUserSid\": \"N4VRXBADAZHRSGHFYD5Q\",\r\n      \"parentServiceType\": 1,\r\n      \"parentSid\": \"JCJR6NA526TKYKTCUD5Q\",\r\n      \"eventType\": \"2\",\r\n      \"eventName\": \"1:Senior Interactions Analyst\",\r\n      \"eventDescription\": \"Non ipsa provident qui laborum quas enim unde ea qui.\",\r\n      \"startDateTime\": \"2020-03-04T18:30:00Z\",\r\n      \"endDateTime\": \"2020-03-04T19:00:00Z\",\r\n      \"isAllDayEvent\": false,\r\n      \"eventUserSid\": \"-1\",\r\n      \"isRsvp\": false,\r\n      \"sendNotifications\": false,\r\n      \"eventLocation\": \"hyd\",\r\n      \"repeatInfoText\": \"\",\r\n      \"recurrenceRule\": \"\",\r\n      \"modifiedDate\": \"2020-03-05T15:01:17Z\",\r\n      \"modifiedUserSid\": \"N4VRXBADAZHRSGHFYD5Q\",\r\n      \"timezoneId\": \"2\",\r\n      \"remindTo\": \"me\",\r\n      \"remindBeforeMinutes\": 720,\r\n      \"label\": \"1\",\r\n      \"ShowTimeAs\": \"2\",\r\n      \"meetingAttendees\": [\r\n        {\r\n          \"id\": \"1\",\r\n          \"name\": \"Narsimha\",\r\n          \"email\": \"knr@officeclip.com\"\r\n        },\r\n        {\r\n          \"id\": \"2\",\r\n          \"name\": \"Oc, Demo\",\r\n          \"email\": \"ocdemo@officeclip.com\"\r\n        },\r\n        {\r\n          \"id\": \"3\",\r\n          \"name\": \"Prakash\",\r\n          \"email\": \"prakash@gmail.com\"\r\n        }\r\n      ]\r\n    }\r\n  ]"
+    },
+    {
+      "uuid": "672f6bd8-059b-41b8-8091-d1f861cc4849",
+      "id": "fmut",
+      "name": "task-details",
+      "documentation": "",
+      "value": "[\r\n    {\r\n      \"id\": 101,\r\n      \"subject\": \"1: Complete Sprint Planning\",\r\n      \"description\": \"Plan and prioritize tasks for the upcoming sprint\",\r\n      \"taskType\": {\r\n        \"id\": 2,\r\n        \"name\": \"Development\"\r\n      },\r\n      \"taskStatus\": {\r\n        \"id\": \"3\",\r\n        \"name\": \"Completed\"\r\n      },\r\n      \"isEditable\": false,\r\n      \"isPrivate\": true,\r\n      \"taskOwner\": {\r\n        \"id\": \"15\",\r\n        \"name\": \"Elijah Hall\"\r\n      },\r\n      \"startDate\": \"2023-10-01T10:00:00Z\",\r\n      \"modifiedDate\": \"2023-11-01T18:20:39.510Z\",\r\n      \"dueDate\": \"2023-10-05T17:00:00Z\",\r\n      \"createdDate\": \"2023-09-30T08:45:00Z\",\r\n      \"regardingType\": 1,\r\n      \"regardingValue\": \"Team Collaboration\",\r\n      \"assignees\": [\r\n        {\r\n          \"id\": 1,\r\n          \"name\": \"John Doe\"\r\n        },\r\n        {\r\n          \"id\": 2,\r\n          \"name\": \"Jane Smith\"\r\n        },\r\n        {\r\n          \"id\": 4,\r\n          \"name\": \"Oliver Johnson\"\r\n        },\r\n        {\r\n          \"id\": \"1\",\r\n          \"name\": \"Kathiravan Sekar\",\r\n          \"email\": \"kathiravanrs@gmail.com\"\r\n        }\r\n      ],\r\n      \"remindTo\": \"Me\",\r\n      \"remindBeforeMinutes\": 60,\r\n      \"repeatInfoText\": \"Weekly\",\r\n      \"recurrenceRule\": \"FREQ=WEEKLY;COUNT=5\",\r\n      \"tags\": [\r\n        {\r\n          \"id\": \"101\",\r\n          \"name\": \"Marketing\"\r\n        },\r\n        {\r\n          \"id\": \"102\",\r\n          \"name\": \"Development\"\r\n        }\r\n      ],\r\n      \"subtasks\": [\r\n        {\r\n          \"id\": 1,\r\n          \"parentId\": 101,\r\n          \"title\": \"Subtask 1\",\r\n          \"description\": \"Description for subtask 1\",\r\n          \"assignee\": {\r\n            \"id\": \"1\",\r\n            \"name\": \"Kathiravan Sekar\",\r\n            \"email\": \"kathiravanrs@gmail.com\"\r\n          },\r\n          \"isCompleted\": false,\r\n          \"completedDate\": \"2023-10-05T17:00:00Z\"\r\n        },\r\n        {\r\n          \"id\": 2,\r\n          \"parentId\": 101,\r\n          \"title\": \"Subtask 2\",\r\n          \"description\": \"Description for subtask 2\",\r\n          \"assignee\": {\r\n            \"id\": \"1\",\r\n            \"name\": \"Kathiravan Sekar\"\r\n          },\r\n          \"isCompleted\": true,\r\n          \"completedDate\": \"2023-10-05T17:00:00Z\"\r\n        },\r\n        {\r\n          \"id\": \"3\",\r\n          \"parentId\": 101,\r\n          \"title\": \"Subtask 3\",\r\n          \"description\": \"Description 3\",\r\n          \"assignee\": {\r\n            \"id\": \"1\",\r\n            \"name\": \"Kathiravan Sekar\"\r\n          },\r\n          \"isCompleted\": true,\r\n          \"completedDate\": \"2023-10-05T17:00:00Z\"\r\n        },\r\n        {\r\n          \"id\": \"\",\r\n          \"parentId\": 101,\r\n          \"title\": \"Test Subtask 3\",\r\n          \"description\": \"Testing description\",\r\n          \"assignee\": {\r\n            \"id\": \"28\",\r\n            \"name\": \"Lily Brown\"\r\n          },\r\n          \"isCompleted\": false,\r\n          \"completedDate\": \"2023-10-05T17:00:00Z\"\r\n        }\r\n      ],\r\n      \"taskPriority\": {\r\n        \"id\": \"2\",\r\n        \"name\": \"Medium\"\r\n      },\r\n      \"security\": {\r\n        \"read\": true,\r\n        \"write\": true,\r\n        \"append\": false,\r\n        \"delete\": false\r\n      }\r\n    },\r\n    {\r\n      \"id\": 102,\r\n      \"subject\": \"2: Make Task Details self sufficient\",\r\n      \"description\": \"Send all data at once when loading task details\",\r\n      \"taskType\": {\r\n        \"id\": \"1\",\r\n        \"name\": \"Development\"\r\n      },\r\n      \"taskStatus\": {\r\n        \"id\": \"1\",\r\n        \"name\": \"Pending\",\r\n        \"category\": \"Pending\"\r\n      },\r\n      \"isPrivate\": true,\r\n      \"isEditable\": true,\r\n      \"taskOwner\": {\r\n        \"id\": \"1\",\r\n        \"name\": \"Kathiravan Sekar\",\r\n        \"email\": \"kathiravanrs@gmail.com\"\r\n      },\r\n      \"startDate\": \"\",\r\n      \"modifiedDate\": \"2023-11-01T19:39:14.953Z\",\r\n      \"dueDate\": \"2023-10-27\",\r\n      \"createdDate\": \"2023-10-25\",\r\n      \"regardingType\": 0,\r\n      \"regardingValue\": \"\",\r\n      \"assignees\": [\r\n        \"Kathiravan Sekar\"\r\n      ],\r\n      \"remindTo\": \"\",\r\n      \"remindBeforeMinutes\": 0,\r\n      \"repeatInfoText\": \"\",\r\n      \"recurrenceRule\": \"\",\r\n      \"tags\": [],\r\n      \"subtasks\": [\r\n        {\r\n          \"id\": \"\",\r\n          \"parentId\": 101,\r\n          \"title\": \"Subtask 1\",\r\n          \"description\": \"Subtask 1 description\",\r\n          \"assignee\": {\r\n            \"id\": \"17\",\r\n            \"name\": \"Benjamin White\"\r\n          },\r\n          \"isCompleted\": false,\r\n          \"completedDate\": \"2023-10-05T17:00:00Z\"\r\n        }\r\n      ],\r\n      \"taskPriority\": {\r\n        \"id\": \"2\",\r\n        \"name\": \"Medium\"\r\n      }\r\n    },\r\n    {\r\n      \"id\": 116,\r\n      \"subject\": \"Test\",\r\n      \"description\": \"Tested\",\r\n      \"taskType\": {\r\n        \"id\": \"5\",\r\n        \"name\": \"Telephone\"\r\n      },\r\n      \"taskStatus\": {\r\n        \"id\": \"7\",\r\n        \"name\": \"Pending\"\r\n      },\r\n      \"isPrivate\": true,\r\n      \"taskOwner\": {\r\n        \"id\": \"10\",\r\n        \"name\": \"Olivia Adams\"\r\n      },\r\n      \"parentObject\": {\r\n        \"id\": 0,\r\n        \"serviceType\": 0\r\n      },\r\n      \"startDate\": \"\",\r\n      \"modifiedDate\": \"2023-11-16T17:26:05.236Z\",\r\n      \"dueDate\": \"2023-11-16\",\r\n      \"createdDate\": \"2023-11-10\",\r\n      \"regardingType\": 0,\r\n      \"regardingValue\": \"\",\r\n      \"assignees\": [\r\n        {\r\n          \"id\": \"7\",\r\n          \"name\": \"David Brown\"\r\n        }\r\n      ],\r\n      \"remindTo\": \"everyone\",\r\n      \"remindBeforeMinutes\": 180,\r\n      \"repeatInfoText\": \"Every month on Monday\",\r\n      \"recurrenceRule\": \"DTSTART:20231116T172548Z\\nRRULE:FREQ=MONTHLY;INTERVAL=1;BYDAY=MO;BYSETPOS=1\",\r\n      \"tags\": [],\r\n      \"subtasks\": [],\r\n      \"taskPriority\": {\r\n        \"id\": \"2\",\r\n        \"name\": \"Medium\"\r\n      }\r\n    },\r\n    {\r\n      \"id\": 117,\r\n      \"subject\": \"Task 1010101\",\r\n      \"description\": \"101010\",\r\n      \"taskType\": {\r\n        \"id\": \"5\",\r\n        \"name\": \"Telephone\"\r\n      },\r\n      \"taskStatus\": {\r\n        \"id\": \"7\",\r\n        \"name\": \"Pending\"\r\n      },\r\n      \"isPrivate\": false,\r\n      \"taskOwner\": {\r\n        \"id\": \"1\",\r\n        \"name\": \"Kathiravan Sekar\",\r\n        \"email\": \"kathiravanrs@gmail.com\"\r\n      },\r\n      \"parentObject\": {\r\n        \"id\": 0,\r\n        \"serviceType\": 0\r\n      },\r\n      \"startDate\": \"\",\r\n      \"modifiedDate\": \"2023-11-22T00:18:01.843Z\",\r\n      \"dueDate\": \"2023-11-30\",\r\n      \"createdDate\": \"2023-11-20\",\r\n      \"regardingType\": 0,\r\n      \"regardingValue\": \"\",\r\n      \"assignees\": [\r\n        {\r\n          \"id\": \"67\",\r\n          \"name\": \"Joseph Miller\"\r\n        }\r\n      ],\r\n      \"remindTo\": \"me\",\r\n      \"remindBeforeMinutes\": 60,\r\n      \"repeatInfoText\": \"Every weekday for 10 times\",\r\n      \"recurrenceRule\": \"DTSTART:20231122T001755Z\\nRRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR;COUNT=10\",\r\n      \"tags\": [\r\n        {\r\n          \"id\": \"7427\",\r\n          \"name\": \"marketing\"\r\n        },\r\n        {\r\n          \"id\": \"7234\",\r\n          \"name\": \"timesheet\"\r\n        }\r\n      ],\r\n      \"subtasks\": [],\r\n      \"taskPriority\": {\r\n        \"id\": \"2\",\r\n        \"name\": \"Medium\"\r\n      }\r\n    },\r\n    {\r\n      \"id\": 118,\r\n      \"subject\": \"Task 1010101\",\r\n      \"description\": \"101010\",\r\n      \"taskType\": {\r\n        \"id\": \"5\",\r\n        \"name\": \"Telephone\"\r\n      },\r\n      \"taskStatus\": {\r\n        \"id\": \"7\",\r\n        \"name\": \"Pending\"\r\n      },\r\n      \"isPrivate\": false,\r\n      \"taskOwner\": {\r\n        \"id\": \"1\",\r\n        \"name\": \"Kathiravan Sekar\",\r\n        \"email\": \"kathiravanrs@gmail.com\"\r\n      },\r\n      \"parentObject\": {\r\n        \"id\": 0,\r\n        \"serviceType\": 0\r\n      },\r\n      \"startDate\": \"\",\r\n      \"modifiedDate\": \"2023-11-22T00:18:01.843Z\",\r\n      \"dueDate\": \"2023-11-30\",\r\n      \"createdDate\": \"2023-11-20\",\r\n      \"regardingType\": 0,\r\n      \"regardingValue\": \"\",\r\n      \"assignees\": [\r\n        {\r\n          \"id\": \"67\",\r\n          \"name\": \"Joseph Miller\"\r\n        }\r\n      ],\r\n      \"remindTo\": \"me\",\r\n      \"remindBeforeMinutes\": 60,\r\n      \"repeatInfoText\": \"Every weekday for 10 times\",\r\n      \"recurrenceRule\": \"DTSTART:20231122T001755Z\\nRRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR;COUNT=10\",\r\n      \"tags\": [\r\n        {\r\n          \"id\": \"7427\",\r\n          \"name\": \"marketing\"\r\n        },\r\n        {\r\n          \"id\": \"7234\",\r\n          \"name\": \"timesheet\"\r\n        }\r\n      ],\r\n      \"subtasks\": [],\r\n      \"taskPriority\": {\r\n        \"id\": \"2\",\r\n        \"name\": \"Medium\"\r\n      }\r\n    }\r\n  ]"
+    },
+    {
+      "uuid": "2c727e87-c204-40fb-8582-d69a148651b1",
+      "id": "as9n",
+      "name": "task-summary",
+      "documentation": "",
+      "value": "[\r\n  {\r\n    \"id\": 101,\r\n    \"subject\": \"1: Complete Sprint Planning (Edit)\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-10-05T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\",\r\n    \"security\": {\r\n      \"read\": true,\r\n      \"write\": true,\r\n      \"append\": false,\r\n      \"delete\": false\r\n    }\r\n  },\r\n  {\r\n    \"id\": 102,\r\n    \"subject\": \"2: Make Task Details self sufficient\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-10-05T17:00:00Z\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"id\": 103,\r\n    \"subject\": \"3: Implement OAuth2 Authentication\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-11-05T17:00:00Z\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 104,\r\n    \"subject\": \"4: Develop API Documentation\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-10-15T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 105,\r\n    \"subject\": \"5: Optimize Database Queries\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-11-01T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 106,\r\n    \"subject\": \"6: Update User Interface\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-10-20T17:00:00Z\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"id\": 107,\r\n    \"subject\": \"7: Migrate to Cloud Hosting\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-09-05T17:00:00Z\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 108,\r\n    \"subject\": \"8: Security Audit and Compliance Check\",\r\n    \"taskStatusName\": \"In Progress\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-12-01T17:00:00Z\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 109,\r\n    \"subject\": \"9: Implement Automated Backups\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-10-25T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 110,\r\n    \"subject\": \"10: Refactor Codebase\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-11-10T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 111,\r\n    \"subject\": \"11: Implement Data Encryption\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-09-20T17:00:00Z\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 112,\r\n    \"subject\": \"12: Setup Continuous Integration\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-10-10T17:00:00Z\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"id\": 113,\r\n    \"subject\": \"13: Conduct User Feedback Sessions\",\r\n    \"taskStatusName\": \"In Progress\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-10-30T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 114,\r\n    \"subject\": \"14: Improve Logging Mechanism\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-11-15T17:00:00Z\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"id\": 115,\r\n    \"subject\": \"15: Train Staff on New Features\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-09-10T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-09-11T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"TJCR7UD4G2GE789RN6KR6KUVT2GX3GDDB4YM6LQ\",\r\n    \"subject\": \"#589: Create a test account for Dawn Swope to test QB export using IIF file\",\r\n    \"taskStatusName\": \"In Progress\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-09-29T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"ZZ9UNN9VTZJQ7BDEHAHBWCFCCCHE6KQX7MJM6LQ\",\r\n    \"subject\": \"#587: Stripe recurring payment implementation\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-12-30T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"BJRV28SEGJMCXDFFYMMZYBJDC2KR37FF54TM6LQ\",\r\n    \"subject\": \"#582: New Release Issues Fix (post v11.2.4)\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-07-31T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"Z2RC2YDX7CHZ3BSC768MYHS3DMKUXSHDSM9M6LQ\",\r\n    \"subject\": \"#570: Meeting for July 2022\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-04-29T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"SM6WYADC268ZXUDFDBHVYGJRRBUUY8SEBDYM6LQ\",\r\n    \"subject\": \"#559: Add ASPNET48 in DISM commands\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-09-13T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"2CTTXS9VX6JZ7NADX46RXWFF4DUC2BJC7MJM6LQ\",\r\n    \"subject\": \"#534: Design Recurring Payment Processing\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-03-31T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"TDKTHWHRY6MLWJS3VZFTXUYV68KR7QFF3M9M6LQ\",\r\n    \"subject\": \"#523: Task for Enhance Payment Processing : Recurring payments with Stripe\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-02-27T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"36YUYJ9DZ28ZHJYRCBKQ3DAXZ8RQH7W3VM9M6LQ\",\r\n    \"subject\": \"#515: Team meetings - Feb -2022\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-01-30T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"BGFMWUD4B4JZ3EFRG89LNJRXJM9XSXSDT4TM6LQ\",\r\n    \"subject\": \"#501: Team meetings - Jan-2022\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2021-09-15T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"FMFNWKHVBDFVHEJVMCVR6DFV789LXWJDF4YM6LQ\",\r\n    \"subject\": \"#463: Convert all Server times to UTC (in database)\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 116,\r\n    \"subject\": \"Test\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-11-16\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 117,\r\n    \"subject\": \"Task 1010101\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-11-30\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  }\r\n]\r\n"
     }
   ]
 }

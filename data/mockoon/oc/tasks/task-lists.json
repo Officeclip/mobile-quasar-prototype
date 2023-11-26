@@ -1,0 +1,194 @@
+{
+  "status": [
+    {
+      "id": "5",
+      "name": "Open"
+    },
+    {
+      "id": "6",
+      "name": "Closed"
+    },
+    {
+      "id": "7",
+      "name": "Pending"
+    },
+    {
+      "id": "8",
+      "name": "Completed"
+    }
+  ],
+  "priority": [
+    {
+      "id": "0",
+      "name": ""
+    },
+    {
+      "id": "1",
+      "name": "High"
+    },
+    {
+      "id": "2",
+      "name": "Medium"
+    },
+    {
+      "id": "3",
+      "name": "Low"
+    },
+    {
+      "id": "4",
+      "name": "Other"
+    }
+  ],
+  "taskType": [
+    {
+      "id": "-1",
+      "name": ""
+    },
+    {
+      "id": "205",
+      "name": "Test123"
+    },
+    {
+      "id": "200",
+      "name": "Development ToDo"
+    },
+    {
+      "id": "5",
+      "name": "Telephone"
+    },
+    {
+      "id": "7",
+      "name": "Email"
+    },
+    {
+      "id": "8",
+      "name": "Other"
+    },
+    {
+      "id": "6",
+      "name": "To Do"
+    },
+    {
+      "id": "267",
+      "name": "Marketing"
+    },
+    {
+      "id": "268",
+      "name": "Development"
+    }
+  ],
+  "regardingParentTypes": [
+    {
+      "id": "14",
+      "name": "Contacts"
+    },
+    {
+      "id": "21",
+      "name": "Campaigns"
+    },
+    {
+      "id": "23",
+      "name": "Account"
+    },
+    {
+      "id": "24",
+      "name": "Opportunities"
+    },
+    {
+      "id": "28",
+      "name": "Projects"
+    },
+    {
+      "id": "34",
+      "name": "Competitor"
+    }
+  ],
+  "tags": [
+    {
+      "id": "7211",
+      "name": "meeting"
+    },
+    {
+      "id": "7231",
+      "name": "marketing"
+    },
+    {
+      "id": "7232",
+      "name": "helpfiles"
+    },
+    {
+      "id": "7233",
+      "name": "CRM"
+    },
+    {
+      "id": "7234",
+      "name": "timesheet"
+    },
+    {
+      "id": "7235",
+      "name": "blog"
+    },
+    {
+      "id": "7338",
+      "name": "accounting"
+    },
+    {
+      "id": "7339",
+      "name": "testing"
+    },
+    {
+      "id": "7409",
+      "name": "marketing"
+    },
+    {
+      "id": "7427",
+      "name": "marketing"
+    },
+    {
+      "id": "7445",
+      "name": "marketing"
+    }
+  ],
+  "users": [
+    {
+      "id": "2",
+      "name": "Dutta, SK (_skd@officeclip.com)"
+    },
+    {
+      "id": "34636",
+      "name": "Gundu, Sudhakar (_sudhakar@officeclip.com)"
+    },
+    {
+      "id": "1",
+      "name": "Herschol, Loraine (ocdemo@officeclip.com)"
+    },
+    {
+      "id": "35566",
+      "name": "Jung, Kim (_kimjung@koreanmail.com)"
+    },
+    {
+      "id": "22091",
+      "name": "Kapoor, Deepa (_deepa@officeclip.com)"
+    },
+    {
+      "id": "31519",
+      "name": "Kulkarni, Nagesh (_nagesh@officeclip.com)"
+    },
+    {
+      "id": "24380",
+      "name": "Maharana, Netrananda (_netrananda@officeclip.com)"
+    },
+    {
+      "id": "902",
+      "name": "Patnaik, Sidharta (_sidhartha@officeclip.com)"
+    },
+    {
+      "id": "24883",
+      "name": "Rao, Narsimha (_narsimha@officeclip.com)"
+    },
+    {
+      "id": "24882",
+      "name": "Yenumula, Shrawan (_k.narsimharao@gmail.com)"
+    }
+  ]
+}

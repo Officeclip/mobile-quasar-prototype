@@ -1,8 +1,15 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { Constants } from '../Constants';
-import {tag, taskLists, taskPriority, taskStatus, taskType, user} from "src/models/task/taskLists";
-import {regardingContact} from "src/models/task/taskLists";
+import {
+  tag,
+  taskLists,
+  taskPriority,
+  taskStatus,
+  taskType,
+  user,
+} from 'src/models/task/taskLists';
+import { regardingContact } from 'src/models/task/taskLists';
 
 export const useTaskListsStore = defineStore('taskListsStore', {
   state: () => ({
@@ -25,11 +32,9 @@ export const useTaskListsStore = defineStore('taskListsStore', {
   actions: {
     async getTaskLists() {
       try {
-        const response = await axios.get(
-          `${Constants.endPointUrl}/task-lists`
-        );
+        const response = await axios.get(`${Constants.endPointUrl}/task-lists`);
 
-        const taskLists:taskLists = response.data[0];
+        const taskLists: taskLists = response.data;
         console.log('taskLists', taskLists);
 
         this.tags = taskLists.tags;
@@ -45,10 +50,8 @@ export const useTaskListsStore = defineStore('taskListsStore', {
     async getRegardingContactListThatMatch(searchString: string) {
       try {
         this.users = [];
-        const response = await axios.get(
-          `${Constants.endPointUrl}/task-lists`
-        );
-        const taskLists = response.data[0];
+        const response = await axios.get(`${Constants.endPointUrl}/task-lists`);
+        const taskLists = response.data;
         const regardingContacts = taskLists.users;
         const filtered = regardingContacts.filter((t: regardingContact) => {
           return t.name.toLowerCase().includes(searchString.toLowerCase());
