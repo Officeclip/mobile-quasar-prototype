@@ -49,6 +49,10 @@ export class Constants {
   }
 
   static throwError(error: unknown) {
+    //TODO: We need a way to go to the login page if token expires: https://dev.to/darkmavis1980/how-to-use-axios-interceptors-to-handle-api-error-responses-2ij1
+    // if (error.response.status === 401) {
+    //   window.location.href = '/';
+    // }
     console.log(JSON.stringify(error));
     if (axios.isAxiosError(error)) {
       throw `Axios error: ${error.message}`;
