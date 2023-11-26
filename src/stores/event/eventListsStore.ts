@@ -71,7 +71,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
       try {
         const response = await axios.get(callStr);
 
-        const eventLists = response.data[0];
+        const eventLists = response.data;
         console.log('eventLists', eventLists);
         console.log('label', eventLists.label);
 

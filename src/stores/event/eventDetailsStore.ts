@@ -41,7 +41,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       const callStr = `${Constants.endPointUrl}/event-details?id=${id}`;
       try {
         const response = await axios.get(callStr);
-        if (response.data && response.data.length > 0) {
+        if (response.data) {
           this.eventDetails = response.data[0];
         }
       } catch (error) {

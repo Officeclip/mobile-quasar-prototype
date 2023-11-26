@@ -10,7 +10,7 @@
     {
       "uuid": "17495988-91b8-493e-b85a-c301b08a1ae3",
       "name": "Contacts",
-      "collapsed": false,
+      "collapsed": true,
       "children": [
         {
           "type": "route",
@@ -56,7 +56,7 @@
     {
       "uuid": "91b3e99b-2b50-4659-84d3-e5ec20ef5dd7",
       "name": "Events",
-      "collapsed": true,
+      "collapsed": false,
       "children": [
         {
           "type": "route",
@@ -464,7 +464,7 @@
       "id": "7ra9",
       "name": "event-details",
       "documentation": "",
-      "value": "{\r\n      \"id\": \"5\",\r\n      \"createdDate\": \"2020-03-05T15:01:17Z\",\r\n      \"createdGroupSId\": \"YZMX3M9D4BLNXA9S545Q\",\r\n      \"createdUserSid\": \"N4VRXBADAZHRSGHFYD5Q\",\r\n      \"parentServiceType\": 1,\r\n      \"parentSid\": \"JCJR6NA526TKYKTCUD5Q\",\r\n      \"eventType\": \"2\",\r\n      \"eventName\": \"1:Senior Interactions Analyst\",\r\n      \"eventDescription\": \"Non ipsa provident qui laborum quas enim unde ea qui.\",\r\n      \"startDateTime\": \"2020-03-04T18:30:00Z\",\r\n      \"endDateTime\": \"2020-03-04T19:00:00Z\",\r\n      \"isAllDayEvent\": false,\r\n      \"eventUserSid\": \"-1\",\r\n      \"isRsvp\": false,\r\n      \"sendNotifications\": false,\r\n      \"eventLocation\": \"hyd\",\r\n      \"repeatInfoText\": \"\",\r\n      \"recurrenceRule\": \"\",\r\n      \"modifiedDate\": \"2020-03-05T15:01:17Z\",\r\n      \"modifiedUserSid\": \"N4VRXBADAZHRSGHFYD5Q\",\r\n      \"timezoneId\": \"2\",\r\n      \"remindTo\": \"me\",\r\n      \"remindBeforeMinutes\": 720,\r\n      \"label\": \"1\",\r\n      \"ShowTimeAs\": \"2\",\r\n      \"meetingAttendees\": [\r\n        {\r\n          \"id\": \"1\",\r\n          \"name\": \"Narsimha\",\r\n          \"email\": \"knr@officeclip.com\"\r\n        },\r\n        {\r\n          \"id\": \"2\",\r\n          \"name\": \"Oc, Demo\",\r\n          \"email\": \"ocdemo@officeclip.com\"\r\n        },\r\n        {\r\n          \"id\": \"3\",\r\n          \"name\": \"Prakash\",\r\n          \"email\": \"prakash@gmail.com\"\r\n        }\r\n      ]\r\n    }"
+      "value": "[\r\n  {\r\n      \"id\": \"5\",\r\n      \"createdDate\": \"2020-03-05T15:01:17Z\",\r\n      \"createdGroupSId\": \"YZMX3M9D4BLNXA9S545Q\",\r\n      \"createdUserSid\": \"N4VRXBADAZHRSGHFYD5Q\",\r\n      \"parentServiceType\": 1,\r\n      \"parentSid\": \"JCJR6NA526TKYKTCUD5Q\",\r\n      \"eventType\": \"2\",\r\n      \"eventName\": \"1:Senior Interactions Analyst\",\r\n      \"eventDescription\": \"Non ipsa provident qui laborum quas enim unde ea qui.\",\r\n      \"startDateTime\": \"2020-03-04T18:30:00Z\",\r\n      \"endDateTime\": \"2020-03-04T19:00:00Z\",\r\n      \"isAllDayEvent\": false,\r\n      \"eventUserSid\": \"-1\",\r\n      \"isRsvp\": false,\r\n      \"sendNotifications\": false,\r\n      \"eventLocation\": \"hyd\",\r\n      \"repeatInfoText\": \"\",\r\n      \"recurrenceRule\": \"\",\r\n      \"modifiedDate\": \"2020-03-05T15:01:17Z\",\r\n      \"modifiedUserSid\": \"N4VRXBADAZHRSGHFYD5Q\",\r\n      \"timezoneId\": \"2\",\r\n      \"remindTo\": \"me\",\r\n      \"remindBeforeMinutes\": 720,\r\n      \"label\": \"1\",\r\n      \"ShowTimeAs\": \"2\",\r\n      \"meetingAttendees\": [\r\n        {\r\n          \"id\": \"1\",\r\n          \"name\": \"Narsimha\",\r\n          \"email\": \"knr@officeclip.com\"\r\n        },\r\n        {\r\n          \"id\": \"2\",\r\n          \"name\": \"Oc, Demo\",\r\n          \"email\": \"ocdemo@officeclip.com\"\r\n        },\r\n        {\r\n          \"id\": \"3\",\r\n          \"name\": \"Prakash\",\r\n          \"email\": \"prakash@gmail.com\"\r\n        }\r\n      ]\r\n    }\r\n  ]"
     }
   ]
 }

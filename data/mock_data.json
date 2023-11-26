@@ -979,40 +979,40 @@
       "id": "H49BN6FDDBYWN7WXGC5Q",
       "eventType": 1,
       "eventName": "1:Senior Interactions Analyst",
-      "startDateTime": "2023-09-20T14:30:00Z",
-      "endDateTime": "2023-09-20T16:30:00Z",
+      "startDateTime": "2023-11-20T14:30:00Z",
+      "endDateTime": "2023-11-20T16:30:00Z",
       "isAllDayEvent": false
     },
     {
       "id": "2",
       "eventType": 2,
       "eventName": "3: Testing another events",
-      "startDateTime": "2023-09-26T10:43:32.203Z",
-      "endDateTime": "2023-09-26T11:43:32.203Z",
+      "startDateTime": "2023-11-26T10:43:32.203Z",
+      "endDateTime": "2023-11-26T11:43:32.203Z",
       "isAllDayEvent": false
     },
     {
       "id": "3",
       "eventType": 2,
       "eventName": "2:Forward Usability Planner",
-      "startDateTime": "2023-09-27T10:43:32.203Z",
-      "endDateTime": "2023-09-27T21:43:32.203Z",
+      "startDateTime": "2023-11-27T10:43:32.203Z",
+      "endDateTime": "2023-11-27T21:43:32.203Z",
       "isAllDayEvent": false
     },
     {
       "id": "5",
       "eventType": 1,
       "eventName": "5:Testing the All day event",
-      "startDateTime": "2023-09-30T00:00:00Z",
-      "endDateTime": "2023-09-30T00:00:00Z",
+      "startDateTime": "2023-11-30T00:00:00Z",
+      "endDateTime": "2023-11-30T00:00:00Z",
       "isAllDayEvent": true
     },
     {
       "id": "6",
       "eventType": 2,
       "eventName": "6:Testing the multi day event",
-      "startDateTime": "2023-09-10T10:43:32.203Z",
-      "endDateTime": "2023-09-13T21:43:32.203Z",
+      "startDateTime": "2023-11-10T10:43:32.203Z",
+      "endDateTime": "2023-11-13T21:43:32.203Z",
       "isAllDayEvent": false
     }
   ],
@@ -1062,452 +1062,450 @@
       ]
     }
   ],
-  "event-lists": [
-    {
-      "showTimeAs": [
-        {
-          "id": "1",
-          "name": "Busy"
-        },
-        {
-          "id": "2",
-          "name": "Free"
-        },
-        {
-          "id": "3",
-          "name": "OutOfOffice"
-        },
-        {
-          "id": "4",
-          "name": "Tentative"
-        }
-      ],
-      "label": [
-        {
-          "id": "1",
-          "name": "Office",
-          "color": "#FFCCCC"
-        },
-        {
-          "id": "2",
-          "name": "Home",
-          "color": "#CCFFCC"
-        }
-      ],
-      "regardingContact": [
-        {
-          "id": "1",
-          "name": "Kathiravan Sekar"
-        },
-        {
-          "id": "2",
-          "name": "John Doe"
-        },
-        {
-          "id": "3",
-          "name": "Jane Smith"
-        },
-        {
-          "id": "4",
-          "name": "Alice Johnson"
-        },
-        {
-          "id": "5",
-          "name": "Bob Anderson"
-        },
-        {
-          "id": "6",
-          "name": "Emily Davis"
-        },
-        {
-          "id": "7",
-          "name": "David Brown"
-        },
-        {
-          "id": "8",
-          "name": "Grace Wilson"
-        },
-        {
-          "id": "9",
-          "name": "Michael Lee"
-        },
-        {
-          "id": "10",
-          "name": "Olivia Adams"
-        },
-        {
-          "id": "11",
-          "name": "Liam Martin"
-        },
-        {
-          "id": "12",
-          "name": "Ava Thompson"
-        },
-        {
-          "id": "13",
-          "name": "Noah Lewis"
-        },
-        {
-          "id": "14",
-          "name": "Sophia Harris"
-        },
-        {
-          "id": "15",
-          "name": "Elijah Hall"
-        },
-        {
-          "id": "16",
-          "name": "Mia Turner"
-        },
-        {
-          "id": "17",
-          "name": "Benjamin White"
-        },
-        {
-          "id": "18",
-          "name": "Abigail Green"
-        },
-        {
-          "id": "19",
-          "name": "William Clark"
-        },
-        {
-          "id": "20",
-          "name": "Ella Perez"
-        },
-        {
-          "id": "21",
-          "name": "James Rodriguez"
-        },
-        {
-          "id": "22",
-          "name": "Charlotte Martinez"
-        },
-        {
-          "id": "23",
-          "name": "Alexander Young"
-        },
-        {
-          "id": "24",
-          "name": "Sofia Walker"
-        },
-        {
-          "id": "25",
-          "name": "Henry Hall"
-        },
-        {
-          "id": "26",
-          "name": "Scarlett Adams"
-        },
-        {
-          "id": "27",
-          "name": "Daniel Wilson"
-        },
-        {
-          "id": "28",
-          "name": "Lily Brown"
-        },
-        {
-          "id": "29",
-          "name": "Matthew Turner"
-        },
-        {
-          "id": "30",
-          "name": "Grace Lewis"
-        },
-        {
-          "id": "31",
-          "name": "Joseph Anderson"
-        },
-        {
-          "id": "32",
-          "name": "Chloe Johnson"
-        },
-        {
-          "id": "33",
-          "name": "Andrew Davis"
-        },
-        {
-          "id": "34",
-          "name": "Zoe Thompson"
-        },
-        {
-          "id": "35",
-          "name": "David Martin"
-        },
-        {
-          "id": "36",
-          "name": "Sophia Smith"
-        },
-        {
-          "id": "37",
-          "name": "Christopher Harris"
-        },
-        {
-          "id": "38",
-          "name": "Ava Lewis"
-        },
-        {
-          "id": "39",
-          "name": "Joseph Clark"
-        },
-        {
-          "id": "40",
-          "name": "Emily Adams"
-        },
-        {
-          "id": "41",
-          "name": "Liam Taylor"
-        },
-        {
-          "id": "42",
-          "name": "Olivia Scott"
-        },
-        {
-          "id": "43",
-          "name": "Ethan Perez"
-        },
-        {
-          "id": "44",
-          "name": "Isabella Turner"
-        },
-        {
-          "id": "45",
-          "name": "Mason White"
-        },
-        {
-          "id": "46",
-          "name": "Sophia Brown"
-        },
-        {
-          "id": "47",
-          "name": "Logan Green"
-        },
-        {
-          "id": "48",
-          "name": "Mia Davis"
-        },
-        {
-          "id": "49",
-          "name": "Jackson Harris"
-        },
-        {
-          "id": "50",
-          "name": "Aiden Miller"
-        },
-        {
-          "id": "51",
-          "name": "Oliver Johnson"
-        },
-        {
-          "id": "52",
-          "name": "Amelia Williams"
-        },
-        {
-          "id": "53",
-          "name": "Lucas Brown"
-        },
-        {
-          "id": "54",
-          "name": "Lily Jones"
-        },
-        {
-          "id": "55",
-          "name": "Benjamin Miller"
-        },
-        {
-          "id": "56",
-          "name": "Abigail Davis"
-        },
-        {
-          "id": "57",
-          "name": "James Rodriguez"
-        },
-        {
-          "id": "58",
-          "name": "Charlotte Taylor"
-        },
-        {
-          "id": "59",
-          "name": "Alexander Scott"
-        },
-        {
-          "id": "60",
-          "name": "Sofia Perez"
-        },
-        {
-          "id": "61",
-          "name": "Henry Turner"
-        },
-        {
-          "id": "62",
-          "name": "Scarlett White"
-        },
-        {
-          "id": "63",
-          "name": "Daniel Brown"
-        },
-        {
-          "id": "64",
-          "name": "Lily Green"
-        },
-        {
-          "id": "65",
-          "name": "Matthew Davis"
-        },
-        {
-          "id": "66",
-          "name": "Grace Harris"
-        },
-        {
-          "id": "67",
-          "name": "Joseph Miller"
-        },
-        {
-          "id": "68",
-          "name": "Chloe Davis"
-        },
-        {
-          "id": "69",
-          "name": "Andrew Rodriguez"
-        },
-        {
-          "id": "70",
-          "name": "Zoe Taylor"
-        },
-        {
-          "id": "71",
-          "name": "David Scott"
-        },
-        {
-          "id": "72",
-          "name": "Sophia Perez"
-        },
-        {
-          "id": "73",
-          "name": "Christopher Turner"
-        },
-        {
-          "id": "74",
-          "name": "Ava White"
-        },
-        {
-          "id": "75",
-          "name": "Joseph Brown"
-        },
-        {
-          "id": "76",
-          "name": "Emily Green"
-        },
-        {
-          "id": "77",
-          "name": "Liam Davis"
-        },
-        {
-          "id": "78",
-          "name": "Olivia Harris"
-        },
-        {
-          "id": "79",
-          "name": "Ethan Miller"
-        },
-        {
-          "id": "80",
-          "name": "Isabella Davis"
-        },
-        {
-          "id": "81",
-          "name": "Mason Rodriguez"
-        },
-        {
-          "id": "82",
-          "name": "Sophia Taylor"
-        },
-        {
-          "id": "83",
-          "name": "Logan Scott"
-        },
-        {
-          "id": "84",
-          "name": "Mia Perez"
-        },
-        {
-          "id": "85",
-          "name": "Jackson Turner"
-        },
-        {
-          "id": "86",
-          "name": "Aiden White"
-        },
-        {
-          "id": "87",
-          "name": "Oliver Brown"
-        },
-        {
-          "id": "88",
-          "name": "Amelia Green"
-        },
-        {
-          "id": "89",
-          "name": "Lucas Davis"
-        },
-        {
-          "id": "90",
-          "name": "Lily Harris"
-        },
-        {
-          "id": "91",
-          "name": "Benjamin Miller"
-        },
-        {
-          "id": "92",
-          "name": "Abigail Davis"
-        },
-        {
-          "id": "93",
-          "name": "James Rodriguez"
-        },
-        {
-          "id": "94",
-          "name": "Charlotte Taylor"
-        },
-        {
-          "id": "95",
-          "name": "Alexander Scott"
-        },
-        {
-          "id": "96",
-          "name": "Sofia Perez"
-        },
-        {
-          "id": "97",
-          "name": "Henry Turner"
-        },
-        {
-          "id": "98",
-          "name": "Scarlett White"
-        },
-        {
-          "id": "99",
-          "name": "Daniel Brown"
-        },
-        {
-          "id": "100",
-          "name": "Lily Green"
-        }
-      ],
-      "timezone": [
-        {
-          "id": "1",
-          "name": "EST"
-        },
-        {
-          "id": "2",
-          "name": "GMT"
-        }
-      ]
-    }
-  ],
+  "event-lists": {
+    "showTimeAs": [
+      {
+        "id": "1",
+        "name": "Busy"
+      },
+      {
+        "id": "2",
+        "name": "Free"
+      },
+      {
+        "id": "3",
+        "name": "OutOfOffice"
+      },
+      {
+        "id": "4",
+        "name": "Tentative"
+      }
+    ],
+    "label": [
+      {
+        "id": "1",
+        "name": "Office",
+        "color": "#FFCCCC"
+      },
+      {
+        "id": "2",
+        "name": "Home",
+        "color": "#CCFFCC"
+      }
+    ],
+    "regardingContact": [
+      {
+        "id": "1",
+        "name": "Kathiravan Sekar"
+      },
+      {
+        "id": "2",
+        "name": "John Doe"
+      },
+      {
+        "id": "3",
+        "name": "Jane Smith"
+      },
+      {
+        "id": "4",
+        "name": "Alice Johnson"
+      },
+      {
+        "id": "5",
+        "name": "Bob Anderson"
+      },
+      {
+        "id": "6",
+        "name": "Emily Davis"
+      },
+      {
+        "id": "7",
+        "name": "David Brown"
+      },
+      {
+        "id": "8",
+        "name": "Grace Wilson"
+      },
+      {
+        "id": "9",
+        "name": "Michael Lee"
+      },
+      {
+        "id": "10",
+        "name": "Olivia Adams"
+      },
+      {
+        "id": "11",
+        "name": "Liam Martin"
+      },
+      {
+        "id": "12",
+        "name": "Ava Thompson"
+      },
+      {
+        "id": "13",
+        "name": "Noah Lewis"
+      },
+      {
+        "id": "14",
+        "name": "Sophia Harris"
+      },
+      {
+        "id": "15",
+        "name": "Elijah Hall"
+      },
+      {
+        "id": "16",
+        "name": "Mia Turner"
+      },
+      {
+        "id": "17",
+        "name": "Benjamin White"
+      },
+      {
+        "id": "18",
+        "name": "Abigail Green"
+      },
+      {
+        "id": "19",
+        "name": "William Clark"
+      },
+      {
+        "id": "20",
+        "name": "Ella Perez"
+      },
+      {
+        "id": "21",
+        "name": "James Rodriguez"
+      },
+      {
+        "id": "22",
+        "name": "Charlotte Martinez"
+      },
+      {
+        "id": "23",
+        "name": "Alexander Young"
+      },
+      {
+        "id": "24",
+        "name": "Sofia Walker"
+      },
+      {
+        "id": "25",
+        "name": "Henry Hall"
+      },
+      {
+        "id": "26",
+        "name": "Scarlett Adams"
+      },
+      {
+        "id": "27",
+        "name": "Daniel Wilson"
+      },
+      {
+        "id": "28",
+        "name": "Lily Brown"
+      },
+      {
+        "id": "29",
+        "name": "Matthew Turner"
+      },
+      {
+        "id": "30",
+        "name": "Grace Lewis"
+      },
+      {
+        "id": "31",
+        "name": "Joseph Anderson"
+      },
+      {
+        "id": "32",
+        "name": "Chloe Johnson"
+      },
+      {
+        "id": "33",
+        "name": "Andrew Davis"
+      },
+      {
+        "id": "34",
+        "name": "Zoe Thompson"
+      },
+      {
+        "id": "35",
+        "name": "David Martin"
+      },
+      {
+        "id": "36",
+        "name": "Sophia Smith"
+      },
+      {
+        "id": "37",
+        "name": "Christopher Harris"
+      },
+      {
+        "id": "38",
+        "name": "Ava Lewis"
+      },
+      {
+        "id": "39",
+        "name": "Joseph Clark"
+      },
+      {
+        "id": "40",
+        "name": "Emily Adams"
+      },
+      {
+        "id": "41",
+        "name": "Liam Taylor"
+      },
+      {
+        "id": "42",
+        "name": "Olivia Scott"
+      },
+      {
+        "id": "43",
+        "name": "Ethan Perez"
+      },
+      {
+        "id": "44",
+        "name": "Isabella Turner"
+      },
+      {
+        "id": "45",
+        "name": "Mason White"
+      },
+      {
+        "id": "46",
+        "name": "Sophia Brown"
+      },
+      {
+        "id": "47",
+        "name": "Logan Green"
+      },
+      {
+        "id": "48",
+        "name": "Mia Davis"
+      },
+      {
+        "id": "49",
+        "name": "Jackson Harris"
+      },
+      {
+        "id": "50",
+        "name": "Aiden Miller"
+      },
+      {
+        "id": "51",
+        "name": "Oliver Johnson"
+      },
+      {
+        "id": "52",
+        "name": "Amelia Williams"
+      },
+      {
+        "id": "53",
+        "name": "Lucas Brown"
+      },
+      {
+        "id": "54",
+        "name": "Lily Jones"
+      },
+      {
+        "id": "55",
+        "name": "Benjamin Miller"
+      },
+      {
+        "id": "56",
+        "name": "Abigail Davis"
+      },
+      {
+        "id": "57",
+        "name": "James Rodriguez"
+      },
+      {
+        "id": "58",
+        "name": "Charlotte Taylor"
+      },
+      {
+        "id": "59",
+        "name": "Alexander Scott"
+      },
+      {
+        "id": "60",
+        "name": "Sofia Perez"
+      },
+      {
+        "id": "61",
+        "name": "Henry Turner"
+      },
+      {
+        "id": "62",
+        "name": "Scarlett White"
+      },
+      {
+        "id": "63",
+        "name": "Daniel Brown"
+      },
+      {
+        "id": "64",
+        "name": "Lily Green"
+      },
+      {
+        "id": "65",
+        "name": "Matthew Davis"
+      },
+      {
+        "id": "66",
+        "name": "Grace Harris"
+      },
+      {
+        "id": "67",
+        "name": "Joseph Miller"
+      },
+      {
+        "id": "68",
+        "name": "Chloe Davis"
+      },
+      {
+        "id": "69",
+        "name": "Andrew Rodriguez"
+      },
+      {
+        "id": "70",
+        "name": "Zoe Taylor"
+      },
+      {
+        "id": "71",
+        "name": "David Scott"
+      },
+      {
+        "id": "72",
+        "name": "Sophia Perez"
+      },
+      {
+        "id": "73",
+        "name": "Christopher Turner"
+      },
+      {
+        "id": "74",
+        "name": "Ava White"
+      },
+      {
+        "id": "75",
+        "name": "Joseph Brown"
+      },
+      {
+        "id": "76",
+        "name": "Emily Green"
+      },
+      {
+        "id": "77",
+        "name": "Liam Davis"
+      },
+      {
+        "id": "78",
+        "name": "Olivia Harris"
+      },
+      {
+        "id": "79",
+        "name": "Ethan Miller"
+      },
+      {
+        "id": "80",
+        "name": "Isabella Davis"
+      },
+      {
+        "id": "81",
+        "name": "Mason Rodriguez"
+      },
+      {
+        "id": "82",
+        "name": "Sophia Taylor"
+      },
+      {
+        "id": "83",
+        "name": "Logan Scott"
+      },
+      {
+        "id": "84",
+        "name": "Mia Perez"
+      },
+      {
+        "id": "85",
+        "name": "Jackson Turner"
+      },
+      {
+        "id": "86",
+        "name": "Aiden White"
+      },
+      {
+        "id": "87",
+        "name": "Oliver Brown"
+      },
+      {
+        "id": "88",
+        "name": "Amelia Green"
+      },
+      {
+        "id": "89",
+        "name": "Lucas Davis"
+      },
+      {
+        "id": "90",
+        "name": "Lily Harris"
+      },
+      {
+        "id": "91",
+        "name": "Benjamin Miller"
+      },
+      {
+        "id": "92",
+        "name": "Abigail Davis"
+      },
+      {
+        "id": "93",
+        "name": "James Rodriguez"
+      },
+      {
+        "id": "94",
+        "name": "Charlotte Taylor"
+      },
+      {
+        "id": "95",
+        "name": "Alexander Scott"
+      },
+      {
+        "id": "96",
+        "name": "Sofia Perez"
+      },
+      {
+        "id": "97",
+        "name": "Henry Turner"
+      },
+      {
+        "id": "98",
+        "name": "Scarlett White"
+      },
+      {
+        "id": "99",
+        "name": "Daniel Brown"
+      },
+      {
+        "id": "100",
+        "name": "Lily Green"
+      }
+    ],
+    "timezone": [
+      {
+        "id": "1",
+        "name": "EST"
+      },
+      {
+        "id": "2",
+        "name": "GMT"
+      }
+    ]
+  },
   "regardingContact": [
     {
       "id": "1",
@@ -1988,7 +1986,17 @@
     "userName": "SK Dutta",
     "userEmail": "skd@officeclip.com",
     "isAdmin": true,
-    "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10],
+    "applicationIds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      10
+    ],
     "roleAccesses": [
       {
         "name": "TrackerEditCase",
@@ -2238,7 +2246,9 @@
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": ["Kathiravan Sekar"],
+      "assignees": [
+        "Kathiravan Sekar"
+      ],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
@@ -3389,7 +3399,12 @@
         {
           "fieldType": "TimesheetRow",
           "id": "4",
-          "items": ["", "One", "Two", "Three"],
+          "items": [
+            "",
+            "One",
+            "Two",
+            "Three"
+          ],
           "name": "Custom Row",
           "uiType": "List"
         },
