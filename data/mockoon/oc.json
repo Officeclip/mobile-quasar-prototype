@@ -69,6 +69,10 @@
         {
           "type": "route",
           "uuid": "1d12c4cd-8d89-4e79-b415-602bfaa5ff78"
+        },
+        {
+          "type": "route",
+          "uuid": "abc3ed35-f379-4ae1-846f-e6b3f5c22eb2"
         }
       ]
     }
@@ -380,6 +384,35 @@
           "headers": [],
           "bodyType": "FILE",
           "filePath": "oc\\events\\event-lists.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "abc3ed35-f379-4ae1-846f-e6b3f5c22eb2",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "meetingAttendees",
+      "responses": [
+        {
+          "uuid": "763b529f-9e98-4cdf-b7e0-5b31eb416733",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\events\\meetingAttendees.json",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [],
