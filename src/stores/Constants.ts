@@ -30,7 +30,6 @@ export class Constants {
       console.log(`axios response: ${JSON.stringify(x)}`);
       return x;
     });
-
     return instance;
   }
 
@@ -47,5 +46,13 @@ export class Constants {
     expirationUnixEpoch: number
   ) {
     LocalStorage.set('x-token', `${token},${expirationUnixEpoch}`);
+  }
+
+  static throwError(error: unknown) {
+    console.log(JSON.stringify(error));
+    if (axios.isAxiosError(error)) {
+      throw `Axios error: ${error.message}`;
+    }
+    throw 'Error: ' + (error as string);
   }
 }
