@@ -6,8 +6,10 @@ import { Constants } from 'src/stores/Constants';
 import { useVuelidate } from '@vuelidate/core';
 import { email, required } from '@vuelidate/validators';
 import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const tokenStore = useTokenStore();
+const route1 = useRouter();
 
 const login: Ref<Login> = ref({
   userName: 'nagesh@officeclip.com',
@@ -39,6 +41,7 @@ async function onSubmit(e: any) {
     }
     //debugger;
     await tokenStore.validateLogin(login.value);
+    //debugger;
     const token = tokenStore.Token;
     if (token) {
       Constants.saveAuthorizationTokenInLocalStorage(
@@ -48,6 +51,7 @@ async function onSubmit(e: any) {
     } else {
       throw new Error('Could not get the token');
     }
+    route1.push('/homePage');
   } catch (error) {
     $q.notify({
       message: error as string,
