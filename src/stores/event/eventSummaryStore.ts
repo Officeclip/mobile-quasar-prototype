@@ -18,7 +18,8 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
     async getAllEventSummary() {
       const callStr = `${Constants.endPointUrl}/event-summary`;
       try {
-        const response = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
         this.eventSummary = response.data;
         console.log(
           `EventsStore: getAllEventSummary - length - ${response.data.length}, ${this.eventSummary}`
@@ -50,7 +51,8 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       const callStr = `${Constants.endPointUrl}/eventSummary?parentSId=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
 
       try {
-        const response = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
         this.eventSummary = response.data;
       } catch (error) {
         console.error(error);

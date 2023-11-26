@@ -23,7 +23,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     async getAllMeetingAttendees() {
       const callStr = `${Constants.endPointUrl}/meetingAttendees`;
       try {
-        const response = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
 
         this.meetingAttendees = response.data;
         console.log(
@@ -40,7 +41,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       console.log('started the get function:', id);
       const callStr = `${Constants.endPointUrl}/event-details?id=${id}`;
       try {
-        const response = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
         if (response.data) {
           this.eventDetails = response.data[0];
         }
@@ -54,7 +56,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       console.log(`editEvent 1: ${event.id}`);
       const callStr = `${Constants.endPointUrl}/event-details/${event.id}`;
       try {
-        const response = await axios.put(callStr, event);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.put(callStr, event);
         if (response.status === 200) {
           this.eventDetails = response.data;
         }
@@ -86,7 +89,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     async deleteEventDetails(id: string | undefined) {
       const callStr = `${Constants.endPointUrl}/event-details/${id}`;
       try {
-        const response = await axios.delete(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(callStr);
         if (response.status === 200) {
           this.eventDetails = response.data;
         }
