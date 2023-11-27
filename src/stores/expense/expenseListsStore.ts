@@ -67,7 +67,7 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
         const response = await axios.get(
           `${Constants.endPointUrl}/expense-lists`
         );
-        const expenseList = response.data[0];
+        const expenseList = response.data;
         this.periods = expenseList.periods;
         this.customerProjects = expenseList.customerProjects;
         this.expenseTypes = expenseList.expenseTypes;

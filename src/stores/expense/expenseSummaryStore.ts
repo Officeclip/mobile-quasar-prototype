@@ -22,7 +22,7 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
           `${Constants.endPointUrl}/expense-summary`
         );
         this.expenseSummary = response.data;
-        console.log(this.expenseSummary);
+        console.log(`getExpenseSummary(): ${this.expenseSummary}`);
       } catch (error) {
         console.error(error);
       }
@@ -34,7 +34,7 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
         const newData = this.expenseSummary.filter((t) => {
           return t.status == status;
         });
-        console.log('QQQQQQQQQQQQQQQQ', newData);
+        console.log(`getExpenseSummaryCount(): ${newData}`);
         return newData.length;
       } else {
         return [];
@@ -48,7 +48,7 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
         );
         if (response.data && response.data.length > 0) {
           this.expenseSummaryById = response.data[0];
-          console.log('Expense summary store', this.expenseSummaryById);
+          console.log('getExpenseSummaryById(): ', this.expenseSummaryById);
         }
       } catch (error) {
         alert(error);
@@ -61,10 +61,10 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
         status != ''
           ? `${Constants.endPointUrl}/expense-summary?status=${status}`
           : `${Constants.endPointUrl}/expense-summary`;
-
       try {
         const response = await axios.get(callStr);
         this.expenseSummary = response.data;
+        console.log('getExpenseSummaryByStatus(): ', this.expenseSummaryById);
       } catch (error) {
         console.error(error);
       }
