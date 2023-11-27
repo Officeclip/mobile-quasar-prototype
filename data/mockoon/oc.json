@@ -140,6 +140,21 @@
           "uuid": "41a7ea78-68f9-4b50-b347-d65def64987b"
         }
       ]
+    },
+    {
+      "uuid": "4fb3fd2a-ad95-4df4-b773-6ec7ffab8c33",
+      "name": "Notes",
+      "collapsed": true,
+      "children": [
+        {
+          "type": "route",
+          "uuid": "929e6527-adee-4b5d-baa5-66b3d8f1b93e"
+        },
+        {
+          "type": "route",
+          "uuid": "8db5103d-5c70-4503-a469-6c976c7e7a4a"
+        }
+      ]
     }
   ],
   "routes": [
@@ -809,6 +824,64 @@
       ],
       "enabled": true,
       "responseMode": null
+    },
+    {
+      "uuid": "929e6527-adee-4b5d-baa5-66b3d8f1b93e",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "notebooks",
+      "responses": [
+        {
+          "uuid": "a3fbda19-8d93-48f2-950e-4c7a500652fd",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\notes\\notebooks.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "8db5103d-5c70-4503-a469-6c976c7e7a4a",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "notes",
+      "responses": [
+        {
+          "uuid": "4acb0035-f8c1-4838-95e7-f81595f69424",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -835,6 +908,10 @@
     {
       "type": "folder",
       "uuid": "da26fbec-2754-4b9c-b968-b4e51dcef1ee"
+    },
+    {
+      "type": "folder",
+      "uuid": "4fb3fd2a-ad95-4df4-b773-6ec7ffab8c33"
     }
   ],
   "proxyMode": false,
@@ -936,6 +1013,13 @@
       "name": "timesheet-comments",
       "documentation": "",
       "value": "[\r\n    {\r\n      \"id\": \"1\",\r\n      \"isDcaa\": true,\r\n      \"comments\": [\r\n        {\r\n          \"id\": \"1\",\r\n          \"comment\": \"Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document  \",\r\n          \"createdBy\": \"SK Dutta\",\r\n          \"createdDate\": \"2020-03-05T15:01:17Z\"\r\n        },\r\n        {\r\n          \"id\": \"2\",\r\n          \"comment\": \"Lorem ipsum may be used as a placeholder before final copy is available.\",\r\n          \"createdBy\": \"Sudhakar Gundu\",\r\n          \"createdDate\": \"2020-03-06T15:01:17Z\"\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"id\": \"2\",\r\n      \"isDcaa\": true,\r\n      \"comments\": [\r\n        {\r\n          \"id\": \"1\",\r\n          \"comment\": \"test zzzzz\",\r\n          \"createdBy\": \"SK Dutta\",\r\n          \"createdDate\": \"2020-03-05T15:01:17Z\"\r\n        },\r\n        {\r\n          \"id\": \"2\",\r\n          \"comment\": \"test qqqqqq\",\r\n          \"createdBy\": \"Sudhakar Gundu\",\r\n          \"createdDate\": \"2020-03-06T15:01:17Z\"\r\n        }\r\n      ]\r\n    }\r\n  ]"
+    },
+    {
+      "uuid": "b1fd022e-8a18-4cb2-bce0-044736cdc138",
+      "id": "qb89",
+      "name": "notes",
+      "documentation": "",
+      "value": "[\r\n    {\r\n      \"id\": 1,\r\n      \"parentObjectServiceType\": 14,\r\n      \"parentObjectId\": 4,\r\n      \"noteBookId\": -1,\r\n      \"title\": \"Note Title Public\",\r\n      \"description\": \"Note <b>Description </b>Public y\",\r\n      \"isPrivate\": true,\r\n      \"createdDateTime\": \"2023-06-26T10:43:32.203Z\",\r\n      \"createdByUserId\": 5\r\n    },\r\n    {\r\n      \"id\": 2,\r\n      \"parentObjectServiceType\": -1,\r\n      \"parentObjectId\": -1,\r\n      \"noteBookId\": 2,\r\n      \"title\": \"Note Title Private\",\r\n      \"description\": \"Note Description Private\",\r\n      \"isPrivate\": true,\r\n      \"createdDateTime\": \"2023-06-26T10:43:32.203Z\",\r\n      \"createdByUserId\": 5\r\n    },\r\n    {\r\n      \"id\": 5,\r\n      \"parentObjectServiceType\": -1,\r\n      \"parentObjectId\": -1,\r\n      \"noteBookId\": 1,\r\n      \"title\": \"Testing the sample Notes from notes application\",\r\n      \"description\": \"Sample test <b>notes </b>description..\",\r\n      \"isPrivate\": true,\r\n      \"createdDateTime\": \"2023-06-26T10:43:32.203Z\",\r\n      \"createdByUserId\": 5\r\n    }\r\n  ]"
     }
   ]
 }
