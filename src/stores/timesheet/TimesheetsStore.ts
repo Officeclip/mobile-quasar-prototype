@@ -26,7 +26,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     async getTimesheets() {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/timesheetSummary`
+          `${Constants.endPointUrl}/timesheet-summary`
         );
         this.timesheets = response.data;
       } catch (error) {
@@ -48,30 +48,30 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     getInOutboxList(status: string) {
       switch (status) {
         case 'Inbox':
-          return `${Constants.endPointUrl}/timesheetSummary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
+          return `${Constants.endPointUrl}/timesheet-summary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
         case 'Outbox':
-          return `${Constants.endPointUrl}/timesheetSummary?status=Pending`;
+          return `${Constants.endPointUrl}/timesheet-summary?status=Pending`;
         case 'Archived':
-          return `${Constants.endPointUrl}/timesheetSummary?status=Saved&&status=Approved&&status=Rejected`;
+          return `${Constants.endPointUrl}/timesheet-summary?status=Saved&&status=Approved&&status=Rejected`;
       }
     },
     // getting the timesheets by status
     async getTimesheetsByStatus(status: string) {
       const callStr = this.getInOutboxList(status);
       // status != ''
-      //   ? `${Constants.endPointUrl}/timesheetSummary?status=${status}`
-      //   : `${Constants.endPointUrl}/timesheetSummary`;
+      //   ? `${Constants.endPointUrl}/timesheet-summary?status=${status}`
+      //   : `${Constants.endPointUrl}/timesheet-summary`;
       // status == 'Saved'
-      //   ? `${Constants.endPointUrl}/timesheetSummary?status=${status}&&status=Approved&&status=Submitted&&status=Rejected`
-      //   : `${Constants.endPointUrl}/timesheetSummary`;
+      //   ? `${Constants.endPointUrl}/timesheet-summary?status=${status}&&status=Approved&&status=Submitted&&status=Rejected`
+      //   : `${Constants.endPointUrl}/timesheet-summary`;
       // switch (status) {
       //   case 'Inbox':
-      //     // const callStr = `${Constants.endPointUrl}/timesheetSummary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
-      //     return `${Constants.endPointUrl}/timesheetSummary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
+      //     // const callStr = `${Constants.endPointUrl}/timesheet-summary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
+      //     return `${Constants.endPointUrl}/timesheet-summary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
       //   case 'Outbox':
-      //     return `${Constants.endPointUrl}/timesheetSummary?status=Pending`;
+      //     return `${Constants.endPointUrl}/timesheet-summary?status=Pending`;
       //   case 'Archived':
-      //     return `${Constants.endPointUrl}/timesheetSummary?status=Saved&&status=Approved&&status=Rejected`;
+      //     return `${Constants.endPointUrl}/timesheet-summary?status=Saved&&status=Approved&&status=Rejected`;
       // }
       try {
         const response = await axios.get(callStr);
@@ -139,7 +139,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     async deleteAllTimesheets(id: string | string[]) {
       try {
         const response = await axios.delete(
-          `${Constants.endPointUrl}/timesheetSummary/${id}`
+          `${Constants.endPointUrl}/timesheet-summary/${id}`
         );
 
         if (response.status === 200) {

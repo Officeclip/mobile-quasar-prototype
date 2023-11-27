@@ -39,9 +39,9 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
     async getTimesheetListAll() {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/timesheet-List`
+          `${Constants.endPointUrl}/timesheet-lists`
         );
-        const newData = response.data[0];
+        const newData = response.data;
         const periods = newData.periods;
         const customerProjects = newData.customerProjects;
         const serviceItems = newData.serviceItems;
@@ -60,9 +60,9 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
     async getTimesheetsList1() {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/timesheet-List`
+          `${Constants.endPointUrl}/timesheet-lists`
         );
-        const timesheetList = response.data[0];
+        const timesheetList = response.data;
         //this.timesheetList = timesheetList;
         //debugger;
         this.periodList = timesheetList.periods;

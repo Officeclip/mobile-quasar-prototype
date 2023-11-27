@@ -102,7 +102,7 @@
     {
       "uuid": "761a5bb4-1f22-42b9-8d73-676783a11ca1",
       "name": "Expense",
-      "collapsed": false,
+      "collapsed": true,
       "children": [
         {
           "type": "route",
@@ -115,6 +115,29 @@
         {
           "type": "route",
           "uuid": "146f3254-9d1e-4794-8781-6df7858087a7"
+        }
+      ]
+    },
+    {
+      "uuid": "da26fbec-2754-4b9c-b968-b4e51dcef1ee",
+      "name": "timesheet",
+      "collapsed": true,
+      "children": [
+        {
+          "type": "route",
+          "uuid": "9869d2a2-4b23-4489-9fcf-16b72afbbe30"
+        },
+        {
+          "type": "route",
+          "uuid": "068c62d0-e42a-48c5-88b2-efe12baa2843"
+        },
+        {
+          "type": "route",
+          "uuid": "3c182dad-0fc9-4f6f-a6b4-2bedd3a36002"
+        },
+        {
+          "type": "route",
+          "uuid": "41a7ea78-68f9-4b50-b347-d65def64987b"
         }
       ]
     }
@@ -670,6 +693,122 @@
       ],
       "enabled": true,
       "responseMode": null
+    },
+    {
+      "uuid": "9869d2a2-4b23-4489-9fcf-16b72afbbe30",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "timesheet-summary",
+      "responses": [
+        {
+          "uuid": "69284b1d-9162-4d31-8048-d5262dfd2048",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\timesheet\\timesheet-summary.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "068c62d0-e42a-48c5-88b2-efe12baa2843",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "timesheet-details",
+      "responses": [
+        {
+          "uuid": "f60b7575-a804-4f5f-9a78-417880f40c1f",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "xima",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "3c182dad-0fc9-4f6f-a6b4-2bedd3a36002",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "timesheet-comments",
+      "responses": [
+        {
+          "uuid": "949282c3-2419-4adc-bc8e-6a23d05148a1",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "mubt",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "41a7ea78-68f9-4b50-b347-d65def64987b",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "timesheet-lists",
+      "responses": [
+        {
+          "uuid": "f959a440-b3ab-4792-99c4-9d428475a99e",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\timesheet\\timesheet-lists.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -692,6 +831,10 @@
     {
       "type": "folder",
       "uuid": "761a5bb4-1f22-42b9-8d73-676783a11ca1"
+    },
+    {
+      "type": "folder",
+      "uuid": "da26fbec-2754-4b9c-b968-b4e51dcef1ee"
     }
   ],
   "proxyMode": false,
@@ -779,6 +922,20 @@
       "name": "workflow",
       "documentation": "",
       "value": "[\r\n    {\r\n      \"id\": \"1\",\r\n      \"entityId\": \"1\",\r\n      \"entityType\": \"timesheet\",\r\n      \"workflowType\": \"manual\",\r\n      \"submitToUserId\": \"2345\",\r\n      \"approveToUserId\": \"2345\",\r\n      \"rejectToUserId\": \"1234\",\r\n      \"users\": [\r\n        {\r\n          \"id\": \"2345\",\r\n          \"name\": \"SK Dutta\",\r\n          \"email\": \"skd@officeclip.com\"\r\n        },\r\n        {\r\n          \"id\": \"1234\",\r\n          \"name\": \"Sudhakar Gundu\",\r\n          \"email\": \"sudhakar@officeclip.com\"\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"id\": \"2\",\r\n      \"entityId\": \"T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1\",\r\n      \"entityType\": \"expense\",\r\n      \"workflowType\": \"manual\",\r\n      \"submitToUserId\": \"2345\",\r\n      \"approveToUserId\": \"2345\",\r\n      \"rejectToUserId\": \"1234\",\r\n      \"users\": [\r\n        {\r\n          \"id\": \"2345\",\r\n          \"name\": \"SK Dutta\",\r\n          \"email\": \"skd@officeclip.com\"\r\n        },\r\n        {\r\n          \"id\": \"1234\",\r\n          \"name\": \"Nagesh Kulkarni\",\r\n          \"email\": \"nagesh@officeclip.com\"\r\n        }\r\n      ]\r\n    }\r\n  ]"
+    },
+    {
+      "uuid": "602be731-96b8-4f71-ad8b-c031cb1d0f62",
+      "id": "xima",
+      "name": "timesheet-details",
+      "documentation": "",
+      "value": "[\r\n    {\r\n      \"accountName\": \"OfficeClip LLC\",\r\n      \"accountSid\": \"4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ\",\r\n      \"breakTime\": \"\",\r\n      \"checkInTime\": \"2021-02-19T17:00:00Z\",\r\n      \"checkOutTime\": \"2021-02-19T18:00:00Z\",\r\n      \"createdDate\": \"2020-11-03T11:48:27Z\",\r\n      \"createdUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"description\": \"1.1.4.1.50.12.14 New Timesheet 3\",\r\n      \"isBillable\": true,\r\n      \"modifiedDate\": \"2020-11-03T11:48:27Z\",\r\n      \"modifiedUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"payrollName\": \"\",\r\n      \"payrollSid\": \"ECHTWHSFBJ9CW39XAC5Q\",\r\n      \"projectName\": \"Sample Project\",\r\n      \"projectSid\": \"5JRMY8SR7JYVSHDRJC5Q\",\r\n      \"serviceItemName\": \"Development\",\r\n      \"serviceItemSid\": \"VMTV6WGXN6HE2CD4HDGWXFJER86E369S5DYM6LQ\",\r\n      \"taskDate\": \"2020-11-02T18:30:00Z\",\r\n      \"timeDuration\": 1,\r\n      \"timesheetDetailSid\": \"N48KW7A5FZFV77KFSZNUXZS3U6NXY2GC2CTM6LQ\",\r\n      \"id\": \"N48KW7A5FZFV77KFSZNUXZS3U6NXY2GC2CTM6LQ\",\r\n      \"timesheetId\": \"1\"\r\n    },\r\n    {\r\n      \"accountName\": \"OfficeClip LLC\",\r\n      \"accountSid\": \"4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ\",\r\n      \"breakTime\": \"\",\r\n      \"checkInTime\": \"2021-02-19T19:00:00Z\",\r\n      \"checkOutTime\": \"2021-02-19T22:00:00Z\",\r\n      \"createdDate\": \"2020-11-03T11:48:27Z\",\r\n      \"createdUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"description\": \"Reviewed screens and reported issues in google drive.\\nReview Contact ADMIN still pending\",\r\n      \"isBillable\": true,\r\n      \"modifiedDate\": \"2020-11-03T11:48:27Z\",\r\n      \"modifiedUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"payrollName\": \"\",\r\n      \"payrollSid\": \"ECHTWHSFBJ9CW39XAC5Q\",\r\n      \"projectName\": \"\",\r\n      \"projectSid\": \"5JRMY8SR7JYVSHDRJC5Q\",\r\n      \"serviceItemName\": \"Testing\",\r\n      \"serviceItemSid\": \"B6RC7MS4MCTYH7EV7ZFRSURDNCVZY3JE6M9M6LQ\",\r\n      \"taskDate\": \"2020-11-02T18:30:00Z\",\r\n      \"timeDuration\": 3,\r\n      \"timesheetDetailSid\": \"N48KW7A5FZFV77KF3CNRY2HXB26KX2S5789M6LQ\",\r\n      \"id\": \"N48KW7A5FZFV77KF3CNRY2HXB26KX2S5789M6LQ\",\r\n      \"timesheetId\": \"2\"\r\n    },\r\n    {\r\n      \"accountName\": \"Banyan Solution Ltd\",\r\n      \"accountSid\": \"4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ\",\r\n      \"breakTime\": \".5\",\r\n      \"checkInTime\": \"2021-02-19T16:00:00Z\",\r\n      \"checkOutTime\": \"2021-02-19 19:30:00Z\",\r\n      \"createdDate\": \"2020-11-04T15:03:49Z\",\r\n      \"createdUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"description\": \"1.1.4.1.56.1 CRM Module\",\r\n      \"isBillable\": true,\r\n      \"modifiedDate\": \"2020-11-04T15:03:49Z\",\r\n      \"modifiedUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"payrollName\": \"\",\r\n      \"payrollSid\": \"ECHTWHSFBJ9CW39XAC5Q\",\r\n      \"projectName\": \"Quasar Oc mobile development\",\r\n      \"projectSid\": \"5JRMY8SR7JYVSHDRJC5Q\",\r\n      \"serviceItemName\": \"Testing\",\r\n      \"serviceItemSid\": \"B6RC7MS4MCTYH7EV7ZFRSURDNCVZY3JE6M9M6LQ\",\r\n      \"taskDate\": \"2020-11-03T18:30:00Z\",\r\n      \"timeDuration\": 3,\r\n      \"timesheetDetailSid\": \"N48KW7A5FZFV77KF3C8VWHFVXZVZS3ADYDTM6LQ\",\r\n      \"id\": \"N48KW7A5FZFV77KF3C8VWHFVXZVZS3ADYDTM6LQ\",\r\n      \"timesheetId\": \"1\"\r\n    },\r\n    {\r\n      \"accountName\": \"TLR Business LLC\",\r\n      \"accountSid\": \"4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ\",\r\n      \"breakTime\": \"\",\r\n      \"checkInTime\": \"2021-02-19T20:00:00Z\",\r\n      \"checkOutTime\": \"2021-02-19T22:00:00Z\",\r\n      \"createdDate\": \"2020-11-04T15:03:49Z\",\r\n      \"createdUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"description\": \"Facing issue with the new release.\\nDiscussed with the team and finalized to fix the issue and make a new release 10.9.9\",\r\n      \"isBillable\": true,\r\n      \"modifiedDate\": \"2020-11-04T15:03:49Z\",\r\n      \"modifiedUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"payrollName\": \"\",\r\n      \"payrollSid\": \"ECHTWHSFBJ9CW39XAC5Q\",\r\n      \"projectName\": \"\",\r\n      \"projectSid\": \"5JRMY8SR7JYVSHDRJC5Q\",\r\n      \"serviceItemName\": \"Testing\",\r\n      \"serviceItemSid\": \"B6RC7MS4MCTYH7EV7ZFRSURDNCVZY3JE6M9M6LQ\",\r\n      \"taskDate\": \"2020-11-03T18:30:00Z\",\r\n      \"timeDuration\": 2,\r\n      \"timesheetDetailSid\": \"N48KW7A5FZFV77KFEZRX7KRF248LB6D56DYM6LQ\",\r\n      \"id\": \"N48KW7A5FZFV77KFEZRX7KRF248LB6D56DYM6LQ\",\r\n      \"timesheetId\": \"3\"\r\n    },\r\n    {\r\n      \"accountName\": \"OfficeClip LLC\",\r\n      \"accountSid\": \"4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ\",\r\n      \"breakTime\": \"\",\r\n      \"checkInTime\": \"2021-02-20T00:30:00Z\",\r\n      \"checkOutTime\": \"2021-02-20T01:30:00Z\",\r\n      \"createdDate\": \"2020-11-04T05:46:05Z\",\r\n      \"createdUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"description\": \"Meeting with team regarding the status what is done and what needs to be done.\",\r\n      \"isBillable\": true,\r\n      \"modifiedDate\": \"2020-11-04T05:46:05Z\",\r\n      \"modifiedUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"payrollName\": \"\",\r\n      \"payrollSid\": \"ECHTWHSFBJ9CW39XAC5Q\",\r\n      \"projectName\": \"Quasar mobile development\",\r\n      \"projectSid\": \"5JRMY8SR7JYVSHDRJC5Q\",\r\n      \"serviceItemName\": \"Meetings\",\r\n      \"serviceItemSid\": \"B6RC7MS4MCTYH7EV7MRENSSR26TBN4AC58JM6LQ\",\r\n      \"taskDate\": \"2020-11-02T18:30:00Z\",\r\n      \"timeDuration\": 1,\r\n      \"timesheetDetailSid\": \"N48KW7A5FZFV77KF3BBWSWJFBGMENUTEXCTM6LQ\",\r\n      \"id\": \"N48KW7A5FZFV77KF3BBWSWJFBGMENUTEXCTM6LQ\",\r\n      \"timesheetId\": \"5\"\r\n    },\r\n    {\r\n      \"accountName\": \"OfficeClip LLC\",\r\n      \"accountSid\": \"4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ\",\r\n      \"breakTime\": \"\",\r\n      \"checkInTime\": \"2021-02-20T01:00:00Z\",\r\n      \"checkOutTime\": \"2021-02-20T02:15:00Z\",\r\n      \"createdDate\": \"2020-11-04T15:43:52Z\",\r\n      \"createdUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"description\": \"Meeting with team regarding status that is done and that needs to be done.\",\r\n      \"isBillable\": true,\r\n      \"modifiedDate\": \"2020-11-04T15:43:52Z\",\r\n      \"modifiedUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"payrollName\": \"\",\r\n      \"payrollSid\": \"ECHTWHSFBJ9CW39XAC5Q\",\r\n      \"projectName\": \"\",\r\n      \"projectSid\": \"5JRMY8SR7JYVSHDRJC5Q\",\r\n      \"serviceItemName\": \"Meetings\",\r\n      \"serviceItemSid\": \"B6RC7MS4MCTYH7EV7MRENSSR26TBN4AC58JM6LQ\",\r\n      \"taskDate\": \"2020-11-03T18:30:00Z\",\r\n      \"timeDuration\": 1.25,\r\n      \"timesheetDetailSid\": \"N48KW7A5FZFV77KFSMHEH8EXBCHWWEJVFCYM6LQ\",\r\n      \"id\": \"N48KW7A5FZFV77KFSMHEH8EXBCHWWEJVFCYM6LQ\",\r\n      \"timesheetId\": \"8\"\r\n    },\r\n    {\r\n      \"accountName\": \"OfficeClip LLC\",\r\n      \"accountSid\": \"4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ\",\r\n      \"breakTime\": \"\",\r\n      \"checkInTime\": \"2021-02-19T12:00:00Z\",\r\n      \"checkOutTime\": \"2021-02-19T13:00:00Z\",\r\n      \"createdDate\": \"2020-11-03T02:44:42Z\",\r\n      \"createdUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"description\": \"Meeting with Dutta and Sudhakar regarding the work that needs to be done.\",\r\n      \"isBillable\": true,\r\n      \"modifiedDate\": \"2020-11-03T09:22:39Z\",\r\n      \"modifiedUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"payrollName\": \"\",\r\n      \"payrollSid\": \"ECHTWHSFBJ9CW39XAC5Q\",\r\n      \"projectName\": \"\",\r\n      \"projectSid\": \"5JRMY8SR7JYVSHDRJC5Q\",\r\n      \"serviceItemName\": \"Meetings\",\r\n      \"serviceItemSid\": \"B6RC7MS4MCTYH7EV7MRENSSR26TBN4AC58JM6LQ\",\r\n      \"taskDate\": \"2020-11-02T18:30:00Z\",\r\n      \"timeDuration\": 1,\r\n      \"timesheetDetailSid\": \"N48KW7A5FZFV77KFSZNYXMYEGC6V7EGEW89M6LQ\",\r\n      \"id\": \"N48KW7A5FZFV77KFSZNYXMYEGC6V7EGEW89M6LQ\",\r\n      \"timesheetId\": \"9\"\r\n    },\r\n    {\r\n      \"accountName\": \"OfficeClip LLC\",\r\n      \"accountSid\": \"4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ\",\r\n      \"breakTime\": \"\",\r\n      \"checkInTime\": \"2021-02-19T22:30:00Z\",\r\n      \"checkOutTime\": \"2021-02-20T01:00:00Z\",\r\n      \"createdDate\": \"2020-11-04T15:09:26Z\",\r\n      \"createdUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"description\": \"Tried to install new version but still facing couple of issues. \\nAsked help for Narsimha. In mean time tried to to create a new database and install on it. It is working fine.\\nNarsimha figured the issue and suggested to revert the version but still facing issue of null value exception.\\nHe will get back to me with the fix,\",\r\n      \"isBillable\": true,\r\n      \"modifiedDate\": \"2020-11-04T15:09:26Z\",\r\n      \"modifiedUserSid\": \"D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ\",\r\n      \"payrollName\": \"\",\r\n      \"payrollSid\": \"ECHTWHSFBJ9CW39XAC5Q\",\r\n      \"projectName\": \"\",\r\n      \"projectSid\": \"5JRMY8SR7JYVSHDRJC5Q\",\r\n      \"serviceItemName\": \"Testing\",\r\n      \"serviceItemSid\": \"B6RC7MS4MCTYH7EV7ZFRSURDNCVZY3JE6M9M6LQ\",\r\n      \"taskDate\": \"2020-11-03T18:30:00Z\",\r\n      \"timeDuration\": 2.5,\r\n      \"timesheetDetailSid\": \"N48KW7A5FZFV77KFEBFWH4SCC8YRN8Q574TM6LQ\",\r\n      \"id\": \"N48KW7A5FZFV77KFEBFWH4SCC8YRN8Q574TM6LQ\",\r\n      \"timesheetId\": \"4\"\r\n    }\r\n  ]"
+    },
+    {
+      "uuid": "a2990bf6-a43e-4e68-883a-c355d9cdda42",
+      "id": "mubt",
+      "name": "timesheet-comments",
+      "documentation": "",
+      "value": "[\r\n    {\r\n      \"id\": \"1\",\r\n      \"isDcaa\": true,\r\n      \"comments\": [\r\n        {\r\n          \"id\": \"1\",\r\n          \"comment\": \"Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document  \",\r\n          \"createdBy\": \"SK Dutta\",\r\n          \"createdDate\": \"2020-03-05T15:01:17Z\"\r\n        },\r\n        {\r\n          \"id\": \"2\",\r\n          \"comment\": \"Lorem ipsum may be used as a placeholder before final copy is available.\",\r\n          \"createdBy\": \"Sudhakar Gundu\",\r\n          \"createdDate\": \"2020-03-06T15:01:17Z\"\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"id\": \"2\",\r\n      \"isDcaa\": true,\r\n      \"comments\": [\r\n        {\r\n          \"id\": \"1\",\r\n          \"comment\": \"test zzzzz\",\r\n          \"createdBy\": \"SK Dutta\",\r\n          \"createdDate\": \"2020-03-05T15:01:17Z\"\r\n        },\r\n        {\r\n          \"id\": \"2\",\r\n          \"comment\": \"test qqqqqq\",\r\n          \"createdBy\": \"Sudhakar Gundu\",\r\n          \"createdDate\": \"2020-03-06T15:01:17Z\"\r\n        }\r\n      ]\r\n    }\r\n  ]"
     }
   ]
 }

@@ -2872,7 +2872,7 @@
       "startDateTime": "2023-06-28T09:43:32.203Z"
     }
   ],
-  "timesheetSummary": [
+  "timesheet-summary": [
     {
       "createdByUserName": "Sudhakar Gundu",
       "employeeId": "OCHYD-003",
@@ -3142,278 +3142,276 @@
       "timesheetId": "4"
     }
   ],
-  "timesheet-List": [
-    {
-      "periods": [
-        {
-          "end": "2023-07-02T00:00:00+05:30",
-          "name": "Jun 19, 2023 - Jul 02, 2023",
-          "start": "2023-06-19T10:43:32.203Z"
-        },
-        {
-          "end": "2023-06-18T00:00:00+05:30",
-          "name": "Jun 05, 2023 - Jun 18, 2023",
-          "start": "023-06-05T10:43:32.203Z"
-        },
-        {
-          "end": "2023-06-04T00:00:00+05:30",
-          "name": "May 22, 2023 - Jun 04, 2023",
-          "start": "2023-05-22T00:00:00+05:30"
-        },
-        {
-          "end": "2023-05-21T00:00:00+05:30",
-          "name": "May 08, 2023 - May 21, 2023",
-          "start": "2023-05-08T00:00:00+05:30"
-        },
-        {
-          "end": "2023-05-07T00:00:00+05:30",
-          "name": "Apr 24, 2023 - May 07, 2023",
-          "start": "2023-04-24T00:00:00+05:30"
-        },
-        {
-          "end": "2023-04-23T00:00:00+05:30",
-          "name": "Apr 10, 2023 - Apr 23, 2023",
-          "start": "2023-04-10T00:00:00+05:30"
-        }
-      ],
-      "customerProjects": [
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-          "name": "OfficeClip LLC"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:7ANXN3JV2CJE7T9XH8GLB8FDBDUMNJSR3M9M6LQ",
-          "name": "OfficeClip LLC:Bug Fixes Q3"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:4DTKY6JXNBNCXXSDH2VUYJYEB8RX6YS4V89M6LQ",
-          "name": "OfficeClip LLC:Create OfficeClip for Amazon AMI"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:HA6Z2WHE54FR7BJXHAHXNMQFHAJTS4SCJJJM6LQ",
-          "name": "OfficeClip LLC:Enhancement Q3 2022"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:66TTW8QDG88Z2DGFG4GTSC9EVBRMYJUDYM9M6LQ",
-          "name": "OfficeClip LLC:Enhancements Q2-2022"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:G4RQ7MEE26BRSNHE6CHB7MW56C6YXXA4UM9M6LQ",
-          "name": "OfficeClip LLC:Finish Google Sync"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:XMGV73HXD6YB7XJRY8KMWA9CAZNYWJS35CTM6LQ",
-          "name": "OfficeClip LLC:Fix Current Mobile Issues"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:W6YVXB9R4GBCWHA4EM4X6ZFFCB9E2Y9SBDYM6LQ",
-          "name": "OfficeClip LLC:General"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:JA6WH7KX4BYCYNA4WM6THTDVX6FV37HVJDTM6LQ",
-          "name": "OfficeClip LLC:Improve Integration"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:JMUCXYGV3BBB2KRV4J8T66D4YZGX6EGF4DTM6LQ",
-          "name": "OfficeClip LLC:Make OfficeClip Faster"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:M4VW6MQ34MHRSJYFR84Q32D5GD6X3FD5ZMJM6LQ",
-          "name": "OfficeClip LLC:Make officeclip more usable"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:J68NX6HFBBHZ6QJDNDLYX4JFS2FENG9FTDTM6LQ",
-          "name": "OfficeClip LLC:Monitor"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:FMUB6JE5BZNZNMKRGD6T2J9VSZKNX3ACB4TM6LQ",
-          "name": "OfficeClip LLC:Officeclip DashBoard"
-        },
-        {
-          "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:566W3RHFGDVMWKYVR2MWWCJV388ZHAFCCCYM6LQ",
-          "name": "OfficeClip LLC:Release 11.2.3"
-        }
-      ],
-      "serviceItems": [
-        {
-          "code": "",
-          "customerProjectId": "",
-          "id": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
-          "isBillable": "N",
-          "name": ""
-        },
-        {
-          "code": "AC1",
-          "customerProjectId": "",
-          "id": "72BCSBSD4CGBSYAD7J9B33FVD2LC3HSVW89M6LQ",
-          "isBillable": "Y",
-          "name": "Accounting"
-        },
-        {
-          "code": "A10",
-          "customerProjectId": "",
-          "id": "5AYV289CNCMY7B9RXCKEYQAC266Y39SED4YM6LQ",
-          "isBillable": "Y",
-          "name": "Administration"
-        },
-        {
-          "code": "T8",
-          "customerProjectId": "",
-          "id": "VMTV6WGXN6HE2CD4HA8KNDD4S4UV2EFSA89M6LQ",
-          "isBillable": "Y",
-          "name": "Analysis"
-        },
-        {
-          "code": "D02",
-          "customerProjectId": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:66TTW8QDG88Z2DGFG4GTSC9EVBRMYJUDYM9M6LQ",
-          "id": "JAKNZB9CGBFB2ZJF5DUE73GDUJFZ6AA5M4YM6LQ",
-          "isBillable": "Y",
-          "name": "BluePay"
-        },
-        {
-          "code": "T7",
-          "customerProjectId": "",
-          "id": "VMTV6WGXN6HE2CD4HG6VWAA3G86WYRAXE4TM6LQ",
-          "isBillable": "Y",
-          "name": "Business"
-        },
-        {
-          "code": "T9",
-          "customerProjectId": "",
-          "id": "VMTV6WGXN6HE2CD4NDHVW9ACTJGB6HE5JMJM6LQ",
-          "isBillable": "Y",
-          "name": "Design"
-        },
-        {
-          "code": "T17",
-          "customerProjectId": "",
-          "id": "VMTV6WGXN6HE2CD4HDGWXFJER86E369S5DYM6LQ",
-          "isBillable": "Y",
-          "name": "Development"
-        },
-        {
-          "code": "T17",
-          "customerProjectId": "",
-          "id": "VMTV6WGXN6HE2CD4YAVV2XHFXB6NNZSV78JM6LQ",
-          "isBillable": "Y",
-          "name": "Documentation"
-        },
-        {
-          "code": "M12",
-          "customerProjectId": "",
-          "id": "42FRSRGC34FVS8ACM2JLNMHX48GZNXGDGCYM6LQ",
-          "isBillable": "Y",
-          "name": "Marketing"
-        },
-        {
-          "code": "M1",
-          "customerProjectId": "",
-          "id": "B6RC7MS4MCTYH7EV7MRENSSR26TBN4AC58JM6LQ",
-          "isBillable": "Y",
-          "name": "Meetings"
-        },
-        {
-          "code": "D01",
-          "customerProjectId": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:66TTW8QDG88Z2DGFG4GTSC9EVBRMYJUDYM9M6LQ",
-          "id": "JAKNZB9CGBFB2ZJFUG8ZWNJFGMGB6EFEJ8JM6LQ",
-          "isBillable": "Y",
-          "name": "Paypal"
-        },
-        {
-          "code": "Q1",
-          "customerProjectId": "",
-          "id": "6GFNZ8RV7BJQS4GDG8KYSUTC22JLXXD5TM9M6LQ",
-          "isBillable": "Y",
-          "name": "Quality Assurance"
-        },
-        {
-          "code": "T15",
-          "customerProjectId": "",
-          "id": "VMTV6WGXN6HE2CD4YJULWN9EC28Q2M9RH4TM6LQ",
-          "isBillable": "Y",
-          "name": "Research"
-        },
-        {
-          "code": "S1",
-          "customerProjectId": "",
-          "id": "UJTMNRS3NZFZNUS5TJ4ZSKFVA26ZXZHXW4YM6LQ",
-          "isBillable": "Y",
-          "name": "SEO"
-        },
-        {
-          "code": "D03",
-          "customerProjectId": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:66TTW8QDG88Z2DGFG4GTSC9EVBRMYJUDYM9M6LQ",
-          "id": "JAKNZB9CGBFB2ZJFJJME7QHCVBRE3DA5EMJM6LQ",
-          "isBillable": "Y",
-          "name": "Stripe"
-        },
-        {
-          "code": "T14",
-          "customerProjectId": "",
-          "id": "VMTV6WGXN6HE2CD4NGGR7JWV7A6CSXAD4MJM6LQ",
-          "isBillable": "Y",
-          "name": "Support"
-        },
-        {
-          "code": "",
-          "customerProjectId": "",
-          "id": "B6RC7MS4MCTYH7EV7ZFRSURDNCVZY3JE6M9M6LQ",
-          "isBillable": "Y",
-          "name": "Testing"
-        },
-        {
-          "code": "T10",
-          "customerProjectId": "",
-          "id": "5AYV289CNCMY7B9REZKCSX9D4J8V2JWEJJJM6LQ",
-          "isBillable": "N",
-          "name": "Training"
-        }
-      ],
-      "payrolls": [
-        {
-          "code": null,
-          "id": "5JRMY8SR7JYVSHDRJC5Q",
-          "name": ""
-        },
-        {
-          "code": null,
-          "id": "UZKB7NGF34MLNN9D2ZJE3YS4RCGZNSDVSCTM6LQ",
-          "name": "Holiday"
-        }
-      ],
-      "customFields": [
-        {
-          "fieldType": "TimesheetRow",
-          "id": "4",
-          "items": ["", "One", "Two", "Three"],
-          "name": "Custom Row",
-          "uiType": "List"
-        },
-        {
-          "fieldType": "TimesheetDetail",
-          "id": "307",
-          "items": [],
-          "name": "detailText",
-          "uiType": "Text"
-        },
-        {
-          "fieldType": "Timesheet",
-          "id": "310",
-          "items": [
-            "",
-            "A - Excellent",
-            "B",
-            "C - Average",
-            "D",
-            "E - Below Average",
-            "F"
-          ],
-          "name": "Quality",
-          "uiType": "List"
-        }
-      ]
-    }
-  ],
+  "timesheet-lists": {
+    "periods": [
+      {
+        "end": "2023-07-02T00:00:00+05:30",
+        "name": "Jun 19, 2023 - Jul 02, 2023",
+        "start": "2023-06-19T10:43:32.203Z"
+      },
+      {
+        "end": "2023-06-18T00:00:00+05:30",
+        "name": "Jun 05, 2023 - Jun 18, 2023",
+        "start": "023-06-05T10:43:32.203Z"
+      },
+      {
+        "end": "2023-06-04T00:00:00+05:30",
+        "name": "May 22, 2023 - Jun 04, 2023",
+        "start": "2023-05-22T00:00:00+05:30"
+      },
+      {
+        "end": "2023-05-21T00:00:00+05:30",
+        "name": "May 08, 2023 - May 21, 2023",
+        "start": "2023-05-08T00:00:00+05:30"
+      },
+      {
+        "end": "2023-05-07T00:00:00+05:30",
+        "name": "Apr 24, 2023 - May 07, 2023",
+        "start": "2023-04-24T00:00:00+05:30"
+      },
+      {
+        "end": "2023-04-23T00:00:00+05:30",
+        "name": "Apr 10, 2023 - Apr 23, 2023",
+        "start": "2023-04-10T00:00:00+05:30"
+      }
+    ],
+    "customerProjects": [
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
+        "name": "OfficeClip LLC"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:7ANXN3JV2CJE7T9XH8GLB8FDBDUMNJSR3M9M6LQ",
+        "name": "OfficeClip LLC:Bug Fixes Q3"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:4DTKY6JXNBNCXXSDH2VUYJYEB8RX6YS4V89M6LQ",
+        "name": "OfficeClip LLC:Create OfficeClip for Amazon AMI"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:HA6Z2WHE54FR7BJXHAHXNMQFHAJTS4SCJJJM6LQ",
+        "name": "OfficeClip LLC:Enhancement Q3 2022"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:66TTW8QDG88Z2DGFG4GTSC9EVBRMYJUDYM9M6LQ",
+        "name": "OfficeClip LLC:Enhancements Q2-2022"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:G4RQ7MEE26BRSNHE6CHB7MW56C6YXXA4UM9M6LQ",
+        "name": "OfficeClip LLC:Finish Google Sync"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:XMGV73HXD6YB7XJRY8KMWA9CAZNYWJS35CTM6LQ",
+        "name": "OfficeClip LLC:Fix Current Mobile Issues"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:W6YVXB9R4GBCWHA4EM4X6ZFFCB9E2Y9SBDYM6LQ",
+        "name": "OfficeClip LLC:General"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:JA6WH7KX4BYCYNA4WM6THTDVX6FV37HVJDTM6LQ",
+        "name": "OfficeClip LLC:Improve Integration"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:JMUCXYGV3BBB2KRV4J8T66D4YZGX6EGF4DTM6LQ",
+        "name": "OfficeClip LLC:Make OfficeClip Faster"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:M4VW6MQ34MHRSJYFR84Q32D5GD6X3FD5ZMJM6LQ",
+        "name": "OfficeClip LLC:Make officeclip more usable"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:J68NX6HFBBHZ6QJDNDLYX4JFS2FENG9FTDTM6LQ",
+        "name": "OfficeClip LLC:Monitor"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:FMUB6JE5BZNZNMKRGD6T2J9VSZKNX3ACB4TM6LQ",
+        "name": "OfficeClip LLC:Officeclip DashBoard"
+      },
+      {
+        "id": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:566W3RHFGDVMWKYVR2MWWCJV388ZHAFCCCYM6LQ",
+        "name": "OfficeClip LLC:Release 11.2.3"
+      }
+    ],
+    "serviceItems": [
+      {
+        "code": "",
+        "customerProjectId": "",
+        "id": "VMTV6WGXN6HE2CD47J9ZWZFEN2VQ7M9VYJJM6LQ",
+        "isBillable": "N",
+        "name": ""
+      },
+      {
+        "code": "AC1",
+        "customerProjectId": "",
+        "id": "72BCSBSD4CGBSYAD7J9B33FVD2LC3HSVW89M6LQ",
+        "isBillable": "Y",
+        "name": "Accounting"
+      },
+      {
+        "code": "A10",
+        "customerProjectId": "",
+        "id": "5AYV289CNCMY7B9RXCKEYQAC266Y39SED4YM6LQ",
+        "isBillable": "Y",
+        "name": "Administration"
+      },
+      {
+        "code": "T8",
+        "customerProjectId": "",
+        "id": "VMTV6WGXN6HE2CD4HA8KNDD4S4UV2EFSA89M6LQ",
+        "isBillable": "Y",
+        "name": "Analysis"
+      },
+      {
+        "code": "D02",
+        "customerProjectId": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:66TTW8QDG88Z2DGFG4GTSC9EVBRMYJUDYM9M6LQ",
+        "id": "JAKNZB9CGBFB2ZJF5DUE73GDUJFZ6AA5M4YM6LQ",
+        "isBillable": "Y",
+        "name": "BluePay"
+      },
+      {
+        "code": "T7",
+        "customerProjectId": "",
+        "id": "VMTV6WGXN6HE2CD4HG6VWAA3G86WYRAXE4TM6LQ",
+        "isBillable": "Y",
+        "name": "Business"
+      },
+      {
+        "code": "T9",
+        "customerProjectId": "",
+        "id": "VMTV6WGXN6HE2CD4NDHVW9ACTJGB6HE5JMJM6LQ",
+        "isBillable": "Y",
+        "name": "Design"
+      },
+      {
+        "code": "T17",
+        "customerProjectId": "",
+        "id": "VMTV6WGXN6HE2CD4HDGWXFJER86E369S5DYM6LQ",
+        "isBillable": "Y",
+        "name": "Development"
+      },
+      {
+        "code": "T17",
+        "customerProjectId": "",
+        "id": "VMTV6WGXN6HE2CD4YAVV2XHFXB6NNZSV78JM6LQ",
+        "isBillable": "Y",
+        "name": "Documentation"
+      },
+      {
+        "code": "M12",
+        "customerProjectId": "",
+        "id": "42FRSRGC34FVS8ACM2JLNMHX48GZNXGDGCYM6LQ",
+        "isBillable": "Y",
+        "name": "Marketing"
+      },
+      {
+        "code": "M1",
+        "customerProjectId": "",
+        "id": "B6RC7MS4MCTYH7EV7MRENSSR26TBN4AC58JM6LQ",
+        "isBillable": "Y",
+        "name": "Meetings"
+      },
+      {
+        "code": "D01",
+        "customerProjectId": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:66TTW8QDG88Z2DGFG4GTSC9EVBRMYJUDYM9M6LQ",
+        "id": "JAKNZB9CGBFB2ZJFUG8ZWNJFGMGB6EFEJ8JM6LQ",
+        "isBillable": "Y",
+        "name": "Paypal"
+      },
+      {
+        "code": "Q1",
+        "customerProjectId": "",
+        "id": "6GFNZ8RV7BJQS4GDG8KYSUTC22JLXXD5TM9M6LQ",
+        "isBillable": "Y",
+        "name": "Quality Assurance"
+      },
+      {
+        "code": "T15",
+        "customerProjectId": "",
+        "id": "VMTV6WGXN6HE2CD4YJULWN9EC28Q2M9RH4TM6LQ",
+        "isBillable": "Y",
+        "name": "Research"
+      },
+      {
+        "code": "S1",
+        "customerProjectId": "",
+        "id": "UJTMNRS3NZFZNUS5TJ4ZSKFVA26ZXZHXW4YM6LQ",
+        "isBillable": "Y",
+        "name": "SEO"
+      },
+      {
+        "code": "D03",
+        "customerProjectId": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ:66TTW8QDG88Z2DGFG4GTSC9EVBRMYJUDYM9M6LQ",
+        "id": "JAKNZB9CGBFB2ZJFJJME7QHCVBRE3DA5EMJM6LQ",
+        "isBillable": "Y",
+        "name": "Stripe"
+      },
+      {
+        "code": "T14",
+        "customerProjectId": "",
+        "id": "VMTV6WGXN6HE2CD4NGGR7JWV7A6CSXAD4MJM6LQ",
+        "isBillable": "Y",
+        "name": "Support"
+      },
+      {
+        "code": "",
+        "customerProjectId": "",
+        "id": "B6RC7MS4MCTYH7EV7ZFRSURDNCVZY3JE6M9M6LQ",
+        "isBillable": "Y",
+        "name": "Testing"
+      },
+      {
+        "code": "T10",
+        "customerProjectId": "",
+        "id": "5AYV289CNCMY7B9REZKCSX9D4J8V2JWEJJJM6LQ",
+        "isBillable": "N",
+        "name": "Training"
+      }
+    ],
+    "payrolls": [
+      {
+        "code": null,
+        "id": "5JRMY8SR7JYVSHDRJC5Q",
+        "name": ""
+      },
+      {
+        "code": null,
+        "id": "UZKB7NGF34MLNN9D2ZJE3YS4RCGZNSDVSCTM6LQ",
+        "name": "Holiday"
+      }
+    ],
+    "customFields": [
+      {
+        "fieldType": "TimesheetRow",
+        "id": "4",
+        "items": ["", "One", "Two", "Three"],
+        "name": "Custom Row",
+        "uiType": "List"
+      },
+      {
+        "fieldType": "TimesheetDetail",
+        "id": "307",
+        "items": [],
+        "name": "detailText",
+        "uiType": "Text"
+      },
+      {
+        "fieldType": "Timesheet",
+        "id": "310",
+        "items": [
+          "",
+          "A - Excellent",
+          "B",
+          "C - Average",
+          "D",
+          "E - Below Average",
+          "F"
+        ],
+        "name": "Quality",
+        "uiType": "List"
+      }
+    ]
+  },
   "expense-summary": [
     {
       "createdByUserName": "Nagesh Kulkarni",
