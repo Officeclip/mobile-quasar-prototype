@@ -230,6 +230,42 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
     },
 
+    //TODO: test below method from ChatGPT
+    async getFilteredTasksNew(filterOptions: any, parentObjectId: number, parentObjectServiceType: number) {
+      // Base URL for the API call
+      let apiUrl = `${Constants.endPointUrl}/task-summary`;
+
+      // Parameters to be sent in the query string
+      const queryParams = new URLSearchParams();
+
+      // Check if parentObjectId and parentObjectServiceType are provided
+      if (parentObjectId > 0 && parentObjectServiceType > 0) {
+        queryParams.append('parentObjectId', parentObjectId.toString());
+        queryParams.append('parentObjectServiceType', parentObjectServiceType.toString());
+      }
+
+      // Add filter options as query parameters
+      if (filterOptions) {
+        Object.keys(filterOptions).forEach(key => {
+          // Check if the filter option value is not null or undefined
+          if (filterOptions[key] !== null && filterOptions[key] !== undefined) {
+            queryParams.append(key, filterOptions[key]);
+          }
+        });
+      }
+
+      // Construct the full API URL with query parameters
+      const fullApiUrl = `${apiUrl}?${queryParams.toString()}`;
+
+      try {
+        const response = await axios.get(fullApiUrl);
+        this.taskSummaries = response.data;
+        console.log(this.taskSummaries);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     async getTaskSummaryByBatch(parentObjectId: number, parentObjectServiceType: number, limit: number, page: number) {
       //FIXME: Fix issue where tasks lists start again after reaching end
       const callStr =
