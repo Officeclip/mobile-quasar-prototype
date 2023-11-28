@@ -8,6 +8,7 @@ import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import AddSubtaskDialog from "components/tasks/addSubtaskDialog.vue";
 import {subTask} from "src/models/task/subtask";
 import SubtaskItem from "components/tasks/SubtaskItem.vue";
+import {taskDetails} from "src/models/task/taskDetails";
 
 const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
@@ -56,6 +57,12 @@ const taskDetail: ComputedRef<taskDetails> = computed(() => {
       recurrenceRule: "Not Available",
       tags: [],
       subtasks: [],
+      security: {
+        "read": false,
+        "write": false,
+        "append": false,
+        "delete": false
+      }
     };
     return emptyTaskDetail;
   }
@@ -120,7 +127,7 @@ function addSubtask(subtask: subTask) {
         <!--            <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>-->
         <!--          </q-btn>-->
         <!--        </div>-->
-        <div v-if="taskDetail?.isEditable==null||taskDetail?.isEditable">
+        <div v-if="taskDetail.security.read">
           <q-btn :to="{ name: 'editTask', params: { id: id } }" dense flat icon="edit"
                  round/>
           <q-btn dense flat icon="delete" round/>

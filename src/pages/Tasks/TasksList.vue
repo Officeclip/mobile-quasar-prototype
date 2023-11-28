@@ -72,7 +72,7 @@ function clearFilterValues() {
     assignedTo: '',
     ownedBy: '',
     regarding: '',
-    hideCompleted: true,
+    showCompleted: false,
   }
   filterCount.value = 0;
   getFirstBatch();

@@ -233,7 +233,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     //TODO: test below method from ChatGPT
     async getFilteredTasksNew(filterOptions: any, parentObjectId: number, parentObjectServiceType: number) {
       // Base URL for the API call
-      let apiUrl = `${Constants.endPointUrl}/task-summary`;
+      const apiUrl = `${Constants.endPointUrl}/task-summary`;
 
       // Parameters to be sent in the query string
       const queryParams = new URLSearchParams();
@@ -256,6 +256,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
       // Construct the full API URL with query parameters
       const fullApiUrl = `${apiUrl}?${queryParams.toString()}`;
+      console.log(fullApiUrl);
 
       try {
         const response = await axios.get(fullApiUrl);
