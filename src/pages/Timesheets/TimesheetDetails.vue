@@ -9,6 +9,7 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import WorkFlow from '../../components/general/WorkFlow.vue';
+import { ClosePopup } from 'quasar';
 
 const router = useRouter();
 const route = useRoute();
@@ -85,6 +86,19 @@ const periodOptions = computed(() => {
 const timesheetPeriod = computed(() => {
   return periodOptions.value?.find((x) => x.start.toString() === fromDate);
 });
+const openNewComment = ref(false);
+const openAddComment = () => {
+  openNewComment.value = true;
+};
+const closePopup = () => {
+  openNewComment.value = false;
+};
+const newCommentModel = ref('');
+const addComment = () => {
+  if (newCommentModel.value) {
+    //need to add data that will posting into the json
+  }
+};
 </script>
 
 <template>
@@ -204,6 +218,7 @@ const timesheetPeriod = computed(() => {
             no-caps
             dense
             class="btn-Comment"
+            @click="openAddComment"
             >New</q-btn
           >
         </div>
@@ -233,6 +248,38 @@ const timesheetPeriod = computed(() => {
       </q-page-sticky>
     </q-page-container>
   </q-layout>
+
+  <q-dialog v-model="openNewComment">
+    <q-card>
+      <q-card-section>
+        <q-item>
+          <q-input
+            v-model="newCommentModel"
+            class="full-width"
+            dense
+            label="Add comment"
+          >
+          </q-input>
+        </q-item>
+        <q-card-actions align="right">
+          <q-btn
+            no-caps
+            dense
+            color="primary"
+            label="Cancel"
+            @click="closePopup"
+          />
+          <q-btn
+            no-caps
+            denses
+            color="negative"
+            label="Add"
+            @click="addComment"
+          />
+        </q-card-actions>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 
   <ConfirmDelete
     v-if="showDeleteTimesheet"
