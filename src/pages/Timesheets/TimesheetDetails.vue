@@ -25,6 +25,7 @@ const timesheetListsStore = useTimesheetListStore();
 
 onMounted(() => {
   timesheetsStore.getTimesheetDetails(id);
+  timesheetCommentsStore.$reset();
   timesheetCommentsStore.getTimesheetComments(id);
   timesheetListsStore.getTimesheetListAll();
 });
@@ -71,7 +72,7 @@ const showComments = ref(false);
 const commentsList = computed(() => {
   return timesheetCommentsStore.CommentsList;
 });
-
+console.log('getting the comment list from store:', commentsList.value);
 const toggleList = () => {
   showComments.value = !showComments.value;
 };
