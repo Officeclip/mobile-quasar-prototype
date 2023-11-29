@@ -12,6 +12,7 @@ import EventsList from '../../components/Events/EventsListCtrl.vue';
 import TasksList from 'components/tasks/tasksListCtrl.vue';
 import ContactDetails from '../../components/Contacts/ContactDetails.vue';
 import MetaDetails from '../../components/Meta/MetaDetails.vue';
+import { ObjectType } from '../../helpers/util';
 
 console.log('TESTING CONTACTVIEW: Setup');
 const model = ref('1');
@@ -58,12 +59,12 @@ onBeforeMount(() => {
 
 const parent = ref({
   parentObjectId: id.value,
-  parentObjectServiceType: 14, // FIXME: Use enumerated types
+  parentObjectServiceType: ObjectType.Contact, // FIXME: Use enumerated types
   selectedNoteBook: -1,
 });
 const parent2 = ref({
   parentObjectId: id.value,
-  parentObjectServiceType: 14, // FIXME: Use enumerated types
+  parentObjectServiceType: ObjectType.Contact, // FIXME: Use enumerated types
 });
 
 // const params = ref({
@@ -85,41 +86,20 @@ const handleNoteCount = (value: string) => {
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> Contact details </q-toolbar-title>
 
-        <q-btn
-          @click="
-            model === '1'
-              ? $router.push({ name: 'editContactDetails', params: { id: id } })
-              : $router.push({ name: 'editMetaDetail', params: { id: id } })
-          "
-          flat
-          round
-          dense
-          color="white"
-          icon="edit"
-        />
+        <q-btn @click="
+          model === '1'
+            ? $router.push({ name: 'editContactDetails', params: { id: id } })
+            : $router.push({ name: 'editMetaDetail', params: { id: id } })
+          " flat round dense color="white" icon="edit" />
 
-        <q-btn
-          @click="
-            contactDetailsStore.deleteContactDetails(contactDetails?.id);
-            $router.go(-1);
-          "
-          flat
-          round
-          dense
-          color="white"
-          icon="delete"
-        />
+        <q-btn @click="
+          contactDetailsStore.deleteContactDetails(contactDetails?.id);
+        $router.go(-1);
+        " flat round dense color="white" icon="delete" />
       </q-toolbar>
     </q-header>
 
@@ -131,20 +111,11 @@ const handleNoteCount = (value: string) => {
               <img :src="contactDetails?.picture" alt="{{ fullName }}" />
             </q-avatar>
             <div class="q-mt-md">
-              <q-btn-toggle
-                v-model="model"
-                class="oc-custom-toggle"
-                no-caps
-                rounded
-                unelevated
-                toggle-color="primary"
-                color="white"
-                text-color="primary"
-                :options="[
+              <q-btn-toggle v-model="model" class="oc-custom-toggle" no-caps rounded unelevated toggle-color="primary"
+                color="white" text-color="primary" :options="[
                   { label: 'Summary', value: '1' },
                   { label: 'Details', value: '2' },
-                ]"
-              />
+                ]" />
             </div>
           </div>
         </q-card-section>
@@ -153,11 +124,7 @@ const handleNoteCount = (value: string) => {
         <!-- Notes Starts -->
         <q-card-section>
           <q-list bordered class="rounded-borders">
-            <q-expansion-item
-              expand-separator
-              expand-icon-class="text-primary"
-              dense
-            >
+            <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
               <template v-slot:header>
                 <q-item-section side>
                   <div class="row items-center">
@@ -167,36 +134,26 @@ const handleNoteCount = (value: string) => {
                 <q-item-section> Notes ({{ notesCount }})</q-item-section>
 
                 <q-item-section side>
-                  <q-btn
-                    :to="{
-                      name: 'newNotes',
-                      params: {
-                        id: contactDetails?.id,
-                      },
-                    }"
-                    size="sm"
-                    flat
-                    round
-                    dense
-                    icon="add"
-                  >
+                  <q-btn :to="{
+                    name: 'newNotes',
+                    params: {
+                      id: -1,
+                      objectTypeId: ObjectType.Contact,
+                      objectId: contactDetails?.id
+                    },
+                  }" size="sm" flat round dense icon="add">
                   </q-btn>
                 </q-item-section>
               </template>
               <q-separator></q-separator>
               <NoteList @numberOfNotes="handleNoteCount" :params="parent" />
-              <!-- <pre>{{ parent }}</pre> -->
             </q-expansion-item>
           </q-list>
         </q-card-section>
 
         <q-card-section>
           <q-list bordered class="rounded-borders">
-            <q-expansion-item
-              expand-separator
-              expand-icon-class="text-primary"
-              dense
-            >
+            <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
               <template v-slot:header>
                 <q-item-section side>
                   <div class="row items-center">
@@ -206,19 +163,14 @@ const handleNoteCount = (value: string) => {
                 <q-item-section> Events</q-item-section>
 
                 <q-item-section side>
-                  <q-btn
-                    :to="{
-                      name: 'newEvent',
-                      params: {
-                        id: contactDetails?.id,
-                      },
-                    }"
-                    size="sm"
-                    flat
-                    round
-                    dense
-                    icon="add"
-                  >
+                  <q-btn :to="{
+                    name: 'newEvent',
+                    params: {
+                      id: -1,
+                      objectTypeId: ObjectType.Contact,
+                      objectId: contactDetails?.id
+                    },
+                  }" size="sm" flat round dense icon="add">
                   </q-btn>
                 </q-item-section>
               </template>
@@ -230,11 +182,7 @@ const handleNoteCount = (value: string) => {
 
         <q-card-section>
           <q-list bordered class="rounded-borders">
-            <q-expansion-item
-              expand-separator
-              expand-icon-class="text-primary"
-              dense
-            >
+            <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
               <template v-slot:header>
                 <q-item-section side>
                   <div class="row items-center">
@@ -244,19 +192,14 @@ const handleNoteCount = (value: string) => {
                 <q-item-section>Tasks</q-item-section>
 
                 <q-item-section side>
-                  <q-btn
-                    :to="{
-                      name: 'newTask',
-                      params: {
-                        id: contactDetails?.id,
-                      },
-                    }"
-                    size="sm"
-                    flat
-                    round
-                    dense
-                    icon="add"
-                  >
+                  <q-btn :to="{
+                    name: 'newTask',
+                    params: {
+                      id: '',
+                      objectTypeId: ObjectType.Contact,
+                      objectId: contactDetails?.id
+                    },
+                  }" size="sm" flat round dense icon="add">
                   </q-btn>
                 </q-item-section>
               </template>
@@ -281,6 +224,7 @@ const handleNoteCount = (value: string) => {
   flex-direction: column;
   align-items: center;
 }
+
 .oc-custom-toggle {
   border: 1px solid var(--q-primary);
 }
