@@ -49,7 +49,9 @@ function filterNumber(filter: searchFilter) {
 
 
 function emitOptions() {
-  taskSummaryStore.getFilteredTasks(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
+  // taskSummaryStore.getFilteredTasks(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
+  taskSummaryStore.getFilteredTasksNew(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
+
   // console.log(taskSummaryStore.taskSummaries);
   emit('advancedOptionsGenerated', advancedOptions.value);
   emit('filterCount', filterNumber(advancedOptions.value));

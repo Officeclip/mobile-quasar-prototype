@@ -127,22 +127,27 @@ function addSubtask(subtask: subTask) {
         <!--            <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>-->
         <!--          </q-btn>-->
         <!--        </div>-->
-        <div v-if="taskDetail.security.read">
+        <div v-if="taskDetail.security.write">
           <q-btn :to="{ name: 'editTask', params: { id: id } }" dense flat icon="edit"
                  round/>
-          <q-btn dense flat icon="delete" round/>
         </div>
-
         <div v-else>
           <q-btn dense disable flat icon="edit"
                  round>
             <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>
-
           </q-btn>
+        </div>
+
+        <div v-if="taskDetail.security.delete">
+          <q-btn dense flat icon="delete" round/>
+        </div>
+        <div v-else>
           <q-btn dense disable flat icon="delete" round>
             <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>
           </q-btn>
         </div>
+
+
       </q-toolbar>
     </q-header>
 
@@ -191,15 +196,15 @@ function addSubtask(subtask: subTask) {
           <div class="row justify-around q-gutter-sm">
             <div class="relative-position">
               <span class="chip-caption">Type</span>
-              <q-chip square color="info" outline>{{ taskDetail?.taskType.name }}</q-chip>
+              <q-chip color="info" outline square>{{ taskDetail?.taskType.name }}</q-chip>
             </div>
             <div class="relative-position">
               <span class="chip-caption">Priority</span>
-              <q-chip square color="amber" outline>{{ taskDetail?.taskPriority.name }}</q-chip>
+              <q-chip color="amber" outline square>{{ taskDetail?.taskPriority.name }}</q-chip>
             </div>
             <div class="relative-position">
               <span class="chip-caption">Status</span>
-              <q-chip square :color="taskDetail?.taskStatus.color" outline>
+              <q-chip :color="taskDetail?.taskStatus.color" outline square>
                 {{ taskDetail?.taskStatus.name }}
               </q-chip>
             </div>
@@ -215,7 +220,10 @@ function addSubtask(subtask: subTask) {
           <q-item-section>
             <q-item-label class="q-pl-xs">Assignees</q-item-label>
             <div class="q-pt-xs">
-              <q-chip square v-for="assignee in taskDetail?.assignees" :key="assignee" dense>{{ assignee.name }}</q-chip>
+              <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense square>{{
+                  assignee.name
+                }}
+              </q-chip>
             </div>
           </q-item-section>
         </q-item>
@@ -278,23 +286,26 @@ function addSubtask(subtask: subTask) {
               <q-item-section>
                 <q-item-label caption>Tags</q-item-label>
                 <div>
-                  <q-chip square v-for="tag in taskDetail?.tags" :key="tag" dense>{{ tag.name }}</q-chip>
+                  <q-chip v-for="tag in taskDetail?.tags" :key="tag" dense square>{{ tag.name }}</q-chip>
                 </div>
               </q-item-section>
             </q-item>
           </div>
           <div class="row justify-between">
 
-          <q-item>
-            <q-item-section center side>
-              <q-icon name="info"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label caption>Regarding</q-item-label>
-              <q-item-label description>{{taskDetail?.regardingType +': '+ taskDetail?.regardingValue }}</q-item-label>
-            </q-item-section>
+            <q-item>
+              <q-item-section center side>
+                <q-icon name="info"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label caption>Regarding</q-item-label>
+                <q-item-label description>{{
+                    taskDetail?.regardingType + ': ' + taskDetail?.regardingValue
+                  }}
+                </q-item-label>
+              </q-item-section>
 
-          </q-item>
+            </q-item>
 
           </div>
         </q-card-section>

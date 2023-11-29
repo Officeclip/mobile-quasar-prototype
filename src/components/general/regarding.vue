@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { regardingContact } from '../../models/general/regardingAll';
-import { useRegardingAllStore } from '../../stores/regarding/regardingAllStore';
+import { regardingItem } from '../../models/general/regardingItem';
+import { useRegardingStore} from '../../stores/regarding/regardingStore';
+import regarding from "components/general/regarding.vue";
 
 const parentServiceType = ref('');
 
-const regardingAllStore = useRegardingAllStore();
-regardingAllStore.getMetaTypes();
+const regardingStore = useRegardingStore();
+regardingStore.getMetaTypes();
 
 const metaTypeOptions = computed(() => {
-  return regardingAllStore.MetaTypes;
+  return regardingStore.MetaTypes;
 });
 //disabled regarding contacts unless select the option from regarding types
 
@@ -17,10 +18,11 @@ const disabled = computed(() => {
   return parentServiceType.value == '';
 });
 
-const regardingContacts = ref([] as regardingContact[]);
+const regardingItems = ref({});
 const selectedRegContact = ref(null);
 
-async function filterContacts(
+async function filterItems(
+  type: string,
   val: string,
   update: (arg0: () => void) => void,
   abort: () => void
@@ -29,7 +31,7 @@ async function filterContacts(
     abort();
     return;
   } else if (val.length === 2) {
-    regardingContacts.value = [] as regardingContact[];
+    regarding.value = [] as regardingContact[];
     await regardingAllStore.getRegardingContactListThatMatch(val);
     regardingContacts.value = regardingAllStore.regardingContacts;
   }

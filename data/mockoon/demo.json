@@ -1,5 +1,5 @@
 {
-  "uuid": "e6ddcf68-9a46-47fb-b646-b5fd2d788b48",
+  "uuid": "631efb66-613f-45e1-82b1-936282fc98ef",
   "lastMigration": 29,
   "name": "Demo API",
   "endpointPrefix": "",
@@ -9,14 +9,14 @@
   "folders": [],
   "routes": [
     {
-      "uuid": "4852cbac-cb25-4c48-bdbe-72db56d5346e",
+      "uuid": "1a281ab2-e038-469b-bec5-283a22825651",
       "type": "http",
       "documentation": "Global rules",
       "method": "all",
       "endpoint": "*",
       "responses": [
         {
-          "uuid": "870fd7f9-0845-4ad0-ba87-2f3467e3d8ef",
+          "uuid": "0d7653f6-2664-4b18-9757-f187419ef94c",
           "body": "{\n  \"error\": \"Unauthorized\"\n}",
           "latency": 0,
           "statusCode": 401,
@@ -42,18 +42,18 @@
           "crudKey": "id"
         }
       ],
-      "enabled": false,
+      "enabled": true,
       "responseMode": "FALLBACK"
     },
     {
-      "uuid": "a9e23d55-1a58-4b81-a559-21663bae0103",
+      "uuid": "d50ae10d-0ea1-4b56-8117-08867f5d468a",
       "type": "crud",
       "documentation": "Endpoint performing CRUD operations on a data bucket",
       "method": "",
       "endpoint": "users",
       "responses": [
         {
-          "uuid": "b6e34fe7-5f9f-446b-a5f0-88924cfe37d3",
+          "uuid": "7d97017f-3a3b-46df-8117-10042e325cb0",
           "body": "{}",
           "latency": 0,
           "statusCode": 200,
@@ -61,7 +61,7 @@
           "headers": [],
           "bodyType": "DATABUCKET",
           "filePath": "",
-          "databucketID": "vhcc",
+          "databucketID": "nw2b",
           "sendFileAsBody": false,
           "rules": [],
           "rulesOperator": "OR",
@@ -69,20 +69,38 @@
           "fallbackTo404": false,
           "default": true,
           "crudKey": "id"
+        },
+        {
+          "uuid": "71472542-ade9-4473-99bc-ac84be5fde7f",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "nw2b",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
         }
       ],
       "enabled": true,
       "responseMode": null
     },
     {
-      "uuid": "3dd25f5c-0dcc-4462-8616-d8b9381ffa22",
+      "uuid": "ad77eb28-60d4-45c6-935e-b4307ac7fd7d",
       "type": "http",
       "documentation": "Generate random body (JSON, text, CSV, etc) with templating",
       "method": "get",
       "endpoint": "template",
       "responses": [
         {
-          "uuid": "b9ba8b7d-b42f-40e5-8dd3-05156e5333f9",
+          "uuid": "99c563ac-8864-4d1b-8808-8e41857bb765",
           "body": "{\n  \"Templating example\": \"For more information about templating, click the blue 'i' above this editor\",\n  \"users\": [\n    {{# repeat (queryParam 'total' '10') }}\n      {\n        \"userId\": \"{{ faker 'number.int' min=10000 max=100000 }}\",\n        \"firstname\": \"{{ faker 'person.firstName' }}\",\n        \"lastname\": \"{{ faker 'person.lastName' }}\",\n        \"friends\": [\n          {{# repeat (faker 'number.int' 5) }}\n            {\n              \"id\": \"{{ faker 'string.uuid' }}\"\n            }\n          {{/ repeat }}\n        ]\n      },\n    {{/ repeat }}\n  ],\n  \"total\": \"{{queryParam 'total' '10'}}\"\n}",
           "latency": 0,
           "statusCode": 200,
@@ -104,14 +122,14 @@
       "responseMode": null
     },
     {
-      "uuid": "5140dade-0ee1-46ef-9db0-f7181a7505cb",
+      "uuid": "e5a54614-88a5-4387-87f6-8f3556892ad3",
       "type": "http",
       "documentation": "Use multiple responses with rules",
       "method": "post",
       "endpoint": "content/:param1",
       "responses": [
         {
-          "uuid": "55d14069-dee0-461f-8431-ddbda5e07688",
+          "uuid": "a4cb6155-6e0b-4d89-93dc-518a012e4d3e",
           "body": "{\n  \"Rules example\": \"Default response. Served if route param 'param1' is not present.\"\n}",
           "latency": 0,
           "statusCode": 200,
@@ -129,7 +147,7 @@
           "crudKey": "id"
         },
         {
-          "uuid": "254066fa-cfb0-48b0-a599-b52aa727830f",
+          "uuid": "06b849a9-1940-48f2-9c47-1230486bdc35",
           "body": "{\n  \"Rules example\": \"Content XYZ. Served if route param 'param1' equals 'xyz'. (See in 'Rules' tab)\"\n}",
           "latency": 0,
           "statusCode": 200,
@@ -155,7 +173,7 @@
           "crudKey": "id"
         },
         {
-          "uuid": "924c9da7-32da-4e8d-8eef-0d4e72338e7d",
+          "uuid": "3a707d5a-c535-4931-97ce-0f68a1d4f7ec",
           "body": "{\n  \"Rules example\": \"Content not found. Served if route param 'param1' is not equal to 'xyz'. (See in 'Rules' tab)\"\n}\n",
           "latency": 0,
           "statusCode": 404,
@@ -185,14 +203,14 @@
       "responseMode": null
     },
     {
-      "uuid": "47bcecf6-bdbd-483a-b1c0-a8ea39522e5a",
+      "uuid": "f0649983-4464-44b8-9672-9926cb521f09",
       "type": "http",
       "documentation": "Serve a file dynamically depending on the path param 'pageName'.",
       "method": "get",
       "endpoint": "file/:pageName",
       "responses": [
         {
-          "uuid": "4f3349e0-0484-4314-9cc9-9e5a384bba9a",
+          "uuid": "3dd5eca7-bcaa-400d-8f0e-3c1314563bee",
           "body": "",
           "latency": 0,
           "statusCode": 200,
@@ -203,7 +221,7 @@
               "value": "text/html"
             }
           ],
-          "bodyType": "FILE",
+          "bodyType": "INLINE",
           "filePath": "./page{{urlParam 'pageName'}}.html",
           "databucketID": "",
           "sendFileAsBody": false,
@@ -219,14 +237,14 @@
       "responseMode": null
     },
     {
-      "uuid": "c84ea630-8d9d-461d-840f-f01e23bf28e6",
+      "uuid": "45138213-5cbf-4310-960a-f6ad53619015",
       "type": "http",
       "documentation": "Path supports various patterns",
       "method": "put",
       "endpoint": "path/with/pattern(s)?/*",
       "responses": [
         {
-          "uuid": "2862b72b-fa46-4d26-98c3-0207b60c2d3e",
+          "uuid": "013a25aa-2c4c-456e-9dad-6298e100abca",
           "body": "The current path will match the following routes: \nhttp://localhost:3000/path/with/pattern/\nhttp://localhost:3000/path/with/patterns/\nhttp://localhost:3000/path/with/patterns/anything-else\n\nLearn more about Mockoon's routing: https://mockoon.com/docs/latest/api-endpoints/routing/",
           "latency": 0,
           "statusCode": 200,
@@ -253,14 +271,14 @@
       "responseMode": null
     },
     {
-      "uuid": "3fd98815-560a-4c6e-99f8-07d275101ad0",
+      "uuid": "8fbbb899-830c-4dab-8e77-cd40258cec41",
       "type": "http",
       "documentation": "Can Mockoon forward or record entering requests?",
       "method": "get",
       "endpoint": "forward-and-record",
       "responses": [
         {
-          "uuid": "6a07f47c-7735-4a26-a0cd-658312623a56",
+          "uuid": "7cf098d7-d0c3-4399-a2ec-965f4fcf241f",
           "body": "Mockoon can also act as a proxy and forward all entering requests that are not caught by declared routes. \nYou can activate this option in the environment settings ('cog' icon in the upper right corner). \nTo learn more: https://mockoon.com/docs/latest/server-configuration/proxy-mode/\n\nAs always, all entering requests, and responses from the proxied server will be recorded ('clock' icon in the upper right corner).\nTo learn more: https://mockoon.com/docs/latest/logging-and-recording/requests-logging/",
           "latency": 0,
           "statusCode": 200,
@@ -285,69 +303,36 @@
       ],
       "enabled": true,
       "responseMode": null
-    },
-    {
-      "uuid": "babd27ee-12ef-4391-8df2-b115ab9e96d8",
-      "type": "http",
-      "documentation": "",
-      "method": "get",
-      "endpoint": "contact-summary",
-      "responses": [
-        {
-          "uuid": "8c5eb6ee-5d23-4c89-a4b6-edb4bd9096df",
-          "body": "{}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "",
-          "headers": [],
-          "bodyType": "FILE",
-          "filePath": "C:\\temp\\Mockoon\\oc\\contact-summary.json",
-          "databucketID": "",
-          "sendFileAsBody": true,
-          "rules": [],
-          "rulesOperator": "OR",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": true,
-          "crudKey": "id"
-        }
-      ],
-      "enabled": true,
-      "responseMode": null
     }
   ],
   "rootChildren": [
     {
       "type": "route",
-      "uuid": "4852cbac-cb25-4c48-bdbe-72db56d5346e"
+      "uuid": "1a281ab2-e038-469b-bec5-283a22825651"
     },
     {
       "type": "route",
-      "uuid": "a9e23d55-1a58-4b81-a559-21663bae0103"
+      "uuid": "d50ae10d-0ea1-4b56-8117-08867f5d468a"
     },
     {
       "type": "route",
-      "uuid": "3dd25f5c-0dcc-4462-8616-d8b9381ffa22"
+      "uuid": "ad77eb28-60d4-45c6-935e-b4307ac7fd7d"
     },
     {
       "type": "route",
-      "uuid": "5140dade-0ee1-46ef-9db0-f7181a7505cb"
+      "uuid": "e5a54614-88a5-4387-87f6-8f3556892ad3"
     },
     {
       "type": "route",
-      "uuid": "47bcecf6-bdbd-483a-b1c0-a8ea39522e5a"
+      "uuid": "f0649983-4464-44b8-9672-9926cb521f09"
     },
     {
       "type": "route",
-      "uuid": "c84ea630-8d9d-461d-840f-f01e23bf28e6"
+      "uuid": "45138213-5cbf-4310-960a-f6ad53619015"
     },
     {
       "type": "route",
-      "uuid": "3fd98815-560a-4c6e-99f8-07d275101ad0"
-    },
-    {
-      "type": "route",
-      "uuid": "babd27ee-12ef-4391-8df2-b115ab9e96d8"
+      "uuid": "8fbbb899-830c-4dab-8e77-cd40258cec41"
     }
   ],
   "proxyMode": false,
@@ -383,8 +368,8 @@
   ],
   "data": [
     {
-      "uuid": "7ae86275-c26f-42b7-9a79-e41fa8130ccc",
-      "id": "vhcc",
+      "uuid": "19856665-0383-4366-9ae4-3f91959494be",
+      "id": "nw2b",
       "name": "Users",
       "documentation": "",
       "value": "[\n  {{#repeat 50}}\n  {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"username\": \"{{faker 'internet.userName'}}\"\n  }\n  {{/repeat}}\n]"

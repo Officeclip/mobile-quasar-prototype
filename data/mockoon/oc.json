@@ -83,7 +83,7 @@
     {
       "uuid": "0b406ada-d4d4-4e17-bc96-7beb7f464fd4",
       "name": "Tasks",
-      "collapsed": true,
+      "collapsed": false,
       "children": [
         {
           "type": "route",
@@ -882,6 +882,60 @@
       ],
       "enabled": true,
       "responseMode": null
+    },
+    {
+      "uuid": "4fa1b2d4-98e8-4e39-8792-3a512d5098e3",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "task-summary",
+      "responses": [
+        {
+          "uuid": "2cc019e4-653e-4e1c-b0ef-d7d41110f57f",
+          "body": "[]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "access-control-allow-headers",
+              "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With, x-orgKey"
+            },
+            {
+              "key": "access-control-allow-methods",
+              "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "x-total-count",
+              "value": "27"
+            },
+            {
+              "key": "content-length",
+              "value": "2"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -912,6 +966,10 @@
     {
       "type": "folder",
       "uuid": "4fb3fd2a-ad95-4df4-b773-6ec7ffab8c33"
+    },
+    {
+      "type": "route",
+      "uuid": "4fa1b2d4-98e8-4e39-8792-3a512d5098e3"
     }
   ],
   "proxyMode": false,

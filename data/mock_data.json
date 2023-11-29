@@ -1986,7 +1986,17 @@
     "userName": "SK Dutta",
     "userEmail": "skd@officeclip.com",
     "isAdmin": true,
-    "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10],
+    "applicationIds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      10
+    ],
     "roleAccesses": [
       {
         "name": "TrackerEditCase",
@@ -2207,7 +2217,7 @@
         "read": true,
         "write": true,
         "append": false,
-        "delete": false
+        "delete": true
       }
     },
     {
@@ -2236,7 +2246,9 @@
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": ["Kathiravan Sekar"],
+      "assignees": [
+        "Kathiravan Sekar"
+      ],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
@@ -3384,7 +3396,12 @@
       {
         "fieldType": "TimesheetRow",
         "id": "4",
-        "items": ["", "One", "Two", "Three"],
+        "items": [
+          "",
+          "One",
+          "Two",
+          "Three"
+        ],
         "name": "Custom Row",
         "uiType": "List"
       },
@@ -4552,5 +4569,175 @@
         }
       ]
     }
-  ]
+  ],
+  "regarding": {
+    "contacts": [
+      {
+        "id": 1,
+        "name": "Alice Smith"
+      },
+      {
+        "id": 2,
+        "name": "Bob Johnson"
+      },
+      {
+        "id": 3,
+        "name": "Carol Davis"
+      },
+      {
+        "id": 4,
+        "name": "David Martin"
+      },
+      {
+        "id": 5,
+        "name": "Eva Brown"
+      },
+      {
+        "id": 6,
+        "name": "Frank Wilson"
+      },
+      {
+        "id": 7,
+        "name": "Grace Taylor"
+      },
+      {
+        "id": 8,
+        "name": "Henry Anderson"
+      },
+      {
+        "id": 9,
+        "name": "Ivy Thomas"
+      },
+      {
+        "id": 10,
+        "name": "Jack Lee"
+      }
+    ],
+    "accounts": [
+      {
+        "id": 11,
+        "name": "Alpha Co."
+      },
+      {
+        "id": 12,
+        "name": "Beta Ltd."
+      },
+      {
+        "id": 13,
+        "name": "Gamma Inc."
+      },
+      {
+        "id": 14,
+        "name": "Delta Corp."
+      },
+      {
+        "id": 15,
+        "name": "Epsilon Plc."
+      },
+      {
+        "id": 16,
+        "name": "Zeta LLC"
+      },
+      {
+        "id": 17,
+        "name": "Eta Group"
+      },
+      {
+        "id": 18,
+        "name": "Theta Enterprises"
+      },
+      {
+        "id": 19,
+        "name": "Iota Services"
+      },
+      {
+        "id": 20,
+        "name": "Kappa Solutions"
+      }
+    ],
+    "projects": [
+      {
+        "id": 21,
+        "name": "Project Apollo"
+      },
+      {
+        "id": 22,
+        "name": "Project Zeus"
+      },
+      {
+        "id": 23,
+        "name": "Project Athena"
+      },
+      {
+        "id": 24,
+        "name": "Project Hermes"
+      },
+      {
+        "id": 25,
+        "name": "Project Artemis"
+      },
+      {
+        "id": 26,
+        "name": "Project Dionysus"
+      },
+      {
+        "id": 27,
+        "name": "Project Apollo"
+      },
+      {
+        "id": 28,
+        "name": "Project Demeter"
+      },
+      {
+        "id": 29,
+        "name": "Project Hestia"
+      },
+      {
+        "id": 30,
+        "name": "Project Ares"
+      }
+    ],
+    "campaigns": [
+      {
+        "id": 31,
+        "name": "Summer Sale 2023"
+      },
+      {
+        "id": 32,
+        "name": "Winter Wonderland"
+      },
+      {
+        "id": 33,
+        "name": "Spring Fling"
+      },
+      {
+        "id": 34,
+        "name": "Autumn Harvest"
+      },
+      {
+        "id": 35,
+        "name": "New Year Blast"
+      },
+      {
+        "id": 36,
+        "name": "Black Friday Deals"
+      },
+      {
+        "id": 37,
+        "name": "Cyber Monday Specials"
+      },
+      {
+        "id": 38,
+        "name": "Valentine's Day Promo"
+      },
+      {
+        "id": 39,
+        "name": "Easter Extravaganza"
+      },
+      {
+        "id": 40,
+        "name": "Halloween Spookfest"
+      }
+    ]
+  }
 }
