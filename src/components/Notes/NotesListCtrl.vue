@@ -50,16 +50,14 @@ console.log('NoteList: Setup Ended');
 <template>
   <!-- <pre>NoteList: GetNotes: {{ getNotes }}</pre> -->
   <q-list v-for="note in getNotes" :key="note.id">
-    <q-item
-      :to="{
-        name: 'noteDetails',
-        params: {
-          id: note.id,
-        },
-      }"
-      clickable
-      v-ripple
-    >
+    <q-item :to="{
+      name: 'noteDetails',
+      params: {
+        id: note.id,
+        objectTypeId: parentObjectServiceType,
+        objectId: parentObjectId
+      },
+    }" clickable v-ripple>
       <q-item-section>
         <q-item-label>
           {{ note.title }}
