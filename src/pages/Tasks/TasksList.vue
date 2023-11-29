@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import {computed, onBeforeMount, ref, Ref, watch} from 'vue';
+import { computed, onBeforeMount, ref, Ref, watch } from 'vue';
 import { useQuasar } from 'quasar'
 
-import TaskSummaryItem from "components/tasks/TaskSummaryItem.vue";
-import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
-import TaskAdvancedFilters from "components/tasks/taskAdvancedFilters.vue";
-import {searchFilter} from "src/models/task/searchFilter";
-import {taskSummary} from "src/models/task/taskSummary";
+import TaskSummaryItem from 'components/tasks/TaskSummaryItem.vue';
+import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
+import TaskAdvancedFilters from 'components/tasks/taskAdvancedFilters.vue';
+import { searchFilter } from 'src/models/task/searchFilter';
+import { taskSummary } from 'src/models/task/taskSummary';
 
 let filterOptions: Ref<searchFilter> = ref({
   filterString: '',
@@ -193,11 +193,11 @@ function updateFilterCount(val: number) {
 
 const $q = useQuasar()
 
-function showNotif () {
+function showNotif() {
   $q.notify({
     type: 'info',
     message: 'COMPLETED TASKS ARE HIDDEN',
-    timeout:10000,
+    timeout: 10000,
     actions: [
       { icon: 'close', color: 'white', round: true, handler: () => { /* ... */ } }
     ]
@@ -216,42 +216,29 @@ onBeforeMount(async () => {
   <q-layout view="lHh Lpr lFf">
     <q-header bordered class="bg-primary text-white" height-hint="98" reveal>
       <q-toolbar>
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="$router.go(-1)"
-        />
+        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)" />
         <q-toolbar-title> Tasks</q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <q-space class="q-mt-sm"/>
+    <q-space class="q-mt-sm" />
     <q-page-container>
       <q-page>
         <div class="q-pa-sm">
-          <q-input
-            v-model="filterOptions.filterString"
-            clearable
-            label="Search"
-            outlined
-            @clear=getFirstBatch
-          >
+          <q-input v-model="filterOptions.filterString" clearable label="Search" outlined @clear=getFirstBatch>
             <template v-slot:append>
-              <q-icon name="search"/>
+              <q-icon name="search" />
             </template>
           </q-input>
         </div>
 
         <div class="row q-pa-sm justify-between">
           <div class="q-mr-md">
-            <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
+            <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me" />
           </div>
           <div class="row">
             <div class="q-mr-md">
               <q-btn flat icon="filter_list" @click="filterOptions.showAdvancedOptions = true">
-                <q-badge v-if="filterCount!=0" color="red" floating>{{ filterCount }}</q-badge>
+                <q-badge v-if="filterCount != 0" color="red" floating>{{ filterCount }}</q-badge>
               </q-btn>
             </div>
             <div class="q-mr-md">
@@ -263,7 +250,7 @@ onBeforeMount(async () => {
 
         <q-infinite-scroll :disable="reachedEnd" :offset="250" @load="loadMore">
           <q-item v-for="task in getSortedSummaries" :key="task.id" class="q-pa-sm">
-            <taskSummaryItem :task="task" class="full-width"/>
+            <taskSummaryItem :task="task" class="full-width" />
           </q-item>
           <template v-slot:loading>
             <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
@@ -272,21 +259,18 @@ onBeforeMount(async () => {
 
         <q-dialog v-model="filterOptions.showAdvancedOptions">
           <task-advanced-filters :filter-options="filterOptions" :parent="parent"
-                                 @advancedOptionsGenerated="receiveAdvFilters"
-                                 @filterCount="updateFilterCount"/>
+            @advancedOptionsGenerated="receiveAdvFilters" @filterCount="updateFilterCount" />
         </q-dialog>
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
-        <q-btn
-          :to="{
-            name: 'newTask',
-            params: {id: -1},
-          }"
-          color="accent"
-          fab
-          icon="add"
-          padding="sm"
-        />
+        <q-btn :to="{
+          name: 'newTask',
+          params: {
+            id: -1,
+            objectTypeId: -1,
+            objectId: -1
+          },
+        }" color="accent" fab icon="add" padding="sm" />
       </q-page-sticky>
     </q-page-container>
   </q-layout>

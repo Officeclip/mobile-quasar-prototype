@@ -52,6 +52,20 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       }
     },
 
+    async getEventsByParent(
+      parentObjectId: number,
+      parentObjectServiceType: number
+    ) {
+      const callStr = `${Constants.endPointUrl}/event-details?parentSid=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
+      console.log(callStr);
+      try {
+        const response = await axios.get(callStr);
+        this.eventDetails = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     async editEventDetails(event: eventDetails) {
       console.log(`editEvent 1: ${event.id}`);
       const callStr = `${Constants.endPointUrl}/event-details/${event.id}`;

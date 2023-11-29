@@ -51,7 +51,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/Events/eventSummary.vue'),
   },
   {
-    path: '/eventDetails/:id/:objectTypeId/:objectId',
+    path: '/eventDetails/:id',
     name: 'eventDetails',
     component: () => import('pages/Events/EventDetails.vue'),
   },
@@ -61,7 +61,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/Events/NewEvent.vue'),
   },
   {
-    path: '/editEvent/:id/:objectTypeId/:objectId',
+    path: '/editEvent/:id',
     name: 'editEvent',
     component: () => import('pages/Events/EditEvent.vue'),
   },
@@ -108,7 +108,7 @@ const routes: RouteRecordRaw[] = [
     // params: true,
   },
   {
-    path: '/newTask/:id',
+    path: '/newTask/:id/:objectTypeId/:objectId',
     name: 'newTask',
     component: () => import('../pages/Tasks/NewTask.vue'),
     // params: true,

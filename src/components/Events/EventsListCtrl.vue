@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import {useEventsStore} from 'stores/EventsStore';
-import {computed, onBeforeMount} from 'vue';
+import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
+import { computed, onBeforeMount } from 'vue';
 
 const props = defineProps(['params']);
 
@@ -9,32 +9,29 @@ const parentObjectServiceType = computed(
   () => props.params.parentObjectServiceType
 );
 
-const eventsStore = useEventsStore();
+const eventDetailsStore = useEventDetailsStore();
 onBeforeMount(() => {
-  eventsStore.getEventsById(
+  eventDetailsStore.getEventsByParent(
     Number(parentObjectId.value),
-    parentObjectServiceType.value
+    Number(parentObjectServiceType.value)
   );
 });
 </script>
 <template>
-  <q-list v-for="event in eventsStore.Events" :key="event.id">
-    <q-item
-      v-ripple
-      :to="{
-            name: 'eventDetails',
-            params: {
-              id: event.id,
-            },
-          }"
-      clickable>
+  <q-list v-for="eventDetail in eventDetailsStore.EventDetails" :key="eventDetail?.id">
+    <q-item v-ripple :to="{
+      name: 'eventDetails',
+      params: {
+        id: eventDetail?.id
+      },
+    }" clickable>
       <q-item-section>
         <q-item-label>
-          {{ event.eventName }}
+          {{ eventDetail?.eventName }}
         </q-item-label>
       </q-item-section>
       <q-item-section side>
-        <q-icon color="primary" name="chevron_right"/>
+        <q-icon color="primary" name="chevron_right" />
       </q-item-section>
     </q-item>
     <q-separator></q-separator>

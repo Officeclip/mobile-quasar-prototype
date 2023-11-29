@@ -76,7 +76,8 @@ function onSubmit(e: any) {
 
   const editEventDetails = ref(event);
   eventDetailsStore.editEventDetails(editEventDetails.value);
-  router.push('/eventSummary');
+  router.go(-2)
+  //router.push('/eventSummary');
 }
 </script>
 
@@ -84,38 +85,17 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> Edit Event</q-toolbar-title>
-        <q-btn
-          class="q-px-md"
-          dense
-          label="Save"
-          no-caps
-          outline
-          rounded
-          type="submit"
-          @click="onSubmit"
-        />
+        <q-btn class="q-px-md" dense label="Save" no-caps outline rounded type="submit" @click="onSubmit" />
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <EventForm
-            v-if="event"
-            :event="event"
-            @rrule-generated="handleRRule"
-            @rrule-text-generated="handleRRuleText"
-            @reminder-generated="handleReminder"
-          />
+          <EventForm v-if="event" :event="event" @rrule-generated="handleRRule" @rrule-text-generated="handleRRuleText"
+            @reminder-generated="handleReminder" />
           <!-- <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"
