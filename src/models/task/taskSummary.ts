@@ -1,3 +1,5 @@
+import {security} from "src/models/security";
+
 export interface taskSummary {
   id: number;
   subject: string;
@@ -5,4 +7,7 @@ export interface taskSummary {
   isPrivate: boolean;
   taskStatusName: string;
   taskPriorityName: string;
+  security: security
 }
+
+

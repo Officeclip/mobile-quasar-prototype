@@ -28,5 +28,19 @@ export const useTimesheetCommentsStore = defineStore('timesheetCommentsStore', {
         console.error(error);
       }
     },
+
+    async addComment(comment: Comments) {
+      this.commentsList.push(comment);
+      const res = await axios.post(
+        `${Constants.endPointUrl}/timesheet-comments`,
+        comment
+      );
+
+      if (res.status === 200) {
+        await this.getTimesheetComments(comment.id);
+      } else {
+        console.error(res);
+      }
+    },
   },
 });

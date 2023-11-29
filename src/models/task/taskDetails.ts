@@ -1,4 +1,5 @@
 import { subTask } from "src/models/task/subtask";
+import {security} from "src/models/security";
 
 export interface taskDetails {
   id: number;
@@ -38,6 +39,8 @@ export interface taskDetails {
   recurrenceRule: string;
   tags: tag[];
   subtasks: subTask[];
+  security: security
+
 }
 
 export interface assignee {
