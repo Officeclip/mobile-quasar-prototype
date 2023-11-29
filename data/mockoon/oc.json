@@ -144,11 +144,15 @@
     {
       "uuid": "4fb3fd2a-ad95-4df4-b773-6ec7ffab8c33",
       "name": "Notes",
-      "collapsed": true,
+      "collapsed": false,
       "children": [
         {
           "type": "route",
           "uuid": "929e6527-adee-4b5d-baa5-66b3d8f1b93e"
+        },
+        {
+          "type": "route",
+          "uuid": "f610699a-aeec-4c39-b161-ccebd45d3aae"
         },
         {
           "type": "route",
@@ -870,6 +874,64 @@
           "headers": [],
           "bodyType": "DATABUCKET",
           "filePath": "",
+          "databucketID": "qb89",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "f610699a-aeec-4c39-b161-ccebd45d3aae",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "notes",
+      "responses": [
+        {
+          "uuid": "bd24d5d3-a6f3-45d4-88b5-dfa53a33b407",
+          "body": "[\r\n    {\r\n        \"id\": 1,\r\n        \"parentObjectServiceType\": 14,\r\n        \"parentObjectId\": 4,\r\n        \"noteBookId\": -1,\r\n        \"title\": \"Note Title Public\",\r\n        \"description\": \"Note <b>Description </b>Public y\",\r\n        \"isPrivate\": true,\r\n        \"createdDateTime\": \"2023-06-26T10:43:32.203Z\",\r\n        \"createdByUserId\": 5\r\n    }\r\n  ]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "7c526c60-9312-4892-aca8-0781eea3bf01",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "test",
+      "responses": [
+        {
+          "uuid": "d8f7fc44-2d10-405b-8103-8137d28f2b5d",
+          "body": "{{setVar 'objectType' (queryParamRaw 'parentObjectServiceType' -1 true)}}\r\n\r\n{{#if (eq @objectType -1)}}\r\n{{data 'notes'}}\r\n{{else}}\r\n{{{ stringify (\r\n        filter\r\n          (dataRaw \"notes\")\r\n          (object parentObjectServiceType=(round (queryParam 'parentObjectServiceType')))\r\n          (object parentObjectId=(round (queryParam 'parentObjectId')))\r\n      )\r\n    }}}\r\n{{/if}}\r\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
           "rules": [],
@@ -912,6 +974,10 @@
     {
       "type": "folder",
       "uuid": "4fb3fd2a-ad95-4df4-b773-6ec7ffab8c33"
+    },
+    {
+      "type": "route",
+      "uuid": "7c526c60-9312-4892-aca8-0781eea3bf01"
     }
   ],
   "proxyMode": false,
