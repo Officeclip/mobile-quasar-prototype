@@ -1,16 +1,17 @@
 <script lang="ts" setup>
 import TasksForm from 'components/tasks/tasksFormCtrl.vue';
-import {ref, Ref} from 'vue'
-import {useRoute, useRouter} from 'vue-router';
-import {taskDetails} from "src/models/task/taskDetails";
-import {taskSummary} from "src/models/task/taskSummary";
-import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
-import {useTaskDetailsStore} from "stores/task/taskDetailsStore";
+import { ref, Ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router';
+import { taskDetails } from 'src/models/task/taskDetails';
+import { taskSummary } from 'src/models/task/taskSummary';
+import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
+import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 
 const router = useRouter();
 const route = useRoute();
-const parentObjectId = route.params.id
-// const parentObjectServiceType = route.params.parentObjectServiceType
+
+const parentObjectId = route.params.objectId ? route.params.objectId : -1;
+const parentObjectServiceType = route.params.objectTypeId ? route.params.objectTypeId : -1;
 
 console.log('ParentObject as contact Id:', parentObjectId)
 const taskSummaryStore = useTaskSummaryStore();
@@ -111,7 +112,8 @@ function onSubmit(e: any) {
   console.log('new task form values: ', newTask)
   taskSummaryStore.addTask(newTaskSummary);
   taskDetailsStore.addTask(newTask);
-  router.push('/tasksList')
+  //router.push('/tasksList')
+  router.go(-1)
 }
 
 
@@ -120,13 +122,7 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="$router.go(-1)">
+        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)">
         </q-btn>
         <q-toolbar-title> New Task</q-toolbar-title>
       </q-toolbar>
@@ -134,12 +130,10 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <TasksForm :task="task"
-                     @rrule-generated="handleRRule"
-                     @rrule-text-generated="handleRRuleText"
-                     @reminder-generated="handleReminder"/>
-          <q-btn class="q-ml-md q-mb-md q-mt-md" color="primary" label="Submit" type="submit"/>
-          <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset"/>
+          <TasksForm :task="task" @rrule-generated="handleRRule" @rrule-text-generated="handleRRuleText"
+            @reminder-generated="handleReminder" />
+          <q-btn class="q-ml-md q-mb-md q-mt-md" color="primary" label="Submit" type="submit" />
+          <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset" />
         </div>
       </q-form>
     </q-page-container>

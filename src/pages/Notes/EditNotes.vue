@@ -9,7 +9,6 @@ const notesStore = useNotesStore();
 
 const route = useRoute();
 const router = useRouter();
-console.log('EditNotes Started');
 
 const id = ref<string | string[]>(route.params.id);
 
@@ -23,24 +22,17 @@ onMounted(() => {
 
 function onSubmit(e: Event) {
   e.preventDefault();
-  console.log(`onSubmit Note Value: ${note.value}`);
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   notesStore.editNote(note.value!);
-  router.push(`/noteDetails/${note.value?.id}`); // FIXME: This does not seem right... use standard form
+  //router.push(`/noteDetails/${note.value?.id}`); // FIXME: This does not seem right... use standard form
+  router.go(-2)
 }
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> Edit Notes</q-toolbar-title>
       </q-toolbar>
@@ -49,12 +41,7 @@ function onSubmit(e: Event) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <NotesForm :note="note" />
-          <q-btn
-            class="q-ml-md q-mb-md"
-            label="Submit"
-            type="submit"
-            color="primary"
-          >
+          <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>
       </q-form>

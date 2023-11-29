@@ -83,7 +83,7 @@
     {
       "uuid": "0b406ada-d4d4-4e17-bc96-7beb7f464fd4",
       "name": "Tasks",
-      "collapsed": false,
+      "collapsed": true,
       "children": [
         {
           "type": "route",
@@ -149,6 +149,10 @@
         {
           "type": "route",
           "uuid": "929e6527-adee-4b5d-baa5-66b3d8f1b93e"
+        },
+        {
+          "type": "route",
+          "uuid": "f610699a-aeec-4c39-b161-ccebd45d3aae"
         },
         {
           "type": "route",
@@ -830,7 +834,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "notebooks",
+      "endpoint": "notebook-summary",
       "responses": [
         {
           "uuid": "a3fbda19-8d93-48f2-950e-4c7a500652fd",
@@ -859,7 +863,7 @@
       "type": "crud",
       "documentation": "",
       "method": "",
-      "endpoint": "notes",
+      "endpoint": "note-details",
       "responses": [
         {
           "uuid": "4acb0035-f8c1-4838-95e7-f81595f69424",
@@ -869,6 +873,35 @@
           "label": "",
           "headers": [],
           "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "qb89",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "f610699a-aeec-4c39-b161-ccebd45d3aae",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "note-summary",
+      "responses": [
+        {
+          "uuid": "bd24d5d3-a6f3-45d4-88b5-dfa53a33b407",
+          "body": "{{setVar 'objectType' (queryParamRaw 'parentObjectServiceType' -1 true)}}\r\n\r\n{{#if (eq @objectType -1)}}\r\n{{data 'notes'}}\r\n{{else}}\r\n{{{ stringify (\r\n        filter\r\n          (dataRaw \"notes\")\r\n          (object parentObjectServiceType=(round (queryParam 'parentObjectServiceType')))\r\n          (object parentObjectId=(round (queryParam 'parentObjectId')))\r\n      )\r\n    }}}\r\n{{/if}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
@@ -884,44 +917,19 @@
       "responseMode": null
     },
     {
-      "uuid": "4fa1b2d4-98e8-4e39-8792-3a512d5098e3",
+      "uuid": "7c526c60-9312-4892-aca8-0781eea3bf01",
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "task-summary",
+      "endpoint": "test",
       "responses": [
         {
-          "uuid": "2cc019e4-653e-4e1c-b0ef-d7d41110f57f",
-          "body": "[]",
+          "uuid": "d8f7fc44-2d10-405b-8103-8137d28f2b5d",
+          "body": "{{setVar 'objectType' (queryParamRaw 'parentObjectServiceType' -1 true)}}\r\n\r\n{{#if (eq @objectType -1)}}\r\n{{data 'notes'}}\r\n{{else}}\r\n{{{ stringify (\r\n        filter\r\n          (dataRaw \"notes\")\r\n          (object parentObjectServiceType=(round (queryParam 'parentObjectServiceType')))\r\n          (object parentObjectId=(round (queryParam 'parentObjectId')))\r\n      )\r\n    }}}\r\n{{/if}}\r\n",
           "latency": 0,
           "statusCode": 200,
           "label": "",
-          "headers": [
-            {
-              "key": "access-control-allow-headers",
-              "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With, x-orgKey"
-            },
-            {
-              "key": "access-control-allow-methods",
-              "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
-            },
-            {
-              "key": "access-control-allow-origin",
-              "value": "*"
-            },
-            {
-              "key": "content-type",
-              "value": "application/json; charset=utf-8"
-            },
-            {
-              "key": "x-total-count",
-              "value": "27"
-            },
-            {
-              "key": "content-length",
-              "value": "2"
-            }
-          ],
+          "headers": [],
           "bodyType": "INLINE",
           "filePath": "",
           "databucketID": "",
@@ -930,7 +938,7 @@
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": false,
+          "default": true,
           "crudKey": "id"
         }
       ],
@@ -969,7 +977,7 @@
     },
     {
       "type": "route",
-      "uuid": "4fa1b2d4-98e8-4e39-8792-3a512d5098e3"
+      "uuid": "7c526c60-9312-4892-aca8-0781eea3bf01"
     }
   ],
   "proxyMode": false,

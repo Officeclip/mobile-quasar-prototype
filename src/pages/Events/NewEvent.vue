@@ -11,14 +11,14 @@ const eventDetailsStore = useEventDetailsStore();
 
 const router = useRouter();
 const route = useRoute();
-//const parentObjectId = ref()
 
-const parentObjectId = route.params.id;
+const parentObjectId = route.params.objectId ? route.params.objectId : -1;
 
-const newparentObjectId = parentObjectId ? parentObjectId : -'1';
+const parentObjectServiceType = route.params.objectTypeId ? route.params.objectTypeId : -1;
+
 const event: Ref<eventDetails> = ref({
-  id: '',
-  parentServiceType: -1,
+  id: Number(),
+  parentServiceType: (Number(parentObjectServiceType)),
   eventType: '2',
   eventName: '',
   eventDescription: '',
@@ -29,7 +29,7 @@ const event: Ref<eventDetails> = ref({
   createdDate: new Date().toISOString(),
   createdGroupSId: '',
   createdUserSid: '',
-  parentSid: newparentObjectId,
+  parentSid: (Number(parentObjectId)),
   eventUserSid: '',
   isRsvp: false,
   sendNotifications: false,
@@ -121,13 +121,13 @@ function onSubmit(e: any) {
     startDateTime: newEventDetails.value.startDateTime,
     endDateTime: newEventDetails.value.endDateTime,
     isAllDayEvent: newEventDetails.value.isAllDayEvent,
-    id: '',
+    id: Number(),
   };
   console.log('new event form values: ', newEventDetails);
   eventDetailsStore.addEventDetails(newEventDetails.value);
   eventDetailsStore.addEventSummary(newEventSummary);
-
-  router.push('/eventSummary');
+  router.go(-1)
+  //router.push('/eventSummary');
 }
 </script>
 
@@ -135,37 +135,17 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="$router.go(-1)"
-        >
+        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)">
         </q-btn>
         <q-toolbar-title> New Event</q-toolbar-title>
-        <q-btn
-          class="q-px-md"
-          dense
-          label="Save"
-          no-caps
-          outline
-          rounded
-          type="submit"
-          @click="onSubmit"
-        />
+        <q-btn class="q-px-md" dense label="Save" no-caps outline rounded type="submit" @click="onSubmit" />
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <EventForm
-            :event="event"
-            @rrule-generated="handleRRule"
-            @rrule-text-generated="handleRRuleText"
-            @reminder-generated="handleReminder"
-          />
+          <EventForm :event="event" @rrule-generated="handleRRule" @rrule-text-generated="handleRRuleText"
+            @reminder-generated="handleReminder" />
           <!-- <q-btn
             class="q-ml-md"
             color="primary"
@@ -173,14 +153,7 @@ function onSubmit(e: any) {
             no-caps
             type="submit"
           /> -->
-          <q-btn
-            class="q-ml-sm"
-            color="primary"
-            flat
-            label="Reset"
-            no-caps
-            type="reset"
-          />
+          <q-btn class="q-ml-sm" color="primary" flat label="Reset" no-caps type="reset" />
         </div>
       </q-form>
       <!-- <pre>{{ tab }}</pre> -->

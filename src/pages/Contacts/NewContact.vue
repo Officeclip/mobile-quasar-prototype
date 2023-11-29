@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
 import { useContactDetailsStore } from 'stores/ContactDetailsStore';
 import { useRouter } from 'vue-router';
 import EditContactDetailsCtrl from '../../components/Contacts/EditContactDetailsCtrl.vue';
 import { useRoute } from 'vue-router';
 import { ContactDetails } from 'src/models/Contact/contactDetails';
 import { ref } from 'vue';
-//import { Contact } from '../models/contact';
 
 const contactDetailsStore = useContactDetailsStore();
 //const contact = ref<Contact>();
-const route1 = useRouter();
+const router = useRouter();
 const route = useRoute();
 
 // const contactDetails = computed(() => {
@@ -34,20 +32,20 @@ const contactDetails: ContactDetails = ref({
   picture: ''
 });
 
-onMounted(() => {
-  console.log(`EditContacts: id= ${route.params.id}`);
-  contactDetailsStore.getContactDetails(Number(route.params.id));
-});
+// onMounted(() => {
+//   console.log(`EditContacts: id= ${route.params.id}`);
+//   contactDetailsStore.getContactDetails(Number(route.params.id));
+// });
 
 function onSubmit(e: any) {
   e.preventDefault();
 
-  console.log('onSubmit Contact Value:', contactDetails);
+  console.log('New contact values in new contact:', contactDetails);
 
   //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  contactDetailsStore.editContactDetails(contactDetails!);
-  route1.push('/contactSummary');
+  contactDetailsStore.addContactDetails(contactDetails);
+  router.push('/contactSummary');
 }
 </script>
 

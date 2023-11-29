@@ -1,5 +1,5 @@
 export interface eventSummary {
-  id: string;
+  id: number;
   eventType: string;
   eventName: string;
   startDateTime?: string;

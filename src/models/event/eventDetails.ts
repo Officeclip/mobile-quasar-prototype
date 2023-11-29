@@ -9,7 +9,7 @@
 import { label, timeZone } from './eventLists';
 
 export interface eventDetails {
-  id: string;
+  id: number;
   createdDate: string;
   createdGroupSId: string;
   createdUserSid: string;

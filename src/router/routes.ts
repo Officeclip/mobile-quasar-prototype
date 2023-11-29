@@ -56,7 +56,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/Events/EventDetails.vue'),
   },
   {
-    path: '/newEvent/:id',
+    path: '/newEvent/:id/:objectTypeId/:objectId',
     name: 'newEvent',
     component: () => import('pages/Events/NewEvent.vue'),
   },
@@ -66,19 +66,19 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/Events/EditEvent.vue'),
   },
   {
-    path: '/noteDetails/:id',
-    name: 'noteDetails', //FIXME: change this to noteDetails
+    path: '/noteDetails/:id/:objectTypeId/:objectId',
+    name: 'noteDetails',
     component: () => import('../pages/Notes/NoteDetails.vue'),
     // params: true,
   },
   {
-    path: '/editNote/:id',
+    path: '/editNote/:id/:objectTypeId/:objectId',
     name: 'editNote',
     component: () => import('../pages/Notes/EditNotes.vue'),
     // params: true,
   },
   {
-    path: '/newNotes/:id',
+    path: '/newNotes/:id/:objectTypeId/:objectId',
     name: 'newNotes',
     component: () => import('../pages/Notes/NewNotes.vue'),
     // params: true,
@@ -108,7 +108,7 @@ const routes: RouteRecordRaw[] = [
     // params: true,
   },
   {
-    path: '/newTask/:id',
+    path: '/newTask/:id/:objectTypeId/:objectId',
     name: 'newTask',
     component: () => import('../pages/Tasks/NewTask.vue'),
     // params: true,
