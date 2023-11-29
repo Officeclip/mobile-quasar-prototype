@@ -51,34 +51,34 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/Events/eventSummary.vue'),
   },
   {
-    path: '/eventDetails/:id',
+    path: '/eventDetails/:id/:objectTypeId/:objectId',
     name: 'eventDetails',
     component: () => import('pages/Events/EventDetails.vue'),
   },
   {
-    path: '/newEvent/:id',
+    path: '/newEvent/:id/:objectTypeId/:objectId',
     name: 'newEvent',
     component: () => import('pages/Events/NewEvent.vue'),
   },
   {
-    path: '/editEvent/:id',
+    path: '/editEvent/:id/:objectTypeId/:objectId',
     name: 'editEvent',
     component: () => import('pages/Events/EditEvent.vue'),
   },
   {
-    path: '/noteDetails/:id',
-    name: 'noteDetails', //FIXME: change this to noteDetails
+    path: '/noteDetails/:id/:objectTypeId/:objectId',
+    name: 'noteDetails',
     component: () => import('../pages/Notes/NoteDetails.vue'),
     // params: true,
   },
   {
-    path: '/editNote/:id',
+    path: '/editNote/:id/:objectTypeId/:objectId',
     name: 'editNote',
     component: () => import('../pages/Notes/EditNotes.vue'),
     // params: true,
   },
   {
-    path: '/newNotes/:id',
+    path: '/newNotes/:id/:objectTypeId/:objectId',
     name: 'newNotes',
     component: () => import('../pages/Notes/NewNotes.vue'),
     // params: true,

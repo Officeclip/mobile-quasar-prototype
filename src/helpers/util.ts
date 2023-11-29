@@ -7,6 +7,12 @@ const waitInSecs = async (seconds: number) =>
 
 const ocSession = () => SessionStorage.getItem('oc-session') as Session;
 
+export enum ObjectType {
+  Contact = 14,
+  Event = 4,
+  Note = 20,
+}
+
 export default {
   waitInSecs,
   ocSession,
