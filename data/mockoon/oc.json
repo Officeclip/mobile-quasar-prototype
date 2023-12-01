@@ -83,7 +83,7 @@
     {
       "uuid": "0b406ada-d4d4-4e17-bc96-7beb7f464fd4",
       "name": "Tasks",
-      "collapsed": true,
+      "collapsed": false,
       "children": [
         {
           "type": "route",
@@ -144,7 +144,7 @@
     {
       "uuid": "4fb3fd2a-ad95-4df4-b773-6ec7ffab8c33",
       "name": "Notes",
-      "collapsed": true,
+      "collapsed": false,
       "children": [
         {
           "type": "route",
@@ -843,7 +843,7 @@
           "statusCode": 200,
           "label": "",
           "headers": [],
-          "bodyType": "FILE",
+          "bodyType": "DATABUCKET",
           "filePath": "oc\\notes\\notebooks.json",
           "databucketID": "",
           "sendFileAsBody": true,

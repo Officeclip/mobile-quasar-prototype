@@ -5,7 +5,7 @@ import {Constants} from '../Constants';
 
 export const useRegardingStore = defineStore('regardingStore', {
   state: () => ({
-    regardingItems:{},
+    regardingItems: new Map<string, regardingItem[]>(),
     regardingContacts: [] as regardingItem[],
     metaTypes: [],
   }),
@@ -47,19 +47,19 @@ export const useRegardingStore = defineStore('regardingStore', {
       }
     },
 
-    async getRegardingContactListThatMatch(searchString: string) {
+    async getRegardingItemsThatMatch(searchString: string, type: string) {
       try {
-        this.regardingContacts = [];
+        this.regardingItems.set(type, []);
         const response = await axios.get(
-          `${Constants.endPointUrl}/regardingContact`
+          `${Constants.endPointUrl}/regarding/type?searchString=${searchString}`
         );
-        const regardingContacts = response.data;
-        const filtered = regardingContacts.filter((t: regardingItem) => {
+        const regardingItems = response.data;
+        const filtered = regardingItems.filter((t: regardingItem) => {
           return t.name.toLowerCase().includes(searchString.toLowerCase());
         });
         console.log('getRegardingContactList: ', filtered);
         await new Promise((r) => setTimeout(r, 500));
-        this.regardingContacts = filtered;
+        this.regardingItems.set(type, filtered);
         // console.log("Filtered contacts: ", this.regardingContacts);
       } catch (error) {
         console.error(error);

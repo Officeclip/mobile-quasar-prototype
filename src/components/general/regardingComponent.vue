@@ -1,10 +1,9 @@
-<script setup lang="ts">
-import { computed, ref } from 'vue';
-import { regardingItem } from '../../models/general/regardingItem';
-import { useRegardingStore} from '../../stores/regarding/regardingStore';
-import regarding from "components/general/regarding.vue";
+<script lang="ts" setup>
+import {computed, ref} from 'vue';
+import {useRegardingStore} from 'stores/regarding/regardingStore';
+import {regardingItem} from "src/models/general/regardingItem";
 
-const parentServiceType = ref('');
+const regardingType = ref('');
 
 const regardingStore = useRegardingStore();
 regardingStore.getMetaTypes();
@@ -15,14 +14,13 @@ const metaTypeOptions = computed(() => {
 //disabled regarding contacts unless select the option from regarding types
 
 const disabled = computed(() => {
-  return parentServiceType.value == '';
+  return regardingType.value == '';
 });
 
-const regardingItems = ref({});
-const selectedRegContact = ref(null);
+const regardingItems = ref([] as regardingItem[]);
+const selectedRegItem = ref(null);
 
 async function filterItems(
-  type: string,
   val: string,
   update: (arg0: () => void) => void,
   abort: () => void
@@ -31,15 +29,15 @@ async function filterItems(
     abort();
     return;
   } else if (val.length === 2) {
-    regarding.value = [] as regardingContact[];
-    await regardingAllStore.getRegardingContactListThatMatch(val);
-    regardingContacts.value = regardingAllStore.regardingContacts;
+    regardingItems.value = [] as regardingItem[];
+    await regardingStore.getRegardingItemsThatMatch(val, regardingType.value);
+    regardingItems.value = regardingStore.regardingContacts;
   }
 
   update(() => {
     console.log('update');
     const needle = val.toLowerCase();
-    regardingContacts.value = regardingAllStore.regardingContacts.filter(
+    regardingItems.value = regardingStore.regardingContacts.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
   });
@@ -52,38 +50,38 @@ async function filterItems(
       <q-item-section class="q-mr-sm">
         <!-- <pre>{{ parentServiceType }}</pre> -->
         <q-select
-          label="Regarding"
-          v-model="parentServiceType"
+          v-model="regardingType"
           :options="metaTypeOptions"
           dense
+          emit-value
+          label="Regarding"
+          map-options
           option-label="name"
           option-value="id"
-          emit-value
-          map-options
         />
       </q-item-section>
       <q-item-section class="q-mr-sm">
         <q-select
-          v-model="selectedRegContact"
-          :options="regardingContacts"
+          v-model="selectedRegItem"
+          :disable="disabled"
+          :option-disable="disabled"
+          :options="regardingItems"
           dense
           multiple
           option-label="name"
           option-value="id"
-          :option-disable="disabled"
-          :disable="disabled"
           use-input
-          @filter="filterContacts"
+          @filter="filterItems"
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey"> No results </q-item-section>
+              <q-item-section class="text-grey">No results</q-item-section>
             </q-item>
           </template>
         </q-select>
       </q-item-section>
       <q-item-section side>
-        <q-icon color="primary" name="switch_access_shortcut" />
+        <q-icon color="primary" name="switch_access_shortcut"/>
       </q-item-section>
     </q-item>
   </q-list>
