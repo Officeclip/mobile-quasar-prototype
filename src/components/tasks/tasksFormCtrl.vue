@@ -7,8 +7,8 @@ import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue
 import EventsReminderDialog from "components/Events/EventsReminderDialog.vue";
 import {userSummary} from "src/models/userSummary";
 import {useUserSummaryStore} from "stores/userSummaryStore";
-import RegardingAll from "components/general/RegardingAll.vue";
 import {tag} from "src/models/task/taskLists";
+import Regarding from "components/general/regardingComponent.vue";
 
 const props = defineProps<{
   task: taskDetails
@@ -246,7 +246,7 @@ async function filterTagFn(val: string, update: any, abort: any) {
           </template>
         </q-select>
 
-        <RegardingAll />
+        <Regarding/>
 
 
         <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
