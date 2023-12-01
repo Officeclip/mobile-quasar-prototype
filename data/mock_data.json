@@ -4742,5 +4742,50 @@
         "name": "Halloween Spookfest"
       }
     ]
+  },
+  "profileInfo": {
+    "organizations": [
+      {
+        "id": 1,
+        "value": "Test Organization"
+      },
+      {
+        "id": 2,
+        "value": "OfficeClip LLC"
+      }
+    ],
+    "homeIcons": [
+      {
+        "id": 1,
+        "Name": "Calendar"
+      }
+    ],
+    "regionalSettings": {
+      "shortDateFormat": ""
+    },
+    "profiles": {
+      "user": {
+        "general": [
+          {
+            "name": "one",
+            "value": "two"
+          }
+        ],
+        "timesheet": [
+          {
+            "name": "one",
+            "value": "two"
+          }
+        ]
+      },
+      "group": {
+        "timesheet": [
+          {
+            "name": "one",
+            "value": "two"
+          }
+        ]
+      }
+    }
   }
 }
