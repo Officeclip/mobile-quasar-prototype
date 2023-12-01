@@ -2123,6 +2123,16 @@
       "modifiedDate": "2023-11-01T18:20:39.510Z",
       "dueDate": "2023-10-05T17:00:00Z",
       "createdDate": "2023-09-30T08:45:00Z",
+      "regarding": {
+        "type": {
+          "id": 14,
+          "name": "Contacts"
+        },
+        "value": {
+          "id": 101,
+          "name": "SK Dutta"
+        }
+      },
       "regardingType": 1,
       "regardingValue": "Team Collaboration",
       "assignees": [
