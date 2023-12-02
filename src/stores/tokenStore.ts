@@ -3,6 +3,7 @@ import { Token } from '../models/token';
 import { Login } from '../models/login';
 import axios from 'axios';
 import { Constants } from './Constants';
+import { responseError } from 'src/models/responseError';
 
 export const useTokenStore = defineStore('loginStore', {
   state: () => ({
@@ -25,20 +26,11 @@ export const useTokenStore = defineStore('loginStore', {
           `${Constants.endPointUrl}/login`,
           login
         );
-        if (response.data) {
+
+        if (response.data && response.status === 200) {
           this.token = response.data;
         }
-
-        // const response2 = await axios.get(`${Constants.endPointUrl}/token`);
-        // if (response2.data) {
-        //   this.token = response2.data;
-        // }
       } catch (error) {
-        // console.log(JSON.stringify(error));
-        // if (axios.isAxiosError(error)) {
-        //   throw `Axios error: ${error.message}`;
-        // }
-        // throw 'Error: ' + (error as string);
         Constants.throwError(error);
       }
     },

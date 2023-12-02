@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { LocalStorage } from 'quasar';
+import { responseError } from 'src/models/responseError';
+
 export class Constants {
   static readonly endPointUrl =
     import.meta.env.VITE_API_ENDPOINT === undefined
@@ -55,7 +57,14 @@ export class Constants {
     // }
     console.log(JSON.stringify(error));
     if (axios.isAxiosError(error)) {
-      throw `Axios error: ${error.message}`;
+      if (error?.response?.data) {
+        const responseError: responseError = error.response.data;
+        Constants.throwError(
+          `${responseError.description}: ${responseError.message}`
+        );
+      } else {
+        throw `Axios error: ${error.message}`;
+      }
     }
     throw 'Error: ' + (error as string);
   }
