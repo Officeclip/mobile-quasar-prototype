@@ -4743,15 +4743,15 @@
       }
     ]
   },
-  "profileInfo": {
+  "profile-lists": {
     "organizations": [
       {
         "id": 1,
-        "value": "Test Organization"
+        "name": "Test Organization"
       },
       {
         "id": 2,
-        "value": "OfficeClip LLC"
+        "name": "OfficeClip LLC"
       }
     ],
     "applications": [

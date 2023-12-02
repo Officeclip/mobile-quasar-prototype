@@ -1,21 +1,21 @@
-export interface ProfileInfo {
+export interface profileLists {
   organizations: Organization[];
   applications: Application[];
   regionalSettings: RegionalSettings;
-  profiles: Profile;
+  profiles: Profiles;
 }
 
 export interface Application {
   id: number;
-  Name: string;
+  name: string;
 }
 
 export interface Organization {
   id: number;
-  value: string;
+  name: string;
 }
 
-export interface Profile {
+export interface Profiles {
   user: User;
   group: Group;
 }
