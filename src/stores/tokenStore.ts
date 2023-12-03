@@ -29,6 +29,10 @@ export const useTokenStore = defineStore('loginStore', {
 
         if (response.data) {
           this.token = response.data;
+          Constants.saveAuthorizationTokenInLocalStorage(
+            this.token.token,
+            this.token.expirationUnixEpoch
+          );
         }
       } catch (error) {
         Constants.throwError(error);

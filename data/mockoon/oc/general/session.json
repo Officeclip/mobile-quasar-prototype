@@ -4,6 +4,7 @@
   "userName": "SK Dutta",
   "userEmail": "skd@officeclip.com",
   "isAdmin": true,
+  "orgKey": "WMJW-HMTX-XZ6C-HMJC-FC5Q",
   "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10],
   "roleAccess": [
     {

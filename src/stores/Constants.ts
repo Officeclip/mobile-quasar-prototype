@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
-import { LocalStorage } from 'quasar';
+import { LocalStorage, SessionStorage } from 'quasar';
 import { responseError } from 'src/models/responseError';
+import { Session } from 'src/models/session';
 
 export class Constants {
   static readonly endPointUrl =
@@ -18,10 +19,10 @@ export class Constants {
   }
 
   static setupAxiosInstance(instance: AxiosInstance) {
-    // instance.defaults.headers.common['X-APIKey'] =
-    //   import.meta.env.VITE_X_APIKey;
-    instance.defaults.headers.common['X-OrgKey'] =
-      import.meta.env.VITE_X_OrgKey;
+    instance.defaults.headers.common['X-OrgKey'] = this.getOrgKeyFromSession();
+    // import.meta.env.VITE_X_OrgKey;
+
+    this.setupAxiosAuthorizationHeader(instance, 'X-Token'); //add the token if available
 
     instance.interceptors.request.use((x) => {
       console.log(`axios request: ${JSON.stringify(x)}`);
@@ -36,8 +37,9 @@ export class Constants {
   }
 
   static setupAxiosAuthorizationHeader(instance: AxiosInstance, token: string) {
+    //debugger;
     if (LocalStorage.has(token)) {
-      instance.defaults.headers.common['X-Token'] = String(
+      instance.defaults.headers.common[token] = String(
         LocalStorage.getItem(token)
       );
     }
@@ -47,7 +49,18 @@ export class Constants {
     token: string,
     expirationUnixEpoch: number
   ) {
-    LocalStorage.set('x-token', `${token},${expirationUnixEpoch}`);
+    LocalStorage.set('X-Token', `${token},${expirationUnixEpoch}`);
+  }
+
+  static getOrgKeyFromSession() {
+    //debugger;
+    if (SessionStorage.has('oc-session')) {
+      const session = SessionStorage.getItem('oc-session');
+      if (session) {
+        return (session as Session).orgKey;
+      }
+    }
+    return '';
   }
 
   static throwError(error: unknown) {

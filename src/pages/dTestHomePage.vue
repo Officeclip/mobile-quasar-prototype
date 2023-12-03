@@ -5,7 +5,7 @@
 
 <script lang="ts" setup>
 import { computed, ComputedRef, onBeforeMount, ref } from 'vue';
-import { useHomeIconsStore } from 'stores/HomeIconStore';
+//import { useHomeIconsStore } from 'stores/HomeIconStore';
 import { useRouter } from 'vue-router';
 import { useSessionStore } from 'stores/SessionStore';
 import { Session } from '../models/session';
@@ -13,16 +13,14 @@ import { useProfileListsStore } from 'stores/profileListsStore';
 import { profileLists } from 'src/models/general/profileLists';
 
 const router = useRouter();
-const homeIconStore = useHomeIconsStore();
+//const homeIconStore = useHomeIconsStore();
 const sessionStore = useSessionStore();
 const profileListsStore = useProfileListsStore();
 
 const model = ref('OfficeClip Work');
 
 const filteredHomeIcons = computed(() => {
-  return homeIconStore.homeIcons.filter((item) => {
-    return session.value.applicationIds.includes(item.id);
-  });
+  return sessionStore.getHomeIcons();
 });
 
 const session: ComputedRef<Session> = computed(() => {
@@ -36,19 +34,19 @@ const userGeneralProfile = computed(() => {
 });
 
 const organizationItems = computed(() => {
-  return homeIconStore.OrganizationItems;
+  return profileListsStore.Organizations;
 });
 
 onBeforeMount(() => {
   // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
   sessionStore.getSession();
-  homeIconStore.getHomeIcons();
+  //homeIconStore.getHomeIcons();
   profileListsStore.getProfileLists();
-  homeIconStore.getOrganizationItems();
+  //homeIconStore.getOrganizationItems();
 });
 
 function getOrgApplications() {
-  homeIconStore.getHomeIcons();
+  sessionStore.getHomeIcons();
 }
 
 const leftDrawerOpen = ref(false);

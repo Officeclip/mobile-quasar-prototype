@@ -24,9 +24,10 @@ export const useSessionStore = defineStore('sessionStore', {
         //TODO: *DO Not* load if session already exists
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(`${Constants.endPointUrl}/session`);
-        //this.session = response.data;
-        SessionStorage.set('oc-session', response.data);
-        console.log('Sessions data from store: ', response.data);
+        if (response.data) {
+          SessionStorage.set('oc-session', response.data);
+          console.log('Sessions data from store: ', response.data);
+        }
       } catch (error) {
         alert(error);
         console.log(error);
@@ -34,9 +35,13 @@ export const useSessionStore = defineStore('sessionStore', {
     },
 
     getHomeIcons(): HomeIcon[] {
-      const result = this.getDefaultHomeIcons().filter((o1) =>
-        this.Session.applicationIds.some((o2) => o1.id === o2)
-      );
+      const result = this.getDefaultHomeIcons().filter((item) => {
+        return this.Session.applicationIds.includes(item.id);
+      });
+
+      // const result = this.getDefaultHomeIcons().filter((o1) =>
+      //   this.Session.applicationIds.some((o2) => o1.id === o2)
+      // );
       return result;
     },
 

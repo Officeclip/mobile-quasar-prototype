@@ -217,7 +217,7 @@
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": false,
+          "default": true,
           "crudKey": "id"
         },
         {
@@ -235,7 +235,7 @@
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": true,
+          "default": false,
           "crudKey": "id"
         }
       ],
@@ -1059,7 +1059,7 @@
     },
     {
       "key": "Access-Control-Allow-Headers",
-      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With, x-OrgKey"
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With, x-OrgKey, x-token"
     }
   ],
   "proxyReqHeaders": [
