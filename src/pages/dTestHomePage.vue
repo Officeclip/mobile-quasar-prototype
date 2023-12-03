@@ -22,8 +22,14 @@ const model = ref('OfficeClip Work');
 const $q = useQuasar();
 
 const filteredHomeIcons = computed(() => {
+  console.log('filteredHomeIcons computed', sessionStore.getHomeIcons());
   return sessionStore.getHomeIcons();
 });
+
+function getOrgApplications() {
+  console.log('getOrgApplications()', sessionStore.getHomeIcons());
+  sessionStore.getHomeIcons();
+}
 
 const session: ComputedRef<Session> = computed(() => {
   console.log('Sessions stores', sessionStore.Session);
@@ -31,11 +37,12 @@ const session: ComputedRef<Session> = computed(() => {
 });
 
 const userGeneralProfile = computed(() => {
-  console.log('UserProfile store', profileListsStore.ProfilesUserGeneral);
+  console.log('UserProfile computed', profileListsStore.ProfilesUserGeneral);
   return profileListsStore.ProfilesUserGeneral;
 });
 
 const organizationItems = computed(() => {
+  console.log('organizationItems store', profileListsStore.Organizations);
   return profileListsStore.Organizations;
 });
 
@@ -57,10 +64,6 @@ onBeforeMount(async () => {
     });
   }
 });
-
-function getOrgApplications() {
-  sessionStore.getHomeIcons();
-}
 
 const leftDrawerOpen = ref(false);
 

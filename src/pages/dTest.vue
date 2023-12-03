@@ -26,7 +26,6 @@ const $q = useQuasar();
 
 async function onSubmit(e: any) {
   e.preventDefault();
-
   try {
     const isFormCorrect = await v$.value.$validate();
     if (!isFormCorrect) {
