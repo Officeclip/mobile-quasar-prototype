@@ -41,6 +41,10 @@ const userGeneralProfile = computed(() => {
   return profileListsStore.ProfilesUserGeneral;
 });
 
+const userIcon = computed(() => {
+  return profileListsStore.ProfilesUserGeneral.userIcon;
+});
+
 const organizationItems = computed(() => {
   console.log('organizationItems store', profileListsStore.Organizations);
   return profileListsStore.Organizations;
@@ -49,7 +53,7 @@ const organizationItems = computed(() => {
 onBeforeMount(async () => {
   try {
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
-    await sessionStore.getSession();
+    //await sessionStore.getSession();
     //homeIconStore.getHomeIcons();
     await profileListsStore.getProfileLists();
     //homeIconStore.getOrganizationItems();
@@ -140,7 +144,7 @@ function goToApp(url: string) {
       >
         <div class="absolute-bottom bg-transparent">
           <q-avatar class="q-mb-sm" size="56px">
-            <img :src="userGeneralProfile?.userIcon" />
+            <img :src="userIcon" />
           </q-avatar>
           <div class="text-weight-bold">{{ session?.userName }}</div>
           <div>{{ session?.userEmail }}</div>
