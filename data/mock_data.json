@@ -4754,12 +4754,6 @@
         "name": "OfficeClip LLC"
       }
     ],
-    "applications": [
-      {
-        "id": 1,
-        "Name": "Calendar"
-      }
-    ],
     "regionalSettings": {
       "shortDateFormat": ""
     },

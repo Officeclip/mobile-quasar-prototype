@@ -27,7 +27,7 @@ export const useTokenStore = defineStore('loginStore', {
           login
         );
 
-        if (response.data && response.status === 200) {
+        if (response.data) {
           this.token = response.data;
         }
       } catch (error) {

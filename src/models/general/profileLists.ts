@@ -1,13 +1,7 @@
 export interface profileLists {
   organizations: Organization[];
-  applications: Application[];
   regionalSettings: RegionalSettings;
   profiles: Profiles;
-}
-
-export interface Application {
-  id: number;
-  name: string;
 }
 
 export interface Organization {
@@ -21,17 +15,25 @@ export interface Profiles {
 }
 
 export interface Group {
-  timesheet: NameValue[];
-}
-
-export interface NameValue {
-  name: string;
-  value: string;
+  timesheet: GroupTimesheet;
 }
 
 export interface User {
-  general: NameValue[];
-  timesheet: NameValue[];
+  general: UserGeneral;
+}
+
+export interface UserGeneral {
+  userIcon: string;
+  userPhoto: string;
+}
+
+export interface GroupTimesheet {
+  mode: string;
+  periodicity: string;
+  timesheetHeader: string;
+  timesheetFooter: string;
+  showPayrollColumn: string;
+  timesheetStartDay: string;
 }
 
 export interface RegionalSettings {

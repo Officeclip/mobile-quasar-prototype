@@ -51,7 +51,7 @@ async function onSubmit(e: any) {
     } else {
       throw new Error('Could not get the token');
     }
-    route1.push('/homePage');
+    route1.push('/dTestHomePage');
   } catch (error) {
     $q.notify({
       message: error as string,

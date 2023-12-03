@@ -54,6 +54,10 @@
         {
           "type": "route",
           "uuid": "ebe408b4-0c8f-46d7-a761-616c384dacee"
+        },
+        {
+          "type": "route",
+          "uuid": "272cdf53-40b3-49ea-aa1d-2bb5d7d054bd"
         }
       ]
     },
@@ -952,6 +956,35 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "272cdf53-40b3-49ea-aa1d-2bb5d7d054bd",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "profile-lists",
+      "responses": [
+        {
+          "uuid": "65dbd01a-043c-4674-a864-8bfce09fcb6e",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\general\\profile-lists.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
           "rules": [],
           "rulesOperator": "OR",
           "disableTemplating": false,
