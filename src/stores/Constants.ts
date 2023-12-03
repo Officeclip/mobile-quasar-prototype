@@ -68,7 +68,7 @@ export class Constants {
     // if (error.response.status === 401) {
     //   window.location.href = '/';
     // }
-    console.log(JSON.stringify(error));
+    console.log(`throwError(...): ${JSON.stringify(error)}`);
     if (axios.isAxiosError(error)) {
       if (error?.response?.data) {
         const responseError: responseError = error.response.data;

@@ -11,6 +11,7 @@ import { useSessionStore } from 'stores/SessionStore';
 import { Session } from '../models/session';
 import { useProfileListsStore } from 'stores/profileListsStore';
 import { profileLists } from 'src/models/general/profileLists';
+import { useQuasar } from 'quasar';
 
 const router = useRouter();
 //const homeIconStore = useHomeIconsStore();
@@ -18,6 +19,7 @@ const sessionStore = useSessionStore();
 const profileListsStore = useProfileListsStore();
 
 const model = ref('OfficeClip Work');
+const $q = useQuasar();
 
 const filteredHomeIcons = computed(() => {
   return sessionStore.getHomeIcons();
@@ -37,12 +39,23 @@ const organizationItems = computed(() => {
   return profileListsStore.Organizations;
 });
 
-onBeforeMount(() => {
-  // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
-  sessionStore.getSession();
-  //homeIconStore.getHomeIcons();
-  profileListsStore.getProfileLists();
-  //homeIconStore.getOrganizationItems();
+onBeforeMount(async () => {
+  try {
+    // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
+    await sessionStore.getSession();
+    //homeIconStore.getHomeIcons();
+    await profileListsStore.getProfileLists();
+    //homeIconStore.getOrganizationItems();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('onBeforeMount OK button pressed');
+      await router.push({ path: '/dTest' });
+      router.go(0);
+    });
+  }
 });
 
 function getOrgApplications() {

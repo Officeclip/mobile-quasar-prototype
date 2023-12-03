@@ -29,8 +29,8 @@ export const useSessionStore = defineStore('sessionStore', {
           console.log('Sessions data from store: ', response.data);
         }
       } catch (error) {
-        alert(error);
-        console.log(error);
+        console.log(`getSession() Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
