@@ -9,7 +9,6 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import WorkFlow from '../../components/general/WorkFlow.vue';
-import { ClosePopup } from 'quasar';
 
 const router = useRouter();
 const route = useRoute();
@@ -88,21 +87,23 @@ const periodOptions = computed(() => {
 const timesheetPeriod = computed(() => {
   return periodOptions.value?.find((x) => x.start.toString() === fromDate);
 });
-const openNewComment = ref(false);
-// const openAddComment = () => {
-//   openNewComment.value = true;
-// };
-const closePopup = () => {
-  openNewComment.value = false;
-};
-const newCommentModel = ref('');
-const addComment = () => {
-  if (newCommentModel.value) {
-    //need to add data that will posting into the json
-  }
-};
 
 const showAddCommentsDialog = ref(false);
+
+const addComments = ref({
+  id: '',
+  isDcaa: false,
+  comments: {
+    id: '1',
+    comment: '',
+    createdBy: 'Sudhakar Gundu',
+    createdDate: '2020-03-05T15:01:17Z',
+  },
+});
+
+const addComment = () => {
+  timesheetCommentsStore.addComment(addComments.value);
+};
 </script>
 
 <template>
@@ -239,34 +240,6 @@ const showAddCommentsDialog = ref(false);
         </q-expansion-item>
       </q-card>
 
-      <!-- <div class="q-ma-sm">
-        <div class="row justify-between items-center q-mt-md">
-          <q-btn no-caps @click="toggleList" class="btn-Comment"
-            >{{ showComments ? 'Hide Comments' : 'Show Comments'
-            }}<q-badge v-if="!showComments" color="red" rounded floating>{{
-              commentsList.length
-            }}</q-badge></q-btn
-          >
-          <q-btn
-            v-if="showComments"
-            size="sm"
-            icon="add"
-            no-caps
-            dense
-            class="btn-Comment"
-            @click="openAddComment"
-            >New</q-btn
-          >
-        </div>
-
-        <q-card v-if="showComments" flat bordered>
-          <q-list>
-            <q-item dense v-for="(item, index) in commentsList" :key="index">
-              <q-item-section>{{ item.comment }}</q-item-section>
-            </q-item>
-          </q-list>
-        </q-card>
-      </div> -->
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           :to="{
@@ -289,8 +262,7 @@ const showAddCommentsDialog = ref(false);
     <q-card>
       <div class="q-pa-md column">
         <q-input
-          v-model="newCommentModel"
-          class="full-width"
+          v-model="addComments.comments.comment"
           :rules="[(val) => (val && val.length > 0) || 'Please type something']"
           label="Comment"
           lazy-rules
@@ -299,41 +271,16 @@ const showAddCommentsDialog = ref(false);
       </div>
 
       <q-card-actions>
-        <q-btn dense v-close-popup color="primary" label="Add" />
+        <q-btn
+          dense
+          v-close-popup
+          color="primary"
+          label="Add"
+          @click="addComment"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
-  <!-- <q-dialog v-model="openNewComment">
-    <q-card>
-      <q-card-section>
-        <q-item>
-          <q-input
-            v-model="newCommentModel"
-            class="full-width"
-            dense
-            label="Add comment"
-          >
-          </q-input>
-        </q-item>
-        <q-card-actions align="right">
-          <q-btn
-            no-caps
-            dense
-            color="primary"
-            label="Cancel"
-            @click="closePopup"
-          />
-          <q-btn
-            no-caps
-            denses
-            color="negative"
-            label="Add"
-            @click="showAddCommentsDialog = true"
-          />
-        </q-card-actions>
-      </q-card-section>
-    </q-card>
-  </q-dialog> -->
 
   <ConfirmDelete
     v-if="showDeleteTimesheet"
