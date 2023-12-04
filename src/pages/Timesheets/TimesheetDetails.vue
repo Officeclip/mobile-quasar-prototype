@@ -69,15 +69,17 @@ const deleteTimesheetDetail = (id: string) => {
   }
 };
 
-const showComments = ref(false);
+// const showComments = ref(false);
 const commentsList = computed(() => {
   return timesheetCommentsStore.CommentsList;
 });
 console.log('getting the comment list from store:', commentsList.value);
-const toggleList = () => {
-  showComments.value = !showComments.value;
-};
-
+// const toggleList = () => {
+//   showComments.value = !showComments.value;
+// };
+const listLength = computed(() => {
+  return commentsList.value.length;
+});
 //trying to get the period name from periodOptions  find by fromDate
 const periodOptions = computed(() => {
   return timesheetListsStore.PeriodList;
@@ -87,9 +89,9 @@ const timesheetPeriod = computed(() => {
   return periodOptions.value?.find((x) => x.start.toString() === fromDate);
 });
 const openNewComment = ref(false);
-const openAddComment = () => {
-  openNewComment.value = true;
-};
+// const openAddComment = () => {
+//   openNewComment.value = true;
+// };
 const closePopup = () => {
   openNewComment.value = false;
 };
@@ -203,7 +205,38 @@ const addComment = () => {
           <OCItem title="Description" :value="timesheetDetail.description" />
         </q-expansion-item>
       </q-card>
-      <div class="q-ma-sm">
+
+      <q-card v-if="timesheetDetails.length > 0" class="q-ma-sm bg-grey-3">
+        <q-expansion-item
+          default-opened
+          expand-separator
+          expand-icon-class="text-primary"
+        >
+          <template v-slot:header>
+            <q-item-section>
+              <q-item-label>Comments: </q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-btn
+                size="sm"
+                flat
+                round
+                dense
+                icon="add"
+                class="q-btn-hover:hover"
+              ></q-btn>
+            </q-item-section>
+          </template>
+          <q-list>
+            <q-item dense v-for="(item, index) in commentsList" :key="index">
+              <q-item-section>{{ item.comment }}</q-item-section>
+            </q-item>
+            <q-item v-if="listLength == 0"> No Comments are present </q-item>
+          </q-list>
+        </q-expansion-item>
+      </q-card>
+
+      <!-- <div class="q-ma-sm">
         <div class="row justify-between items-center q-mt-md">
           <q-btn no-caps @click="toggleList" class="btn-Comment"
             >{{ showComments ? 'Hide Comments' : 'Show Comments'
@@ -230,7 +263,7 @@ const addComment = () => {
             </q-item>
           </q-list>
         </q-card>
-      </div>
+      </div> -->
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           :to="{
