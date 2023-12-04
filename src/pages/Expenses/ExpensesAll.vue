@@ -2,7 +2,7 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import { getExpenseStatusColor } from 'src/helpers/colorIconHelper';
+import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 
 const expensesDetailsStore = useExpenseDetailsStore();
 const expenseStatus = ref('Inbox');
@@ -13,7 +13,7 @@ onMounted(() => {
 });
 
 const allExpenses = computed(() => {
-  console.log('Expenses All', expensesDetailsStore.expenseSummary)
+  console.log('Expenses All', expensesDetailsStore.expenseSummary);
   return expensesDetailsStore.ExpenseSummary;
 });
 
@@ -49,7 +49,7 @@ const tabs = [
     id: 3,
     name: 'Archived',
     status: 'Archived',
-  }
+  },
 ];
 
 // const allExpenses = [
@@ -89,43 +89,70 @@ const tabs = [
 //     description: 'All your rejected Expense(s)'
 //   }
 // ]
-
 </script>
 
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title>{{ title }} Expenses </q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-footer elevated>
-      <q-tabs v-model="expenseStatus" no-caps inline-label class="bg-primary text-white shadow-2" align="justify">
-        <q-tab v-for="item in tabs" :name="item.name" :key="item.id" :label="item.status" />
+      <q-tabs
+        v-model="expenseStatus"
+        no-caps
+        inline-label
+        class="bg-primary text-white shadow-2"
+        align="justify"
+      >
+        <q-tab
+          v-for="item in tabs"
+          :name="item.name"
+          :key="item.id"
+          :label="item.status"
+        />
       </q-tabs>
     </q-footer>
     <q-page-container>
       <q-page>
         <q-list v-for="expense in allExpenses" :key="expense.id">
-          <q-item :to="{
-            name: 'expenseDetails',
-            params: {
-              id: expense.id,
-              fromDate: expense.fromDate,
-            },
-          }" clickable v-ripple>
+          <q-item
+            :to="{
+              name: 'expenseDetails',
+              params: {
+                id: expense.id,
+                fromDate: expense.fromDate,
+              },
+            }"
+            clickable
+            v-ripple
+          >
             <q-item-section>
               <q-item-label>
                 {{ expense.createdByUserName }}
               </q-item-label>
-              <q-item-label caption>{{ expense.fromDate
-                ? dateTimeHelper.extractDateFromUtc(expense.fromDate)
-                : 'No Specific Date' }}</q-item-label>
+              <q-item-label caption>{{
+                expense.fromDate
+                  ? dateTimeHelper.extractDateFromUtc(expense.fromDate)
+                  : 'No Specific Date'
+              }}</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-chip square :color="getExpenseStatusColor(expense.status)">{{ expense.status }}</q-chip>
+              <q-chip
+                square
+                :color="getExpenseOrTimesheetStatusColor(expense.status)"
+                >{{ expense.status }}</q-chip
+              >
               <!-- <q-item-label caption class="bg-teal-3 q-pa-xs">{{
                 expense.status
               }}</q-item-label> -->
@@ -138,9 +165,15 @@ const tabs = [
         </q-list>
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn :to="{
-          name: 'newPeriodExpense'
-        }" fab icon="add" color="accent" padding="sm">
+        <q-btn
+          :to="{
+            name: 'newPeriodExpense',
+          }"
+          fab
+          icon="add"
+          color="accent"
+          padding="sm"
+        >
         </q-btn>
       </q-page-sticky>
     </q-page-container>
@@ -152,10 +185,10 @@ const tabs = [
 
 <style scoped>
 .q-router-link--active {
-  color: black
+  color: black;
 }
 
 .q-list:nth-child(odd) {
-  background: rgb(238, 238, 238)
+  background: rgb(238, 238, 238);
 }
 </style>

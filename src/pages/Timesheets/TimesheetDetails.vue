@@ -143,7 +143,7 @@ const addComment = () => {
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
-        class="q-ma-sm bg-grey-3"
+        class="q-ma-sm bg-grey-2"
       >
         <q-expansion-item
           default-opened
