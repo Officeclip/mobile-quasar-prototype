@@ -1,6 +1,7 @@
 export interface ContactLists {
   states: State[];
   countries: Country[];
+  children: Children[];
 }
 
 export interface State {
@@ -11,4 +12,9 @@ export interface State {
 export interface Country {
   name: string;
   code: string;
+}
+
+export interface Children {
+  id: number;
+  name: string;
 }

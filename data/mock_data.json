@@ -818,12 +818,20 @@
       ],
       "children": [
         {
-          "id": 2,
+          "id": 1,
+          "name": "task"
+        },
+        {
+          "id": 4,
           "name": "event"
         },
         {
-          "id": 3,
-          "name": "task"
+          "id": 20,
+          "name": "note"
+        },
+        {
+          "id": 35,
+          "name": "activityTabForCrm"
         }
       ]
     }
@@ -1024,6 +1032,14 @@
       "startDateTime": "2023-11-10T10:43:32.203Z",
       "endDateTime": "2023-11-13T21:43:32.203Z",
       "isAllDayEvent": false
+    },
+    {
+      "eventType": "2",
+      "eventName": "testing",
+      "startDateTime": "2023-12-04T09:48:33.178Z",
+      "endDateTime": "2023-12-04T09:48:33.178Z",
+      "isAllDayEvent": false,
+      "id": "Rxs2Yi2"
     }
   ],
   "event-details": [
@@ -1070,6 +1086,33 @@
           "email": "prakash@gmail.com"
         }
       ]
+    },
+    {
+      "id": "oKvV-2M",
+      "parentServiceType": 14,
+      "eventType": "2",
+      "eventName": "testing",
+      "eventDescription": "",
+      "startDateTime": "2023-12-04T09:48:33.178Z",
+      "endDateTime": "2023-12-04T09:48:33.178Z",
+      "isAllDayEvent": false,
+      "eventLocation": "",
+      "createdDate": "2023-12-04T09:48:33.178Z",
+      "createdGroupSId": "",
+      "createdUserSid": "",
+      "parentSid": 4,
+      "eventUserSid": "",
+      "isRsvp": false,
+      "sendNotifications": false,
+      "repeatInfoText": "",
+      "recurrenceRule": "",
+      "modifiedDate": "",
+      "modifiedUserSid": "",
+      "timezoneId": "2",
+      "remindTo": "",
+      "label": "1",
+      "meetingAttendees": [],
+      "url": ""
     }
   ],
   "event-lists": {
@@ -1996,7 +2039,17 @@
     "userName": "SK Dutta",
     "userEmail": "skd@officeclip.com",
     "isAdmin": true,
-    "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10],
+    "applicationIds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      10
+    ],
     "roleAccesses": [
       {
         "name": "TrackerEditCase",
@@ -2246,7 +2299,9 @@
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": ["Kathiravan Sekar"],
+      "assignees": [
+        "Kathiravan Sekar"
+      ],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
@@ -3394,7 +3449,12 @@
       {
         "fieldType": "TimesheetRow",
         "id": "4",
-        "items": ["", "One", "Two", "Three"],
+        "items": [
+          "",
+          "One",
+          "Two",
+          "Three"
+        ],
         "name": "Custom Row",
         "uiType": "List"
       },

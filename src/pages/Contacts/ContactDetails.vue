@@ -4,8 +4,9 @@ TODO: skd: Implement child events the same way as implemented in OfficeClip. Do 
 -->
 
 <script setup lang="ts">
-import { ref, onBeforeMount, computed } from 'vue';
+import { ref, onBeforeMount, computed, onMounted } from 'vue';
 import { useContactDetailsStore } from '../../stores/ContactDetailsStore';
+import { useContactListsStore } from '../../stores/ContactListsStore';
 import { useRoute } from 'vue-router';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import EventsList from '../../components/Events/EventsListCtrl.vue';
@@ -17,12 +18,30 @@ import { ObjectType } from '../../helpers/util';
 console.log('TESTING CONTACTVIEW: Setup');
 const model = ref('1');
 const contactDetailsStore = useContactDetailsStore();
+const contactListsStore = useContactListsStore();
 //const eventsStore = useEventsStore();
 //const allEvents = eventsStore.getEventsById(-1,-1)
 const route = useRoute();
 
+onBeforeMount(() => {
+  //contactsStore.$reset;
+  console.log('TESTING CONTACTVIEW: onBeforeMount');
+  console.log('Contactstorevarialble testing:', contactDetailsStore);
+  contactDetailsStore.getContactDetails(Number(route.params.id));
+  contactDetailsStore.getContactLists();
+  console.log(`ContactDetails: params: ${params.value}`);
+});
+
+onMounted(() => {
+  contactListsStore.getContactList();
+})
+
 const contactDetails = computed(() => {
   return contactDetailsStore.ContactDetails;
+});
+
+const children = computed(() => {
+  return contactListsStore.Children;
 });
 
 const fullName = computed(() => {
@@ -48,23 +67,14 @@ const params = computed(() => {
   };
 });
 
-onBeforeMount(() => {
-  //contactsStore.$reset;
-  console.log('TESTING CONTACTVIEW: onBeforeMount');
-  console.log('Contactstorevarialble testing:', contactDetailsStore);
-  contactDetailsStore.getContactDetails(Number(route.params.id));
-  contactDetailsStore.getContactLists();
-  console.log(`ContactDetails: params: ${params.value}`);
-});
-
 const parent = ref({
   parentObjectId: id.value,
-  parentObjectServiceType: ObjectType.Contact, // FIXME: Use enumerated types
+  parentObjectServiceType: ObjectType.Contact,
   selectedNoteBook: -1,
 });
 const parent2 = ref({
   parentObjectId: id.value,
-  parentObjectServiceType: ObjectType.Contact, // FIXME: Use enumerated types
+  parentObjectServiceType: ObjectType.Contact,
 });
 
 // const params = ref({
@@ -77,6 +87,20 @@ const notesCount = ref<any>('0');
 const handleNoteCount = (value: string) => {
   notesCount.value = value;
   console.log(`handleNoteCount(): ${notesCount.value}`);
+};
+
+const eventsCount = ref<any>('0');
+
+const handleEventCount = (value: string) => {
+  eventsCount.value = value;
+  console.log(`handleEventCount(): ${eventsCount.value}`);
+};
+
+const tasksCount = ref<any>('0');
+
+const handleTaskCount = (value: string) => {
+  tasksCount.value = value;
+  console.log(`handleTaskCount(): ${tasksCount.value}`);
 };
 
 //console.log(stateName);
@@ -121,93 +145,96 @@ const handleNoteCount = (value: string) => {
         </q-card-section>
         <ContactDetails v-if="model === '1'" :params="params" />
         <MetaDetails v-if="model === '2'" :params="parent" />
-        <!-- Notes Starts -->
-        <q-card-section>
-          <q-list bordered class="rounded-borders">
-            <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
-              <template v-slot:header>
-                <q-item-section side>
-                  <div class="row items-center">
-                    <q-icon name="subject"></q-icon>
-                  </div>
-                </q-item-section>
-                <q-item-section> Notes ({{ notesCount }})</q-item-section>
 
-                <q-item-section side>
-                  <q-btn :to="{
-                    name: 'newNotes',
-                    params: {
-                      id: -1,
-                      objectTypeId: ObjectType.Contact,
-                      objectId: contactDetails?.id
-                    },
-                  }" size="sm" flat round dense icon="add">
-                  </q-btn>
-                </q-item-section>
-              </template>
-              <q-separator></q-separator>
-              <NoteList @numberOfNotes="handleNoteCount" :params="parent" />
-            </q-expansion-item>
-          </q-list>
-        </q-card-section>
+        <div v-for="child in children" :key="child.id">
+          <q-card-section v-if="child.id == ObjectType.Note">
+            <q-list bordered class="rounded-borders">
+              <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
+                <template v-slot:header>
+                  <q-item-section side>
+                    <div class="row items-center">
+                      <q-icon name="subject"></q-icon>
+                    </div>
+                  </q-item-section>
+                  <q-item-section> Notes ({{ notesCount }})</q-item-section>
 
-        <q-card-section>
-          <q-list bordered class="rounded-borders">
-            <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
-              <template v-slot:header>
-                <q-item-section side>
-                  <div class="row items-center">
-                    <q-icon name="calendar_month"></q-icon>
-                  </div>
-                </q-item-section>
-                <q-item-section> Events</q-item-section>
+                  <q-item-section side>
+                    <q-btn :to="{
+                      name: 'newNotes',
+                      params: {
+                        id: -1,
+                        objectTypeId: ObjectType.Contact,
+                        objectId: contactDetails?.id
+                      },
+                    }" size="sm" flat round dense icon="add">
+                    </q-btn>
+                  </q-item-section>
+                </template>
+                <q-separator></q-separator>
+                <NoteList @numberOfNotes="handleNoteCount" :params="parent" />
+              </q-expansion-item>
+            </q-list>
+          </q-card-section>
 
-                <q-item-section side>
-                  <q-btn :to="{
-                    name: 'newEvent',
-                    params: {
-                      id: -1,
-                      objectTypeId: ObjectType.Contact,
-                      objectId: contactDetails?.id
-                    },
-                  }" size="sm" flat round dense icon="add">
-                  </q-btn>
-                </q-item-section>
-              </template>
-              <q-separator></q-separator>
-              <EventsList :params="parent2" />
-            </q-expansion-item>
-          </q-list>
-        </q-card-section>
+          <q-card-section v-if="child.id == ObjectType.Event">
+            <q-list bordered class="rounded-borders">
+              <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
+                <template v-slot:header>
+                  <q-item-section side>
+                    <div class="row items-center">
+                      <q-icon name="calendar_month"></q-icon>
+                    </div>
+                  </q-item-section>
+                  <q-item-section> Events ({{ eventsCount }})</q-item-section>
 
-        <q-card-section>
-          <q-list bordered class="rounded-borders">
-            <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
-              <template v-slot:header>
-                <q-item-section side>
-                  <div class="row items-center">
-                    <q-icon name="checklist"></q-icon>
-                  </div>
-                </q-item-section>
-                <q-item-section>Tasks</q-item-section>
+                  <q-item-section side>
+                    <q-btn :to="{
+                      name: 'newEvent',
+                      params: {
+                        id: -1,
+                        objectTypeId: ObjectType.Contact,
+                        objectId: contactDetails?.id
+                      },
+                    }" size="sm" flat round dense icon="add">
+                    </q-btn>
+                  </q-item-section>
+                </template>
+                <q-separator></q-separator>
+                <EventsList @numberOfEvents="handleEventCount" :params="parent2" />
+              </q-expansion-item>
+            </q-list>
+          </q-card-section>
 
-                <q-item-section side>
-                  <q-btn :to="{
-                    name: 'newTask',
-                    params: {
-                      id: -1,
-                      objectTypeId: ObjectType.Contact,
-                      objectId: contactDetails?.id
-                    },
-                  }" size="sm" flat round dense icon="add">
-                  </q-btn>
-                </q-item-section>
-              </template>
-              <q-separator></q-separator>
-              <TasksList :params="parent2" />
-            </q-expansion-item>
-          </q-list>
-        </q-card-section>
+          <q-card-section v-if="child.id == ObjectType.Task">
+            <q-list bordered class="rounded-borders">
+              <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
+                <template v-slot:header>
+                  <q-item-section side>
+                    <div class="row items-center">
+                      <q-icon name="checklist"></q-icon>
+                    </div>
+                  </q-item-section>
+                  <q-item-section>Tasks ({{ tasksCount }})</q-item-section>
+
+                  <q-item-section side>
+                    <q-btn :to="{
+                      name: 'newTask',
+                      params: {
+                        id: -1,
+                        objectTypeId: ObjectType.Contact,
+                        objectId: contactDetails?.id
+                      },
+                    }" size="sm" flat round dense icon="add">
+                    </q-btn>
+                  </q-item-section>
+                </template>
+                <q-separator></q-separator>
+                <TasksList @numberOfTasks="handleTaskCount" :params="parent2" />
+              </q-expansion-item>
+            </q-list>
+          </q-card-section>
+        </div>
+
       </q-card>
     </q-page-container>
   </q-layout>
