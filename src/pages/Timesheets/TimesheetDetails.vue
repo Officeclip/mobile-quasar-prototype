@@ -101,6 +101,8 @@ const addComment = () => {
     //need to add data that will posting into the json
   }
 };
+
+const showAddCommentsDialog = ref(false);
 </script>
 
 <template>
@@ -224,6 +226,7 @@ const addComment = () => {
                 dense
                 icon="add"
                 class="q-btn-hover:hover"
+                @click="showAddCommentsDialog = true"
               ></q-btn>
             </q-item-section>
           </template>
@@ -282,7 +285,25 @@ const addComment = () => {
     </q-page-container>
   </q-layout>
 
-  <q-dialog v-model="openNewComment">
+  <q-dialog v-model="showAddCommentsDialog">
+    <q-card>
+      <div class="q-pa-md column">
+        <q-input
+          v-model="newCommentModel"
+          class="full-width"
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+          label="Comment"
+          lazy-rules
+          placeholder="Enter text here..."
+        />
+      </div>
+
+      <q-card-actions>
+        <q-btn dense v-close-popup color="primary" label="Add" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+  <!-- <q-dialog v-model="openNewComment">
     <q-card>
       <q-card-section>
         <q-item>
@@ -307,12 +328,12 @@ const addComment = () => {
             denses
             color="negative"
             label="Add"
-            @click="addComment"
+            @click="showAddCommentsDialog = true"
           />
         </q-card-actions>
       </q-card-section>
     </q-card>
-  </q-dialog>
+  </q-dialog> -->
 
   <ConfirmDelete
     v-if="showDeleteTimesheet"
