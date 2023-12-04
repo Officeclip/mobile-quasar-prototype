@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { State, Country } from '../models/Contact/contactsList';
+import { State, Country, Children } from '../models/Contact/contactsList';
 import axios from 'axios';
 import { Constants } from './Constants';
 
@@ -8,11 +8,13 @@ export const useContactListsStore = defineStore('contactListsStore', {
     // timesheetList: undefined as TimesheetList | undefined,
     states: [] as State[],
     countries: [] as Country[],
+    children: [] as Children[],
   }),
 
   getters: {
     States: (state) => state.states,
     Countries: (state) => state.countries,
+    Children: (state) => state.children,
   },
 
   actions: {
@@ -28,6 +30,7 @@ export const useContactListsStore = defineStore('contactListsStore', {
         //debugger;
         this.states = contactList.states;
         this.countries = contactList.countries;
+        this.children = contactList.children;
       } catch (error) {
         console.error(error);
       }
