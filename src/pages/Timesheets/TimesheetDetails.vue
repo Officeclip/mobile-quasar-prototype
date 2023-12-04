@@ -92,17 +92,20 @@ const showAddCommentsDialog = ref(false);
 
 const addComments = ref({
   id: '',
-  isDcaa: false,
-  comments: {
-    id: '1',
-    comment: '',
-    createdBy: 'Sudhakar Gundu',
-    createdDate: '2020-03-05T15:01:17Z',
-  },
+  isDcaa: true,
+  comments: [
+    {
+      id: '',
+      comment: '',
+      createdBy: 'Sudhakar Gundu',
+      createdDate: '2020-03-05T15:01:17Z',
+    },
+  ],
 });
 
 const addComment = () => {
   timesheetCommentsStore.addComment(addComments.value);
+  addComments.value.comments[0].comment = '';
 };
 </script>
 
@@ -221,7 +224,6 @@ const addComment = () => {
             </q-item-section>
             <q-item-section side>
               <q-btn
-                size="sm"
                 flat
                 round
                 dense
@@ -262,7 +264,7 @@ const addComment = () => {
     <q-card>
       <div class="q-pa-md column">
         <q-input
-          v-model="addComments.comments.comment"
+          v-model="addComments.comments[0].comment"
           :rules="[(val) => (val && val.length > 0) || 'Please type something']"
           label="Comment"
           lazy-rules
