@@ -212,7 +212,7 @@ const addComment = () => {
         </q-expansion-item>
       </q-card>
 
-      <q-card v-if="timesheetDetails.length > 0" class="q-ma-sm bg-grey-3">
+      <q-card v-if="timesheetDetails.length > 0" class="q-ma-sm bg-grey-4">
         <q-expansion-item
           default-opened
           expand-separator
@@ -222,6 +222,7 @@ const addComment = () => {
             <q-item-section>
               <q-item-label>Comments: </q-item-label>
             </q-item-section>
+
             <q-item-section side>
               <q-btn
                 flat
@@ -261,8 +262,14 @@ const addComment = () => {
   </q-layout>
 
   <q-dialog v-model="showAddCommentsDialog">
-    <q-card>
-      <div class="q-pa-md column">
+    <q-card style="min-width: 450px">
+      <q-card-section class="row items-center q-pb-none">
+        <div>Add New Comment</div>
+        <q-space></q-space>
+        <q-btn icon="close" size="sm" flat round dense v-close-popup></q-btn>
+      </q-card-section>
+
+      <q-card-section>
         <q-input
           v-model="addComments.comments[0].comment"
           :rules="[(val) => (val && val.length > 0) || 'Please type something']"
@@ -270,7 +277,7 @@ const addComment = () => {
           lazy-rules
           placeholder="Enter text here..."
         />
-      </div>
+      </q-card-section>
 
       <q-card-actions>
         <q-btn
