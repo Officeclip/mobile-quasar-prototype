@@ -228,8 +228,8 @@ const addComment = () => {
             </q-item-section>
           </template>
           <q-list>
-            <q-item dense v-for="(item, index) in commentsList" :key="index">
-              <q-item-section>{{ item.comment }}</q-item-section>
+            <q-item v-for="(item, index) in commentsList" :key="index">
+              <q-item-section>{{ item.comment }}<q-separator /></q-item-section>
             </q-item>
             <q-item v-if="listLength == 0"> No Comments are present </q-item>
           </q-list>
