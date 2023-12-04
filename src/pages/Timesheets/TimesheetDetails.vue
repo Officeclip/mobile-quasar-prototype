@@ -9,7 +9,6 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import WorkFlow from '../../components/general/WorkFlow.vue';
-import { ClosePopup } from 'quasar';
 
 const router = useRouter();
 const route = useRoute();
@@ -69,15 +68,17 @@ const deleteTimesheetDetail = (id: string) => {
   }
 };
 
-const showComments = ref(false);
+// const showComments = ref(false);
 const commentsList = computed(() => {
   return timesheetCommentsStore.CommentsList;
 });
 console.log('getting the comment list from store:', commentsList.value);
-const toggleList = () => {
-  showComments.value = !showComments.value;
-};
-
+// const toggleList = () => {
+//   showComments.value = !showComments.value;
+// };
+const listLength = computed(() => {
+  return commentsList.value.length;
+});
 //trying to get the period name from periodOptions  find by fromDate
 const periodOptions = computed(() => {
   return timesheetListsStore.PeriodList;
@@ -86,18 +87,22 @@ const periodOptions = computed(() => {
 const timesheetPeriod = computed(() => {
   return periodOptions.value?.find((x) => x.start.toString() === fromDate);
 });
-const openNewComment = ref(false);
-const openAddComment = () => {
-  openNewComment.value = true;
-};
-const closePopup = () => {
-  openNewComment.value = false;
-};
-const newCommentModel = ref('');
+
+const showAddCommentsDialog = ref(false);
+
+const addComments = ref({
+  id: '',
+  isDcaa: false,
+  comments: {
+    id: '1',
+    comment: '',
+    createdBy: 'Sudhakar Gundu',
+    createdDate: '2020-03-05T15:01:17Z',
+  },
+});
+
 const addComment = () => {
-  if (newCommentModel.value) {
-    //need to add data that will posting into the json
-  }
+  timesheetCommentsStore.addComment(addComments.value);
 };
 </script>
 
@@ -203,34 +208,38 @@ const addComment = () => {
           <OCItem title="Description" :value="timesheetDetail.description" />
         </q-expansion-item>
       </q-card>
-      <div class="q-ma-sm">
-        <div class="row justify-between items-center q-mt-md">
-          <q-btn no-caps @click="toggleList" class="btn-Comment"
-            >{{ showComments ? 'Hide Comments' : 'Show Comments'
-            }}<q-badge v-if="!showComments" color="red" rounded floating>{{
-              commentsList.length
-            }}</q-badge></q-btn
-          >
-          <q-btn
-            v-if="showComments"
-            size="sm"
-            icon="add"
-            no-caps
-            dense
-            class="btn-Comment"
-            @click="openAddComment"
-            >New</q-btn
-          >
-        </div>
 
-        <q-card v-if="showComments" flat bordered>
+      <q-card v-if="timesheetDetails.length > 0" class="q-ma-sm bg-grey-3">
+        <q-expansion-item
+          default-opened
+          expand-separator
+          expand-icon-class="text-primary"
+        >
+          <template v-slot:header>
+            <q-item-section>
+              <q-item-label>Comments: </q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-btn
+                size="sm"
+                flat
+                round
+                dense
+                icon="add"
+                class="q-btn-hover:hover"
+                @click="showAddCommentsDialog = true"
+              ></q-btn>
+            </q-item-section>
+          </template>
           <q-list>
-            <q-item dense v-for="(item, index) in commentsList" :key="index">
-              <q-item-section>{{ item.comment }}</q-item-section>
+            <q-item v-for="(item, index) in commentsList" :key="index">
+              <q-item-section>{{ item.comment }}<q-separator /></q-item-section>
             </q-item>
+            <q-item v-if="listLength == 0"> No Comments are present </q-item>
           </q-list>
-        </q-card>
-      </div>
+        </q-expansion-item>
+      </q-card>
+
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           :to="{
@@ -249,35 +258,27 @@ const addComment = () => {
     </q-page-container>
   </q-layout>
 
-  <q-dialog v-model="openNewComment">
+  <q-dialog v-model="showAddCommentsDialog">
     <q-card>
-      <q-card-section>
-        <q-item>
-          <q-input
-            v-model="newCommentModel"
-            class="full-width"
-            dense
-            label="Add comment"
-          >
-          </q-input>
-        </q-item>
-        <q-card-actions align="right">
-          <q-btn
-            no-caps
-            dense
-            color="primary"
-            label="Cancel"
-            @click="closePopup"
-          />
-          <q-btn
-            no-caps
-            denses
-            color="negative"
-            label="Add"
-            @click="addComment"
-          />
-        </q-card-actions>
-      </q-card-section>
+      <div class="q-pa-md column">
+        <q-input
+          v-model="addComments.comments.comment"
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+          label="Comment"
+          lazy-rules
+          placeholder="Enter text here..."
+        />
+      </div>
+
+      <q-card-actions>
+        <q-btn
+          dense
+          v-close-popup
+          color="primary"
+          label="Add"
+          @click="addComment"
+        />
+      </q-card-actions>
     </q-card>
   </q-dialog>
 

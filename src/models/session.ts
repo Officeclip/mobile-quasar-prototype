@@ -3,6 +3,7 @@ export interface Session {
   orgId: string;
   userName: string;
   userEmail: string;
+  orgKey: string;
   applicationIds: Array<number>;
   roleAccesses: RoleAccess[];
 }

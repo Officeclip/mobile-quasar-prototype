@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
 import { Login } from '../models/login';
+import { useSessionStore } from 'stores/SessionStore';
 import { useTokenStore } from '../stores/tokenStore';
 import { Constants } from 'src/stores/Constants';
 import { useVuelidate } from '@vuelidate/core';
@@ -8,6 +9,7 @@ import { email, required } from '@vuelidate/validators';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
+const sessionStore = useSessionStore();
 const tokenStore = useTokenStore();
 const route1 = useRouter();
 
@@ -26,7 +28,6 @@ const $q = useQuasar();
 
 async function onSubmit(e: any) {
   e.preventDefault();
-
   try {
     const isFormCorrect = await v$.value.$validate();
     if (!isFormCorrect) {
@@ -41,6 +42,7 @@ async function onSubmit(e: any) {
     }
     //debugger;
     await tokenStore.validateLogin(login.value);
+    await sessionStore.getSession();
     //debugger;
     const token = tokenStore.Token;
     if (token) {
@@ -51,7 +53,7 @@ async function onSubmit(e: any) {
     } else {
       throw new Error('Could not get the token');
     }
-    route1.push('/homePage');
+    route1.push('/dTestHomePage');
   } catch (error) {
     $q.notify({
       message: error as string,

@@ -29,7 +29,7 @@
     {
       "uuid": "494a50ba-7311-4e97-bf96-e31be816bc10",
       "name": "General",
-      "collapsed": true,
+      "collapsed": false,
       "children": [
         {
           "type": "route",
@@ -54,6 +54,10 @@
         {
           "type": "route",
           "uuid": "ebe408b4-0c8f-46d7-a761-616c384dacee"
+        },
+        {
+          "type": "route",
+          "uuid": "272cdf53-40b3-49ea-aa1d-2bb5d7d054bd"
         }
       ]
     },
@@ -83,7 +87,7 @@
     {
       "uuid": "0b406ada-d4d4-4e17-bc96-7beb7f464fd4",
       "name": "Tasks",
-      "collapsed": true,
+      "collapsed": false,
       "children": [
         {
           "type": "route",
@@ -144,7 +148,7 @@
     {
       "uuid": "4fb3fd2a-ad95-4df4-b773-6ec7ffab8c33",
       "name": "Notes",
-      "collapsed": true,
+      "collapsed": false,
       "children": [
         {
           "type": "route",
@@ -202,8 +206,8 @@
           "uuid": "fc5e37e3-b946-4dbd-8ce4-e7a402439ea8",
           "body": "{\r\n  \"token\": \"xxxxyyyyzzz\",\r\n  \"expirationUnixEpoch\": 1732314106\r\n}",
           "latency": 0,
-          "statusCode": 201,
-          "label": "",
+          "statusCode": 200,
+          "label": "Success",
           "headers": [],
           "bodyType": "INLINE",
           "filePath": "C:\\OfficeClipNew\\mobile\\mobile-quasar-prototype\\data\\mockoon\\oc\\login.json",
@@ -214,6 +218,24 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "e6d8ed24-e762-46ea-9299-4f28a8a44c72",
+          "body": "{\n  \"status\": 401,\n  \"subStatus\": 100,\n  \"description\": \"Unauthorized\",\n  \"message\": \"Invalid Login or Password\",\n  \"succeeded\": false\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Login or Password Incorrect",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
           "crudKey": "id"
         }
       ],
@@ -243,6 +265,24 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "c60591ee-190f-4bec-8752-569e4ec24155",
+          "body": "{\n  \"status\": 500,\n  \"subStatus\": 0,\n  \"description\": \"Internal Server Error\",\n  \"message\": \"Object Reference not set to instance of an object\",\n  \"succeeded\": false\n}",
+          "latency": 0,
+          "statusCode": 500,
+          "label": "Internal Server Error",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
           "crudKey": "id"
         }
       ],
@@ -843,7 +883,7 @@
           "statusCode": 200,
           "label": "",
           "headers": [],
-          "bodyType": "FILE",
+          "bodyType": "DATABUCKET",
           "filePath": "oc\\notes\\notebooks.json",
           "databucketID": "",
           "sendFileAsBody": true,
@@ -944,6 +984,35 @@
       ],
       "enabled": true,
       "responseMode": null
+    },
+    {
+      "uuid": "272cdf53-40b3-49ea-aa1d-2bb5d7d054bd",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "profile-lists",
+      "responses": [
+        {
+          "uuid": "65dbd01a-043c-4674-a864-8bfce09fcb6e",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\general\\profile-lists.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -1008,7 +1077,7 @@
     },
     {
       "key": "Access-Control-Allow-Headers",
-      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With, x-orgKey"
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With, x-OrgKey, x-token"
     }
   ],
   "proxyReqHeaders": [
