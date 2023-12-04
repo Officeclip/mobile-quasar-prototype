@@ -1,4 +1,4 @@
 export interface Token {
-  token: string;
-  expirationUnixEpoch: number;
+  accessToken: string;
+  expirationTime: number;
 }

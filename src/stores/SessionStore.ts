@@ -35,7 +35,11 @@ export const useSessionStore = defineStore('sessionStore', {
     },
 
     getHomeIcons(): HomeIcon[] {
-      const result = this.getDefaultHomeIcons().filter((item) => {
+      const defaultHomeIcons = this.getDefaultHomeIcons();
+      console.log(
+        `getHomeIcons(): applicationIds: ${this.Session.applicationIds}`
+      );
+      const result = defaultHomeIcons.filter((item) => {
         return this.Session.applicationIds.includes(item.id);
       });
 
