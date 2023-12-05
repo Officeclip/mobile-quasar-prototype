@@ -13,7 +13,9 @@ import Regarding from "components/general/regardingComponent.vue";
 const props = defineProps<{
   task: taskDetails
 }>();
+
 const userSummaryStore = useUserSummaryStore();
+const taskListsStore = useTaskListsStore();
 
 
 const isPrivate = ref('');
@@ -41,7 +43,6 @@ const formattedStartDate2 = startDate.value ? formattedStartDate : startDate;
 
 isPrivate.value = props.task.isPrivate ? 'Yes' : 'No';
 
-const taskListsStore = useTaskListsStore();
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
   userSummaryStore.getUserSummaries();
@@ -65,7 +66,6 @@ function handleRRuleText(rruleText: string) {
   console.log('Received RRule Plain Text:', rruleText);
   const repeatText = rruleText.charAt(0).toUpperCase() + rruleText.slice(1); //capitalize first letter
   repeatString.value = repeatText;
-
   emit('rrule-text-generated', repeatText);
 }
 
@@ -76,6 +76,10 @@ function handleReminderData(reminderString: [string, number]) {
 
 function handleReminderText(reminderText: string) {
   reminderTextInfo.value = reminderText;
+}
+
+function regardingReceived(regardings: any) {
+  console.log("empty")
 }
 
 const repeatString = ref('Does not repeat');
@@ -246,7 +250,7 @@ async function filterTagFn(val: string, update: any, abort: any) {
           </template>
         </q-select>
 
-        <Regarding/>
+        <Regarding :regarding-parents="taskListsStore.RegardingParent" @regarding-generated="regardingReceived"/>
 
 
         <q-item v-ripple clickable @click="recurrenceDialogOpened = true">

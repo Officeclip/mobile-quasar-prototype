@@ -56,7 +56,6 @@ function emitOptions() {
   emit('advancedOptionsGenerated', advancedOptions.value);
   emit('filterCount', filterNumber(advancedOptions.value));
   // console.log(filterNumber(advancedOptions.value));
-
 }
 
 const taskListsStore = useTaskListsStore();
@@ -77,7 +76,7 @@ onBeforeMount(() => {
   advancedOptions.value.assignedTo = props.filterOptions?.assignedTo
   advancedOptions.value.ownedBy = props.filterOptions?.ownedBy
   advancedOptions.value.regarding = props.filterOptions?.regarding
-  advancedOptions.value.hideCompleted = props.filterOptions?.hideCompleted
+  advancedOptions.value.showCompleted = props.filterOptions?.showCompleted
 });
 
 const dateOptions = [
@@ -99,7 +98,7 @@ async function filterFn(val: string, update: any, abort: any) {
     return;
   } else if (val.length === 2) {
     contactOptions.value = [];
-    await taskListsStore.getRegardingContactListThatMatch(val);
+    await taskListsStore.getFilteredUsers(val);
     contactOptions.value = taskListsStore.users;
   }
 
