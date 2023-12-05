@@ -7,6 +7,7 @@ import {regardingItem} from "src/models/general/regardingItem";
 const props = defineProps<{
   regardingParents:any
 }>();
+const emit = defineEmits(['regarding-generated'])
 
 const regardingType = ref('');
 
@@ -26,6 +27,12 @@ const selectedRegItem = ref(null);
 function emitRegarding(){
   console.log(regardingType.value);
   console.log(selectedRegItem.value);
+  const regarding = {
+    type:regardingType.value,
+    value:selectedRegItem.value
+  }
+  emit('regarding-generated', regarding);
+
 }
 
 watch(selectedRegItem, (newValue, oldValue) => {

@@ -52,7 +52,7 @@ export const useRegardingStore = defineStore('regardingStore', {
           `${Constants.endPointUrl}/regarding`
         );
         const regardingItems = response.data;
-        console.log('getRegardingList: ', regardingItems);
+        console.log('getRegardingList: ', regardingItems[0]);
 
         const filtered = regardingItems.filter((t: regardingItem) => {
           return t.name.toLowerCase().includes(searchString.toLowerCase());
