@@ -63,7 +63,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       }
     },
 
-    async getTask(id: number) {
+    async getTask(id: string) {
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/task-details?id=${id}`
@@ -91,24 +91,24 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
     },
 
     async addSubtask(subtask: subTask) {
-      this.taskDetail?.subtasks.push(subtask);
+      this.taskDetail?.subTasks.push(subtask);
       await this.editTask(<taskDetails>this.taskDetail);
     },
 
     async editSubtask(editedSubtask: subTask) {
-      let subtask: subTask | undefined = this.taskDetail?.subtasks.find((subtask: subTask) => {
+      let subtask: subTask | undefined = this.taskDetail?.subTasks.find((subtask: subTask) => {
         return subtask.id === editedSubtask.id;
       });
 
       if (subtask) subtask = editedSubtask;
       console.log(subtask);
       console.log(editedSubtask);
-      await this.editTask(<taskDetails>this.taskDetail);
+      await this.editTask(<taskDetails>this.taskDetail)
     },
 
 
-    async toggleSubtaskCompletion(subtaskId: number) {
-      const subtask: subTask | undefined = this.taskDetail?.subtasks.find((subtask: subTask) => {
+    async toggleSubtaskCompletion(subtaskId: string) {
+      const subtask: subTask | undefined = this.taskDetail?.subTasks.find((subtask: subTask) => {
         return subtask.id === subtaskId;
       });
       if (subtask) subtask.isCompleted = !subtask.isCompleted;
@@ -116,13 +116,11 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
     },
 
     async deleteSubtask(subtaskId: number) {
-      const modifiedSubtasks = this.taskDetail?.subtasks.filter((s) => {
+      const modifiedSubtasks = this.taskDetail?.subTasks.filter((s) => {
         return s.id != subtaskId;
       });
-      if(this.taskDetail) this.taskDetail.subtasks = modifiedSubtasks??[];
+      if(this.taskDetail) this.taskDetail.subTasks = modifiedSubtasks??[];
       await this.editTask(<taskDetails>this.taskDetail);
     },
-
-
   },
 });

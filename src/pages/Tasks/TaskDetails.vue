@@ -27,8 +27,7 @@ const taskDetail: ComputedRef<taskDetails> = computed(() => {
       startDate: "Not Available",
       dueDate: "Not Available",
       modifiedDate: "Not Available",
-      regardingType: 0,
-      regardingValue: "Not Available",
+
       assignees: [],
       isPrivate: false,
       taskStatus: {
@@ -62,6 +61,16 @@ const taskDetail: ComputedRef<taskDetails> = computed(() => {
         "write": false,
         "append": false,
         "delete": false
+      },
+      parent: {
+        type:{
+          id:'',
+          name:'',
+        },
+        value:{
+          id:'',
+          name:'',
+        }
       }
     };
     return emptyTaskDetail;
@@ -81,9 +90,9 @@ isPrivate.value = taskDetail.value?.isPrivate ? 'Yes' : 'No';
 
 function deleteTask() {
   let taskId = id.value;
-  console.log("ID=" + taskId);
-  taskSummaryStore.deleteTask(taskId);
-  taskDetailsStore.deleteTask(taskId);
+  console.log("Deleted: ID=" + taskId);
+  // taskSummaryStore.deleteTask(taskId);
+  // taskDetailsStore.deleteTask(taskId);
 }
 
 const router = useRouter();
@@ -139,7 +148,8 @@ function addSubtask(subtask: subTask) {
         </div>
 
         <div v-if="taskDetail.security.delete">
-          <q-btn dense flat icon="delete" round/>
+
+          <q-btn dense flat icon="delete" round @click="deleteTask"/>
         </div>
         <div v-else>
           <q-btn dense disable flat icon="delete" round>
@@ -196,16 +206,16 @@ function addSubtask(subtask: subTask) {
           <div class="row justify-around q-gutter-sm">
             <div class="relative-position">
               <span class="chip-caption">Type</span>
-              <q-chip color="info" outline square>{{ taskDetail?.taskType.name }}</q-chip>
+              <q-chip color="info" outline square>{{ taskDetail?.taskTypeName }}</q-chip>
             </div>
             <div class="relative-position">
               <span class="chip-caption">Priority</span>
-              <q-chip color="amber" outline square>{{ taskDetail?.taskPriority.name }}</q-chip>
+              <q-chip color="amber" outline square>{{ taskDetail?.taskPriorityName }}</q-chip>
             </div>
             <div class="relative-position">
               <span class="chip-caption">Status</span>
-              <q-chip :color="taskDetail?.taskStatus.color" outline square>
-                {{ taskDetail?.taskStatus.name }}
+              <q-chip color="green" outline square>
+                {{ taskDetail?.taskStatusName }}
               </q-chip>
             </div>
           </div>
@@ -264,7 +274,7 @@ function addSubtask(subtask: subTask) {
               </q-item-section>
               <q-item-section>
                 <q-item-label caption>Owner</q-item-label>
-                <q-item-label description>{{ taskDetail?.taskOwner.name }}</q-item-label>
+                <q-item-label description>{{ taskDetail?.taskOwnerName }}</q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
@@ -300,7 +310,7 @@ function addSubtask(subtask: subTask) {
               <q-item-section>
                 <q-item-label caption>Regarding</q-item-label>
                 <q-item-label description>{{
-                    taskDetail?.regardingType + ': ' + taskDetail?.regardingValue
+                    taskDetail?.parent.type.name + ": "+taskDetail?.parent.value.name
                   }}
                 </q-item-label>
               </q-item-section>
@@ -317,14 +327,15 @@ function addSubtask(subtask: subTask) {
         </q-toolbar>
         <q-list bordered class="rounded-borders">
           <q-item-label caption class="q-ma-sm">Pending</q-item-label>
+<!--          <pre>{{taskDetail?.subTasks}}</pre>-->
 
-          <div v-for="subtask in taskDetail?.subtasks" :key="subtask.id">
+          <div v-for="subtask in taskDetail?.subTasks" :key="subtask.id">
             <subtask-item v-if="!subtask.isCompleted" :subtask="subtask"/>
           </div>
           <q-separator spaced/>
           <q-item-label caption class="q-ma-sm">Completed</q-item-label>
 
-          <div v-for="subtask in taskDetail?.subtasks" :key="subtask.id">
+          <div v-for="subtask in taskDetail?.subTasks" :key="subtask.id">
             <subtask-item v-if="subtask.isCompleted" :subtask="subtask"/>
           </div>
         </q-list>
@@ -336,8 +347,8 @@ function addSubtask(subtask: subTask) {
           <q-fab-action :to="{
                   name: 'newTask',
                   params: {
-                    id: -1,
-                  },
+                    id: -1
+                  }
                 }" color="secondary" icon="add" label="Create New Task"/>
         </q-fab>
       </q-page-sticky>

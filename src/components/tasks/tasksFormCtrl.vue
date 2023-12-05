@@ -79,7 +79,7 @@ function handleReminderText(reminderText: string) {
 }
 
 function regardingReceived(regardings: any) {
-  console.log("empty")
+  console.log("empty");
 }
 
 const repeatString = ref('Does not repeat');
