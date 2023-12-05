@@ -1,6 +1,6 @@
 {
   "uuid": "c59da90f-e64f-4cfb-87c6-3fc58cfc5d76",
-  "lastMigration": 29,
+  "lastMigration": 32,
   "name": "Oc",
   "endpointPrefix": "",
   "latency": 0,
@@ -10,7 +10,6 @@
     {
       "uuid": "17495988-91b8-493e-b85a-c301b08a1ae3",
       "name": "Contacts",
-      "collapsed": true,
       "children": [
         {
           "type": "route",
@@ -29,7 +28,6 @@
     {
       "uuid": "494a50ba-7311-4e97-bf96-e31be816bc10",
       "name": "General",
-      "collapsed": false,
       "children": [
         {
           "type": "route",
@@ -64,7 +62,6 @@
     {
       "uuid": "91b3e99b-2b50-4659-84d3-e5ec20ef5dd7",
       "name": "Events",
-      "collapsed": true,
       "children": [
         {
           "type": "route",
@@ -87,7 +84,6 @@
     {
       "uuid": "0b406ada-d4d4-4e17-bc96-7beb7f464fd4",
       "name": "Tasks",
-      "collapsed": true,
       "children": [
         {
           "type": "route",
@@ -106,7 +102,6 @@
     {
       "uuid": "761a5bb4-1f22-42b9-8d73-676783a11ca1",
       "name": "Expense",
-      "collapsed": false,
       "children": [
         {
           "type": "route",
@@ -129,7 +124,6 @@
     {
       "uuid": "da26fbec-2754-4b9c-b968-b4e51dcef1ee",
       "name": "Timesheet",
-      "collapsed": true,
       "children": [
         {
           "type": "route",
@@ -152,7 +146,6 @@
     {
       "uuid": "4fb3fd2a-ad95-4df4-b773-6ec7ffab8c33",
       "name": "Notes",
-      "collapsed": true,
       "children": [
         {
           "type": "route",
@@ -193,10 +186,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -222,7 +215,8 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         },
         {
           "uuid": "e6d8ed24-e762-46ea-9299-4f28a8a44c72",
@@ -240,10 +234,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": false,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -269,7 +263,8 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         },
         {
           "uuid": "c60591ee-190f-4bec-8752-569e4ec24155",
@@ -287,10 +282,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": false,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -316,10 +311,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -345,10 +340,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -374,10 +369,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -403,10 +398,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -432,10 +427,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -461,10 +456,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -490,10 +485,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -519,10 +514,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -548,10 +543,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -577,10 +572,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -606,10 +601,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -635,10 +630,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -664,10 +659,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -693,10 +688,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -722,10 +717,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -751,10 +746,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -780,10 +775,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -809,10 +804,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -838,10 +833,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -867,10 +862,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -896,10 +891,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -925,10 +920,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -954,10 +949,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -983,10 +978,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -1012,10 +1007,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     },
     {
@@ -1041,7 +1036,8 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         },
         {
           "uuid": "42248736-7528-4077-9e75-ad428ac2b067",
@@ -1059,10 +1055,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": false,
-          "crudKey": "id"
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "enabled": true,
       "responseMode": null
     }
   ],
@@ -1213,6 +1209,14 @@
       "name": "expense-summary-new",
       "documentation": "",
       "value": "[\r\n  {\r\n    \"createdByUserName\": \"Nagesh Kulkarni\",\r\n    \"employeeId\": \"OCHYD-005\",\r\n    \"id\": \"T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1\",\r\n    \"status\": \"Saved\",\r\n    \"totalAmount\": \"255.00\",\r\n    \"fromDate\": \"2023-11-20T00:00:00+05:30\"\r\n  },\r\n  {\r\n    \"createdByUserName\": \"Nagesh Kulkarni\",\r\n    \"employeeId\": \"OCHYD-005\",\r\n    \"id\": \"T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2\",\r\n    \"status\": \"Pending\",\r\n    \"totalAmount\": \"9999.00\",\r\n    \"fromDate\": \"2023-09-25T00:00:00+05:30\"\r\n  },\r\n  {\r\n    \"createdByUserName\": \"Nagesh Kulkarni\",\r\n    \"employeeId\": \"OCHYD-005\",\r\n    \"id\": \"T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3\",\r\n    \"status\": \"Approved\",\r\n    \"totalAmount\": \"10000.00\",\r\n    \"fromDate\": \"2023-10-23T00:00:00+05:30\"\r\n  },\r\n  {\r\n    \"createdByUserName\": \"Nagesh Kulkarni\",\r\n    \"employeeId\": \"OCHYD-005\",\r\n    \"id\": \"T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4\",\r\n    \"status\": \"Rejected\",\r\n    \"totalAmount\": \"12000.00\",\r\n    \"fromDate\": \"2023-10-09T00:00:00+05:30\"\r\n  }\r\n]\r\n"
+    },
+    {
+      "uuid": "b54232f1-d5ba-4bcf-94df-5d67fd952799",
+      "id": "lciw",
+      "name": "task-detail-new",
+      "documentation": "",
+      "value": "{\r\n    \"actualDuration\": 0.0,\r\n    \"completionDate\": null,\r\n    \"description\": \"email address: dswope@pmsolutions.com\",\r\n    \"dueDate\": \"2022-09-11T18:30:00Z\",\r\n    \"estimatedDuration\": 0.0,\r\n    \"isLock\": false,\r\n    \"isPrivate\": false,\r\n    \"parent\": {\r\n        \"type\": {\r\n            \"id\": \"28\",\r\n            \"name\": \"Project\"\r\n        },\r\n        \"value\": {\r\n            \"id\": \"W6YVXB9R4GBCWHA4EM4X6ZFFCB9E2Y9SBDYM6LQ\",\r\n            \"name\": \" General\"\r\n        }\r\n    },\r\n    \"id\": \"TJCR7UD4G2GE789RN6KR6KUVT2GX3GDDB4YM6LQ\",\r\n    \"startDate\": \"0001-01-01T00:00:00Z\",\r\n    \"subject\": \"Create a test account for Dawn Swope to test QB export using IIF file\",\r\n    \"taskOwnerName\": \"Rao, Narsimha\",\r\n    \"taskOwnerSid\": \"ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ\",\r\n    \"taskPriorityName\": \"Medium\",\r\n    \"taskPriorityId\": 0,\r\n    \"taskStatusName\": \"Completed\",\r\n    \"taskStatusId\": 67110,\r\n    \"taskTypeName\": \"To Do\",\r\n    \"taskTypeId\": 6,\r\n    \"assignees\": [\r\n        {\r\n            \"id\": \"CCGYWRS3NABEW2HRHC5Q\",\r\n            \"name\": \"Dutta, SK\"\r\n        },\r\n        {\r\n            \"id\": \"ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ\",\r\n            \"name\": \"Rao, Narsimha\"\r\n        }\r\n    ],\r\n    \"tags\": [\r\n        {\r\n            \"id\": \"7339\",\r\n            \"name\": \"testing\"\r\n        }\r\n    ],\r\n    \"createdByUserSid\": \"ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ\",\r\n    \"createdDate\": \"0001-01-01T00:00:00Z\",\r\n    \"modifiedByUserSid\": \"ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ\",\r\n    \"modifiedDate\": \"2022-10-07T07:33:36Z\",\r\n    \"subTasks\": [\r\n        {\r\n            \"id\": \"675\",\r\n            \"parentId\": \"TJCR7UD4G2GE789RN6KR6KUVT2GX3GDDB4YM6LQ\",\r\n            \"title\": \"Enhance the look and feel of Notes Application\",\r\n            \"description\": \"Enhance the look and feel of Notes Application\",\r\n            \"assignee\": {\r\n                \"id\": \"ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ\",\r\n                \"name\": \"Narsimha Rao\"\r\n            },\r\n            \"isCompleted\": false,\r\n            \"completedDate\": \"2023-10-30T13:47:59Z\"\r\n        }\r\n    ],\r\n    \"security\": {\r\n        \"read\": true,\r\n        \"write\": false,\r\n        \"append\": false,\r\n        \"delete\": false\r\n    }\r\n}"
     }
-  ]
+  ],
+  "callbacks": []
 }
