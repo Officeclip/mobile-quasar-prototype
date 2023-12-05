@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import {computed, ref} from 'vue';
-import {useRegardingStore} from 'stores/regarding/regardingStore';
-import {regardingItem} from "src/models/general/regardingItem";
+import { computed, ref } from 'vue';
+import { useRegardingStore } from 'stores/regarding/regardingStore';
+import { regardingItem } from 'src/models/general/regardingItem';
 
 const regardingType = ref('');
 
@@ -81,7 +81,7 @@ async function filterItems(
         </q-select>
       </q-item-section>
       <q-item-section side>
-        <q-icon color="primary" name="switch_access_shortcut"/>
+        <q-icon color="primary" name="switch_access_shortcut" />
       </q-item-section>
     </q-item>
   </q-list>
