@@ -106,7 +106,8 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       //     : `${Constants.endPointUrl}/expense-summary`;
       const callStr = this.getInOutboxList(status);
       try {
-        const response = await axios.get(callStr ?? '');
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr ?? '');
         this.expenseSummary = response.data;
       } catch (error) {
         console.error(error);
