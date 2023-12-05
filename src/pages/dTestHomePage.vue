@@ -56,7 +56,6 @@ onBeforeMount(async () => {
     //await sessionStore.getSession();
     //homeIconStore.getHomeIcons();
     await profileListsStore.getProfileLists();
-    //homeIconStore.getOrganizationItems();
   } catch (error) {
     $q.dialog({
       title: 'Alert',
