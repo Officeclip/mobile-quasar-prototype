@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
+import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 
 const timesheetStatus = ref('Inbox');
 const title = ref(timesheetStatus.value);
@@ -20,17 +21,17 @@ watch([timesheetStatus], ([newModel]) => {
   title.value = newModel;
 });
 
-function getStatusColor(status: string) {
-  if (status == 'Approved') {
-    return 'status-approved';
-  }
-  if (status == 'Pending') {
-    return 'status-pending';
-  }
-  if (status == 'Rejected') {
-    return 'status-rejected';
-  }
-}
+// function getStatusColor(status: string) {
+//   if (status == 'Approved') {
+//     return 'status-approved';
+//   }
+//   if (status == 'Pending') {
+//     return 'status-pending';
+//   }
+//   if (status == 'Rejected') {
+//     return 'status-rejected';
+//   }
+// }
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -96,7 +97,10 @@ function getStatusColor(status: string) {
               </q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-chip dense :class="getStatusColor(item.status)">
+              <q-chip
+                dense
+                :color="getExpenseOrTimesheetStatusColor(item.status)"
+              >
                 <q-item-label caption>{{ item.status }}</q-item-label>
               </q-chip>
             </q-item-section>

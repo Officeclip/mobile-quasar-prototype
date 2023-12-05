@@ -9,7 +9,8 @@ import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
 import { useReminderDataStore } from 'stores/reminder/reminderData';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import RegardingAll from '../../components/general/RegardingAll.vue';
+// import RegardingAll from '../../components/general/RegardingAll.vue';
+import Regarding from '../general/regardingComponent.vue';
 
 // eslint-disable-next-line vue/no-dupe-keys
 const props = defineProps(['event']);
@@ -543,7 +544,8 @@ function isValidURL(url: string) {
       </q-item> -->
       <!-- <pre>{{ event.attachments }}</pre> -->
       <div>
-        <RegardingAll />
+        <!-- <RegardingAll /> -->
+        <Regarding />
       </div>
 
       <q-item>

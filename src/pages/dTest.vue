@@ -14,7 +14,7 @@ const tokenStore = useTokenStore();
 const route1 = useRouter();
 
 const login: Ref<Login> = ref({
-  userName: 'nagesh@officeclip.com',
+  userName: 'ocdemo@officeclip.com',
   password: 'qa123',
 });
 
@@ -44,15 +44,15 @@ async function onSubmit(e: any) {
     await tokenStore.validateLogin(login.value);
     await sessionStore.getSession();
     //debugger;
-    const token = tokenStore.Token;
-    if (token) {
-      Constants.saveAuthorizationTokenInLocalStorage(
-        token.token,
-        token.expirationUnixEpoch
-      );
-    } else {
-      throw new Error('Could not get the token');
-    }
+    // const token = tokenStore.Token;
+    // if (token) {
+    //   Constants.saveAuthorizationTokenInLocalStorage(
+    //     token.token,
+    //     token.expirationUnixEpoch
+    //   );
+    // } else {
+    //   throw new Error('Could not get the token');
+    // }
     route1.push('/dTestHomePage');
   } catch (error) {
     $q.notify({

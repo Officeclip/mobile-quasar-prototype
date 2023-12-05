@@ -38,11 +38,11 @@ export class Constants {
 
   static setupAxiosAuthorizationHeader(instance: AxiosInstance, token: string) {
     //debugger;
+    let tokenValue = '';
     if (LocalStorage.has(token)) {
-      instance.defaults.headers.common[token] = String(
-        LocalStorage.getItem(token)
-      );
+      tokenValue = String(LocalStorage.getItem(token)).split(',', 2)[0];
     }
+    instance.defaults.headers.common[token] = tokenValue;
   }
 
   static saveAuthorizationTokenInLocalStorage(

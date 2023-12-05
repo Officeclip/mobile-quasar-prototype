@@ -30,6 +30,7 @@ const model = ref('OfficeClip Work');
 // });
 
 const filteredHomeIcons = computed(() => {
+  console.log(`filteredHomeIcons computed(): ${session.value.applicationIds}`);
   return homeIconStore.homeIcons.filter((item) => {
     return session.value.applicationIds.includes(item.id);
   });

@@ -79,7 +79,7 @@ export function getPriorityColor(priority: string) {
   }
 }
 
-export function getExpenseStatusColor(status: string) {
+export function getExpenseOrTimesheetStatusColor(status: string) {
   switch (status) {
     case 'Approved':
       return 'green-2';
