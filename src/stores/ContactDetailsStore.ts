@@ -53,7 +53,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
     async getContactDetails(id: number) {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/contact-details?id=${id}`
+          `${Constants.endPointUrl}/contact-details/${id}`
         );
         if (response.data && response.data.length > 0) {
           this.contactDetails = response.data[0];

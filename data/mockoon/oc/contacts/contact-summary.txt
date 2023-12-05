@@ -1,4 +1,12 @@
 [
+  {
+      "id": 4,
+      "first_name": "Cloe",
+      "last_name": "Sich",
+      "email": "csich3@google.pl",
+      "phone": "714-364-3586",
+      "thumbnail": "https://robohash.org/4.png?size=50x50"
+    },
   {{#repeat 50}}
     {
       "id": "{{faker 'string.alphanumeric' 10}}",
