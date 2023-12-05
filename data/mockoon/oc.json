@@ -58,6 +58,10 @@
         {
           "type": "route",
           "uuid": "272cdf53-40b3-49ea-aa1d-2bb5d7d054bd"
+        },
+        {
+          "type": "route",
+          "uuid": "9ca1440e-4d4e-4063-a9a3-afce86fed369"
         }
       ]
     },
@@ -87,7 +91,7 @@
     {
       "uuid": "0b406ada-d4d4-4e17-bc96-7beb7f464fd4",
       "name": "Tasks",
-      "collapsed": false,
+      "collapsed": true,
       "children": [
         {
           "type": "route",
@@ -125,7 +129,7 @@
     {
       "uuid": "da26fbec-2754-4b9c-b968-b4e51dcef1ee",
       "name": "Timesheet",
-      "collapsed": true,
+      "collapsed": false,
       "children": [
         {
           "type": "route",
@@ -1001,6 +1005,35 @@
           "headers": [],
           "bodyType": "FILE",
           "filePath": "oc\\general\\profile-lists.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "9ca1440e-4d4e-4063-a9a3-afce86fed369",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "user-summary",
+      "responses": [
+        {
+          "uuid": "cba676b6-1437-4dab-a989-d2ba92ef06cc",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\general\\user-summary.json",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [],
