@@ -115,7 +115,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       await this.editTask(<taskDetails>this.taskDetail);
     },
 
-    async deleteSubtask(subtaskId: number) {
+    async deleteSubtask(subtaskId: string) {
       const modifiedSubtasks = this.taskDetail?.subTasks.filter((s) => {
         return s.id != subtaskId;
       });
