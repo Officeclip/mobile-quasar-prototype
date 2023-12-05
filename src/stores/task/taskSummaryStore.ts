@@ -268,11 +268,10 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     },
 
     async getTaskSummaryByBatch(parentObjectId: number, parentObjectServiceType: number, limit: number, page: number) {
-      //FIXME: Fix issue where tasks lists start again after reaching end
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
           ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&_limit=${limit}&_page=${page}`
-          : `${Constants.endPointUrl}/task-summary?size=${limit}&page=${page}`;
+          : `${Constants.endPointUrl}/task-summary?_limit=${limit}&_page=${page}`;
       try {
         const res = await axios.get(callStr);
         const response = res.data.filter((task: taskSummary) => {

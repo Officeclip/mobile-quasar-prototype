@@ -13,7 +13,9 @@ import Regarding from "components/general/regardingComponent.vue";
 const props = defineProps<{
   task: taskDetails
 }>();
+
 const userSummaryStore = useUserSummaryStore();
+const taskListsStore = useTaskListsStore();
 
 
 const isPrivate = ref('');
@@ -41,7 +43,6 @@ const formattedStartDate2 = startDate.value ? formattedStartDate : startDate;
 
 isPrivate.value = props.task.isPrivate ? 'Yes' : 'No';
 
-const taskListsStore = useTaskListsStore();
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
   userSummaryStore.getUserSummaries();
@@ -246,7 +247,7 @@ async function filterTagFn(val: string, update: any, abort: any) {
           </template>
         </q-select>
 
-        <Regarding/>
+        <Regarding :regarding-parents="taskListsStore.RegardingParent"/>
 
 
         <q-item v-ripple clickable @click="recurrenceDialogOpened = true">

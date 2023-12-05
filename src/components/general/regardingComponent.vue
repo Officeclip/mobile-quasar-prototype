@@ -1,7 +1,12 @@
 <script lang="ts" setup>
-import {computed, ref} from 'vue';
+import {computed, ref, watch} from 'vue';
 import {useRegardingStore} from 'stores/regarding/regardingStore';
 import {regardingItem} from "src/models/general/regardingItem";
+
+
+const props = defineProps<{
+  regardingParents:any
+}>();
 
 const regardingType = ref('');
 
@@ -9,16 +14,24 @@ const regardingStore = useRegardingStore();
 regardingStore.getMetaTypes();
 
 const metaTypeOptions = computed(() => {
-  return regardingStore.MetaTypes;
+  // return regardingStore.MetaTypes;
+  return props.regardingParents;
 });
-//disabled regarding contacts unless select the option from regarding types
 
-const disabled = computed(() => {
-  return regardingType.value == '';
-});
+//disabled regarding contacts unless select the option from regarding types
 
 const regardingItems = ref([] as regardingItem[]);
 const selectedRegItem = ref(null);
+
+function emitRegarding(){
+  console.log(regardingType.value);
+  console.log(selectedRegItem.value);
+}
+
+watch(selectedRegItem, (newValue, oldValue) => {
+  // This function will be called whenever selectedRegItem changes
+  emitRegarding();
+});
 
 async function filterItems(
   val: string,
@@ -31,17 +44,18 @@ async function filterItems(
   } else if (val.length === 2) {
     regardingItems.value = [] as regardingItem[];
     await regardingStore.getRegardingItemsThatMatch(val, regardingType.value);
-    regardingItems.value = regardingStore.regardingContacts;
+    regardingItems.value = regardingStore.regardingItems;
   }
 
   update(() => {
     console.log('update');
     const needle = val.toLowerCase();
-    regardingItems.value = regardingStore.regardingContacts.filter(
+    regardingItems.value = regardingStore.regardingItems.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
   });
 }
+
 </script>
 
 <template>
@@ -53,7 +67,6 @@ async function filterItems(
           v-model="regardingType"
           :options="metaTypeOptions"
           dense
-          emit-value
           label="Regarding"
           map-options
           option-label="name"
@@ -63,11 +76,9 @@ async function filterItems(
       <q-item-section class="q-mr-sm">
         <q-select
           v-model="selectedRegItem"
-          :disable="disabled"
-          :option-disable="disabled"
+          :disable="regardingType==''"
           :options="regardingItems"
           dense
-          multiple
           option-label="name"
           option-value="id"
           use-input
@@ -79,9 +90,6 @@ async function filterItems(
             </q-item>
           </template>
         </q-select>
-      </q-item-section>
-      <q-item-section side>
-        <q-icon color="primary" name="switch_access_shortcut"/>
       </q-item-section>
     </q-item>
   </q-list>

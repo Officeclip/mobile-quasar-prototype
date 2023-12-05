@@ -1,5 +1,6 @@
 export interface taskLists {
   taskType: taskType[];
+  regardingParentTypes: regardingParent[];
   priority: taskPriority[];
   status: taskStatus[];
   tags: tag[];
@@ -10,7 +11,10 @@ export interface taskType {
   id: string;
   name: string;
 }
-
+export interface regardingParent {
+  id: string;
+  name: string;
+}
 export interface taskPriority {
   id: string;
   name: string;
