@@ -88,14 +88,20 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     },
 
     getInOutboxList(status: string) {
+      let completeUrl = '';
       switch (status) {
         case 'Inbox':
-          return `${Constants.endPointUrl}/expense-summary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
+          completeUrl = `${Constants.endPointUrl}/expense-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
+          break;
         case 'Outbox':
-          return `${Constants.endPointUrl}/expense-summary?status=Pending`;
+          completeUrl = `${Constants.endPointUrl}/expense-summary?status=None&status=Pending`;
+          break;
         case 'Archived':
-          return `${Constants.endPointUrl}/expense-summary?status=Saved&&status=Approved&&status=Rejected`;
+          completeUrl = `${Constants.endPointUrl}/expense-summary?status=Saved&status=Approved&status=Rejected`;
+          break;
       }
+      console.log(`getInOutboxList(): completeUrl - ${completeUrl}`);
+      return completeUrl;
     },
 
     // getting the expenses by status
