@@ -775,7 +775,7 @@
           "label": "",
           "headers": [],
           "bodyType": "FILE",
-          "filePath": "oc\\timesheet\\timesheet-summary.json",
+          "filePath": "oc\\timesheet\\timesheet-summary.txt",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [],

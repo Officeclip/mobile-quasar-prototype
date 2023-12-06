@@ -2930,7 +2930,7 @@
       "createdByUserName": "Sudhakar Gundu",
       "employeeId": "OCHYD-003",
       "id": "1",
-      "status": "Saved",
+      "status": "Submitted",
       "totalHours": 14.75,
       "fromDate": "2023-06-19T10:43:32.203Z",
       "readOnly": false
@@ -2942,6 +2942,15 @@
       "status": "Saved",
       "totalHours": 44.08,
       "fromDate": "2023-06-05T10:43:32.203Z",
+      "readOnly": true
+    },
+    {
+      "createdByUserName": "Sudhakar Gundu",
+      "employeeId": "OCHYD-003",
+      "id": "10",
+      "status": "Pending",
+      "totalHours": 22.25,
+      "fromDate": "2023-02-24T10:43:32.203Z",
       "readOnly": true
     },
     {

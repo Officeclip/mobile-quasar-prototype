@@ -50,7 +50,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         case 'Inbox':
           return `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
         case 'Outbox':
-          return `${Constants.endPointUrl}/timesheet-summary?status=Pending`;
+          return `${Constants.endPointUrl}/timesheet-summary?status=None&status=Pending`;
         case 'Archived':
           return `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Rejected`;
       }
