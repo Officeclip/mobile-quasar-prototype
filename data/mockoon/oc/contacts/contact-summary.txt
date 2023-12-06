@@ -1,3 +1,8 @@
+{{#if (queryParamRaw 'pageSize')}}
+  {{setVar 'pageSize' (subtract (parseInt (queryParamRaw 'pageSize')) 1)}}
+{{else}}
+  {{setVar 'pageSize' (parseInt 50)}}
+{{/if}}
 [
   {
       "id": 4,
@@ -7,7 +12,7 @@
       "phone": "714-364-3586",
       "thumbnail": "https://robohash.org/4.png?size=50x50"
     },
-  {{#repeat 50}}
+  {{#repeat @pageSize}}
     {
       "id": "{{faker 'string.alphanumeric' 10}}",
       "email": "{{faker 'internet.email'}}",
