@@ -48,11 +48,11 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     getInOutboxList(status: string) {
       switch (status) {
         case 'Inbox':
-          return `${Constants.endPointUrl}/timesheet-summary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
+          return `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
         case 'Outbox':
           return `${Constants.endPointUrl}/timesheet-summary?status=Pending`;
         case 'Archived':
-          return `${Constants.endPointUrl}/timesheet-summary?status=Saved&&status=Approved&&status=Rejected`;
+          return `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Rejected`;
       }
     },
     // getting the timesheets by status
