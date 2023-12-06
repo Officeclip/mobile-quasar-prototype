@@ -39,7 +39,6 @@ function markTaskAsOpen() {
     :to="{ name: 'taskDetails', params: { id: task.id }}"
     class="TaskCard"
   >
-
     <q-item-section class="TaskDetails">
       <q-item-label class="TaskTitle">
         {{ task.subject }}
