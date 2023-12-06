@@ -139,6 +139,10 @@
         },
         {
           "type": "route",
+          "uuid": "6344d287-4b29-4330-b365-f16a6cc6339f"
+        },
+        {
+          "type": "route",
           "uuid": "068c62d0-e42a-48c5-88b2-efe12baa2843"
         },
         {
@@ -785,6 +789,25 @@
           "default": true,
           "crudKey": "id",
           "callbacks": []
+        },
+        {
+          "uuid": "fdfa2225-f3ae-4767-8c8a-77824a80cfe3",
+          "body": "{\n  \"status\": 500,\n  \"subStatus\": 0,\n  \"description\": \"Internal Server Error\",\n  \"message\": \"Database down\",\n  \"succeeded\": false\n}",
+          "latency": 0,
+          "statusCode": 500,
+          "label": "Internal server error",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
       "responseMode": null
@@ -1115,6 +1138,35 @@
           "bodyType": "DATABUCKET",
           "filePath": "",
           "databucketID": "ljhc",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "6344d287-4b29-4330-b365-f16a6cc6339f",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "timesheet-details",
+      "responses": [
+        {
+          "uuid": "705abb87-5c32-45c8-9e36-a6ffd79a0350",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\timesheet\\timesheet-detail.json",
+          "databucketID": "",
           "sendFileAsBody": false,
           "rules": [],
           "rulesOperator": "OR",
