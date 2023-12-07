@@ -161,7 +161,7 @@ async function filterTagFn(val: string, update: any, abort: any) {
         </q-input>
 
         <q-select
-          v-model="task.taskType"
+          v-model="task.taskTypeName"
           :options="taskListsStore.TaskTypes"
           label="Task Type"
           map-options
@@ -170,7 +170,7 @@ async function filterTagFn(val: string, update: any, abort: any) {
         />
 
         <q-select
-          v-model="task.taskPriority"
+          v-model="task.taskPriorityName"
           :options="taskListsStore.TaskPriorities"
           label="Priority"
           map-options
@@ -179,7 +179,7 @@ async function filterTagFn(val: string, update: any, abort: any) {
         />
 
         <q-select
-          v-model="task.taskStatus"
+          v-model="task.taskStatusName"
           :options="taskListsStore.TaskStatuses"
           label="Status"
           map-options
@@ -192,7 +192,7 @@ async function filterTagFn(val: string, update: any, abort: any) {
         />
 
         <q-select
-          v-model="task.taskOwner"
+          v-model="task.taskOwnerName"
           :options="shownOptions"
           clearable
           emit-value
@@ -250,7 +250,7 @@ async function filterTagFn(val: string, update: any, abort: any) {
           </template>
         </q-select>
 
-        <Regarding :regarding-parents="taskListsStore.RegardingParent" @regarding-generated="regardingReceived"/>
+        <Regarding :regarding-parents="taskListsStore.RegardingParent" @regarding-generated="regardingReceived" v-model="task.parent"/>
 
 
         <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
