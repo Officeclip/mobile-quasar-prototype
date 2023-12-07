@@ -5,11 +5,28 @@ import {regardingItem} from "src/models/general/regardingItem";
 
 
 const props = defineProps<{
+  modelValue:any,
   regardingParents:any
 }>();
-const emit = defineEmits(['regarding-generated'])
 
-const regardingType = ref('');
+
+const regardingType = ref(props.modelValue.type || '');
+const selectedRegItem = ref(props.modelValue.value || null);
+
+const updateModelValue = () => {
+  const regarding = {
+    type: regardingType.value,
+    value: selectedRegItem.value
+  };
+  emit('update:modelValue', regarding);
+};
+
+watch(regardingType, updateModelValue);
+watch(selectedRegItem, updateModelValue);
+
+const emit = defineEmits(['regarding-generated','update:modelValue'])
+
+// const regardingType = ref('');
 
 const regardingStore = useRegardingStore();
 regardingStore.getMetaTypes();
@@ -22,7 +39,7 @@ const metaTypeOptions = computed(() => {
 //disabled regarding contacts unless select the option from regarding types
 
 const regardingItems = ref([] as regardingItem[]);
-const selectedRegItem = ref(null);
+// const selectedRegItem = ref(null);
 
 function emitRegarding(){
   console.log(regardingType.value);

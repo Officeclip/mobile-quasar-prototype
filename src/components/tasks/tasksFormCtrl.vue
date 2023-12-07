@@ -79,7 +79,7 @@ function handleReminderText(reminderText: string) {
 }
 
 function regardingReceived(regardings: any) {
-  console.log("empty");
+  console.log(regardings);
 }
 
 const repeatString = ref('Does not repeat');
@@ -250,8 +250,8 @@ async function filterTagFn(val: string, update: any, abort: any) {
           </template>
         </q-select>
 
-        <Regarding :regarding-parents="taskListsStore.RegardingParent" @regarding-generated="regardingReceived" v-model="task.parent"/>
-
+<!--        <Regarding :regarding-parents="taskListsStore.RegardingParent" @regarding-generated="regardingReceived"/>-->
+        <Regarding v-model="task.parent" :regarding-parents="taskListsStore.RegardingParent"/>
 
         <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
           <q-item-section avatar>
