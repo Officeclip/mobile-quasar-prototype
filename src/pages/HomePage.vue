@@ -5,62 +5,68 @@
 
 <script lang="ts" setup>
 import { computed, ComputedRef, onBeforeMount, ref } from 'vue';
-import { useHomeIconsStore } from 'stores/HomeIconStore';
+//import { useHomeIconsStore } from 'stores/HomeIconStore';
 import { useRouter } from 'vue-router';
 import { useSessionStore } from 'stores/SessionStore';
 import { Session } from '../models/session';
-import { useUserProfileStore } from 'stores/UserProfileStore';
-import { UserProfile } from 'src/models/UserProfile';
+import { useProfileListsStore } from 'stores/profileListsStore';
+import { profileLists } from 'src/models/general/profileLists';
+import { useQuasar } from 'quasar';
 
 const router = useRouter();
-const homeIconStore = useHomeIconsStore();
+//const homeIconStore = useHomeIconsStore();
 const sessionStore = useSessionStore();
-const userProfileStore = useUserProfileStore();
-// const userIcon = ref('');
-// const userName = ref('');
-// const userEmail = ref('');
-//const homeIcons = ref<HomeIcon[]>([]);
-//const organizationItems = ref<string[]>([]);
-// const model = ref(null);
+const profileListsStore = useProfileListsStore();
 
 const model = ref('OfficeClip Work');
-
-// const homeIcons = computed(() => {
-//   return homeIconStore.HomeIcons;
-// });
+const $q = useQuasar();
 
 const filteredHomeIcons = computed(() => {
-  console.log(`filteredHomeIcons computed(): ${session.value.applicationIds}`);
-  return homeIconStore.homeIcons.filter((item) => {
-    return session.value.applicationIds.includes(item.id);
-  });
+  console.log('filteredHomeIcons computed', sessionStore.getHomeIcons());
+  return sessionStore.getHomeIcons();
 });
+
+function getOrgApplications() {
+  console.log('getOrgApplications()', sessionStore.getHomeIcons());
+  sessionStore.getHomeIcons();
+}
 
 const session: ComputedRef<Session> = computed(() => {
   console.log('Sessions stores', sessionStore.Session);
   return sessionStore.Session;
 });
 
-const userProfile: ComputedRef<UserProfile> = computed(() => {
-  console.log('UserProfile store', userProfileStore.UserProfile);
-  return userProfileStore.UserProfile;
+const userGeneralProfile = computed(() => {
+  console.log('UserProfile computed', profileListsStore.ProfilesUserGeneral);
+  return profileListsStore.ProfilesUserGeneral;
+});
+
+const userIcon = computed(() => {
+  return profileListsStore.ProfilesUserGeneral.userIcon;
 });
 
 const organizationItems = computed(() => {
-  return homeIconStore.OrganizationItems;
+  console.log('organizationItems store', profileListsStore.Organizations);
+  return profileListsStore.Organizations;
 });
 
-onBeforeMount(() => {
-  // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
-  sessionStore.getSession();
-  homeIconStore.getHomeIcons();
-  userProfileStore.getUserProfiles();
-  homeIconStore.getOrganizationItems();
+onBeforeMount(async () => {
+  try {
+    // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
+    //await sessionStore.getSession();
+    //homeIconStore.getHomeIcons();
+    await profileListsStore.getProfileLists();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('onBeforeMount OK button pressed');
+      await router.push({ path: '/LoginPage' });
+      router.go(0);
+    });
+  }
 });
-
-function getOrgApplications() {
-  homeIconStore.getHomeIcons();
-}
 
 const leftDrawerOpen = ref(false);
 
@@ -86,42 +92,22 @@ function goToApp(url: string) {
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
+        <q-btn aria-label="Menu" dense flat icon="menu" round @click="toggleLeftDrawer" />
         <q-toolbar-title> OfficeClip Suite</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <!-- see: https://forum.quasar-framework.org/topic/2911/width-attribute-on-q-layout-drawer-giving-error-in-browser-console/3 -->
-    <q-drawer
-      v-model="leftDrawerOpen"
-      :width="240"
-      bordered
-      class="bg-grey-2"
-      show-if-above
-    >
-      <q-scroll-area
-        style="
+    <q-drawer v-model="leftDrawerOpen" :width="240" bordered class="bg-grey-2" show-if-above>
+      <q-scroll-area style="
           height: calc(100% - 150px);
           margin-top: 150px;
           border-right: 1px solid #ddd;
-        "
-      >
+        ">
         <q-list>
           <div v-for="item in filteredHomeIcons" :key="item.name">
             <q-item clickable @click="goToApp(item.url)">
               <q-item-section avatar>
-                <q-icon
-                  :class="getClass(item.url)"
-                  :color="getColor(item.url)"
-                  :name="item.icon"
-                  size="md"
-                ></q-icon>
+                <q-icon :class="getClass(item.url)" :color="getColor(item.url)" :name="item.icon" size="md"></q-icon>
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{ item.name }}</q-item-label>
@@ -130,14 +116,10 @@ function goToApp(url: string) {
           </div>
         </q-list>
       </q-scroll-area>
-      <q-img
-        :src="userProfile?.background"
-        class="absolute-top"
-        style="height: 150px"
-      >
+      <q-img src="https://cdn.quasar.dev/img/material.png" class="absolute-top" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar class="q-mb-sm" size="56px">
-            <img :src="userProfile?.userIcon" />
+            <img :src="userIcon" />
           </q-avatar>
           <div class="text-weight-bold">{{ session?.userName }}</div>
           <div>{{ session?.userEmail }}</div>
@@ -148,31 +130,16 @@ function goToApp(url: string) {
     <q-page-container>
       <q-page>
         <div class="q-pa-lg text-center">
-          <q-select
-            v-model="model"
-            :options="organizationItems"
-            label="Select Organization"
-            option-label="name"
-            outlined
-            @update:model-value="getOrgApplications"
-          />
+          <q-select v-model="model" :options="organizationItems" label="Select Organization" option-label="name" outlined
+            @update:model-value="getOrgApplications" />
         </div>
         <div>
           <div class="row">
-            <div
-              v-for="item in filteredHomeIcons"
-              :key="item.name"
-              class="col-4 q-pa-xl text-center itemsCenter"
-              style="height: 150px"
-            >
+            <div v-for="item in filteredHomeIcons" :key="item.name" class="col-4 q-pa-xl text-center itemsCenter"
+              style="height: 150px">
               <div>
-                <q-icon
-                  :class="getClass(item.url)"
-                  :color="getColor(item.url)"
-                  :name="item.icon"
-                  size="lg"
-                  @click="goToApp(item.url)"
-                ></q-icon>
+                <q-icon :class="getClass(item.url)" :color="getColor(item.url)" :name="item.icon" size="lg"
+                  @click="goToApp(item.url)"></q-icon>
                 <div>{{ item.name }}</div>
               </div>
             </div>

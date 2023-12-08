@@ -110,7 +110,8 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       //   status != ''
       //     ? `${Constants.endPointUrl}/expense-summary?status=${status}`
       //     : `${Constants.endPointUrl}/expense-summary`;
-      const callStr = this.getInOutboxList(status);
+      // const callStr = this.getInOutboxList(status);
+      const callStr = `${Constants.endPointUrl}/expense-summary?category=${status}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr ?? '');

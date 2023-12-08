@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, onBeforeMount, watch } from 'vue';
+import { ref, computed, onBeforeMount, watch, capitalize } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
-const timesheetStatus = ref('Inbox');
-const title = ref(timesheetStatus.value);
+const timesheetStatus = ref('inbox');
+const title = ref(capitalize(timesheetStatus.value));
 const $q = useQuasar();
 const router = useRouter();
 
@@ -40,7 +40,7 @@ const timesheetsAll = computed(() => {
 });
 watch([timesheetStatus], ([newModel]) => {
   timesheetsStore.getTimesheetsByStatus(String(newModel));
-  title.value = newModel;
+  title.value = capitalize(newModel);
 });
 
 // function getStatusColor(status: string) {
@@ -79,12 +79,12 @@ watch([timesheetStatus], ([newModel]) => {
         align="justify"
         switch-indicator
       >
-        <q-tab name="Inbox" label="Inbox" icon="inbox" class="text-orange">
+        <q-tab name="inbox" label="Inbox" icon="inbox" class="text-orange">
           <q-badge color="red" floating>2</q-badge>
         </q-tab>
-        <q-tab name="Outbox" label="Outbox" icon="outbox" class="text-cyan" />
+        <q-tab name="outbox" label="Outbox" icon="outbox" class="text-cyan" />
         <q-tab
-          name="Archived"
+          name="archived"
           label="Archived"
           icon="archive"
           class="text-red"
@@ -93,6 +93,7 @@ watch([timesheetStatus], ([newModel]) => {
     </q-footer>
     <q-page-container>
       <q-page>
+        <pre>{{ timesheetStatus }}</pre>
         <q-list v-for="item in timesheetsAll" :key="item.id">
           <q-item
             :to="{

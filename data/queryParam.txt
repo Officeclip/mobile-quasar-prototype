@@ -1,0 +1,7 @@
+All the query parameters:
+
+Expense Summary / Timesheet Summary
+
+.../expense-summary?category=inbox
+.../expense-summary?category=outbox
+.../expense-summary?category=archived
