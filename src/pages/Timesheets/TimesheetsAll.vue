@@ -6,7 +6,7 @@ import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
-const timesheetStatus = ref('Inbox');
+const timesheetStatus = ref('inbox');
 const title = ref(timesheetStatus.value);
 const $q = useQuasar();
 const router = useRouter();
@@ -79,13 +79,13 @@ watch([timesheetStatus], ([newModel]) => {
         align="justify"
         switch-indicator
       >
-        <q-tab name="Inbox" label="Inbox" icon="inbox" class="text-orange">
+        <q-tab name="inbox" label="inbox" icon="inbox" class="text-orange">
           <q-badge color="red" floating>2</q-badge>
         </q-tab>
-        <q-tab name="Outbox" label="Outbox" icon="outbox" class="text-cyan" />
+        <q-tab name="outbox" label="outbox" icon="outbox" class="text-cyan" />
         <q-tab
-          name="Archived"
-          label="Archived"
+          name="archived"
+          label="archived"
           icon="archive"
           class="text-red"
         />
