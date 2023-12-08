@@ -38,6 +38,11 @@ export interface taskDetails {
   modifiedDate: string;
   subTasks: subTask[];
   security: security;
+
+  remindTo: string,
+  remindBeforeMinutes: number,
+  repeatInfoText: string,
+  recurrenceRule: string
 }
 
 // The assignee interface remains the same

@@ -19,59 +19,52 @@ const id = ref<string | string[]>('0');
 const taskDetail: ComputedRef<taskDetails> = computed(() => {
   if (taskDetailsStore.TaskDetail) return taskDetailsStore.TaskDetail;
   else {
-    const emptyTaskDetail: taskDetails = {
-      id: 0,
-      subject: "No Subject",
+    const emptyTaskDetail:taskDetails = {
+      actualDuration: 0.0,
+      completionDate: '',
       description: "No Description",
-      createdDate: "Not Available",
-      startDate: "Not Available",
       dueDate: "Not Available",
-      modifiedDate: "Not Available",
-
-      assignees: [],
+      estimatedDuration: 0.0,
+      isLock: false,
       isPrivate: false,
-      taskStatus: {
-        id: "Not Available",
-        name: "Not Available",
+      parent: {
+        type: {
+          id: "",
+          name: ""
+        },
+        value: {
+          id: "",
+          name: ""
+        }
       },
-      parentObject: {
-        id: 0,
-        serviceType: 0,
-      },
-      taskOwner: {
-        name: "Not Available",
-        sid: 0,
-      },
-      taskPriority: {
-        id: "Not Available",
-        name: "Not Available",
-      },
-      taskType: {
-        id: "Not Available",
-        name: "Not Available",
+      id: "-1",
+      startDate: "Not Available",
+      subject: "No Subject",
+      taskOwnerName: "Not Available",
+      taskOwnerSid: "0",
+      taskPriorityName: "Not Available",
+      taskPriorityId: 0,
+      taskStatusName: "-1",
+      taskStatusId: 0,
+      taskTypeName: "Not Available",
+      taskTypeId: 0,
+      assignees: [],
+      tags: [],
+      createdByUserSid: "0",
+      createdDate: "Not Available",
+      modifiedByUserSid: "0",
+      modifiedDate: "Not Available",
+      subTasks: [],
+      security: {
+        read: false,
+        write: false,
+        append: false,
+        delete: false
       },
       remindTo: "Not Available",
       remindBeforeMinutes: 0,
       repeatInfoText: "Not Available",
-      recurrenceRule: "Not Available",
-      tags: [],
-      subtasks: [],
-      security: {
-        "read": false,
-        "write": false,
-        "append": false,
-        "delete": false
-      },
-      parent: {
-        type:{
-          id:'',
-          name:'',
-        },
-        value:{
-          id:'',
-          name:'',
-        }
-      }
+      recurrenceRule: "Not Available"
     };
     return emptyTaskDetail;
   }
@@ -81,7 +74,7 @@ onMounted(() => {
   const route = useRoute();
   // console.log('id=', route.params.id);
   id.value = route.params.id;
-  taskDetailsStore.getTask(Number(route.params.id));
+  taskDetailsStore.getTask((route.params.id.toString()));
   // taskListStore.getTaskLists();
 });
 

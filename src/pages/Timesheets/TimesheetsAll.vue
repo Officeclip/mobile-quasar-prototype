@@ -1,16 +1,38 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onBeforeMount, watch } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const timesheetStatus = ref('Inbox');
 const title = ref(timesheetStatus.value);
+const $q = useQuasar();
+const router = useRouter();
 
 const timesheetsStore = useTimesheetsStore();
 
-onMounted(() => {
-  timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
+// onMounted(() => {
+//   timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
+// });
+onBeforeMount(async () => {
+  try {
+    await timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('onBeforeMount OK button pressed');
+      await router.push({ path: '/homePage' });
+      router.go(0);
+    });
+    // $q.notify({
+    //   message: error as string,
+    //   color: 'red',
+    // });
+  }
 });
 
 const timesheetsAll = computed(() => {

@@ -29,7 +29,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
     },
 
-    async getTask(id: number) {
+    async getTask(id: number|string) {
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/task-summary?id=${id}`

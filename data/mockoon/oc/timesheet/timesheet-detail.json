@@ -1,0 +1,26 @@
+[
+  {
+    "accountName": "OfficeClip LLC",
+    "accountSid": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
+    "breakTime": "",
+    "checkInTime": "2021-02-20T00:30:00Z",
+    "checkOutTime": "2021-02-20T01:30:00Z",
+    "createdDate": "2020-11-04T05:46:05Z",
+    "createdUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
+    "description": "Meeting with team regarding the status what is done and what needs to be done.",
+    "isBillable": true,
+    "modifiedDate": "2020-11-04T05:46:05Z",
+    "modifiedUserSid": "D48MY4GRRCKLNUW34ARZYESEDM4VNBSFM89M6LQ",
+    "payrollName": "",
+    "payrollSid": "ECHTWHSFBJ9CW39XAC5Q",
+    "projectName": "Quasar mobile development",
+    "projectSid": "5JRMY8SR7JYVSHDRJC5Q",
+    "serviceItemName": "Meetings",
+    "serviceItemSid": "B6RC7MS4MCTYH7EV7MRENSSR26TBN4AC58JM6LQ",
+    "taskDate": "2020-11-02T18:30:00Z",
+    "timeDuration": 1,
+    "timesheetDetailSid": "N48KW7A5FZFV77KF3BBWSWJFBGMENUTEXCTM6LQ",
+    "id": "N48KW7A5FZFV77KF3BBWSWJFBGMENUTEXCTM6LQ",
+    "timesheetId": "5"
+  }
+]

@@ -17,43 +17,51 @@ console.log('ParentObject as contact Id:', parentObjectId)
 const taskSummaryStore = useTaskSummaryStore();
 const taskDetailsStore = useTaskDetailsStore();
 const task: Ref<taskDetails> = ref({
-  subject: '',
-  description: '',
-  id: 0,
-  createdDate: '',
-  modifiedDate: '',
-  startDate: '',
-  dueDate: '',
-  regardingType: 0,
-  regardingValue: '',
-  assignees: [],
-  isPrivate: false,
-  taskStatus: {
-    id: '0',
-    name: ''
-  },
-  parentObject: {
-    id: 0,
-    serviceType: 0
-  },
-  taskOwner: {
-    name: '',
-    sid: 0
-  },
-  taskPriority: {
-    id: '0',
-    name: ''
-  },
-  taskType: {
-    id: '0',
-    name: ''
-  },
-  remindTo: '',
-  remindBeforeMinutes: 0,
-  repeatInfoText: '',
-  recurrenceRule: '',
-  tags: [],
-  subtasks: []
+    actualDuration: 0.0,
+    completionDate: null,
+    description: "",
+    dueDate: "",
+    estimatedDuration: 0.0,
+    isLock: false,
+    isPrivate: false,
+    parent: {
+      type: {
+        id: "",
+        name: ""
+      },
+      value: {
+        id: "",
+        name: ""
+      }
+    },
+    id: "-1",
+    startDate: "",
+    subject: "",
+    taskOwnerName: "",
+    taskOwnerSid: "0",
+    taskPriorityName: "",
+    taskPriorityId: 0,
+    taskStatusName: "",
+    taskStatusId: 0,
+    taskTypeName: "",
+    taskTypeId: 0,
+    assignees: [],
+    tags: [],
+    createdByUserSid: "0",
+    createdDate: "",
+    modifiedByUserSid: "0",
+    modifiedDate: "",
+    subTasks: [],
+    security: {
+      read: false,
+      write: false,
+      append: false,
+      delete: false
+    },
+    remindTo: "",
+    remindBeforeMinutes: 0,
+    repeatInfoText: "",
+    recurrenceRule: ""
 });
 
 function handleRRule(rrule: string) {
@@ -79,33 +87,41 @@ function onSubmit(e: any) {
     id: task.value.id,
     subject: task.value.subject,
     description: task.value.description,
-    taskType: task.value.taskType,
-    taskStatus: task.value.taskStatus,
+    actualDuration: task.value.actualDuration,
+    completionDate: task.value.completionDate,
+    dueDate: task.value.dueDate,
+    estimatedDuration: task.value.estimatedDuration,
+    isLock: task.value.isLock,
     isPrivate: task.value.isPrivate,
-    taskOwner: task.value.taskOwner,
-    parentObject: task.value.parentObject,
-    startDate: task.value.startDate,
-    modifiedDate: new Date().toISOString(),
-    dueDate: newDueDate,
-    createdDate: newStartDate,
-    regardingType: task.value.regardingType,
-    regardingValue: task.value.regardingValue,
+    parent: task.value.parent,
+    startDate:task.value.startDate,
+    taskOwnerName:task.value.taskOwnerName,
+    taskOwnerSid: task.value.taskOwnerSid,
+    taskPriorityName: task.value.taskPriorityName,
+    taskPriorityId: task.value.taskPriorityId,
+    taskStatusName: task.value.taskStatusName,
+    taskStatusId: task.value.taskStatusId,
+    taskTypeName: task.value.taskTypeName,
+    taskTypeId: task.value.taskTypeId,
     assignees: task.value.assignees,
+    tags: task.value.tags, createdByUserSid: task.value.createdByUserSid,
+    createdDate: task.value.createdDate,
+    modifiedByUserSid: task.value.modifiedByUserSid,
+    modifiedDate: task.value.modifiedDate,
+    subTasks: task.value.subTasks,
+    security: task.value.security,
     remindTo: task.value.remindTo,
     remindBeforeMinutes: task.value.remindBeforeMinutes,
     repeatInfoText: task.value.repeatInfoText,
-    recurrenceRule: task.value.recurrenceRule,
-    tags: task.value.tags,
-    subtasks: task.value.subtasks,
-    taskPriority: task.value.taskPriority,
+    recurrenceRule: task.value.recurrenceRule
   }
   const newTaskSummary: taskSummary = {
-    id: task.value.id,
+    id: task.value.id.toString(),
     subject: task.value.subject,
-    taskStatusName: task.value.taskStatus.name,
+    taskStatusName: task.value.taskStatusName,
     isPrivate: task.value.isPrivate,
     dueDate: newDueDate,
-    taskPriorityName: task.value.taskPriority.name,
+    taskPriorityName: task.value.taskPriorityName,
   }
   // event.value.isAllDayEvent= newEvent.isAllDayEvent
 
