@@ -1,0 +1,60 @@
+[
+  {{#each (queryParamRaw 'category')}}
+    {{#switch this}}
+      {{#case 'inbox'}}
+      {
+        "createdByUserName": "Nagesh Kulkarni",
+        "employeeId": "OCHYD-008",
+        "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
+        "status": "Submitted",
+        "totalAmount": "255.00",
+        "fromDate": "2023-11-20T00:00:00+05:30"
+      }{{#unless @last}},{{/unless}}
+      {
+        "createdByUserName": "Nagesh Kulkarni",
+        "employeeId": "OCHYD-005",
+        "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
+        "status": "Saved",
+        "totalAmount": "255.00",
+        "fromDate": "2023-11-20T00:00:00+05:30"
+      }{{#unless @last}},{{/unless}}
+      {
+        "createdByUserName": "Nagesh Kulkarni",
+        "employeeId": "OCHYD-005",
+        "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
+        "status": "Approved",
+        "totalAmount": "10000.00",
+        "fromDate": "2023-10-23T00:00:00+05:30"
+      }{{#unless @last}},{{/unless}}
+      {
+        "createdByUserName": "Nagesh Kulkarni",
+        "employeeId": "OCHYD-005",
+        "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
+        "status": "Rejected",
+        "totalAmount": "12000.00",
+        "fromDate": "2023-10-09T00:00:00+05:30"
+      }{{#unless @last}},{{/unless}}
+      {{/case}}
+      {{#case 'outbox'}}
+      {
+        "createdByUserName": "Nagesh Kulkarni",
+        "employeeId": "OCHYD-005",
+        "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
+        "status": "Pending",
+        "totalAmount": "9999.00",
+        "fromDate": "2023-09-25T00:00:00+05:30"
+      }{{#unless @last}},{{/unless}}
+      {{/case}}
+      {{#case 'archived'}}
+      {
+        "createdByUserName": "Nagesh Kulkarni",
+        "employeeId": "OCHYD-005",
+        "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
+        "status": "Approved",
+        "totalAmount": "9999.00",
+        "fromDate": "2023-09-25T00:00:00+05:30"
+      }{{#unless @last}},{{/unless}}
+      {{/case}}
+    {{/switch}}
+  {{/each}}
+]
