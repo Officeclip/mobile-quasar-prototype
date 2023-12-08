@@ -57,7 +57,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     },
     // getting the timesheets by status
     async getTimesheetsByStatus(status: string) {
-      const callStr = this.getInOutboxList(status);
+      const callStr = `${Constants.endPointUrl}/timesheet-summary?category=${status}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);

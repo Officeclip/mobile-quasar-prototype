@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
   // },
   {
     path: '/',
-    name: 'LoginPage',
+    name: 'loginPage',
     component: () => import('pages/LoginPage.vue'),
   },
   {
@@ -16,11 +16,11 @@ const routes: RouteRecordRaw[] = [
     name: 'homePage',
     component: () => import('pages/HomePage.vue'),
   },
-  {
-    path: '/dTestHomePage',
-    name: 'dTestHomePage',
-    component: () => import('pages/dTestHomePage.vue'),
-  },
+  // {
+  //   path: '/dTestHomePage',
+  //   name: 'dTestHomePage',
+  //   component: () => import('pages/dTestHomePage.vue'),
+  // },
   {
     path: '/contactSummary',
     name: 'contactSummary',
@@ -124,9 +124,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/TestMe.vue'),
   },
   {
-    path: '/dTest',
+    path: '/loginPage',
     name: 'dTest',
-    component: () => import('../pages/dTest.vue'),
+    component: () => import('../pages/LoginPage.vue'),
   },
   {
     path: '/formData',

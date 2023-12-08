@@ -1,7 +1,7 @@
+{{setVar 'category' (queryParamRaw 'category')}}
 [
-  {{#each (queryParamRaw 'status')}}
-    {{#switch this}}
-       {{#case 'Submitted'}}
+    {{#switch @category}}
+      {{#case 'inbox'}}
       {
         "createdByUserName": "Sudhakar Gundu",
         "employeeId": "OCHYD-003",
@@ -10,9 +10,7 @@
         "totalHours": 14.75,
         "fromDate": "2023-06-19T10:43:32.203Z",
         "readOnly": false
-      }{{#unless @last}},{{/unless}}
-      {{/case}}
-     {{#case 'Saved'}}
+      },
       {
         "createdByUserName": "Sudhakar Gundu",
         "employeeId": "OCHYD-003",
@@ -21,20 +19,7 @@
         "totalHours": 44.08,
         "fromDate": "2023-06-05T10:43:32.203Z",
         "readOnly": true
-      }{{#unless @last}},{{/unless}}
-      {{/case}}
-      {{#case 'Pending'}}
-      {
-        "createdByUserName": "Sudhakar Gundu",
-        "employeeId": "OCHYD-003",
-        "id": "11",
-        "status": "Pending",
-        "totalHours": 22.25,
-        "fromDate": "2023-02-24T10:43:32.203Z",
-        "readOnly": true
-      }{{#unless @last}},{{/unless}}
-      {{/case}}
-      {{#case 'Approved'}}
+      },
       {
         "createdByUserName": "Sudhakar Gundu",
         "employeeId": "OCHYD-003",
@@ -43,9 +28,8 @@
         "totalHours": 33.25,
         "fromDate": "2023-05-22T10:43:32.203Z",
         "readOnly": false
-      }{{#unless @last}},{{/unless}}
-      {{/case}}
-      {{#case 'Rejected'}}
+      },
+
       {
         "createdByUserName": "Sudhakar Gundu",
         "employeeId": "OCHYD-003",
@@ -54,10 +38,29 @@
         "totalHours": 20.25,
         "fromDate": "2023-04-24T10:43:32.203Z",
         "readOnly": true
-      }{{#unless @last}},{{/unless}}
+      }
       {{/case}}
-      {{#case 'None'}}
+      {{#case 'outbox'}}
+      {
+        "createdByUserName": "Sudhakar Gundu",
+        "employeeId": "OCHYD-003",
+        "id": "11",
+        "status": "Pending",
+        "totalHours": 22.25,
+        "fromDate": "2023-02-24T10:43:32.203Z",
+        "readOnly": true
+      }
       {{/case}}
+      {{#case 'archived'}}
+      {
+        "createdByUserName": "Sudhakar Gundu",
+        "employeeId": "OCHYD-003",
+        "id": "9",
+        "status": "Approved",
+        "totalHours": 33.25,
+        "fromDate": "2023-05-22T10:43:32.203Z",
+        "readOnly": false
+      }
+    {{/case}}
     {{/switch}}
-  {{/each}}
 ]

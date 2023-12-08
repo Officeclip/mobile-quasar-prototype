@@ -71,6 +71,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         console.log(response);
         this.taskDetail = response.data;
       } catch (error) {
+        this.taskDetail = undefined;
         console.error(error);
       }
     },
