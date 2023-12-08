@@ -57,27 +57,16 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     },
     // getting the timesheets by status
     async getTimesheetsByStatus(status: string) {
-      const callStr = this.getInOutboxList(status);
-      // status != ''
-      //   ? `${Constants.endPointUrl}/timesheet-summary?status=${status}`
-      //   : `${Constants.endPointUrl}/timesheet-summary`;
-      // status == 'Saved'
-      //   ? `${Constants.endPointUrl}/timesheet-summary?status=${status}&&status=Approved&&status=Submitted&&status=Rejected`
-      //   : `${Constants.endPointUrl}/timesheet-summary`;
-      // switch (status) {
-      //   case 'Inbox':
-      //     // const callStr = `${Constants.endPointUrl}/timesheet-summary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
-      //     return `${Constants.endPointUrl}/timesheet-summary?status=Saved&&status=Approved&&status=Submitted&&status=Rejected`;
-      //   case 'Outbox':
-      //     return `${Constants.endPointUrl}/timesheet-summary?status=Pending`;
-      //   case 'Archived':
-      //     return `${Constants.endPointUrl}/timesheet-summary?status=Saved&&status=Approved&&status=Rejected`;
-      // }
+      const callStr = `${Constants.endPointUrl}/timesheet-summary?category=${status}`;
       try {
-        const response = await axios.get(callStr);
-        this.timesheets = response.data;
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
+
+        if (response.data) {
+          this.timesheets = response.data;
+        }
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 

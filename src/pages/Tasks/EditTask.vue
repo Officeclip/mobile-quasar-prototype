@@ -21,7 +21,7 @@ const task: Ref<taskDetails> = computed(() => {
 });
 
 onMounted(() => {
-  tasksDetailStore.getTask(Number(id.value));
+  tasksDetailStore.getTask((id.value.toString()));
 });
 
 function onSubmit(e: any) {
@@ -33,25 +33,33 @@ function onSubmit(e: any) {
     id: task.value.id,
     subject: task.value.subject,
     description: task.value.description,
-    taskType: task.value.taskType,
-    taskStatus: task.value.taskStatus,
-    isPrivate: task.value.isPrivate,
-    taskOwner: task.value.taskOwner,
-    parentObject: task.value.parentObject,
-    startDate: task.value.startDate,
-    modifiedDate: new Date().toISOString(),
+    actualDuration: task.value.actualDuration,
+    completionDate: task.value.completionDate,
     dueDate: task.value.dueDate,
-    createdDate: task.value.createdDate,
-    regardingType: task.value.regardingType,
-    regardingValue: task.value.regardingValue,
+    estimatedDuration: task.value.estimatedDuration,
+    isLock: task.value.isLock,
+    isPrivate: task.value.isPrivate,
+    parent: task.value.parent,
+    startDate:task.value.startDate,
+    taskOwnerName:task.value.taskOwnerName,
+    taskOwnerSid: task.value.taskOwnerSid,
+    taskPriorityName: task.value.taskPriorityName,
+    taskPriorityId: task.value.taskPriorityId,
+    taskStatusName: task.value.taskStatusName,
+    taskStatusId: task.value.taskStatusId,
+    taskTypeName: task.value.taskTypeName,
+    taskTypeId: task.value.taskTypeId,
     assignees: task.value.assignees,
+    tags: task.value.tags, createdByUserSid: task.value.createdByUserSid,
+    createdDate: task.value.createdDate,
+    modifiedByUserSid: task.value.modifiedByUserSid,
+    modifiedDate: task.value.modifiedDate,
+    subTasks: task.value.subTasks,
+    security: task.value.security,
     remindTo: task.value.remindTo,
     remindBeforeMinutes: task.value.remindBeforeMinutes,
     repeatInfoText: task.value.repeatInfoText,
-    recurrenceRule: task.value.recurrenceRule,
-    tags: task.value.tags,
-    subtasks: task.value.subtasks,
-    taskPriority: task.value.taskPriority,
+    recurrenceRule: task.value.recurrenceRule
   }
 
   tasksDetailStore.editTask(newTask);
