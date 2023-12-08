@@ -37,18 +37,18 @@ watch([expenseStatus], ([newModel]) => {
 const tabs = [
   {
     id: 1,
-    name: 'Inbox',
-    status: 'Inbox',
+    name: 'inbox',
+    status: 'inbox',
   },
   {
     id: 2,
-    name: 'Outbox',
-    status: 'Outbox',
+    name: 'outbox',
+    status: 'outbox',
   },
   {
     id: 3,
-    name: 'Archived',
-    status: 'Archived',
+    name: 'archived',
+    status: 'archived',
   },
 ];
 
