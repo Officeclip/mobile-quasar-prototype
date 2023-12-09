@@ -30,12 +30,14 @@ dueDate.value = task.value.dueDate
 startDate.value = task.value.startDate
 
 const formattedDueDate = computed(() => {
+  console.log(task.value.dueDate);
   return dateTimeHelper.extractDateFromUtc(task.value.dueDate);
 });
 
 const formattedDueDate2 = task.value.dueDate ? formattedDueDate : dueDate.value;
 
 const formattedStartDate = computed(() => {
+  console.log(task.value.startDate);
   return dateTimeHelper.extractDateFromUtc(task.value.startDate);
 })
 
@@ -118,6 +120,42 @@ async function filterTagFn(val: string, update: any, abort: any) {
   });
 }
 
+
+
+const taskType = ref({
+  id:task.value.taskTypeId,
+  name: task.value.taskTypeName
+});
+const taskStatus = ref({
+  id:task.value.taskStatusId,
+  name: task.value.taskStatusName
+});
+const taskPriority = ref({
+  id:task.value.taskPriorityId,
+  name: task.value.taskPriorityName
+});
+const taskOwner = ref({
+  id:task.value.taskOwnerSid,
+  name: task.value.taskOwnerName
+});
+
+watch(taskType, (oldValue) => {
+  task.value.taskTypeId = taskType.value?.id;
+  task.value.taskTypeName = taskType.value?.name;
+});
+watch(taskStatus, (oldValue) => {
+  task.value.taskStatusId = taskStatus.value?.id;
+  task.value.taskStatusName = taskStatus.value?.name;
+});
+watch(taskPriority, (oldValue) => {
+  task.value.taskPriorityId = taskPriority.value?.id;
+  task.value.taskPriorityName = taskPriority.value?.name;
+});
+watch(taskOwner, (oldValue) => {
+  task.value.taskOwnerSid = taskOwner.value?.id;
+  task.value.taskOwnerName = taskOwner.value?.name;
+});
+
 watch(task.value, (oldValue) => {
   console.log('emitted',task.value)
   emit('emit-task', task.value);
@@ -177,7 +215,7 @@ watch(task.value, (oldValue) => {
         </q-input>
 
         <q-select
-          v-model="task.taskTypeName"
+          v-model="taskType"
           :options="taskListsStore.TaskTypes"
           label="Task Type"
           map-options
@@ -186,7 +224,7 @@ watch(task.value, (oldValue) => {
         />
 
         <q-select
-          v-model="task.taskPriorityName"
+          v-model="taskPriority"
           :options="taskListsStore.TaskPriorities"
           label="Priority"
           map-options
@@ -195,7 +233,7 @@ watch(task.value, (oldValue) => {
         />
 
         <q-select
-          v-model="task.taskStatusName"
+          v-model="taskStatus"
           :options="taskListsStore.TaskStatuses"
           label="Status"
           map-options
@@ -208,10 +246,9 @@ watch(task.value, (oldValue) => {
         />
 
         <q-select
-          v-model="task.taskOwnerName"
+          v-model="taskOwner"
           :options="shownOptions"
           clearable
-          emit-value
           hint="Start typing"
           input-debounce="0"
           label="Owned by"
@@ -229,7 +266,6 @@ watch(task.value, (oldValue) => {
         <q-select
           v-model="task.assignees"
           :options="shownOptions"
-          emit-value
           hint="Start typing"
 
           input-debounce="0"
@@ -251,7 +287,6 @@ watch(task.value, (oldValue) => {
         <q-select
           v-model="task.tags"
           :options="shownTagOptions"
-          emit-value
           hint="Start typing"
           input-debounce="0"
           label="Tags"
@@ -267,7 +302,6 @@ watch(task.value, (oldValue) => {
             </q-item>
           </template>
         </q-select>
-
         <!--        <Regarding :regarding-parents="taskListsStore.RegardingParent" @regarding-generated="regardingReceived"/>-->
         <Regarding v-model="task.parent" :regarding-parents="taskListsStore.RegardingParent"/>
 

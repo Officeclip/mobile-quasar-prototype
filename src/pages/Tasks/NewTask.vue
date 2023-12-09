@@ -34,7 +34,7 @@ const task: Ref<taskDetails> = ref({
         name: ""
       }
     },
-    id: "-1",
+    id: Math.floor(Math.random() * 1000),
     startDate: "",
     subject: "",
     taskOwnerName: "",
@@ -53,10 +53,10 @@ const task: Ref<taskDetails> = ref({
     modifiedDate: "",
     subTasks: [],
     security: {
-      read: false,
-      write: false,
+      read: true,
+      write: true,
       append: false,
-      delete: false
+      delete: true
     },
     remindTo: "",
     remindBeforeMinutes: 0,
@@ -75,6 +75,10 @@ function handleRRuleText(rruleText: string) {
 function handleReminder(reminder: [string, number]) {
   task.value.remindTo = reminder[0];
   task.value.remindBeforeMinutes = reminder[1];
+}
+
+function receiveTask(receivedTask:taskDetails){
+  task.value = receivedTask;
 }
 
 function onSubmit(e: any) {
@@ -147,7 +151,7 @@ function onSubmit(e: any) {
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
           <TasksForm :task-from-parent="task" @rrule-generated="handleRRule" @rrule-text-generated="handleRRuleText"
-            @reminder-generated="handleReminder" />
+            @reminder-generated="handleReminder" @emit-task="receiveTask"/>
           <q-btn class="q-ml-md q-mb-md q-mt-md" color="primary" label="Submit" type="submit" />
           <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset" />
         </div>

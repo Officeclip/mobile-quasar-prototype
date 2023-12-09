@@ -16,13 +16,16 @@ const router = useRouter();
 
 const id = ref<string | string[]>(route.params.id);
 
-const task: Ref<taskDetails> = computed(() => {
-  return tasksDetailStore.TaskDetail;
-});
+const task: Ref<taskDetails> = ref(tasksDetailStore.TaskDetail);
+
 
 onMounted(() => {
   tasksDetailStore.getTask((id.value.toString()));
 });
+
+function receiveTask(receivedTask:taskDetails){
+  task.value = receivedTask;
+}
 
 function onSubmit(e: any) {
   e.preventDefault();
@@ -79,7 +82,7 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <TasksForm :task-from-parent="task" />
+          <TasksForm :task-from-parent="task" @emit-task="receiveTask"/>
           <q-btn class="q-ml-md q-mb-md" color="primary" label="Submit" type="submit" />
         </div>
       </q-form>
