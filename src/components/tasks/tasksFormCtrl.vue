@@ -13,66 +13,37 @@ import Regarding from "components/general/regardingComponent.vue";
 const props = defineProps<{
   taskFromParent: taskDetails
 }>();
+const emit = defineEmits([
+  'emit-task'
+]);
+
+console.log(`props.task: ${props.taskFromParent}`);
+
 const task: Ref<taskDetails> = ref(props.taskFromParent);
 const userSummaryStore = useUserSummaryStore();
 const taskListsStore = useTaskListsStore();
 
 
-const isPrivate = ref('');
-console.log(`props.task: ${props.taskFromParent}`);
-
-const dueDate = ref('');
-const startDate = ref('');
-
-// eslint-disable-next-line vue/no-setup-props-destructure
-dueDate.value = task.value.dueDate
-// eslint-disable-next-line vue/no-setup-props-destructure
-startDate.value = task.value.startDate
-
-const formattedDueDate = computed(() => {
-  console.log(task.value.dueDate);
-  return dateTimeHelper.extractDateFromUtc(task.value.dueDate);
-});
-
-const formattedDueDate2 = task.value.dueDate ? formattedDueDate : dueDate.value;
-
-const formattedStartDate = computed(() => {
-  console.log(task.value.startDate);
-  return dateTimeHelper.extractDateFromUtc(task.value.startDate);
-})
-
-const formattedStartDate2 = task.value.startDate ? formattedStartDate : startDate.value;
-
-isPrivate.value = task.value.isPrivate ? 'Yes' : 'No';
+const repeatString = ref('Does not repeat');
+const reminderTextInfo = ref('Reminder');
+const recurrenceDialogOpened = ref(false);
+const reminderDialogOpened = ref(false);
 
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
   userSummaryStore.getUserSummaries();
 });
 
-const recurrenceDialogOpened = ref(false);
-const reminderDialogOpened = ref(false);
 
-const emit = defineEmits([
-  'emit-task',
-  'rrule-generated',
-  'reminder-generated',
-  'rrule-text-generated',
-]);
 
-// function emitTask(task: taskDetails) {
-//   console.log('Emitted Task:', task);
-//   emit('emit-task', task);
-// }
 
 function handleRRuleString(rruleString: string) {
   task.value.recurrenceRule = rruleString;
-  console.log('Received RRule String:', rruleString);
-  // emit('rrule-generated', rruleString);
+  // console.log('Received RRule String:', rruleString);
 }
 
 function handleRRuleText(rruleText: string) {
-  console.log('Received RRule Plain Text:', rruleText);
+  // console.log('Received RRule Plain Text:', rruleText);
   const repeatText = rruleText.charAt(0).toUpperCase() + rruleText.slice(1); //capitalize first letter
   repeatString.value = repeatText;
   task.value.repeatInfoText = repeatText;
@@ -80,7 +51,7 @@ function handleRRuleText(rruleText: string) {
 }
 
 function handleReminderData(reminderString: [string, number]) {
-  console.log('Received Reminder String:', reminderString);
+  // console.log('Received Reminder String:', reminderString);
   task.value.remindTo = reminderString[0];
   task.value.remindBeforeMinutes = reminderString[1];
   // emit('reminder-generated', reminderString);
@@ -88,14 +59,8 @@ function handleReminderData(reminderString: [string, number]) {
 
 function handleReminderText(reminderText: string) {
   reminderTextInfo.value = reminderText;
+  reminderTextInfo.value = reminderText;
 }
-
-function regardingReceived(regardings: any) {
-  console.log(regardings);
-}
-
-const repeatString = ref('Does not repeat');
-const reminderTextInfo = ref('Reminder');
 
 const shownOptions: Ref<userSummary[]> = ref([]);
 const shownTagOptions: Ref<tag[]> = ref([]);
@@ -119,8 +84,6 @@ async function filterTagFn(val: string, update: any, abort: any) {
     );
   });
 }
-
-
 
 const taskType = ref({
   id:task.value.taskTypeId,
@@ -184,29 +147,27 @@ watch(task.value, (oldValue) => {
           placeholder="type here...."
         />
 
-        <q-input v-model="formattedDueDate2" label="Due Date" name="dueDate">
-          <template v-slot:prepend>
-            <q-icon class="cursor-pointer" name="event">
-              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
-                <q-date v-model="task.dueDate" mask='YYYY-MM-DD'>
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"/>
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
+          <q-input v-model="task.startDate" mask="date" label="Start Date" :rules="['date']">
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                  <q-date v-model="task.startDate">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
 
-
-        <q-input
-          v-model="formattedStartDate2" label="Start Date" name="startDate">
+        <q-input v-model="task.dueDate" mask="date" label="Due Date" :rules="['date']">
           <template v-slot:prepend>
-            <q-icon class="cursor-pointer" name="event">
-              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
-                <q-date v-model="task.startDate" mask='YYYY-MM-DD'>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-date v-model="task.dueDate">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close"/>
+                    <q-btn v-close-popup label="Close" color="primary" flat />
                   </div>
                 </q-date>
               </q-popup-proxy>
