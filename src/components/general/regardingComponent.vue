@@ -5,13 +5,13 @@ import {regardingItem} from "src/models/general/regardingItem";
 
 
 const props = defineProps<{
-  modelValue:any,
-  regardingParents:any
+  modelValue: any,
+  regardingParents: any
 }>();
 
-
-const regardingType = ref(props.modelValue.type || '');
-const selectedRegItem = ref(props.modelValue.value || null);
+console.log('model', props.modelValue.type.id);
+const regardingType = ref(props.modelValue.type.id || '');
+const selectedRegItem = ref(props.modelValue.value.name || null);
 
 const updateModelValue = () => {
   const regarding = {
@@ -24,37 +24,28 @@ const updateModelValue = () => {
 watch(regardingType, updateModelValue);
 watch(selectedRegItem, updateModelValue);
 
-const emit = defineEmits(['regarding-generated','update:modelValue'])
+const emit = defineEmits(['regarding-generated', 'update:modelValue'])
 
-// const regardingType = ref('');
 
 const regardingStore = useRegardingStore();
 regardingStore.getMetaTypes();
 
 const metaTypeOptions = computed(() => {
-  // return regardingStore.MetaTypes;
   return props.regardingParents;
 });
 
-//disabled regarding contacts unless select the option from regarding types
-
 const regardingItems = ref([] as regardingItem[]);
-// const selectedRegItem = ref(null);
 
-function emitRegarding(){
-  console.log(regardingType.value);
-  console.log(selectedRegItem.value);
-  const regarding = {
-    type:regardingType.value,
-    value:selectedRegItem.value
-  }
-  emit('regarding-generated', regarding);
-
-}
 
 watch(selectedRegItem, (newValue, oldValue) => {
   // This function will be called whenever selectedRegItem changes
-  emitRegarding();
+  console.log(regardingType.value);
+  console.log(selectedRegItem.value);
+  const regarding = {
+    type: regardingType.value,
+    value: selectedRegItem.value
+  }
+  emit('regarding-generated', regarding);
 });
 
 async function filterItems(
