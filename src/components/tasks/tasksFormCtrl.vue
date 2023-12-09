@@ -263,7 +263,7 @@ watch(task.value, (oldValue) => {
             </q-item>
           </template>
         </q-select>
-        <!--        <Regarding :regarding-parents="taskListsStore.RegardingParent" @regarding-generated="regardingReceived"/>-->
+
         <Regarding v-model="task.parent" :regarding-parents="taskListsStore.RegardingParent"/>
 
         <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
