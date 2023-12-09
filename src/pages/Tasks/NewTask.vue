@@ -146,7 +146,7 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <TasksForm :task="task" @rrule-generated="handleRRule" @rrule-text-generated="handleRRuleText"
+          <TasksForm :task-from-parent="task" @rrule-generated="handleRRule" @rrule-text-generated="handleRRuleText"
             @reminder-generated="handleReminder" />
           <q-btn class="q-ml-md q-mb-md q-mt-md" color="primary" label="Submit" type="submit" />
           <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset" />

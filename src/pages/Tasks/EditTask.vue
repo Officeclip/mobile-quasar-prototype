@@ -79,7 +79,7 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <TasksForm :task="task" />
+          <TasksForm :task-from-parent="task" />
           <q-btn class="q-ml-md q-mb-md" color="primary" label="Submit" type="submit" />
         </div>
       </q-form>

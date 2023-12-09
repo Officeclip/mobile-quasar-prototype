@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {computed, defineProps, onBeforeMount, ref, Ref} from 'vue';
+import {computed, defineProps, onBeforeMount, ref, Ref, watch} from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import {useTaskListsStore} from "stores/task/taskListsStore";
 import {taskDetails} from "src/models/task/taskDetails";
@@ -11,37 +11,37 @@ import {tag} from "src/models/task/taskLists";
 import Regarding from "components/general/regardingComponent.vue";
 
 const props = defineProps<{
-  task: taskDetails
+  taskFromParent: taskDetails
 }>();
-
+const task: Ref<taskDetails> = ref(props.taskFromParent);
 const userSummaryStore = useUserSummaryStore();
 const taskListsStore = useTaskListsStore();
 
 
 const isPrivate = ref('');
-console.log(`props.task: ${props.task}`);
+console.log(`props.task: ${props.taskFromParent}`);
 
 const dueDate = ref('');
 const startDate = ref('');
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-dueDate.value = props.task.dueDate
+dueDate.value = task.value.dueDate
 // eslint-disable-next-line vue/no-setup-props-destructure
-startDate.value = props.task.startDate
+startDate.value = task.value.startDate
 
 const formattedDueDate = computed(() => {
-  return dateTimeHelper.extractDateFromUtc(dueDate.value);
-})
+  return dateTimeHelper.extractDateFromUtc(task.value.dueDate);
+});
 
-const formattedDueDate2 = dueDate.value ? formattedDueDate : dueDate;
+const formattedDueDate2 = task.value.dueDate ? formattedDueDate : dueDate.value;
 
 const formattedStartDate = computed(() => {
-  return dateTimeHelper.extractDateFromUtc(startDate.value);
+  return dateTimeHelper.extractDateFromUtc(task.value.startDate);
 })
 
-const formattedStartDate2 = startDate.value ? formattedStartDate : startDate;
+const formattedStartDate2 = task.value.startDate ? formattedStartDate : startDate.value;
 
-isPrivate.value = props.task.isPrivate ? 'Yes' : 'No';
+isPrivate.value = task.value.isPrivate ? 'Yes' : 'No';
 
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
@@ -52,26 +52,36 @@ const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
 
 const emit = defineEmits([
+  'emit-task',
   'rrule-generated',
   'reminder-generated',
   'rrule-text-generated',
 ]);
 
+// function emitTask(task: taskDetails) {
+//   console.log('Emitted Task:', task);
+//   emit('emit-task', task);
+// }
+
 function handleRRuleString(rruleString: string) {
+  task.value.recurrenceRule = rruleString;
   console.log('Received RRule String:', rruleString);
-  emit('rrule-generated', rruleString);
+  // emit('rrule-generated', rruleString);
 }
 
 function handleRRuleText(rruleText: string) {
   console.log('Received RRule Plain Text:', rruleText);
   const repeatText = rruleText.charAt(0).toUpperCase() + rruleText.slice(1); //capitalize first letter
   repeatString.value = repeatText;
-  emit('rrule-text-generated', repeatText);
+  task.value.repeatInfoText = repeatText;
+  // emit('rrule-text-generated', repeatText);
 }
 
 function handleReminderData(reminderString: [string, number]) {
   console.log('Received Reminder String:', reminderString);
-  emit('reminder-generated', reminderString);
+  task.value.remindTo = reminderString[0];
+  task.value.remindBeforeMinutes = reminderString[1];
+  // emit('reminder-generated', reminderString);
 }
 
 function handleReminderText(reminderText: string) {
@@ -108,6 +118,11 @@ async function filterTagFn(val: string, update: any, abort: any) {
   });
 }
 
+watch(task.value, (oldValue) => {
+  console.log('emitted',task.value)
+  emit('emit-task', task.value);
+});
+
 </script>
 
 <template>
@@ -135,7 +150,7 @@ async function filterTagFn(val: string, update: any, abort: any) {
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
-                <q-date v-model="dueDate" mask='YYYY-MM-DD'>
+                <q-date v-model="task.dueDate" mask='YYYY-MM-DD'>
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
@@ -145,12 +160,13 @@ async function filterTagFn(val: string, update: any, abort: any) {
           </template>
         </q-input>
 
+
         <q-input
           v-model="formattedStartDate2" label="Start Date" name="startDate">
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy cover transition-hide="scale" transition-show="scale">
-                <q-date v-model="startDate" mask='YYYY-MM-DD'>
+                <q-date v-model="task.startDate" mask='YYYY-MM-DD'>
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
@@ -215,10 +231,12 @@ async function filterTagFn(val: string, update: any, abort: any) {
           :options="shownOptions"
           emit-value
           hint="Start typing"
+
           input-debounce="0"
           label="Assigned to"
           multiple
           option-label="name"
+          option-value="name"
           use-chips
           use-input
           @filter="filterFn"
@@ -250,7 +268,7 @@ async function filterTagFn(val: string, update: any, abort: any) {
           </template>
         </q-select>
 
-<!--        <Regarding :regarding-parents="taskListsStore.RegardingParent" @regarding-generated="regardingReceived"/>-->
+        <!--        <Regarding :regarding-parents="taskListsStore.RegardingParent" @regarding-generated="regardingReceived"/>-->
         <Regarding v-model="task.parent" :regarding-parents="taskListsStore.RegardingParent"/>
 
         <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
@@ -272,7 +290,6 @@ async function filterTagFn(val: string, update: any, abort: any) {
             <q-icon color="primary" name="chevron_right"/>
           </q-item-section>
         </q-item>
-
       </div>
     </div>
   </div>
