@@ -48,6 +48,9 @@ export const useRegardingStore = defineStore('regardingStore', {
     async getRegardingItemsThatMatch(searchString: string, type: string) {
       try {
         this.regardingItems=[];
+        const response1 = await axios.get(
+          `${Constants.endPointUrl}/regarding?type=${type}&search_str=${searchString}`
+        );
         const response = await axios.get(
           `${Constants.endPointUrl}/regarding`
         );
