@@ -9,9 +9,9 @@ const props = defineProps<{
   regardingParents: any
 }>();
 
-console.log('model', props.modelValue.type.id);
-const regardingType = ref(props.modelValue.type.id || '');
-const selectedRegItem = ref(props.modelValue.value.name || null);
+
+const regardingType = ref(props.modelValue.type || '');
+const selectedRegItem = ref(props.modelValue.value || null);
 
 const updateModelValue = () => {
   const regarding = {
