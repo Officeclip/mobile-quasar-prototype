@@ -545,7 +545,7 @@ function isValidURL(url: string) {
       <!-- <pre>{{ event.attachments }}</pre> -->
       <div>
         <!-- <RegardingAll /> -->
-        <Regarding />
+        <!-- <Regarding /> -->
       </div>
 
       <q-item>
