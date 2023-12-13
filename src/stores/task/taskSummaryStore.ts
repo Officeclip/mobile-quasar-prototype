@@ -56,14 +56,12 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
     async editTask(taskSummary: taskSummary) {
       console.log(`editTask: ${this.taskSummary?.id}`);
-      // not added yet
       try {
         const response = await axios.put(
           `${Constants.endPointUrl}/task-summary/${taskSummary.id}`,
           taskSummary
         );
         if (response.status === 200) {
-          //debugger;
           this.taskSummary = response.data;
         }
       } catch (error) {
