@@ -30,3 +30,15 @@ Tasks
   &regardingTypeId=65
   &regardingValueId=69
   &showCompleted=false
+
+
+Paging
+
+{
+    "first": "/task-summary?pagesize=5&pagenumber=1",
+    "next": "",
+    "prev": "/task-summary?pagesize=5&pagenumber=3",
+    "last": "/task-summary?pagesize=5&pagenumber=4",
+    "total": 19
+ }
+
