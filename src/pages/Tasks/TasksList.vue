@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { computed, onBeforeMount, ref, Ref, watch } from 'vue';
-import { useQuasar } from 'quasar'
+import {computed, onBeforeMount, ref, Ref, watch} from 'vue';
+import {useQuasar} from 'quasar'
 
 import TaskSummaryItem from 'components/tasks/TaskSummaryItem.vue';
-import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
+import {useTaskSummaryStore} from 'stores/task/taskSummaryStore';
 import TaskAdvancedFilters from 'components/tasks/taskAdvancedFilters.vue';
-import { searchFilter } from 'src/models/task/searchFilter';
-import { taskSummary } from 'src/models/task/taskSummary';
+import {searchFilter} from 'src/models/task/searchFilter';
+import {taskSummary} from 'src/models/task/taskSummary';
 
 let filterOptions: Ref<searchFilter> = ref({
   filterString: '',
@@ -78,20 +78,15 @@ function clearFilterValues() {
   getFirstBatch();
 }
 
-let currentPage = 1; // the current page number
-// const pageSize = ref(10); // number of items in one page
-let numItems = 0; // total number of items in the list
 let reachedEnd = ref(false); // indicate if all contacts have been loaded
 const batchSize = 10; // number of contacts to load in each batch
 
 async function getFirstBatch() {
-  await taskSummaryStore.resetTaskSummaryList();
-  currentPage = 1;
+  // await taskSummaryStore.resetTaskSummaryList();
   taskSummaryStore
-    .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, currentPage)
-    .then(() => {
-      // getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
-      currentPage++
+    .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, 1)
+    .then((val) => {
+      reachedEnd.value = val;
     });
 }
 
@@ -99,13 +94,14 @@ const loadMore = (index: any, done: () => void) => {
   const contactsSizeBeforeCall = getSortedSummaries.value.length;
   setTimeout(() => {
     taskSummaryStore
-      .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, currentPage)
-      .then(() => {
-        currentPage++;
+      .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, 1)
+      .then((val) => {
+        // currentPage++;
         // getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
+        // const contactsAfterCall = getSortedSummaries.value.length;
+        // reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
+        reachedEnd.value = val;
 
-        const contactsAfterCall = getSortedSummaries.value.length;
-        reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
         done();
       });
   }, 500);
@@ -199,7 +195,10 @@ function showNotif() {
     message: 'COMPLETED TASKS ARE HIDDEN',
     timeout: 10000,
     actions: [
-      { icon: 'close', color: 'white', round: true, handler: () => { /* ... */ } }
+      {
+        icon: 'close', color: 'white', round: true, handler: () => { /* ... */
+        }
+      }
     ]
   })
 }
@@ -216,24 +215,24 @@ onBeforeMount(async () => {
   <q-layout view="lHh Lpr lFf">
     <q-header bordered class="bg-primary text-white" height-hint="98" reveal>
       <q-toolbar>
-        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)" />
+        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)"/>
         <q-toolbar-title> Tasks</q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <q-space class="q-mt-sm" />
+    <q-space class="q-mt-sm"/>
     <q-page-container>
       <q-page>
         <div class="q-pa-sm">
           <q-input v-model="filterOptions.filterString" clearable label="Search" outlined @clear=getFirstBatch>
             <template v-slot:append>
-              <q-icon name="search" />
+              <q-icon name="search"/>
             </template>
           </q-input>
         </div>
 
         <div class="row q-pa-sm justify-between">
           <div class="q-mr-md">
-            <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me" />
+            <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
           </div>
           <div class="row">
             <div class="q-mr-md">
@@ -250,7 +249,7 @@ onBeforeMount(async () => {
 
         <q-infinite-scroll :disable="reachedEnd" :offset="250" @load="loadMore">
           <q-item v-for="task in getSortedSummaries" :key="task.id" class="q-pa-sm">
-            <taskSummaryItem :task="task" class="full-width" />
+            <taskSummaryItem :task="task" class="full-width"/>
           </q-item>
           <template v-slot:loading>
             <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
@@ -259,7 +258,7 @@ onBeforeMount(async () => {
 
         <q-dialog v-model="filterOptions.showAdvancedOptions">
           <task-advanced-filters :filter-options="filterOptions" :parent="parent"
-            @advancedOptionsGenerated="receiveAdvFilters" @filterCount="updateFilterCount" />
+                                 @advancedOptionsGenerated="receiveAdvFilters" @filterCount="updateFilterCount"/>
         </q-dialog>
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
@@ -270,7 +269,7 @@ onBeforeMount(async () => {
             objectTypeId: -1,
             objectId: -1
           },
-        }" color="accent" fab icon="add" padding="sm" />
+        }" color="accent" fab icon="add" padding="sm"/>
       </q-page-sticky>
     </q-page-container>
   </q-layout>

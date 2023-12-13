@@ -7,6 +7,8 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   state: () => ({
     taskSummaries: [] as taskSummary[],
     taskSummary: undefined as taskSummary | undefined,
+    urls: new Map<string, string>(),
+    nextBatchURL: '',
   }),
 
   getters: {
@@ -29,7 +31,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
     },
 
-    async getTask(id: number|string) {
+    async getTask(id: number | string) {
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/task-summary?id=${id}`
@@ -230,7 +232,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
     },
 
-    //TODO: test below method from ChatGPT
     async getFilteredTasksNew(filterOptions: any, parentObjectId: number, parentObjectServiceType: number) {
       // Base URL for the API call
       const apiUrl = `${Constants.endPointUrl}/task-summary`;
@@ -267,27 +268,49 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
     },
 
-    async getTaskSummaryByBatch(parentObjectId: number, parentObjectServiceType: number, limit: number, page: number) {
-      const callStr =
+    async getTaskSummaryByBatch(parentObjectId: number, parentObjectServiceType: number, limit: number, page: number): Promise<boolean> {
+      // mockoon call
+      // const callStr =
+      //   parentObjectId > 0 && parentObjectServiceType > 0
+      //     ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&limit=${limit}&page=${page}`
+      //     : `${Constants.endPointUrl}/task-summary?limit=${limit}&page=${page}`;
+
+      // json server call
+      let callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&_limit=${limit}&_page=${page}`
+          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&limit=${limit}&page=${page}`
           : `${Constants.endPointUrl}/task-summary?_limit=${limit}&_page=${page}`;
+
+      if (this.urls.get('next')) {
+        callStr = this.urls.get('next') ?? '';
+      }
+      console.log('ST: ', callStr);
       try {
         const res = await axios.get(callStr);
         const response = res.data.filter((task: taskSummary) => {
-          // console.log(task.taskStatusName)
           return task.taskStatusName != 'Completed';
         });
         this.taskSummaries.push(...response);
+        const headers = res.headers;
+        this.parseLinkHeader(headers.link);
       } catch (error) {
         console.error(error);
       }
-      // const callStr = `${Constants.endPointUrl}/contact-summary?_limit=${limit}&_page=${page}`;
-      // //console.log(`callStr: ${callStr}`)
-      // const res = await fetch(callStr);
-      // const data = await res.json();
-      // //console.log(data);
-      // this.contactSummary.push(...data);
+      return callStr === this.urls.get('last');
+    },
+
+    parseLinkHeader(header: string) {
+      const parts = header.split(',');
+      parts.forEach(p => {
+        const section = p.split(';');
+        if (section.length !== 2) {
+          throw new Error("section could not be split on ';'");
+        }
+        const url = section[0].trim().replace(/<(.*)>/, '$1');
+        const name = section[1].trim().replace(/rel="(.*)"/, '$1');
+        this.urls.set(name, url);
+      });
+      // console.log(this.urls.get('next'));
     },
 
     async getRegardingContactListThatMatch(val: string, parentObjectId: number, parentObjectServiceType: number) {
