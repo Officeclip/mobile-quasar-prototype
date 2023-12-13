@@ -106,6 +106,13 @@ const labelNameById = computed(() => {
   const obj = labelData.find((obj: any) => obj.id === event.value?.label);
   return obj ? obj : null;
 });
+
+const showTimeAsById = computed(() => {
+  const data = eventListStore.ShowMyTimeAs;
+  const obj = data.find((obj: any) => obj.id === event.value?.ShowTimeAs);
+  return obj ? obj : null;
+});
+
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this event?');
 const showConfirmationDialog = ref(false);
@@ -205,6 +212,18 @@ const confirmDeletion = () => {
                 class="q-py-xs q-px-sm"
                 :style="{ backgroundColor: labelNameById?.color }"
                 >{{ labelNameById?.name }}</span
+              >
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item v-if="event?.ShowTimeAs">
+          <q-item-section>
+            <q-item-label caption> Show Time As </q-item-label>
+            <q-item-label>
+              <span
+                class="q-py-xs q-px-sm"
+                :style="{ backgroundColor: showTimeAsById?.color }"
+                >{{ showTimeAsById?.name }}</span
               >
             </q-item-label>
           </q-item-section>

@@ -1,5 +1,10 @@
 import { defineStore } from 'pinia';
-import { label, regardingContact, timeZone } from 'src/models/event/eventLists';
+import {
+  label,
+  ShowTimeAs,
+  regardingContact,
+  timeZone,
+} from 'src/models/event/eventLists';
 import axios from 'axios';
 import { Constants } from '../Constants';
 
@@ -9,7 +14,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
     labels: [] as label[],
     // regardingContacts: [] as regardingContact[],
     timeZones: [] as timeZone[],
-    showMyTimeAs: [],
+    showMyTimeAs: [] as ShowTimeAs[],
     // metaTypes: [],
   }),
 
