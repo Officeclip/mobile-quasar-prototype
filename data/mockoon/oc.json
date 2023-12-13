@@ -103,6 +103,10 @@
         },
         {
           "type": "route",
+          "uuid": "c131e530-a573-4bad-b417-07597bae0774"
+        },
+        {
+          "type": "route",
           "uuid": "54c98b34-d0db-4471-a57c-922fc3984990"
         }
       ]
@@ -931,35 +935,6 @@
       "responseMode": null
     },
     {
-      "uuid": "7c526c60-9312-4892-aca8-0781eea3bf01",
-      "type": "http",
-      "documentation": "",
-      "method": "get",
-      "endpoint": "test",
-      "responses": [
-        {
-          "uuid": "d8f7fc44-2d10-405b-8103-8137d28f2b5d",
-          "body": "{{setVar 'objectType' (queryParamRaw 'parentObjectServiceType' -1 true)}}\r\n\r\n{{#if (eq @objectType -1)}}\r\n{{data 'notes'}}\r\n{{else}}\r\n{{{ stringify (\r\n        filter\r\n          (dataRaw \"notes\")\r\n          (object parentObjectServiceType=(round (queryParam 'parentObjectServiceType')))\r\n          (object parentObjectId=(round (queryParam 'parentObjectId')))\r\n      )\r\n    }}}\r\n{{/if}}\r\n",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "",
-          "headers": [],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [],
-          "rulesOperator": "OR",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": true,
-          "crudKey": "id",
-          "callbacks": []
-        }
-      ],
-      "responseMode": null
-    },
-    {
       "uuid": "272cdf53-40b3-49ea-aa1d-2bb5d7d054bd",
       "type": "http",
       "documentation": "",
@@ -1093,6 +1068,112 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "c131e530-a573-4bad-b417-07597bae0774",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "task-summary",
+      "responses": [
+        {
+          "uuid": "e225c4da-7758-4698-9552-19eed6f5abe6",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Page 1",
+          "headers": [
+            {
+              "key": "links",
+              "value": "{         \"first\": \"/task-summary?pagesize=5&pagenumber=1\",         \"next\": \"/task-summary?pagesize=5&pagenumber=2\",         \"prev\": \"\",         \"last\": \"/task-summary?pagesize=5&pagenumber=4\",         \"total\": 19  }"
+            }
+          ],
+          "bodyType": "FILE",
+          "filePath": "oc\\tasks\\task-summary-page-1.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "8385931f-e2d6-4a82-908f-80e743572ffa",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Page 2",
+          "headers": [
+            {
+              "key": "links",
+              "value": "{         \"first\": \"/task-summary?pagesize=5&pagenumber=1\",         \"next\": \"/task-summary?pagesize=5&pagenumber=3\",         \"prev\": \"/task-summary?pagesize=5&pagenumber=1\",         \"last\": \"/task-summary?pagesize=5&pagenumber=4\",         \"total\": 19  }"
+            }
+          ],
+          "bodyType": "FILE",
+          "filePath": "oc\\tasks\\task-summary-page-2.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "46f4e183-e3ec-4e4c-99bc-7a15579ac1b9",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Page 3",
+          "headers": [
+            {
+              "key": "links",
+              "value": "{         \"first\": \"/task-summary?pagesize=5&pagenumber=1\",         \"next\": \"/task-summary?pagesize=5&pagenumber=4\",         \"prev\": \"/task-summary?pagesize=5&pagenumber=2\",         \"last\": \"/task-summary?pagesize=5&pagenumber=4\",         \"total\": 19  }"
+            }
+          ],
+          "bodyType": "FILE",
+          "filePath": "oc\\tasks\\task-summary-page-3.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "59c55671-6e0e-4bbf-ad58-9257f8909a57",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Page 4",
+          "headers": [
+            {
+              "key": "links",
+              "value": "{         \"first\": \"/task-summary?pagesize=5&pagenumber=1\",         \"next\": \"\",         \"prev\": \"/task-summary?pagesize=5&pagenumber=3\",         \"last\": \"/task-summary?pagesize=5&pagenumber=4\",         \"total\": 19  }"
+            }
+          ],
+          "bodyType": "FILE",
+          "filePath": "oc\\tasks\\task-summary-page-4.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -1123,10 +1204,6 @@
     {
       "type": "folder",
       "uuid": "4fb3fd2a-ad95-4df4-b773-6ec7ffab8c33"
-    },
-    {
-      "type": "route",
-      "uuid": "7c526c60-9312-4892-aca8-0781eea3bf01"
     }
   ],
   "proxyMode": false,
@@ -1192,7 +1269,7 @@
       "id": "as9n",
       "name": "task-summary",
       "documentation": "",
-      "value": "[\r\n  {\r\n    \"id\": \"TJCR7UD4G2GE789RN6KR6KUVT2GX3GDDB4YM6LQ\",\r\n    \"subject\": \"1: Complete Sprint Planning (Edit)\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-10-05T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\",\r\n    \"security\": {\r\n      \"read\": true,\r\n      \"write\": true,\r\n      \"append\": false,\r\n      \"delete\": false\r\n    }\r\n  },\r\n  {\r\n    \"id\": 102,\r\n    \"subject\": \"2: Make Task Details self sufficient\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-10-05T17:00:00Z\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"id\": 103,\r\n    \"subject\": \"3: Implement OAuth2 Authentication\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-11-05T17:00:00Z\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 104,\r\n    \"subject\": \"4: Develop API Documentation\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-10-15T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 2,\r\n    \"subject\": \"5: Optimize Database Queries\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-11-01T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 106,\r\n    \"subject\": \"6: Update User Interface\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-10-20T17:00:00Z\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"id\": 107,\r\n    \"subject\": \"7: Migrate to Cloud Hosting\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-09-05T17:00:00Z\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 108,\r\n    \"subject\": \"8: Security Audit and Compliance Check\",\r\n    \"taskStatusName\": \"In Progress\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-12-01T17:00:00Z\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 109,\r\n    \"subject\": \"9: Implement Automated Backups\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-10-25T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 110,\r\n    \"subject\": \"10: Refactor Codebase\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-11-10T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 111,\r\n    \"subject\": \"11: Implement Data Encryption\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-09-20T17:00:00Z\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 112,\r\n    \"subject\": \"12: Setup Continuous Integration\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-10-10T17:00:00Z\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"id\": 113,\r\n    \"subject\": \"13: Conduct User Feedback Sessions\",\r\n    \"taskStatusName\": \"In Progress\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-10-30T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 114,\r\n    \"subject\": \"14: Improve Logging Mechanism\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-11-15T17:00:00Z\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"id\": 115,\r\n    \"subject\": \"15: Train Staff on New Features\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-09-10T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-09-11T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"TJCR7UD4G2GE789RN6KR6KUVT2GX3GDDB4YM6LQ\",\r\n    \"subject\": \"#589: Create a test account for Dawn Swope to test QB export using IIF file\",\r\n    \"taskStatusName\": \"In Progress\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-09-29T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"ZZ9UNN9VTZJQ7BDEHAHBWCFCCCHE6KQX7MJM6LQ\",\r\n    \"subject\": \"#587: Stripe recurring payment implementation\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-12-30T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"BJRV28SEGJMCXDFFYMMZYBJDC2KR37FF54TM6LQ\",\r\n    \"subject\": \"#582: New Release Issues Fix (post v11.2.4)\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-07-31T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"Z2RC2YDX7CHZ3BSC768MYHS3DMKUXSHDSM9M6LQ\",\r\n    \"subject\": \"#570: Meeting for July 2022\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-04-29T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"SM6WYADC268ZXUDFDBHVYGJRRBUUY8SEBDYM6LQ\",\r\n    \"subject\": \"#559: Add ASPNET48 in DISM commands\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-09-13T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"2CTTXS9VX6JZ7NADX46RXWFF4DUC2BJC7MJM6LQ\",\r\n    \"subject\": \"#534: Design Recurring Payment Processing\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-03-31T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"TDKTHWHRY6MLWJS3VZFTXUYV68KR7QFF3M9M6LQ\",\r\n    \"subject\": \"#523: Task for Enhance Payment Processing : Recurring payments with Stripe\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-02-27T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"36YUYJ9DZ28ZHJYRCBKQ3DAXZ8RQH7W3VM9M6LQ\",\r\n    \"subject\": \"#515: Team meetings - Feb -2022\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-01-30T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"BGFMWUD4B4JZ3EFRG89LNJRXJM9XSXSDT4TM6LQ\",\r\n    \"subject\": \"#501: Team meetings - Jan-2022\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2021-09-15T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"FMFNWKHVBDFVHEJVMCVR6DFV789LXWJDF4YM6LQ\",\r\n    \"subject\": \"#463: Convert all Server times to UTC (in database)\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 116,\r\n    \"subject\": \"Test\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-11-16\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 117,\r\n    \"subject\": \"Task 1010101\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-11-30\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  }\r\n]\r\n"
+      "value": "[\r\n  {\r\n    \"id\": \"TJCR7UD4G2GE789RN6KR6KUVT2GX3GDDB4YM6LQ\",\r\n    \"subject\": \"1: Complete Sprint Planning (Edit)\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-10-05T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\",\r\n    \"security\": {\r\n      \"read\": true,\r\n      \"write\": true,\r\n      \"append\": false,\r\n      \"delete\": false\r\n    }\r\n  },\r\n  {\r\n    \"id\": 102,\r\n    \"subject\": \"2: Make Task Details self sufficient\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-10-05T17:00:00Z\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"id\": 103,\r\n    \"subject\": \"3: Implement OAuth2 Authentication\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-11-05T17:00:00Z\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 104,\r\n    \"subject\": \"4: Develop API Documentation\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-10-15T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 2,\r\n    \"subject\": \"5: Optimize Database Queries\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-11-01T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 106,\r\n    \"subject\": \"6: Update User Interface\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-10-20T17:00:00Z\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"id\": 107,\r\n    \"subject\": \"7: Migrate to Cloud Hosting\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-09-05T17:00:00Z\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 108,\r\n    \"subject\": \"8: Security Audit and Compliance Check\",\r\n    \"taskStatusName\": \"In Progress\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-12-01T17:00:00Z\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 109,\r\n    \"subject\": \"9: Implement Automated Backups\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-10-25T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 110,\r\n    \"subject\": \"10: Refactor Codebase\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-11-10T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 111,\r\n    \"subject\": \"11: Implement Data Encryption\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-09-20T17:00:00Z\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"id\": 112,\r\n    \"subject\": \"12: Setup Continuous Integration\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-10-10T17:00:00Z\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"id\": 113,\r\n    \"subject\": \"13: Conduct User Feedback Sessions\",\r\n    \"taskStatusName\": \"In Progress\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-10-30T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"id\": 114,\r\n    \"subject\": \"14: Improve Logging Mechanism\",\r\n    \"taskStatusName\": \"Pending\",\r\n    \"isPrivate\": false,\r\n    \"dueDate\": \"2023-11-15T17:00:00Z\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"id\": 115,\r\n    \"subject\": \"15: Train Staff on New Features\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"isPrivate\": true,\r\n    \"dueDate\": \"2023-09-10T17:00:00Z\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-09-11T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"TJCR7UD4G2GE789RN6KR6KUVT2GX3GDDB4YM6LQ\",\r\n    \"subject\": \"#589: Create a test account for Dawn Swope to test QB export using IIF file\",\r\n    \"taskStatusName\": \"In Progress\",\r\n    \"taskPriorityName\": \"Low\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-09-29T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"ZZ9UNN9VTZJQ7BDEHAHBWCFCCCHE6KQX7MJM6LQ\",\r\n    \"subject\": \"#587: Stripe recurring payment implementation\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"taskPriorityName\": \"Medium\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-12-30T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"BJRV28SEGJMCXDFFYMMZYBJDC2KR37FF54TM6LQ\",\r\n    \"subject\": \"#582: New Release Issues Fix (post v11.2.4)\",\r\n    \"taskStatusName\": \"Open\",\r\n    \"taskPriorityName\": \"High\"\r\n  },\r\n  {\r\n    \"dueDate\": \"2022-07-31T18:30:00Z\",\r\n    \"isPrivate\": false,\r\n    \"id\": \"Z2RC2YDX7CHZ3BSC768MYHS3DMKUXSHDSM9M6LQ\",\r\n    \"subject\": \"#570: Meeting for July 2022\",\r\n    \"taskStatusName\": \"Completed\",\r\n    \"taskPriorityName\": \"High\"\r\n  }\r\n]\r\n"
     },
     {
       "uuid": "5e45eddf-d5c8-43dc-89e8-79456d0a218b",
