@@ -76,7 +76,17 @@ const createdDate = computed(() => {
       event.value?.createdDate,
       event.value?.isAllDayEvent
     );
-    return data;
+    return `On ${data}`;
+  }
+  return 'YYYY';
+});
+const lastModifiedDate = computed(() => {
+  if (event.value?.modifiedDate) {
+    const data = dateTimeHelper.extractDateandTimeFromUtc(
+      event.value?.modifiedDate,
+      event.value?.isAllDayEvent
+    );
+    return `On ${data}`;
   }
   return 'YYYY';
 });
@@ -96,6 +106,13 @@ const labelNameById = computed(() => {
   const obj = labelData.find((obj: any) => obj.id === event.value?.label);
   return obj ? obj : null;
 });
+
+const showTimeAsById = computed(() => {
+  const data = eventListStore.ShowMyTimeAs;
+  const obj = data.find((obj: any) => obj.id === event.value?.ShowTimeAs);
+  return obj ? obj : null;
+});
+
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this event?');
 const showConfirmationDialog = ref(false);
@@ -117,50 +134,122 @@ const confirmDeletion = () => {
   <q-layout view="lHh Lpr lFf">
     <q-header bordered class="bg-primary text-white" height-hint="98" reveal>
       <q-toolbar>
-        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)" />
-        <q-toolbar-title> Event details</q-toolbar-title>
+        <q-btn
+          color="white"
+          dense
+          flat
+          icon="arrow_back"
+          round
+          @click="$router.go(-1)"
+        />
+        <q-toolbar-title
+          ><OCItem :value="`${showMeetingType(event?.eventType)} event`"
+        /></q-toolbar-title>
 
-        <q-btn :to="{ name: 'editEvent', params: { id: id } }" color="white" dense flat icon="edit" round />
-        <q-btn color="white" dense flat icon="delete" round @click="displayConfirmationDialog" />
+        <q-btn
+          :to="{ name: 'editEvent', params: { id: id } }"
+          color="white"
+          dense
+          flat
+          icon="edit"
+          round
+        />
+        <q-btn
+          color="white"
+          dense
+          flat
+          icon="delete"
+          round
+          @click="displayConfirmationDialog"
+        />
       </q-toolbar>
     </q-header>
 
     <q-page-container>
       <q-list>
-        <OCItem :value="`${showMeetingType(event?.eventType)} event`" />
-        <OCItem title="Created On" :value="createdDate" />
-        <OCItem title="Event Name" :value="event?.eventName" />
-        <OCItem v-if="event?.eventDescription" title="Description" :value="event?.eventDescription" />
-        <OCItem v-if="event?.eventLocation" title="Event Location" :value="event?.eventLocation" />
+        <!-- <OCItem :value="`${showMeetingType(event?.eventType)} event`" /> -->
+        <OCItem :value="event?.eventName" class="text-h6" />
+        <OCItem
+          v-if="event?.eventDescription"
+          :value="event?.eventDescription"
+        />
+
+        <OCItem
+          v-if="event?.eventLocation"
+          title="Location"
+          :value="event?.eventLocation"
+        />
         <OCItem title="Start Date" :value="startDate" />
         <OCItem title="End Date" :value="endDate" />
-        <OCItem title="Is All Day Event ?" :value="event?.isAllDayEvent ? 'Yes' : 'No'" />
+        <OCItem
+          title="Is All Day Event ?"
+          :value="event?.isAllDayEvent ? 'Yes' : 'No'"
+        />
         <q-item v-if="event?.meetingAttendees">
           <q-item-section>
             <q-item-label caption> Attendees </q-item-label>
             <div style="display: inline-flex; align-items: baseline">
-              <q-item-label v-for="attendee in attendeesList" :key="attendee.name">
+              <q-item-label
+                v-for="attendee in attendeesList"
+                :key="attendee.name"
+              >
                 <q-chip dense class="q-px-sm">{{ attendee.name }}</q-chip>
               </q-item-label>
             </div>
+          </q-item-section>
+        </q-item>
+        <q-item v-if="event?.url">
+          <q-item-section>
+            <q-item-label caption> event.url </q-item-label>
+            <q-item-label> </q-item-label>
           </q-item-section>
         </q-item>
         <q-item v-if="event?.label">
           <q-item-section>
             <q-item-label caption> Label </q-item-label>
             <q-item-label>
-              <span class="q-py-xs q-px-sm" :style="{ backgroundColor: labelNameById?.color }">{{ labelNameById?.name
-              }}</span>
+              <span
+                class="q-py-xs q-px-sm"
+                :style="{ backgroundColor: labelNameById?.color }"
+                >{{ labelNameById?.name }}</span
+              >
             </q-item-label>
           </q-item-section>
         </q-item>
-        <OCItem v-if="event?.repeatInfoText" title="Repeat" :value="event?.repeatInfoText" />
-        <OCItem v-if="event?.remindTo" title="Reminder"
-          :value="`${selectedOption?.label} ${selectedTime?.label} Before`" />
+        <q-item v-if="event?.ShowTimeAs">
+          <q-item-section>
+            <q-item-label caption> Show Time As </q-item-label>
+            <q-item-label>
+              <span
+                class="q-py-xs q-px-sm"
+                :style="{ backgroundColor: showTimeAsById?.color }"
+                >{{ showTimeAsById?.name }}</span
+              >
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <OCItem
+          v-if="event?.repeatInfoText"
+          title="Repeat"
+          :value="event?.repeatInfoText"
+        />
+        <OCItem
+          v-if="event?.remindTo"
+          title="Reminder"
+          :value="`${selectedOption?.label} ${selectedTime?.label} Before`"
+        />
+        <OCItem title="Created" :value="createdDate" />
+        <OCItem title="Last Modified" :value="lastModifiedDate" />
       </q-list>
     </q-page-container>
   </q-layout>
 
-  <ConfirmationDialog v-if="showConfirmationDialog" :showConfirmationDialog="showConfirmationDialog" :title="title"
-    :message="message" @cancel="cancelConfirmation" @confirm="confirmDeletion" />
+  <ConfirmationDialog
+    v-if="showConfirmationDialog"
+    :showConfirmationDialog="showConfirmationDialog"
+    :title="title"
+    :message="message"
+    @cancel="cancelConfirmation"
+    @confirm="confirmDeletion"
+  />
 </template>

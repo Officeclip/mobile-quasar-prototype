@@ -6,7 +6,7 @@
 //
 // From: https://app.quicktype.io/#l=TypeScript
 
-import { label, timeZone } from './eventLists';
+import { label, ShowTimeAs, timeZone } from './eventLists';
 
 export interface eventDetails {
   id: number;
@@ -33,6 +33,7 @@ export interface eventDetails {
   remindTo: string;
   remindBeforeMinutes: number;
   label: label[];
+  ShowTimeAs: ShowTimeAs[];
   meetingAttendees: meetingAttendee[];
   url: string;
 }

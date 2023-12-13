@@ -347,6 +347,26 @@ function isValidURL(url: string) {
           </template>
         </q-input>
       </q-item>
+      <q-item>
+        <q-input
+          v-model="event.eventDescription"
+          autogrow
+          class="full-width"
+          dense
+          label="Notes"
+          placeholder="enter event description"
+        />
+      </q-item>
+      <q-item>
+        <q-input
+          v-model="event.eventLocation"
+          class="full-width"
+          dense
+          label="Location"
+          placeholder="enter where the event will take place"
+        >
+        </q-input>
+      </q-item>
       <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
         <q-item-section avatar>
           <q-icon color="primary" name="repeat" size="sm" />
@@ -393,27 +413,6 @@ function isValidURL(url: string) {
         <q-item-section side>
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
-      </q-item>
-
-      <q-item>
-        <q-input
-          v-model="event.eventLocation"
-          class="full-width"
-          dense
-          label="Location"
-          placeholder="enter where the event will take place"
-        >
-        </q-input>
-      </q-item>
-      <q-item>
-        <q-input
-          v-model="event.eventDescription"
-          autogrow
-          class="full-width"
-          dense
-          label="Notes"
-          placeholder="enter event description"
-        />
       </q-item>
       <q-item>
         <q-input

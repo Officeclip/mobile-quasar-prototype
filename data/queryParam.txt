@@ -1,7 +1,16 @@
 All the query parameters:
 
-Expense Summary / Timesheet Summary
+Expense Summary
 
 .../expense-summary?category=inbox
 .../expense-summary?category=outbox
 .../expense-summary?category=archived
+
+Timesheet Summary
+
+.../timesheet-summary?category=inbox
+.../timesheet-summary?category=outbox
+.../timesheet-summary?category=archived
+
+Tasks
+
