@@ -76,7 +76,17 @@ const createdDate = computed(() => {
       event.value?.createdDate,
       event.value?.isAllDayEvent
     );
-    return data;
+    return `On ${data}`;
+  }
+  return 'YYYY';
+});
+const lastModifiedDate = computed(() => {
+  if (event.value?.modifiedDate) {
+    const data = dateTimeHelper.extractDateandTimeFromUtc(
+      event.value?.modifiedDate,
+      event.value?.isAllDayEvent
+    );
+    return `On ${data}`;
   }
   return 'YYYY';
 });
@@ -209,7 +219,8 @@ const confirmDeletion = () => {
           title="Reminder"
           :value="`${selectedOption?.label} ${selectedTime?.label} Before`"
         />
-        <OCItem title="Created On" :value="createdDate" />
+        <OCItem title="Created" :value="createdDate" />
+        <OCItem title="Last Modified" :value="lastModifiedDate" />
       </q-list>
     </q-page-container>
   </q-layout>
