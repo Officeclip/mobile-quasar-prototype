@@ -1,18 +1,17 @@
 export interface searchFilter{
   filterString: string,
-  ownedByMeFilter: boolean,
-  assignedToMeFilter: boolean,
-  showAdvancedOptions: boolean,
-  userName: string,
+  ownedByMe: boolean,
+  assignedToMe: boolean,
   dueDateValue: string,
   dueDateOption: string,
   modifiedDateValue: string,
   modifiedDateOption: string,
-  statusName: string,
-  priorityName: string,
-  taskTypeValue: string,
-  assignedTo: string,
-  ownedBy: string,
-  regarding: string
+  statusId: number|string,
+  priorityId: number|string,
+  taskTypeId: number|string,
+  assignedToId: number|string,
+  ownedById: number|string,
+  regardingTypeId: number|string,
+  regardingValueId:number|string,
   showCompleted:boolean
 }

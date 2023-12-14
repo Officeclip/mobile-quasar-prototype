@@ -44,7 +44,6 @@ export const useTaskListsStore = defineStore('taskListsStore', {
         this.taskPriorities = taskLists.priority;
         this.taskStatuses = taskLists.status;
         this.regardingParent = taskLists.regardingParentTypes;
-        // this.regardingContacts = eventLists.regardingContact;
       } catch (error) {
         console.error(error);
       }

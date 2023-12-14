@@ -10,79 +10,60 @@ import {taskSummary} from 'src/models/task/taskSummary';
 
 let filterOptions: Ref<searchFilter> = ref({
   filterString: '',
-  ownedByMeFilter: false,
-  assignedToMeFilter: false,
-  showAdvancedOptions: false,
-  userName: 'Alice Johnson',
+  ownedByMe: false,
+  assignedToMe: false,
   dueDateValue: '',
   dueDateOption: '',
   modifiedDateValue: '',
   modifiedDateOption: '',
-  statusName: '',
-  priorityName: '',
-  taskTypeValue: '',
-  assignedTo: '',
-  ownedBy: '',
-  regarding: '',
-  showCompleted: false
+  statusId: '',
+  priorityId: '',
+  taskTypeId: '',
+  assignedToId: '',
+  ownedById: '',
+  regardingTypeId: '',
+  regardingValueId: '',
+  showCompleted: false,
 });
 
 const parent = {
-  parentObjectId: -1,
-  parentObjectServiceType: -1,
+  parentObjectId: 0,
+  parentObjectServiceType: 0,
 };
 
 const taskSummaryStore = useTaskSummaryStore();
 
-// const getFilteredTaskSummaries = ref([...taskSummaryStore.taskSummaries]);
-// const getFilteredTaskSummaries = computed(() => {
-//   // await taskSummaryStore.getFilteredTasks(filterOptions.value, parent.parentObjectId, parent.parentObjectServiceType);
-//
-//   return taskSummaryStore.TaskSummaries;
-// });
 
 const getSortedSummaries = computed(() => {
-  // let sortedTasks = getFilteredTaskSummaries;
-  // sortedTasks.value.sort((a, b) => {
-  //   if (sortOption.value === 'createdDate') {
-  //     return a.createdDate.localeCompare(b.createdDate);
-  //   } else if (sortOption.value === 'dueDate') {
-  //     return a.dueDate.localeCompare(b.dueDate);
-  //   } else {
-  //     return a.subject.localeCompare(b.subject);
-  //   }
-  // });
   return taskSummaryStore.taskSummaries;
 });
 
 function clearFilterValues() {
   filterOptions.value = {
     filterString: '',
-    ownedByMeFilter: false,
-    assignedToMeFilter: false,
-    showAdvancedOptions: false,
-    userName: 'Alice Johnson',
+    ownedByMe: false,
+    assignedToMe: false,
     dueDateValue: '',
     dueDateOption: '',
     modifiedDateValue: '',
     modifiedDateOption: '',
-    statusName: '',
-    priorityName: '',
-    taskTypeValue: '',
-    assignedTo: '',
-    ownedBy: '',
-    regarding: '',
+    statusId: '',
+    priorityId: '',
+    taskTypeId: '',
+    assignedToId: '',
+    ownedById: '',
+    regardingTypeId: '',
+    regardingValueId: '',
     showCompleted: false,
   }
   filterCount.value = 0;
   getFirstBatch();
 }
 
-let reachedEnd = ref(false); // indicate if all contacts have been loaded
-const batchSize = 10; // number of contacts to load in each batch
+let reachedEnd = ref(false);
+const batchSize = 10;
 
 async function getFirstBatch() {
-  // await taskSummaryStore.resetTaskSummaryList();
   taskSummaryStore
     .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, 1)
     .then((val) => {
@@ -91,90 +72,67 @@ async function getFirstBatch() {
 }
 
 const loadMore = (index: any, done: () => void) => {
-  const contactsSizeBeforeCall = getSortedSummaries.value.length;
+  // const contactsSizeBeforeCall = getSortedSummaries.value.length;
   setTimeout(() => {
     taskSummaryStore
       .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, 1)
       .then((val) => {
-        // currentPage++;
-        // getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
-        // const contactsAfterCall = getSortedSummaries.value.length;
-        // reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
         reachedEnd.value = val;
-
         done();
       });
   }, 500);
 };
 
-function receiveAdvFilters(advancedOptions: any) {
+function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.dueDateValue = advancedOptions.dueDateValue;
   filterOptions.value.dueDateOption = advancedOptions.dueDateOption;
   filterOptions.value.modifiedDateValue = advancedOptions.modifiedDateValue;
   filterOptions.value.modifiedDateOption = advancedOptions.modifiedDateOption;
-  filterOptions.value.statusName = advancedOptions.statusName;
-  filterOptions.value.priorityName = advancedOptions.priorityName;
-  filterOptions.value.assignedTo = advancedOptions.assignedTo;
-  filterOptions.value.ownedBy = advancedOptions.ownedBy;
-  filterOptions.value.regarding = advancedOptions.regarding;
-  filterOptions.value.taskTypeValue = advancedOptions.taskTypeValue;
-
-  // console.log(filterOptions.value);
-
+  filterOptions.value.statusId = advancedOptions.statusId;
+  filterOptions.value.priorityId = advancedOptions.priorityId;
+  filterOptions.value.assignedToId = advancedOptions.assignedToId;
+  filterOptions.value.ownedById = advancedOptions.ownedById;
+  filterOptions.value.regardingValueId = advancedOptions.regardingValueId;
+  filterOptions.value.regardingTypeId = advancedOptions.regardingTypeId;
+  filterOptions.value.taskTypeId = advancedOptions.taskTypeId;
+  filterOptions.value.showCompleted = advancedOptions.showCompleted;
 }
 
 async function filterFn(val: string) {
   if (val.length === 0) {
     await getFirstBatch();
   } else if (val.length < 2) {
-    // abort();
     return;
   } else if (val.length === 2) {
-    // getFilteredTaskSummaries.value = [];
     await taskSummaryStore.getRegardingContactListThatMatch(val, parent.parentObjectId, parent.parentObjectServiceType);
-    // getFilteredTaskSummaries.value = taskSummaryStore.TaskSummaries;
   } else {
-    // getFilteredTaskSummaries.value = getFilteredTaskSummaries.value.filter((t: taskSummary) => {
-    //   return t.subject.toLowerCase().includes(val.toLowerCase());
-    // });
-
     taskSummaryStore.taskSummaries = taskSummaryStore.taskSummaries.filter((t: taskSummary) => {
       return t.subject.toLowerCase().includes(val.toLowerCase());
     });
   }
-
-  // update(() => {
-  //   console.log('update');
-  //   const needle = val.toLowerCase();
-  //   getFilteredTaskSummaries.value = taskSummaryStore.TaskSummaries.filter(
-  //     (task) => task.subject.toLowerCase().indexOf(needle) > -1
-  //   );
-  // });
 }
 
 watch(
   () => filterOptions.value.filterString,
-  async (newValue, oldValue) => {
+  async (newValue) => {
     await filterFn(newValue);
   }
 );
 
 watch(
-  () => filterOptions.value.assignedToMeFilter,
-  async (newValue, oldValue) => {
+  () => filterOptions.value.assignedToMe,
+  async () => {
     await taskSummaryStore.resetTaskSummaryList();
-    // getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
     setTimeout(async () => {
-      await getFirstBatch();
+      await taskSummaryStore.getFilteredTasksNew(filterOptions.value, parent.parentObjectId, parent.parentObjectServiceType);
     }, 300);
   }
 );
 
 watch(
-  () => filterOptions.value.ownedByMeFilter,
-  async (newValue, oldValue) => {
+  () => filterOptions.value.ownedByMe,
+  async () => {
     await taskSummaryStore.resetTaskSummaryList();
-    // getFilteredTaskSummaries.value = [...taskSummaryStore.taskSummaries];
     setTimeout(async () => {
       await getFirstBatch();
     }, 300);
@@ -232,7 +190,7 @@ onBeforeMount(async () => {
 
         <div class="row q-pa-sm justify-between">
           <div class="q-mr-md">
-            <q-checkbox v-model="filterOptions.assignedToMeFilter" label="Assigned to me"/>
+            <q-checkbox v-model="filterOptions.assignedToMe" label="Assigned to me"/>
           </div>
           <div class="row">
             <div class="q-mr-md">
