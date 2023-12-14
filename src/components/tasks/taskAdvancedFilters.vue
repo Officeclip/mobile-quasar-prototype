@@ -6,76 +6,72 @@ import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import {searchFilter} from "src/models/task/searchFilter";
 
 const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
-const props = defineProps(['parent', 'filterOptions']);
+
+const props = defineProps<{
+  parent: any,
+  filterOptions: searchFilter
+}>();
 const taskSummaryStore = useTaskSummaryStore();
 
 const advancedOptions: Ref<searchFilter> = ref({
   filterString: '',
-  ownedByMeFilter: false,
-  assignedToMeFilter: false,
-  showAdvancedOptions: false,
-  userName: '',
+  ownedByMe: false,
+  assignedToMe: false,
   dueDateValue: '',
   dueDateOption: '',
   modifiedDateValue: '',
   modifiedDateOption: '',
-  statusName: '',
-  priorityName: '',
-  taskTypeValue: '',
-  assignedTo: '',
-  ownedBy: '',
-  regarding: '',
+  statusId: '',
+  priorityId: '',
+  taskTypeId: '',
+  assignedToId: '',
+  ownedById: '',
+  regardingTypeId: '',
+  regardingValueId: '',
   showCompleted: false,
 })
 
 function filterNumber(filter: searchFilter) {
   let val = 0;
-
-  // Compare each field in the filter object against the advancedOptions defaults
-  val += filter.dueDateValue !== '' ? 1 : 0;
   val += filter.dueDateOption !== '' ? 1 : 0;
-  val += filter.modifiedDateValue !== '' ? 1 : 0;
   val += filter.modifiedDateOption !== '' ? 1 : 0;
-  val += filter.statusName !== '' ? 1 : 0;
-  val += filter.priorityName !== '' ? 1 : 0;
-  val += filter.taskTypeValue !== '' ? 1 : 0;
-  val += filter.assignedTo !== '' ? 1 : 0;
-  val += filter.ownedBy !== '' ? 1 : 0;
-  val += filter.regarding !== '' ? 1 : 0;
-  val += !filter.showCompleted ? 1 : 0;
+  val += filter.statusId ? 1 : 0;
+  val += filter.priorityId ? 1 : 0;
+  val += filter.taskTypeId ? 1 : 0;
+  val += filter.assignedToId? 1 : 0;
+  val += filter.ownedById ? 1 : 0;
+  val += filter.regardingTypeId ? 1 : 0;
+  val += filter.regardingValueId ? 1 : 0;
+  val += filter.showCompleted ? 1 : 0;
 
   return val;
 }
 
 
 function emitOptions() {
-  // taskSummaryStore.getFilteredTasks(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
   taskSummaryStore.getFilteredTasksNew(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
-
-  // console.log(taskSummaryStore.taskSummaries);
   emit('advancedOptionsGenerated', advancedOptions.value);
   emit('filterCount', filterNumber(advancedOptions.value));
-  // console.log(filterNumber(advancedOptions.value));
 }
 
 const taskListsStore = useTaskListsStore();
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
+  console.log(taskListsStore.users);
   advancedOptions.value.filterString = props.filterOptions?.filterString
-  advancedOptions.value.ownedByMeFilter = props.filterOptions?.ownedByMeFilter
-  advancedOptions.value.assignedToMeFilter = props.filterOptions?.assignedToMeFilter
-  advancedOptions.value.showAdvancedOptions = props.filterOptions?.showAdvancedOptions
-  advancedOptions.value.userName = props.filterOptions?.userName
+  advancedOptions.value.ownedByMe = props.filterOptions?.ownedByMe
+  advancedOptions.value.assignedToMe = props.filterOptions?.assignedToMe
   advancedOptions.value.dueDateValue = props.filterOptions?.dueDateValue
   advancedOptions.value.dueDateOption = props.filterOptions?.dueDateOption
   advancedOptions.value.modifiedDateValue = props.filterOptions?.modifiedDateValue
   advancedOptions.value.modifiedDateOption = props.filterOptions?.modifiedDateOption
-  advancedOptions.value.statusName = props.filterOptions?.statusName
-  advancedOptions.value.priorityName = props.filterOptions?.priorityName
-  advancedOptions.value.taskTypeValue = props.filterOptions?.taskTypeValue
-  advancedOptions.value.assignedTo = props.filterOptions?.assignedTo
-  advancedOptions.value.ownedBy = props.filterOptions?.ownedBy
-  advancedOptions.value.regarding = props.filterOptions?.regarding
+  advancedOptions.value.statusId = props.filterOptions?.statusId
+  advancedOptions.value.priorityId = props.filterOptions?.priorityId
+  advancedOptions.value.taskTypeId = props.filterOptions?.taskTypeId
+  advancedOptions.value.assignedToId = props.filterOptions?.assignedToId
+  advancedOptions.value.ownedById = props.filterOptions?.ownedById
+  advancedOptions.value.regardingValueId = props.filterOptions?.regardingValueId
+  advancedOptions.value.regardingTypeId = props.filterOptions?.regardingTypeId
   advancedOptions.value.showCompleted = props.filterOptions?.showCompleted
 });
 
@@ -155,26 +151,26 @@ async function filterFn(val: string, update: any, abort: any) {
     <div class="q-pa-md row">
       <q-item-section>
         <q-item-label>Status</q-item-label>
-        <q-select v-model="advancedOptions.statusName"
+        <q-select v-model="advancedOptions.statusId"
                   :options="taskListsStore.TaskStatuses"
                   emit-value
                   map-options
                   option-label="name"
-                  option-value="name"/>
+                  option-value="id"/>
       </q-item-section>
 
       <q-item-section>
         <q-item-label>Priority</q-item-label>
-        <q-select v-model="advancedOptions.priorityName" :options="taskListsStore.TaskPriorities"
+        <q-select v-model="advancedOptions.priorityId" :options="taskListsStore.TaskPriorities"
                   emit-value
                   map-options
                   option-label="name"
-                  option-value="name"/>
+                  option-value="id"/>
       </q-item-section>
 
       <q-item-section>
         <q-item-label>Task Type</q-item-label>
-        <q-select v-model="advancedOptions.taskTypeValue"
+        <q-select v-model="advancedOptions.taskTypeId"
                   :options="taskListsStore.TaskTypes"
                   emit-value
                   map-options
@@ -187,30 +183,31 @@ async function filterFn(val: string, update: any, abort: any) {
 
       <q-item-section>
         <q-item-label>Assigned To</q-item-label>
-        <q-select v-model="advancedOptions.assignedTo"
+        <q-select v-model="advancedOptions.assignedToId"
                   :options="contactOptions"
                   clearable
                   emit-value
+                  map-options
                   option-label="name"
-                  option-value="name"
+                  option-value="id"
                   use-input
                   @filter="filterFn"/>
       </q-item-section>
 
       <q-item-section>
         <q-item-label>Owned By</q-item-label>
-        <q-select v-model="advancedOptions.ownedBy"
+        <q-select v-model="advancedOptions.ownedById"
                   :options="contactOptions"
                   clearable
                   emit-value
+                  map-options
                   option-label="name"
-                  option-value="name"
+                  option-value="id"
                   use-input
                   @filter="filterFn"/>
       </q-item-section>
     </div>
     <div class="q-pa-md row">
-
       <q-item-section>
         <div class="q-mr-md">
           <q-checkbox v-model="advancedOptions.showCompleted" label="Show completed tasks"/>
@@ -225,8 +222,3 @@ async function filterFn(val: string, update: any, abort: any) {
 
 </template>
 
-<style scoped>
-.select-spacing {
-  margin: 5px; /* Adjust the margin as needed */
-}
-</style>

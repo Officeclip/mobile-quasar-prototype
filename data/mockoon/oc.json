@@ -1173,7 +1173,7 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": "SEQUENTIAL"
     }
   ],
   "rootChildren": [
