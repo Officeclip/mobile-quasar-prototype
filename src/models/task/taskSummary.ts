@@ -6,6 +6,7 @@ export interface taskSummary {
   dueDate: string;
   isPrivate: boolean;
   taskStatusName: string;
+  taskStatusCategory: string;
   taskPriorityName: string;
 }
 

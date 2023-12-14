@@ -23,6 +23,7 @@ export interface taskPriority {
 export interface taskStatus {
   id: string;
   name: string;
+  category: string
 }
 
 export interface regardingContact {

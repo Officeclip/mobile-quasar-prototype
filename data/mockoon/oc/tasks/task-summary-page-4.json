@@ -5,6 +5,8 @@
     "id": "TJCR7UD4G2GE789RN6KR6KUVT2GX3GDDB4YM6LQ",
     "subject": "#589: Create a test account for Dawn Swope to test QB export using IIF file",
     "taskStatusName": "In Progress",
+    "taskStatusCategory": "Pending",
+
     "taskPriorityName": "Low"
   },
   {
@@ -13,6 +15,8 @@
     "id": "ZZ9UNN9VTZJQ7BDEHAHBWCFCCCHE6KQX7MJM6LQ",
     "subject": "#587: Stripe recurring payment implementation",
     "taskStatusName": "Open",
+    "taskStatusCategory": "Active",
+
     "taskPriorityName": "Medium"
   },
   {
@@ -21,6 +25,8 @@
     "id": "BJRV28SEGJMCXDFFYMMZYBJDC2KR37FF54TM6LQ",
     "subject": "#582: New Release Issues Fix (post v11.2.4)",
     "taskStatusName": "Open",
+    "taskStatusCategory": "Active",
+
     "taskPriorityName": "High"
   },
   {
@@ -29,6 +35,7 @@
     "id": "Z2RC2YDX7CHZ3BSC768MYHS3DMKUXSHDSM9M6LQ",
     "subject": "#570: Meeting for July 2022",
     "taskStatusName": "Completed",
+    "taskStatusCategory": "Completed",
     "taskPriorityName": "High"
   }
 ]
