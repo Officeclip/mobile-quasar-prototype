@@ -40,19 +40,9 @@ async function onSubmit(e: any) {
       }
       return;
     }
-    //debugger;
     await tokenStore.validateLogin(login.value);
     await sessionStore.getSession();
-    //debugger;
-    // const token = tokenStore.Token;
-    // if (token) {
-    //   Constants.saveAuthorizationTokenInLocalStorage(
-    //     token.token,
-    //     token.expirationUnixEpoch
-    //   );
-    // } else {
-    //   throw new Error('Could not get the token');
-    // }
+
     route1.push('/HomePage');
   } catch (error) {
     $q.notify({

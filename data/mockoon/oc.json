@@ -1235,6 +1235,10 @@
     {
       "key": "Access-Control-Allow-Headers",
       "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With, x-OrgKey, x-token"
+    },
+    {
+      "key": "Access-Control-Expose-Headers",
+      "value": "Links"
     }
   ],
   "proxyReqHeaders": [
