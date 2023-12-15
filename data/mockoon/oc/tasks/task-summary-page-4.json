@@ -6,7 +6,6 @@
     "subject": "#589: Create a test account for Dawn Swope to test QB export using IIF file",
     "taskStatusName": "In Progress",
     "taskStatusCategory": "Pending",
-
     "taskPriorityName": "Low"
   },
   {
@@ -16,7 +15,6 @@
     "subject": "#587: Stripe recurring payment implementation",
     "taskStatusName": "Open",
     "taskStatusCategory": "Active",
-
     "taskPriorityName": "Medium"
   },
   {
@@ -26,7 +24,6 @@
     "subject": "#582: New Release Issues Fix (post v11.2.4)",
     "taskStatusName": "Open",
     "taskStatusCategory": "Active",
-
     "taskPriorityName": "High"
   },
   {

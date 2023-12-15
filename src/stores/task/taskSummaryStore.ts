@@ -167,7 +167,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       // json server call
       let callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&limit=${pagesize}&page=${pagenumber}`
+          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&pagesize=${pagesize}&pagenumber=${pagenumber}`
           : `${Constants.endPointUrl}/task-summary?pagesize=${pagesize}&pagenumber=${pagenumber}`;
 
       if (this.urls.get('next')) {
@@ -181,7 +181,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         });
         this.taskSummaries.push(...response);
         const headers = res.headers;
-        console.log(headers);
+        console.log(JSON.parse(headers.get('Links')));
         // this.parseLinkHeader(headers.link);
       } catch (error) {
         console.error(error);

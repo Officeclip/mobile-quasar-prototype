@@ -27,8 +27,8 @@ let filterOptions: Ref<searchFilter> = ref({
 });
 
 const parent = {
-  parentObjectId: 0,
-  parentObjectServiceType: 0,
+  parentObjectId: -1,
+  parentObjectServiceType: -1,
 };
 
 const taskSummaryStore = useTaskSummaryStore();
@@ -37,11 +37,11 @@ const getSortedSummaries = computed(() => {
 });
 
 let reachedEnd = ref(false);
-const batchSize = 10;
+const pageSize = 10;
 
 async function getFirstBatch() {
   taskSummaryStore
-    .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, 1)
+    .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, pageSize, 1)
     .then((val) => {
       reachedEnd.value = val;
     });
@@ -50,7 +50,7 @@ const loadMore = (index: any, done: () => void) => {
   // const contactsSizeBeforeCall = getSortedSummaries.value.length;
   setTimeout(() => {
     taskSummaryStore
-      .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, batchSize, 1)
+      .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, pageSize, -1)
       .then((val) => {
         reachedEnd.value = val;
         done();
