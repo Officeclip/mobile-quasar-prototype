@@ -194,14 +194,15 @@ const confirmDeletion = () => {
                 :key="attendee.name"
               >
                 <q-chip dense class="q-px-sm">{{ attendee.name }}</q-chip>
+                <q-tooltip>{{ attendee.email }}</q-tooltip>
               </q-item-label>
             </div>
           </q-item-section>
         </q-item>
         <q-item v-if="event?.url">
           <q-item-section>
-            <q-item-label caption> event.url </q-item-label>
-            <q-item-label> </q-item-label>
+            <q-item-label caption>Url </q-item-label>
+            <q-item-label>event.url </q-item-label>
           </q-item-section>
         </q-item>
         <q-item v-if="event?.label">

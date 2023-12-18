@@ -2,9 +2,11 @@ import { defineStore } from 'pinia';
 import {
   label,
   ShowTimeAs,
-  regardingContact,
+  regardingParent,
   timeZone,
+  user,
 } from 'src/models/event/eventLists';
+import { regardingContact } from 'src/models/event/eventLists';
 import axios from 'axios';
 import { Constants } from '../Constants';
 
@@ -12,18 +14,18 @@ export const useEventListsStore = defineStore('eventListsStore', {
   state: () => ({
     // timesheetList: undefined as TimesheetList | undefined,
     labels: [] as label[],
-    // regardingContacts: [] as regardingContact[],
+    regardingParent: [] as regardingParent[],
     timeZones: [] as timeZone[],
     showMyTimeAs: [] as ShowTimeAs[],
-    // metaTypes: [],
+    users: [] as user[],
   }),
 
   getters: {
     Labels: (state) => state.labels,
-    // RegardingContacts: (state) => state.regardingContacts,
+    RegardingParent: (state) => state.regardingParent,
     TimeZones: (state) => state.timeZones,
     ShowMyTimeAs: (state) => state.showMyTimeAs,
-    // MetaTypes: (state) => state.metaTypes,
+    Users: (state) => state.users,
   },
 
   actions: {
@@ -50,28 +52,6 @@ export const useEventListsStore = defineStore('eventListsStore', {
           color: '#6A5ACD',
         },
       ];
-      // const metaTypeOptions: any = [
-      //   {
-      //     id: -1,
-      //     name: '',
-      //   },
-      //   {
-      //     id: 1,
-      //     name: 'Contacts',
-      //   },
-      //   {
-      //     id: 2,
-      //     name: 'Accounts',
-      //   },
-      //   {
-      //     id: 3,
-      //     name: 'Projects',
-      //   },
-      //   {
-      //     id: 4,
-      //     name: 'Campaigns',
-      //   },
-      // ];
       const callStr = `${Constants.endPointUrl}/event-lists`;
       try {
         const instance = Constants.getAxiosInstance();
@@ -84,7 +64,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
         this.labels = eventLists.label;
         this.timeZones = eventLists.timezone;
         this.showMyTimeAs = ShowMyTimeAsOptions;
-        // this.metaTypes = metaTypeOptions;
+        this.regardingParent = eventLists.regardingParentTypes;
       } catch (error) {
         console.error(error);
       }
@@ -140,5 +120,23 @@ export const useEventListsStore = defineStore('eventListsStore', {
     //     console.error(error);
     //   }
     // },
+    async getFilteredUsers(searchString: string) {
+      try {
+        this.users = [];
+        const response = await axios.get(
+          `${Constants.endPointUrl}/event-lists?user=${searchString}`
+        );
+        const userList = response.data.users;
+        const filtered = userList.filter((t: regardingContact) => {
+          return t.name.toLowerCase().includes(searchString.toLowerCase());
+        });
+        console.log('userList: ', filtered);
+        await new Promise((r) => setTimeout(r, 500));
+        this.users = filtered;
+        // console.log("Filtered contacts: ", this.regardingContacts);
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 });
