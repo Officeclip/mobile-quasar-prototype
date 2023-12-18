@@ -3,21 +3,22 @@
     "states": [
       {
         "name": "Alabama",
-        "code": "AL"
+        "id": "AL",
+        "is_default": false
       },
       {
         "name": "Georgia",
-        "code": "GA"
+        "id": "GA"
       }
     ],
     "countries": [
       {
         "name": "India",
-        "code": "IN"
+        "id": "IN"
       },
       {
         "name": "United States",
-        "code": "US"
+        "id": "US"
       }
     ]
   }
