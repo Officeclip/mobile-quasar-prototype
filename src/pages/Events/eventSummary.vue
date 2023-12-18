@@ -32,6 +32,12 @@ function getEventIcon(type: any) {
   return 'person'; // personal
 }
 
+function getEventTypeColour(type: any) {
+  if (type === 1) return 'primary'; // group event
+  if (type === 2) return 'secondary'; // meetings
+  return 'red'; // personal
+}
+
 const eventsForADay = computed(() => {
   const myEvents = eventSummaryStore.EventSummary; // FIXME: skd: Not implemented correctly... should be fixed! [45]
   if (myEvents.length === 0) {
@@ -96,7 +102,10 @@ function getEventType(event: eventSummary) {
               clickable
             >
               <q-item-section avatar>
-                <q-icon :name="getEventIcon(event.eventType)" color="primary" />
+                <q-icon
+                  :name="getEventIcon(event.eventType)"
+                  :color="getEventTypeColour(event.eventType)"
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{ event.eventName }}</q-item-label>
