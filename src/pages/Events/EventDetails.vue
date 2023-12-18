@@ -194,6 +194,7 @@ const confirmDeletion = () => {
                 :key="attendee.name"
               >
                 <q-chip dense class="q-px-sm">{{ attendee.name }}</q-chip>
+                <q-tooltip>{{ attendee.email }}</q-tooltip>
               </q-item-label>
             </div>
           </q-item-section>
