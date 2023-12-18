@@ -88,7 +88,9 @@ function getEventType(event: eventSummary) {
     <q-page-container>
       <q-page>
         <div class="q-ma-md">
-          <q-date v-model="date" :events="eventDates" today-btn />
+          <q-list class="flex justify-center">
+            <q-date v-model="date" :events="eventDates" today-btn
+          /></q-list>
           <q-list class="q-pt-lg text-h6">Events for: {{ date }}</q-list>
           <q-list bordered class="q-mt-sm">
             <q-item
