@@ -19,6 +19,24 @@
         "name": "United States",
         "code": "US"
       }
+    ],
+    "children": [
+      {
+        "id": 1,
+        "name": "task"
+      },
+      {
+        "id": 4,
+        "name": "event"
+      },
+      {
+        "id": 20,
+        "name": "note"
+      },
+      {
+        "id": 35,
+        "name": "activityTabForCrm"
+      }
     ]
   }
 ]
