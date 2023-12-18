@@ -2,19 +2,26 @@
   "status": [
     {
       "id": "5",
-      "name": "Open"
+      "name": "Open",
+      "category": "Active"
     },
     {
       "id": "6",
-      "name": "Closed"
+      "name": "Closed",
+      "category": "Completed"
+
     },
     {
       "id": "7",
-      "name": "Pending"
+      "name": "Pending",
+      "category": "Pending"
+
     },
     {
       "id": "8",
-      "name": "Completed"
+      "name": "Completed",
+      "category": "Completed"
+
     }
   ],
   "priority": [

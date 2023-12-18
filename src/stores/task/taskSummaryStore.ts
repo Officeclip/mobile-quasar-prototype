@@ -1,12 +1,15 @@
-import {defineStore} from 'pinia';
+import { defineStore } from 'pinia';
 import axios from 'axios';
-import {taskSummary} from "src/models/task/taskSummary";
-import {Constants} from "stores/Constants";
+import { taskSummary } from 'src/models/task/taskSummary';
+import { Constants } from 'stores/Constants';
+import { searchFilter } from 'src/models/task/searchFilter';
 
 export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   state: () => ({
     taskSummaries: [] as taskSummary[],
     taskSummary: undefined as taskSummary | undefined,
+    urls: new Map<string, string>(),
+    nextBatchURL: '',
   }),
 
   getters: {
@@ -29,7 +32,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
     },
 
-    async getTask(id: number|string) {
+    async getTask(id: number | string) {
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/task-summary?id=${id}`
@@ -43,7 +46,10 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     async addTask(taskSummary: taskSummary) {
       this.taskSummaries.push(taskSummary);
 
-      const res = await axios.post(`${Constants.endPointUrl}/task-summary`, taskSummary);
+      const res = await axios.post(
+        `${Constants.endPointUrl}/task-summary`,
+        taskSummary
+      );
 
       if (res.status === 200) {
         await this.getTask(taskSummary.id);
@@ -54,14 +60,12 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
     async editTask(taskSummary: taskSummary) {
       console.log(`editTask: ${this.taskSummary?.id}`);
-      // not added yet
       try {
         const response = await axios.put(
           `${Constants.endPointUrl}/task-summary/${taskSummary.id}`,
           taskSummary
         );
         if (response.status === 200) {
-          //debugger;
           this.taskSummary = response.data;
         }
       } catch (error) {
@@ -84,154 +88,11 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
     },
 
-    async getFilteredTasks(filterOptions: any, parentObjectId: number, parentObjectServiceType: number) {
-      // console.log(`TasksStore: getFilteredTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`);
-      const callStr =
-        parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
-          : `${Constants.endPointUrl}/task-summary`;
-      try {
-        const response = await axios.get(callStr);
-        let filteredSummaries = response.data;
-
-        console.log(filterOptions);
-
-        if (filterOptions.hideCompleted) {
-          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            console.log(task.taskStatusName)
-            return task.taskStatusName != 'Completed';
-          });
-        }
-
-
-        //Search String
-        if (filterOptions.filterString) {
-          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            return task.subject.toLowerCase().includes(filterOptions.filterString.toLowerCase());
-          });
-        }
-        // Owner=Me
-        // if (filterOptions.ownedByMeFilter) {
-        //   filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-        //     return task.taskOwner === filterOptions.userName;
-        //   });
-        // }
-        // // Assignee=me
-        // if (filterOptions.assignedToMeFilter) {
-        //   filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-        //     return task.assignee.includes(filterOptions.userName);
-        //   });
-        // }
-
-        // Status Filter
-        if (filterOptions.statusName) {
-          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            console.log(task.taskStatusName);
-            return task.taskStatusName === filterOptions.statusName;
-          });
-        }
-
-
-        // Priority Filter
-        if (filterOptions.priorityName) {
-          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            return task.taskPriorityName === filterOptions.priorityName;
-          });
-        }
-        // Task Type
-        // if (filterOptions.taskTypeValue) {
-        //   filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-        //     return task.taskTypeId === filterOptions.taskTypeValue;
-        //   });
-        // }
-        // // Assigned To
-        // if (filterOptions.assignedTo) {
-        //   filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-        //     return task.assignee.includes(filterOptions.assignedTo);
-        //   });
-        // }
-        // // Owned by
-        // if (filterOptions.ownedBy) {
-        //   filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-        //     return task.taskOwner.includes(filterOptions.ownedBy);
-        //   });
-        // }
-
-        // Due Date
-        if (filterOptions.dueDateOption) {
-          filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-            const taskDueDate = new Date(task.dueDate);
-            const filterDueDate = new Date(filterOptions.dueDateValue);
-
-            switch (filterOptions.dueDateOption) {
-              case 'EqualTo':
-                return taskDueDate.getDate() === filterDueDate.getDate() &&
-                  taskDueDate.getMonth() === filterDueDate.getMonth() &&
-                  taskDueDate.getFullYear() === filterDueDate.getFullYear();
-              case 'NotEqualTo':
-                return taskDueDate.getDate() !== filterDueDate.getDate() ||
-                  taskDueDate.getMonth() !== filterDueDate.getMonth() ||
-                  taskDueDate.getFullYear() !== filterDueDate.getFullYear();
-              case 'GreaterThan':
-                return taskDueDate > filterDueDate;
-              case 'LessThan':
-                return taskDueDate < filterDueDate;
-              case 'GreaterOrEqual':
-                return taskDueDate >= filterDueDate;
-              case 'LessOrEqual':
-                return taskDueDate <= filterDueDate;
-              case 'isNull':
-                return task.dueDate === null;
-              case 'isNotNull':
-                return task.dueDate !== null;
-              default:
-                return true;
-            }
-          });
-        }
-
-        // Modified Date
-        // if (filterOptions.modifiedDateOption) {
-        //   filteredSummaries = filteredSummaries.filter((task: taskSummary) => {
-        //     const taskModifiedDate = new Date(task.modifiedDate);
-        //     const filterModifiedDate = new Date(filterOptions.modifiedDateValue);
-        //
-        //     switch (filterOptions.modifiedDateOption) {
-        //       case 'EqualTo':
-        //         return taskModifiedDate.getDate() === filterModifiedDate.getDate() &&
-        //           taskModifiedDate.getMonth() === filterModifiedDate.getMonth() &&
-        //           taskModifiedDate.getFullYear() === filterModifiedDate.getFullYear();
-        //       case 'NotEqualTo':
-        //         return taskModifiedDate.getDate() !== filterModifiedDate.getDate() ||
-        //           taskModifiedDate.getMonth() !== filterModifiedDate.getMonth() ||
-        //           taskModifiedDate.getFullYear() !== filterModifiedDate.getFullYear();
-        //       case 'GreaterThan':
-        //         return taskModifiedDate > filterModifiedDate;
-        //       case 'LessThan':
-        //         return taskModifiedDate < filterModifiedDate;
-        //       case 'GreaterOrEqual':
-        //         return taskModifiedDate >= filterModifiedDate;
-        //       case 'LessOrEqual':
-        //         return taskModifiedDate <= filterModifiedDate;
-        //       case 'isNull':
-        //         return task.modifiedDate === null;
-        //       case 'isNotNull':
-        //         return task.modifiedDate !== null;
-        //       default:
-        //         return true;
-        //     }
-        //   });
-        // }
-
-        console.log(filteredSummaries)
-        this.taskSummaries = filteredSummaries;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-
-    //TODO: test below method from ChatGPT
-    async getFilteredTasksNew(filterOptions: any, parentObjectId: number, parentObjectServiceType: number) {
+    async getFilteredTasksNew(
+      filterOptions: searchFilter,
+      parentObjectId: number,
+      parentObjectServiceType: number
+    ) {
       // Base URL for the API call
       const apiUrl = `${Constants.endPointUrl}/task-summary`;
 
@@ -241,17 +102,71 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       // Check if parentObjectId and parentObjectServiceType are provided
       if (parentObjectId > 0 && parentObjectServiceType > 0) {
         queryParams.append('parentObjectId', parentObjectId.toString());
-        queryParams.append('parentObjectServiceType', parentObjectServiceType.toString());
+        queryParams.append(
+          'parentObjectServiceType',
+          parentObjectServiceType.toString()
+        );
       }
 
-      // Add filter options as query parameters
-      if (filterOptions) {
-        Object.keys(filterOptions).forEach(key => {
-          // Check if the filter option value is not null or undefined
-          if (filterOptions[key] !== null && filterOptions[key] !== undefined) {
-            queryParams.append(key, filterOptions[key]);
-          }
-        });
+      if (filterOptions.filterString) {
+        queryParams.append('filterString', filterOptions.filterString);
+      }
+      if (filterOptions.ownedByMe) {
+        queryParams.append('ownedByMe', String(filterOptions.ownedByMe));
+      }
+      if (filterOptions.assignedToMe) {
+        queryParams.append('assignedToMe', String(filterOptions.assignedToMe));
+      }
+      if (filterOptions.dueDateValue) {
+        queryParams.append('dueDateValue', filterOptions.dueDateValue);
+      }
+      if (filterOptions.dueDateOption) {
+        queryParams.append('dueDateOption', filterOptions.dueDateOption);
+      }
+      if (filterOptions.modifiedDateValue) {
+        queryParams.append(
+          'modifiedDateValue',
+          filterOptions.modifiedDateValue
+        );
+      }
+      if (filterOptions.modifiedDateOption) {
+        queryParams.append(
+          'modifiedDateOption',
+          String(filterOptions.modifiedDateOption)
+        );
+      }
+      if (filterOptions.statusId) {
+        queryParams.append('statusId', String(filterOptions.statusId));
+      }
+      if (filterOptions.priorityId) {
+        queryParams.append('priorityId', String(filterOptions.priorityId));
+      }
+      if (filterOptions.taskTypeId) {
+        queryParams.append('taskTypeId', String(filterOptions.taskTypeId));
+      }
+      if (filterOptions.ownedById) {
+        queryParams.append('ownedById', String(filterOptions.ownedById));
+      }
+      if (filterOptions.assignedToId) {
+        queryParams.append('assignedToId', String(filterOptions.assignedToId));
+      }
+      if (filterOptions.regardingValueId) {
+        queryParams.append(
+          'regardingValueId',
+          String(filterOptions.regardingValueId)
+        );
+      }
+      if (filterOptions.regardingTypeId) {
+        queryParams.append(
+          'regardingTypeId',
+          String(filterOptions.regardingTypeId)
+        );
+      }
+      if (filterOptions.showCompleted) {
+        queryParams.append(
+          'showCompleted',
+          String(filterOptions.showCompleted)
+        );
       }
 
       // Construct the full API URL with query parameters
@@ -267,41 +182,74 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
     },
 
-    async getTaskSummaryByBatch(parentObjectId: number, parentObjectServiceType: number, limit: number, page: number) {
-      const callStr =
+    async getTaskSummaryByBatch(
+      parentObjectId: number,
+      parentObjectServiceType: number,
+      pagesize: number,
+      pagenumber: number
+    ): Promise<boolean> {
+      // mockoon call
+      // const callStr =
+      //   parentObjectId > 0 && parentObjectServiceType > 0
+      //     ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&limit=${limit}&page=${page}`
+      //     : `${Constants.endPointUrl}/task-summary?limit=${limit}&page=${page}`;
+
+      // json server call
+      let callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&_limit=${limit}&_page=${page}`
-          : `${Constants.endPointUrl}/task-summary?_limit=${limit}&_page=${page}`;
+          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&limit=${pagesize}&page=${pagenumber}`
+          : `${Constants.endPointUrl}/task-summary?pagesize=${pagesize}&pagenumber=${pagenumber}`;
+
+      if (this.urls.get('next')) {
+        callStr = this.urls.get('next') ?? '';
+      }
+      // console.log('ST: ', callStr);
       try {
-        const res = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const res = await instance.get(callStr);
         const response = res.data.filter((task: taskSummary) => {
-          // console.log(task.taskStatusName)
           return task.taskStatusName != 'Completed';
         });
         this.taskSummaries.push(...response);
+        // const headers = res.headers;
+        // console.log(headers);
+        // this.parseLinkHeader(headers.link);
       } catch (error) {
         console.error(error);
       }
-      // const callStr = `${Constants.endPointUrl}/contact-summary?_limit=${limit}&_page=${page}`;
-      // //console.log(`callStr: ${callStr}`)
-      // const res = await fetch(callStr);
-      // const data = await res.json();
-      // //console.log(data);
-      // this.contactSummary.push(...data);
+      return callStr === this.urls.get('last');
     },
 
-    async getRegardingContactListThatMatch(val: string, parentObjectId: number, parentObjectServiceType: number) {
+    parseLinkHeader(header: string) {
+      const parts = header.split(',');
+      parts.forEach((p) => {
+        const section = p.split(';');
+        if (section.length !== 2) {
+          throw new Error("section could not be split on ';'");
+        }
+        const url = section[0].trim().replace(/<(.*)>/, '$1');
+        const name = section[1].trim().replace(/rel="(.*)"/, '$1');
+        this.urls.set(name, url);
+      });
+      // console.log(this.urls.get('next'));
+    },
+
+    async getRegardingContactListThatMatch(
+      val: string,
+      parentObjectId: number,
+      parentObjectServiceType: number
+    ) {
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
-          : `${Constants.endPointUrl}/task-summary`;
+          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&filterString=${val}`
+          : `${Constants.endPointUrl}/task-summary?filterString=${val}`;
       try {
         const response = await axios.get(callStr);
         const taskSummaries = response.data;
-        const filtered = taskSummaries.filter((t: taskSummary) => {
-          return t.subject.toLowerCase().includes(val.toLowerCase());
-        });
-        this.taskSummaries = filtered;
+        // const filtered = taskSummaries.filter((t: taskSummary) => {
+        //   return t.subject.toLowerCase().includes(val.toLowerCase());
+        // });
+        this.taskSummaries = taskSummaries;
       } catch (error) {
         console.error(error);
       }
@@ -309,6 +257,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
     async resetTaskSummaryList() {
       this.taskSummaries = [];
-    }
+    },
   },
 });

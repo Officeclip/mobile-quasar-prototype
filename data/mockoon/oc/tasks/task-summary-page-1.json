@@ -1,0 +1,57 @@
+[
+  {
+    "id": 101,
+    "subject": "1: Complete Sprint Planning (Edit)",
+    "taskStatusName": "Open",
+    "taskStatusCategory": "Active",
+    "isPrivate": true,
+    "dueDate": "2023-10-05T17:00:00Z",
+    "taskPriorityName": "Medium",
+    "security": {
+      "read": true,
+      "write": true,
+      "append": false,
+      "delete": false
+    }
+  },
+  {
+    "id": 102,
+    "subject": "2: Make Task Details self sufficient",
+    "taskStatusName": "Completed",
+    "taskStatusCategory": "Completed",
+
+    "isPrivate": true,
+    "dueDate": "2023-10-05T17:00:00Z",
+    "taskPriorityName": "Low"
+  },
+  {
+    "id": 103,
+    "subject": "3: Implement OAuth2 Authentication",
+    "taskStatusName": "Completed",
+    "taskStatusCategory": "Completed",
+
+    "isPrivate": true,
+    "dueDate": "2023-11-05T17:00:00Z",
+    "taskPriorityName": "High"
+  },
+  {
+    "id": 104,
+    "subject": "4: Develop API Documentation",
+    "taskStatusName": "Completed",
+    "taskStatusCategory": "Completed",
+
+    "isPrivate": false,
+    "dueDate": "2023-10-15T17:00:00Z",
+    "taskPriorityName": "Medium"
+  },
+  {
+    "id": 105,
+    "subject": "5: Optimize Database Queries",
+    "taskStatusName": "Pending",
+    "taskStatusCategory": "Pending",
+
+    "isPrivate": false,
+    "dueDate": "2023-11-01T17:00:00Z",
+    "taskPriorityName": "Medium"
+  }
+]

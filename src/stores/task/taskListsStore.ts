@@ -37,14 +37,11 @@ export const useTaskListsStore = defineStore('taskListsStore', {
       try {
         const response = await axios.get(`${Constants.endPointUrl}/task-lists`);
         const taskLists: taskLists = response.data;
-        console.log('taskLists', taskLists);
-
         this.tags = taskLists.tags;
         this.taskTypes = taskLists.taskType;
         this.taskPriorities = taskLists.priority;
         this.taskStatuses = taskLists.status;
         this.regardingParent = taskLists.regardingParentTypes;
-        // this.regardingContacts = eventLists.regardingContact;
       } catch (error) {
         console.error(error);
       }
@@ -53,13 +50,12 @@ export const useTaskListsStore = defineStore('taskListsStore', {
     async getFilteredUsers(searchString: string) {
       try {
         this.users = [];
-        const response = await axios.get(`${Constants.endPointUrl}/task-lists`);
-        const taskLists = response.data;
-        const regardingContacts = taskLists.users;
-        const filtered = regardingContacts.filter((t: regardingContact) => {
+        const response = await axios.get(`${Constants.endPointUrl}/task-lists?user=${searchString}`);
+        const userList = response.data.users;
+        const filtered = userList.filter((t: regardingContact) => {
           return t.name.toLowerCase().includes(searchString.toLowerCase());
         });
-        console.log('getRegardingContactList: ', filtered);
+        console.log('userList: ', filtered);
         await new Promise((r) => setTimeout(r, 500));
         this.users = filtered;
         // console.log("Filtered contacts: ", this.regardingContacts);

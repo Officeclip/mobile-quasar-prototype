@@ -53,8 +53,8 @@ function markTaskAsOpen() {
 
       <div class="StatusAndPriority ">
         <q-chip
-          :color="getTaskStatusColor(task.taskStatusName)"
-          :icon-right="getTaskStatusIcon(task.taskStatusName)"
+          :color="getTaskStatusColor(task.taskStatusCategory)"
+          :icon-right="getTaskStatusIcon(task.taskStatusCategory)"
           square text-color="white">
           {{ task.taskStatusName }}
         </q-chip>

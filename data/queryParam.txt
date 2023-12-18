@@ -1,7 +1,44 @@
 All the query parameters:
 
-Expense Summary / Timesheet Summary
+Expense Summary
 
 .../expense-summary?category=inbox
 .../expense-summary?category=outbox
 .../expense-summary?category=archived
+
+Timesheet Summary
+
+.../timesheet-summary?category=inbox
+.../timesheet-summary?category=outbox
+.../timesheet-summary?category=archived
+
+Tasks
+
+.../task-summary
+  ?filterString=title
+  &ownedByMe=false
+  &assignedToMe=false
+  &dueDateValue=2023-12-28
+  &dueDateOption=GreaterThan
+  &modifiedDateValue=2023-12-12
+  &modifiedDateOption=LessOrEqual
+  &statusId=73
+  &priorityId=23
+  &taskTypeId=7
+  &assignedToId=86
+  &ownedById=92
+  &regardingTypeId=65
+  &regardingValueId=69
+  &showCompleted=false
+
+
+Paging
+
+{
+    "first": "/task-summary?pagesize=5&pagenumber=1",
+    "next": "",
+    "prev": "/task-summary?pagesize=5&pagenumber=3",
+    "last": "/task-summary?pagesize=5&pagenumber=4",
+    "total": 19
+ }
+

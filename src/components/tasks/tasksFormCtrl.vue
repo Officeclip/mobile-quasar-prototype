@@ -9,6 +9,10 @@ import {userSummary} from "src/models/userSummary";
 import {useUserSummaryStore} from "stores/userSummaryStore";
 import {tag} from "src/models/task/taskLists";
 import Regarding from "components/general/regardingComponent.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { email, required } from '@vuelidate/validators';
+import { useQuasar } from 'quasar';
+
 
 const props = defineProps<{
   taskFromParent: taskDetails
@@ -118,12 +122,19 @@ watch(taskOwner, (oldValue) => {
   task.value.taskOwnerSid = taskOwner.value?.id;
   task.value.taskOwnerName = taskOwner.value?.name;
 });
-
 watch(task.value, (oldValue) => {
   console.log('emitted',task.value)
   emit('emit-task', task.value);
 });
 
+
+const rules = {
+  userName: { required, email },
+  password: { required },
+};
+
+const v$ = useVuelidate(rules, task.value);
+const $q = useQuasar();
 </script>
 
 <template>

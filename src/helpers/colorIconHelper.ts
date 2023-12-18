@@ -1,9 +1,7 @@
 export function getTaskStatusIcon(status: string) {
   switch (status) {
-    case 'Open':
+    case 'Active':
       return 'lock_open';
-    case 'In Progress':
-      return 'autorenew';
     case 'Pending':
       return 'hourglass_top';
     case 'Completed':
@@ -16,10 +14,8 @@ export function getTaskStatusIcon(status: string) {
 export function getTaskStatusColor(status: string) {
   // Add or remove colors as needed
   switch (status) {
-    case 'Open':
+    case 'Active':
       return 'grey-9'; // Grey for tasks that are open/not started
-    case 'In Progress':
-      return 'indigo'; // Blue for tasks that are currently being worked on
     case 'Pending':
       return 'amber-10'; // Amber for tasks that are on hold or awaiting action
     case 'Completed':
@@ -39,20 +35,6 @@ export function getPriorityIcon(priority: string) {
     case 'Low':
       return 'arrow_downward';
 
-    // case 'High':
-    //   return 'error';
-    // case 'Medium':
-    //   return 'error_outline';
-    // case 'Low':
-    //   return 'report_problem';
-
-    // case 'High':
-    //   return 'star';
-    // case 'Medium':
-    //   return 'star_half';
-    // case 'Low':
-    //   return 'star_outline';
-
     default:
       return '';
   }
@@ -60,13 +42,6 @@ export function getPriorityIcon(priority: string) {
 
 export function getPriorityColor(priority: string) {
   switch (priority) {
-    // case 'High':
-    //   return '#d85c5c';
-    // case 'Medium':
-    //   return '#ea9a49';
-    // case 'Low':
-    //   return '#85e56a';
-
     case 'High':
       return 'red';
     case 'Medium':
