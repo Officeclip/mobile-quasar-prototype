@@ -76,7 +76,7 @@ const createdDate = computed(() => {
       event.value?.createdDate,
       event.value?.isAllDayEvent
     );
-    return `On ${data}`;
+    return `${event.value.createdUserName} On ${data}`;
   }
   return 'YYYY';
 });
@@ -86,7 +86,7 @@ const lastModifiedDate = computed(() => {
       event.value?.modifiedDate,
       event.value?.isAllDayEvent
     );
-    return `On ${data}`;
+    return `${event.value.modifiedUserName} On ${data}`;
   }
   return 'YYYY';
 });
