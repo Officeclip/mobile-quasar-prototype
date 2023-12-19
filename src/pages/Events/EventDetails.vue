@@ -202,7 +202,7 @@ const confirmDeletion = () => {
         <q-item v-if="event?.url">
           <q-item-section>
             <q-item-label caption>Url </q-item-label>
-            <q-item-label>event.url </q-item-label>
+            <q-item-label>{{ event.url }} </q-item-label>
           </q-item-section>
         </q-item>
         <q-item v-if="event?.label">
