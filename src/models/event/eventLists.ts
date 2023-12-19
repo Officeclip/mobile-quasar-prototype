@@ -1,8 +1,9 @@
 export interface eventLists {
   labels: label[];
-  regardingContacts: regardingContact[];
   timeZones: timeZone[];
   ShowTimeAs: ShowTimeAs[];
+  regardingParent: regardingParent[];
+  users: user[];
 }
 
 export interface label {
@@ -16,12 +17,20 @@ export interface ShowTimeAs {
   color: string;
 }
 
-export interface regardingContact {
+export interface timeZone {
   id: string;
   name: string;
 }
 
-export interface timeZone {
+export interface regardingParent {
+  id: string;
+  name: string;
+}
+export interface regardingContact {
+  id: string;
+  name: string;
+}
+export interface user {
   id: string;
   name: string;
 }

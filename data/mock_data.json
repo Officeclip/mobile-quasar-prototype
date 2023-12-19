@@ -1048,6 +1048,7 @@
       "createdDate": "2020-03-05T15:01:17Z",
       "createdGroupSId": "YZMX3M9D4BLNXA9S545Q",
       "createdUserSid": "N4VRXBADAZHRSGHFYD5Q",
+      "createdUserName": "Sudhakar Gundu",
       "parentServiceType": 1,
       "parentSid": "JCJR6NA526TKYKTCUD5Q",
       "eventType": "2",
@@ -1064,11 +1065,13 @@
       "recurrenceRule": "",
       "modifiedDate": "2020-03-05T15:01:17Z",
       "modifiedUserSid": "N4VRXBADAZHRSGHFYD5Q",
+      "modifiedUserName": "Dutta Sk",
       "timezoneId": "2",
       "remindTo": "me",
       "remindBeforeMinutes": 720,
       "label": "1",
       "ShowTimeAs": "2",
+      "url": "www.officeclip.com",
       "meetingAttendees": [
         {
           "id": "1",
@@ -2039,17 +2042,7 @@
     "userName": "SK Dutta",
     "userEmail": "skd@officeclip.com",
     "isAdmin": true,
-    "applicationIds": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      10
-    ],
+    "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10],
     "roleAccesses": [
       {
         "name": "TrackerEditCase",
@@ -2299,9 +2292,7 @@
       "createdDate": "2023-10-25",
       "regardingType": 0,
       "regardingValue": "",
-      "assignees": [
-        "Kathiravan Sekar"
-      ],
+      "assignees": ["Kathiravan Sekar"],
       "remindTo": "",
       "remindBeforeMinutes": 0,
       "repeatInfoText": "",
@@ -3458,12 +3449,7 @@
       {
         "fieldType": "TimesheetRow",
         "id": "4",
-        "items": [
-          "",
-          "One",
-          "Two",
-          "Three"
-        ],
+        "items": ["", "One", "Two", "Three"],
         "name": "Custom Row",
         "uiType": "List"
       },
@@ -4631,6 +4617,16 @@
       "userName": "ocdemo@officeclip.com",
       "password": "qa123",
       "id": 12
+    },
+    {
+      "userName": "ocdemo@officeclip.com",
+      "password": "qa123",
+      "id": 13
+    },
+    {
+      "userName": "ocdemo@officeclip.com",
+      "password": "qa123",
+      "id": 14
     }
   ],
   "workflow": [

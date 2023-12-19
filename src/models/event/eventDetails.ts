@@ -13,6 +13,7 @@ export interface eventDetails {
   createdDate: string;
   createdGroupSId: string;
   createdUserSid: string;
+  createdUserName: string;
   parentServiceType: number;
   parentSid: string;
   eventType: string;
@@ -29,6 +30,7 @@ export interface eventDetails {
   recurrenceRule: string;
   modifiedDate: string;
   modifiedUserSid: string;
+  modifiedUserName: string;
   timezoneId: timeZone[];
   remindTo: string;
   remindBeforeMinutes: number;
