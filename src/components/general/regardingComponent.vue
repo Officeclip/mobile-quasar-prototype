@@ -89,9 +89,10 @@ async function filterItems(
         />
       </q-item-section>
       <q-item-section class="q-mr-sm">
+
         <q-select
           v-model="selectedRegItem"
-          :disable="regardingType==''"
+          :disable="regardingType.id==''"
           :options="regardingItems"
           dense
           option-label="name"

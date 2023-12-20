@@ -40,20 +40,31 @@ let reachedEnd = ref(false);
 const pageSize = 10;
 
 async function getFirstBatch() {
+  // taskSummaryStore
+  //   .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, pageSize, 1)
+  //   .then((val) => {
+  //     reachedEnd.value = val;
+  //   });
   taskSummaryStore
-    .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, pageSize, 1)
+    .getTasksUpdated()
     .then((val) => {
       reachedEnd.value = val;
     });
 }
+
 const loadMore = (index: any, done: () => void) => {
   // const contactsSizeBeforeCall = getSortedSummaries.value.length;
   setTimeout(() => {
+    // taskSummaryStore
+    //   .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, pageSize, -1)
+    //   .then((val) => {
+    //     reachedEnd.value = val;
+    //     done();
+    //   });
     taskSummaryStore
-      .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, pageSize, -1)
+      .getTasksUpdated()
       .then((val) => {
         reachedEnd.value = val;
-        done();
       });
   }, 500);
 };
@@ -79,6 +90,7 @@ function clearFilterValues() {
   filterCount.value = 0;
   getFirstBatch();
 }
+
 function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.dueDateValue = advancedOptions.dueDateValue;
   filterOptions.value.dueDateOption = advancedOptions.dueDateOption;
@@ -93,6 +105,7 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.taskTypeId = advancedOptions.taskTypeId;
   filterOptions.value.showCompleted = advancedOptions.showCompleted;
 }
+
 async function filterFn(val: string) {
   if (val.length === 0) {
     await getFirstBatch();

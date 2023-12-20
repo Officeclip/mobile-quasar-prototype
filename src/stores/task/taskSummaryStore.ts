@@ -3,13 +3,20 @@ import axios from 'axios';
 import {taskSummary} from "src/models/task/taskSummary";
 import {Constants} from "stores/Constants";
 import {searchFilter} from "src/models/task/searchFilter";
+import {linkHeader} from "src/models/general/linkHeader";
 
 export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   state: () => ({
     taskSummaries: [] as taskSummary[],
     taskSummary: undefined as taskSummary | undefined,
-    urls: new Map<string, string>(),
-    nextBatchURL: '',
+    url: '' as string,
+    pageSize: 10,
+    pageNum: 1,
+    filter: undefined as searchFilter | undefined,
+    parentObjectId: 0,
+    parentObjectServiceType: 0,
+    links: undefined as linkHeader | undefined,
+
   }),
 
   getters: {
@@ -18,6 +25,62 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   },
 
   actions: {
+    getUrl() {
+      let callStr = '';
+      if (this.links != undefined && this.links.next != '') {
+        console.log('URL from links: ', this.links.next);
+        callStr = `${Constants.endPointUrl}/${this.links.next}`;
+      } else {
+        callStr = `${Constants.endPointUrl}/task-summary?`;
+        if (this.parentObjectId > 0 && this.parentObjectServiceType > 0) {
+          callStr += `parentObjectId=${this.parentObjectId}&parentObjectServiceType=${this.parentObjectServiceType}`;
+        }
+
+        const queryParams = new URLSearchParams();
+
+        const filter = this.filter;
+        if (filter) {
+          if (filter.filterString) queryParams.append('filterString', filter.filterString);
+          if (filter.ownedByMe) queryParams.append('ownedByMe', String(filter.ownedByMe));
+          if (filter.assignedToMe) queryParams.append('assignedToMe', String(filter.assignedToMe));
+          if (filter.dueDateValue) queryParams.append('dueDateValue', filter.dueDateValue);
+          if (filter.dueDateOption) queryParams.append('dueDateOption', filter.dueDateOption);
+          if (filter.modifiedDateValue) queryParams.append('modifiedDateValue', filter.modifiedDateValue);
+          if (filter.modifiedDateOption) queryParams.append('modifiedDateOption', String(filter.modifiedDateOption));
+          if (filter.statusId) queryParams.append('statusId', String(filter.statusId));
+          if (filter.priorityId) queryParams.append('priorityId', String(filter.priorityId));
+          if (filter.taskTypeId) queryParams.append('taskTypeId', String(filter.taskTypeId));
+          if (filter.ownedById) queryParams.append('ownedById', String(filter.ownedById));
+          if (filter.assignedToId) queryParams.append('assignedToId', String(filter.assignedToId));
+          if (filter.regardingValueId) queryParams.append('regardingValueId', String(filter.regardingValueId));
+          if (filter.regardingTypeId) queryParams.append('regardingTypeId', String(filter.regardingTypeId));
+          if (filter.showCompleted) queryParams.append('showCompleted', String(filter.showCompleted));
+        }
+
+        queryParams.append('pageSize', String(this.pageSize));
+        queryParams.append('pageNum', String(this.pageNum));
+
+        callStr += queryParams.toString() ? `&${queryParams.toString()}` : '';
+      }
+      this.url = callStr;
+    },
+
+    async getTasksUpdated(): Promise<boolean> {
+      this.getUrl();
+      try {
+        console.log(this.url);
+        const res = await axios.get(this.url);
+        const response = res.data;
+        this.taskSummaries.push(...response);
+        const headers = res.headers;
+        this.links = JSON.parse(headers.get('Links'));
+        // this.parseLinkHeader(headers.link);
+      } catch (error) {
+        console.error(error);
+      }
+      return this.links != undefined && this.links.next != '';
+    },
+
     async getTasks(parentObjectId: number, parentObjectServiceType: number) {
       // console.log(`TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`);
       const callStr =
@@ -99,7 +162,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
 
       if (filterOptions.filterString) {
-            queryParams.append('filterString', filterOptions.filterString);
+        queryParams.append('filterString', filterOptions.filterString);
       }
       if (filterOptions.ownedByMe) {
         queryParams.append('ownedByMe', String(filterOptions.ownedByMe));
@@ -165,14 +228,11 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       //     : `${Constants.endPointUrl}/task-summary?limit=${limit}&page=${page}`;
 
       // json server call
-      let callStr =
+      const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
           ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&pagesize=${pagesize}&pagenumber=${pagenumber}`
           : `${Constants.endPointUrl}/task-summary?pagesize=${pagesize}&pagenumber=${pagenumber}`;
 
-      if (this.urls.get('next')) {
-        callStr = this.urls.get('next') ?? '';
-      }
       // console.log('ST: ', callStr);
       try {
         const res = await axios.get(callStr);
@@ -187,20 +247,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         console.error(error);
       }
       return callStr === this.urls.get('last');
-    },
-
-    parseLinkHeader(header: string) {
-      const parts = header.split(',');
-      parts.forEach(p => {
-        const section = p.split(';');
-        if (section.length !== 2) {
-          throw new Error("section could not be split on ';'");
-        }
-        const url = section[0].trim().replace(/<(.*)>/, '$1');
-        const name = section[1].trim().replace(/rel="(.*)"/, '$1');
-        this.urls.set(name, url);
-      });
-      // console.log(this.urls.get('next'));
     },
 
     async getRegardingContactListThatMatch(val: string, parentObjectId: number, parentObjectServiceType: number) {
