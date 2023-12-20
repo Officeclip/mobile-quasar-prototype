@@ -33,9 +33,9 @@ function getEventIcon(type: any) {
 }
 
 function getEventTypeColour(type: any) {
-  if (type === 1) return 'primary'; // group event
-  if (type === 2) return 'secondary'; // meetings
-  return 'red'; // personal
+  if (type === 1) return 'secondary'; // group event
+  if (type === 2) return 'red'; // meetings
+  return 'primary'; // personal
 }
 
 const eventsForADay = computed(() => {

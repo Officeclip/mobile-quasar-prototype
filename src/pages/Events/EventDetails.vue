@@ -76,7 +76,7 @@ const createdDate = computed(() => {
       event.value?.createdDate,
       event.value?.isAllDayEvent
     );
-    return `${event.value.createdUserName} On ${data}`;
+    return data;
   }
   return 'YYYY';
 });
@@ -86,7 +86,7 @@ const lastModifiedDate = computed(() => {
       event.value?.modifiedDate,
       event.value?.isAllDayEvent
     );
-    return `${event.value.modifiedUserName} On ${data}`;
+    return data;
   }
   return 'YYYY';
 });
@@ -128,6 +128,10 @@ const confirmDeletion = () => {
     router.go(-1);
   });
 };
+const openUrl = () => {
+  const url = event.value?.url;
+  window.open('http://' + url, '_blank');
+};
 </script>
 
 <template>
@@ -168,7 +172,7 @@ const confirmDeletion = () => {
     <q-page-container>
       <q-list>
         <!-- <OCItem :value="`${showMeetingType(event?.eventType)} event`" /> -->
-        <OCItem :value="event?.eventName" class="text-h6" />
+        <OCItem :value="event?.eventName" class="text-weight-regular text-h6" />
         <OCItem
           v-if="event?.eventDescription"
           :value="event?.eventDescription"
@@ -202,7 +206,9 @@ const confirmDeletion = () => {
         <q-item v-if="event?.url">
           <q-item-section>
             <q-item-label caption>Url </q-item-label>
-            <q-item-label>{{ event.url }} </q-item-label>
+            <q-item-label class="cursor-pointer" @click="openUrl"
+              >{{ event.url }}
+            </q-item-label>
           </q-item-section>
         </q-item>
         <q-item v-if="event?.label">
@@ -239,8 +245,26 @@ const confirmDeletion = () => {
           title="Reminder"
           :value="`${selectedOption?.label} ${selectedTime?.label} Before`"
         />
-        <OCItem title="Created" :value="createdDate" />
-        <OCItem title="Last Modified" :value="lastModifiedDate" />
+        <q-item>
+          <q-item-section>
+            <q-item-label caption> Created </q-item-label>
+            <q-item-label>
+              {{ event?.createdUserName }} <span class="text-italic">On</span>
+              {{ createdDate }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item>
+          <q-item-section>
+            <q-item-label caption> Last Modified </q-item-label>
+            <q-item-label>
+              {{ event?.modifiedUserName }} <span class="text-italic">On</span>
+              {{ lastModifiedDate }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <!-- <OCItem title="Created" :value="createdDate" /> -->
+        <!-- <OCItem title="Last Modified" :value="lastModifiedDate" /> -->
       </q-list>
     </q-page-container>
   </q-layout>
