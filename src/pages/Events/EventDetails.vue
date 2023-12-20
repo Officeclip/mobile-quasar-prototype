@@ -128,6 +128,10 @@ const confirmDeletion = () => {
     router.go(-1);
   });
 };
+const openUrl = () => {
+  const url = event.value?.url;
+  window.open('http://' + url, '_blank');
+};
 </script>
 
 <template>
@@ -202,7 +206,9 @@ const confirmDeletion = () => {
         <q-item v-if="event?.url">
           <q-item-section>
             <q-item-label caption>Url </q-item-label>
-            <q-item-label>{{ event.url }} </q-item-label>
+            <q-item-label class="cursor-pointer" @click="openUrl"
+              >{{ event.url }}
+            </q-item-label>
           </q-item-section>
         </q-item>
         <q-item v-if="event?.label">
