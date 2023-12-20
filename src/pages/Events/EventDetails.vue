@@ -172,7 +172,7 @@ const openUrl = () => {
     <q-page-container>
       <q-list>
         <!-- <OCItem :value="`${showMeetingType(event?.eventType)} event`" /> -->
-        <OCItem :value="event?.eventName" class="text-h6" />
+        <OCItem :value="event?.eventName" class="text-weight-regular text-h6" />
         <OCItem
           v-if="event?.eventDescription"
           :value="event?.eventDescription"
