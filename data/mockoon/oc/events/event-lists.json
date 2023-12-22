@@ -31,13 +31,13 @@
   ],
   "timezone": [
     {
-      "id": 1,
+      "id": "1",
       "name": "(GMT-12:00)",
       "locations": "Eniwetok, kwajalein",
       "standard_id": "Dateline Standard Time"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "(GMT-11:00)",
       "locations": "Midway iland, Samoa",
       "standard_id": "Samoa Standard Time"
