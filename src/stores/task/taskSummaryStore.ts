@@ -12,10 +12,10 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     url: '' as string,
     pageSize: 10,
     pageNum: 1,
-    filter: undefined as searchFilter | undefined,
+    filter: {} as searchFilter,
     parentObjectId: 0,
     parentObjectServiceType: 0,
-    links: undefined as linkHeader | undefined,
+    links: {} as linkHeader,
 
   }),
 
@@ -25,60 +25,63 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   },
 
   actions: {
+    constructBaseURL() {
+      let baseUrl = `${Constants.endPointUrl}/task-summary?`;
+      if (this.parentObjectId > 0 && this.parentObjectServiceType > 0) {
+        baseUrl += `/task-summary?parentObjectId=${this.parentObjectId}&parentObjectServiceType=${this.parentObjectServiceType}`;
+      }
+      return baseUrl;
+    },
+
+    constructQueryParams() {
+      const queryParams = new URLSearchParams();
+      const filterKeys = Object.keys(this.filter);
+
+      filterKeys.forEach(key => {
+        if (this.filter[key]) {
+          queryParams.append(key, String(this.filter[key]));
+        }
+      });
+
+      queryParams.append('pageSize', String(this.pageSize));
+      queryParams.append('pageNum', String(this.pageNum));
+
+      return queryParams;
+    },
+
     getUrl() {
+      if (this.url) return;
+
       let callStr = '';
-      if (this.links != undefined && this.links.next != '') {
-        console.log('URL from links: ', this.links.next);
+      if (this.links?.next) {
         callStr = `${Constants.endPointUrl}/${this.links.next}`;
       } else {
-        callStr = `${Constants.endPointUrl}/task-summary?`;
-        if (this.parentObjectId > 0 && this.parentObjectServiceType > 0) {
-          callStr += `parentObjectId=${this.parentObjectId}&parentObjectServiceType=${this.parentObjectServiceType}`;
-        }
-
-        const queryParams = new URLSearchParams();
-
-        const filter = this.filter;
-        if (filter) {
-          if (filter.filterString) queryParams.append('filterString', filter.filterString);
-          if (filter.ownedByMe) queryParams.append('ownedByMe', String(filter.ownedByMe));
-          if (filter.assignedToMe) queryParams.append('assignedToMe', String(filter.assignedToMe));
-          if (filter.dueDateValue) queryParams.append('dueDateValue', filter.dueDateValue);
-          if (filter.dueDateOption) queryParams.append('dueDateOption', filter.dueDateOption);
-          if (filter.modifiedDateValue) queryParams.append('modifiedDateValue', filter.modifiedDateValue);
-          if (filter.modifiedDateOption) queryParams.append('modifiedDateOption', String(filter.modifiedDateOption));
-          if (filter.statusId) queryParams.append('statusId', String(filter.statusId));
-          if (filter.priorityId) queryParams.append('priorityId', String(filter.priorityId));
-          if (filter.taskTypeId) queryParams.append('taskTypeId', String(filter.taskTypeId));
-          if (filter.ownedById) queryParams.append('ownedById', String(filter.ownedById));
-          if (filter.assignedToId) queryParams.append('assignedToId', String(filter.assignedToId));
-          if (filter.regardingValueId) queryParams.append('regardingValueId', String(filter.regardingValueId));
-          if (filter.regardingTypeId) queryParams.append('regardingTypeId', String(filter.regardingTypeId));
-          if (filter.showCompleted) queryParams.append('showCompleted', String(filter.showCompleted));
-        }
-
-        queryParams.append('pageSize', String(this.pageSize));
-        queryParams.append('pageNum', String(this.pageNum));
-
-        callStr += queryParams.toString() ? `&${queryParams.toString()}` : '';
+        callStr = this.constructBaseURL();
+        const queryParams = this.constructQueryParams();
+        const queryString = queryParams.toString();
+        callStr += queryString ? `&${queryString}` : '';
       }
+
       this.url = callStr;
     },
 
     async getTasksUpdated(): Promise<boolean> {
       this.getUrl();
+
       try {
-        console.log(this.url);
+        console.log("URL called", this.url);
         const res = await axios.get(this.url);
-        const response = res.data;
-        this.taskSummaries.push(...response);
-        const headers = res.headers;
-        this.links = JSON.parse(headers.get('Links'));
-        // this.parseLinkHeader(headers.link);
+        const summaries = res.data;
+        this.taskSummaries.push(...summaries);
+
+        this.links = JSON.parse(res.headers.get('Links') || '{}');
+        this.url = this.links.next ? `${Constants.endPointUrl}${this.links.next}` : '';
+        console.log("next url from header", this.url);
       } catch (error) {
         console.error(error);
       }
-      return this.links != undefined && this.links.next != '';
+
+      return this.url === '';
     },
 
     async getTasks(parentObjectId: number, parentObjectServiceType: number) {
@@ -249,7 +252,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       return callStr === this.urls.get('last');
     },
 
-    async getRegardingContactListThatMatch(val: string, parentObjectId: number, parentObjectServiceType: number) {
+    async getTasksWithFilterString(val: string, parentObjectId: number, parentObjectServiceType: number) {
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
           ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&filterString=${val}`

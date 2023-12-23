@@ -9,6 +9,7 @@ import AddSubtaskDialog from "components/tasks/addSubtaskDialog.vue";
 import {subTask} from "src/models/task/subtask";
 import SubtaskItem from "components/tasks/SubtaskItem.vue";
 import {taskDetails} from "src/models/task/taskDetails";
+import {getTaskStatusColor, getTaskStatusIcon} from "src/helpers/colorIconHelper";
 
 const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
@@ -102,8 +103,8 @@ function addSubtask(subtask: subTask) {
 
 .chip-caption {
   position: absolute;
-  top: -5px; /* Adjust as needed */
-  left: 10px; /* Adjust as needed */
+  top: -15px; /* Adjust as needed */
+  left: 0; /* Adjust as needed */
   font-size: 0.65rem; /* Adjust as needed */
   color: black; /* Adjust as needed */
   background-color: white; /* To match the background */
@@ -189,7 +190,7 @@ function addSubtask(subtask: subTask) {
           <div class="row justify-around q-gutter-sm">
             <div class="relative-position">
               <span class="chip-caption">Type</span>
-              <q-chip color="info" outline square>{{ taskDetail?.taskTypeName }}</q-chip>
+              <q-chip color="info" square>{{ taskDetail?.taskTypeName }}</q-chip>
             </div>
             <div class="relative-position">
               <span class="chip-caption">Priority</span>
@@ -197,8 +198,14 @@ function addSubtask(subtask: subTask) {
             </div>
             <div class="relative-position">
               <span class="chip-caption">Status</span>
-              <q-chip color="green" outline square>
-                {{ taskDetail?.taskStatusName }}
+<!--              <q-chip color="green" outline square>-->
+<!--                {{ taskDetail?.taskStatusName }}-->
+<!--              </q-chip>-->
+              <q-chip
+                :color="getTaskStatusColor('Pending')"
+                :icon-right="getTaskStatusIcon('Pending')"
+                square text-color="white">
+                {{ taskDetail.taskStatusName }}
               </q-chip>
             </div>
           </div>

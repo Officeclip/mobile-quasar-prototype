@@ -10,6 +10,8 @@ const props = defineProps<{
 
 const taskSummaryStore = useTaskSummaryStore();
 
+const isCompleted = props.task.taskStatusCategory==='Completed'
+
 
 const taskDone = ref(false);
 onBeforeMount(() => {
@@ -98,6 +100,10 @@ function markTaskAsOpen() {
 .TaskTitle {
   font-size: 18px;
   font-weight: 600;
+}
+
+.StrikeThrough{
+  text-decoration: line-through;
 }
 
 .DueDate {
