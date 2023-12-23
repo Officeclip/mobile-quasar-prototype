@@ -39,23 +39,11 @@ const getSortedSummaries = computed(() => {
 let reachedEnd = ref(false);
 const pageSize = 10;
 
-async function getFirstBatch() {
-  taskSummaryStore
-    .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, pageSize, 1)
-    .then((val) => {
-      reachedEnd.value = val;
-    });
-}
-const loadMore = (index: any, done: () => void) => {
-  // const contactsSizeBeforeCall = getSortedSummaries.value.length;
-  setTimeout(() => {
-    taskSummaryStore
-      .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, pageSize, -1)
-      .then((val) => {
-        reachedEnd.value = val;
-        done();
-      });
-  }, 500);
+const loadMore = async (index: any, done: () => void) => {
+  console.log("load more index: ", index);
+  reachedEnd.value = await taskSummaryStore.getTasksUpdated();
+  done();
+  console.log(reachedEnd.value)
 };
 
 function clearFilterValues() {
@@ -77,8 +65,9 @@ function clearFilterValues() {
     showCompleted: false,
   }
   filterCount.value = 0;
-  getFirstBatch();
+  // getFirstBatch();
 }
+
 function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.dueDateValue = advancedOptions.dueDateValue;
   filterOptions.value.dueDateOption = advancedOptions.dueDateOption;
@@ -93,13 +82,14 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.taskTypeId = advancedOptions.taskTypeId;
   filterOptions.value.showCompleted = advancedOptions.showCompleted;
 }
+
 async function filterFn(val: string) {
   if (val.length === 0) {
-    await getFirstBatch();
+    // await getFirstBatch();
   } else if (val.length < 2) {
     return;
   } else if (val.length === 2) {
-    await taskSummaryStore.getRegardingContactListThatMatch(val, parent.parentObjectId, parent.parentObjectServiceType);
+    await taskSummaryStore.getTasksWithFilterString(val, parent.parentObjectId, parent.parentObjectServiceType);
   } else {
     taskSummaryStore.taskSummaries = taskSummaryStore.taskSummaries.filter((t: taskSummary) => {
       return t.subject.toLowerCase().includes(val.toLowerCase());
@@ -128,9 +118,6 @@ watch(
   () => filterOptions.value.ownedByMe,
   async () => {
     await taskSummaryStore.resetTaskSummaryList();
-    setTimeout(async () => {
-      await getFirstBatch();
-    }, 300);
   }
 );
 
@@ -156,8 +143,7 @@ function showNotif() {
   })
 }
 
-onBeforeMount(async () => {
-  await getFirstBatch();
+onBeforeMount(() => {
   showNotif();
 });
 
@@ -176,10 +162,8 @@ onBeforeMount(async () => {
     <q-page-container>
       <q-page>
         <div class="q-pa-sm">
-          <q-input v-model="filterOptions.filterString" clearable label="Search" outlined @clear=getFirstBatch>
-            <template v-slot:append>
-              <q-icon name="search"/>
-            </template>
+          <q-input v-model="filterOptions.filterString" clearable label="Search" outlined
+                   placeholder="Start typing to search">
           </q-input>
         </div>
 
@@ -200,12 +184,12 @@ onBeforeMount(async () => {
           </div>
         </div>
 
-        <q-infinite-scroll :disable="reachedEnd" :offset="250" @load="loadMore">
+        <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
           <q-item v-for="task in getSortedSummaries" :key="task.id" class="q-pa-sm">
             <taskSummaryItem :task="task" class="full-width"/>
           </q-item>
           <template v-slot:loading>
-            <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
+            <q-spinner-dots color="primary" size="40px"/>
           </template>
         </q-infinite-scroll>
 

@@ -3,13 +3,20 @@ import axios from 'axios';
 import {taskSummary} from "src/models/task/taskSummary";
 import {Constants} from "stores/Constants";
 import {searchFilter} from "src/models/task/searchFilter";
+import {linkHeader} from "src/models/general/linkHeader";
 
 export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   state: () => ({
     taskSummaries: [] as taskSummary[],
     taskSummary: undefined as taskSummary | undefined,
-    urls: new Map<string, string>(),
-    nextBatchURL: '',
+    url: '' as string,
+    pageSize: 10,
+    pageNum: 1,
+    filter: {} as searchFilter,
+    parentObjectId: 0,
+    parentObjectServiceType: 0,
+    links: {} as linkHeader,
+
   }),
 
   getters: {
@@ -18,6 +25,65 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   },
 
   actions: {
+    constructBaseURL() {
+      let baseUrl = `${Constants.endPointUrl}/task-summary?`;
+      if (this.parentObjectId > 0 && this.parentObjectServiceType > 0) {
+        baseUrl += `/task-summary?parentObjectId=${this.parentObjectId}&parentObjectServiceType=${this.parentObjectServiceType}`;
+      }
+      return baseUrl;
+    },
+
+    constructQueryParams() {
+      const queryParams = new URLSearchParams();
+      const filterKeys = Object.keys(this.filter);
+
+      filterKeys.forEach(key => {
+        if (this.filter[key]) {
+          queryParams.append(key, String(this.filter[key]));
+        }
+      });
+
+      queryParams.append('pageSize', String(this.pageSize));
+      queryParams.append('pageNum', String(this.pageNum));
+
+      return queryParams;
+    },
+
+    getUrl() {
+      if (this.url) return;
+
+      let callStr = '';
+      if (this.links?.next) {
+        callStr = `${Constants.endPointUrl}/${this.links.next}`;
+      } else {
+        callStr = this.constructBaseURL();
+        const queryParams = this.constructQueryParams();
+        const queryString = queryParams.toString();
+        callStr += queryString ? `&${queryString}` : '';
+      }
+
+      this.url = callStr;
+    },
+
+    async getTasksUpdated(): Promise<boolean> {
+      this.getUrl();
+
+      try {
+        console.log("URL called", this.url);
+        const res = await axios.get(this.url);
+        const summaries = res.data;
+        this.taskSummaries.push(...summaries);
+
+        this.links = JSON.parse(res.headers.get('Links') || '{}');
+        this.url = this.links.next ? `${Constants.endPointUrl}${this.links.next}` : '';
+        console.log("next url from header", this.url);
+      } catch (error) {
+        console.error(error);
+      }
+
+      return this.url === '';
+    },
+
     async getTasks(parentObjectId: number, parentObjectServiceType: number) {
       // console.log(`TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`);
       const callStr =
@@ -99,7 +165,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
 
       if (filterOptions.filterString) {
-            queryParams.append('filterString', filterOptions.filterString);
+        queryParams.append('filterString', filterOptions.filterString);
       }
       if (filterOptions.ownedByMe) {
         queryParams.append('ownedByMe', String(filterOptions.ownedByMe));
@@ -165,14 +231,11 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       //     : `${Constants.endPointUrl}/task-summary?limit=${limit}&page=${page}`;
 
       // json server call
-      let callStr =
+      const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
           ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&pagesize=${pagesize}&pagenumber=${pagenumber}`
           : `${Constants.endPointUrl}/task-summary?pagesize=${pagesize}&pagenumber=${pagenumber}`;
 
-      if (this.urls.get('next')) {
-        callStr = this.urls.get('next') ?? '';
-      }
       // console.log('ST: ', callStr);
       try {
         const res = await axios.get(callStr);
@@ -189,21 +252,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       return callStr === this.urls.get('last');
     },
 
-    parseLinkHeader(header: string) {
-      const parts = header.split(',');
-      parts.forEach(p => {
-        const section = p.split(';');
-        if (section.length !== 2) {
-          throw new Error("section could not be split on ';'");
-        }
-        const url = section[0].trim().replace(/<(.*)>/, '$1');
-        const name = section[1].trim().replace(/rel="(.*)"/, '$1');
-        this.urls.set(name, url);
-      });
-      // console.log(this.urls.get('next'));
-    },
-
-    async getRegardingContactListThatMatch(val: string, parentObjectId: number, parentObjectServiceType: number) {
+    async getTasksWithFilterString(val: string, parentObjectId: number, parentObjectServiceType: number) {
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
           ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&filterString=${val}`
