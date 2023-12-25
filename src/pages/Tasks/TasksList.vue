@@ -42,6 +42,7 @@ const pageSize = 10;
 const loadMore = async (index: any, done: () => void) => {
   console.log("load more index: ", index);
   reachedEnd.value = await taskSummaryStore.getTasksUpdated();
+  //https://quasar.dev/vue-components/infinite-scroll/#usage
   done();
   console.log(reachedEnd.value)
 };
@@ -85,7 +86,6 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
 
 async function filterFn(val: string) {
   if (val.length === 0) {
-    // await getFirstBatch();
   } else if (val.length < 2) {
     return;
   } else if (val.length === 2) {
