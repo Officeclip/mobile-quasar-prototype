@@ -4,13 +4,9 @@ import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore
 
 const periodModel: any = ref('');
 
-const errorMsg: any = ref('zzzz');
+const errorMsg: any = ref('');
 const warningMsg: any = ref('');
-// const periodModel1 = {
-//   end: '2023-12-16T00:00:00+05:30',
-//   name: 'Dec 03, 2023 - Dec 16, 2023',
-//   start: '2023-12-03T00:00:00+05:30',
-// };
+
 const periodsList = computed(() => {
   return timesheetListStore.PeriodList;
 });
