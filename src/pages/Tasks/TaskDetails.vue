@@ -9,7 +9,7 @@ import AddSubtaskDialog from "components/tasks/addSubtaskDialog.vue";
 import {subTask} from "src/models/task/subtask";
 import SubtaskItem from "components/tasks/SubtaskItem.vue";
 import {taskDetails} from "src/models/task/taskDetails";
-import {getTaskStatusColor, getTaskStatusIcon} from "src/helpers/colorIconHelper";
+import {getPriorityColor, getPriorityIcon, getTaskStatusColor, getTaskStatusIcon} from "src/helpers/colorIconHelper";
 
 const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
@@ -20,7 +20,7 @@ const id = ref<string | string[]>('0');
 const taskDetail: ComputedRef<taskDetails> = computed(() => {
   if (taskDetailsStore.TaskDetail) return taskDetailsStore.TaskDetail;
   else {
-    const emptyTaskDetail:taskDetails = {
+    const emptyTaskDetail: taskDetails = {
       actualDuration: 0.0,
       completionDate: '',
       description: "No Description",
@@ -70,6 +70,13 @@ const taskDetail: ComputedRef<taskDetails> = computed(() => {
     return emptyTaskDetail;
   }
 });
+const pendingSubtasks = computed(() => {
+  return taskDetail.value?.subTasks.filter(subtask => !subtask.isCompleted);
+});
+
+const completedSubtasks = computed(() => {
+  return taskDetail.value?.subTasks.filter(subtask => subtask.isCompleted);
+});
 
 onMounted(() => {
   const route = useRoute();
@@ -110,6 +117,7 @@ function addSubtask(subtask: subTask) {
   background-color: white; /* To match the background */
   padding: 0 4px; /* For slight padding around the text */
   z-index: 2;
+  opacity: 0.54;
 }
 
 </style>
@@ -159,7 +167,7 @@ function addSubtask(subtask: subTask) {
               <q-icon name="event"/>
             </q-item-section>
             <q-item-section>
-              <q-item-label>Start Date</q-item-label>
+              <q-item-label caption>Start Date</q-item-label>
               <q-item-label description>{{
                   taskDetail?.startDate
                     ? dateTimeHelper.extractDateFromUtc(taskDetail?.startDate)
@@ -173,7 +181,7 @@ function addSubtask(subtask: subTask) {
               <q-icon name="event_available"/>
             </q-item-section>
             <q-item-section>
-              <q-item-label>Due Date</q-item-label>
+              <q-item-label caption>Due Date</q-item-label>
               <q-item-label description>{{
                   taskDetail?.dueDate
                     ? dateTimeHelper.extractDateFromUtc(taskDetail?.dueDate)
@@ -187,23 +195,25 @@ function addSubtask(subtask: subTask) {
         <q-separator inset/>
 
         <q-card-section>
-          <div class="row justify-around q-gutter-sm">
+          <div class="row justify-around q-pt-sm">
             <div class="relative-position">
               <span class="chip-caption">Type</span>
-              <q-chip color="info" square>{{ taskDetail?.taskTypeName }}</q-chip>
+              <q-chip outline square>{{ taskDetail?.taskTypeName }}</q-chip>
             </div>
             <div class="relative-position">
               <span class="chip-caption">Priority</span>
-              <q-chip color="amber" outline square>{{ taskDetail?.taskPriorityName }}</q-chip>
+              <q-chip
+                :color="getPriorityColor(taskDetail.taskPriorityName)"
+                :icon-right="getPriorityIcon(taskDetail.taskPriorityName)"
+                square text-color="white">
+                {{ taskDetail.taskPriorityName }}
+              </q-chip>
             </div>
             <div class="relative-position">
               <span class="chip-caption">Status</span>
-<!--              <q-chip color="green" outline square>-->
-<!--                {{ taskDetail?.taskStatusName }}-->
-<!--              </q-chip>-->
               <q-chip
-                :color="getTaskStatusColor('Pending')"
-                :icon-right="getTaskStatusIcon('Pending')"
+                :color="getTaskStatusColor(taskDetail.taskStatusCategory)"
+                :icon-right="getTaskStatusIcon(taskDetail.taskStatusCategory)"
                 square text-color="white">
                 {{ taskDetail.taskStatusName }}
               </q-chip>
@@ -218,7 +228,7 @@ function addSubtask(subtask: subTask) {
             <q-icon name="group"/>
           </q-item-section>
           <q-item-section>
-            <q-item-label class="q-pl-xs">Assignees</q-item-label>
+            <q-item-label caption class="q-pl-xs">Assignees</q-item-label>
             <div class="q-pt-xs">
               <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense square>{{
                   assignee.name
@@ -300,7 +310,7 @@ function addSubtask(subtask: subTask) {
               <q-item-section>
                 <q-item-label caption>Regarding</q-item-label>
                 <q-item-label description>{{
-                    taskDetail?.parent.type.name + ": "+taskDetail?.parent.value.name
+                    taskDetail?.parent.type.name + ": " + taskDetail?.parent.value.name
                   }}
                 </q-item-label>
               </q-item-section>
@@ -317,17 +327,18 @@ function addSubtask(subtask: subTask) {
         </q-toolbar>
         <q-list bordered class="rounded-borders">
           <q-item-label caption class="q-ma-sm">Pending</q-item-label>
-<!--          <pre>{{taskDetail?.subTasks}}</pre>-->
-
-          <div v-for="subtask in taskDetail?.subTasks" :key="subtask.id">
-            <subtask-item v-if="!subtask.isCompleted" :subtask="subtask"/>
+          <div v-for="subtask in pendingSubtasks" :key="subtask.id">
+            <subtask-item :subtask="subtask"/>
           </div>
+          <q-item-label v-if="pendingSubtasks.length===0" class="text-center text-grey">No pending tasks</q-item-label>
+
           <q-separator spaced/>
-          <q-item-label caption class="q-ma-sm">Completed</q-item-label>
 
-          <div v-for="subtask in taskDetail?.subTasks" :key="subtask.id">
-            <subtask-item v-if="subtask.isCompleted" :subtask="subtask"/>
+          <q-item-label caption class="q-ma-sm">Completed</q-item-label>
+          <div v-for="subtask in completedSubtasks" :key="subtask.id">
+            <subtask-item :subtask="subtask"/>
           </div>
+          <q-item-label v-if="completedSubtasks.length===0" class="text-center text-grey">No completed tasks</q-item-label>
         </q-list>
 
       </q-card>

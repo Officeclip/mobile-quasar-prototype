@@ -12,6 +12,7 @@ export function getTaskStatusIcon(status: string) {
 }
 
 export function getTaskStatusColor(status: string) {
+  console.log(status);
   // Add or remove colors as needed
   switch (status) {
     case 'Active':
@@ -22,7 +23,7 @@ export function getTaskStatusColor(status: string) {
       return 'green-8'; // Green for tasks that have been completed
     // Add more status options here if necessary
     default:
-      return ''; // Default case when the status does not match any of the above
+      return 'grey'; // Default case when the status does not match any of the above
   }
 }
 
@@ -50,7 +51,7 @@ export function getPriorityColor(priority: string) {
       return 'green-8';
 
     default:
-      return '';
+      return 'grey';
   }
 }
 
