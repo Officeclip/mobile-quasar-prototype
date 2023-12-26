@@ -49,6 +49,7 @@ export interface taskDetails {
 export interface assignee {
   id: string;
   name: string;
+  email: string;
 }
 
 // The tag interface remains the same

@@ -161,6 +161,7 @@ function addSubtask(subtask: subTask) {
 
         <q-separator inset/>
 
+        <!--        Start End-->
         <q-card-section class="row justify-between">
           <q-item>
             <q-item-section center side>
@@ -194,6 +195,7 @@ function addSubtask(subtask: subTask) {
 
         <q-separator inset/>
 
+        <!--       Type Status Category-->
         <q-card-section>
           <div class="row justify-around q-pt-sm">
             <div class="relative-position">
@@ -223,16 +225,17 @@ function addSubtask(subtask: subTask) {
 
         <q-separator inset/>
 
+        <!--        Assignees-->
         <q-item>
           <q-item-section center side>
             <q-icon name="group"/>
           </q-item-section>
           <q-item-section>
             <q-item-label caption class="q-pl-xs">Assignees</q-item-label>
-            <div class="q-pt-xs">
-              <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense square>{{
-                  assignee.name
-                }}
+            <div class="q-pt-xs row">
+              <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense square>
+                {{ assignee.name }}
+                <q-tooltip>{{ assignee.email }}</q-tooltip>
               </q-chip>
             </div>
           </q-item-section>
@@ -338,7 +341,8 @@ function addSubtask(subtask: subTask) {
           <div v-for="subtask in completedSubtasks" :key="subtask.id">
             <subtask-item :subtask="subtask"/>
           </div>
-          <q-item-label v-if="completedSubtasks.length===0" class="text-center text-grey">No completed tasks</q-item-label>
+          <q-item-label v-if="completedSubtasks.length===0" class="text-center text-grey">No completed tasks
+          </q-item-label>
         </q-list>
 
       </q-card>
