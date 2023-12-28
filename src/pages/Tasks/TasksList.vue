@@ -35,16 +35,13 @@ const taskSummaryStore = useTaskSummaryStore();
 const getSortedSummaries = computed(() => {
   return taskSummaryStore.taskSummaries;
 });
-
 let reachedEnd = ref(false);
-const pageSize = 10;
 
 const loadMore = async (index: any, done: () => void) => {
-  console.log("load more index: ", index);
+  // console.log("load more index: ", index);
   reachedEnd.value = await taskSummaryStore.getTasksUpdated();
   //https://quasar.dev/vue-components/infinite-scroll/#usage
   done();
-  console.log(reachedEnd.value)
 };
 
 function clearFilterValues() {
@@ -66,7 +63,6 @@ function clearFilterValues() {
     showCompleted: false,
   }
   filterCount.value = 0;
-  // getFirstBatch();
 }
 
 function receiveAdvFilters(advancedOptions: searchFilter) {
@@ -178,8 +174,7 @@ onBeforeMount(() => {
               </q-btn>
             </div>
             <div class="q-mr-md">
-              <q-btn flat icon="clear" @click="clearFilterValues">
-              </q-btn>
+              <q-btn flat icon="clear" @click="clearFilterValues"/>
             </div>
           </div>
         </div>
@@ -192,7 +187,6 @@ onBeforeMount(() => {
             <q-spinner-dots color="primary" size="40px"/>
           </template>
         </q-infinite-scroll>
-
         <q-dialog v-model="filterOptions.showAdvancedOptions">
           <task-advanced-filters :filter-options="filterOptions" :parent="parent"
                                  @advancedOptionsGenerated="receiveAdvFilters" @filterCount="updateFilterCount"/>

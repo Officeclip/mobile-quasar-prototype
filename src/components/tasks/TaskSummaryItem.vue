@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const taskSummaryStore = useTaskSummaryStore();
 
-const isCompleted = props.task.taskStatusCategory === 'Completed'
+const isCompleted = props.task.taskStatusCategory==='Completed'
 
 
 const taskDone = ref(false);
@@ -19,15 +19,24 @@ onBeforeMount(() => {
   }
 );
 
-function toggleTaskStatus() {
-  let task: taskSummary = props.task;
+function markTaskAsCompleted() {
+  let completedTask: taskSummary = props.task;
+  completedTask.taskStatusName = 'Completed';
+  taskSummaryStore.editTask(completedTask);
+}
 
+function markTaskAsOpen() {
+  let openTask: taskSummary = props.task;
+  openTask.taskStatusName = 'Open';
+  taskSummaryStore.editTask(openTask);
+}
+
+function toggleTaskStatus() {
   if (taskDone.value) {
-    task.taskStatusName = 'Completed';
+    markTaskAsOpen();
   } else {
-    task.taskStatusName = 'Open';
+    markTaskAsCompleted();
   }
-  taskSummaryStore.editTask(task);
 }
 
 </script>
@@ -39,7 +48,7 @@ function toggleTaskStatus() {
     class="TaskCard"
   >
     <q-item-section class="TaskDetails">
-      <q-item-label :class="{ 'StrikeThrough' : task.taskStatusName === 'Completed'}" class="TaskTitle">
+      <q-item-label class="TaskTitle" :class="{ 'StrikeThrough' : task.taskStatusName === 'Completed'}">
         {{ task.subject }}
       </q-item-label>
 
@@ -96,7 +105,7 @@ function toggleTaskStatus() {
   font-weight: 600;
 }
 
-.StrikeThrough {
+.StrikeThrough{
   text-decoration: line-through;
 }
 

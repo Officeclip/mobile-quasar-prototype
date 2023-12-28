@@ -69,14 +69,14 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       this.getUrl();
 
       try {
-        console.log("URL called", this.url);
+        // console.log("URL called", this.url);
         const res = await axios.get(this.url);
         const summaries = res.data;
         this.taskSummaries.push(...summaries);
 
         this.links = JSON.parse(res.headers.get('Links') || '{}');
         this.url = this.links.next ? `${Constants.endPointUrl}${this.links.next}` : '';
-        console.log("next url from header", this.url);
+        // console.log("next url from header", this.url);
       } catch (error) {
         console.error(error);
       }

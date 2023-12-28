@@ -12,7 +12,6 @@ export function getTaskStatusIcon(status: string) {
 }
 
 export function getTaskStatusColor(status: string) {
-  console.log(status);
   // Add or remove colors as needed
   switch (status) {
     case 'Active':
