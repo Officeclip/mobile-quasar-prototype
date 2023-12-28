@@ -8,8 +8,6 @@ import { taskDetails } from 'src/models/task/taskDetails';
 import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
 
 const tasksDetailStore = useTaskDetailsStore();
-const taskSummaryStore = useTaskSummaryStore();
-
 
 const route = useRoute();
 const router = useRouter();
@@ -17,7 +15,6 @@ const router = useRouter();
 const id = ref<string | string[]>(route.params.id);
 
 const task: Ref<taskDetails> = ref(tasksDetailStore.TaskDetail);
-
 
 onMounted(() => {
   tasksDetailStore.getTask((id.value.toString()));
@@ -62,7 +59,9 @@ function onSubmit(e: any) {
     remindTo: task.value.remindTo,
     remindBeforeMinutes: task.value.remindBeforeMinutes,
     repeatInfoText: task.value.repeatInfoText,
-    recurrenceRule: task.value.recurrenceRule
+    recurrenceRule: task.value.recurrenceRule,
+    taskStatusCategory: task.value.taskStatusCategory,
+
   }
 
   tasksDetailStore.editTask(newTask);

@@ -2,23 +2,26 @@
   {
     "states": [
       {
+        "id": "1",
         "name": "Alabama",
-        "id": "AL",
         "is_default": false
       },
       {
+        "id": "2",
         "name": "Georgia",
-        "id": "GA"
+        "is_default": true
       }
     ],
     "countries": [
       {
-        "name": "India",
-        "id": "IN"
+        "id": "1",
+        "name": "United States",
+        "is_default": false
       },
       {
-        "name": "United States",
-        "id": "US"
+        "id": "2",
+        "name": "India",
+        "is_default": true
       }
     ],
     "children": [

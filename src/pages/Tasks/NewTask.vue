@@ -64,19 +64,6 @@ const task: Ref<taskDetails> = ref({
     recurrenceRule: ""
 });
 
-function handleRRule(rrule: string) {
-  task.value.recurrenceRule = rrule;
-}
-
-function handleRRuleText(rruleText: string) {
-  task.value.repeatInfoText = rruleText;
-}
-
-function handleReminder(reminder: [string, number]) {
-  task.value.remindTo = reminder[0];
-  task.value.remindBeforeMinutes = reminder[1];
-}
-
 function receiveTask(receivedTask:taskDetails){
   task.value = receivedTask;
 }
@@ -98,8 +85,8 @@ function onSubmit(e: any) {
     isLock: task.value.isLock,
     isPrivate: task.value.isPrivate,
     parent: task.value.parent,
-    startDate:task.value.startDate,
-    taskOwnerName:task.value.taskOwnerName,
+    startDate: task.value.startDate,
+    taskOwnerName: task.value.taskOwnerName,
     taskOwnerSid: task.value.taskOwnerSid,
     taskPriorityName: task.value.taskPriorityName,
     taskPriorityId: task.value.taskPriorityId,
@@ -108,7 +95,8 @@ function onSubmit(e: any) {
     taskTypeName: task.value.taskTypeName,
     taskTypeId: task.value.taskTypeId,
     assignees: task.value.assignees,
-    tags: task.value.tags, createdByUserSid: task.value.createdByUserSid,
+    tags: task.value.tags,
+    createdByUserSid: task.value.createdByUserSid,
     createdDate: task.value.createdDate,
     modifiedByUserSid: task.value.modifiedByUserSid,
     modifiedDate: task.value.modifiedDate,
@@ -117,7 +105,8 @@ function onSubmit(e: any) {
     remindTo: task.value.remindTo,
     remindBeforeMinutes: task.value.remindBeforeMinutes,
     repeatInfoText: task.value.repeatInfoText,
-    recurrenceRule: task.value.recurrenceRule
+    recurrenceRule: task.value.recurrenceRule,
+    taskStatusCategory: task.value.taskStatusCategory,
   }
   const newTaskSummary: taskSummary = {
     id: task.value.id.toString(),
@@ -126,6 +115,7 @@ function onSubmit(e: any) {
     isPrivate: task.value.isPrivate,
     dueDate: newDueDate,
     taskPriorityName: task.value.taskPriorityName,
+    taskStatusCategory: task.value.taskStatusCategory
   }
   // event.value.isAllDayEvent= newEvent.isAllDayEvent
 

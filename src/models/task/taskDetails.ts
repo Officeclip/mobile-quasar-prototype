@@ -28,6 +28,7 @@ export interface taskDetails {
   taskPriorityId: number;
   taskStatusName: string;
   taskStatusId: number;
+  taskStatusCategory: string;
   taskTypeName: string;
   taskTypeId: number;
   assignees: assignee[];

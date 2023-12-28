@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import {computed, defineProps, onBeforeMount, ref, Ref, watch} from 'vue';
-import dateTimeHelper from '../../helpers/dateTimeHelper';
+import {defineProps, onBeforeMount, ref, Ref, watch} from 'vue';
 import {useTaskListsStore} from "stores/task/taskListsStore";
 import {taskDetails} from "src/models/task/taskDetails";
 import EventsRecurrenceDialog from "components/Events/EventsRecurrenceDialog.vue";
@@ -9,9 +8,6 @@ import {userSummary} from "src/models/userSummary";
 import {useUserSummaryStore} from "stores/userSummaryStore";
 import {tag} from "src/models/task/taskLists";
 import Regarding from "components/general/regardingComponent.vue";
-import { useVuelidate } from '@vuelidate/core';
-import { email, required } from '@vuelidate/validators';
-import { useQuasar } from 'quasar';
 
 
 const props = defineProps<{
@@ -37,8 +33,6 @@ onBeforeMount(() => {
   taskListsStore.getTaskLists();
   userSummaryStore.getUserSummaries();
 });
-
-
 
 
 function handleRRuleString(rruleString: string) {
@@ -90,51 +84,45 @@ async function filterTagFn(val: string, update: any, abort: any) {
 }
 
 const taskType = ref({
-  id:task.value.taskTypeId,
+  id: task.value.taskTypeId,
   name: task.value.taskTypeName
 });
 const taskStatus = ref({
-  id:task.value.taskStatusId,
-  name: task.value.taskStatusName
+  id: task.value.taskStatusId,
+  name: task.value.taskStatusName,
+  category: task.value.taskStatusCategory
 });
 const taskPriority = ref({
-  id:task.value.taskPriorityId,
+  id: task.value.taskPriorityId,
   name: task.value.taskPriorityName
 });
 const taskOwner = ref({
-  id:task.value.taskOwnerSid,
+  id: task.value.taskOwnerSid,
   name: task.value.taskOwnerName
 });
 
-watch(taskType, (oldValue) => {
+watch(taskType, () => {
   task.value.taskTypeId = taskType.value?.id;
   task.value.taskTypeName = taskType.value?.name;
 });
-watch(taskStatus, (oldValue) => {
+watch(taskStatus, () => {
   task.value.taskStatusId = taskStatus.value?.id;
   task.value.taskStatusName = taskStatus.value?.name;
+  task.value.taskStatusCategory = taskStatus.value?.category;
 });
-watch(taskPriority, (oldValue) => {
+watch(taskPriority, () => {
   task.value.taskPriorityId = taskPriority.value?.id;
   task.value.taskPriorityName = taskPriority.value?.name;
 });
-watch(taskOwner, (oldValue) => {
+watch(taskOwner, () => {
   task.value.taskOwnerSid = taskOwner.value?.id;
   task.value.taskOwnerName = taskOwner.value?.name;
 });
-watch(task.value, (oldValue) => {
-  console.log('emitted',task.value)
+watch(task.value, () => {
+  console.log('emitted', task.value)
   emit('emit-task', task.value);
 });
 
-
-const rules = {
-  userName: { required, email },
-  password: { required },
-};
-
-const v$ = useVuelidate(rules, task.value);
-const $q = useQuasar();
 </script>
 
 <template>
@@ -158,27 +146,27 @@ const $q = useQuasar();
           placeholder="type here...."
         />
 
-          <q-input v-model="task.startDate" mask="date" label="Start Date" :rules="['date']">
-            <template v-slot:prepend>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="task.startDate">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-
-        <q-input v-model="task.dueDate" mask="date" label="Due Date" :rules="['date']">
+        <q-input v-model="task.startDate" :rules="['date']" label="Start Date" mask="date">
           <template v-slot:prepend>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+            <q-icon class="cursor-pointer" name="event">
+              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
+                <q-date v-model="task.startDate">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+
+        <q-input v-model="task.dueDate" :rules="['date']" label="Due Date" mask="date">
+          <template v-slot:prepend>
+            <q-icon class="cursor-pointer" name="event">
+              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                 <q-date v-model="task.dueDate">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat />
+                    <q-btn v-close-popup color="primary" flat label="Close"/>
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -212,9 +200,10 @@ const $q = useQuasar();
           option-label="name"
           option-value="id"
         />
+
         <q-checkbox
           v-model="task.isPrivate"
-          label="Mark the task private"
+          label="Private?"
         />
 
         <q-select
