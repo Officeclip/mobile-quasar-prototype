@@ -266,7 +266,7 @@ watch(task.value, () => {
 
         <Regarding v-model="task.parent" :regarding-parents="taskListsStore.RegardingParent"/>
 
-        <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
+        <q-item class="q-pa-none" v-ripple clickable @click="recurrenceDialogOpened = true">
           <q-item-section avatar>
             <q-icon color="primary" name="repeat" size="sm"/>
           </q-item-section>
@@ -276,7 +276,7 @@ watch(task.value, () => {
           </q-item-section>
         </q-item>
 
-        <q-item v-ripple clickable @click="reminderDialogOpened = true">
+        <q-item class="q-pa-none" v-ripple clickable @click="reminderDialogOpened = true">
           <q-item-section avatar>
             <q-icon color="primary" name="alarm" size="sm"/>
           </q-item-section>
