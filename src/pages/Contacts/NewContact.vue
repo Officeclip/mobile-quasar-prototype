@@ -4,16 +4,33 @@ import { useRouter } from 'vue-router';
 import EditContactDetailsCtrl from '../../components/Contacts/EditContactDetailsCtrl.vue';
 import { useRoute } from 'vue-router';
 import { ContactDetails } from 'src/models/Contact/contactDetails';
-import { ref } from 'vue';
-
-const contactDetailsStore = useContactDetailsStore();
-//const contact = ref<Contact>();
+import { ref, computed, onMounted } from 'vue';
 const router = useRouter();
 const route = useRoute();
 
-// const contactDetails = computed(() => {
-//   return contactDetailsStore.ContactDetails;
-// });
+const usecontactDetailsStore = useContactDetailsStore();
+
+onMounted(() => {
+  usecontactDetailsStore.getContactLists();
+});
+
+const getStates = computed(() => {
+  return usecontactDetailsStore.states;
+});
+
+const defaultState = computed(() => {
+  return getStates.value.find((state) => state.is_default);
+});
+
+const getCountries = computed(() => {
+  return usecontactDetailsStore.countries;
+});
+
+const defaultCountry = computed(() => {
+  return getCountries.value.find((country) => country.is_default);
+});
+
+console.log('default state', defaultState.value);
 
 const contactDetails: ContactDetails = ref({
   id: Number(''),
@@ -23,9 +40,11 @@ const contactDetails: ContactDetails = ref({
   email: '',
   street_address: '',
   city: '',
-  state: '',
+  state_name: defaultState.value?.name,
+  state_id: defaultState.value?.id,
   postal_code: '',
-  country: '',
+  country_name: defaultCountry.value?.name,
+  country_id: defaultCountry.value?.id,
   work_phone: '',
   home_phone: '',
   thumbnail: '',
@@ -44,7 +63,7 @@ function onSubmit(e: any) {
 
   //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  contactDetailsStore.addContactDetails(contactDetails);
+  usecontactDetailsStore.addContactDetails(contactDetails);
   router.push('/contactSummary');
 }
 </script>
@@ -61,7 +80,7 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <EditContactDetailsCtrl :contactDetails="contactDetails" />
+          <EditContactDetailsCtrl v-if="getStates" :contactDetails="contactDetails" />
           <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>

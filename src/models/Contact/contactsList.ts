@@ -6,12 +6,14 @@ export interface ContactLists {
 
 export interface State {
   name: string;
-  code: string;
+  id: string;
+  is_default: boolean;
 }
 
 export interface Country {
   name: string;
-  code: string;
+  id: string;
+  is_default: boolean;
 }
 
 export interface Children {

@@ -132,6 +132,7 @@ const openUrl = () => {
   const url = event.value?.url;
   window.open('http://' + url, '_blank');
 };
+const projectServiceItem = `${event.value?.parent.type.name} : ${event.value?.parent.value.name}`;
 </script>
 
 <template>
@@ -263,7 +264,7 @@ const openUrl = () => {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <!-- <OCItem title="Created" :value="createdDate" /> -->
+        <OCItem title="Regarding" :value="projectServiceItem" />
         <!-- <OCItem title="Last Modified" :value="lastModifiedDate" /> -->
       </q-list>
     </q-page-container>

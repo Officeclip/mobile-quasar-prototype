@@ -5,6 +5,7 @@ console.log('TESTING ContactDetails:Setup');
 const props = defineProps(['params']);
 const contactDetails = computed(() => props.params.contactDetails);
 const stateName = computed(() => props.params.stateName);
+const countryName = computed(() => props.params.countryName);
 //const parentObjectId = computed(() => props.params.parentObjectId);
 console.log(
   `ContactDetails: contactDetails: ${contactDetails.value}, stateName: ${stateName.value}`
@@ -25,18 +26,14 @@ console.log(
           }}</q-item-label>
           <q-item-label caption>Country</q-item-label>
           <q-item-label class="q-mb-sm">{{
-            contactDetails?.country
+            countryName
           }}</q-item-label>
 
           <q-item-label caption>Address</q-item-label>
           <q-item-label>{{ contactDetails?.street_address }}</q-item-label>
-          <q-item-label
-            >{{ contactDetails?.city }}, {{ stateName }}</q-item-label
-          >
-          <q-item-label
-            >{{ contactDetails?.country }},
-            {{ contactDetails?.postal_code }}</q-item-label
-          >
+          <q-item-label>{{ contactDetails?.city }}, {{ stateName }}</q-item-label>
+          <q-item-label>{{ countryName }},
+            {{ contactDetails?.postal_code }}</q-item-label>
         </q-item-section>
         <q-item-section class="rowItems">
           <q-item-label caption>Last Name</q-item-label>
