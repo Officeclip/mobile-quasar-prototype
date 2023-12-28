@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import TasksForm from 'components/tasks/tasksFormCtrl.vue';
-import { ref, Ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router';
-import { taskDetails } from 'src/models/task/taskDetails';
-import { taskSummary } from 'src/models/task/taskSummary';
-import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
-import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
+import {ref, Ref} from 'vue'
+import {useRoute, useRouter} from 'vue-router';
+import {taskDetails} from 'src/models/task/taskDetails';
+import {taskSummary} from 'src/models/task/taskSummary';
+import {useTaskSummaryStore} from 'stores/task/taskSummaryStore';
+import {useTaskDetailsStore} from 'stores/task/taskDetailsStore';
 
 const router = useRouter();
 const route = useRoute();
@@ -17,54 +17,55 @@ console.log('ParentObject as contact Id:', parentObjectId)
 const taskSummaryStore = useTaskSummaryStore();
 const taskDetailsStore = useTaskDetailsStore();
 const task: Ref<taskDetails> = ref({
-    actualDuration: 0.0,
-    completionDate: null,
-    description: "",
-    dueDate: "",
-    estimatedDuration: 0.0,
-    isLock: false,
-    isPrivate: false,
-    parent: {
-      type: {
-        id: "",
-        name: ""
-      },
-      value: {
-        id: "",
-        name: ""
-      }
+  actualDuration: 0.0,
+  completionDate: '',
+  description: "",
+  dueDate: "",
+  estimatedDuration: 0.0,
+  isLock: false,
+  isPrivate: false,
+  parent: {
+    type: {
+      id: "",
+      name: ""
     },
-    id: Math.floor(Math.random() * 1000),
-    startDate: "",
-    subject: "",
-    taskOwnerName: "",
-    taskOwnerSid: "0",
-    taskPriorityName: "",
-    taskPriorityId: 0,
-    taskStatusName: "",
-    taskStatusId: 0,
-    taskTypeName: "",
-    taskTypeId: 0,
-    assignees: [],
-    tags: [],
-    createdByUserSid: "0",
-    createdDate: "",
-    modifiedByUserSid: "0",
-    modifiedDate: "",
-    subTasks: [],
-    security: {
-      read: true,
-      write: true,
-      append: false,
-      delete: true
-    },
-    remindTo: "",
-    remindBeforeMinutes: 0,
-    repeatInfoText: "",
-    recurrenceRule: ""
+    value: {
+      id: "",
+      name: ""
+    }
+  },
+  id: Math.floor(Math.random() * 1000),
+  startDate: "",
+  subject: "",
+  taskOwnerName: "",
+  taskOwnerSid: "0",
+  taskPriorityName: "",
+  taskPriorityId: 0,
+  taskStatusName: "",
+  taskStatusCategory: "",
+  taskStatusId: 0,
+  taskTypeName: "",
+  taskTypeId: 0,
+  assignees: [],
+  tags: [],
+  createdByUserSid: "0",
+  createdDate: "",
+  modifiedByUserSid: "0",
+  modifiedDate: "",
+  subTasks: [],
+  security: {
+    read: true,
+    write: true,
+    append: false,
+    delete: true
+  },
+  remindTo: "",
+  remindBeforeMinutes: 0,
+  repeatInfoText: "",
+  recurrenceRule: ""
 });
 
-function receiveTask(receivedTask:taskDetails){
+function receiveTask(receivedTask: taskDetails) {
   task.value = receivedTask;
 }
 
@@ -141,8 +142,8 @@ function onSubmit(e: any) {
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
           <TasksForm :task-from-parent="task" @emit-task="receiveTask"/>
-          <q-btn class="q-ml-md q-mb-md q-mt-md" color="primary" label="Submit" type="submit" />
-          <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset" />
+          <q-btn class="q-ml-md q-mb-md q-mt-md" color="primary" label="Submit" type="submit"/>
+          <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset"/>
         </div>
       </q-form>
     </q-page-container>

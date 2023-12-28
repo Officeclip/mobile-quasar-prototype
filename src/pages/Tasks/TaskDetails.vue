@@ -65,7 +65,8 @@ const taskDetail: ComputedRef<taskDetails> = computed(() => {
       remindTo: "Not Available",
       remindBeforeMinutes: 0,
       repeatInfoText: "Not Available",
-      recurrenceRule: "Not Available"
+      recurrenceRule: "Not Available",
+      taskStatusCategory: ''
     };
     return emptyTaskDetail;
   }
@@ -92,8 +93,9 @@ isPrivate.value = taskDetail.value?.isPrivate ? 'Yes' : 'No';
 function deleteTask() {
   let taskId = id.value;
   console.log("Deleted: ID=" + taskId);
-  // taskSummaryStore.deleteTask(taskId);
-  // taskDetailsStore.deleteTask(taskId);
+
+  taskSummaryStore.deleteTask(taskId);
+  taskDetailsStore.deleteTask(taskId);
 }
 
 const router = useRouter();
@@ -110,13 +112,10 @@ function addSubtask(subtask: subTask) {
 
 .chip-caption {
   position: absolute;
-  top: -15px; /* Adjust as needed */
-  left: 0; /* Adjust as needed */
-  font-size: 0.65rem; /* Adjust as needed */
-  color: black; /* Adjust as needed */
-  background-color: white; /* To match the background */
-  padding: 0 4px; /* For slight padding around the text */
-  z-index: 2;
+  top: -12.5px;
+  font-size: 0.65rem;
+  color: black;
+  padding: 0 4px;
   opacity: 0.54;
 }
 
