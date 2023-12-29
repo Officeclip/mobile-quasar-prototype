@@ -9,7 +9,7 @@ import {searchFilter} from 'src/models/task/searchFilter';
 import {taskSummary} from 'src/models/task/taskSummary';
 import {useSessionStore} from "stores/SessionStore";
 
-let filterOptions: Ref<searchFilter> = ref({
+const defaultFilterOptions = {
   filterString: '',
   ownedByMe: false,
   assignedToMe: false,
@@ -25,7 +25,9 @@ let filterOptions: Ref<searchFilter> = ref({
   regardingTypeId: '',
   regardingValueId: '',
   showCompleted: false,
-});
+}
+
+let filterOptions: Ref<searchFilter> = ref({...defaultFilterOptions});
 
 const parent = {
   parentObjectId: -1,
@@ -35,9 +37,10 @@ const parent = {
 const taskSummaryStore = useTaskSummaryStore();
 const sessionStore = useSessionStore();
 
-const getSortedSummaries = computed(() => {
+const getTaskSummaries = computed(() => {
   return taskSummaryStore.taskSummaries;
 });
+
 let reachedEnd = ref(false);
 const showAdvOptions = ref(false);
 const assignedToMe = ref(filterOptions.value.assignedToId === sessionStore.Session.userId);
@@ -49,21 +52,7 @@ const loadMore = async (index: any, done: () => void) => {
 };
 
 function clearFilterValues() {
-  filterOptions.value = {
-    filterString: '',
-    dueDateValue: '',
-    dueDateOption: '',
-    modifiedDateValue: '',
-    modifiedDateOption: '',
-    statusId: '',
-    priorityId: '',
-    taskTypeId: '',
-    assignedToId: '',
-    ownedById: '',
-    regardingTypeId: '',
-    regardingValueId: '',
-    showCompleted: false,
-  }
+  filterOptions.value = {...defaultFilterOptions};
   filterCount.value = 0;
 }
 
@@ -90,7 +79,7 @@ async function filterFn(val: string) {
     return;
   } else if (val.length === 2) {
     filterOptions.value.filterString = val;
-    await taskSummaryStore.getTasksWithFilterString(val, parent.parentObjectId, parent.parentObjectServiceType);
+    await taskSummaryStore.getTasksUpdated();
   } else {
     taskSummaryStore.taskSummaries = taskSummaryStore.taskSummaries.filter((t: taskSummary) => {
       return t.subject.toLowerCase().includes(val.toLowerCase());
@@ -115,7 +104,7 @@ watch(
     }
     await taskSummaryStore.resetTaskSummaryList();
     setTimeout(async () => {
-      await taskSummaryStore.getFilteredTasksNew(filterOptions.value, parent.parentObjectId, parent.parentObjectServiceType);
+      await taskSummaryStore.getTasksUpdated();
     }, 300);
   }
 );
@@ -153,6 +142,8 @@ function showNotif() {
 
 onBeforeMount(() => {
   showNotif();
+  taskSummaryStore.parentObjectId = parent.parentObjectId;
+  taskSummaryStore.parentObjectServiceType = parent.parentObjectServiceType;
 });
 
 
@@ -192,7 +183,7 @@ onBeforeMount(() => {
         </div>
 
         <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
-          <q-item v-for="task in getSortedSummaries" :key="task.id" class="q-pa-sm">
+          <q-item v-for="task in getTaskSummaries" :key="task.id" class="q-pa-sm">
             <taskSummaryItem :task="task" class="full-width"/>
           </q-item>
           <template v-slot:loading>

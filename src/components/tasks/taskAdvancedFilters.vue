@@ -50,7 +50,9 @@ function filterNumber(filter: searchFilter) {
 
 
 function emitOptions() {
-  taskSummaryStore.getFilteredTasksNew(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
+  taskSummaryStore.setFilter(advancedOptions.value);
+  taskSummaryStore.getTasksUpdated();
+
   emit('advancedOptionsGenerated', advancedOptions.value);
   emit('filterCount', filterNumber(advancedOptions.value));
 }
@@ -59,20 +61,7 @@ const taskListsStore = useTaskListsStore();
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
   console.log(sessionStore.getSession())
-  // console.log(taskListsStore.users);
-  advancedOptions.value.filterString = props.filterOptions?.filterString
-  advancedOptions.value.dueDateValue = props.filterOptions?.dueDateValue
-  advancedOptions.value.dueDateOption = props.filterOptions?.dueDateOption
-  advancedOptions.value.modifiedDateValue = props.filterOptions?.modifiedDateValue
-  advancedOptions.value.modifiedDateOption = props.filterOptions?.modifiedDateOption
-  advancedOptions.value.statusId = props.filterOptions?.statusId
-  advancedOptions.value.priorityId = props.filterOptions?.priorityId
-  advancedOptions.value.taskTypeId = props.filterOptions?.taskTypeId
-  advancedOptions.value.assignedToId = props.filterOptions?.assignedToId
-  advancedOptions.value.ownedById = props.filterOptions?.ownedById
-  advancedOptions.value.regardingValueId = props.filterOptions?.regardingValueId
-  advancedOptions.value.regardingTypeId = props.filterOptions?.regardingTypeId
-  advancedOptions.value.showCompleted = props.filterOptions?.showCompleted
+  Object.assign(advancedOptions.value, props.filterOptions);
 });
 
 const dateOptions = [

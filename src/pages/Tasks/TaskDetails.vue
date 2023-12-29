@@ -14,7 +14,6 @@ import {getPriorityColor, getPriorityIcon, getTaskStatusColor, getTaskStatusIcon
 const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
 
-const isPrivate = ref<string>();
 const id = ref<string | string[]>('0');
 
 const taskDetail: ComputedRef<taskDetails> = computed(() => {
@@ -87,7 +86,6 @@ onMounted(() => {
   // taskListStore.getTaskLists();
 });
 
-isPrivate.value = taskDetail.value?.isPrivate ? 'Yes' : 'No';
 
 
 function deleteTask() {
@@ -282,10 +280,10 @@ function addSubtask(subtask: subTask) {
             <q-item>
               <q-item-section>
                 <q-item-label caption>Privacy</q-item-label>
-                <q-item-label description>{{ isPrivate ? 'Private' : 'Public' }}</q-item-label>
+                <q-item-label description>{{ taskDetail.isPrivate ? 'Private' : 'Public' }}</q-item-label>
               </q-item-section>
               <q-item-section center side>
-                <q-icon :name="isPrivate ? 'lock' : 'lock_open'"/>
+                <q-icon :name="taskDetail.isPrivate ? 'lock' : 'lock_open'"/>
               </q-item-section>
             </q-item>
           </div>
