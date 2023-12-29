@@ -7,6 +7,7 @@ import {useTaskSummaryStore} from 'stores/task/taskSummaryStore';
 import TaskAdvancedFilters from 'components/tasks/taskAdvancedFilters.vue';
 import {searchFilter} from 'src/models/task/searchFilter';
 import {taskSummary} from 'src/models/task/taskSummary';
+import {useSessionStore} from "stores/SessionStore";
 
 let filterOptions: Ref<searchFilter> = ref({
   filterString: '',
@@ -32,14 +33,16 @@ const parent = {
 };
 
 const taskSummaryStore = useTaskSummaryStore();
+const sessionStore = useSessionStore();
+
 const getSortedSummaries = computed(() => {
   return taskSummaryStore.taskSummaries;
 });
 let reachedEnd = ref(false);
-const showAdvOptions =ref(false);
+const showAdvOptions = ref(false);
+const assignedToMe = ref(filterOptions.value.assignedToId === sessionStore.Session.userId);
 
 const loadMore = async (index: any, done: () => void) => {
-  // console.log("load more index: ", index);
   reachedEnd.value = await taskSummaryStore.getTasksUpdated();
   //https://quasar.dev/vue-components/infinite-scroll/#usage
   done();
@@ -48,7 +51,6 @@ const loadMore = async (index: any, done: () => void) => {
 function clearFilterValues() {
   filterOptions.value = {
     filterString: '',
-    assignedToMe: false,
     dueDateValue: '',
     dueDateOption: '',
     modifiedDateValue: '',
@@ -78,6 +80,8 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.regardingTypeId = advancedOptions.regardingTypeId;
   filterOptions.value.taskTypeId = advancedOptions.taskTypeId;
   filterOptions.value.showCompleted = advancedOptions.showCompleted;
+
+  assignedToMe.value = advancedOptions.assignedToId === sessionStore.Session.userId;
 }
 
 async function filterFn(val: string) {
@@ -85,6 +89,7 @@ async function filterFn(val: string) {
   } else if (val.length < 2) {
     return;
   } else if (val.length === 2) {
+    filterOptions.value.filterString = val;
     await taskSummaryStore.getTasksWithFilterString(val, parent.parentObjectId, parent.parentObjectServiceType);
   } else {
     taskSummaryStore.taskSummaries = taskSummaryStore.taskSummaries.filter((t: taskSummary) => {
@@ -101,13 +106,27 @@ watch(
 );
 
 watch(
-  () => filterOptions.value.assignedToMe,
+  assignedToMe,
   async () => {
+    if (assignedToMe.value) {
+      filterOptions.value.assignedToId = sessionStore.Session.userId;
+    } else {
+      filterOptions.value.assignedToId = '';
+    }
     await taskSummaryStore.resetTaskSummaryList();
     setTimeout(async () => {
       await taskSummaryStore.getFilteredTasksNew(filterOptions.value, parent.parentObjectId, parent.parentObjectServiceType);
     }, 300);
   }
+);
+
+watch(
+  () => filterOptions.value,
+  (newVal, oldVal) => {
+    // This function will be called whenever any property in filterOptions changes
+    taskSummaryStore.setFilter(filterOptions.value);
+  },
+  {deep: true} // This option is necessary to watch for nested changes
 );
 
 const filterCount = ref(0);
@@ -158,7 +177,7 @@ onBeforeMount(() => {
 
         <div class="row q-pa-sm justify-between">
           <div class="q-mr-md">
-            <q-checkbox v-model="filterOptions.assignedToMe" label="Assigned to me"/>
+            <q-checkbox v-model="assignedToMe" label="Assigned to me"/>
           </div>
           <div class="row">
             <div class="q-mr-md">

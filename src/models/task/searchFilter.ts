@@ -1,6 +1,5 @@
 export interface searchFilter{
   filterString: string,
-  assignedToMe: boolean,
   dueDateValue: string,
   dueDateOption: string,
   modifiedDateValue: string,

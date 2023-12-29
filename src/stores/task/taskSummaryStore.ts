@@ -65,6 +65,10 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       this.url = callStr;
     },
 
+    setFilter(searchFilter:searchFilter){
+      this.filter = searchFilter;
+    },
+
     async getTasksUpdated(): Promise<boolean> {
       this.getUrl();
 
@@ -80,7 +84,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       } catch (error) {
         console.error(error);
       }
-
       return this.url === '';
     },
 
@@ -167,12 +170,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       if (filterOptions.filterString) {
         queryParams.append('filterString', filterOptions.filterString);
       }
-      if (filterOptions.ownedByMe) {
-        queryParams.append('ownedByMe', String(filterOptions.ownedByMe));
-      }
-      if (filterOptions.assignedToMe) {
-        queryParams.append('assignedToMe', String(filterOptions.assignedToMe));
-      }
       if (filterOptions.dueDateValue) {
         queryParams.append('dueDateValue', filterOptions.dueDateValue);
       }
@@ -221,35 +218,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       } catch (error) {
         console.error(error);
       }
-    },
-
-    async getTaskSummaryByBatch(parentObjectId: number, parentObjectServiceType: number, pagesize: number, pagenumber: number): Promise<boolean> {
-      // mockoon call
-      // const callStr =
-      //   parentObjectId > 0 && parentObjectServiceType > 0
-      //     ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&limit=${limit}&page=${page}`
-      //     : `${Constants.endPointUrl}/task-summary?limit=${limit}&page=${page}`;
-
-      // json server call
-      const callStr =
-        parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&pagesize=${pagesize}&pagenumber=${pagenumber}`
-          : `${Constants.endPointUrl}/task-summary?pagesize=${pagesize}&pagenumber=${pagenumber}`;
-
-      // console.log('ST: ', callStr);
-      try {
-        const res = await axios.get(callStr);
-        const response = res.data.filter((task: taskSummary) => {
-          return task.taskStatusName != 'Completed';
-        });
-        this.taskSummaries.push(...response);
-        const headers = res.headers;
-        console.log(JSON.parse(headers.get('Links')));
-        // this.parseLinkHeader(headers.link);
-      } catch (error) {
-        console.error(error);
-      }
-      return callStr === this.urls.get('last');
     },
 
     async getTasksWithFilterString(val: string, parentObjectId: number, parentObjectServiceType: number) {

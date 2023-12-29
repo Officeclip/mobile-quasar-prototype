@@ -61,7 +61,6 @@ onBeforeMount(() => {
   console.log(sessionStore.getSession())
   // console.log(taskListsStore.users);
   advancedOptions.value.filterString = props.filterOptions?.filterString
-  advancedOptions.value.assignedToMe = props.filterOptions?.assignedToMe
   advancedOptions.value.dueDateValue = props.filterOptions?.dueDateValue
   advancedOptions.value.dueDateOption = props.filterOptions?.dueDateOption
   advancedOptions.value.modifiedDateValue = props.filterOptions?.modifiedDateValue
