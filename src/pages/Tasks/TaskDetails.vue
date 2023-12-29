@@ -87,7 +87,6 @@ onMounted(() => {
 });
 
 
-
 function deleteTask() {
   let taskId = id.value;
   console.log("Deleted: ID=" + taskId);
@@ -349,8 +348,10 @@ function addSubtask(subtask: subTask) {
           <q-fab-action :to="{
                   name: 'newTask',
                   params: {
-                    id: -1
-                  }
+            id: -1,
+            objectTypeId: -1,
+            objectId: -1
+          },
                 }" color="secondary" icon="add" label="Create New Task"/>
         </q-fab>
       </q-page-sticky>

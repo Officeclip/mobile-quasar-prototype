@@ -22,17 +22,19 @@ onBeforeMount(() => {
 function markTaskAsCompleted() {
   let completedTask: taskSummary = props.task;
   completedTask.taskStatusName = 'Completed';
+  completedTask.taskStatusCategory = 'Completed';
   taskSummaryStore.editTask(completedTask);
 }
 
 function markTaskAsOpen() {
   let openTask: taskSummary = props.task;
   openTask.taskStatusName = 'Open';
+  openTask.taskStatusCategory = 'Active';
   taskSummaryStore.editTask(openTask);
 }
 
 function toggleTaskStatus() {
-  if (taskDone.value) {
+  if (!taskDone.value) {
     markTaskAsOpen();
   } else {
     markTaskAsCompleted();

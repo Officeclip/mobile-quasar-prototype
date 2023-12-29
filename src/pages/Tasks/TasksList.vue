@@ -9,10 +9,8 @@ import {searchFilter} from 'src/models/task/searchFilter';
 import {taskSummary} from 'src/models/task/taskSummary';
 import {useSessionStore} from "stores/SessionStore";
 
-const defaultFilterOptions = {
+const defaultFilterOptions:searchFilter = {
   filterString: '',
-  ownedByMe: false,
-  assignedToMe: false,
   dueDateValue: '',
   dueDateOption: '',
   modifiedDateValue: '',
