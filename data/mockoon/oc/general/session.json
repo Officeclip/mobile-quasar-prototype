@@ -8,11 +8,303 @@
   "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10],
   "roleAccess": [
     {
+      "name": "DocumentsUpload",
+      "access": true
+    },
+    {
+      "name": "DocumentsAddFolder",
+      "access": true
+    },
+    {
+      "name": "CreateEditTasks",
+      "access": true
+    },
+    {
+      "name": "DocumentsCopy",
+      "access": true
+    },
+    {
+      "name": "DocumentsShare",
+      "access": true
+    },
+    {
+      "name": "DocumentsRename",
+      "access": true
+    },
+    {
+      "name": "DocumentsDelete",
+      "access": true
+    },
+    {
+      "name": "TrackerDelete",
+      "access": true
+    },
+    {
+      "name": "BulletinBoardCreateNewForum",
+      "access": true
+    },
+    {
+      "name": "BulletinBoardCreateNewTopic",
+      "access": true
+    },
+    {
+      "name": "BulletinBoardPostReply",
+      "access": true
+    },
+    {
+      "name": "CalendarCreateNewGroupEvent",
+      "access": true
+    },
+    {
+      "name": "CalendarSyncEvent",
+      "access": true
+    },
+    {
+      "name": "AlertsCreateNew",
+      "access": true
+    },
+    {
+      "name": "UsersNotice",
+      "access": true
+    },
+    {
       "name": "TrackerEditCase",
-      "access": false
+      "access": true
+    },
+    {
+      "name": "OfficeAgentCreateNewGroup",
+      "access": true
     },
     {
       "name": "TrackerCreateNewCase",
+      "access": true
+    },
+    {
+      "name": "TrackerSync",
+      "access": true
+    },
+    {
+      "name": "AnnouncementsCreateNew",
+      "access": true
+    },
+    {
+      "name": "TimeExpensesCreateTimeSheet",
+      "access": false
+    },
+    {
+      "name": "PollsCreateNew",
+      "access": true
+    },
+    {
+      "name": "TimeExpensesAccessExpenseReport",
+      "access": true
+    },
+    {
+      "name": "ShowPermissionLinks",
+      "access": true
+    },
+    {
+      "name": "AssignContacts",
+      "access": true
+    },
+    {
+      "name": "AssignTasks",
+      "access": true
+    },
+    {
+      "name": "AllowCalendarMeetingAttendees",
+      "access": true
+    },
+    {
+      "name": "CampaignEmails",
+      "access": true
+    },
+    {
+      "name": "ContactViewReport",
+      "access": true
+    },
+    {
+      "name": "UsersAddMembers",
+      "access": true
+    },
+    {
+      "name": "HomePageCreateNewBookmarks",
+      "access": true
+    },
+    {
+      "name": "NoOperation",
+      "access": false
+    },
+    {
+      "name": "CreateContact",
+      "access": true
+    },
+    {
+      "name": "EditContact",
+      "access": true
+    },
+    {
+      "name": "AssignAccount",
+      "access": true
+    },
+    {
+      "name": "AccountViewReport",
+      "access": true
+    },
+    {
+      "name": "CreateAccount",
+      "access": true
+    },
+    {
+      "name": "EditAccount",
+      "access": true
+    },
+    {
+      "name": "AssignOpportunity",
+      "access": true
+    },
+    {
+      "name": "CreateOpportunity",
+      "access": true
+    },
+    {
+      "name": "EditOpportunity",
+      "access": true
+    },
+    {
+      "name": "OpportunityReport",
+      "access": true
+    },
+    {
+      "name": "ExtranetItemEdit",
+      "access": true
+    },
+    {
+      "name": "ExtranetUserEdit",
+      "access": true
+    },
+    {
+      "name": "ProjectsCreateEdit",
+      "access": true
+    },
+    {
+      "name": "ProjectsViewDetail",
+      "access": true
+    },
+    {
+      "name": "AccountsViewDetail",
+      "access": true
+    },
+    {
+      "name": "ContactShowReports",
+      "access": true
+    },
+    {
+      "name": "AccountShowReports",
+      "access": true
+    },
+    {
+      "name": "OpportunityShowReports",
+      "access": true
+    },
+    {
+      "name": "TimesheetShowReports",
+      "access": true
+    },
+    {
+      "name": "ExpenseShowReports",
+      "access": true
+    },
+    {
+      "name": "TrackerShowReports",
+      "access": true
+    },
+    {
+      "name": "TasksShowReports",
+      "access": true
+    },
+    {
+      "name": "TagsAllowAddEdit",
+      "access": true
+    },
+    {
+      "name": "TagsAllowAssociations",
+      "access": true
+    },
+    {
+      "name": "TimesheetAutoApprove",
+      "access": true
+    },
+    {
+      "name": "ExpenseAutoApprove",
+      "access": true
+    },
+    {
+      "name": "TimeOffShowCalendar",
+      "access": true
+    },
+    {
+      "name": "TimeOffReport",
+      "access": true
+    },
+    {
+      "name": "ContactDelete",
+      "access": true
+    },
+    {
+      "name": "AccountDelete",
+      "access": true
+    },
+    {
+      "name": "OpportunityDelete",
+      "access": true
+    },
+    {
+      "name": "CreateCompetitor",
+      "access": true
+    },
+    {
+      "name": "EditCompetitor",
+      "access": true
+    },
+    {
+      "name": "CompetitorDelete",
+      "access": true
+    },
+    {
+      "name": "CompetitorShowReport",
+      "access": true
+    },
+    {
+      "name": "CreateCampaign",
+      "access": true
+    },
+    {
+      "name": "EditCampaign",
+      "access": true
+    },
+    {
+      "name": "CampaignDelete",
+      "access": true
+    },
+    {
+      "name": "AssignCampaign",
+      "access": true
+    },
+    {
+      "name": "CreateInvoice",
+      "access": true
+    },
+    {
+      "name": "EditInvoice",
+      "access": true
+    },
+    {
+      "name": "InvoiceDelete",
+      "access": true
+    },
+    {
+      "name": "InvoiceEmails",
       "access": true
     }
   ]
