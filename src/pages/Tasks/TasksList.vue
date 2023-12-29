@@ -36,6 +36,7 @@ const getSortedSummaries = computed(() => {
   return taskSummaryStore.taskSummaries;
 });
 let reachedEnd = ref(false);
+const showAdvOptions =ref(false);
 
 const loadMore = async (index: any, done: () => void) => {
   // console.log("load more index: ", index);
@@ -47,7 +48,6 @@ const loadMore = async (index: any, done: () => void) => {
 function clearFilterValues() {
   filterOptions.value = {
     filterString: '',
-    ownedByMe: false,
     assignedToMe: false,
     dueDateValue: '',
     dueDateOption: '',
@@ -110,13 +110,6 @@ watch(
   }
 );
 
-watch(
-  () => filterOptions.value.ownedByMe,
-  async () => {
-    await taskSummaryStore.resetTaskSummaryList();
-  }
-);
-
 const filterCount = ref(0);
 
 function updateFilterCount(val: number) {
@@ -169,7 +162,7 @@ onBeforeMount(() => {
           </div>
           <div class="row">
             <div class="q-mr-md">
-              <q-btn flat icon="filter_list" @click="filterOptions.showAdvancedOptions = true">
+              <q-btn flat icon="filter_list" @click="showAdvOptions = true">
                 <q-badge v-if="filterCount != 0" color="red" floating>{{ filterCount }}</q-badge>
               </q-btn>
             </div>
@@ -187,7 +180,8 @@ onBeforeMount(() => {
             <q-spinner-dots color="primary" size="40px"/>
           </template>
         </q-infinite-scroll>
-        <q-dialog v-model="filterOptions.showAdvancedOptions">
+
+        <q-dialog v-model="showAdvOptions">
           <task-advanced-filters :filter-options="filterOptions" :parent="parent"
                                  @advancedOptionsGenerated="receiveAdvFilters" @filterCount="updateFilterCount"/>
         </q-dialog>
