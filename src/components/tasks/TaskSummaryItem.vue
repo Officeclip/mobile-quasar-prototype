@@ -10,6 +10,8 @@ const props = defineProps<{
 
 const taskSummaryStore = useTaskSummaryStore();
 
+const isCompleted = props.task.taskStatusCategory==='Completed'
+
 
 const taskDone = ref(false);
 onBeforeMount(() => {
@@ -21,14 +23,20 @@ function markTaskAsCompleted() {
   let completedTask: taskSummary = props.task;
   completedTask.taskStatusName = 'Completed';
   taskSummaryStore.editTask(completedTask);
-  console.log(props.task.id + "Task Done")
 }
 
 function markTaskAsOpen() {
   let openTask: taskSummary = props.task;
   openTask.taskStatusName = 'Open';
   taskSummaryStore.editTask(openTask);
-  console.log(props.task.id + "Task opened")
+}
+
+function toggleTaskStatus() {
+  if (taskDone.value) {
+    markTaskAsOpen();
+  } else {
+    markTaskAsCompleted();
+  }
 }
 
 </script>
@@ -40,7 +48,7 @@ function markTaskAsOpen() {
     class="TaskCard"
   >
     <q-item-section class="TaskDetails">
-      <q-item-label class="TaskTitle">
+      <q-item-label class="TaskTitle" :class="{ 'StrikeThrough' : task.taskStatusName === 'Completed'}">
         {{ task.subject }}
       </q-item-label>
 
@@ -65,17 +73,14 @@ function markTaskAsOpen() {
           square text-color="white">
           {{ task.taskPriorityName }}
         </q-chip>
-
       </div>
     </q-item-section>
 
     <q-item-section class="col-auto">
-      <q-chip v-if="task.taskStatusName!='Completed'" clickable label="Mark as done" square
-              @click.prevent="markTaskAsCompleted"/>
-
-      <q-chip v-else clickable label="Mark as Open" square
-              @click.prevent="markTaskAsOpen"/>
-
+      <q-checkbox
+        v-model="taskDone"
+        @update:model-value="toggleTaskStatus"
+      />
     </q-item-section>
 
     <q-item-section side>
@@ -100,6 +105,10 @@ function markTaskAsOpen() {
   font-weight: 600;
 }
 
+.StrikeThrough{
+  text-decoration: line-through;
+}
+
 .DueDate {
   display: flex;
   align-items: center;
@@ -107,40 +116,6 @@ function markTaskAsOpen() {
 
 .DueIcon {
   margin-right: 5px;
-}
-
-.StatusAndPriority {
-  display: flex;
-  align-items: center;
-}
-
-.StatusLabel, .PriorityLabel {
-  margin-right: 15px;
-  display: flex;
-  align-items: center;
-}
-
-.StatusIcon, .PriorityCircle {
-  margin-left: 5px;
-}
-
-.PriorityCircle {
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  display: inline-block;
-}
-
-.High {
-  background-color: #d85c5c;
-}
-
-.Medium {
-  background-color: #ea9a49;
-}
-
-.Low {
-  background-color: #85e56a;
 }
 
 .TaskDetails > * {

@@ -4,6 +4,7 @@ import {useTaskListsStore} from "stores/task/taskListsStore";
 import {user} from "src/models/task/taskLists";
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
 import {searchFilter} from "src/models/task/searchFilter";
+import {useSessionStore} from "stores/SessionStore";
 
 const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
 
@@ -12,10 +13,10 @@ const props = defineProps<{
   filterOptions: searchFilter
 }>();
 const taskSummaryStore = useTaskSummaryStore();
+const sessionStore = useSessionStore();
 
 const advancedOptions: Ref<searchFilter> = ref({
   filterString: '',
-  ownedByMe: false,
   assignedToMe: false,
   dueDateValue: '',
   dueDateOption: '',
@@ -49,7 +50,9 @@ function filterNumber(filter: searchFilter) {
 
 
 function emitOptions() {
-  taskSummaryStore.getFilteredTasksNew(advancedOptions.value, props.parent?.parentObjectId, props.parent?.parentObjectServiceType);
+  taskSummaryStore.setFilter(advancedOptions.value);
+  taskSummaryStore.getTasksUpdated();
+
   emit('advancedOptionsGenerated', advancedOptions.value);
   emit('filterCount', filterNumber(advancedOptions.value));
 }
@@ -57,22 +60,8 @@ function emitOptions() {
 const taskListsStore = useTaskListsStore();
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
-  console.log(taskListsStore.users);
-  advancedOptions.value.filterString = props.filterOptions?.filterString
-  advancedOptions.value.ownedByMe = props.filterOptions?.ownedByMe
-  advancedOptions.value.assignedToMe = props.filterOptions?.assignedToMe
-  advancedOptions.value.dueDateValue = props.filterOptions?.dueDateValue
-  advancedOptions.value.dueDateOption = props.filterOptions?.dueDateOption
-  advancedOptions.value.modifiedDateValue = props.filterOptions?.modifiedDateValue
-  advancedOptions.value.modifiedDateOption = props.filterOptions?.modifiedDateOption
-  advancedOptions.value.statusId = props.filterOptions?.statusId
-  advancedOptions.value.priorityId = props.filterOptions?.priorityId
-  advancedOptions.value.taskTypeId = props.filterOptions?.taskTypeId
-  advancedOptions.value.assignedToId = props.filterOptions?.assignedToId
-  advancedOptions.value.ownedById = props.filterOptions?.ownedById
-  advancedOptions.value.regardingValueId = props.filterOptions?.regardingValueId
-  advancedOptions.value.regardingTypeId = props.filterOptions?.regardingTypeId
-  advancedOptions.value.showCompleted = props.filterOptions?.showCompleted
+  console.log(sessionStore.getSession())
+  Object.assign(advancedOptions.value, props.filterOptions);
 });
 
 const dateOptions = [
@@ -86,22 +75,22 @@ const dateOptions = [
   {label: "Any date", value: "isNotNull"},
 ];
 
-const contactOptions: Ref<user[]> = ref([]);
+const userList: Ref<user[]> = ref([]);
 
 async function filterFn(val: string, update: any, abort: any) {
   if (val.length < 2) {
     abort();
     return;
   } else if (val.length === 2) {
-    contactOptions.value = [];
+    userList.value = [];
     await taskListsStore.getFilteredUsers(val);
-    contactOptions.value = taskListsStore.users;
+    userList.value = taskListsStore.users;
   }
 
   update(() => {
     console.log('update');
     const needle = val.toLowerCase();
-    contactOptions.value = taskListsStore.users.filter(
+    userList.value = taskListsStore.users.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
   });
@@ -184,7 +173,7 @@ async function filterFn(val: string, update: any, abort: any) {
       <q-item-section>
         <q-item-label>Assigned To</q-item-label>
         <q-select v-model="advancedOptions.assignedToId"
-                  :options="contactOptions"
+                  :options="userList"
                   clearable
                   emit-value
                   map-options
@@ -197,7 +186,7 @@ async function filterFn(val: string, update: any, abort: any) {
       <q-item-section>
         <q-item-label>Owned By</q-item-label>
         <q-select v-model="advancedOptions.ownedById"
-                  :options="contactOptions"
+                  :options="userList"
                   clearable
                   emit-value
                   map-options

@@ -75,9 +75,8 @@ async function filterItems(
 
 <template>
   <q-list>
-    <q-item class="q-mt-none">
+    <q-item class="q-pa-none">
       <q-item-section class="q-mr-sm">
-        <!-- <pre>{{ parentServiceType }}</pre> -->
         <q-select
           v-model="regardingType"
           :options="metaTypeOptions"

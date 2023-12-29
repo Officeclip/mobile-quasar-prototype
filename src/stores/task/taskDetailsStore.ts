@@ -63,7 +63,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       }
     },
 
-    async getTask(id: string) {
+    async getTask(id: string|number) {
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/task-details/${id}`
@@ -107,7 +107,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       console.log(editedSubtask);
       await this.editTask(<taskDetails>this.taskDetail)
     },
-
 
     async toggleSubtaskCompletion(subtaskId: string) {
       const subtask: subTask | undefined = this.taskDetail?.subTasks.find((subtask: subTask) => {

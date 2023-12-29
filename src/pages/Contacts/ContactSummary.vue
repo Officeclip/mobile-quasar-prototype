@@ -84,7 +84,7 @@ const getData = computed(() => {
     <q-page-container>
       <q-page>
         <q-input v-model="text" class="GNL__toolbar-input q-ma-md" color="bg-grey-7 shadow-1" dense outlined
-          placeholder="Search for contact, locations & sources">
+          placeholder="Search for a contact">
           <template v-slot:prepend>
             <q-icon v-if="text === ''" name="search" />
             <q-icon v-else class="cursor-pointer" name="clear" @click="text = ''" />

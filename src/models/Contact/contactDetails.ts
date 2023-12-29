@@ -6,9 +6,11 @@ export interface ContactDetails {
   email?: string;
   street_address?: string;
   city?: string;
-  state?: string;
+  state_name?: string;
+  state_id?: string;
   postal_code?: string;
-  country?: string;
+  country_name?: string;
+  country_id?: string;
   work_phone?: string;
   home_phone?: string;
   thumbnail?: string;

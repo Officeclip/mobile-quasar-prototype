@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 
 const periodModel: any = ref('');
-// const periodModel1 = {
-//   end: '2023-12-16T00:00:00+05:30',
-//   name: 'Dec 03, 2023 - Dec 16, 2023',
-//   start: '2023-12-03T00:00:00+05:30',
-// };
+
+const errorMsg: any = ref('');
+const warningMsg: any = ref('');
+
 const periodsList = computed(() => {
   return timesheetListStore.PeriodList;
 });
@@ -16,17 +15,10 @@ onMounted(() => {
   timesheetListStore.getTimesheetListAll();
 });
 
-// timesheetListStore.selectedPeriod = computed(() => {
-//   return periodModel.value != '' ? periodModel.value : 'ERROR';
-// });
-
-// watch([periodModel, datesList], () => {
-//   dateModel.value = '';
-//   const startDate = periodModel.value.start;
-//   const endDate = periodModel.value.end;
-//   datesList.value = dateTimeHelper.populateDates(startDate, endDate);
-//   showDatesWarning.value = false;
-// });
+watch([periodModel], ([newPeriodModel]) => {
+  errorMsg.value = newPeriodModel.error;
+  warningMsg.value = newPeriodModel.warning;
+});
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -47,7 +39,10 @@ onMounted(() => {
     <q-page-container>
       <q-page>
         <q-list>
-          <pre>{{ periodModel }}</pre>
+          <q-item v-if="errorMsg || warningMsg">
+            <p v-if="errorMsg" class="text-red">{{ errorMsg }}</p>
+            <p v-if="warningMsg" class="text-orange">{{ warningMsg }}</p>
+          </q-item>
           <q-item>
             <q-select
               class="full-width"
@@ -59,6 +54,7 @@ onMounted(() => {
           /></q-item>
           <q-list>
             <q-btn
+              v-if="periodModel != '' && errorMsg == ''"
               class="q-ma-md"
               label="Next"
               color="primary"

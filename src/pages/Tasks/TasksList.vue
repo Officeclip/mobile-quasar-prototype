@@ -7,8 +7,9 @@ import {useTaskSummaryStore} from 'stores/task/taskSummaryStore';
 import TaskAdvancedFilters from 'components/tasks/taskAdvancedFilters.vue';
 import {searchFilter} from 'src/models/task/searchFilter';
 import {taskSummary} from 'src/models/task/taskSummary';
+import {useSessionStore} from "stores/SessionStore";
 
-let filterOptions: Ref<searchFilter> = ref({
+const defaultFilterOptions = {
   filterString: '',
   ownedByMe: false,
   assignedToMe: false,
@@ -24,7 +25,9 @@ let filterOptions: Ref<searchFilter> = ref({
   regardingTypeId: '',
   regardingValueId: '',
   showCompleted: false,
-});
+}
+
+let filterOptions: Ref<searchFilter> = ref({...defaultFilterOptions});
 
 const parent = {
   parentObjectId: -1,
@@ -32,63 +35,25 @@ const parent = {
 };
 
 const taskSummaryStore = useTaskSummaryStore();
-const getSortedSummaries = computed(() => {
+const sessionStore = useSessionStore();
+
+const getTaskSummaries = computed(() => {
   return taskSummaryStore.taskSummaries;
 });
 
 let reachedEnd = ref(false);
-const pageSize = 10;
+const showAdvOptions = ref(false);
+const assignedToMe = ref(filterOptions.value.assignedToId === sessionStore.Session.userId);
 
-async function getFirstBatch() {
-  // taskSummaryStore
-  //   .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, pageSize, 1)
-  //   .then((val) => {
-  //     reachedEnd.value = val;
-  //   });
-  taskSummaryStore
-    .getTasksUpdated()
-    .then((val) => {
-      reachedEnd.value = val;
-    });
-}
-
-const loadMore = (index: any, done: () => void) => {
-  // const contactsSizeBeforeCall = getSortedSummaries.value.length;
-  setTimeout(() => {
-    // taskSummaryStore
-    //   .getTaskSummaryByBatch(parent.parentObjectId, parent.parentObjectServiceType, pageSize, -1)
-    //   .then((val) => {
-    //     reachedEnd.value = val;
-    //     done();
-    //   });
-    taskSummaryStore
-      .getTasksUpdated()
-      .then((val) => {
-        reachedEnd.value = val;
-      });
-  }, 500);
+const loadMore = async (index: any, done: () => void) => {
+  reachedEnd.value = await taskSummaryStore.getTasksUpdated();
+  //https://quasar.dev/vue-components/infinite-scroll/#usage
+  done();
 };
 
 function clearFilterValues() {
-  filterOptions.value = {
-    filterString: '',
-    ownedByMe: false,
-    assignedToMe: false,
-    dueDateValue: '',
-    dueDateOption: '',
-    modifiedDateValue: '',
-    modifiedDateOption: '',
-    statusId: '',
-    priorityId: '',
-    taskTypeId: '',
-    assignedToId: '',
-    ownedById: '',
-    regardingTypeId: '',
-    regardingValueId: '',
-    showCompleted: false,
-  }
+  filterOptions.value = {...defaultFilterOptions};
   filterCount.value = 0;
-  getFirstBatch();
 }
 
 function receiveAdvFilters(advancedOptions: searchFilter) {
@@ -104,15 +69,17 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.regardingTypeId = advancedOptions.regardingTypeId;
   filterOptions.value.taskTypeId = advancedOptions.taskTypeId;
   filterOptions.value.showCompleted = advancedOptions.showCompleted;
+
+  assignedToMe.value = advancedOptions.assignedToId === sessionStore.Session.userId;
 }
 
 async function filterFn(val: string) {
   if (val.length === 0) {
-    await getFirstBatch();
   } else if (val.length < 2) {
     return;
   } else if (val.length === 2) {
-    await taskSummaryStore.getRegardingContactListThatMatch(val, parent.parentObjectId, parent.parentObjectServiceType);
+    filterOptions.value.filterString = val;
+    await taskSummaryStore.getTasksUpdated();
   } else {
     taskSummaryStore.taskSummaries = taskSummaryStore.taskSummaries.filter((t: taskSummary) => {
       return t.subject.toLowerCase().includes(val.toLowerCase());
@@ -128,23 +95,27 @@ watch(
 );
 
 watch(
-  () => filterOptions.value.assignedToMe,
+  assignedToMe,
   async () => {
+    if (assignedToMe.value) {
+      filterOptions.value.assignedToId = sessionStore.Session.userId;
+    } else {
+      filterOptions.value.assignedToId = '';
+    }
     await taskSummaryStore.resetTaskSummaryList();
     setTimeout(async () => {
-      await taskSummaryStore.getFilteredTasksNew(filterOptions.value, parent.parentObjectId, parent.parentObjectServiceType);
+      await taskSummaryStore.getTasksUpdated();
     }, 300);
   }
 );
 
 watch(
-  () => filterOptions.value.ownedByMe,
-  async () => {
-    await taskSummaryStore.resetTaskSummaryList();
-    setTimeout(async () => {
-      await getFirstBatch();
-    }, 300);
-  }
+  () => filterOptions.value,
+  (newVal, oldVal) => {
+    // This function will be called whenever any property in filterOptions changes
+    taskSummaryStore.setFilter(filterOptions.value);
+  },
+  {deep: true} // This option is necessary to watch for nested changes
 );
 
 const filterCount = ref(0);
@@ -169,9 +140,10 @@ function showNotif() {
   })
 }
 
-onBeforeMount(async () => {
-  await getFirstBatch();
+onBeforeMount(() => {
   showNotif();
+  taskSummaryStore.parentObjectId = parent.parentObjectId;
+  taskSummaryStore.parentObjectServiceType = parent.parentObjectServiceType;
 });
 
 
@@ -189,40 +161,37 @@ onBeforeMount(async () => {
     <q-page-container>
       <q-page>
         <div class="q-pa-sm">
-          <q-input v-model="filterOptions.filterString" clearable label="Search" outlined @clear=getFirstBatch>
-            <template v-slot:append>
-              <q-icon name="search"/>
-            </template>
+          <q-input v-model="filterOptions.filterString" clearable label="Search" outlined
+                   placeholder="Start typing to search">
           </q-input>
         </div>
 
         <div class="row q-pa-sm justify-between">
           <div class="q-mr-md">
-            <q-checkbox v-model="filterOptions.assignedToMe" label="Assigned to me"/>
+            <q-checkbox v-model="assignedToMe" label="Assigned to me"/>
           </div>
           <div class="row">
             <div class="q-mr-md">
-              <q-btn flat icon="filter_list" @click="filterOptions.showAdvancedOptions = true">
+              <q-btn flat icon="filter_list" @click="showAdvOptions = true">
                 <q-badge v-if="filterCount != 0" color="red" floating>{{ filterCount }}</q-badge>
               </q-btn>
             </div>
             <div class="q-mr-md">
-              <q-btn flat icon="clear" @click="clearFilterValues">
-              </q-btn>
+              <q-btn flat icon="clear" @click="clearFilterValues"/>
             </div>
           </div>
         </div>
 
-        <q-infinite-scroll :disable="reachedEnd" :offset="250" @load="loadMore">
-          <q-item v-for="task in getSortedSummaries" :key="task.id" class="q-pa-sm">
+        <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
+          <q-item v-for="task in getTaskSummaries" :key="task.id" class="q-pa-sm">
             <taskSummaryItem :task="task" class="full-width"/>
           </q-item>
           <template v-slot:loading>
-            <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
+            <q-spinner-dots color="primary" size="40px"/>
           </template>
         </q-infinite-scroll>
 
-        <q-dialog v-model="filterOptions.showAdvancedOptions">
+        <q-dialog v-model="showAdvOptions">
           <task-advanced-filters :filter-options="filterOptions" :parent="parent"
                                  @advancedOptionsGenerated="receiveAdvFilters" @filterCount="updateFilterCount"/>
         </q-dialog>

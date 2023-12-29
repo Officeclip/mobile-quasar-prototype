@@ -12,10 +12,10 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     url: '' as string,
     pageSize: 10,
     pageNum: 1,
-    filter: undefined as searchFilter | undefined,
+    filter: {} as searchFilter,
     parentObjectId: 0,
     parentObjectServiceType: 0,
-    links: undefined as linkHeader | undefined,
+    links: {} as linkHeader,
 
   }),
 
@@ -25,60 +25,66 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   },
 
   actions: {
+    constructBaseURL() {
+      let baseUrl = `${Constants.endPointUrl}/task-summary?`;
+      if (this.parentObjectId > 0 && this.parentObjectServiceType > 0) {
+        baseUrl += `/task-summary?parentObjectId=${this.parentObjectId}&parentObjectServiceType=${this.parentObjectServiceType}`;
+      }
+      return baseUrl;
+    },
+
+    constructQueryParams() {
+      const queryParams = new URLSearchParams();
+      const filterKeys = Object.keys(this.filter);
+
+      filterKeys.forEach(key => {
+        if (this.filter[key]) {
+          queryParams.append(key, String(this.filter[key]));
+        }
+      });
+
+      queryParams.append('pageSize', String(this.pageSize));
+      queryParams.append('pageNum', String(this.pageNum));
+
+      return queryParams;
+    },
+
     getUrl() {
+      if (this.url) return;
+
       let callStr = '';
-      if (this.links != undefined && this.links.next != '') {
-        console.log('URL from links: ', this.links.next);
+      if (this.links?.next) {
         callStr = `${Constants.endPointUrl}/${this.links.next}`;
       } else {
-        callStr = `${Constants.endPointUrl}/task-summary?`;
-        if (this.parentObjectId > 0 && this.parentObjectServiceType > 0) {
-          callStr += `parentObjectId=${this.parentObjectId}&parentObjectServiceType=${this.parentObjectServiceType}`;
-        }
-
-        const queryParams = new URLSearchParams();
-
-        const filter = this.filter;
-        if (filter) {
-          if (filter.filterString) queryParams.append('filterString', filter.filterString);
-          if (filter.ownedByMe) queryParams.append('ownedByMe', String(filter.ownedByMe));
-          if (filter.assignedToMe) queryParams.append('assignedToMe', String(filter.assignedToMe));
-          if (filter.dueDateValue) queryParams.append('dueDateValue', filter.dueDateValue);
-          if (filter.dueDateOption) queryParams.append('dueDateOption', filter.dueDateOption);
-          if (filter.modifiedDateValue) queryParams.append('modifiedDateValue', filter.modifiedDateValue);
-          if (filter.modifiedDateOption) queryParams.append('modifiedDateOption', String(filter.modifiedDateOption));
-          if (filter.statusId) queryParams.append('statusId', String(filter.statusId));
-          if (filter.priorityId) queryParams.append('priorityId', String(filter.priorityId));
-          if (filter.taskTypeId) queryParams.append('taskTypeId', String(filter.taskTypeId));
-          if (filter.ownedById) queryParams.append('ownedById', String(filter.ownedById));
-          if (filter.assignedToId) queryParams.append('assignedToId', String(filter.assignedToId));
-          if (filter.regardingValueId) queryParams.append('regardingValueId', String(filter.regardingValueId));
-          if (filter.regardingTypeId) queryParams.append('regardingTypeId', String(filter.regardingTypeId));
-          if (filter.showCompleted) queryParams.append('showCompleted', String(filter.showCompleted));
-        }
-
-        queryParams.append('pageSize', String(this.pageSize));
-        queryParams.append('pageNum', String(this.pageNum));
-
-        callStr += queryParams.toString() ? `&${queryParams.toString()}` : '';
+        callStr = this.constructBaseURL();
+        const queryParams = this.constructQueryParams();
+        const queryString = queryParams.toString();
+        callStr += queryString ? `&${queryString}` : '';
       }
+
       this.url = callStr;
+    },
+
+    setFilter(searchFilter:searchFilter){
+      this.filter = searchFilter;
     },
 
     async getTasksUpdated(): Promise<boolean> {
       this.getUrl();
+
       try {
-        console.log(this.url);
+        // console.log("URL called", this.url);
         const res = await axios.get(this.url);
-        const response = res.data;
-        this.taskSummaries.push(...response);
-        const headers = res.headers;
-        this.links = JSON.parse(headers.get('Links'));
-        // this.parseLinkHeader(headers.link);
+        const summaries = res.data;
+        this.taskSummaries.push(...summaries);
+
+        this.links = JSON.parse(res.headers.get('Links') || '{}');
+        this.url = this.links.next ? `${Constants.endPointUrl}${this.links.next}` : '';
+        // console.log("next url from header", this.url);
       } catch (error) {
         console.error(error);
       }
-      return this.links != undefined && this.links.next != '';
+      return this.url === '';
     },
 
     async getTasks(parentObjectId: number, parentObjectServiceType: number) {
@@ -145,124 +151,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         }
       } catch (error) {
         console.error(`deleteNote Error: ${error}`);
-      }
-    },
-
-    async getFilteredTasksNew(filterOptions: searchFilter, parentObjectId: number, parentObjectServiceType: number) {
-      // Base URL for the API call
-      const apiUrl = `${Constants.endPointUrl}/task-summary`;
-
-      // Parameters to be sent in the query string
-      const queryParams = new URLSearchParams();
-
-      // Check if parentObjectId and parentObjectServiceType are provided
-      if (parentObjectId > 0 && parentObjectServiceType > 0) {
-        queryParams.append('parentObjectId', parentObjectId.toString());
-        queryParams.append('parentObjectServiceType', parentObjectServiceType.toString());
-      }
-
-      if (filterOptions.filterString) {
-        queryParams.append('filterString', filterOptions.filterString);
-      }
-      if (filterOptions.ownedByMe) {
-        queryParams.append('ownedByMe', String(filterOptions.ownedByMe));
-      }
-      if (filterOptions.assignedToMe) {
-        queryParams.append('assignedToMe', String(filterOptions.assignedToMe));
-      }
-      if (filterOptions.dueDateValue) {
-        queryParams.append('dueDateValue', filterOptions.dueDateValue);
-      }
-      if (filterOptions.dueDateOption) {
-        queryParams.append('dueDateOption', filterOptions.dueDateOption);
-      }
-      if (filterOptions.modifiedDateValue) {
-        queryParams.append('modifiedDateValue', filterOptions.modifiedDateValue);
-      }
-      if (filterOptions.modifiedDateOption) {
-        queryParams.append('modifiedDateOption', String(filterOptions.modifiedDateOption));
-      }
-      if (filterOptions.statusId) {
-        queryParams.append('statusId', String(filterOptions.statusId));
-      }
-      if (filterOptions.priorityId) {
-        queryParams.append('priorityId', String(filterOptions.priorityId));
-      }
-      if (filterOptions.taskTypeId) {
-        queryParams.append('taskTypeId', String(filterOptions.taskTypeId));
-      }
-      if (filterOptions.ownedById) {
-        queryParams.append('ownedById', String(filterOptions.ownedById));
-      }
-      if (filterOptions.assignedToId) {
-        queryParams.append('assignedToId', String(filterOptions.assignedToId));
-      }
-      if (filterOptions.regardingValueId) {
-        queryParams.append('regardingValueId', String(filterOptions.regardingValueId));
-      }
-      if (filterOptions.regardingTypeId) {
-        queryParams.append('regardingTypeId', String(filterOptions.regardingTypeId));
-      }
-      if (filterOptions.showCompleted) {
-        queryParams.append('showCompleted', String(filterOptions.showCompleted));
-      }
-
-      // Construct the full API URL with query parameters
-      const fullApiUrl = `${apiUrl}?${queryParams.toString()}`;
-      console.log(fullApiUrl);
-
-      try {
-        const response = await axios.get(fullApiUrl);
-        this.taskSummaries = response.data;
-        console.log(this.taskSummaries);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-
-    async getTaskSummaryByBatch(parentObjectId: number, parentObjectServiceType: number, pagesize: number, pagenumber: number): Promise<boolean> {
-      // mockoon call
-      // const callStr =
-      //   parentObjectId > 0 && parentObjectServiceType > 0
-      //     ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&limit=${limit}&page=${page}`
-      //     : `${Constants.endPointUrl}/task-summary?limit=${limit}&page=${page}`;
-
-      // json server call
-      const callStr =
-        parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&pagesize=${pagesize}&pagenumber=${pagenumber}`
-          : `${Constants.endPointUrl}/task-summary?pagesize=${pagesize}&pagenumber=${pagenumber}`;
-
-      // console.log('ST: ', callStr);
-      try {
-        const res = await axios.get(callStr);
-        const response = res.data.filter((task: taskSummary) => {
-          return task.taskStatusName != 'Completed';
-        });
-        this.taskSummaries.push(...response);
-        const headers = res.headers;
-        console.log(JSON.parse(headers.get('Links')));
-        // this.parseLinkHeader(headers.link);
-      } catch (error) {
-        console.error(error);
-      }
-      return callStr === this.urls.get('last');
-    },
-
-    async getRegardingContactListThatMatch(val: string, parentObjectId: number, parentObjectServiceType: number) {
-      const callStr =
-        parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}&filterString=${val}`
-          : `${Constants.endPointUrl}/task-summary?filterString=${val}`;
-      try {
-        const response = await axios.get(callStr);
-        const taskSummaries = response.data;
-        // const filtered = taskSummaries.filter((t: taskSummary) => {
-        //   return t.subject.toLowerCase().includes(val.toLowerCase());
-        // });
-        this.taskSummaries = taskSummaries;
-      } catch (error) {
-        console.error(error);
       }
     },
 

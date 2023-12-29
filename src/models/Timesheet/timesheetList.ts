@@ -29,6 +29,8 @@ export interface Period {
   end: Date;
   name: string;
   start: Date;
+  error: string;
+  warning: string;
 }
 
 export interface ServiceItem {

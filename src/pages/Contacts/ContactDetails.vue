@@ -7,13 +7,14 @@ TODO: skd: Implement child events the same way as implemented in OfficeClip. Do 
 import { ref, onBeforeMount, computed, onMounted } from 'vue';
 import { useContactDetailsStore } from '../../stores/ContactDetailsStore';
 import { useContactListsStore } from '../../stores/ContactListsStore';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import EventsList from '../../components/Events/EventsListCtrl.vue';
 import TasksList from 'components/tasks/tasksListCtrl.vue';
 import ContactDetails from '../../components/Contacts/ContactDetails.vue';
 import MetaDetails from '../../components/Meta/MetaDetails.vue';
 import { ObjectType } from '../../helpers/util';
+import { useQuasar } from 'quasar';
 
 console.log('TESTING CONTACTVIEW: Setup');
 const model = ref('1');
@@ -22,14 +23,29 @@ const contactListsStore = useContactListsStore();
 //const eventsStore = useEventsStore();
 //const allEvents = eventsStore.getEventsById(-1,-1)
 const route = useRoute();
+const router = useRouter();
+const $q = useQuasar();
 
-onBeforeMount(() => {
-  //contactsStore.$reset;
-  console.log('TESTING CONTACTVIEW: onBeforeMount');
-  console.log('Contactstorevarialble testing:', contactDetailsStore);
-  contactDetailsStore.getContactDetails(Number(route.params.id));
-  contactDetailsStore.getContactLists();
-  console.log(`ContactDetails: params: ${params.value}`);
+// onBeforeMount(() => {
+//   //contactsStore.$reset;
+//   console.log('TESTING CONTACTVIEW: onBeforeMount');
+//   console.log('Contactstorevarialble testing:', contactDetailsStore);
+//   contactDetailsStore.getContactDetails(Number(route.params.id));
+//   contactDetailsStore.getContactLists();
+//   console.log(`ContactDetails: params: ${params.value}`);
+// });
+
+onBeforeMount(async () => {
+  try {
+    // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
+    //await sessionStore.getSession();
+    //homeIconStore.getHomeIcons();
+    await contactDetailsStore.getContactDetails(Number(route.params.id));
+    console.log('On before mount: ', contactDetailsStore.ContactDetails)
+    await contactDetailsStore.getContactLists();
+  } catch (error) {
+    console.log('Error Msg: ', error);
+  }
 });
 
 onMounted(() => {
@@ -37,6 +53,7 @@ onMounted(() => {
 })
 
 const contactDetails = computed(() => {
+  console.log('Contact Details:', contactDetails)
   return contactDetailsStore.ContactDetails;
 });
 
@@ -53,17 +70,27 @@ id.value = route.params.id;
 
 const stateName = computed(() => {
   const item = contactDetailsStore.States.find(
-    (state) => state.code === contactDetails.value?.state
+    (state) => state.id === contactDetails.value?.state_id
   );
   const stateItem = item ? item.name : '';
-  //console.log("state name: ", stateItem);
+  console.log('State Name - ', stateItem)
   return stateItem;
+});
+
+const countryName = computed(() => {
+  const item = contactDetailsStore.Countries.find(
+    (country) => country.id === contactDetails.value?.country_id
+  );
+  const countryItem = item ? item.name : '';
+  console.log('Country Name - ', countryItem)
+  return countryItem;
 });
 
 const params = computed(() => {
   return {
     contactDetails: contactDetails.value,
     stateName: stateName.value,
+    countryName: countryName.value
   };
 });
 
