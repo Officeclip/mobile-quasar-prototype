@@ -1259,7 +1259,7 @@
       "id": "93cc",
       "name": "contact-details",
       "documentation": "",
-      "value": "[\r\n  {\r\n      \"id\": 4,\r\n      \"first_name\": \"Cloe\",\r\n      \"last_name\": \"Sich\",\r\n      \"title\": \"Systems Administrator IV\",\r\n      \"email\": \"csich3@google.pl\",\r\n      \"street_address\": \"56 Pawling Drive\",\r\n      \"city\": \"Tuanjie\",\r\n      \"state_name\": \"Georgia\",\r\n      \"state_id\": \"1\",\r\n      \"postal_code\": null,\r\n      \"country_name\": \"US\",\r\n      \"country_id\": \"2\"\r\n      \"work_phone\": \"714-364-3586\",\r\n      \"home_phone\": \"990-228-6350\",\r\n      \"thumbnail\": \"https://robohash.org/4.png?size=50x50\",\r\n      \"picture\": \"https://robohash.org/4.png?size=250x250\"\r\n  }\r\n]"
+      "value": "[\r\n  {\r\n      \"id\": 4,\r\n      \"first_name\": \"Cloe\",\r\n      \"last_name\": \"Sich\",\r\n      \"title\": \"Systems Administrator IV\",\r\n      \"email\": \"csich3@google.pl\",\r\n      \"street_address\": \"56 Pawling Drive\",\r\n      \"city\": \"Tuanjie\",\r\n      \"state_name\": \"Georgia\",\r\n      \"state_id\": \"1\",\r\n      \"postal_code\": null,\r\n      \"country_name\": \"US\",\r\n      \"country_id\": \"2\",\r\n      \"work_phone\": \"714-364-3586\",\r\n      \"home_phone\": \"990-228-6350\",\r\n      \"thumbnail\": \"https://robohash.org/4.png?size=50x50\",\r\n      \"picture\": \"https://robohash.org/4.png?size=250x250\"\r\n  }\r\n]"
     },
     {
       "uuid": "9be529a6-016b-4a49-b571-49d851bbc6c2",
