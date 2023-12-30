@@ -103,7 +103,7 @@ watch(
     await taskSummaryStore.resetTaskSummaryList();
     setTimeout(async () => {
       await taskSummaryStore.getTasksUpdated();
-    }, 300);
+    }, 250);
   }
 );
 
