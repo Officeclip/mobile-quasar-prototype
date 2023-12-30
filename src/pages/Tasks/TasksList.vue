@@ -2,12 +2,12 @@
 import {computed, onBeforeMount, ref, Ref, watch} from 'vue';
 import {useQuasar} from 'quasar'
 
-import TaskSummaryItem from 'components/tasks/TaskSummaryItem.vue';
 import {useTaskSummaryStore} from 'stores/task/taskSummaryStore';
 import TaskAdvancedFilters from 'components/tasks/taskAdvancedFilters.vue';
 import {searchFilter} from 'src/models/task/searchFilter';
 import {taskSummary} from 'src/models/task/taskSummary';
 import {useSessionStore} from "stores/SessionStore";
+import TasksListCtrl from "components/tasks/tasksListCtrl.vue";
 
 const defaultFilterOptions:searchFilter = {
   filterString: '',
@@ -35,19 +35,9 @@ const parent = {
 const taskSummaryStore = useTaskSummaryStore();
 const sessionStore = useSessionStore();
 
-const getTaskSummaries = computed(() => {
-  return taskSummaryStore.taskSummaries;
-});
-
-let reachedEnd = ref(false);
 const showAdvOptions = ref(false);
 const assignedToMe = ref(filterOptions.value.assignedToId === sessionStore.Session.userId);
 
-const loadMore = async (index: any, done: () => void) => {
-  reachedEnd.value = await taskSummaryStore.getTasksUpdated();
-  //https://quasar.dev/vue-components/infinite-scroll/#usage
-  done();
-};
 
 function clearFilterValues() {
   filterOptions.value = {...defaultFilterOptions};
@@ -140,8 +130,6 @@ function showNotif() {
 
 onBeforeMount(() => {
   showNotif();
-  taskSummaryStore.parentObjectId = parent.parentObjectId;
-  taskSummaryStore.parentObjectServiceType = parent.parentObjectServiceType;
 });
 
 
@@ -179,16 +167,7 @@ onBeforeMount(() => {
             </div>
           </div>
         </div>
-
-        <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
-          <q-item v-for="task in getTaskSummaries" :key="task.id" class="q-pa-sm">
-            <taskSummaryItem :task="task" class="full-width"/>
-          </q-item>
-          <template v-slot:loading>
-            <q-spinner-dots color="primary" size="40px"/>
-          </template>
-        </q-infinite-scroll>
-
+        <tasks-list-ctrl :parent="parent"/>
         <q-dialog v-model="showAdvOptions">
           <task-advanced-filters :filter-options="filterOptions" :parent="parent"
                                  @advancedOptionsGenerated="receiveAdvFilters" @filterCount="updateFilterCount"/>

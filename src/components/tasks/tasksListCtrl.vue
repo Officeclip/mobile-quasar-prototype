@@ -1,41 +1,39 @@
 <script lang="ts" setup>
-import {computed, onBeforeMount} from 'vue';
+import {computed, onBeforeMount, ref} from 'vue';
 import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
-import {taskSummary} from "src/models/task/taskSummary";
 import TaskSummaryItem from "components/tasks/TaskSummaryItem.vue";
 
-const props = defineProps(['params', 'user', 'ownerFilter', 'assigneeFilter']);
+const props = defineProps(['parent']);
 
-const parentObjectId = computed(() => props.params.parentObjectId);
-const parentObjectServiceType = computed(
-  () => props.params.parentObjectServiceType
-);
 const taskSummaryStore = useTaskSummaryStore();
 
-const getTasks = computed(() => {
-  let filteredTasks = taskSummaryStore.taskSummaries;
-  if (props.ownerFilter === true) {
-    filteredTasks = filteredTasks.filter((task: taskSummary) => {
-      return task.taskOwner === props.user;
-    });
-  }
-  if (props.assigneeFilter === true) {
-    filteredTasks = filteredTasks.filter((task: taskSummary) => {
-      return task.assignee.includes(props.user);
-    });
-  }
-  return filteredTasks;
+const getTaskSummaries = computed(() => {
+  return taskSummaryStore.taskSummaries;
 });
 
+let reachedEnd = ref(false);
+const loadMore = async (index: any, done: () => void) => {
+  reachedEnd.value = await taskSummaryStore.getTasksUpdated();
+  //https://quasar.dev/vue-components/infinite-scroll/#usage
+  done();
+};
+
 onBeforeMount(() => {
-  taskSummaryStore.getTasks(Number(parentObjectId.value), Number(parentObjectServiceType.value));
+  // taskSummaryStore.getTasks(Number(parentObjectId.value), Number(parentObjectServiceType.value));
+  taskSummaryStore.parentObjectId = props.parent.parentObjectId;
+  taskSummaryStore.parentObjectServiceType = props.parent.parentObjectServiceType;
 });
 
 </script>
 <template>
-  <q-list v-for="task in getTasks" :key="task.id">
-    <taskSummaryItem :task="task"/>
-    <q-separator/>
-  </q-list>
+
+  <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
+    <q-item v-for="task in getTaskSummaries" :key="task.id" class="q-pa-sm">
+      <taskSummaryItem :task="task" class="full-width"/>
+    </q-item>
+    <template v-slot:loading>
+      <q-spinner-dots color="primary" size="40px"/>
+    </template>
+  </q-infinite-scroll>
 
 </template>

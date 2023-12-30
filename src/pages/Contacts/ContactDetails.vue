@@ -15,6 +15,7 @@ import ContactDetails from '../../components/Contacts/ContactDetails.vue';
 import MetaDetails from '../../components/Meta/MetaDetails.vue';
 import { ObjectType } from '../../helpers/util';
 import { useQuasar } from 'quasar';
+import TasksListCtrl from "components/tasks/tasksListCtrl.vue";
 
 console.log('TESTING CONTACTVIEW: Setup');
 const model = ref('1');
@@ -99,6 +100,7 @@ const parent = ref({
   parentObjectServiceType: ObjectType.Contact,
   selectedNoteBook: -1,
 });
+
 const parent2 = ref({
   parentObjectId: id.value,
   parentObjectServiceType: ObjectType.Contact,
@@ -256,7 +258,7 @@ const handleTaskCount = (value: string) => {
                   </q-item-section>
                 </template>
                 <q-separator></q-separator>
-                <TasksList @numberOfTasks="handleTaskCount" :params="parent2" />
+                <tasks-list-ctrl @numberOfTasks="handleTaskCount" :parent="parent2" />
               </q-expansion-item>
             </q-list>
           </q-card-section>
