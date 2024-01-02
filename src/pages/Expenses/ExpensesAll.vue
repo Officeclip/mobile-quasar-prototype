@@ -1,16 +1,29 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
+import { useSessionStore } from 'stores/SessionStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 
 const expensesDetailsStore = useExpenseDetailsStore();
+const usesessionStore = useSessionStore();
 const expenseStatus = ref('inbox');
 const title = ref(expenseStatus.value);
 
 onMounted(() => {
   expensesDetailsStore.getExpensesByStatus(String(expenseStatus.value));
+  usesessionStore.getSession();
 });
+
+const getSession = computed(() => {
+  return usesessionStore.Session;
+});
+
+const getRoleAccess = computed(() => {
+  return getSession.value.roleAccess;
+});
+
+const roleAccess = getRoleAccess.value;
 
 const allExpenses = computed(() => {
   console.log('Expenses All', expensesDetailsStore.expenseSummary);
@@ -102,7 +115,9 @@ const tabs = [
     </q-header>
     <q-footer elevated>
       <q-tabs v-model="expenseStatus" no-caps inline-label class="bg-primary text-white shadow-2" align="justify">
-        <q-tab v-for="item in tabs" :name="item.name" :key="item.id" :label="item.status" />
+        <q-tab v-for="item in tabs" :name="item.name" icon="inbox" :key="item.id" :label="item.status">
+          <q-icon name="groups"></q-icon>
+        </q-tab>
       </q-tabs>
     </q-footer>
     <q-page-container>
@@ -138,8 +153,8 @@ const tabs = [
           <q-separator></q-separator>
         </q-list>
       </q-page>
-      <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn :to="{
+      <q-page-sticky v-for="role in roleAccess" :key="role.name" position="bottom-right" :offset="[18, 18]">
+        <q-btn v-if="role.name === 'TimeExpensesAccessExpenseReport' && role.access" :to="{
           name: 'newPeriodExpense',
         }" fab icon="add" color="accent" padding="sm">
         </q-btn>

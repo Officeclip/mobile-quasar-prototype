@@ -5,7 +5,7 @@ export interface Session {
   userEmail: string;
   orgKey: string;
   applicationIds: Array<number>;
-  roleAccesses: RoleAccess[];
+  roleAccess: RoleAccess[];
 }
 
 export interface RoleAccess {
