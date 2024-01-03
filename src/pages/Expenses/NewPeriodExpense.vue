@@ -12,70 +12,79 @@ const periodOptions = computed(() => {
   return expenseListsStore.PeriodList;
 });
 
-const errorMessage = ref('');
+const period: any = ref('');
+const errorMsg: any = ref('');
+const warningMsg: any = ref('');
 
-const errorMsg = ref('');
+watch([period], ([newPeriodModel]) => {
+  errorMsg.value = newPeriodModel.error;
+  warningMsg.value = newPeriodModel.warning;
+});
 
-const period = ref('');
+// const errorMessage = ref('');
 
-const expensePeriod = periodOptions.value.find((x) => x.name === period.value);
-console.log(expensePeriod);
+// const errorMsg = ref('');
 
-function validatePeriod(event: string) {
-  if (event == '') {
-    ('Please select period..');
-  }
-}
-const datesList = ref<Array<{ label: string; value: string }>>([]);
+// const period = ref('');
+
+// const expensePeriod = periodOptions.value.find((x) => x.name === period.value);
+// console.log(expensePeriod);
+
+// function validatePeriod(event: string) {
+//   if (event == '') {
+//     ('Please select period..');
+//   }
+// }
+// const datesList = ref<Array<{ label: string; value: string }>>([]);
 
 // watch([periodOptions], () => {
 //   const expensePeriod = periodOptions.value.find((x) => x.name === period.value);
 //   console.log('watch for period option in new period expense', expensePeriod);
 // });
 
-const getDatesBetweenStartEnd = (startDate: any, endDate: any) => {
-  const expensePeriodOption = periodOptions.value.find((x) => x.name === period.value);
-  errorMessage.value = '';
-  errorMsg.value = '';
+// const getDatesBetweenStartEnd = (startDate: any, endDate: any) => {
+//   const expensePeriodOption = periodOptions.value.find((x) => x.name === period.value);
+//   errorMessage.value = '';
+//   errorMsg.value = '';
 
-  if (expensePeriodOption?.warning !== '') {
-    errorMessage.value = expensePeriodOption?.warning as string;
-  }
+//   if (expensePeriodOption?.warning !== '') {
+//     errorMessage.value = expensePeriodOption?.warning as string;
+//   }
 
-  if (expensePeriodOption?.error !== '') {
-    errorMessage.value = expensePeriodOption?.error as string;
-    errorMsg.value = errorMessage.value;
-    console.log('Expense period error message', errorMsg.value);
-  }
+//   if (expensePeriodOption?.error !== '') {
+//     errorMessage.value = expensePeriodOption?.error as string;
+//     errorMsg.value = errorMessage.value;
+//     console.log('Expense period error message', errorMsg.value);
+//   }
 
-  const dates = [];
-  const startDateUnix = new Date(startDate).getTime();
-  const endDateUnix = new Date(endDate).getTime();
+//   const dates = [];
+//   const startDateUnix = new Date(startDate).getTime();
+//   const endDateUnix = new Date(endDate).getTime();
 
-  // Calculate the difference between the start and end dates in days
-  const dayDifference = (endDateUnix - startDateUnix) / (1000 * 60 * 60 * 24);
+//   // Calculate the difference between the start and end dates in days
+//   const dayDifference = (endDateUnix - startDateUnix) / (1000 * 60 * 60 * 24);
 
-  // Iterate over the days and add them to the array
-  for (let i = 0; i <= dayDifference; i++) {
-    const date = new Date(startDateUnix + i * 1000 * 60 * 60 * 24);
-    dates.push(date);
-  }
+//   // Iterate over the days and add them to the array
+//   for (let i = 0; i <= dayDifference; i++) {
+//     const date = new Date(startDateUnix + i * 1000 * 60 * 60 * 24);
+//     dates.push(date);
+//   }
 
-  const formattedDates = dates.map((date) => {
-    return {
-      label: `${date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-      })}(${date.toLocaleDateString('en-US', { weekday: 'short' })})`,
-      value: date.toISOString(),
-    };
-  });
+//   const formattedDates = dates.map((date) => {
+//     return {
+//       label: `${date.toLocaleDateString('en-US', {
+//         month: 'short',
+//         day: 'numeric',
+//       })}(${date.toLocaleDateString('en-US', { weekday: 'short' })})`,
+//       value: date.toISOString(),
+//     };
+//   });
 
-  datesList.value = formattedDates;
+//   datesList.value = formattedDates;
 
-  // Return the array of dates
-  return formattedDates;
-};
+//   // Return the array of dates
+//   return formattedDates;
+// };
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -87,28 +96,25 @@ const getDatesBetweenStartEnd = (startDate: any, endDate: any) => {
       </q-toolbar>
     </q-header>
     <q-page-container>
-      <div>
-        <div class="q-pa-md">
-          <div class="q-gutter-y-md column">
-            <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-            <q-select label="Period" v-model="period" :options="periodOptions" map-options option-value="name"
-              @update:model-value="
-                getDatesBetweenStartEnd(
-                  expensePeriod?.start,
-                  expensePeriod?.end
-                )
-                " option-label="name" emit-value />
-          </div>
-        </div>
-        <q-btn v-if="period != '' && errorMsg == ''" class="q-ml-md q-mb-md q-mt-md" label="Next" color="primary" :to="{
-          name: 'newExpense',
-          params: {
-            expenseSid: '-1',
-            period: period
-          },
-        }"></q-btn>
-        <!-- <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn> -->
-      </div>
+      <q-page>
+        <q-list>
+          <q-item v-if="errorMsg || warningMsg">
+            <p v-if="errorMsg" class="text-red">{{ errorMsg }}</p>
+            <p v-if="warningMsg" class="text-orange">{{ warningMsg }}</p>
+          </q-item>
+          <q-item>
+            <q-select class="full-width" label="Period" v-model="period" :options="periodOptions" map-options
+              option-label="name" /></q-item>
+          <q-list>
+            <q-btn v-if="period != '' && errorMsg == ''" class="q-ml-md q-mb-md q-mt-md" label="Next" color="primary" :to="{
+              name: 'newExpense',
+              params: {
+                expenseSid: '-1',
+                period: period.name
+              },
+            }"></q-btn>
+          </q-list></q-list>
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>

@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <script setup>
 import { defineProps, ref, onMounted, computed, watch } from 'vue';
+import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import airTravelExpenseForm from '../expenses/expenseTypes/airTravelExpenseForm.vue';
 import autoRentalExpenseForm from '../expenses/expenseTypes/autoRentalExpenseForm.vue';
@@ -30,11 +31,14 @@ const paymentTypeOptions = computed(() => {
 });
 
 const period = computed(() => {
-  return props.period;
+  return expenseListsStore.PeriodList.find((x) => x.name === props.period);
 });
 
 const datesList = computed(() => {
-  return expenseListsStore.getDatesBetweenStartEnd(period.value);
+  return dateTimeHelper.populateDates(
+    period.value?.start,
+    period.value?.end
+  );
 });
 
 const airTravel = ref({
@@ -189,12 +193,12 @@ const updateCustomerProject = (newValue) => {
     <div class="q-ml-sm">
       <q-item-label caption class="q-pt-md"> Period </q-item-label>
       <q-item-label class="q-mb-sm">
-        {{ period }}
+        {{ period?.name }}
       </q-item-label>
 
       <q-select label="Expense Date" v-model="formattedExpenseDate"
         @update:model-value="(newValue) => (props.expenseDetail.expenseDate = newValue)" :options="datesList"
-        option-value="value" option-label="label" emit-value map-options />
+        option-value="value" option-label="name" emit-value map-options />
 
       <q-select label="Customer : Project" v-model="customerProjectValue" @update:model-value="updateCustomerProject"
         :options="customerProjectOptions" option-label="name" option-value="id" />
