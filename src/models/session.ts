@@ -5,6 +5,7 @@ export interface Session {
   userEmail: string;
   orgKey: string;
   applicationIds: Array<number>;
+  isAdmin: boolean;
   roleAccess: RoleAccess[];
 }
 
