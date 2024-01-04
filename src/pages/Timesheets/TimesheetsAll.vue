@@ -48,11 +48,11 @@ const roleAccess = computed(() => {
   return sessionStore.RoleAccess;
 });
 
-const testRoleAccessName = computed(() => {
+const isRoleAccess = computed(() => {
   const data = roleAccess.value?.find(
     (x: string) => x.name === 'TimeExpensesCreateTimeSheet'
   );
-  return data;
+  return data.access;
 });
 
 watch([timesheetStatus], ([newModel]) => {
@@ -152,10 +152,12 @@ watch([timesheetStatus], ([newModel]) => {
         </q-list>
         <div>
           <pre>{{ sessionData.isAdmin }}</pre>
-          <pre>{{ testRoleAccessName }}</pre>
+          <pre>{{ isRoleAccess }}</pre>
+          <!-- <pre>{{ isRoleAccess.access }}</pre> -->
         </div>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
+            v-if="sessionData.isAdmin || isRoleAccess"
             :to="{
               name: 'newTimesheetPeriod',
             }"
