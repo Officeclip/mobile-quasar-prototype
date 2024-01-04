@@ -11,7 +11,7 @@ const route = useRoute();
 const usecontactDetailsStore = useContactDetailsStore();
 
 onMounted(() => {
-  usecontactDetailsStore.getContactLists();
+  //usecontactDetailsStore.getContactLists();
 });
 
 const getStates = computed(() => {
@@ -33,6 +33,7 @@ const defaultCountry = computed(() => {
 console.log('default state', defaultState.value);
 
 const contactDetails: ContactDetails = ref({
+  //from: https://stackoverflow.com/a/49741799
   id: Number(''),
   first_name: '',
   last_name: '',
@@ -43,13 +44,16 @@ const contactDetails: ContactDetails = ref({
   state_name: defaultState.value?.name,
   state_id: defaultState.value?.id,
   postal_code: '',
-  country_name: defaultCountry.value?.name,
-  country_id: defaultCountry.value?.id,
+  country_name: '',
+  country_id: '',
   work_phone: '',
   home_phone: '',
   thumbnail: '',
-  picture: ''
+  picture: '',
 });
+
+//const contactDetails = { current: contactDetailsEmpty };
+//contactDetails.value = contactDetailsEmpty;
 
 // onMounted(() => {
 //   console.log(`EditContacts: id= ${route.params.id}`);
@@ -72,7 +76,14 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title> New Contact </q-toolbar-title>
       </q-toolbar>
@@ -80,8 +91,16 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <EditContactDetailsCtrl v-if="getStates" :contactDetails="contactDetails" />
-          <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
+          <EditContactDetailsCtrl
+            v-if="getStates"
+            :contactDetails="contactDetails"
+          />
+          <q-btn
+            class="q-ml-md q-mb-md"
+            label="Submit"
+            type="submit"
+            color="primary"
+          >
           </q-btn>
         </div>
       </q-form>
