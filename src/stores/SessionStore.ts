@@ -1,20 +1,23 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { Session } from 'src/models/session';
+import { RoleAccess, Session } from 'src/models/session';
 import { Constants } from 'stores/Constants';
 import { SessionStorage } from 'quasar';
 import { HomeIcon } from 'src/models/homeIcon';
 
 export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
-    //session: {} as Session,
+    session: {} as Session,
     //session: undefined as Session | undefined
+    roleAccess: {} as RoleAccess,
   }),
 
   getters: {
     //Sessions: (state) => state.sessions, // see: https://stackoverflow.com/q/72151708
     // Session: (state) => state.session
     Session: () => SessionStorage.getItem('oc-session') as Session,
+    NewSession: (state) => state.session,
+    RoleAccess: (state) => state.roleAccess,
   },
 
   actions: {
@@ -27,6 +30,12 @@ export const useSessionStore = defineStore('sessionStore', {
         if (response.data) {
           SessionStorage.set('oc-session', response.data);
           console.log('Sessions data from store: ', response.data);
+          this.session = response.data;
+          this.roleAccess = response.data.roleAccess;
+          console.log(
+            'Sessions data along with roleAccess: ',
+            response.data.roleAccess
+          );
         }
       } catch (error) {
         console.log(`getSession() Error: ${error}`);

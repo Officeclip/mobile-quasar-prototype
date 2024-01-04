@@ -5,6 +5,7 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import { useSessionStore } from 'src/stores/SessionStore';
 
 const timesheetStatus = ref('inbox');
 const title = ref(capitalize(timesheetStatus.value));
@@ -12,13 +13,14 @@ const $q = useQuasar();
 const router = useRouter();
 
 const timesheetsStore = useTimesheetsStore();
-
+const sessionStore = useSessionStore();
 // onMounted(() => {
 //   timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
 // });
 onBeforeMount(async () => {
   try {
     await timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
+    sessionStore.getSession();
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -38,6 +40,21 @@ onBeforeMount(async () => {
 const timesheetsAll = computed(() => {
   return timesheetsStore.Timesheets;
 });
+const sessionData = computed(() => {
+  return sessionStore.NewSession;
+});
+
+const roleAccess = computed(() => {
+  return sessionStore.RoleAccess;
+});
+
+const testRoleAccessName = computed(() => {
+  const data = roleAccess.value?.find(
+    (x: string) => x.name === 'TimeExpensesCreateTimeSheet'
+  );
+  return data;
+});
+
 watch([timesheetStatus], ([newModel]) => {
   timesheetsStore.getTimesheetsByStatus(String(newModel));
   title.value = capitalize(newModel);
@@ -133,6 +150,10 @@ watch([timesheetStatus], ([newModel]) => {
           </q-item>
           <q-separator></q-separator>
         </q-list>
+        <div>
+          <pre>{{ sessionData.isAdmin }}</pre>
+          <pre>{{ testRoleAccessName }}</pre>
+        </div>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
             :to="{
