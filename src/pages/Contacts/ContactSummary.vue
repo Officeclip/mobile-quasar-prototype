@@ -15,36 +15,41 @@ const text = ref('');
 let currentPage = 1; // the current page number
 // const pageSize = ref(10); // number of items in one page
 let numItems = 0; // total number of items in the list
-let reachedEnd = ref(false); // indicate if all contacts have been loaded
 const batchSize = 25; // number of contacts to load in each batch
 
 const contacts = computed(() => {
   return contactSummaryStore.ContactSummary;
 });
-
-onMounted(() => {
-  //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
-  contactSummaryStore
-    .getContactSummaryByBatch(batchSize, currentPage)
-    .then(() => currentPage++);
-  // contactsStore.getContacts();
-  //contacts.value = contactsStore.Contacts;
-  // console.log(`onMounted: Contacts - ${contactsStore.Contacts}`);
-});
-
-const loadMore = (index: any, done: () => void) => {
-  const contactsSizeBeforeCall = contacts.value.length;
-  setTimeout(() => {
-    contactSummaryStore
-      .getContactSummaryByBatch(batchSize, currentPage)
-      .then(() => {
-        done();
-        currentPage++;
-        const contactsAfterCall = contacts.value.length;
-        reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
-      });
-  }, 500);
+let reachedEnd = ref(false); // indicate if all contacts have been loaded
+const loadMore = async (index: any, done: () => void) => {
+  reachedEnd.value = await contactSummaryStore.getUpdatedContacts();
+  //https://quasar.dev/vue-components/infinite-scroll/#usage
+  done();
 };
+
+// onMounted(() => {
+//   //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
+//   contactSummaryStore
+//     .getContactSummaryByBatch(batchSize, currentPage)
+//     .then(() => currentPage++);
+//   // contactsStore.getContacts();
+//   //contacts.value = contactsStore.Contacts;
+//   // console.log(`onMounted: Contacts - ${contactsStore.Contacts}`);
+// });
+
+// const loadMore = (index: any, done: () => void) => {
+//   const contactsSizeBeforeCall = contacts.value.length;
+//   setTimeout(() => {
+//     contactSummaryStore
+//       .getContactSummaryByBatch(batchSize, currentPage)
+//       .then(() => {
+//         done();
+//         currentPage++;
+//         const contactsAfterCall = contacts.value.length;
+//         reachedEnd.value = contactsSizeBeforeCall === contactsAfterCall;
+//       });
+//   }, 500);
+// };
 
 // const totalPages = computed(() => {
 //   //console.log(`totalPages: ${numItems.value}/${pageSize.value}`);
@@ -91,7 +96,7 @@ const getData = computed(() => {
           </template>
         </q-input>
 
-        <q-infinite-scroll :disable="reachedEnd" :offset="250" @load="loadMore">
+        <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
           <q-item v-for="contact in getData" :key="contact.id" v-ripple :to="{
             name: 'contactDetails',
             params: {
@@ -100,7 +105,8 @@ const getData = computed(() => {
           }" clickable>
             <q-item-section side>
               <q-avatar color="grey-4">
-                <img v-bind:src="contact.thumbnail" />
+                <q-img v-if="contact.thumbnail" v-bind:src="contact.thumbnail" />
+                <q-icon name="image" v-else />
               </q-avatar>
             </q-item-section>
             <q-item-section>{{ contact.first_name }}</q-item-section>
