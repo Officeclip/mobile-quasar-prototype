@@ -183,10 +183,15 @@
           "body": "",
           "latency": 0,
           "statusCode": 200,
-          "label": "Success",
-          "headers": [],
+          "label": "Page 1",
+          "headers": [
+            {
+              "key": "links",
+              "value": "{         \"first\": \"/contact-summary?pagesize=15&pagenumber=1\",         \"next\": \"/contact-summary?pagesize=15&pagenumber=2\",         \"prev\": \"\",         \"last\": \"/contact-summary?pagesize=5&pagenumber=4\",         \"total\": 50  }"
+            }
+          ],
           "bodyType": "FILE",
-          "filePath": "oc\\contacts\\contact-summary.txt",
+          "filePath": "oc\\contacts\\contact-summary-page-1.json",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [],
@@ -196,9 +201,66 @@
           "default": true,
           "crudKey": "id",
           "callbacks": []
+        },
+        {
+          "uuid": "be4f4d2b-914b-41f9-b968-a271e30993d0",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Page 2",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\contacts\\contact-summary-page-2.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "9e08aa08-f0ec-4bbd-835c-88080d840548",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Page 3",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\contacts\\contact-summary-page-3.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "7d85de8c-eb49-44e8-9fa0-d6ee3e657096",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Page 4",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\contacts\\contact-summary-page-4.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": "SEQUENTIAL"
     },
     {
       "uuid": "54670a8c-a10c-4c58-945e-ef1326fe7e9d",
