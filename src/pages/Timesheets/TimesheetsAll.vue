@@ -40,37 +40,21 @@ onBeforeMount(async () => {
 const timesheetsAll = computed(() => {
   return timesheetsStore.Timesheets;
 });
-const sessionData = computed(() => {
-  return sessionStore.NewSession;
-});
 
-const roleAccess = computed(() => {
-  return sessionStore.RoleAccess;
-});
+const session = sessionStore.Session;
+const isAdmin = session.isAdmin;
 
-const isRoleAccess = computed(() => {
-  const data = roleAccess.value?.find(
-    (x: string) => x.name === 'TimeExpensesCreateTimeSheet'
+const isRoleAccess = () => {
+  const data = session.roleAccess.find(
+    (x) => x.name === 'TimeExpensesCreateTimeSheet'
   );
-  return data.access;
-});
+  return data?.access;
+};
 
 watch([timesheetStatus], ([newModel]) => {
   timesheetsStore.getTimesheetsByStatus(String(newModel));
   title.value = capitalize(newModel);
 });
-
-// function getStatusColor(status: string) {
-//   if (status == 'Approved') {
-//     return 'status-approved';
-//   }
-//   if (status == 'Pending') {
-//     return 'status-pending';
-//   }
-//   if (status == 'Rejected') {
-//     return 'status-rejected';
-//   }
-// }
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -151,13 +135,12 @@ watch([timesheetStatus], ([newModel]) => {
           <q-separator></q-separator>
         </q-list>
         <div>
-          <pre>{{ sessionData.isAdmin }}</pre>
-          <pre>{{ isRoleAccess }}</pre>
-          <!-- <pre>{{ isRoleAccess.access }}</pre> -->
+          <pre>{{ session.isAdmin }}</pre>
+          <pre>{{ isRoleAccess() }}</pre>
         </div>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
-            v-if="sessionData.isAdmin || isRoleAccess"
+            v-if="isAdmin || isRoleAccess()"
             :to="{
               name: 'newTimesheetPeriod',
             }"
