@@ -20,7 +20,6 @@ const sessionStore = useSessionStore();
 onBeforeMount(async () => {
   try {
     await timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
-    sessionStore.getSession();
   } catch (error) {
     $q.dialog({
       title: 'Alert',
