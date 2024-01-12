@@ -14,23 +14,21 @@ onMounted(() => {
   //usecontactDetailsStore.getContactLists();
 });
 
-const getStates = computed(() => {
-  return usecontactDetailsStore.states;
-});
+// const getStates = computed(() => {
+//   return usecontactDetailsStore.states;
+// });
 
-const defaultState = computed(() => {
-  return getStates.value.find((state) => state.is_default);
-});
+// const defaultState = computed(() => {
+//   return getStates.value.find((state) => state.is_default);
+// });
 
-const getCountries = computed(() => {
-  return usecontactDetailsStore.countries;
-});
+// const getCountries = computed(() => {
+//   return usecontactDetailsStore.countries;
+// });
 
-const defaultCountry = computed(() => {
-  return getCountries.value.find((country) => country.is_default);
-});
-
-console.log('default state', defaultState.value);
+// const defaultCountry = computed(() => {
+//   return getCountries.value.find((country) => country.is_default);
+// });
 
 const contactDetails: ContactDetails = ref({
   //from: https://stackoverflow.com/a/49741799
@@ -41,8 +39,8 @@ const contactDetails: ContactDetails = ref({
   email: '',
   street_address: '',
   city: '',
-  state_name: defaultState.value?.name,
-  state_id: defaultState.value?.id,
+  state_name: '',
+  state_id: '',
   postal_code: '',
   country_name: '',
   country_id: '',
@@ -76,14 +74,7 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> New Contact </q-toolbar-title>
       </q-toolbar>
@@ -91,16 +82,8 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <EditContactDetailsCtrl
-            v-if="getStates"
-            :contactDetails="contactDetails"
-          />
-          <q-btn
-            class="q-ml-md q-mb-md"
-            label="Submit"
-            type="submit"
-            color="primary"
-          >
+          <EditContactDetailsCtrl :contactDetails="contactDetails" />
+          <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>
       </q-form>

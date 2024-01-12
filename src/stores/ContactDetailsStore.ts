@@ -104,12 +104,15 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
     async addContactDetails(contactDetails: ContactDetails) {
       this.contactDetailsList.push(contactDetails);
 
-      const res = await fetch(`${Constants.endPointUrl}/contact-details`, {
-        //TODO: Change to axios api
-        method: 'POST',
-        body: JSON.stringify(contactDetails),
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const res = await fetch(
+        `${Constants.endPointUrl}/contact-details/${contactDetails.id}`,
+        {
+          //TODO: Change to axios api
+          method: 'POST',
+          body: JSON.stringify(contactDetails),
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
       console.log(this.contactDetailsList);
       this.getContacts();
     },

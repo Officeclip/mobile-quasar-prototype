@@ -15,7 +15,7 @@ import ContactDetails from '../../components/Contacts/ContactDetails.vue';
 import MetaDetails from '../../components/Meta/MetaDetails.vue';
 import { ObjectType } from '../../helpers/util';
 import { useQuasar } from 'quasar';
-import TasksListCtrl from "components/tasks/tasksListCtrl.vue";
+import TasksListCtrl from 'components/tasks/tasksListCtrl.vue';
 
 console.log('TESTING CONTACTVIEW: Setup');
 const model = ref('1');
@@ -161,7 +161,9 @@ const handleTaskCount = (value: string) => {
         <q-card-section class="q-pb-none">
           <div class="center">
             <q-avatar color="grey-3" size="200px" class="q-mb-sm">
-              <img :src="contactDetails?.picture" alt="{{ fullName }}" />
+              <!-- <img :src="contactDetails?.picture" :alt="fullName" /> -->
+              <q-img v-if="contactDetails?.picture" v-bind:src="contactDetails?.picture" />
+              <q-icon name="image" v-else />
             </q-avatar>
             <div class="q-mt-md">
               <q-btn-toggle v-model="model" class="oc-custom-toggle" no-caps rounded unelevated toggle-color="primary"

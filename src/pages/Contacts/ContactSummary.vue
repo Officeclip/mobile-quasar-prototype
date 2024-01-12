@@ -18,6 +18,7 @@ let numItems = 0; // total number of items in the list
 const batchSize = 25; // number of contacts to load in each batch
 
 const contacts = computed(() => {
+  contactSummaryStore.$reset();
   return contactSummaryStore.ContactSummary;
 });
 let reachedEnd = ref(false); // indicate if all contacts have been loaded
@@ -95,7 +96,6 @@ const getData = computed(() => {
             <q-icon v-else class="cursor-pointer" name="clear" @click="text = ''" />
           </template>
         </q-input>
-
         <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
           <q-item v-for="contact in getData" :key="contact.id" v-ripple :to="{
             name: 'contactDetails',
