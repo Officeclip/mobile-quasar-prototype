@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import {computed, onBeforeMount, ref, Ref, watch} from 'vue';
-import {useQuasar} from 'quasar'
+import { computed, onBeforeMount, ref, Ref, watch } from 'vue';
+import { useQuasar } from 'quasar'
 
-import {useTaskSummaryStore} from 'stores/task/taskSummaryStore';
+import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
 import TaskAdvancedFilters from 'components/tasks/taskAdvancedFilters.vue';
-import {searchFilter} from 'src/models/task/searchFilter';
-import {taskSummary} from 'src/models/task/taskSummary';
-import {useSessionStore} from "stores/SessionStore";
-import TasksListCtrl from "components/tasks/tasksListCtrl.vue";
+import { searchFilter } from 'src/models/task/searchFilter';
+import { taskSummary } from 'src/models/task/taskSummary';
+import { useSessionStore } from 'stores/SessionStore';
+import TasksListCtrl from 'components/tasks/tasksListCtrl.vue';
 
-const defaultFilterOptions:searchFilter = {
+const defaultFilterOptions: searchFilter = {
   filterString: '',
   dueDateValue: '',
   dueDateOption: '',
@@ -25,7 +25,7 @@ const defaultFilterOptions:searchFilter = {
   showCompleted: false,
 }
 
-let filterOptions: Ref<searchFilter> = ref({...defaultFilterOptions});
+let filterOptions: Ref<searchFilter> = ref({ ...defaultFilterOptions });
 
 const parent = {
   parentObjectId: -1,
@@ -40,7 +40,7 @@ const assignedToMe = ref(filterOptions.value.assignedToId === sessionStore.Sessi
 
 
 function clearFilterValues() {
-  filterOptions.value = {...defaultFilterOptions};
+  filterOptions.value = { ...defaultFilterOptions };
   filterCount.value = 0;
 }
 
@@ -103,7 +103,7 @@ watch(
     // This function will be called whenever any property in filterOptions changes
     taskSummaryStore.setFilter(filterOptions.value);
   },
-  {deep: true} // This option is necessary to watch for nested changes
+  { deep: true } // This option is necessary to watch for nested changes
 );
 
 const filterCount = ref(0);
@@ -139,22 +139,22 @@ onBeforeMount(() => {
   <q-layout view="lHh Lpr lFf">
     <q-header bordered class="bg-primary text-white" height-hint="98" reveal>
       <q-toolbar>
-        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)"/>
+        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)" />
         <q-toolbar-title> Tasks</q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <q-space class="q-mt-sm"/>
+    <q-space class="q-mt-sm" />
     <q-page-container>
       <q-page>
         <div class="q-pa-sm">
           <q-input v-model="filterOptions.filterString" clearable label="Search" outlined
-                   placeholder="Start typing to search">
+            placeholder="Start typing to search">
           </q-input>
         </div>
 
         <div class="row q-pa-sm justify-between">
           <div class="q-mr-md">
-            <q-checkbox v-model="assignedToMe" label="Assigned to me"/>
+            <q-checkbox v-model="assignedToMe" label="Assigned to me" />
           </div>
           <div class="row">
             <div class="q-mr-md">
@@ -163,14 +163,14 @@ onBeforeMount(() => {
               </q-btn>
             </div>
             <div class="q-mr-md">
-              <q-btn flat icon="clear" @click="clearFilterValues"/>
+              <q-btn flat icon="clear" @click="clearFilterValues" />
             </div>
           </div>
         </div>
-        <tasks-list-ctrl :parent="parent"/>
+        <tasks-list-ctrl :parent="parent" />
         <q-dialog v-model="showAdvOptions">
           <task-advanced-filters :filter-options="filterOptions" :parent="parent"
-                                 @advancedOptionsGenerated="receiveAdvFilters" @filterCount="updateFilterCount"/>
+            @advancedOptionsGenerated="receiveAdvFilters" @filterCount="updateFilterCount" />
         </q-dialog>
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
@@ -181,7 +181,7 @@ onBeforeMount(() => {
             objectTypeId: -1,
             objectId: -1
           },
-        }" color="accent" fab icon="add" padding="sm"/>
+        }" color="accent" fab icon="add" padding="sm" />
       </q-page-sticky>
     </q-page-container>
   </q-layout>
