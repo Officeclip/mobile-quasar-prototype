@@ -245,9 +245,8 @@ const updateCustomerProject = (newValue) => {
       <div v-if="isBillableModify === false" caption class="q-mb-md text-italic">
         <q-icon name="hide_source" /> You do not have permission to edit this item
       </div>
-
       <q-select label="Payment Method" v-model="expenseDetail.paymentType" :options="paymentTypeOptions" map-options
-        emit-value option-value="label" />
+        emit-value option-label="Name" option-value="Name" />
 
       <q-input label="Amount" v-model.number="expenseDetail.amount" placeholder="enter here..." lazy-rules type="number">
       </q-input>

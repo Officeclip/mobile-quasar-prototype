@@ -47,23 +47,23 @@ watch([expenseStatus], ([newModel]) => {
 //   }
 // }
 
-const tabs = [
-  {
-    id: 1,
-    name: 'inbox',
-    status: 'inbox',
-  },
-  {
-    id: 2,
-    name: 'outbox',
-    status: 'outbox',
-  },
-  {
-    id: 3,
-    name: 'archived',
-    status: 'archived',
-  },
-];
+// const tabs = [
+//   {
+//     id: 1,
+//     name: 'inbox',
+//     status: 'inbox',
+//   },
+//   {
+//     id: 2,
+//     name: 'outbox',
+//     status: 'outbox',
+//   },
+//   {
+//     id: 3,
+//     name: 'archived',
+//     status: 'archived',
+//   },
+// ];
 
 // const allExpenses = [
 //   {
@@ -115,9 +115,14 @@ const tabs = [
     </q-header>
     <q-footer elevated>
       <q-tabs v-model="expenseStatus" no-caps inline-label class="bg-primary text-white shadow-2" align="justify">
-        <q-tab v-for="item in tabs" :name="item.name" icon="inbox" :key="item.id" :label="item.status">
+        <!-- <q-tab v-for="item in tabs" :name="item.name" icon="inbox" :key="item.id" :label="item.status">
           <q-icon name="groups"></q-icon>
+        </q-tab> -->
+        <q-tab name="inbox" label="Inbox" icon="inbox">
+          <q-badge color="red" floating>2</q-badge>
         </q-tab>
+        <q-tab name="outbox" label="Outbox" icon="outbox" />
+        <q-tab name="archived" label="Archived" icon="archive" />
       </q-tabs>
     </q-footer>
     <q-page-container>
