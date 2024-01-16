@@ -132,7 +132,9 @@ const openUrl = () => {
   const url = event.value?.url;
   window.open('http://' + url, '_blank');
 };
-const projectServiceItem = `${event.value?.parent.type.name} : ${event.value?.parent.value.name}`;
+const projectServiceItem = computed(() => {
+  return `${event.value?.parent.type.name} : ${event.value?.parent.value.name}`;
+});
 </script>
 
 <template>
