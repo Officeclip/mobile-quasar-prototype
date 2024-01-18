@@ -88,22 +88,22 @@ if (props.expenseDetail.expenseTypeName == '') {
 }
 
 watch([expenseTypeOptions], () => {
-  getExpenseTypeDetail(props.expenseDetail.expenseTypeName);
+  getExpenseTypeDetail(props.expenseDetail.expenseTypeSid);
 });
 
-function getExpenseTypeDetail(expTypeName) {
-  console.log(`getExpenseTypeDetail( ${expTypeName} )`);
+function getExpenseTypeDetail(expTypeId) {
   const expenseType = expenseTypeOptions.value.find(
-    (x) => x.expenseTypeName === expTypeName
+    (x) => x.expenseTypeSid === expTypeId
   );
   if (expenseType != null) {
     isBillableModify.value = expenseType.isBillableModify;
     isDetailRequired.value = expenseType.isDetailsRequired;
     props.expenseDetail.billable = expenseType.isBillable;
-    props.expenseDetail.expenseTypeSid = expenseType.id
+    props.expenseDetail.expenseTypeSid = expenseType.expenseTypeSid;
+    props.expenseDetail.expenseTypeName = expenseType.expenseTypeName;
   }
 
-  switch (expTypeName) {
+  switch (expenseType.expenseTypeName) {
     case 'AIRFARE':
       props.expenseDetail.autoRentalExpense = null;
       props.expenseDetail.hotelExpense = null;
@@ -203,11 +203,11 @@ const updateCustomerProject = (newValue) => {
       <q-select label="Customer : Project" v-model="customerProjectValue" @update:model-value="updateCustomerProject"
         :options="customerProjectOptions" option-label="name" option-value="id" />
 
-      <q-select label="Expense Type" v-model="expenseDetail.expenseTypeName" :options="expenseTypeOptions" :rules="[
+      <q-select label="Expense Type" v-model="expenseDetail.expenseTypeSid" :options="expenseTypeOptions" :rules="[
         (val) =>
           val !== expenseTypeDefault || 'Please select expense type..',
-      ]" @update:model-value="getExpenseTypeDetail" option-label="expenseName" emit-value
-        option-value="expenseTypeName" map-options />
+      ]" @update:model-value="getExpenseTypeDetail" option-label="expenseName" emit-value option-value="expenseTypeSid"
+        map-options />
 
       <q-card class="q-my-md">
         <airTravelExpenseForm :airTravel="props.expenseDetail.airTravelExpense == null
