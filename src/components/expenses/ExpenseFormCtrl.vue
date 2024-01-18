@@ -82,8 +82,8 @@ const expenseTypeDefault = 'Select Expense Type';
 
 const isDetailRequired = ref(false);
 
-if (props.expenseDetail.expenseTypeName == '') {
-  props.expenseDetail.expenseTypeName = expenseTypeDefault;
+if (props.expenseDetail.expenseTypeSid == '') {
+  props.expenseDetail.expenseTypeSid = expenseTypeDefault;
   isBillableModify.value = true;
 }
 
