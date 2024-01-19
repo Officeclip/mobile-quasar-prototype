@@ -1,43 +1,43 @@
 <script setup>
-import {ref} from 'vue';
-import {RRule} from 'rrule'
+import { ref } from 'vue';
+import { RRule } from 'rrule';
 
-const emit = defineEmits(['rrule-string-generated', 'rrule-text-generated'])
+const emit = defineEmits(['rrule-string-generated', 'rrule-text-generated']);
 
 const selectedOption = ref('daily');
 
 const recurrenceOptions = [
-  {label: 'Daily', value: 'daily'},
-  {label: 'Weekly', value: 'weekly'},
-  {label: 'Monthly', value: 'monthly'},
-  {label: 'Yearly', value: 'yearly'}
-]
+  { label: 'Daily', value: 'daily' },
+  { label: 'Weekly', value: 'weekly' },
+  { label: 'Monthly', value: 'monthly' },
+  { label: 'Yearly', value: 'yearly' },
+];
 const weekdays = [
-  {label: 'Monday', value: 0},
-  {label: 'Tuesday', value: 1},
-  {label: 'Wednesday', value: 2},
-  {label: 'Thursday', value: 3},
-  {label: 'Friday', value: 4},
-  {label: 'Saturday', value: 5},
-  {label: 'Sunday', value: 6},
+  { label: 'Monday', value: 0 },
+  { label: 'Tuesday', value: 1 },
+  { label: 'Wednesday', value: 2 },
+  { label: 'Thursday', value: 3 },
+  { label: 'Friday', value: 4 },
+  { label: 'Saturday', value: 5 },
+  { label: 'Sunday', value: 6 },
 ];
 
 const monthsOfYear = [
-  {label: 'January', value: 1},
-  {label: 'February', value: 2},
-  {label: 'March', value: 3},
-  {label: 'April', value: 4},
-  {label: 'May', value: 5},
-  {label: 'June', value: 6},
-  {label: 'July', value: 7},
-  {label: 'August', value: 8},
-  {label: 'September', value: 9},
-  {label: 'October', value: 10},
-  {label: 'November', value: 11},
-  {label: 'December', value: 12},
+  { label: 'January', value: 1 },
+  { label: 'February', value: 2 },
+  { label: 'March', value: 3 },
+  { label: 'April', value: 4 },
+  { label: 'May', value: 5 },
+  { label: 'June', value: 6 },
+  { label: 'July', value: 7 },
+  { label: 'August', value: 8 },
+  { label: 'September', value: 9 },
+  { label: 'October', value: 10 },
+  { label: 'November', value: 11 },
+  { label: 'December', value: 12 },
 ];
 
-const numberOfDaysOfMonth = Array.from({length: 31}, (_, index) => {
+const numberOfDaysOfMonth = Array.from({ length: 31 }, (_, index) => {
   const day = index + 1; // Parse as an integer
 
   // Determine the suffix based on the last digit of the day
@@ -53,12 +53,12 @@ const numberOfDaysOfMonth = Array.from({length: 31}, (_, index) => {
     }
   }
   const label = `${day}${suffix}`;
-  return {label, value: day};
+  return { label, value: day };
 });
 
-const numberOfMonthsOfYear = Array.from({length: 12}, (_, index) => {
+const numberOfMonthsOfYear = Array.from({ length: 12 }, (_, index) => {
   const month = index + 1; // Parse as an integer
-  return {label: month.toString(), value: month};
+  return { label: month.toString(), value: month };
 });
 
 // const numberOfDaysOfMonth = ref(Array.from({length: 31}, (_, index) => {
@@ -84,13 +84,12 @@ const numberOfMonthsOfYear = Array.from({length: 12}, (_, index) => {
 //   return {label, value: month};
 // }));
 
-
 const occurrences = ref([
-  {label: 'First', value: 1},
-  {label: 'Second', value: 2},
-  {label: 'Third', value: 3},
-  {label: 'Fourth', value: 4},
-  {label: 'Last', value: -1},
+  { label: 'First', value: 1 },
+  { label: 'Second', value: 2 },
+  { label: 'Third', value: 3 },
+  { label: 'Fourth', value: 4 },
+  { label: 'Last', value: -1 },
 ]);
 
 const dailyDays = ref(1);
@@ -114,11 +113,13 @@ const yearlyOccurrence = ref(1);
 const yearlyWeekday = ref(0);
 const yearlyMonth2 = ref(1);
 
-const dateOrCount = ref('count')
+const dateOrCount = ref('count');
 const numberOfOccurrences = ref(10);
 const selectedEndDate = ref(null);
 
 const generateRecurrenceRule = () => {
+  console.log('dateOrCount:', dateOrCount.value);
+  console.log('selectedEndDate:', selectedEndDate.value);
   let ruleOptions = {
     dtstart: new Date(),
     // freq: RRule.DAILY,
@@ -133,7 +134,13 @@ const generateRecurrenceRule = () => {
         ruleOptions.interval = dailyDays.value;
       } else if (dailyChoice.value === 'daily-option2') {
         ruleOptions.freq = RRule.DAILY;
-        ruleOptions.byweekday = [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR];
+        ruleOptions.byweekday = [
+          RRule.MO,
+          RRule.TU,
+          RRule.WE,
+          RRule.TH,
+          RRule.FR,
+        ];
       }
       break;
 
@@ -176,14 +183,16 @@ const generateRecurrenceRule = () => {
   if (dateOrCount.value === 'count') {
     ruleOptions.count = numberOfOccurrences.value;
   } else if (dateOrCount.value === 'date') {
-    ruleOptions.until = selectedEndDate.value; // Use selectedEndDate as the end date
+    // ruleOptions.until = selectedEndDate.value; // Use selectedEndDate as the end date
+    ruleOptions.until = selectedEndDate.value
+      ? new Date(selectedEndDate.value)
+      : null;
   }
 
   const rule = new RRule(ruleOptions);
   generatedRRule.value = rule.toString();
   emit('rrule-string-generated', rule.toString());
   emit('rrule-text-generated', rule.toText());
-
 };
 const generatedRRule = ref('');
 const rruleInput = ref('');
@@ -197,7 +206,8 @@ const parseRRule = () => {
     switch (options.freq) {
       case RRule.DAILY:
         selectedOption.value = 'daily';
-        dailyChoice.value = options.interval === 1 ? 'daily-option1' : 'daily-option2';
+        dailyChoice.value =
+          options.interval === 1 ? 'daily-option1' : 'daily-option2';
         dailyDays.value = options.interval === 1 ? 1 : options.interval;
         break;
       case RRule.WEEKLY:
@@ -238,7 +248,6 @@ const parseRRule = () => {
     console.error('Invalid RRule input:', error);
   }
 };
-
 </script>
 
 <template>
@@ -246,14 +255,19 @@ const parseRRule = () => {
     <div class="q-pa-sm">
       <q-item class="flex-center q-gutter-md row">
         <q-item-label>Frequency:</q-item-label>
-        <q-select v-model="selectedOption" :options="recurrenceOptions" emit-value standout/>
+        <q-select
+          v-model="selectedOption"
+          :options="recurrenceOptions"
+          emit-value
+          standout
+        />
       </q-item>
 
       <div v-if="selectedOption === 'daily'" class="column">
         <q-radio v-model="dailyChoice" val="daily-option1">
           <q-item class="flex-center q-gutter-md row">
             <q-item-label>Repeat once every</q-item-label>
-            <q-input v-model="dailyDays" type="number" @click.stop/>
+            <q-input v-model="dailyDays" type="number" @click.stop />
             <q-item-label>day(s)</q-item-label>
           </q-item>
         </q-radio>
@@ -267,9 +281,17 @@ const parseRRule = () => {
       <div v-else-if="selectedOption === 'weekly'">
         <q-item class="flex-center q-gutter-md row">
           <q-item-label>Recur once every</q-item-label>
-          <q-input v-model="weeklyWeeks" type="number" @click.stop/>
+          <q-input v-model="weeklyWeeks" type="number" @click.stop />
           <q-item-label>week(s) on</q-item-label>
-          <q-select v-model="weeklyChosenDays" :options="weekdays" clearable emit-value map-options multiple standout/>
+          <q-select
+            v-model="weeklyChosenDays"
+            :options="weekdays"
+            clearable
+            emit-value
+            map-options
+            multiple
+            standout
+          />
         </q-item>
       </div>
 
@@ -277,18 +299,47 @@ const parseRRule = () => {
         <div class="q-radio-group">
           <q-radio v-model="monthlyChoice" val="monthly-option1">
             <q-item class="flex-center q-gutter-md row">
-              <q-select v-model="monthlyDayNumber" :options="numberOfDaysOfMonth" emit-value map-options standout/>
+              <q-select
+                v-model="monthlyDayNumber"
+                :options="numberOfDaysOfMonth"
+                emit-value
+                map-options
+                standout
+              />
               <q-item-label>day of the month after every</q-item-label>
-              <q-select v-model="monthlyMonthNumber" :options="numberOfMonthsOfYear" emit-value standout/>
+              <q-select
+                v-model="monthlyMonthNumber"
+                :options="numberOfMonthsOfYear"
+                emit-value
+                standout
+              />
               <q-item-label>month(s)</q-item-label>
             </q-item>
           </q-radio>
           <q-radio v-model="monthlyChoice" val="monthly-option2">
             <q-item class="flex-center q-gutter-md row">
-              <q-select v-model="monthlyOccurrence" :options="occurrences" emit-value map-options standout/>
-              <q-select v-model="monthlyWeekDay" :options="weekdays" emit-value map-options standout/>
+              <q-select
+                v-model="monthlyOccurrence"
+                :options="occurrences"
+                emit-value
+                map-options
+                standout
+              />
+              <q-select
+                v-model="monthlyWeekDay"
+                :options="weekdays"
+                emit-value
+                map-options
+                standout
+              />
               <q-item-label>after every</q-item-label>
-              <q-select v-model="monthlyMonthNumber2" :options="numberOfMonthsOfYear" emit-value map-options standout/>
+              <q-select
+                v-model="monthlyMonthNumber2"
+                :options="numberOfMonthsOfYear"
+                emit-value
+                map-options
+                standout
+              />
               <q-item-label>month(s)</q-item-label>
             </q-item>
           </q-radio>
@@ -300,29 +351,59 @@ const parseRRule = () => {
           <q-radio v-model="yearlyChoice" val="yearly-option1">
             <q-item class="flex-center q-gutter-md row">
               <q-item-label>Every</q-item-label>
-              <q-select v-model="yearlyMonth" :options="monthsOfYear" emit-value map-options standout/>
-              <q-select v-model="yearlyDay" :options="numberOfDaysOfMonth" emit-value map-options standout/>
+              <q-select
+                v-model="yearlyMonth"
+                :options="monthsOfYear"
+                emit-value
+                map-options
+                standout
+              />
+              <q-select
+                v-model="yearlyDay"
+                :options="numberOfDaysOfMonth"
+                emit-value
+                map-options
+                standout
+              />
             </q-item>
           </q-radio>
           <q-radio v-model="yearlyChoice" val="yearly-option2">
             <q-item class="flex-center q-gutter-md row">
               <q-item-label>The</q-item-label>
-              <q-select v-model="yearlyOccurrence" :options="occurrences" emit-value map-options standout/>
-              <q-select v-model="yearlyWeekday" :options="weekdays" emit-value map-options standout/>
+              <q-select
+                v-model="yearlyOccurrence"
+                :options="occurrences"
+                emit-value
+                map-options
+                standout
+              />
+              <q-select
+                v-model="yearlyWeekday"
+                :options="weekdays"
+                emit-value
+                map-options
+                standout
+              />
               <q-item-label>of every</q-item-label>
-              <q-select v-model="yearlyMonth2" :options="monthsOfYear" emit-value map-options standout/>
+              <q-select
+                v-model="yearlyMonth2"
+                :options="monthsOfYear"
+                emit-value
+                map-options
+                standout
+              />
             </q-item>
           </q-radio>
         </div>
       </div>
 
-      <q-separator/>
+      <q-separator />
 
       <div class="q-radio-group">
         <q-radio v-model="dateOrCount" val="count">
           <q-item class="flex-center q-gutter-md row">
             <q-item-label>End after</q-item-label>
-            <q-input v-model="numberOfOccurrences" type="number" @click.stop/>
+            <q-input v-model="numberOfOccurrences" type="number" @click.stop />
             <q-item-label>occurrences</q-item-label>
           </q-item>
         </q-radio>
@@ -330,13 +411,23 @@ const parseRRule = () => {
         <q-radio v-model="dateOrCount" val="date">
           <q-item class="flex-center q-gutter-md row">
             <q-item-section>End by</q-item-section>
-            <q-input v-model="selectedEndDate" clearable type="date" @click.stop/>
+            <q-input
+              v-model="selectedEndDate"
+              clearable
+              type="date"
+              @click.stop
+            />
           </q-item>
         </q-radio>
       </div>
 
       <q-card-actions>
-        <q-btn v-close-popup color="primary" label="Save" @click="generateRecurrenceRule"/>
+        <q-btn
+          v-close-popup
+          color="primary"
+          label="Save"
+          @click="generateRecurrenceRule"
+        />
       </q-card-actions>
       <div v-if="generatedRRule">
         <code>{{ generatedRRule }}</code>
@@ -345,6 +436,4 @@ const parseRRule = () => {
   </q-card>
 </template>
 
-<style>
-
-</style>
+<style></style>
