@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { Note } from '../models/note';
 import { NoteBook } from '../models/noteBook';
 import axios from 'axios';
-import {Constants} from "stores/Constants";
+import { Constants } from 'stores/Constants';
 
 export const useNotesStore = defineStore('notesStore', {
   state: () => ({
@@ -40,7 +40,7 @@ export const useNotesStore = defineStore('notesStore', {
       );
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/notes?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          ? `${Constants.endPointUrl}/note-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
           : `${Constants.endPointUrl}/notes?noteBookId=${noteBookId}`;
 
       try {
@@ -65,7 +65,7 @@ export const useNotesStore = defineStore('notesStore', {
     async getNote(id: number) {
       try {
         const response = await axios.get(
-          `${Constants.endPointUrl}/notes?id=${id}`
+          `${Constants.endPointUrl}/note-summary?id=${id}`
         );
         this.note = response.data[0];
       } catch (error) {
@@ -76,7 +76,10 @@ export const useNotesStore = defineStore('notesStore', {
     async addNotes(note: Note) {
       this.notes.push(note);
 
-      const res = await axios.post(`${Constants.endPointUrl}/notes`, note);
+      const res = await axios.post(
+        `${Constants.endPointUrl}/note-details`,
+        note
+      );
 
       if (res.status === 200) {
         this.getNote(note.id);
@@ -90,7 +93,7 @@ export const useNotesStore = defineStore('notesStore', {
       // not added yet
       try {
         const response = await axios.put(
-          `${Constants.endPointUrl}/notes/${note.id}`,
+          `${Constants.endPointUrl}/note-details?id=${note.id}`,
           note
         );
         if (response.status === 200) {
@@ -106,7 +109,7 @@ export const useNotesStore = defineStore('notesStore', {
     async deleteNote(id: number | undefined) {
       try {
         const response = await axios.delete(
-          `${Constants.endPointUrl}/notes/${id}`
+          `${Constants.endPointUrl}/note-details/${id}`
         );
         if (response.status === 200) {
           //debugger;
