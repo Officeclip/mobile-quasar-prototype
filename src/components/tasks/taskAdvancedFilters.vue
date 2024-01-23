@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import {onBeforeMount, ref, Ref} from 'vue';
-import {useTaskListsStore} from "stores/task/taskListsStore";
-import {user} from "src/models/task/taskLists";
-import {useTaskSummaryStore} from "stores/task/taskSummaryStore";
-import {searchFilter} from "src/models/task/searchFilter";
-import {useSessionStore} from "stores/SessionStore";
+import { onBeforeMount, ref, Ref } from 'vue';
+import { useTaskListsStore } from 'stores/task/taskListsStore';
+import { user } from 'src/models/task/taskLists';
+import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
+import { searchFilter } from 'src/models/task/searchFilter';
+import { useSessionStore } from 'stores/SessionStore';
 
 const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
 
 const props = defineProps<{
-  parent: any,
-  filterOptions: searchFilter
+  parent: any;
+  filterOptions: searchFilter;
 }>();
 const taskSummaryStore = useTaskSummaryStore();
 const sessionStore = useSessionStore();
@@ -30,7 +30,7 @@ const advancedOptions: Ref<searchFilter> = ref({
   regardingTypeId: '',
   regardingValueId: '',
   showCompleted: false,
-})
+});
 
 function filterNumber(filter: searchFilter) {
   let val = 0;
@@ -39,7 +39,7 @@ function filterNumber(filter: searchFilter) {
   val += filter.statusId ? 1 : 0;
   val += filter.priorityId ? 1 : 0;
   val += filter.taskTypeId ? 1 : 0;
-  val += filter.assignedToId? 1 : 0;
+  val += filter.assignedToId ? 1 : 0;
   val += filter.ownedById ? 1 : 0;
   val += filter.regardingTypeId ? 1 : 0;
   val += filter.regardingValueId ? 1 : 0;
@@ -48,10 +48,9 @@ function filterNumber(filter: searchFilter) {
   return val;
 }
 
-
 function emitOptions() {
   taskSummaryStore.setFilter(advancedOptions.value);
-  taskSummaryStore.getTasksUpdated();
+  taskSummaryStore.getTasksUpdated(false);
 
   emit('advancedOptionsGenerated', advancedOptions.value);
   emit('filterCount', filterNumber(advancedOptions.value));
@@ -60,19 +59,19 @@ function emitOptions() {
 const taskListsStore = useTaskListsStore();
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
-  console.log(sessionStore.getSession())
+  console.log(sessionStore.getSession());
   Object.assign(advancedOptions.value, props.filterOptions);
 });
 
 const dateOptions = [
-  {label: "On this day", value: "EqualTo"},
-  {label: "Not on this day", value: "NotEqualTo"},
-  {label: "After this day", value: "GreaterThan"},
-  {label: "Before this day", value: "LessThan"},
-  {label: "On or after this day", value: "GreaterOrEqual"},
-  {label: "On or before this day", value: "LessOrEqual"},
-  {label: "No date", value: "isNull"},
-  {label: "Any date", value: "isNotNull"},
+  { label: 'On this day', value: 'EqualTo' },
+  { label: 'Not on this day', value: 'NotEqualTo' },
+  { label: 'After this day', value: 'GreaterThan' },
+  { label: 'Before this day', value: 'LessThan' },
+  { label: 'On or after this day', value: 'GreaterOrEqual' },
+  { label: 'On or before this day', value: 'LessOrEqual' },
+  { label: 'No date', value: 'isNull' },
+  { label: 'Any date', value: 'isNotNull' },
 ];
 
 const userList: Ref<user[]> = ref([]);
@@ -98,8 +97,7 @@ async function filterFn(val: string, update: any, abort: any) {
 </script>
 
 <template>
-  <q-card style="width: 700px; max-width: 80vw;">
-
+  <q-card style="width: 700px; max-width: 80vw">
     <div class="q-pa-md row">
       <q-item-section>
         <q-item-label>Due Date</q-item-label>
@@ -110,13 +108,15 @@ async function filterFn(val: string, update: any, abort: any) {
           outlined
           type="date"
         />
-        <q-select v-model="advancedOptions.dueDateOption"
-                  :options="dateOptions"
-                  clearable
-                  emit-value
-                  map-options
-                  option-label="label"
-                  option-value="value"/>
+        <q-select
+          v-model="advancedOptions.dueDateOption"
+          :options="dateOptions"
+          clearable
+          emit-value
+          map-options
+          option-label="label"
+          option-value="value"
+        />
       </q-item-section>
 
       <q-item-section>
@@ -128,86 +128,99 @@ async function filterFn(val: string, update: any, abort: any) {
           outlined
           type="date"
         />
-        <q-select v-model="advancedOptions.modifiedDateOption" :options="dateOptions"
-                  clearable
-                  emit-value
-                  map-options
-                  option-label="label"
-                  option-value="value"/>
+        <q-select
+          v-model="advancedOptions.modifiedDateOption"
+          :options="dateOptions"
+          clearable
+          emit-value
+          map-options
+          option-label="label"
+          option-value="value"
+        />
       </q-item-section>
     </div>
 
     <div class="q-pa-md row">
       <q-item-section>
         <q-item-label>Status</q-item-label>
-        <q-select v-model="advancedOptions.statusId"
-                  :options="taskListsStore.TaskStatuses"
-                  emit-value
-                  map-options
-                  option-label="name"
-                  option-value="id"/>
+        <q-select
+          v-model="advancedOptions.statusId"
+          :options="taskListsStore.TaskStatuses"
+          emit-value
+          map-options
+          option-label="name"
+          option-value="id"
+        />
       </q-item-section>
 
       <q-item-section>
         <q-item-label>Priority</q-item-label>
-        <q-select v-model="advancedOptions.priorityId" :options="taskListsStore.TaskPriorities"
-                  emit-value
-                  map-options
-                  option-label="name"
-                  option-value="id"/>
+        <q-select
+          v-model="advancedOptions.priorityId"
+          :options="taskListsStore.TaskPriorities"
+          emit-value
+          map-options
+          option-label="name"
+          option-value="id"
+        />
       </q-item-section>
 
       <q-item-section>
         <q-item-label>Task Type</q-item-label>
-        <q-select v-model="advancedOptions.taskTypeId"
-                  :options="taskListsStore.TaskTypes"
-                  emit-value
-                  map-options
-                  option-label="name"
-                  option-value="id"/>
+        <q-select
+          v-model="advancedOptions.taskTypeId"
+          :options="taskListsStore.TaskTypes"
+          emit-value
+          map-options
+          option-label="name"
+          option-value="id"
+        />
       </q-item-section>
     </div>
 
     <div class="q-pa-md row">
-
       <q-item-section>
         <q-item-label>Assigned To</q-item-label>
-        <q-select v-model="advancedOptions.assignedToId"
-                  :options="userList"
-                  clearable
-                  emit-value
-                  map-options
-                  option-label="name"
-                  option-value="id"
-                  use-input
-                  @filter="filterFn"/>
+        <q-select
+          v-model="advancedOptions.assignedToId"
+          :options="userList"
+          clearable
+          emit-value
+          map-options
+          option-label="name"
+          option-value="id"
+          use-input
+          @filter="filterFn"
+        />
       </q-item-section>
 
       <q-item-section>
         <q-item-label>Owned By</q-item-label>
-        <q-select v-model="advancedOptions.ownedById"
-                  :options="userList"
-                  clearable
-                  emit-value
-                  map-options
-                  option-label="name"
-                  option-value="id"
-                  use-input
-                  @filter="filterFn"/>
+        <q-select
+          v-model="advancedOptions.ownedById"
+          :options="userList"
+          clearable
+          emit-value
+          map-options
+          option-label="name"
+          option-value="id"
+          use-input
+          @filter="filterFn"
+        />
       </q-item-section>
     </div>
     <div class="q-pa-md row">
       <q-item-section>
         <div class="q-mr-md">
-          <q-checkbox v-model="advancedOptions.showCompleted" label="Show completed tasks"/>
+          <q-checkbox
+            v-model="advancedOptions.showCompleted"
+            label="Show completed tasks"
+          />
         </div>
       </q-item-section>
-
     </div>
     <q-card-actions>
-      <q-btn v-close-popup color="primary" label="Apply" @click="emitOptions"/>
+      <q-btn v-close-popup color="primary" label="Apply" @click="emitOptions" />
     </q-card-actions>
   </q-card>
-
 </template>
-

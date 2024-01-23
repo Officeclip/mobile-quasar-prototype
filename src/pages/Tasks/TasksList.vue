@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, onBeforeMount, ref, Ref, watch } from 'vue';
-import { useQuasar } from 'quasar'
+import { useQuasar } from 'quasar';
 
 import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
 import TaskAdvancedFilters from 'components/tasks/taskAdvancedFilters.vue';
@@ -23,7 +23,7 @@ const defaultFilterOptions: searchFilter = {
   regardingTypeId: '',
   regardingValueId: '',
   showCompleted: false,
-}
+};
 
 let filterOptions: Ref<searchFilter> = ref({ ...defaultFilterOptions });
 
@@ -36,8 +36,9 @@ const taskSummaryStore = useTaskSummaryStore();
 const sessionStore = useSessionStore();
 
 const showAdvOptions = ref(false);
-const assignedToMe = ref(filterOptions.value.assignedToId === sessionStore.Session.userId);
-
+const assignedToMe = ref(
+  filterOptions.value.assignedToId === sessionStore.Session.userId
+);
 
 function clearFilterValues() {
   filterOptions.value = { ...defaultFilterOptions };
@@ -58,7 +59,8 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.taskTypeId = advancedOptions.taskTypeId;
   filterOptions.value.showCompleted = advancedOptions.showCompleted;
 
-  assignedToMe.value = advancedOptions.assignedToId === sessionStore.Session.userId;
+  assignedToMe.value =
+    advancedOptions.assignedToId === sessionStore.Session.userId;
 }
 
 async function filterFn(val: string) {
@@ -67,11 +69,16 @@ async function filterFn(val: string) {
     return;
   } else if (val.length === 2) {
     filterOptions.value.filterString = val;
-    await taskSummaryStore.getTasksUpdated();
+    console.log(`filterFn: ${JSON.stringify(filterOptions.value)}`);
+    taskSummaryStore.resetPageNumber();
+    taskSummaryStore.setFilter(filterOptions.value);
+    await taskSummaryStore.getTasksUpdated(true);
   } else {
-    taskSummaryStore.taskSummaries = taskSummaryStore.taskSummaries.filter((t: taskSummary) => {
-      return t.subject.toLowerCase().includes(val.toLowerCase());
-    });
+    taskSummaryStore.taskSummaries = taskSummaryStore.taskSummaries.filter(
+      (t: taskSummary) => {
+        return t.subject.toLowerCase().includes(val.toLowerCase());
+      }
+    );
   }
 }
 
@@ -82,24 +89,26 @@ watch(
   }
 );
 
-watch(
-  assignedToMe,
-  async () => {
-    if (assignedToMe.value) {
-      filterOptions.value.assignedToId = sessionStore.Session.userId;
-    } else {
-      filterOptions.value.assignedToId = '';
-    }
-    await taskSummaryStore.resetTaskSummaryList();
-    setTimeout(async () => {
-      await taskSummaryStore.getTasksUpdated();
-    }, 250);
+watch(assignedToMe, async () => {
+  if (assignedToMe.value) {
+    filterOptions.value.assignedToId = sessionStore.Session.userId;
+  } else {
+    filterOptions.value.assignedToId = '';
   }
-);
+  await taskSummaryStore.resetTaskSummaryList();
+  setTimeout(async () => {
+    await taskSummaryStore.getTasksUpdated(false);
+  }, 250);
+});
 
 watch(
   () => filterOptions.value,
   (newVal, oldVal) => {
+    // console.log(
+    //   `watch filterOptions.value: ${JSON.stringify(oldVal)} to ${JSON.stringify(
+    //     newVal
+    //   )}`
+    // );
     // This function will be called whenever any property in filterOptions changes
     taskSummaryStore.setFilter(filterOptions.value);
   },
@@ -112,7 +121,7 @@ function updateFilterCount(val: number) {
   filterCount.value = val;
 }
 
-const $q = useQuasar()
+const $q = useQuasar();
 
 function showNotif() {
   $q.notify({
@@ -121,25 +130,34 @@ function showNotif() {
     timeout: 10000,
     actions: [
       {
-        icon: 'close', color: 'white', round: true, handler: () => { /* ... */
-        }
-      }
-    ]
-  })
+        icon: 'close',
+        color: 'white',
+        round: true,
+        handler: () => {
+          /* ... */
+        },
+      },
+    ],
+  });
 }
 
 onBeforeMount(() => {
   showNotif();
 });
-
-
 </script>
 
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header bordered class="bg-primary text-white" height-hint="98" reveal>
       <q-toolbar>
-        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)" />
+        <q-btn
+          color="white"
+          dense
+          flat
+          icon="arrow_back"
+          round
+          @click="$router.go(-1)"
+        />
         <q-toolbar-title> Tasks</q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -147,8 +165,13 @@ onBeforeMount(() => {
     <q-page-container>
       <q-page>
         <div class="q-pa-sm">
-          <q-input v-model="filterOptions.filterString" clearable label="Search" outlined
-            placeholder="Start typing to search">
+          <q-input
+            v-model="filterOptions.filterString"
+            clearable
+            label="Search"
+            outlined
+            placeholder="Start typing to search"
+          >
           </q-input>
         </div>
 
@@ -159,7 +182,9 @@ onBeforeMount(() => {
           <div class="row">
             <div class="q-mr-md">
               <q-btn flat icon="filter_list" @click="showAdvOptions = true">
-                <q-badge v-if="filterCount != 0" color="red" floating>{{ filterCount }}</q-badge>
+                <q-badge v-if="filterCount != 0" color="red" floating>{{
+                  filterCount
+                }}</q-badge>
               </q-btn>
             </div>
             <div class="q-mr-md">
@@ -169,19 +194,29 @@ onBeforeMount(() => {
         </div>
         <tasks-list-ctrl :parent="parent" />
         <q-dialog v-model="showAdvOptions">
-          <task-advanced-filters :filter-options="filterOptions" :parent="parent"
-            @advancedOptionsGenerated="receiveAdvFilters" @filterCount="updateFilterCount" />
+          <task-advanced-filters
+            :filter-options="filterOptions"
+            :parent="parent"
+            @advancedOptionsGenerated="receiveAdvFilters"
+            @filterCount="updateFilterCount"
+          />
         </q-dialog>
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
-        <q-btn :to="{
-          name: 'newTask',
-          params: {
-            id: -1,
-            objectTypeId: -1,
-            objectId: -1
-          },
-        }" color="accent" fab icon="add" padding="sm" />
+        <q-btn
+          :to="{
+            name: 'newTask',
+            params: {
+              id: -1,
+              objectTypeId: -1,
+              objectId: -1,
+            },
+          }"
+          color="accent"
+          fab
+          icon="add"
+          padding="sm"
+        />
       </q-page-sticky>
     </q-page-container>
   </q-layout>
