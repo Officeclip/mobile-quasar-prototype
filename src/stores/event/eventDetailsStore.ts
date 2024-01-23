@@ -4,6 +4,7 @@ import { MeetingAttendees } from 'src/models/meetingAttendees';
 import axios from 'axios';
 import { eventSummary } from 'src/models/event/eventSummary';
 import { Constants } from 'stores/Constants';
+import { security } from 'src/models/security';
 
 export const useEventDetailsStore = defineStore('eventDetailsStore', {
   state: () => ({
