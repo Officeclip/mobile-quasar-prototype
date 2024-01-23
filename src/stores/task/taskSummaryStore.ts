@@ -1,9 +1,9 @@
-import {defineStore} from 'pinia';
+import { defineStore } from 'pinia';
 import axios from 'axios';
-import {taskSummary} from "src/models/task/taskSummary";
-import {Constants} from "stores/Constants";
-import {searchFilter} from "src/models/task/searchFilter";
-import {linkHeader} from "src/models/general/linkHeader";
+import { taskSummary } from 'src/models/task/taskSummary';
+import { Constants } from 'stores/Constants';
+import { searchFilter } from 'src/models/task/searchFilter';
+import { linkHeader } from 'src/models/general/linkHeader';
 
 export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   state: () => ({
@@ -16,7 +16,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     parentObjectId: 0,
     parentObjectServiceType: 0,
     links: {} as linkHeader,
-
   }),
 
   getters: {
@@ -37,7 +36,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       const queryParams = new URLSearchParams();
       const filterKeys = Object.keys(this.filter);
 
-      filterKeys.forEach(key => {
+      filterKeys.forEach((key) => {
         if (this.filter[key]) {
           queryParams.append(key, String(this.filter[key]));
         }
@@ -65,7 +64,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       this.url = callStr;
     },
 
-    setFilter(searchFilter:searchFilter){
+    setFilter(searchFilter: searchFilter) {
       this.filter = searchFilter;
     },
 
@@ -79,7 +78,9 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         this.taskSummaries.push(...summaries);
 
         this.links = JSON.parse(res.headers.get('Links') || '{}');
-        this.url = this.links.next ? `${Constants.endPointUrl}${this.links.next}` : '';
+        this.url = this.links.next
+          ? `${Constants.endPointUrl}${this.links.next}`
+          : '';
         // console.log("next url from header", this.url);
       } catch (error) {
         console.error(error);
@@ -115,7 +116,10 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     async addTask(taskSummary: taskSummary) {
       this.taskSummaries.push(taskSummary);
 
-      const res = await axios.post(`${Constants.endPointUrl}/task-summary`, taskSummary);
+      const res = await axios.post(
+        `${Constants.endPointUrl}/task-summary`,
+        taskSummary
+      );
 
       if (res.status === 200) {
         await this.getTask(taskSummary.id);
@@ -156,6 +160,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
     async resetTaskSummaryList() {
       this.taskSummaries = [];
-    }
+    },
   },
 });
