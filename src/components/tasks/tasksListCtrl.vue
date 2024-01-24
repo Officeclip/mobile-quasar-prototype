@@ -14,7 +14,7 @@ const getTaskSummaries = computed(() => {
 
 let reachedEnd = ref(false);
 const loadMore = async (index: any, done: () => void) => {
-  reachedEnd.value = await taskSummaryStore.getTasksUpdated();
+  reachedEnd.value = await taskSummaryStore.getTasksUpdated(false);
   //https://quasar.dev/vue-components/infinite-scroll/#usage
   done();
 };
@@ -22,9 +22,9 @@ const loadMore = async (index: any, done: () => void) => {
 onBeforeMount(() => {
   // taskSummaryStore.getTasks(Number(parentObjectId.value), Number(parentObjectServiceType.value));
   taskSummaryStore.parentObjectId = props.parent.parentObjectId;
-  taskSummaryStore.parentObjectServiceType = props.parent.parentObjectServiceType;
+  taskSummaryStore.parentObjectServiceType =
+    props.parent.parentObjectServiceType;
 });
-
 </script>
 <template>
   <q-infinite-scroll :disable="reachedEnd" @load="loadMore">

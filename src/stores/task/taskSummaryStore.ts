@@ -10,7 +10,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     taskSummaries: [] as taskSummary[],
     taskSummary: undefined as taskSummary | undefined,
     url: '' as string,
-    pageSize: 10,
+    pageSize: 5,
     pageNum: 1,
     filter: {} as searchFilter,
     parentObjectId: 0,
@@ -21,20 +21,24 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   getters: {
     TaskSummaries: (state) => state.taskSummaries,
     TaskSummary: (state) => state.taskSummary,
+    IsParentPresent: (state) =>
+      state.parentObjectId > 0 && state.parentObjectServiceType > 0,
+    IsEmptyLinkHeader: (state) => Object.keys(state.links).length == 0, // https://stackoverflow.com/a/52742880
   },
 
   actions: {
     constructBaseURL() {
-      let baseUrl = `${Constants.endPointUrl}/task-summary?`;
-      if (this.parentObjectId > 0 && this.parentObjectServiceType > 0) {
-        baseUrl += `/task-summary?parentObjectId=${this.parentObjectId}&parentObjectServiceType=${this.parentObjectServiceType}`;
+      let baseUrl = `${Constants.endPointUrl}/task-summary`;
+      if (this.IsParentPresent) {
+        baseUrl += `?parentObjectId=${this.parentObjectId}&parentObjectServiceType=${this.parentObjectServiceType}`;
       }
       return baseUrl;
     },
 
     constructQueryParams() {
       const queryParams = new URLSearchParams();
-      const filterKeys = Object.keys(this.filter);
+      const params: searchFilter = this.filter;
+      const filterKeys = Object.keys(params);
 
       filterKeys.forEach((key) => {
         if (this.filter[key]) {
@@ -42,34 +46,56 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         }
       });
 
-      queryParams.append('pageSize', String(this.pageSize));
-      queryParams.append('pageNum', String(this.pageNum));
+      // queryParams.append('pagesize', String(this.pageSize));
+      // queryParams.append('pagenumber', String(this.pageNum));
 
       return queryParams;
     },
 
-    getUrl() {
-      if (this.url) return;
+    getUrl(isFilter: boolean) {
+      //if (this.url) return;
+
+      if (this.IsParentPresent) {
+        // parent does not need paging
+        return this.constructBaseURL();
+      }
 
       let callStr = '';
-      if (this.links?.next) {
+      //if (this.links?.next) {
+      if (!this.IsEmptyLinkHeader) {
         callStr = `${Constants.endPointUrl}/${this.links.next}`;
       } else {
         callStr = this.constructBaseURL();
         const queryParams = this.constructQueryParams();
         const queryString = queryParams.toString();
-        callStr += queryString ? `&${queryString}` : '';
+        callStr += queryString ? `?${queryString}` : '';
       }
 
       this.url = callStr;
+      // if (isFilter) {
+      //   //const queryParams = this.constructQueryParams();
+      //   this.url += '&' + queryParams;
+      // }
     },
 
     setFilter(searchFilter: searchFilter) {
       this.filter = searchFilter;
     },
 
-    async getTasksUpdated(): Promise<boolean> {
-      this.getUrl();
+    resetPageNumber() {
+      this.pageNum = 1;
+      this.links = {} as linkHeader; // https://stackoverflow.com/a/45339463
+    },
+
+    async getTasksUpdated(isFilter: boolean): Promise<boolean> {
+      this.getUrl(isFilter);
+      console.log(
+        `taskSummaryStore: getTasksUpdated: Url: ${
+          this.url
+        }, QueryParam: ${this.constructQueryParams()}, isFilter: ${isFilter}, Filter: ${JSON.stringify(
+          this.filter
+        )}`
+      );
 
       try {
         // console.log("URL called", this.url);

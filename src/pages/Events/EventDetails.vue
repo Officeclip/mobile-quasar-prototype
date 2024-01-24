@@ -152,23 +152,34 @@ const projectServiceItem = computed(() => {
         <q-toolbar-title
           ><OCItem :value="`${showMeetingType(event?.eventType)} event`"
         /></q-toolbar-title>
-
-        <q-btn
-          :to="{ name: 'editEvent', params: { id: id } }"
-          color="white"
-          dense
-          flat
-          icon="edit"
-          round
-        />
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="delete"
-          round
-          @click="displayConfirmationDialog"
-        />
+        <div>
+          <q-btn
+            v-if="event?.security.write"
+            :to="{ name: 'editEvent', params: { id: id } }"
+            color="white"
+            dense
+            flat
+            icon="edit"
+            round
+          />
+          <q-btn v-else dense disable flat icon="edit" round>
+            <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>
+          </q-btn>
+        </div>
+        <div>
+          <q-btn
+            v-if="event?.security.delete"
+            color="white"
+            dense
+            flat
+            icon="delete"
+            round
+            @click="displayConfirmationDialog"
+          />
+          <q-btn v-else dense disable flat icon="delete" round>
+            <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 
