@@ -6,8 +6,8 @@
 //
 // From: https://app.quicktype.io/#l=TypeScript
 
+import { security } from '../security';
 import { label, ShowTimeAs, timeZone } from './eventLists';
-import { security } from '../../models/security';
 
 export interface eventDetails {
   id: number;
