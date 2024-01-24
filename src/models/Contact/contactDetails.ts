@@ -1,3 +1,5 @@
+import { security } from '../security';
+
 export interface ContactDetails {
   id: number;
   first_name: string;
@@ -15,4 +17,5 @@ export interface ContactDetails {
   home_phone?: string;
   thumbnail?: string;
   picture?: string;
+  security: security[]; //CR this should not be an array, should be object only
 }
