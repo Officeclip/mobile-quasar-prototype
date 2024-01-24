@@ -1,8 +1,8 @@
-import {defineStore} from 'pinia';
+import { defineStore } from 'pinia';
 import axios from 'axios';
-import {taskDetails} from 'src/models/task/taskDetails';
-import {Constants} from 'stores/Constants';
-import {subTask} from "src/models/task/subtask";
+import { taskDetails } from 'src/models/task/taskDetails';
+import { Constants } from 'stores/Constants';
+import { subTask } from 'src/models/task/subtask';
 
 export const useTaskDetailsStore = defineStore('taskDetailsStore', {
   state: () => ({
@@ -16,7 +16,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
   },
 
   actions: {
-
     async addTask(taskDetail: taskDetails) {
       this.taskDetails.push(taskDetail);
       const res = await axios.post(
@@ -63,7 +62,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       }
     },
 
-    async getTask(id: string|number) {
+    async getTask(id: string) {
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/task-details/${id}`
@@ -98,20 +97,24 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
     },
 
     async editSubtask(editedSubtask: subTask) {
-      let subtask: subTask | undefined = this.taskDetail?.subTasks.find((subtask: subTask) => {
-        return subtask.id === editedSubtask.id;
-      });
+      let subtask: subTask | undefined = this.taskDetail?.subTasks.find(
+        (subtask: subTask) => {
+          return subtask.id === editedSubtask.id;
+        }
+      );
 
       if (subtask) subtask = editedSubtask;
       console.log(subtask);
       console.log(editedSubtask);
-      await this.editTask(<taskDetails>this.taskDetail)
+      await this.editTask(<taskDetails>this.taskDetail);
     },
 
     async toggleSubtaskCompletion(subtaskId: string) {
-      const subtask: subTask | undefined = this.taskDetail?.subTasks.find((subtask: subTask) => {
-        return subtask.id === subtaskId;
-      });
+      const subtask: subTask | undefined = this.taskDetail?.subTasks.find(
+        (subtask: subTask) => {
+          return subtask.id === subtaskId;
+        }
+      );
       if (subtask) subtask.isCompleted = !subtask.isCompleted;
       await this.editTask(<taskDetails>this.taskDetail);
     },
@@ -120,7 +123,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       const modifiedSubtasks = this.taskDetail?.subTasks.filter((s) => {
         return s.id != subtaskId;
       });
-      if(this.taskDetail) this.taskDetail.subTasks = modifiedSubtasks??[];
+      if (this.taskDetail) this.taskDetail.subTasks = modifiedSubtasks ?? [];
       await this.editTask(<taskDetails>this.taskDetail);
     },
   },
