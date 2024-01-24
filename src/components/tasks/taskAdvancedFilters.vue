@@ -49,8 +49,14 @@ function filterNumber(filter: searchFilter) {
 }
 
 function emitOptions() {
+  console.log(
+    `taskAdvancedFilters: emitOptions: advancedOptions ${JSON.stringify(
+      advancedOptions.value
+    )}`
+  );
   taskSummaryStore.setFilter(advancedOptions.value);
-  taskSummaryStore.getTasksUpdated(false);
+  taskSummaryStore.resetPageNumber();
+  taskSummaryStore.getTasksUpdated(true);
 
   emit('advancedOptionsGenerated', advancedOptions.value);
   emit('filterCount', filterNumber(advancedOptions.value));
