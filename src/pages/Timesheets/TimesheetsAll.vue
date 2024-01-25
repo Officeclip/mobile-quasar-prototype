@@ -101,7 +101,7 @@ watch([timesheetStatus], ([newModel]) => {
               params: {
                 id: item.id,
                 fromDate: item.fromDate,
-                readOnly: item.readOnly,
+                readOnly: item.security.read,
               },
             }"
             clickable

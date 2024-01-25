@@ -1,3 +1,5 @@
+import { security } from '../security';
+
 export interface Timesheet {
   id: string;
   totalHours: number;
@@ -6,4 +8,6 @@ export interface Timesheet {
   status: string;
   fromDate: string;
   readOnly: boolean;
+  stageId: number;
+  security: security[];
 }

@@ -188,6 +188,7 @@ const addComment = () => {
             </q-item-section>
             <q-item-section side>
               <q-btn
+                v-if="!readOnly"
                 @click="
                   displayShowDeleteTimesheetDetail(
                     timesheetDetail?.timesheetDetailSid

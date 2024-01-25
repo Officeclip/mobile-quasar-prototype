@@ -11,7 +11,7 @@
         "fromDate": "2023-06-19T10:43:32.203Z",
         "stageId": 1,
         "security": {
-            "read": true,
+            "read": false,
             "write": true,
             "append": true,
             "delete": true
