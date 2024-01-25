@@ -1,3 +1,5 @@
+import { security } from '../security';
+
 export interface TimesheetDetails {
   id: string;
   timesheetId: string;
@@ -21,4 +23,5 @@ export interface TimesheetDetails {
   serviceItemSid: string;
   taskDate: string;
   timesheetDetailSid: string;
+  security: security[];
 }

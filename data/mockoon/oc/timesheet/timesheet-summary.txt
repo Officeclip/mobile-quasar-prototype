@@ -9,7 +9,13 @@
         "status": "Submitted",
         "totalHours": 14.75,
         "fromDate": "2023-06-19T10:43:32.203Z",
-        "readOnly": false
+        "stageId": 1,
+        "security": {
+            "read": true,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       },
       {
         "createdByUserName": "Sudhakar Gundu",
@@ -18,7 +24,13 @@
         "status": "Saved",
         "totalHours": 44.08,
         "fromDate": "2023-06-05T10:43:32.203Z",
-        "readOnly": true
+        "stageId": 1,
+        "security": {
+            "read": true,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       },
       {
         "createdByUserName": "Sudhakar Gundu",
@@ -27,7 +39,13 @@
         "status": "Approved",
         "totalHours": 33.25,
         "fromDate": "2023-05-22T10:43:32.203Z",
-        "readOnly": false
+        "stageId": 1,
+        "security": {
+            "read": true,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       },
 
       {
@@ -37,7 +55,13 @@
         "status": "Rejected",
         "totalHours": 20.25,
         "fromDate": "2023-04-24T10:43:32.203Z",
-        "readOnly": true
+        "stageId": 1,
+        "security": {
+            "read": true,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       }
       {{/case}}
       {{#case 'outbox'}}
@@ -48,7 +72,13 @@
         "status": "Pending",
         "totalHours": 22.25,
         "fromDate": "2023-02-24T10:43:32.203Z",
-        "readOnly": true
+        "stageId": 1,
+        "security": {
+            "read": true,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       }
       {{/case}}
       {{#case 'archived'}}
@@ -59,7 +89,13 @@
         "status": "Approved",
         "totalHours": 33.25,
         "fromDate": "2023-05-22T10:43:32.203Z",
-        "readOnly": false
+        "stageId": 1,
+        "security": {
+            "read": true,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       }
     {{/case}}
     {{/switch}}
