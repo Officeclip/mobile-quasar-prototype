@@ -1,3 +1,5 @@
+import { security } from '../security';
+
 export interface expenseSummary {
   id: string;
   totalAmount: number;
@@ -5,4 +7,6 @@ export interface expenseSummary {
   employeeId: string;
   status: string;
   fromDate: string;
+  stageId: number;
+  security: security[];
 }

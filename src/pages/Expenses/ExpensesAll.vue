@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch, capitalize } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useSessionStore } from 'stores/SessionStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
@@ -8,7 +8,8 @@ import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 const expensesDetailsStore = useExpenseDetailsStore();
 const usesessionStore = useSessionStore();
 const expenseStatus = ref('inbox');
-const title = ref(expenseStatus.value);
+// const title = ref(expenseStatus.value);
+const title = ref(capitalize(expenseStatus.value));
 
 onMounted(() => {
   expensesDetailsStore.getExpensesByStatus(String(expenseStatus.value));
@@ -32,7 +33,7 @@ const allExpenses = computed(() => {
 
 watch([expenseStatus], ([newModel]) => {
   expensesDetailsStore.getExpensesByStatus(String(newModel));
-  title.value = newModel;
+  title.value = capitalize(newModel);
 });
 
 // function getStatusColor(status: string) {
@@ -108,13 +109,26 @@ watch([expenseStatus], ([newModel]) => {
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title>{{ title }} Expenses </q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-footer elevated>
-      <q-tabs v-model="expenseStatus" no-caps inline-label class="bg-primary text-white shadow-2" align="justify">
+      <q-tabs
+        v-model="expenseStatus"
+        no-caps
+        inline-label
+        class="bg-primary text-white shadow-2"
+        align="justify"
+      >
         <!-- <q-tab v-for="item in tabs" :name="item.name" icon="inbox" :key="item.id" :label="item.status">
           <q-icon name="groups"></q-icon>
         </q-tab> -->
@@ -128,25 +142,34 @@ watch([expenseStatus], ([newModel]) => {
     <q-page-container>
       <q-page>
         <q-list v-for="expense in allExpenses" :key="expense.id">
-          <q-item :to="{
-            name: 'expenseDetails',
-            params: {
-              id: expense.id,
-              fromDate: expense.fromDate,
-            },
-          }" clickable v-ripple>
+          <q-item
+            :to="{
+              name: 'expenseDetails',
+              params: {
+                id: expense.id,
+                fromDate: expense.fromDate,
+                readOnly: expense.security.read,
+              },
+            }"
+            clickable
+            v-ripple
+          >
             <q-item-section>
               <q-item-label>
                 {{ expense.createdByUserName }}
               </q-item-label>
               <q-item-label caption>{{
                 expense.fromDate
-                ? dateTimeHelper.extractDateFromUtc(expense.fromDate)
-                : 'No Specific Date'
+                  ? dateTimeHelper.extractDateFromUtc(expense.fromDate)
+                  : 'No Specific Date'
               }}</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-chip square :color="getExpenseOrTimesheetStatusColor(expense.status)">{{ expense.status }}</q-chip>
+              <q-chip
+                square
+                :color="getExpenseOrTimesheetStatusColor(expense.status)"
+                >{{ expense.status }}</q-chip
+              >
               <!-- <q-item-label caption class="bg-teal-3 q-pa-xs">{{
                 expense.status
               }}</q-item-label> -->
@@ -158,10 +181,22 @@ watch([expenseStatus], ([newModel]) => {
           <q-separator></q-separator>
         </q-list>
       </q-page>
-      <q-page-sticky v-for="role in roleAccess" :key="role.name" position="bottom-right" :offset="[18, 18]">
-        <q-btn v-if="role.name === 'TimeExpensesAccessExpenseReport' && role.access" :to="{
-          name: 'newPeriodExpense',
-        }" fab icon="add" color="accent" padding="sm">
+      <q-page-sticky
+        v-for="role in roleAccess"
+        :key="role.name"
+        position="bottom-right"
+        :offset="[18, 18]"
+      >
+        <q-btn
+          v-if="role.name === 'TimeExpensesAccessExpenseReport' && role.access"
+          :to="{
+            name: 'newPeriodExpense',
+          }"
+          fab
+          icon="add"
+          color="accent"
+          padding="sm"
+        >
         </q-btn>
       </q-page-sticky>
     </q-page-container>

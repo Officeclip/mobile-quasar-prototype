@@ -8,7 +8,14 @@
         "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1",
         "status": "Submitted",
         "totalAmount": "255.00",
-        "fromDate": "2023-11-20T00:00:00+05:30"
+        "fromDate": "2023-11-20T00:00:00+05:30",
+        "stageId": 1,
+        "security": {
+            "read": true,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       },
       {
         "createdByUserName": "Nagesh Kulkarni",
@@ -16,7 +23,14 @@
         "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2",
         "status": "Saved",
         "totalAmount": "255.00",
-        "fromDate": "2023-11-20T00:00:00+05:30"
+        "fromDate": "2023-11-20T00:00:00+05:30",
+        "stageId": 1,
+        "security": {
+            "read": false,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       },
       {
         "createdByUserName": "Nagesh Kulkarni",
@@ -24,7 +38,14 @@
         "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3",
         "status": "Approved",
         "totalAmount": "10000.00",
-        "fromDate": "2023-10-23T00:00:00+05:30"
+        "fromDate": "2023-10-23T00:00:00+05:30",
+        "stageId": 1,
+        "security": {
+            "read": false,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       },
       {
         "createdByUserName": "Nagesh Kulkarni",
@@ -32,7 +53,14 @@
         "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4",
         "status": "Rejected",
         "totalAmount": "12000.00",
-        "fromDate": "2023-10-09T00:00:00+05:30"
+        "fromDate": "2023-10-09T00:00:00+05:30",
+        "stageId": 1,
+        "security": {
+            "read": false,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       }
       {{/case}}
       {{#case 'outbox'}}
@@ -42,7 +70,14 @@
         "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ5",
         "status": "Pending",
         "totalAmount": "9999.00",
-        "fromDate": "2023-09-25T00:00:00+05:30"
+        "fromDate": "2023-09-25T00:00:00+05:30",
+        "stageId": 1,
+        "security": {
+            "read": false,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       }
       {{/case}}
       {{#case 'archived'}}
@@ -52,7 +87,14 @@
         "id": "T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ6",
         "status": "Approved",
         "totalAmount": "9999.00",
-        "fromDate": "2023-09-25T00:00:00+05:30"
+        "fromDate": "2023-09-25T00:00:00+05:30",
+        "stageId": 1,
+        "security": {
+            "read": false,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       }
       {{/case}}
     {{/switch}}
