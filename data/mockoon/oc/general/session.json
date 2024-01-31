@@ -137,7 +137,7 @@
     },
     {
       "name": "CreateContact",
-      "access": true
+      "access": false
     },
     {
       "name": "EditContact",
