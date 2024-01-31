@@ -77,7 +77,7 @@ function onSubmit(e: any) {
 
   expenseDetailsStore.addExpense(newExpense);
 
-  router.push('/');
+  router.go(-2);
 }
 </script>
 <template>

@@ -197,7 +197,7 @@ const updateCustomerProject = (newValue) => {
       </q-item-label>
 
       <q-select label="Expense Date" v-model="formattedExpenseDate"
-        @update:model-value="(newValue) => (props.expenseDetail.expenseDate = newValue)" :options="datesList"
+        @update:model-value="(newValue) => (props.expenseDetail.expenseDate = newValue.startDate)" :options="datesList"
         option-value="value" option-label="name" emit-value map-options />
 
       <q-select label="Customer : Project" v-model="customerProjectValue" @update:model-value="updateCustomerProject"
@@ -246,7 +246,7 @@ const updateCustomerProject = (newValue) => {
         <q-icon name="hide_source" /> You do not have permission to edit this item
       </div>
       <q-select label="Payment Method" v-model="expenseDetail.paymentType" :options="paymentTypeOptions" map-options
-        emit-value option-label="Name" option-value="Name" />
+        emit-value option-label="Name" option-value="Id" />
 
       <q-input label="Amount" v-model.number="expenseDetail.amount" placeholder="enter here..." lazy-rules type="number">
       </q-input>
