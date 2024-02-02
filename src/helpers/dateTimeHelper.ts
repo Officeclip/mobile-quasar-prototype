@@ -92,9 +92,9 @@ const populateDates = (startDate: Date, endDate: Date) => {
       day: 'numeric',
     })}(${newStartDate.toLocaleString('en-US', { weekday: 'short' })})`;
 
-    dates.push({ name: formattedDate, startDate: newStartDate.toISOString() });
-
     newStartDate.setDate(newStartDate.getDate() + 1);
+
+    dates.push({ name: formattedDate, startDate: newStartDate.toISOString() });
   }
   return dates;
 };
