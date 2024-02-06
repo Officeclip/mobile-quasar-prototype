@@ -89,7 +89,7 @@
     },
     {
       "name": "TimeExpensesCreateTimeSheet",
-      "access": false
+      "access": true
     },
     {
       "name": "PollsCreateNew",

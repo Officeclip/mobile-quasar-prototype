@@ -5,7 +5,8 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
-import { useSessionStore } from 'src/stores/SessionStore';
+import { isAllowed } from 'src/helpers/security';
+// import { useSessionStore } from 'src/stores/SessionStore';
 
 const timesheetStatus = ref('inbox');
 const title = ref(capitalize(timesheetStatus.value));
@@ -13,7 +14,7 @@ const $q = useQuasar();
 const router = useRouter();
 
 const timesheetsStore = useTimesheetsStore();
-const sessionStore = useSessionStore();
+// const sessionStore = useSessionStore();
 // onMounted(() => {
 //   timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
 // });
@@ -40,15 +41,17 @@ const timesheetsAll = computed(() => {
   return timesheetsStore.Timesheets;
 });
 
-const session = sessionStore.Session;
-const isAdmin = session.isAdmin;
+// const session = sessionStore.Session;
+// const isAdmin = session.isAdmin;
 
-const isRoleAccess = () => {
-  const data = session.roleAccess.find(
-    (x) => x.name === 'TimeExpensesCreateTimeSheet'
-  );
-  return data?.access;
-};
+// const isRoleAccess = () => {
+//   const data = session.roleAccess.find(
+//     (x) => x.name === 'TimeExpensesCreateTimeSheet'
+//   );
+//   return data?.access;
+// };
+
+const isAllow = isAllowed(false, 'TimeExpensesCreateTimeSheet', true);
 
 watch([timesheetStatus], ([newModel]) => {
   timesheetsStore.getTimesheetsByStatus(String(newModel));
@@ -133,13 +136,16 @@ watch([timesheetStatus], ([newModel]) => {
           </q-item>
           <q-separator></q-separator>
         </q-list>
-        <div>
+        <!-- <div>
           <pre>{{ session.isAdmin }}</pre>
           <pre>{{ isRoleAccess() }}</pre>
+        </div> -->
+        <div>
+          <pre>{{ isAllow }}</pre>
         </div>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
-            v-if="isAdmin || isRoleAccess()"
+            v-if="isAllow"
             :to="{
               name: 'newTimesheetPeriod',
             }"
