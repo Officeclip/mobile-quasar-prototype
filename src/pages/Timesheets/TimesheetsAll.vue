@@ -51,7 +51,7 @@ const timesheetsAll = computed(() => {
 //   return data?.access;
 // };
 
-const isAllow = isAllowed(false, 'TimeExpensesCreateTimeSheet', true);
+const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
 
 watch([timesheetStatus], ([newModel]) => {
   timesheetsStore.getTimesheetsByStatus(String(newModel));

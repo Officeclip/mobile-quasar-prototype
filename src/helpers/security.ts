@@ -1,7 +1,13 @@
 import { useSessionStore } from 'src/stores/SessionStore';
 const sessionStore = useSessionStore();
 
-export function isAllowed(isAdmin = false, roleAccess = '', security = true) {
+const isSessionAdmin = sessionStore.Session.isAdmin;
+
+export function isAllowed({
+  isAdmin = isSessionAdmin,
+  roleAccess = '',
+  security = true,
+}) {
   const session = sessionStore.Session;
   const isRoleAccess = () => {
     if (roleAccess != '') {
