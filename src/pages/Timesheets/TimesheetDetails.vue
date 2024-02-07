@@ -110,10 +110,9 @@ const addComment = () => {
   addComments.value.comments[0].comment = '';
 };
 
-const isEdit = isAllowed({
+const isReadOnly = isAllowed({
   security: { read: readOnly },
 });
-console.log('ZZZZZZZZZZZ ZZZZZ ZZZ', isEdit);
 </script>
 
 <template>
@@ -177,7 +176,7 @@ console.log('ZZZZZZZZZZZ ZZZZZ ZZZ', isEdit);
             </q-item-section>
             <q-item-section side>
               <q-btn
-                v-if="!readOnly"
+                v-if="!isReadOnly"
                 :to="{
                   name: 'editTimesheet',
                   params: {
@@ -195,7 +194,7 @@ console.log('ZZZZZZZZZZZ ZZZZZ ZZZ', isEdit);
             </q-item-section>
             <q-item-section side>
               <q-btn
-                v-if="!readOnly"
+                v-if="!isReadOnly"
                 @click="
                   displayShowDeleteTimesheetDetail(
                     timesheetDetail?.timesheetDetailSid
