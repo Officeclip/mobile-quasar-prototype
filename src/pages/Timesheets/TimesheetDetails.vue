@@ -9,6 +9,7 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import WorkFlow from '../../components/general/WorkFlow.vue';
+import { isAllowed } from 'src/helpers/security';
 
 const router = useRouter();
 const route = useRoute();
@@ -19,6 +20,7 @@ const timesheetDetailSid = ref('');
 const fromDate = route.params.fromDate;
 // made the readOnly params type as boolean, by default always coming as string only
 const readOnly = route.params.readOnly === 'true';
+console.log('Testing readOnlyreadOnlyreadOnly', readOnly);
 const timesheetsStore = useTimesheetsStore();
 const timesheetCommentsStore = useTimesheetCommentsStore();
 const timesheetListsStore = useTimesheetListStore();
@@ -107,6 +109,11 @@ const addComment = () => {
   timesheetCommentsStore.addComment(addComments.value);
   addComments.value.comments[0].comment = '';
 };
+
+const isEdit = isAllowed({
+  security: { read: readOnly },
+});
+console.log('ZZZZZZZZZZZ ZZZZZ ZZZ', isEdit);
 </script>
 
 <template>
