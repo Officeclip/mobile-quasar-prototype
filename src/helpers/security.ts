@@ -3,21 +3,18 @@ const sessionStore = useSessionStore();
 
 const isSessionAdmin = sessionStore.Session.isAdmin;
 
-export function isAllowed({
-  isAdmin = isSessionAdmin,
-  roleAccess = '',
-  security = {},
-}) {
-  const session = sessionStore.Session;
-  const isRoleAccess = () => {
-    if (roleAccess != '') {
-      const data = session.roleAccess.find((x) => x.name === roleAccess);
-      // console.log('Checking TimeExpensesCreateTimeSheet::', data?.access);
-      return data?.access;
-    }
-    return true;
-  };
+// Define the isRoleAccess function
+function isRoleAccess(roleAccess: string): boolean {
+  if (roleAccess !== '') {
+    const data = sessionStore.Session.roleAccess.find(
+      (x) => x.name === roleAccess
+    );
+    return data?.access ?? true;
+  }
+  return true;
+}
 
+export function isAllowed({ roleAccess = '', security = {} }) {
   const {
     read = true,
     write = true,
@@ -26,12 +23,12 @@ export function isAllowed({
   } = security;
 
   // Check if the admin is true
-  if (isAdmin) {
+  if (isSessionAdmin) {
     return true;
   }
 
   // Check if both the roleAccess and security arguments are true
-  if (isRoleAccess() && read && write && append && del) {
+  if (isRoleAccess(roleAccess) && read && write && append && del) {
     return true;
   }
 
