@@ -1,30 +1,31 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch, capitalize } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
-import { useSessionStore } from 'stores/SessionStore';
+// import { useSessionStore } from 'stores/SessionStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
+import { isAllowed } from 'src/helpers/security';
 
 const expensesDetailsStore = useExpenseDetailsStore();
-const usesessionStore = useSessionStore();
+// const usesessionStore = useSessionStore();
 const expenseStatus = ref('inbox');
 // const title = ref(expenseStatus.value);
 const title = ref(capitalize(expenseStatus.value));
 
 onMounted(() => {
   expensesDetailsStore.getExpensesByStatus(String(expenseStatus.value));
-  usesessionStore.getSession();
+  // usesessionStore.getSession();
 });
 
-const getSession = computed(() => {
-  return usesessionStore.Session;
-});
+// const getSession = computed(() => {
+//   return usesessionStore.Session;
+// });
 
-const getRoleAccess = computed(() => {
-  return getSession.value.roleAccess;
-});
+// const getRoleAccess = computed(() => {
+//   return getSession.value.roleAccess;
+// });
 
-const roleAccess = getRoleAccess.value;
+// const roleAccess = getRoleAccess.value;
 
 const allExpenses = computed(() => {
   console.log('Expenses All', expensesDetailsStore.expenseSummary);
@@ -103,6 +104,7 @@ watch([expenseStatus], ([newModel]) => {
 //     description: 'All your rejected Expense(s)'
 //   }
 // ]
+const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
 </script>
 
 <template>
@@ -181,14 +183,9 @@ watch([expenseStatus], ([newModel]) => {
           <q-separator></q-separator>
         </q-list>
       </q-page>
-      <q-page-sticky
-        v-for="role in roleAccess"
-        :key="role.name"
-        position="bottom-right"
-        :offset="[18, 18]"
-      >
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
-          v-if="role.name === 'TimeExpensesAccessExpenseReport' && role.access"
+          v-if="isAllow"
           :to="{
             name: 'newPeriodExpense',
           }"
