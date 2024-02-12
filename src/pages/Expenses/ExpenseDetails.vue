@@ -4,7 +4,7 @@ import { computed, onMounted, watch, ref } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useRoute, useRouter } from 'vue-router';
-import { useSessionStore } from 'stores/SessionStore';
+// import { useSessionStore } from 'stores/SessionStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import autoRentalExpense from '../../components/expenses/details/autoRentalExpense.vue';
 import airTravelExpense from '../../components/expenses/details/airTravelExpense.vue';
@@ -18,8 +18,6 @@ import WorkFlow from '../../components/general/WorkFlow.vue';
 const route = useRoute();
 const router = useRouter();
 const readOnly = route.params.readOnly === 'true';
-
-console.log('RRRRRRRRRRRRRRRRR', readOnly);
 const entityType = 'expense';
 
 const fromDate = route.params.fromDate;
@@ -28,24 +26,24 @@ const expenseDetailsStore = useExpenseDetailsStore();
 
 const expenseListsStore = useExpenseListsStore();
 
-const usesessionStore = useSessionStore();
+// const usesessionStore = useSessionStore();
 
 onMounted(() => {
   console.log('Expense Detail Id from route', route.params.id);
   expenseDetailsStore.getExpenseDetails(route.params.id);
   expenseListsStore.getExpensesList();
-  usesessionStore.getSession();
+  // usesessionStore.getSession();
 });
 
-const getSession = computed(() => {
-  return usesessionStore.Session;
-});
+// const getSession = computed(() => {
+//   return usesessionStore.Session;
+// });
 
-const getRoleAccess = computed(() => {
-  return getSession.value.roleAccess;
-});
+// const getRoleAccess = computed(() => {
+//   return getSession.value.roleAccess;
+// });
 
-const roleAccess = getRoleAccess.value;
+// const roleAccess = getRoleAccess.value;
 
 const expenseDetails = computed(() => {
   return expenseDetailsStore.expenseDetailsList;
@@ -238,16 +236,8 @@ const deleteExpenseDetail = (id: string) => {
             </q-item-section> -->
           </q-expansion-item>
         </q-list>
-        <q-page-sticky
-          v-for="role in roleAccess"
-          :key="role.name"
-          position="bottom-right"
-          :offset="[18, 18]"
-        >
+        <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
-            v-if="
-              role.name === 'TimeExpensesAccessExpenseReport' && role.access
-            "
             :to="{
               name: 'newExpense',
               params: {
