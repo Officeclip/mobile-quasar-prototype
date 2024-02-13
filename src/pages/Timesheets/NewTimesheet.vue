@@ -45,7 +45,8 @@ function onSubmit(e: any) {
   e.preventDefault();
   const newTimesheet = ref(timesheetDetails);
   timesheetStore.addTimesheetDetails(newTimesheet.value);
-  router.push('/');
+  // router.push('-1');
+  router.go(-2);
 }
 </script>
 <template>
@@ -73,7 +74,7 @@ function onSubmit(e: any) {
               :timesheet="timesheetDetails"
               :periodName="periodName"
             />
-            <q-btn label="Submit" type="submit" color="primary"></q-btn>
+            <q-btn label="Save" type="submit" color="primary"></q-btn>
             <q-btn
               label="Reset"
               type="reset"
