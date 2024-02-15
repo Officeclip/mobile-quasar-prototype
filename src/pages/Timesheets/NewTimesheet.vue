@@ -20,7 +20,7 @@ const timesheetStore = useTimesheetsStore();
 const timesheetDetails: TimesheetDetails = ref({
   id: '',
   timesheetSid: '',
-  timeDuration: Number(''),
+  timeDuration: Number(),
   isBillable: true,
   accountName: '',
   accountSid: '',
@@ -38,7 +38,7 @@ const timesheetDetails: TimesheetDetails = ref({
   projectSid: '',
   serviceItemName: '',
   serviceItemSid: '',
-  taskDate: ''
+  taskDate: '',
 });
 function onSubmit(e: any) {
   e.preventDefault();
@@ -52,7 +52,14 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title> New Timesheet</q-toolbar-title>
       </q-toolbar>
@@ -61,9 +68,19 @@ function onSubmit(e: any) {
       <q-page>
         <q-list>
           <q-form @submit="onSubmit" class="q-gutter-md">
-            <TimesheetForm v-if="timesheetDetails" :timesheet="timesheetDetails" :periodName="periodName" />
+            <TimesheetForm
+              v-if="timesheetDetails"
+              :timesheet="timesheetDetails"
+              :periodName="periodName"
+            />
             <q-btn label="Save" type="submit" color="primary"></q-btn>
-            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
+            <q-btn
+              label="Reset"
+              type="reset"
+              color="primary"
+              flat
+              class="q-ml-sm"
+            ></q-btn>
           </q-form>
         </q-list>
       </q-page>

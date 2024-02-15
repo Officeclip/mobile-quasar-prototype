@@ -180,10 +180,12 @@ const handleModelValue = (newValue) => {
         map-options
         emit-value
       />
+      <pre>{{ props.timesheet.timeDuration }}</pre>
       <q-input
         label="Duration"
-        v-model="props.timesheet.timeDuration"
+        v-model.number="props.timesheet.timeDuration"
         placeholder="enter here..."
+        type="number"
       >
       </q-input>
 
