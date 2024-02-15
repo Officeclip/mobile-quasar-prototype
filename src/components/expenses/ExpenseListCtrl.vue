@@ -39,7 +39,8 @@ const getExpenses = computed(() => {
           ? dateTimeHelper.extractMonthFromUtc(expense.fromDate)
           : 'NoData msg'
         }}
-          - {{ expense.totalAmount }}</q-item-label>
+          - {{ expense.totalAmount }}
+          {{ expense.currency }}</q-item-label>
       </q-item-section>
       <q-item-section side>
         <q-icon color="primary" name="chevron_right" />

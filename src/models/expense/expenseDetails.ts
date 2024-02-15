@@ -10,6 +10,7 @@ export interface expenseDetails {
   accountName: string;
   accountSid: string;
   amount: number;
+  currency: string;
   billable: boolean;
   comments: string;
   description: string;

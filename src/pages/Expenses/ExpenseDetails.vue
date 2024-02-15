@@ -102,24 +102,10 @@ const deleteExpenseDetail = (id: string) => {
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> Expense Details </q-toolbar-title>
-        <q-btn
-          flat
-          round
-          dense
-          color="white"
-          icon="delete"
-          @click="displayConfirmationDialog"
-        >
+        <q-btn flat round dense color="white" icon="delete" @click="displayConfirmationDialog">
         </q-btn>
       </q-toolbar>
     </q-header>
@@ -140,10 +126,10 @@ const deleteExpenseDetail = (id: string) => {
                 <q-item-label caption>
                   {{
                     expenseDetail.expenseDate
-                      ? dateTimeHelper.extractDateFromUtc(
-                          expenseDetail.expenseDate
-                        )
-                      : 'No Specific Date'
+                    ? dateTimeHelper.extractDateFromUtc(
+                      expenseDetail.expenseDate
+                    )
+                    : 'No Specific Date'
                   }}
                 </q-item-label>
               </q-item-section>
@@ -151,37 +137,21 @@ const deleteExpenseDetail = (id: string) => {
               <q-item-section side flex>
                 <q-item-label caption>
                   {{ expenseDetail.amount }}
-                  <q-btn
-                    v-if="!readOnly"
-                    :to="{
-                      name: 'editExpense',
-                      params: {
-                        id: expenseDetail?.id,
-                        expenseSid: expenseDetail?.expenseSid,
-                        fromDate: fromDate,
-                      },
-                    }"
-                    size="sm"
-                    flat
-                    round
-                    dense
-                    icon="edit"
-                    class="q-ml-sm"
-                  >
+                  {{ expenseDetail.currency }}
+                  <q-btn v-if="!readOnly" :to="{
+                    name: 'editExpense',
+                    params: {
+                      id: expenseDetail?.id,
+                      expenseSid: expenseDetail?.expenseSid,
+                      fromDate: fromDate,
+                    },
+                  }" size="sm" flat round dense icon="edit" class="q-ml-sm">
                   </q-btn>
                 </q-item-label>
               </q-item-section>
               <q-item-section side>
-                <q-btn
-                  v-if="!readOnly"
-                  @click="showExpenseDetailDelete(expenseDetail?.expenseSid)"
-                  size="sm"
-                  flat
-                  round
-                  dense
-                  icon="delete"
-                  class="q-btn-hover:hover"
-                ></q-btn>
+                <q-btn v-if="!readOnly" @click="showExpenseDetailDelete(expenseDetail?.expenseSid)" size="sm" flat round
+                  dense icon="delete" class="q-btn-hover:hover"></q-btn>
               </q-item-section>
             </template>
             <q-item-section class="q-ma-md">
@@ -195,35 +165,17 @@ const deleteExpenseDetail = (id: string) => {
                 {{ expenseDetail.description }}
               </q-item-label>
 
-              <autoRentalExpense
-                v-if="expenseDetail.autoRentalExpense"
-                :expense="expenseDetail.autoRentalExpense"
-              />
+              <autoRentalExpense v-if="expenseDetail.autoRentalExpense" :expense="expenseDetail.autoRentalExpense" />
 
-              <airTravelExpense
-                v-if="expenseDetail.airTravelExpense"
-                :expense="expenseDetail.airTravelExpense"
-              />
+              <airTravelExpense v-if="expenseDetail.airTravelExpense" :expense="expenseDetail.airTravelExpense" />
 
-              <hotelExpense
-                v-if="expenseDetail.hotelExpense"
-                :expense="expenseDetail.hotelExpense"
-              />
+              <hotelExpense v-if="expenseDetail.hotelExpense" :expense="expenseDetail.hotelExpense" />
 
-              <mileageExpense
-                v-if="expenseDetail.mileageExpense"
-                :expense="expenseDetail.mileageExpense"
-              />
+              <mileageExpense v-if="expenseDetail.mileageExpense" :expense="expenseDetail.mileageExpense" />
 
-              <taxiExpense
-                v-if="expenseDetail.taxiExpense"
-                :expense="expenseDetail.taxiExpense"
-              />
+              <taxiExpense v-if="expenseDetail.taxiExpense" :expense="expenseDetail.taxiExpense" />
 
-              <telephoneExpense
-                v-if="expenseDetail.telephoneExpense"
-                :expense="expenseDetail.telephoneExpense"
-              />
+              <telephoneExpense v-if="expenseDetail.telephoneExpense" :expense="expenseDetail.telephoneExpense" />
             </q-item-section>
 
             <!-- <q-item-section side flex>
@@ -237,40 +189,20 @@ const deleteExpenseDetail = (id: string) => {
           </q-expansion-item>
         </q-list>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
-          <q-btn
-            :to="{
-              name: 'newExpense',
-              params: {
-                expenseSid: expenseDetail.expenseSid,
-                period: expensePeriod?.name,
-              },
-            }"
-            fab
-            icon="add"
-            color="accent"
-            padding="sm"
-          >
+          <q-btn :to="{
+            name: 'newExpense',
+            params: {
+              expenseSid: expenseDetail.expenseSid,
+              period: expensePeriod?.name,
+            },
+          }" fab icon="add" color="accent" padding="sm">
           </q-btn>
         </q-page-sticky>
 
-        <ConfirmDelete
-          v-if="isExpenseDelete"
-          :showConfirmationDialog="isExpenseDelete"
-          :id="route.params.id"
-          :title="title"
-          :message="message"
-          @cancel="cancelConfirmation"
-          @confirm="deleteExpense"
-        />
-        <ConfirmDelete
-          v-if="isExpenseDetailDelete"
-          :showConfirmationDialog="isExpenseDetailDelete"
-          :id="expenseDetail.id"
-          :title="title"
-          :message="message"
-          @cancel="cancelConfirmation"
-          @confirm="deleteExpenseDetail"
-        />
+        <ConfirmDelete v-if="isExpenseDelete" :showConfirmationDialog="isExpenseDelete" :id="route.params.id"
+          :title="title" :message="message" @cancel="cancelConfirmation" @confirm="deleteExpense" />
+        <ConfirmDelete v-if="isExpenseDetailDelete" :showConfirmationDialog="isExpenseDetailDelete" :id="expenseDetail.id"
+          :title="title" :message="message" @cancel="cancelConfirmation" @confirm="deleteExpenseDetail" />
       </div>
     </q-page-container>
   </q-layout>
