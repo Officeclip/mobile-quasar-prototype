@@ -92,13 +92,41 @@ const handleModelValue = (newValue) => {
   serviceItemModel.value = '';
   props.timesheet.serviceItemName = '';
 
+  // Find the index of the colon
+  const colonIndex = newValue.name.indexOf(':');
+  if (colonIndex !== -1) {
+    // If colon exists, split the string into two parts
+    const firstPart = newValue.name.substring(0, colonIndex);
+    const secondPart = newValue.name.substring(colonIndex + 1);
+    props.timesheet.accountName = firstPart;
+    props.timesheet.projectName = secondPart;
+  } else {
+    // If colon doesn't exist, treat the entire string as a single part
+    props.timesheet.accountName = newValue.name;
+    props.timesheet.projectName = '';
+  }
+
+  // Find the index of the colon
+  const colonIndexOfId = newValue.id.indexOf(':');
+  if (colonIndexOfId !== -1) {
+    // If colon exists, split the string into two parts
+    const firstPart = newValue.id.substring(0, colonIndexOfId);
+    const secondPart = newValue.id.substring(colonIndexOfId + 1);
+    props.timesheet.accountSid = firstPart;
+    props.timesheet.projectSid = secondPart;
+  } else {
+    // If colon doesn't exist, treat the entire string as a single part
+    props.timesheet.accountSid = newValue.id;
+    props.timesheet.projectSid = '';
+  }
+
   // split and separated the properties, values and assing to them
-  const names = newValue.name.split(':');
-  const ids = newValue.id.split(':');
-  props.timesheet.accountName = names[0];
-  props.timesheet.projectName = names[1];
-  props.timesheet.accountSid = ids[0];
-  props.timesheet.projectSid = ids[1];
+  // const names = newValue.name.split(':');
+  // const ids = newValue.id.split(':');
+  // props.timesheet.accountName = names[0];
+  // props.timesheet.projectName = names[1];
+  // props.timesheet.accountSid = ids[0];
+  // props.timesheet.projectSid = ids[1];
 };
 </script>
 
@@ -120,7 +148,7 @@ const handleModelValue = (newValue) => {
         map-options
         emit-label
       />
-      <!-- <pre>{{ customerProjectModel }}</pre> -->
+      <pre>{{ customerProjectModel }}</pre>
       <q-select
         label="Customer: Project"
         :model-value="selectedCustomerProject"
