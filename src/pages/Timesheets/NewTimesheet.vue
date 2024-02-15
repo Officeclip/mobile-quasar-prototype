@@ -27,7 +27,7 @@ const timesheetDetails: TimesheetDetails = ref({
   breakTime: '',
   checkInTime: '',
   checkOutTime: '',
-  createdDate: new Date(),
+  createdDate: '',
   createdUserSid: '',
   description: '',
   modifiedDate: '',

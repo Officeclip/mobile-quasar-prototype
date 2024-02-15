@@ -18,19 +18,22 @@ serviceItemModel.value = props.timesheet ? props.timesheet.serviceItemName : '';
 const serviceItemsOptions = ref('');
 const customerProjectModel = ref('');
 const taskDate = ref('');
-taskDate.value = props.timesheet?.taskDate
-  ? props.timesheet?.taskDate
-  : new Date();
+taskDate.value = props.timesheet?.taskDate;
+// ? props.timesheet?.taskDate
+// : new Date();
 
 // format the taskDate and show for user interface like Nov 02(Fri)
-const formattedTaskDate = ref(
-  `${new Date(taskDate.value).toLocaleString('en-US', {
-    month: 'short',
-    day: 'numeric',
-  })}(${new Date(taskDate.value).toLocaleString('en-US', {
-    weekday: 'short',
-  })})`
-);
+const formattedTaskDate =
+  taskDate.value != ''
+    ? ref(
+        `${new Date().toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+        })}(${new Date(taskDate.value).toLocaleString('en-US', {
+          weekday: 'short',
+        })})`
+      )
+    : ref('');
 
 const timesheetListStore = useTimesheetListStore();
 onMounted(() => {
