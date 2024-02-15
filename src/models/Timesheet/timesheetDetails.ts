@@ -1,6 +1,6 @@
 export interface TimesheetDetails {
   id: string;
-  timesheetId: string;
+  timesheetSid: string;
   timeDuration: number;
   isBillable: boolean;
   accountName: string;
@@ -20,5 +20,4 @@ export interface TimesheetDetails {
   serviceItemName: string;
   serviceItemSid: string;
   taskDate: string;
-  timesheetDetailSid: string;
 }
