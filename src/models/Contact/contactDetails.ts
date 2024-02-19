@@ -1,7 +1,7 @@
 import { security } from '../security';
 
 export interface ContactDetails {
-  id: number;
+  id: string;
   first_name: string;
   last_name: string;
   title?: string;
