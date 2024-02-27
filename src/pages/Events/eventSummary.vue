@@ -102,7 +102,7 @@ const getYearandMonth = (newvalue: any) => {
               today-btn
               @navigation="getYearandMonth"
             />
-            <div>{{ yearAndMonth }}</div>
+            <!-- <div>{{ yearAndMonth }}</div> -->
           </q-list>
           <q-list class="q-pt-lg text-h6">Events for: {{ date }}</q-list>
           <q-list bordered class="q-mt-sm">
