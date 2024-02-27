@@ -14,12 +14,14 @@ const eventSummaryStore = useEventSummaryStore();
 const date = ref('');
 date.value = format(new Date(), 'yyyy/MM/dd');
 
+const yearAndMonth = ref(null);
+
 const eventSummary = computed(() => {
   return eventSummaryStore.EventSummary;
 });
 
 onMounted(() => {
-  eventSummaryStore.getAllEventSummary();
+  eventSummaryStore.getAllEventSummary(null);
 });
 
 const eventDates = computed(() => {
@@ -41,7 +43,7 @@ function getEventTypeColour(type: any) {
 const eventsForADay = computed(() => {
   const myEvents = eventSummaryStore.EventSummary; // FIXME: skd: Not implemented correctly... should be fixed! [45]
   if (myEvents.length === 0) {
-    eventSummaryStore.getAllEventSummary();
+    eventSummaryStore.getAllEventSummary(yearAndMonth.value);
   }
   let events = eventSummaryStore.getEventSummaryForADay(date.value);
   return events;
@@ -66,6 +68,11 @@ function getEventType(event: eventSummary) {
     return time;
   }
 }
+
+const getYearandMonth = (newvalue: any) => {
+  yearAndMonth.value = newvalue;
+  eventSummaryStore.getAllEventSummary(yearAndMonth.value);
+};
 </script>
 
 <template>
@@ -89,8 +96,14 @@ function getEventType(event: eventSummary) {
       <q-page>
         <div class="q-ma-md">
           <q-list class="flex justify-center">
-            <q-date v-model="date" :events="eventDates" today-btn
-          /></q-list>
+            <q-date
+              v-model="date"
+              :events="eventDates"
+              today-btn
+              @navigation="getYearandMonth"
+            />
+            <div>{{ yearAndMonth }}</div>
+          </q-list>
           <q-list class="q-pt-lg text-h6">Events for: {{ date }}</q-list>
           <q-list bordered class="q-mt-sm">
             <q-item

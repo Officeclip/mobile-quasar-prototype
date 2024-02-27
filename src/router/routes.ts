@@ -154,6 +154,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/attachmentsTest.vue'),
   },
   {
+    path: '/calEventsTest',
+    name: 'calEventsTest',
+    component: () => import('../pages/calEventsTest.vue'),
+  },
+
+  {
     path: '/timesheetsAll',
     name: 'timesheetsAll',
     component: () => import('../pages/Timesheets/TimesheetsAll.vue'),

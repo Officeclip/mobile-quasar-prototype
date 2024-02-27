@@ -15,8 +15,11 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
 
   actions: {
     // for getting meeting attendees from separate json
-    async getAllEventSummary() {
-      const callStr = `${Constants.endPointUrl}/event-summary`;
+    async getAllEventSummary(yearAndMonth: any) {
+      const callStr = yearAndMonth
+        ? `${Constants.endPointUrl}/event-summary?year=${yearAndMonth.year}&month=${yearAndMonth.month}`
+        : `${Constants.endPointUrl}/event-summary`;
+      console.log('TESTING CALL STR::', callStr);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
