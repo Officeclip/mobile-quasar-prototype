@@ -22,13 +22,16 @@ const notesStore = useNotesStore();
 
 const emit = defineEmits(['numberOfNotes']);
 
+const getNotes = computed(() => {
+  console.log('Get notes count:', notesStore.Notes);
+  return notesStore.Notes;
+});
+
 const getNotesCount = computed(() => {
   return notesStore.NotesCount;
 });
 
-const getNotes = computed(() => {
-  return notesStore.Notes;
-});
+console.log('Get notes count:', getNotesCount);
 
 onUpdated(async () => {
   console.log('NoteList: onUpdated Started');
@@ -38,9 +41,9 @@ onUpdated(async () => {
 onBeforeMount(() => {
   console.log('NoteList: onBeforeMount Started');
   notesStore.getNotes(
-    Number(parentObjectServiceType.value),
-    Number(parentObjectId.value),
-    Number(noteBookId.value)
+    parentObjectServiceType.value,
+    parentObjectId.value,
+    noteBookId.value
   );
   console.log('NoteList: onBeforeMount ended:');
   emit('numberOfNotes', getNotesCount);

@@ -31,38 +31,39 @@ export const useNotesStore = defineStore('notesStore', {
     },
 
     async getNotes(
-      parentObjectServiceType: number,
-      parentObjectId: number,
-      noteBookId: number
+      parentObjectServiceType: string,
+      parentObjectId: string,
+      noteBookId: string
     ) {
       console.log(
         `NotesStore: getNotes: parameters: ${parentObjectServiceType}, ${parentObjectId}, ${noteBookId}`
       );
       const callStr =
-        parentObjectId > 0 && parentObjectServiceType > 0
+        parentObjectId != '' && parentObjectServiceType != ''
           ? `${Constants.endPointUrl}/note-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
           : `${Constants.endPointUrl}/notes?noteBookId=${noteBookId}`;
 
       try {
         const response = await axios.get(callStr);
         this.notes = response.data;
+        console.log(`NotesStore: getNotes: notes data: ${this.notes}`);
       } catch (error) {
         console.error(error);
       }
     },
 
     async GetNotesByParent(
-      parentObjectServiceType: number,
-      parentObjectId: number
+      parentObjectServiceType: string,
+      parentObjectId: string
     ) {
-      await this.getNotes(parentObjectServiceType, parentObjectId, -1);
+      await this.getNotes(parentObjectServiceType, parentObjectId, '');
     },
 
-    async GetNotesByNotebook(noteBookId: number) {
-      await this.getNotes(-1, -1, noteBookId);
+    async GetNotesByNotebook(noteBookId: string) {
+      await this.getNotes('', '', noteBookId);
     },
 
-    async getNote(id: number) {
+    async getNote(id: string) {
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/note-summary?id=${id}`
@@ -106,7 +107,7 @@ export const useNotesStore = defineStore('notesStore', {
       }
     },
 
-    async deleteNote(id: number | undefined) {
+    async deleteNote(id: string | undefined) {
       try {
         const response = await axios.delete(
           `${Constants.endPointUrl}/note-details/${id}`

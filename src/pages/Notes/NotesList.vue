@@ -22,9 +22,9 @@ const noteBooks = computed(() => {
 });
 
 const parent = ref({
-  parentObjectId: -1,
-  parentObjectServiceType: -1, // FIXME: Use enumerated types
-  selectedNoteBook,
+  parentObjectId: '',
+  parentObjectServiceType: '', // FIXME: Use enumerated types
+  selectedNoteBook: ''
 });
 console.log('NotesList: Setup Ended');
 </script>
@@ -33,14 +33,7 @@ console.log('NotesList: Setup Ended');
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> All Notes </q-toolbar-title>
       </q-toolbar>
@@ -49,16 +42,8 @@ console.log('NotesList: Setup Ended');
     <q-page-container>
       <q-page>
         <div class="q-pa-lg text-center">
-          <q-select
-            outlined
-            v-model="selectedNoteBook"
-            :options="noteBooks"
-            option-label="name"
-            option-value="id"
-            label="Select Notebook"
-            emit-value
-            map-options
-          />
+          <q-select outlined v-model="selectedNoteBook" :options="noteBooks" option-label="name" option-value="id"
+            label="Select Notebook" emit-value map-options />
         </div>
         <!-- <pre>SelectedNoteBook: {{ selectedNoteBook }}</pre>
         <pre>Parent: {{ parent }}</pre> -->
@@ -66,18 +51,12 @@ console.log('NotesList: Setup Ended');
         <NoteList :params="parent" :key="selectedNoteBook" />
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn
-          :to="{
-            name: 'newNotes',
-            params: {
-              id: -1,
-            },
-          }"
-          fab
-          icon="add"
-          color="accent"
-          padding="sm"
-        >
+        <q-btn :to="{
+          name: 'newNotes',
+          params: {
+            id: '',
+          },
+        }" fab icon="add" color="accent" padding="sm">
         </q-btn>
       </q-page-sticky>
     </q-page-container>

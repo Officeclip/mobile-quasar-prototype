@@ -50,7 +50,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
     },
 
     //   ----getting single user details by id----
-    async getContactDetails(id: number) {
+    async getContactDetails(id: string) {
       try {
         const response = await axios.get(
           `${Constants.endPointUrl}/contact-details/${id}`

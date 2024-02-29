@@ -32,7 +32,7 @@ onMounted(() => {
 
 const contactDetails: ContactDetails = ref({
   //from: https://stackoverflow.com/a/49741799
-  id: Number(''),
+  id: '',
   first_name: '',
   last_name: '',
   title: '',
