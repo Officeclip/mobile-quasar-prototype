@@ -205,7 +205,7 @@ const handleTaskCount = (value: string) => {
                     <q-btn :to="{
                       name: 'newNotes',
                       params: {
-                        id: '',
+                        id: -1,
                         objectTypeId: ObjectType.Contact,
                         objectId: contactDetails?.id,
                       },

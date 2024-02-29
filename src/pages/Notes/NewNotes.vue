@@ -17,7 +17,7 @@ const notesStore = useNotesStore()
 const note = ref({
   title: '',
   description: '',
-  isPrivate: ''
+  isPrivate: false
 
 });
 
@@ -46,7 +46,7 @@ function onSubmit(e: Event) {
     },
     title: note.value.title,
     description: note.value.description,
-    isPrivate: note.value.isPrivate === 'Yes',
+    isPrivate: note.value.isPrivate as boolean,
     createdByUserSid: '',
     createdDateTime: ''
   }
