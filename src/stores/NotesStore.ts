@@ -82,7 +82,7 @@ export const useNotesStore = defineStore('notesStore', {
         note
       );
 
-      if (res.status === 200) {
+      if (res.status === 201) {
         this.getNote(note.id);
       } else {
         console.error(res);
