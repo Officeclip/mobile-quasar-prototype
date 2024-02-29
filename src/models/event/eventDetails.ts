@@ -10,7 +10,7 @@ import { security } from '../security';
 import { label, ShowTimeAs, timeZone } from './eventLists';
 
 export interface eventDetails {
-  id: number;
+  id: string;
   createdDate: string;
   createdGroupSId: string;
   createdUserSid: string;
@@ -39,6 +39,10 @@ export interface eventDetails {
   ShowTimeAs: ShowTimeAs[];
   meetingAttendees: meetingAttendee[];
   url: string;
+  parent: {
+    type: idAndName;
+    value: idAndName;
+  };
   security: security[];
 }
 
@@ -46,6 +50,11 @@ export interface meetingAttendee {
   id: string;
   name: string;
   email: string;
+}
+
+export interface idAndName {
+  id: string;
+  name: string;
 }
 
 // Converts JSON strings to/from your types
