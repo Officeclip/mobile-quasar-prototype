@@ -27,14 +27,12 @@ export interface eventDetails {
   isRsvp: boolean;
   sendNotifications: boolean;
   eventLocation?: string;
-  repeatInfoText: string;
-  recurrenceRule: string;
   modifiedDate: string;
   modifiedUserSid: string;
   modifiedUserName: string;
   timezoneId: timeZone[];
-  remindTo: string;
-  remindBeforeMinutes: number;
+  reminder: reminder[];
+  recurrence: recurrence[];
   label: label[];
   ShowTimeAs: ShowTimeAs[];
   meetingAttendees: meetingAttendee[];
@@ -55,6 +53,16 @@ export interface meetingAttendee {
 export interface idAndName {
   id: string;
   name: string;
+}
+
+export interface reminder {
+  to: string;
+  beforeMinutes: string;
+}
+
+export interface recurrence {
+  text: string;
+  rule: string;
 }
 
 // Converts JSON strings to/from your types

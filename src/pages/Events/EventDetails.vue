@@ -26,14 +26,14 @@ const event = computed(() => {
 const selectedOption = computed(() => {
   const reminderOptions = reminderDataStore.ReminderOptions;
   const obj = reminderOptions.find(
-    (option: any) => option.value === event.value?.remindTo
+    (option: any) => option.value === event.value?.reminder.to
   );
   return obj ? obj : 'null';
 });
 const selectedTime = computed(() => {
   const reminderTimes = reminderDataStore.ReminderTimes;
   const obj = reminderTimes.find(
-    (time: any) => time.value === event.value?.remindBeforeMinutes
+    (time: any) => time.value === event.value?.reminder.beforeMinutes
   );
   return obj ? obj : 'null';
 });
@@ -250,12 +250,12 @@ const projectServiceItem = computed(() => {
           </q-item-section>
         </q-item>
         <OCItem
-          v-if="event?.repeatInfoText"
+          v-if="event?.recurrence.rule"
           title="Repeat"
-          :value="event?.repeatInfoText"
+          :value="event?.recurrence.text"
         />
         <OCItem
-          v-if="event?.remindTo"
+          v-if="event?.reminder.to"
           title="Reminder"
           :value="`${selectedOption?.label} ${selectedTime?.label} Before`"
         />
