@@ -81,9 +81,9 @@ const endsModelValue = computed(() => {
 const label = computed(() => {
   return eventListsStore.Labels;
 });
-const timeZone = computed(() => {
-  return eventListsStore.TimeZones;
-});
+// const timeZone = computed(() => {
+//   return eventListsStore.TimeZones;
+// });
 const ShowMyTimeAsOptions = computed(() => {
   return eventListsStore.ShowMyTimeAs;
 });
@@ -376,7 +376,7 @@ function isValidURL(url: string) {
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>
-      <q-item>
+      <!-- <q-item>
         <q-select
           v-model="event.timezoneId"
           :options="timeZone"
@@ -387,7 +387,7 @@ function isValidURL(url: string) {
           option-label="name"
           option-value="id"
         />
-      </q-item>
+      </q-item> -->
       <q-item v-if="event.eventType == '2'">
         <q-select
           v-model="event.meetingAttendees"

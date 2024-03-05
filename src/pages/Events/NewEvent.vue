@@ -69,17 +69,28 @@ const event: Ref<eventDetails> = ref({
   security: [],
 });
 
+// function handleRRule(rrule: string) {
+//   event.value.recurrenceRule = rrule;
+// }
 function handleRRule(rrule: string) {
-  event.value.recurrenceRule = rrule;
+  event.value.recurrence.rule = rrule;
 }
 
+// function handleRRuleText(rruleText: string) {
+//   event.value.repeatInfoText = rruleText;
+// }
 function handleRRuleText(rruleText: string) {
-  event.value.repeatInfoText = rruleText;
+  event.value.recurrence.text = rruleText;
 }
+
+// function handleReminder(reminder: [string, number]) {
+//   event.value.remindTo = reminder[0];
+//   event.value.remindBeforeMinutes = reminder[1];
+// }
 
 function handleReminder(reminder: [string, number]) {
-  event.value.remindTo = reminder[0];
-  event.value.remindBeforeMinutes = reminder[1];
+  event.value.reminder.to = reminder[0];
+  event.value.reminder.beforeMinutes = reminder[1];
 }
 
 function onSubmit(e: any) {
