@@ -10,6 +10,7 @@ import { subTask } from 'src/models/task/subtask';
 import SubtaskItem from 'components/tasks/SubtaskItem.vue';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { getPriorityColor, getPriorityIcon, getTaskStatusColor, getTaskStatusIcon } from 'src/helpers/colorIconHelper';
+import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 
 const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
@@ -94,16 +95,31 @@ onMounted(() => {
   // taskListStore.getTaskLists();
 });
 
+const title = ref('Confirm');
+const message = ref('Are you sure you want to delete this task?');
 const showConfirmationDialog = ref(false);
+const displayConfirmationDialog = () => {
+  showConfirmationDialog.value = true;
+};
+const cancelConfirmation = () => {
+  showConfirmationDialog.value = false;
+};
+const confirmDeletion = () => {
+  taskSummaryStore.deleteTask(id.value);
+  taskDetailsStore.deleteTask(id.value).then(() => {
+    showConfirmationDialog.value = false;
+    router.go(-1);
+  });
+};
 
-function deleteTask() {
-  let taskId = id.value;
-  console.log('Deleted: ID=' + taskId);
+// function deleteTask() {
+//   let taskId = id.value;
+//   console.log('Deleted: ID=' + taskId);
 
-  taskSummaryStore.deleteTask(taskId);
-  taskDetailsStore.deleteTask(taskId);
-  router.go(-1);
-}
+//   taskSummaryStore.deleteTask(taskId);
+//   taskDetailsStore.deleteTask(taskId);
+//   router.go(-1);
+// }
 
 const router = useRouter();
 
@@ -140,18 +156,13 @@ function addSubtask(subtask: subTask) {
             <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>
           </q-btn>
         </div>
-
-        <div v-if="taskDetail.security.delete">
-
-          <q-btn dense flat icon="delete" round @click="showConfirmationDialog = true" />
-        </div>
-        <div v-else>
-          <q-btn dense disable flat icon="delete" round>
+        <div>
+          <q-btn v-if="taskDetail?.security.delete" color="white" dense flat icon="delete" round
+            @click="displayConfirmationDialog" />
+          <q-btn v-else dense disable flat icon="delete" round>
             <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>
           </q-btn>
         </div>
-
-
       </q-toolbar>
     </q-header>
 
@@ -362,7 +373,7 @@ function addSubtask(subtask: subTask) {
         <add-subtask-dialog @save-subtask="addSubtask" />
       </q-dialog>
 
-      <q-dialog v-model="showConfirmationDialog">
+      <!-- <q-dialog v-model="showConfirmationDialog">
         <q-card>
           <q-card-section>
             <q-item-label>Confirm</q-item-label>
@@ -373,7 +384,9 @@ function addSubtask(subtask: subTask) {
             </q-card-actions>
           </q-card-section>
         </q-card>
-      </q-dialog>
+      </q-dialog> -->
     </q-page-container>
   </q-layout>
+  <ConfirmationDialog v-if="showConfirmationDialog" :showConfirmationDialog="showConfirmationDialog" :title="title"
+    :message="message" @cancel="cancelConfirmation" @confirm="confirmDeletion" />
 </template>

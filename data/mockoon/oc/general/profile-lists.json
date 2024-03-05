@@ -18,16 +18,6 @@
         "userIcon": "https://cdn-icons-png.flaticon.com/256/5556/5556468.png",
         "userPhoto": "https://cdn-icons-png.flaticon.com/256/5556/5556468.png"
       }
-    },
-    "group": {
-      "timesheet": {
-        "mode": "periodic",
-        "periodicity": "weekly",
-        "timesheetHeader": "This is a Header",
-        "timesheetFooter": "This is a Footer",
-        "showPayrollColumn": false,
-        "timesheetStartDay": "Sunday"
-      }
     }
   }
 }
