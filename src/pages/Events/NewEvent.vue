@@ -49,7 +49,6 @@ const event: Ref<eventDetails> = ref({
   modifiedDate: '',
   modifiedUserSid: '',
   modifiedUserName: '',
-  timezoneId: '2',
   reminder: {
     to: '',
     beforeMinutes: '',
