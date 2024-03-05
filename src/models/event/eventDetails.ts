@@ -12,11 +12,13 @@ import { label, ShowTimeAs, timeZone } from './eventLists';
 export interface eventDetails {
   id: string;
   createdDate: string;
-  createdGroupSId: string;
+  createdGroupSid: string;
   createdUserSid: string;
   createdUserName: string;
-  parentServiceType: number;
-  parentSid: string;
+  parent: {
+    type: idAndName;
+    value: idAndName;
+  };
   eventType: string;
   eventName: string;
   eventDescription?: string;
@@ -30,17 +32,14 @@ export interface eventDetails {
   modifiedDate: string;
   modifiedUserSid: string;
   modifiedUserName: string;
-  timezoneId: timeZone[];
+  // timezoneId: timeZone[];
   reminder: reminder[];
   recurrence: recurrence[];
   label: label[];
   ShowTimeAs: ShowTimeAs[];
   meetingAttendees: meetingAttendee[];
   url: string;
-  parent: {
-    type: idAndName;
-    value: idAndName;
-  };
+
   security: security[];
 }
 
