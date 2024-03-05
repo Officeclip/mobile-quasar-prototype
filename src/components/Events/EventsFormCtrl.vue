@@ -4,7 +4,7 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
-import FilePicker from 'components/Events/FilePicker.vue';
+// import FilePicker from 'components/Events/FilePicker.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
 import { useReminderDataStore } from 'stores/reminder/reminderData';
@@ -92,28 +92,28 @@ const ShowMyTimeAsOptions = computed(() => {
 const selectedOption = computed(() => {
   const reminderOptions = reminderDataStore.ReminderOptions;
   const obj = reminderOptions.find(
-    (option: any) => option.value === props.event.remindTo
+    (option: any) => option.value === props.event.reminder.to
   );
   return obj ? obj : 'null';
 });
 const selectedTime = computed(() => {
   const reminderTimes = reminderDataStore.ReminderTimes;
   const obj = reminderTimes.find(
-    (time: any) => time.value === props.event.remindBeforeMinutes
+    (time: any) => time.value === props.event.reminder.beforeMinutes
   );
   return obj ? obj : 'null';
 });
 
 // const reminderTextInfo = ref('Reminder');
-const reminderTextInfo = props.event?.remindTo
+const reminderTextInfo = props.event?.reminder.to
   ? ref(`${selectedOption.value.label} ${selectedTime.value.label} before`)
   : ref('Reminder');
 
 const reminderDialogOpened = ref(false);
 const recurrenceDialogOpened = ref(false);
 // const repeatString = ref('Does not repeat');
-const repeatString = props.event?.repeatInfoText
-  ? ref(props.event?.repeatInfoText)
+const repeatString = props.event?.recurrence.text
+  ? ref(props.event?.recurrence.text)
   : ref('Does not repeat');
 
 function handleRRuleString(rruleString: string) {
@@ -550,10 +550,10 @@ function isValidURL(url: string) {
         />
       </div>
 
-      <q-item>
-        <!-- <FilePicker @get-attachments-generated="handleAttachments" /> -->
+      <!-- we tempararly stopped the attachments latter on we will comeback here  -->
+      <!-- <q-item>
         <FilePicker />
-      </q-item>
+      </q-item> -->
 
       <!-- <q-item>
         <q-btn
