@@ -7,6 +7,7 @@ import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
+import { isAllowed } from 'src/helpers/security';
 
 const route = useRoute();
 const router = useRouter();
@@ -135,6 +136,17 @@ const openUrl = () => {
 const projectServiceItem = computed(() => {
   return `${event.value?.parent.type.name} : ${event.value?.parent.value.name}`;
 });
+
+const isAllowEdit = computed(() => {
+  return isAllowed({
+    security: { write: event.value?.security.write },
+  });
+});
+const isAllowDelete = computed(() => {
+  return isAllowed({
+    security: { delete: event.value?.security.delete },
+  });
+});
 </script>
 
 <template>
@@ -154,7 +166,7 @@ const projectServiceItem = computed(() => {
         /></q-toolbar-title>
         <div>
           <q-btn
-            v-if="event?.security.write"
+            v-if="isAllowEdit"
             :to="{ name: 'editEvent', params: { id: id } }"
             color="white"
             dense
@@ -168,7 +180,7 @@ const projectServiceItem = computed(() => {
         </div>
         <div>
           <q-btn
-            v-if="event?.security.delete"
+            v-if="isAllowDelete"
             color="white"
             dense
             flat

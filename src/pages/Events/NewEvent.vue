@@ -19,32 +19,11 @@ const parentObjectServiceType = route.params.objectTypeId
   : -1;
 
 const event: Ref<eventDetails> = ref({
-  id: Number(),
-  parentServiceType: Number(parentObjectServiceType),
-  eventType: '2',
-  eventName: '',
-  eventDescription: '',
-  startDateTime: new Date().toISOString(),
-  endDateTime: new Date().toISOString(),
-  isAllDayEvent: false,
-  eventLocation: '',
+  id: '',
   createdDate: new Date().toISOString(),
-  createdGroupSId: '',
+  createdGroupSid: '',
   createdUserSid: '',
-  parentSid: Number(parentObjectId),
-  eventUserSid: '',
-  isRsvp: false,
-  sendNotifications: false,
-  repeatInfoText: '',
-  recurrenceRule: '',
-  modifiedDate: '',
-  modifiedUserSid: '',
-  timezoneId: '2',
-  remindTo: '',
-  remindBeforeMinutes: Number,
-  label: '1',
-  meetingAttendees: [],
-  url: '',
+  createdUserName: '',
   parent: {
     type: {
       id: '',
@@ -55,19 +34,62 @@ const event: Ref<eventDetails> = ref({
       name: '',
     },
   },
+  // parentServiceType: Number(parentObjectServiceType),
+  //parentSid: Number(parentObjectId),
+  eventType: '2',
+  eventName: '',
+  eventDescription: '',
+  startDateTime: new Date().toISOString(),
+  endDateTime: new Date().toISOString(),
+  isAllDayEvent: false,
+  eventUserSid: '',
+  isRsvp: false,
+  sendNotifications: false,
+  eventLocation: '',
+  modifiedDate: '',
+  modifiedUserSid: '',
+  modifiedUserName: '',
+  reminder: {
+    to: '',
+    beforeMinutes: '',
+  },
+  // remindTo: '',
+  // remindBeforeMinutes: Number,
+  recurrence: {
+    text: '',
+    rule: '',
+  },
+  // repeatInfoText: '',
+  // recurrenceRule: '',
+  label: '1',
+  ShowTimeAs: [],
+  meetingAttendees: [],
+  url: '',
+  security: [],
 });
 
+// function handleRRule(rrule: string) {
+//   event.value.recurrenceRule = rrule;
+// }
 function handleRRule(rrule: string) {
-  event.value.recurrenceRule = rrule;
+  event.value.recurrence.rule = rrule;
 }
 
+// function handleRRuleText(rruleText: string) {
+//   event.value.repeatInfoText = rruleText;
+// }
 function handleRRuleText(rruleText: string) {
-  event.value.repeatInfoText = rruleText;
+  event.value.recurrence.text = rruleText;
 }
+
+// function handleReminder(reminder: [string, number]) {
+//   event.value.remindTo = reminder[0];
+//   event.value.remindBeforeMinutes = reminder[1];
+// }
 
 function handleReminder(reminder: [string, number]) {
-  event.value.remindTo = reminder[0];
-  event.value.remindBeforeMinutes = reminder[1];
+  event.value.reminder.to = reminder[0];
+  event.value.reminder.beforeMinutes = reminder[1];
 }
 
 function onSubmit(e: any) {

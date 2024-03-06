@@ -3,7 +3,7 @@ import {
   label,
   ShowTimeAs,
   regardingParent,
-  timeZone,
+  // timeZone,
   user,
 } from 'src/models/event/eventLists';
 import { regardingContact } from 'src/models/event/eventLists';
@@ -15,7 +15,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
     // timesheetList: undefined as TimesheetList | undefined,
     labels: [] as label[],
     regardingParent: [] as regardingParent[],
-    timeZones: [] as timeZone[],
+    // timeZones: [] as timeZone[],
     showMyTimeAs: [] as ShowTimeAs[],
     users: [] as user[],
   }),
@@ -23,7 +23,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
   getters: {
     Labels: (state) => state.labels,
     RegardingParent: (state) => state.regardingParent,
-    TimeZones: (state) => state.timeZones,
+    // TimeZones: (state) => state.timeZones,
     ShowMyTimeAs: (state) => state.showMyTimeAs,
     Users: (state) => state.users,
   },
