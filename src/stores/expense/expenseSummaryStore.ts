@@ -18,7 +18,8 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
     // getting all the timesheets for testing only, probably no where this use
     async getExpenseSummary() {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/expense-summary`
         );
         this.expenseSummary = response.data;
@@ -43,7 +44,8 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
 
     async getExpenseSummaryById(id: string | string[]) {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/expense-summary?id=${id}`
         );
         if (response.data && response.data.length > 0) {
@@ -62,7 +64,8 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
           ? `${Constants.endPointUrl}/expense-summary?status=${status}`
           : `${Constants.endPointUrl}/expense-summary`;
       try {
-        const response = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
         this.expenseSummary = response.data;
         console.log('getExpenseSummaryByStatus(): ', this.expenseSummaryById);
       } catch (error) {

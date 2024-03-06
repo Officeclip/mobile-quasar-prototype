@@ -49,11 +49,12 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
 
       try {
         // console.log("URL called", this.url);
-        const res = await axios.get(this.url);
-        const summaries = res.data;
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(this.url);
+        const summaries = response.data;
         this.contactSummary.push(...summaries);
 
-        this.links = JSON.parse(res.headers.get('Links') || '{}');
+        this.links = JSON.parse(response.headers.get('Links') || '{}');
         this.url = this.links.next
           ? `${Constants.endPointUrl}${this.links.next}`
           : '';
@@ -66,7 +67,8 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
 
     async getContactSummary() {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/contact-summary`
         );
         this.contactSummary = response.data;
@@ -81,8 +83,8 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
       // FIXME: put correct type
       const callStr = `${Constants.endPointUrl}/contact-summary?_limit=${limit}&_page=${page}`;
       //console.log(`callStr: ${callStr}`)
-      const res = await fetch(callStr);
-      const data = await res.json();
+      const response = await fetch(callStr);
+      const data = await response.json();
       //console.log(data);
       this.contactSummary.push(...data);
     },
@@ -95,8 +97,8 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
       // FIXME: put correct type
       const callStr = `${Constants.endPointUrl}/contact-summary?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
       console.log(`callStr: ${callStr}`);
-      const res = await fetch(callStr);
-      const data = await res.json();
+      const response = await fetch(callStr);
+      const data = await response.json();
       //console.log(data);
       this.contactSummary.push(...data);
     },

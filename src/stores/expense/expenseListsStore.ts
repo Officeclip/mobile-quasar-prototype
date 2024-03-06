@@ -26,7 +26,8 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
   actions: {
     /*     async getEventLists() {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/expense-lists`
         );
         const expenseLists = response.data[0];
@@ -42,7 +43,8 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
     // TODO: Get all the list item at one time.
     async getExpensesList(name: string) {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}expense-list?name=${name}`
         );
         console.log('Response', response);
@@ -64,7 +66,8 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
     async getExpensesList() {
       console.log('expenseListStore.ts > getExpensesList() - started');
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/expense-lists`
         );
         const expenseList = response.data;

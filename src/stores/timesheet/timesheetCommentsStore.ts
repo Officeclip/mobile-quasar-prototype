@@ -18,7 +18,8 @@ export const useTimesheetCommentsStore = defineStore('timesheetCommentsStore', {
   actions: {
     async getTimesheetComments(timesheetId: string | string[]) {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/timesheet-comments/${timesheetId}`
         );
         const newData = response.data;
@@ -31,7 +32,8 @@ export const useTimesheetCommentsStore = defineStore('timesheetCommentsStore', {
 
     async addComment(comment: Comments) {
       this.commentsList.push(comment);
-      const res = await axios.post(
+      const instance = Constants.getAxiosInstance();
+      const response = await instance.post(
         `${Constants.endPointUrl}/timesheet-comments`,
         comment
       );

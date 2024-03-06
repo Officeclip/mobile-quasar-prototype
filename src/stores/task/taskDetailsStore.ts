@@ -18,7 +18,8 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
   actions: {
     async addTask(taskDetail: taskDetails) {
       this.taskDetails.push(taskDetail);
-      const res = await axios.post(
+      const instance = Constants.getAxiosInstance();
+      const response = await instance.post(
         `${Constants.endPointUrl}/task-details`,
         taskDetail
       );
@@ -32,7 +33,8 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
 
     async deleteTask(id: any) {
       try {
-        const response = await axios.delete(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
           `${Constants.endPointUrl}/task-details/${id}`
         );
         if (response.status === 200) {
@@ -49,7 +51,8 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       console.log(`editNote 1: ${this.taskDetail?.id}`);
       // not added yet
       try {
-        const response = await axios.put(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.put(
           `${Constants.endPointUrl}/task-details/${taskDetail.id}`,
           taskDetail
         );
@@ -64,7 +67,8 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
 
     async getTask(id: string) {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/task-details/${id}`
         );
         console.log(response);
@@ -84,7 +88,8 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           ? `${Constants.endPointUrl}/task-details?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
           : `${Constants.endPointUrl}/task-details`;
       try {
-        const response = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
         this.taskDetails = response.data;
       } catch (error) {
         console.error(error);

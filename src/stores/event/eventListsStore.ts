@@ -76,7 +76,8 @@ export const useEventListsStore = defineStore('eventListsStore', {
     },
     // async getRegardingContactList(searchString: string){
     //   try {
-    //     const response = await axios.get(
+    //     const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
     //         `${Constants.endPointUrl}/event-lists/`
     //     );
     //     const eventLists = response.data[0];
@@ -109,7 +110,8 @@ export const useEventListsStore = defineStore('eventListsStore', {
     // async getRegardingContactListThatMatch(searchString: string) {
     //   try {
     //     this.regardingContacts = [];
-    //     const response = await axios.get(
+    //     const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
     //       `${Constants.endPointUrl}/event-lists`
     //     );
     //     const eventLists = response.data[0];
@@ -128,7 +130,8 @@ export const useEventListsStore = defineStore('eventListsStore', {
     async getFilteredUsers(searchString: string) {
       try {
         this.users = [];
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/event-lists?user=${searchString}`
         );
         const userList = response.data.users;

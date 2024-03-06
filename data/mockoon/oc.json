@@ -290,7 +290,7 @@
       "responses": [
         {
           "uuid": "fc5e37e3-b946-4dbd-8ce4-e7a402439ea8",
-          "body": "{\r\n  \"token\": \"xxxxyyyyzzz\",\r\n  \"expirationUnixEpoch\": 1732314106\r\n}",
+          "body": "[\r\n  {\r\n    \"accessToken\": \"xxxxyyyyzzz\",\r\n    \"expirationTime\": 1732314106\r\n  }\r\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "Success",

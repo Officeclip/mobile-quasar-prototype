@@ -49,7 +49,8 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   actions: {
     async getExpenseDetails(expenseSid: string | string[]) {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/expense-details?expenseSid=${expenseSid}`
         );
         console.log('Getting Id', expenseSid);
@@ -67,7 +68,8 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         id
       );
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/expense-details?id=${id}`
         );
         //console.log(`response.data[0]: ${response.data}`);
@@ -123,7 +125,8 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
 
     async addExpense(expenseDetails: expenseDetails) {
       try {
-        const response = await axios.post(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(
           `${Constants.endPointUrl}/expense-details`,
           expenseDetails
         );
@@ -140,7 +143,8 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       //console.log(`editExpense 1: ${this.expenseDetails?.id}`);
       // not added yet
       try {
-        const response = await axios.put(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.put(
           `${Constants.endPointUrl}/expense-details/${expenseDetails.id}`,
           expenseDetails
         );
@@ -154,7 +158,8 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     },
     async deleteExpenseDetail(id: string | undefined) {
       try {
-        const response = await axios.delete(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
           `${Constants.endPointUrl}/expense-details/${id}`
         );
         if (response.status === 200) {
@@ -169,7 +174,8 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     // to remove whole timesheet top level delete need to make it work
     async deleteExpense(id: string | string[]) {
       try {
-        const response = await axios.delete(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
           `${Constants.endPointUrl}/expense-summary/${id}`
         );
 

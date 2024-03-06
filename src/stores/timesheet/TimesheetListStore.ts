@@ -38,7 +38,8 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
   actions: {
     async getTimesheetListAll() {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/timesheet-lists`
         );
         const newData = response.data;
@@ -59,7 +60,8 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
 
     async getTimesheetsList1() {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/timesheet-lists`
         );
         const timesheetList = response.data;

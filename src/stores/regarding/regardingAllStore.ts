@@ -1,7 +1,7 @@
-import {defineStore} from 'pinia';
-import {regardingContact} from '../../models/general/regardingAll';
+import { defineStore } from 'pinia';
+import { regardingContact } from '../../models/general/regardingAll';
 import axios from 'axios';
-import {Constants} from '../Constants';
+import { Constants } from '../Constants';
 
 export const useRegardingAllStore = defineStore('regardingAllStore', {
   state: () => ({
@@ -48,7 +48,8 @@ export const useRegardingAllStore = defineStore('regardingAllStore', {
     async getRegardingContactListThatMatch(searchString: string) {
       try {
         this.regardingContacts = [];
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/regardingContact`
         );
         const regardingContacts = response.data;

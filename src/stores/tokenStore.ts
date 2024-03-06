@@ -28,7 +28,7 @@ export const useTokenStore = defineStore('loginStore', {
         );
         //TODO: 20240306: skd: nk: the token and expiration date is returning as undefined in mockoon we need to fix it
         if (response.data) {
-          this.token = response.data;
+          this.token = response.data[0];
           console.log(
             `validateLogin(): ${this.token.accessToken}, ${this.token.expirationTime}`
           );

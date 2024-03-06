@@ -25,7 +25,8 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     // getting all the timesheets for testing only, probably no where this use
     async getTimesheets() {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/timesheet-summary`
         );
         this.timesheets = response.data;
@@ -72,7 +73,8 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
 
     async getTimesheetDetails(id: string | string[]) {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/timesheet-details?timesheetId=${id}`
         );
         this.timesheetDetails = response.data;
@@ -82,7 +84,8 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     },
     async getSingleTimesheetDetail(id: string | string[]) {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/timesheet-details?timesheetDetailSid=${id}`
         );
         this.timesheetDetail = response.data[0];
@@ -98,7 +101,8 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       console.log(`editTimesheet 1: ${this.timesheetDetail?.id}`);
       // not added yet
       try {
-        const response = await axios.put(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.put(
           `${Constants.endPointUrl}/timesheet-details/${timesheetDetail.id}`,
           timesheetDetail
         );
@@ -112,7 +116,8 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     },
     async deleteTimesheet(id: string | string[]) {
       try {
-        const response = await axios.delete(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
           `${Constants.endPointUrl}/timesheet-details/${id}`
         );
         if (response.status === 200) {
@@ -127,7 +132,8 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     // to remove whole timesheet top level delete need to make it work
     async deleteAllTimesheets(id: string | string[]) {
       try {
-        const response = await axios.delete(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
           `${Constants.endPointUrl}/timesheet-summary/${id}`
         );
 

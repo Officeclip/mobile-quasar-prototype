@@ -25,7 +25,8 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
   actions: {
     async getContacts() {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/contact-summary`
         );
         this.contactDetailsList = response.data;
@@ -52,7 +53,8 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
     //   ----getting single user details by id----
     async getContactDetails(id: string) {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/contact-details/${id}`
         );
         if (response.data && response.data.length > 0) {

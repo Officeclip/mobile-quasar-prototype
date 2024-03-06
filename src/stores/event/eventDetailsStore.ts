@@ -60,7 +60,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       const callStr = `${Constants.endPointUrl}/event-details?parentSid=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
       console.log(callStr);
       try {
-        const response = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
         this.eventDetails = response.data;
       } catch (error) {
         console.error(error);
