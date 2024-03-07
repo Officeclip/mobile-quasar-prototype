@@ -1,3 +1,4 @@
+import { security } from '../security';
 export interface ContactSummary {
   id: string;
   first_name: string;
@@ -5,4 +6,5 @@ export interface ContactSummary {
   email?: string;
   phone?: string;
   thumbnail?: string;
+  security: security[];
 }
