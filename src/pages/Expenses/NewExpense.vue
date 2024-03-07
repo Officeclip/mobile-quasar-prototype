@@ -40,7 +40,8 @@ const expenseDetail = ref({
   hotelExpense: null,
   mileageExpense: null,
   telephoneExpense: null,
-  taxiExpense: null
+  taxiExpense: null,
+  security: []
 });
 
 function onSubmit(e: any) {
@@ -80,6 +81,7 @@ function onSubmit(e: any) {
   router.go(-2);
 }
 </script>
+
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header>

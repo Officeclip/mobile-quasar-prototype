@@ -48,7 +48,8 @@ function onSubmit(e: Event) {
     description: note.value.description,
     isPrivate: note.value.isPrivate as boolean,
     createdByUserSid: '',
-    createdDateTime: ''
+    createdDateTime: '',
+    security: []
   }
   // event.value.isAllDayEvent= newEvent.isAllDayEvent
 
@@ -61,6 +62,7 @@ function onSubmit(e: Event) {
 
 
 </script>
+
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header>

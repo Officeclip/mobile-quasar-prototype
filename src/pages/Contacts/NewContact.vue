@@ -48,6 +48,7 @@ const contactDetails: ContactDetails = ref({
   home_phone: '',
   thumbnail: '',
   picture: '',
+  security: []
 });
 
 //const contactDetails = { current: contactDetailsEmpty };
