@@ -24,10 +24,10 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         taskDetail
       );
 
-      if (res.status === 200) {
+      if (response.status === 200) {
         await this.getTask(taskDetail.id);
       } else {
-        console.error(res);
+        console.error(response);
       }
     },
 

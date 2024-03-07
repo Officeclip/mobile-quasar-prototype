@@ -21,7 +21,7 @@ export const useMetaListsStore = defineStore('metaListsStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}meta-lists`
         );
-        this.metaLists = data.data;
+        this.metaLists = response.data;
         console.log(`MetaList: ${this.metaLists}`);
       } catch (error) {
         alert(error);

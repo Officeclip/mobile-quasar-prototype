@@ -20,11 +20,11 @@ export const useHomeIconsStore = defineStore('homeIconStore', {
         //console.log(`Endpoint is: ${Constants.endPointUrl}`);
         //const data = await Constants.getAxiosInstance().get('/orgs');
         //const instance = Constants.getAxiosInstance();
-        const response = await instance.get('/orgs');
+        //const response = await instance.get('/orgs');
         const instance = Constants.getAxiosInstance();
         const data = await instance.get('/orgs');
         // const instance = Constants.getAxiosInstance();
-        const response = await instance.get(`${Constants.endPointUrl}/orgs`);
+        //const response = await instance.get(`${Constants.endPointUrl}/orgs`);
         this.orgItems = data.data;
       } catch (error) {
         alert(error);

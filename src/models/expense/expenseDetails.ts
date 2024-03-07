@@ -5,6 +5,7 @@
 //   const expenseDetail = Convert.toExpenseDetail(json);
 
 // From: https://app.quicktype.io/#l=TypeScript
+import { security } from '../security';
 
 export interface expenseDetails {
   accountName: string;
@@ -32,6 +33,7 @@ export interface expenseDetails {
   mileageExpense: mileageExpense;
   telephoneExpense: telephoneExpense;
   taxiExpense: taxiExpense;
+  security: security[];
 }
 
 export interface airTravelExpense {

@@ -19,8 +19,8 @@ export const useUserSummaryStore = defineStore('userSummaryStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}/user-summary`
         );
-        this.userSummaries = data.data;
-        console.log('user summaries from store: ', data.data);
+        this.userSummaries = response.data;
+        console.log('user summaries from store: ', response.data);
       } catch (error) {
         alert(error);
         console.log(error);

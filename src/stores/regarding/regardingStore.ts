@@ -52,10 +52,10 @@ export const useRegardingStore = defineStore('regardingStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}/regarding?type=${type}&search_str=${searchString}`
         );
-        const instance = Constants.getAxiosInstance();
-        const response = await instance.get(
-          `${Constants.endPointUrl}/regarding`
-        );
+        //const instance = Constants.getAxiosInstance();
+        // const response1 = await instance.get(
+        //   `${Constants.endPointUrl}/regarding`
+        // );
         const regardingItems = response.data;
         console.log('getRegardingList: ', regardingItems[0]);
 

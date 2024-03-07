@@ -1,3 +1,4 @@
+import { security } from '../models/security';
 export interface Note {
   id: string;
   noteBookId: string;
@@ -16,4 +17,5 @@ export interface Note {
   isPrivate: boolean;
   createdByUserSid: string;
   createdDateTime: string;
+  security: security[];
 }

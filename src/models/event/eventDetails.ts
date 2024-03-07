@@ -7,7 +7,7 @@
 // From: https://app.quicktype.io/#l=TypeScript
 
 import { security } from '../security';
-import { label, ShowTimeAs, timeZone } from './eventLists';
+import { label, ShowTimeAs } from './eventLists';
 
 export interface eventDetails {
   id: string;
@@ -39,7 +39,6 @@ export interface eventDetails {
   ShowTimeAs: ShowTimeAs[];
   meetingAttendees: meetingAttendee[];
   url: string;
-
   security: security[];
 }
 

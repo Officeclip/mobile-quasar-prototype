@@ -53,10 +53,10 @@ export const useTasksStore = defineStore('tasksStore', {
         task
       );
 
-      if (res.status === 200) {
+      if (response.status === 200) {
         this.getTask(task.id);
       } else {
-        console.error(res);
+        console.error(response);
       }
     },
 

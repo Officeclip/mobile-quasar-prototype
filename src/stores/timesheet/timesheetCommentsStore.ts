@@ -38,10 +38,10 @@ export const useTimesheetCommentsStore = defineStore('timesheetCommentsStore', {
         comment
       );
 
-      if (res.status === 200) {
+      if (response.status === 200) {
         await this.getTimesheetComments(comment.id);
       } else {
-        console.error(res);
+        console.error(response);
       }
     },
   },

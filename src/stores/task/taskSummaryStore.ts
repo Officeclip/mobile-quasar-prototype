@@ -98,12 +98,12 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       );
 
       try {
-        // console.log("URL called", this.url);
-        const res = await axios.get(this.url);
-        const summaries = res.data;
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(this.url);
+        const summaries = response.data;
         this.taskSummaries.push(...summaries);
 
-        this.links = JSON.parse(res.headers.get('Links') || '{}');
+        this.links = JSON.parse(response.headers.get('Links') || '{}');
         this.url = this.links.next
           ? `${Constants.endPointUrl}${this.links.next}`
           : '';
@@ -143,16 +143,16 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
     async addTask(taskSummary: taskSummary) {
       this.taskSummaries.push(taskSummary);
-
-      const res = await axios.post(
+      const instance = Constants.getAxiosInstance();
+      const response = await instance.post(
         `${Constants.endPointUrl}/task-summary`,
         taskSummary
       );
 
-      if (res.status === 200) {
+      if (response.status === 200) {
         await this.getTask(taskSummary.id);
       } else {
-        console.error(res);
+        console.error(response);
       }
     },
 
