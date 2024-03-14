@@ -105,8 +105,17 @@ const selectedTime = computed(() => {
 });
 
 // const reminderTextInfo = ref('Reminder');
+// this value getting from computed property so that while refresh the screen values vanishing need to fix
+// const reminderTextInfo = props.event?.reminder.to
+//   ? ref(`${selectedOption.value.label} ${selectedTime.value.label} before`)
+//   : ref('Reminder');
+
 const reminderTextInfo = props.event?.reminder.to
-  ? ref(`${selectedOption.value.label} ${selectedTime.value.label} before`)
+  ? ref(
+      computed(() => {
+        return `${selectedOption.value.label} ${selectedTime.value.label} before`;
+      })
+    )
   : ref('Reminder');
 
 const reminderDialogOpened = ref(false);
