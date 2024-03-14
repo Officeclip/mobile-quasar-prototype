@@ -62,7 +62,7 @@ const event: Ref<eventDetails> = ref({
   // repeatInfoText: '',
   // recurrenceRule: '',
   label: '',
-  ShowTimeAs: '',
+  showTimeAs: '',
   meetingAttendees: [],
   url: '',
   security: [],
