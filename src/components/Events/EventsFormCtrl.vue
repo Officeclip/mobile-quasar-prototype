@@ -436,10 +436,10 @@ function isValidURL(url: string) {
       </q-item>
       <q-item>
         <q-item-section class="q-pr-xl">
-          <!-- <pre>{{ showTimeAs }}</pre> -->
+          <pre>{{ event.showTimeAs }}</pre>
           <q-select
             filled
-            v-model="showTimeAs"
+            v-model="event.showTimeAs"
             :options="ShowMyTimeAsOptions"
             label="Show Time As"
             emit-value
