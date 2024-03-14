@@ -542,13 +542,12 @@ function isValidURL(url: string) {
         </q-item-section>
       </q-item> -->
       <!-- <pre>{{ event.attachments }}</pre> -->
-      <div>
-        <!-- <RegardingAll /> -->
+      <q-item>
         <Regarding
           v-model="event.parent"
           :regarding-parents="eventListsStore.RegardingParent"
         />
-      </div>
+      </q-item>
 
       <!-- we tempararly stopped the attachments latter on we will comeback here  -->
       <!-- <q-item>
