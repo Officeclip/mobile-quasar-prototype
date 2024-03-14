@@ -44,11 +44,11 @@ const taskDetail: ComputedRef<taskDetails> = computed(() => {
       taskOwnerName: 'Not Available',
       taskOwnerSid: '0',
       taskPriorityName: 'Not Available',
-      taskPriorityId: 0,
+      taskPriorityId: '0',
       taskStatusName: '-1',
-      taskStatusId: 0,
+      taskStatusId: '0',
       taskTypeName: 'Not Available',
-      taskTypeId: 0,
+      taskTypeId: '0',
       assignees: [],
       tags: [],
       createdByUserSid: '0',
@@ -183,10 +183,10 @@ function addSubtask(subtask: subTask) {
             <q-item-section>
               <q-item-label caption>Start Date</q-item-label>
               <q-item-label description>{{
-                taskDetail?.startDate
-                ? dateTimeHelper.extractDateFromUtc(taskDetail?.startDate)
-                : 'Not set'
-              }}
+          taskDetail?.startDate
+            ? dateTimeHelper.extractDateFromUtc(taskDetail?.startDate)
+            : 'Not set'
+        }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -197,10 +197,10 @@ function addSubtask(subtask: subTask) {
             <q-item-section>
               <q-item-label caption>Due Date</q-item-label>
               <q-item-label description>{{
-                taskDetail?.dueDate
-                ? dateTimeHelper.extractDateFromUtc(taskDetail?.dueDate)
-                : 'Not set'
-              }}
+            taskDetail?.dueDate
+              ? dateTimeHelper.extractDateFromUtc(taskDetail?.dueDate)
+              : 'Not set'
+          }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -261,8 +261,8 @@ function addSubtask(subtask: subTask) {
               <q-item-section>
                 <q-item-label caption>Repeating</q-item-label>
                 <q-item-label description>{{
-                  taskDetail?.recurrence.text || 'None'
-                }}
+          taskDetail?.recurrence.text || 'None'
+        }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -322,8 +322,8 @@ function addSubtask(subtask: subTask) {
               <q-item-section>
                 <q-item-label caption>Regarding</q-item-label>
                 <q-item-label description>{{
-                  taskDetail?.parent.type.name + ": " + taskDetail?.parent.value.name
-                }}
+          taskDetail?.parent.type.name + ": " + taskDetail?.parent.value.name
+        }}
                 </q-item-label>
               </q-item-section>
 
@@ -342,7 +342,8 @@ function addSubtask(subtask: subTask) {
           <div v-for="subtask in pendingSubtasks" :key="subtask.id">
             <subtask-item :subtask="subtask" />
           </div>
-          <q-item-label v-if="pendingSubtasks.length === 0" class="text-center text-grey">No pending tasks</q-item-label>
+          <q-item-label v-if="pendingSubtasks.length === 0" class="text-center text-grey">No pending
+            tasks</q-item-label>
 
           <q-separator spaced />
 
@@ -359,13 +360,13 @@ function addSubtask(subtask: subTask) {
         <q-fab color="purple" direction="up" icon="add" vertical-actions-align="right">
           <q-fab-action color="primary" icon="add_task" label="Add subtask" @click="showAddSubtaskDialog = true" />
           <q-fab-action :to="{
-            name: 'newTask',
-            params: {
-              id: -1,
-              objectTypeId: -1,
-              objectId: -1
-            },
-          }" color="secondary" icon="add" label="Create New Task" />
+          name: 'newTask',
+          params: {
+            id: -1,
+            objectTypeId: -1,
+            objectId: -1
+          },
+        }" color="secondary" icon="add" label="Create New Task" />
         </q-fab>
       </q-page-sticky>
 

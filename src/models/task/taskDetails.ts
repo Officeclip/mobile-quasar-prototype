@@ -25,12 +25,12 @@ export interface taskDetails {
   taskOwnerName: string;
   taskOwnerSid: string;
   taskPriorityName: string;
-  taskPriorityId: number;
+  taskPriorityId: string;
   taskStatusName: string;
-  taskStatusId: number;
+  taskStatusId: string;
   taskStatusCategory: string;
   taskTypeName: string;
-  taskTypeId: number;
+  taskTypeId: string;
   assignees: assignee[];
   tags: tag[];
   createdByUserSid: string;
