@@ -70,7 +70,7 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}/expense-lists`
         );
-        const expenseList = response.data;
+        const expenseList = response.data[0];
         this.periods = expenseList.periods;
         this.customerProjects = expenseList.customerProjects;
         this.expenseTypes = expenseList.expenseTypes;

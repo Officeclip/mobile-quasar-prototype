@@ -17,7 +17,7 @@ import WorkFlow from '../../components/general/WorkFlow.vue';
 
 const route = useRoute();
 const router = useRouter();
-const readOnly = route.params.readOnly === 'true';
+const readOnly = route.params.readOnly === 'false';
 const entityType = 'expense';
 
 const fromDate = route.params.fromDate;
@@ -125,12 +125,12 @@ const deleteExpenseDetail = (id: string) => {
                 </q-item-label>
                 <q-item-label caption>
                   {{
-                    expenseDetail.expenseDate
-                    ? dateTimeHelper.extractDateFromUtc(
-                      expenseDetail.expenseDate
-                    )
-                    : 'No Specific Date'
-                  }}
+          expenseDetail.expenseDate
+            ? dateTimeHelper.extractDateFromUtc(
+              expenseDetail.expenseDate
+            )
+            : 'No Specific Date'
+        }}
                 </q-item-label>
               </q-item-section>
 
@@ -139,13 +139,13 @@ const deleteExpenseDetail = (id: string) => {
                   {{ expenseDetail.amount }}
                   {{ expenseDetail.currency }}
                   <q-btn v-if="!readOnly" :to="{
-                    name: 'editExpense',
-                    params: {
-                      id: expenseDetail?.id,
-                      expenseSid: expenseDetail?.expenseSid,
-                      fromDate: fromDate,
-                    },
-                  }" size="sm" flat round dense icon="edit" class="q-ml-sm">
+          name: 'editExpense',
+          params: {
+            id: expenseDetail?.id,
+            expenseSid: expenseDetail?.expenseSid,
+            fromDate: fromDate,
+          },
+        }" size="sm" flat round dense icon="edit" class="q-ml-sm">
                   </q-btn>
                 </q-item-label>
               </q-item-section>
@@ -190,19 +190,20 @@ const deleteExpenseDetail = (id: string) => {
         </q-list>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn :to="{
-            name: 'newExpense',
-            params: {
-              expenseSid: expenseDetail.expenseSid,
-              period: expensePeriod?.name,
-            },
-          }" fab icon="add" color="accent" padding="sm">
+          name: 'newExpense',
+          params: {
+            expenseSid: expenseDetail.expenseSid,
+            period: expensePeriod?.name,
+          },
+        }" fab icon="add" color="accent" padding="sm">
           </q-btn>
         </q-page-sticky>
 
         <ConfirmDelete v-if="isExpenseDelete" :showConfirmationDialog="isExpenseDelete" :id="route.params.id"
           :title="title" :message="message" @cancel="cancelConfirmation" @confirm="deleteExpense" />
-        <ConfirmDelete v-if="isExpenseDetailDelete" :showConfirmationDialog="isExpenseDetailDelete" :id="expenseDetail.id"
-          :title="title" :message="message" @cancel="cancelConfirmation" @confirm="deleteExpenseDetail" />
+        <ConfirmDelete v-if="isExpenseDetailDelete" :showConfirmationDialog="isExpenseDetailDelete"
+          :id="expenseDetail.id" :title="title" :message="message" @cancel="cancelConfirmation"
+          @confirm="deleteExpenseDetail" />
       </div>
     </q-page-container>
   </q-layout>

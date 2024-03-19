@@ -18,8 +18,12 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
     async getWorkFlow(entityId: string, entityType: string) {
       try {
         const instance = Constants.getAxiosInstance();
+        console.log(
+          'Work flow response -',
+          `${Constants.endPointUrl}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=1`
+        );
         const response = await instance.get(
-          `${Constants.endPointUrl}/workflow?entityId=${entityId}&&entityType=${entityType}`
+          `${Constants.endPointUrl}/workflow-summary?entityId=${entityId}&entityType=${entityType}`
         );
         this.workFlow = response.data[0];
         this.workFlowUsers = response.data[0].users;

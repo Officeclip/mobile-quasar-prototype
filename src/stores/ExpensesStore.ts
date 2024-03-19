@@ -73,7 +73,7 @@ export const useExpensesStore = defineStore('expensesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/expense-details?id=${id}`
+          `${Constants.endPointUrl}/expense-detail?id=${id}`
         );
         this.expenseDetails = response.data;
         console.log(this.expenseDetails);
@@ -86,7 +86,7 @@ export const useExpensesStore = defineStore('expensesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/expense-details?expenseType=${airTravelExpense}`
+          `${Constants.endPointUrl}/expense-detail?expenseType=${airTravelExpense}`
         );
         this.airTravelExpense = response.data;
       } catch (error) {
@@ -98,7 +98,7 @@ export const useExpensesStore = defineStore('expensesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
-          `${Constants.endPointUrl}/expense-details`,
+          `${Constants.endPointUrl}/expense-detail`,
           expenseDetail
         );
         if (response.status === 200) {
@@ -116,7 +116,7 @@ export const useExpensesStore = defineStore('expensesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
-          `${Constants.endPointUrl}/expense-details/${expenseDetail.id}`,
+          `${Constants.endPointUrl}/expense-detail/${expenseDetail.id}`,
           expenseDetail
         );
         if (response.status === 200) {
@@ -131,7 +131,7 @@ export const useExpensesStore = defineStore('expensesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${Constants.endPointUrl}/expense-details/${id}`
+          `${Constants.endPointUrl}/expense-detail/${id}`
         );
         if (response.status === 200) {
           //debugger;

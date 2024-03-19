@@ -84,7 +84,7 @@ function onSubmit(e: any) {
   };
 
   expenseDetailsStore.editExpense(editExpense);
-  router.push('-2');
+  router.go(-2);
 
   const str = JSON.stringify(editExpense);
   console.log(`onSubmit Expense Value: ${str}`);
