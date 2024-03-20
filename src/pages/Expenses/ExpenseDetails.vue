@@ -29,7 +29,6 @@ const expenseListsStore = useExpenseListsStore();
 // const usesessionStore = useSessionStore();
 
 onMounted(() => {
-  console.log('Expense Detail Id from route', route.params.id);
   expenseDetailsStore.getExpenseDetails(route.params.id);
   expenseListsStore.getExpensesList();
   // usesessionStore.getSession();
@@ -192,7 +191,6 @@ const deleteExpenseDetail = (id: string) => {
           <q-btn :to="{
           name: 'newExpense',
           params: {
-            expenseSid: expenseDetail.expenseSid,
             period: expensePeriod?.name,
           },
         }" fab icon="add" color="accent" padding="sm">

@@ -40,12 +40,12 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     //   ----getting single user details by id----
     async getEventDetailsById(id: string | string[]) {
       console.log('started the get function:', id);
-      const callStr = `${Constants.endPointUrl}/event-details?id=${id}`;
+      const callStr = `${Constants.endPointUrl}/event-detail/${id}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
         if (response.data) {
-          this.eventDetails = response.data[0];
+          this.eventDetails = response.data;
         }
       } catch (error) {
         alert(error);
@@ -57,7 +57,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       parentObjectId: number,
       parentObjectServiceType: number
     ) {
-      const callStr = `${Constants.endPointUrl}/event-details?parentSid=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
+      const callStr = `${Constants.endPointUrl}/event-detail?parentSid=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
       console.log(callStr);
       try {
         const instance = Constants.getAxiosInstance();
@@ -70,7 +70,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
 
     async editEventDetails(event: eventDetails) {
       console.log(`editEvent 1: ${event.id}`);
-      const callStr = `${Constants.endPointUrl}/event-details/${event.id}`;
+      const callStr = `${Constants.endPointUrl}/event-detail/${event.id}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(callStr, event);
@@ -83,7 +83,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     async addEventDetails(event: eventDetails) {
-      const callStr = `${Constants.endPointUrl}/event-details`;
+      const callStr = `${Constants.endPointUrl}/event-detail`;
       await fetch(callStr, {
         method: 'POST',
         body: JSON.stringify(event),
@@ -103,7 +103,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     async deleteEventDetails(id: string | undefined) {
-      const callStr = `${Constants.endPointUrl}/event-details/${id}`;
+      const callStr = `${Constants.endPointUrl}/event-detail/${id}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(callStr);

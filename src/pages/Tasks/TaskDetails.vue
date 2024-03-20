@@ -148,6 +148,7 @@ function addSubtask(subtask: subTask) {
       <q-toolbar>
         <q-btn dense flat icon="arrow_back" round @click="$router.go(-1)" />
         <q-toolbar-title>Task Details</q-toolbar-title>
+        {{ taskDetail.security.write }}
         <div v-if="taskDetail.security.write">
           <q-btn :to="{ name: 'editTask', params: { id: id } }" dense flat icon="edit" round />
         </div>

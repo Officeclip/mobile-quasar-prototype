@@ -23,8 +23,8 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
   actions: {
     constructQueryParams() {
       const queryParams = new URLSearchParams();
-      queryParams.append('pageSize', String(this.pageSize));
-      queryParams.append('pageNum', String(this.pageNum));
+      queryParams.append('pagesize', String(this.pageSize));
+      queryParams.append('pagenumber', String(this.pageNum));
       return queryParams;
     },
 
@@ -38,7 +38,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
         callStr = `${Constants.endPointUrl}/contact-summary?`;
         const queryParams = this.constructQueryParams();
         const queryString = queryParams.toString();
-        callStr += queryString ? `&${queryString}` : '';
+        callStr += queryString ? `${queryString}` : '';
       }
 
       this.url = callStr;

@@ -55,10 +55,10 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/contact-details/${id}`
+          `${Constants.endPointUrl}/contact-detail/${id}`
         );
-        if (response.data && response.data.length > 0) {
-          this.contactDetails = response.data[0];
+        if (response.data) {
+          this.contactDetails = response.data;
         }
         console.log(
           `ContactDetailsStore: getContactDetails - length - ${response.data.length}, ${this.contactDetails}`
@@ -89,49 +89,88 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
       this.contactDetailsList.push(...data);
     },
 
+    // async editContactDetails(contactDetails: ContactDetails) {
+    //   const res = await fetch(
+    //     `${Constants.endPointUrl}/contact-detail/${contactDetails.id}`,
+    //     {
+    //       method: 'PUT',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify(contactDetails),
+    //     }
+    //   );
+    //   const data = await res.json();
+    // },
+
     async editContactDetails(contactDetails: ContactDetails) {
-      const res = await fetch(
-        `${Constants.endPointUrl}/contact-details/${contactDetails.id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(contactDetails),
+      console.log(`editContact: ${contactDetails.id}`);
+      const callStr = `${Constants.endPointUrl}/contact-detail/${contactDetails.id}`;
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.put(callStr, contactDetails);
+        if (response.status === 200) {
+          this.contactDetails = response.data;
         }
-      );
-      const data = await res.json();
+      } catch (error) {
+        console.error(`editContact Error: ${error}`);
+      }
     },
 
-    async addContactDetails(contactDetails: ContactDetails) {
-      this.contactDetailsList.push(contactDetails);
+    // async addContactDetails(contactDetails: ContactDetails) {
+    //   const callStr = `${Constants.endPointUrl}/contact-detail`;
+    //   await fetch(callStr, {
+    //     //TODO: Change to axios api
+    //     method: 'POST',
+    //     body: JSON.stringify(contactDetails),
+    //     headers: { 'Content-Type': 'application/json' },
+    //   });
+    //   console.log(this.contactDetailsList);
+    //   this.getContacts();
+    // },
 
-      const res = await fetch(
-        `${Constants.endPointUrl}/contact-details/${contactDetails.id}`,
-        {
-          //TODO: Change to axios api
-          method: 'POST',
-          body: JSON.stringify(contactDetails),
-          headers: { 'Content-Type': 'application/json' },
+    async addContactDetails(contactDetails: ContactDetails) {
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(
+          `${Constants.endPointUrl}/contact-detail`,
+          contactDetails.value
+        );
+        if (response.status === 200) {
+          //debugger;
+          this.contactDetails = response.data;
         }
-      );
-      console.log(this.contactDetailsList);
+      } catch (error) {
+        console.error(`newContact Error: ${error}`);
+      }
       this.getContacts();
     },
 
-    async deleteContactDetails(id: any) {
-      console.log('Deleted id:', id);
-      alert('Want to delete this Contact');
-      this.contactDetailsList = this.contactDetailsList.filter((t) => {
-        return t.id === id;
-      });
+    // async deleteContactDetails(id: any) {
+    //   console.log('Deleted id:', id);
+    //   alert('Want to delete this Contact');
+    //   this.contactDetailsList = this.contactDetailsList.filter((t) => {
+    //     return t.id === id;
+    //   });
 
-      const res = await fetch(
-        `${Constants.endPointUrl}/contact-details/` + id,
-        {
-          method: 'DELETE',
+    //   const res = await fetch(`${Constants.endPointUrl}/contact-detail/` + id, {
+    //     method: 'DELETE',
+    //   });
+    // },
+
+    async deleteContactDetails(id: any) {
+      try {
+        alert('Want to delete this Contact...?');
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
+          `${Constants.endPointUrl}/contact-detail/${id}`
+        );
+        if (response.status === 200) {
+          this.contactDetails = response.data;
         }
-      );
+      } catch (error) {
+        console.error(`deleteContact Error: ${error}`);
+      }
     },
   },
 });

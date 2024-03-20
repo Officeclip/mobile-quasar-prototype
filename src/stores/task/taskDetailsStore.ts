@@ -20,7 +20,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       this.taskDetails.push(taskDetail);
       const instance = Constants.getAxiosInstance();
       const response = await instance.post(
-        `${Constants.endPointUrl}/task-details`,
+        `${Constants.endPointUrl}/task-detail`,
         taskDetail
       );
 
@@ -35,7 +35,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${Constants.endPointUrl}/task-details/${id}`
+          `${Constants.endPointUrl}/task-detail/${id}`
         );
         if (response.status === 200) {
           //debugger;
@@ -53,7 +53,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
-          `${Constants.endPointUrl}/task-details/${taskDetail.id}`,
+          `${Constants.endPointUrl}/task-detail/${taskDetail.id}`,
           taskDetail
         );
         if (response.status === 200) {
@@ -69,7 +69,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/task-details/${id}`
+          `${Constants.endPointUrl}/task-detail/${id}`
         );
         console.log(response);
         this.taskDetail = response.data;
@@ -85,8 +85,8 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       );
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/task-details?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
-          : `${Constants.endPointUrl}/task-details`;
+          ? `${Constants.endPointUrl}/task-detail?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : `${Constants.endPointUrl}/task-detail`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);

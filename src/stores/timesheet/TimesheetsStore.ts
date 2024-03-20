@@ -75,7 +75,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/timesheet-details?timesheetId=${id}`
+          `${Constants.endPointUrl}/timesheet-detail?timesheetSid=${id}`
         );
         this.timesheetDetails = response.data;
       } catch (error) {
@@ -86,7 +86,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/timesheet-details?timesheetDetailSid=${id}`
+          `${Constants.endPointUrl}/timesheet-detail/${id}`
         );
         this.timesheetDetail = response.data[0];
         console.log(
@@ -103,7 +103,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
-          `${Constants.endPointUrl}/timesheet-details/${timesheetDetail.id}`,
+          `${Constants.endPointUrl}/timesheet-detail/${timesheetDetail.id}`,
           timesheetDetail
         );
         if (response.status === 200) {
@@ -118,7 +118,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${Constants.endPointUrl}/timesheet-details/${id}`
+          `${Constants.endPointUrl}/timesheet-detail/${id}`
         );
         if (response.status === 200) {
           //debugger;
@@ -147,7 +147,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     },
 
     async addTimesheetDetails(timesheetDetail: TimesheetDetails) {
-      const callStr = `${Constants.endPointUrl}/timesheet-details`;
+      const callStr = `${Constants.endPointUrl}/timesheet-detail`;
       await fetch(callStr, {
         method: 'POST',
         body: JSON.stringify(timesheetDetail),
