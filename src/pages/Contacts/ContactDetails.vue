@@ -163,52 +163,29 @@ const isAllowDelete = computed(() => {
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> Contact details </q-toolbar-title>
 
         <div>
-          <q-btn
-            v-if="isAllowEdit"
-            @click="
-              model === '1'
-                ? $router.push({
-                    name: 'editContactDetails',
-                    params: { id: id },
-                  })
-                : $router.push({ name: 'editMetaDetail', params: { id: id } })
-            "
-            flat
-            round
-            dense
-            color="white"
-            icon="edit"
-          />
+          <q-btn v-if="isAllowEdit" @click="
+          model === '1'
+            ? $router.push({
+              name: 'editContactDetails',
+              params: { id: id },
+            })
+            : $router.push({ name: 'editMetaDetail', params: { id: id } })
+          " flat round dense color="white" icon="edit" />
           <q-btn v-else dense disable flat icon="edit" round>
             <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>
           </q-btn>
         </div>
 
         <div>
-          <q-btn
-            v-if="isAllowDelete"
-            @click="
-              contactDetailsStore.deleteContactDetails(contactDetails?.id);
-              $router.go(-1);
-            "
-            flat
-            round
-            dense
-            color="white"
-            icon="delete"
-          /><q-btn v-else dense disable flat icon="delete" round>
+          <q-btn v-if="isAllowDelete" @click="
+          contactDetailsStore.deleteContactDetails(contactDetails?.id);
+        $router.go(-1);
+        " flat round dense color="white" icon="delete" /><q-btn v-else dense disable flat icon="delete" round>
             <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>
           </q-btn>
         </div>
@@ -221,27 +198,15 @@ const isAllowDelete = computed(() => {
           <div class="center">
             <q-avatar color="grey-3" size="200px" class="q-mb-sm">
               <!-- <img :src="contactDetails?.picture" :alt="fullName" /> -->
-              <q-img
-                v-if="contactDetails?.picture"
-                v-bind:src="contactDetails?.picture"
-              />
+              <q-img v-if="contactDetails?.picture" v-bind:src="contactDetails?.picture" />
               <q-icon name="image" v-else />
             </q-avatar>
             <div class="q-mt-md">
-              <q-btn-toggle
-                v-model="model"
-                class="oc-custom-toggle"
-                no-caps
-                rounded
-                unelevated
-                toggle-color="primary"
-                color="white"
-                text-color="primary"
-                :options="[
-                  { label: 'Summary', value: '1' },
-                  { label: 'Details', value: '2' },
-                ]"
-              />
+              <q-btn-toggle v-model="model" class="oc-custom-toggle" no-caps rounded unelevated toggle-color="primary"
+                color="white" text-color="primary" :options="[
+          { label: 'Summary', value: '1' },
+          { label: 'Details', value: '2' },
+        ]" />
             </div>
           </div>
         </q-card-section>
@@ -251,11 +216,7 @@ const isAllowDelete = computed(() => {
         <div v-for="child in children" :key="child.id">
           <q-card-section v-if="child.id == ObjectType.Note">
             <q-list bordered class="rounded-borders">
-              <q-expansion-item
-                expand-separator
-                expand-icon-class="text-primary"
-                dense
-              >
+              <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
                 <template v-slot:header>
                   <q-item-section side>
                     <div class="row items-center">
@@ -263,25 +224,17 @@ const isAllowDelete = computed(() => {
                     </div>
                   </q-item-section>
                   <q-item-section>
-                    Notes ({{ notesCount.value }})</q-item-section
-                  >
+                    Notes ({{ notesCount.value }})</q-item-section>
 
                   <q-item-section side>
-                    <q-btn
-                      :to="{
-                        name: 'newNotes',
-                        params: {
-                          id: -1,
-                          objectTypeId: ObjectType.Contact,
-                          objectId: contactDetails?.id,
-                        },
-                      }"
-                      size="sm"
-                      flat
-                      round
-                      dense
-                      icon="add"
-                    >
+                    <q-btn :to="{
+          name: 'newNotes',
+          params: {
+            id: -1,
+            objectTypeId: ObjectType.Contact,
+            objectId: contactDetails?.id,
+          },
+        }" size="sm" flat round dense icon="add">
                     </q-btn>
                   </q-item-section>
                 </template>
@@ -291,13 +244,9 @@ const isAllowDelete = computed(() => {
             </q-list>
           </q-card-section>
 
-          <q-card-section v-if="child.id == ObjectType.Event">
+          <q-card-section v-if="child.id == ObjectType.ActivityTabForCrm">
             <q-list bordered class="rounded-borders">
-              <q-expansion-item
-                expand-separator
-                expand-icon-class="text-primary"
-                dense
-              >
+              <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
                 <template v-slot:header>
                   <q-item-section side>
                     <div class="row items-center">
@@ -307,40 +256,26 @@ const isAllowDelete = computed(() => {
                   <q-item-section> Events ({{ eventsCount }})</q-item-section>
 
                   <q-item-section side>
-                    <q-btn
-                      :to="{
-                        name: 'newEvent',
-                        params: {
-                          id: -1,
-                          objectTypeId: ObjectType.Contact,
-                          objectId: contactDetails?.id,
-                        },
-                      }"
-                      size="sm"
-                      flat
-                      round
-                      dense
-                      icon="add"
-                    >
+                    <q-btn :to="{
+          name: 'newEvent',
+          params: {
+            id: -1,
+            objectTypeId: ObjectType.Contact,
+            objectId: contactDetails?.id,
+          },
+        }" size="sm" flat round dense icon="add">
                     </q-btn>
                   </q-item-section>
                 </template>
                 <q-separator></q-separator>
-                <EventsList
-                  @numberOfEvents="handleEventCount"
-                  :params="parent2"
-                />
+                <EventsList @numberOfEvents="handleEventCount" :params="parent2" />
               </q-expansion-item>
             </q-list>
           </q-card-section>
 
-          <q-card-section v-if="child.id == ObjectType.Task">
+          <q-card-section v-if="child.id == ObjectType.ActivityTabForCrm">
             <q-list bordered class="rounded-borders">
-              <q-expansion-item
-                expand-separator
-                expand-icon-class="text-primary"
-                dense
-              >
+              <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
                 <template v-slot:header>
                   <q-item-section side>
                     <div class="row items-center">
@@ -350,29 +285,19 @@ const isAllowDelete = computed(() => {
                   <q-item-section>Tasks ({{ tasksCount }})</q-item-section>
 
                   <q-item-section side>
-                    <q-btn
-                      :to="{
-                        name: 'newTask',
-                        params: {
-                          id: -1,
-                          objectTypeId: ObjectType.Contact,
-                          objectId: contactDetails?.id,
-                        },
-                      }"
-                      size="sm"
-                      flat
-                      round
-                      dense
-                      icon="add"
-                    >
+                    <q-btn :to="{
+          name: 'newTask',
+          params: {
+            id: -1,
+            objectTypeId: ObjectType.Contact,
+            objectId: contactDetails?.id,
+          },
+        }" size="sm" flat round dense icon="add">
                     </q-btn>
                   </q-item-section>
                 </template>
                 <q-separator></q-separator>
-                <tasks-list-ctrl
-                  @numberOfTasks="handleTaskCount"
-                  :parent="parent2"
-                />
+                <tasks-list-ctrl @numberOfTasks="handleTaskCount" :parent="parent2" />
               </q-expansion-item>
             </q-list>
           </q-card-section>

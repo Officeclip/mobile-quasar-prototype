@@ -43,7 +43,7 @@ export const useNotesStore = defineStore('notesStore', {
       );
       const callStr =
         parentObjectId != '' && parentObjectServiceType != ''
-          ? `${Constants.endPointUrl}/note-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          ? `${Constants.endPointUrl}/note-summary?parentSid=${parentObjectId}`
           : `${Constants.endPointUrl}/notes?noteBookId=${noteBookId}`;
 
       try {
@@ -71,24 +71,24 @@ export const useNotesStore = defineStore('notesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/note-summary?id=${id}`
+          `${Constants.endPointUrl}/note-detail/${id}`
         );
-        this.note = response.data[0];
+        this.note = response.data;
       } catch (error) {
         console.error(error);
       }
     },
 
     async addNotes(note: Note) {
-      this.notes.push(note);
+      //this.notes.push(note);
 
       const instance = Constants.getAxiosInstance();
       const response = await instance.post(
-        `${Constants.endPointUrl}/note-details`,
+        `${Constants.endPointUrl}/note-detail`,
         note
       );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         this.getNote(note.id);
       } else {
         console.error(response);
@@ -101,7 +101,7 @@ export const useNotesStore = defineStore('notesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
-          `${Constants.endPointUrl}/note-details?id=${note.id}`,
+          `${Constants.endPointUrl}/note-detail/${note.id}`,
           note
         );
         if (response.status === 200) {
@@ -118,7 +118,7 @@ export const useNotesStore = defineStore('notesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${Constants.endPointUrl}/note-details/${id}`
+          `${Constants.endPointUrl}/note-detail/${id}`
         );
         if (response.status === 200) {
           //debugger;

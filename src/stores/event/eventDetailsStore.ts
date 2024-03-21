@@ -53,11 +53,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       }
     },
 
-    async getEventsByParent(
-      parentObjectId: number,
-      parentObjectServiceType: number
-    ) {
-      const callStr = `${Constants.endPointUrl}/event-detail?parentSid=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
+    async getEventsByParent(parentObjectId: number) {
+      const callStr = `${Constants.endPointUrl}/event-detail?parentSid=${parentObjectId}`;
       console.log(callStr);
       try {
         const instance = Constants.getAxiosInstance();
@@ -82,14 +79,27 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       }
     },
 
+    // async addEventDetails(event: eventDetails) {
+    //   const callStr = `${Constants.endPointUrl}/event-detail`;
+    //   await fetch(callStr, {
+    //     method: 'POST',
+    //     body: JSON.stringify(event),
+    //     headers: { 'Content-Type': 'application/json' },
+    //   });
+    //   console.log(this.eventDetails);
+    // },
+
     async addEventDetails(event: eventDetails) {
       const callStr = `${Constants.endPointUrl}/event-detail`;
-      await fetch(callStr, {
-        method: 'POST',
-        body: JSON.stringify(event),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      console.log(this.eventDetails);
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(callStr, event);
+        if (response.status === 200) {
+          this.eventDetails = response.data;
+        }
+      } catch (error) {
+        console.error(`editEvent Error: ${error}`);
+      }
     },
 
     async addEventSummary(eventSummary: eventSummary) {

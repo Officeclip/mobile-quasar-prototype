@@ -5,26 +5,25 @@ import { computed, onBeforeMount } from 'vue';
 const props = defineProps(['params']);
 
 const parentObjectId = computed(() => props.params.parentObjectId);
-const parentObjectServiceType = computed(
-  () => props.params.parentObjectServiceType
-);
+// const parentObjectServiceType = computed(
+//   () => props.params.parentObjectServiceType
+// );
 
 const eventDetailsStore = useEventDetailsStore();
 onBeforeMount(() => {
   eventDetailsStore.getEventsByParent(
-    Number(parentObjectId.value),
-    Number(parentObjectServiceType.value)
+    Number(parentObjectId.value)
   );
 });
 </script>
 <template>
   <q-list v-for="eventDetail in eventDetailsStore.EventDetails" :key="eventDetail?.id">
     <q-item v-ripple :to="{
-      name: 'eventDetails',
-      params: {
-        id: eventDetail?.id
-      },
-    }" clickable>
+    name: 'eventDetails',
+    params: {
+      id: eventDetail?.id
+    },
+  }" clickable>
       <q-item-section>
         <q-item-label>
           {{ eventDetail?.eventName }}
