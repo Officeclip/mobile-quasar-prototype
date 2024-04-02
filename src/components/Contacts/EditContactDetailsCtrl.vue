@@ -99,9 +99,8 @@ onBeforeMount(async () => {
         <q-input v-model="contactDetails.street_address" label="Address" placeholder="street address"
           :dense="dense"></q-input>
         <q-input v-model="contactDetails.city" label="City" placeholder="City" :dense="dense"></q-input>
-        <q-select v-model="contactDetails.state_id" @update:model-value="updateState" option-value="id"
-          option-label="name" :options="getStates" label="State" placeholder="enter state name" emit-value map-options
-          :dense="dense" />
+        <q-select v-model="contactDetails.state_name" @update:model-value="updateState" option-value="id"
+          option-label="name" :options="getStates" label="State" placeholder="enter state name" :dense="dense" />
         <q-input v-model="contactDetails.postal_code" label="Postal Code" placeholder="postal code"
           :dense="dense"></q-input>
       </div>

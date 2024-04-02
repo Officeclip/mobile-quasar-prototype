@@ -39,7 +39,7 @@ export const useTaskListsStore = defineStore('taskListsStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}/task-lists`
         );
-        const taskLists: taskLists = response.data;
+        const taskLists: taskLists = response.data[0];
         this.tags = taskLists.tags;
         this.taskTypes = taskLists.taskType;
         this.taskPriorities = taskLists.priority;
