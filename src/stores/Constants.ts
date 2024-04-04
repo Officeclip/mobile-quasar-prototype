@@ -26,11 +26,13 @@ export class Constants {
 
     instance.interceptors.request.use((x) => {
       console.log(`axios request: ${JSON.stringify(x)}`);
+      console.log('++++++');
       return x;
     });
 
     instance.interceptors.response.use((x) => {
       console.log(`axios response: ${JSON.stringify(x)}`);
+      console.log('++++++');
       return x;
     });
     return instance;
