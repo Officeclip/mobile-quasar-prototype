@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import TasksForm from 'components/tasks/tasksFormCtrl.vue';
-import {ref, Ref} from 'vue'
-import {useRoute, useRouter} from 'vue-router';
-import {taskDetails} from 'src/models/task/taskDetails';
-import {taskSummary} from 'src/models/task/taskSummary';
-import {useTaskSummaryStore} from 'stores/task/taskSummaryStore';
-import {useTaskDetailsStore} from 'stores/task/taskDetailsStore';
+import { ref, Ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router';
+import { taskDetails } from 'src/models/task/taskDetails';
+import { taskSummary } from 'src/models/task/taskSummary';
+import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
+import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 
 const router = useRouter();
 const route = useRoute();
@@ -19,39 +19,39 @@ const taskDetailsStore = useTaskDetailsStore();
 const task: Ref<taskDetails> = ref({
   actualDuration: 0.0,
   completionDate: '',
-  description: "",
-  dueDate: "",
+  description: '',
+  dueDate: '',
   estimatedDuration: 0.0,
   isLock: false,
   isPrivate: false,
   parent: {
     type: {
-      id: "",
-      name: ""
+      id: '',
+      name: ''
     },
     value: {
-      id: "",
-      name: ""
+      id: '',
+      name: ''
     }
   },
-  id: Math.floor(Math.random() * 1000),
-  startDate: "",
-  subject: "",
-  taskOwnerName: "",
-  taskOwnerSid: "0",
-  taskPriorityName: "",
+  id: '',
+  startDate: '',
+  subject: '',
+  taskOwnerName: '',
+  taskOwnerSid: '0',
+  taskPriorityName: '',
   taskPriorityId: 0,
-  taskStatusName: "",
-  taskStatusCategory: "",
+  taskStatusName: '',
+  taskStatusCategory: '',
   taskStatusId: 0,
-  taskTypeName: "",
+  taskTypeName: '',
   taskTypeId: 0,
   assignees: [],
   tags: [],
-  createdByUserSid: "0",
-  createdDate: "",
-  modifiedByUserSid: "0",
-  modifiedDate: "",
+  createdByUserSid: '0',
+  createdDate: '',
+  modifiedByUserSid: '0',
+  modifiedDate: '',
   subTasks: [],
   security: {
     read: true,
@@ -59,10 +59,18 @@ const task: Ref<taskDetails> = ref({
     append: false,
     delete: true
   },
-  remindTo: "",
-  remindBeforeMinutes: 0,
-  repeatInfoText: "",
-  recurrenceRule: ""
+  // remindTo: "",
+  // remindBeforeMinutes: 0,
+  reminder: {
+    to: '',
+    beforeMinutes: 0
+  },
+  // repeatInfoText: "",
+  // recurrenceRule: "",
+  recurrence: {
+    text: '',
+    rule: ''
+  }
 });
 
 function receiveTask(receivedTask: taskDetails) {
@@ -103,14 +111,16 @@ function onSubmit(e: any) {
     modifiedDate: task.value.modifiedDate,
     subTasks: task.value.subTasks,
     security: task.value.security,
-    remindTo: task.value.remindTo,
-    remindBeforeMinutes: task.value.remindBeforeMinutes,
-    repeatInfoText: task.value.repeatInfoText,
-    recurrenceRule: task.value.recurrenceRule,
+    //remindTo: task.value.remindTo,
+    //remindBeforeMinutes: task.value.remindBeforeMinutes,
+    reminder: task.value.reminder,
+    //repeatInfoText: task.value.repeatInfoText,
+    //recurrenceRule: task.value.recurrenceRule,
+    recurrence: task.value.recurrence,
     taskStatusCategory: task.value.taskStatusCategory,
   }
   const newTaskSummary: taskSummary = {
-    id: task.value.id.toString(),
+    id: task.value.id,
     subject: task.value.subject,
     taskStatusName: task.value.taskStatusName,
     isPrivate: task.value.isPrivate,
@@ -141,9 +151,9 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <TasksForm :task-from-parent="task" @emit-task="receiveTask"/>
-          <q-btn class="q-ml-md q-mb-md q-mt-md" color="primary" label="Submit" type="submit"/>
-          <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset"/>
+          <TasksForm :task-from-parent="task" @emit-task="receiveTask" />
+          <q-btn class="q-ml-md q-mb-md q-mt-md" color="primary" label="Submit" type="submit" />
+          <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset" />
         </div>
       </q-form>
     </q-page-container>

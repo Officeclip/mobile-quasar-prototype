@@ -1,29 +1,31 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch, capitalize } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
-import { useSessionStore } from 'stores/SessionStore';
+// import { useSessionStore } from 'stores/SessionStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
+import { isAllowed } from 'src/helpers/security';
 
 const expensesDetailsStore = useExpenseDetailsStore();
-const usesessionStore = useSessionStore();
+// const usesessionStore = useSessionStore();
 const expenseStatus = ref('inbox');
-const title = ref(expenseStatus.value);
+// const title = ref(expenseStatus.value);
+const title = ref(capitalize(expenseStatus.value));
 
 onMounted(() => {
   expensesDetailsStore.getExpensesByStatus(String(expenseStatus.value));
-  usesessionStore.getSession();
+  // usesessionStore.getSession();
 });
 
-const getSession = computed(() => {
-  return usesessionStore.Session;
-});
+// const getSession = computed(() => {
+//   return usesessionStore.Session;
+// });
 
-const getRoleAccess = computed(() => {
-  return getSession.value.roleAccess;
-});
+// const getRoleAccess = computed(() => {
+//   return getSession.value.roleAccess;
+// });
 
-const roleAccess = getRoleAccess.value;
+// const roleAccess = getRoleAccess.value;
 
 const allExpenses = computed(() => {
   console.log('Expenses All', expensesDetailsStore.expenseSummary);
@@ -32,7 +34,7 @@ const allExpenses = computed(() => {
 
 watch([expenseStatus], ([newModel]) => {
   expensesDetailsStore.getExpensesByStatus(String(newModel));
-  title.value = newModel;
+  title.value = capitalize(newModel);
 });
 
 // function getStatusColor(status: string) {
@@ -47,23 +49,23 @@ watch([expenseStatus], ([newModel]) => {
 //   }
 // }
 
-const tabs = [
-  {
-    id: 1,
-    name: 'inbox',
-    status: 'inbox',
-  },
-  {
-    id: 2,
-    name: 'outbox',
-    status: 'outbox',
-  },
-  {
-    id: 3,
-    name: 'archived',
-    status: 'archived',
-  },
-];
+// const tabs = [
+//   {
+//     id: 1,
+//     name: 'inbox',
+//     status: 'inbox',
+//   },
+//   {
+//     id: 2,
+//     name: 'outbox',
+//     status: 'outbox',
+//   },
+//   {
+//     id: 3,
+//     name: 'archived',
+//     status: 'archived',
+//   },
+// ];
 
 // const allExpenses = [
 //   {
@@ -102,6 +104,7 @@ const tabs = [
 //     description: 'All your rejected Expense(s)'
 //   }
 // ]
+const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
 </script>
 
 <template>
@@ -115,9 +118,14 @@ const tabs = [
     </q-header>
     <q-footer elevated>
       <q-tabs v-model="expenseStatus" no-caps inline-label class="bg-primary text-white shadow-2" align="justify">
-        <q-tab v-for="item in tabs" :name="item.name" icon="inbox" :key="item.id" :label="item.status">
+        <!-- <q-tab v-for="item in tabs" :name="item.name" icon="inbox" :key="item.id" :label="item.status">
           <q-icon name="groups"></q-icon>
+        </q-tab> -->
+        <q-tab name="inbox" label="Inbox" icon="inbox">
+          <q-badge color="red" floating>2</q-badge>
         </q-tab>
+        <q-tab name="outbox" label="Outbox" icon="outbox" />
+        <q-tab name="archived" label="Archived" icon="archive" />
       </q-tabs>
     </q-footer>
     <q-page-container>
@@ -128,6 +136,7 @@ const tabs = [
             params: {
               id: expense.id,
               fromDate: expense.fromDate,
+              readOnly: expense.security.read,
             },
           }" clickable v-ripple>
             <q-item-section>
@@ -140,8 +149,16 @@ const tabs = [
                 : 'No Specific Date'
               }}</q-item-label>
             </q-item-section>
-            <q-item-section side>
-              <q-chip square :color="getExpenseOrTimesheetStatusColor(expense.status)">{{ expense.status }}</q-chip>
+            <q-item-section style="float: right;">
+              <q-item-label style="float: right;">
+                {{ expense.totalAmount }}
+                {{ expense.currency }}
+              </q-item-label>
+            </q-item-section>
+            <q-item-section justify="left" class="left-aligned-item-section">
+              <q-chip square :color="getExpenseOrTimesheetStatusColor(expense.status)" style="float: right;">{{
+                expense.status
+              }}</q-chip>
               <!-- <q-item-label caption class="bg-teal-3 q-pa-xs">{{
                 expense.status
               }}</q-item-label> -->
@@ -153,8 +170,8 @@ const tabs = [
           <q-separator></q-separator>
         </q-list>
       </q-page>
-      <q-page-sticky v-for="role in roleAccess" :key="role.name" position="bottom-right" :offset="[18, 18]">
-        <q-btn v-if="role.name === 'TimeExpensesAccessExpenseReport' && role.access" :to="{
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-btn v-if="isAllow" :to="{
           name: 'newPeriodExpense',
         }" fab icon="add" color="accent" padding="sm">
         </q-btn>
@@ -173,5 +190,9 @@ const tabs = [
 
 .q-list:nth-child(odd) {
   background: rgb(238, 238, 238);
+}
+
+.left-aligned-item-section {
+  text-align: left;
 }
 </style>

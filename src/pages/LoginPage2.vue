@@ -137,6 +137,15 @@ const submitLogin = () => {
                 no-caps
               />
             </div>
+            <div class="column m-t-md">
+              <q-btn
+                :to="{
+                  name: 'calEventsTest',
+                }"
+                label="Events"
+                no-caps
+              />
+            </div>
           </div>
         </div>
       </q-page>

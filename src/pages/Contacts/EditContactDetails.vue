@@ -22,7 +22,7 @@ const contactDetails = computed(() => {
 
 onMounted(() => {
   console.log(`EditContacts: id= ${route.params.id}`);
-  contactDetailsStore.getContactDetails(Number(route.params.id));
+  contactDetailsStore.getContactDetails(route.params.id as string);
 });
 
 function onSubmit(e: any) {
@@ -41,14 +41,7 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> Edit Contact</q-toolbar-title>
       </q-toolbar>
@@ -57,12 +50,7 @@ function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <EditContactDetailsCtrl :contactDetails="contactDetails" />
-          <q-btn
-            class="q-ml-md q-mb-md"
-            label="Submit"
-            type="submit"
-            color="primary"
-          >
+          <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn>
         </div>
       </q-form>

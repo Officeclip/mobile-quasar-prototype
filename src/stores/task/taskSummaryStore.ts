@@ -1,85 +1,112 @@
-import {defineStore} from 'pinia';
+import { defineStore } from 'pinia';
 import axios from 'axios';
-import {taskSummary} from "src/models/task/taskSummary";
-import {Constants} from "stores/Constants";
-import {searchFilter} from "src/models/task/searchFilter";
-import {linkHeader} from "src/models/general/linkHeader";
+import { taskSummary } from 'src/models/task/taskSummary';
+import { Constants } from 'stores/Constants';
+import { searchFilter } from 'src/models/task/searchFilter';
+import { linkHeader } from 'src/models/general/linkHeader';
 
 export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   state: () => ({
     taskSummaries: [] as taskSummary[],
     taskSummary: undefined as taskSummary | undefined,
     url: '' as string,
-    pageSize: 10,
+    pageSize: 5,
     pageNum: 1,
     filter: {} as searchFilter,
     parentObjectId: 0,
     parentObjectServiceType: 0,
     links: {} as linkHeader,
-
   }),
 
   getters: {
     TaskSummaries: (state) => state.taskSummaries,
     TaskSummary: (state) => state.taskSummary,
+    IsParentPresent: (state) =>
+      state.parentObjectId > 0 && state.parentObjectServiceType > 0,
+    IsEmptyLinkHeader: (state) => Object.keys(state.links).length == 0, // https://stackoverflow.com/a/52742880
   },
 
   actions: {
     constructBaseURL() {
-      let baseUrl = `${Constants.endPointUrl}/task-summary?`;
-      if (this.parentObjectId > 0 && this.parentObjectServiceType > 0) {
-        baseUrl += `/task-summary?parentObjectId=${this.parentObjectId}&parentObjectServiceType=${this.parentObjectServiceType}`;
+      let baseUrl = `${Constants.endPointUrl}/task-summary`;
+      if (this.IsParentPresent) {
+        baseUrl += `?parentObjectId=${this.parentObjectId}&parentObjectServiceType=${this.parentObjectServiceType}`;
       }
       return baseUrl;
     },
 
     constructQueryParams() {
       const queryParams = new URLSearchParams();
-      const filterKeys = Object.keys(this.filter);
+      const params: searchFilter = this.filter;
+      const filterKeys = Object.keys(params);
 
-      filterKeys.forEach(key => {
+      filterKeys.forEach((key) => {
         if (this.filter[key]) {
           queryParams.append(key, String(this.filter[key]));
         }
       });
 
-      queryParams.append('pageSize', String(this.pageSize));
-      queryParams.append('pageNum', String(this.pageNum));
+      // queryParams.append('pagesize', String(this.pageSize));
+      // queryParams.append('pagenumber', String(this.pageNum));
 
       return queryParams;
     },
 
-    getUrl() {
-      if (this.url) return;
+    getUrl(isFilter: boolean) {
+      //if (this.url) return;
+
+      if (this.IsParentPresent) {
+        // parent does not need paging
+        return this.constructBaseURL();
+      }
 
       let callStr = '';
-      if (this.links?.next) {
+      //if (this.links?.next) {
+      if (!this.IsEmptyLinkHeader) {
         callStr = `${Constants.endPointUrl}/${this.links.next}`;
       } else {
         callStr = this.constructBaseURL();
         const queryParams = this.constructQueryParams();
         const queryString = queryParams.toString();
-        callStr += queryString ? `&${queryString}` : '';
+        callStr += queryString ? `?${queryString}` : '';
       }
 
       this.url = callStr;
+      // if (isFilter) {
+      //   //const queryParams = this.constructQueryParams();
+      //   this.url += '&' + queryParams;
+      // }
     },
 
-    setFilter(searchFilter:searchFilter){
+    setFilter(searchFilter: searchFilter) {
       this.filter = searchFilter;
     },
 
-    async getTasksUpdated(): Promise<boolean> {
-      this.getUrl();
+    resetPageNumber() {
+      this.pageNum = 1;
+      this.links = {} as linkHeader; // https://stackoverflow.com/a/45339463
+    },
+
+    async getTasksUpdated(isFilter: boolean): Promise<boolean> {
+      this.getUrl(isFilter);
+      console.log(
+        `taskSummaryStore: getTasksUpdated: Url: ${
+          this.url
+        }, QueryParam: ${this.constructQueryParams()}, isFilter: ${isFilter}, Filter: ${JSON.stringify(
+          this.filter
+        )}`
+      );
 
       try {
-        // console.log("URL called", this.url);
-        const res = await axios.get(this.url);
-        const summaries = res.data;
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(this.url);
+        const summaries = response.data;
         this.taskSummaries.push(...summaries);
 
-        this.links = JSON.parse(res.headers.get('Links') || '{}');
-        this.url = this.links.next ? `${Constants.endPointUrl}${this.links.next}` : '';
+        this.links = JSON.parse(response.headers.get('Links') || '{}');
+        this.url = this.links.next
+          ? `${Constants.endPointUrl}${this.links.next}`
+          : '';
         // console.log("next url from header", this.url);
       } catch (error) {
         console.error(error);
@@ -94,7 +121,8 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
           ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
           : `${Constants.endPointUrl}/task-summary`;
       try {
-        const response = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
         this.taskSummaries = response.data;
       } catch (error) {
         console.error(error);
@@ -103,7 +131,8 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
     async getTask(id: number | string) {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/task-summary?id=${id}`
         );
         this.taskSummary = response.data[0];
@@ -114,20 +143,24 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
     async addTask(taskSummary: taskSummary) {
       this.taskSummaries.push(taskSummary);
+      const instance = Constants.getAxiosInstance();
+      const response = await instance.post(
+        `${Constants.endPointUrl}/task-summary`,
+        taskSummary
+      );
 
-      const res = await axios.post(`${Constants.endPointUrl}/task-summary`, taskSummary);
-
-      if (res.status === 200) {
+      if (response.status === 200) {
         await this.getTask(taskSummary.id);
       } else {
-        console.error(res);
+        console.error(response);
       }
     },
 
     async editTask(taskSummary: taskSummary) {
       console.log(`editTask: ${this.taskSummary?.id}`);
       try {
-        const response = await axios.put(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.put(
           `${Constants.endPointUrl}/task-summary/${taskSummary.id}`,
           taskSummary
         );
@@ -141,7 +174,8 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
     async deleteTask(id: any) {
       try {
-        const response = await axios.delete(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
           `${Constants.endPointUrl}/task-summary/${id}`
         );
         if (response.status === 200) {
@@ -156,6 +190,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
     async resetTaskSummaryList() {
       this.taskSummaries = [];
-    }
+    },
   },
 });

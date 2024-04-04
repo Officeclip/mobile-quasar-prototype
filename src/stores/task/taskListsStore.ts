@@ -35,8 +35,11 @@ export const useTaskListsStore = defineStore('taskListsStore', {
   actions: {
     async getTaskLists() {
       try {
-        const response = await axios.get(`${Constants.endPointUrl}/task-lists`);
-        const taskLists: taskLists = response.data;
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${Constants.endPointUrl}/task-lists`
+        );
+        const taskLists: taskLists = response.data[0];
         this.tags = taskLists.tags;
         this.taskTypes = taskLists.taskType;
         this.taskPriorities = taskLists.priority;
@@ -50,7 +53,10 @@ export const useTaskListsStore = defineStore('taskListsStore', {
     async getFilteredUsers(searchString: string) {
       try {
         this.users = [];
-        const response = await axios.get(`${Constants.endPointUrl}/task-lists?user=${searchString}`);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${Constants.endPointUrl}/task-lists?user=${searchString}`
+        );
         const userList = response.data.users;
         const filtered = userList.filter((t: regardingContact) => {
           return t.name.toLowerCase().includes(searchString.toLowerCase());

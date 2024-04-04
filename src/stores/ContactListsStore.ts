@@ -22,7 +22,8 @@ export const useContactListsStore = defineStore('contactListsStore', {
     // TODO: Get all the list item at one time.
     async getContactList() {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/contact-lists`
         );
         const contactList = response.data[0];

@@ -1,9 +1,9 @@
-import {defineStore} from 'pinia';
+import { defineStore } from 'pinia';
 import axios from 'axios';
-import {userSummary} from 'src/models/userSummary';
-import {Constants} from "stores/Constants";
+import { userSummary } from 'src/models/userSummary';
+import { Constants } from 'stores/Constants';
 
-export const useUserSummaryStore = defineStore('userSummaryStore',{
+export const useUserSummaryStore = defineStore('userSummaryStore', {
   state: () => ({
     userSummaries: [] as userSummary[],
   }),
@@ -15,12 +15,16 @@ export const useUserSummaryStore = defineStore('userSummaryStore',{
   actions: {
     async getUserSummaries() {
       try {
-        const data = await axios.get(`${Constants.endPointUrl}/user-summary`);
-        this.userSummaries = data.data;
-        console.log('user summaries from store: ', data.data);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${Constants.endPointUrl}/user-summary`
+        );
+        this.userSummaries = response.data;
+        console.log('user summaries from store: ', response.data);
       } catch (error) {
         alert(error);
         console.log(error);
       }
     },
-  },});
+  },
+});

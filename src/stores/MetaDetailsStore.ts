@@ -73,7 +73,8 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
       //debugger;
       console.log(`ContactsStore: getContactDetail: id: ${id}`);
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/meta-details?id=${id}`
         );
         if (response.data && response.data.length > 0) {

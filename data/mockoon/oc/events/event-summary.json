@@ -3,40 +3,70 @@
     "id": "H49BN6FDDBYWN7WXGC5Q",
     "eventType": 1,
     "eventName": "1:Senior Interactions Analyst",
-    "startDateTime": "2023-12-13T14:30:00Z",
-    "endDateTime": "2023-12-13T16:30:00Z",
-    "isAllDayEvent": false
+    "startDateTime": "2024-01-13T14:30:00Z",
+    "endDateTime": "2024-01-13T16:30:00Z",
+    "isAllDayEvent": false,
+    "security": {
+      "read": true,
+      "write": true,
+      "append": false,
+      "delete": false
+    }
   },
   {
     "id": "2",
     "eventType": 2,
     "eventName": "3: Testing another events",
-    "startDateTime": "2023-12-12T10:43:32.203Z",
-    "endDateTime": "2023-12-12T11:43:32.203Z",
-    "isAllDayEvent": false
+    "startDateTime": "2024-01-12T10:43:32.203Z",
+    "endDateTime": "2024-01-12T11:43:32.203Z",
+    "isAllDayEvent": false,
+    "security": {
+      "read": true,
+      "write": true,
+      "append": false,
+      "delete": false
+    }
   },
   {
     "id": "3",
     "eventType": 2,
     "eventName": "2:Forward Usability Planner",
-    "startDateTime": "2023-12-12T10:43:32.203Z",
-    "endDateTime": "2023-12-12T21:43:32.203Z",
-    "isAllDayEvent": false
+    "startDateTime": "2024-01-12T10:43:32.203Z",
+    "endDateTime": "2024-01-12T21:43:32.203Z",
+    "isAllDayEvent": false,
+    "security": {
+      "read": true,
+      "write": true,
+      "append": false,
+      "delete": false
+    }
   },
   {
     "id": "5",
     "eventType": 1,
     "eventName": "5:Testing the All day event",
-    "startDateTime": "2023-12-12T00:00:00Z",
-    "endDateTime": "2023-12-12T00:00:00Z",
-    "isAllDayEvent": true
+    "startDateTime": "2024-01-12T00:00:00Z",
+    "endDateTime": "2024-01-12T00:00:00Z",
+    "isAllDayEvent": true,
+    "security": {
+      "read": true,
+      "write": true,
+      "append": false,
+      "delete": false
+    }
   },
   {
     "id": "6",
     "eventType": 2,
     "eventName": "6:Testing the multi day event",
-    "startDateTime": "2023-12-12T10:43:32.203Z",
-    "endDateTime": "2023-12-15T21:43:32.203Z",
-    "isAllDayEvent": false
+    "startDateTime": "2024-01-12T10:43:32.203Z",
+    "endDateTime": "2024-01-15T21:43:32.203Z",
+    "isAllDayEvent": false,
+    "security": {
+      "read": true,
+      "write": true,
+      "append": false,
+      "delete": false
+    }
   }
 ]

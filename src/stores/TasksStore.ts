@@ -1,7 +1,7 @@
-import {defineStore} from 'pinia';
-import {Task} from '../models/task';
+import { defineStore } from 'pinia';
+import { Task } from '../models/task';
 import axios from 'axios';
-import {Constants} from "stores/Constants";
+import { Constants } from 'stores/Constants';
 
 export const useTasksStore = defineStore('tasksStore', {
   state: () => ({
@@ -24,7 +24,8 @@ export const useTasksStore = defineStore('tasksStore', {
           ? `${Constants.endPointUrl}tasks?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
           : `${Constants.endPointUrl}/tasks`;
       try {
-        const response = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
         this.tasks = response.data;
       } catch (error) {
         console.error(error);
@@ -33,7 +34,8 @@ export const useTasksStore = defineStore('tasksStore', {
 
     async getTask(id: number) {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/tasks?id=${id}`
         );
         this.task = response.data[0];
@@ -45,12 +47,16 @@ export const useTasksStore = defineStore('tasksStore', {
     async addTask(task: Task) {
       this.tasks.push(task);
 
-      const res = await axios.post(`${Constants.endPointUrl}/tasks`, task);
+      const instance = Constants.getAxiosInstance();
+      const response = await instance.post(
+        `${Constants.endPointUrl}/tasks`,
+        task
+      );
 
-      if (res.status === 200) {
+      if (response.status === 200) {
         this.getTask(task.id);
       } else {
-        console.error(res);
+        console.error(response);
       }
     },
 
@@ -58,7 +64,8 @@ export const useTasksStore = defineStore('tasksStore', {
       console.log(`editNote 1: ${this.task?.id}`);
       // not added yet
       try {
-        const response = await axios.put(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.put(
           `${Constants.endPointUrl}/tasks/${task.id}`,
           task
         );
@@ -73,7 +80,8 @@ export const useTasksStore = defineStore('tasksStore', {
 
     async deleteTask(id: number | undefined) {
       try {
-        const response = await axios.delete(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
           `${Constants.endPointUrl}/tasks/${id}`
         );
         if (response.status === 200) {

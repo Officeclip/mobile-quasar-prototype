@@ -6,7 +6,7 @@ import {
   expenseDetails,
 } from '../models/expense/expenseDetails';
 import axios from 'axios';
-import {Constants} from "stores/Constants";
+import { Constants } from 'stores/Constants';
 
 export const useExpensesStore = defineStore('expensesStore', {
   state: () => ({
@@ -31,7 +31,8 @@ export const useExpensesStore = defineStore('expensesStore', {
     // getting all the timesheets for testing only, probably no where this use
     async getExpenses() {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/expense-summary`
         );
         this.expenses = response.data;
@@ -60,7 +61,8 @@ export const useExpensesStore = defineStore('expensesStore', {
           : `${Constants.endPointUrl}/expense-summary`;
 
       try {
-        const response = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
         this.expenses = response.data;
       } catch (error) {
         console.error(error);
@@ -69,8 +71,9 @@ export const useExpensesStore = defineStore('expensesStore', {
 
     async getExpenseDetails(id: string | string[]) {
       try {
-        const response = await axios.get(
-          `${Constants.endPointUrl}/expense-details?id=${id}`
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${Constants.endPointUrl}/expense-detail?id=${id}`
         );
         this.expenseDetails = response.data;
         console.log(this.expenseDetails);
@@ -81,8 +84,9 @@ export const useExpensesStore = defineStore('expensesStore', {
 
     async getAirTravelExpenseType(airTravelExpense: airTravelExpense) {
       try {
-        const response = await axios.get(
-          `${Constants.endPointUrl}/expense-details?expenseType=${airTravelExpense}`
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${Constants.endPointUrl}/expense-detail?expenseType=${airTravelExpense}`
         );
         this.airTravelExpense = response.data;
       } catch (error) {
@@ -92,8 +96,9 @@ export const useExpensesStore = defineStore('expensesStore', {
 
     async addExpense(expenseDetail: expenseDetails) {
       try {
-        const response = await axios.post(
-          `${Constants.endPointUrl}/expense-details`,
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(
+          `${Constants.endPointUrl}/expense-detail`,
           expenseDetail
         );
         if (response.status === 200) {
@@ -109,8 +114,9 @@ export const useExpensesStore = defineStore('expensesStore', {
       console.log(`editExpense 1: ${this.expenseDetail?.id}`);
       // not added yet
       try {
-        const response = await axios.put(
-          `${Constants.endPointUrl}/expense-details/${expenseDetail.id}`,
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.put(
+          `${Constants.endPointUrl}/expense-detail/${expenseDetail.id}`,
           expenseDetail
         );
         if (response.status === 200) {
@@ -123,8 +129,9 @@ export const useExpensesStore = defineStore('expensesStore', {
     },
     async deleteExpense(id: string | undefined) {
       try {
-        const response = await axios.delete(
-          `${Constants.endPointUrl}/expense-details/${id}`
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
+          `${Constants.endPointUrl}/expense-detail/${id}`
         );
         if (response.status === 200) {
           //debugger;

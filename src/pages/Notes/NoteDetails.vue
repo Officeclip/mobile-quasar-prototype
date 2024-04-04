@@ -8,8 +8,8 @@ import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 const route = useRoute();
 const router = useRouter();
 
-const parentObjectId = route.params.objectId ? route.params.objectId : -1;
-const parentObjectServiceType = route.params.objectTypeId ? route.params.objectTypeId : -1;
+const parentObjectId = route.params.objectId ? route.params.objectId : '';
+const parentObjectServiceType = route.params.objectTypeId ? route.params.objectTypeId : '';
 
 const notesStore = useNotesStore();
 const isPrivate = ref<string>();
@@ -22,7 +22,7 @@ const note = computed(() => {
 
 onMounted(() => {
   id.value = route.params.id;
-  notesStore.getNote(Number(route.params.id));
+  notesStore.getNote(route.params.id as string);
 });
 
 isPrivate.value = note.value?.isPrivate ? 'Yes' : 'No';
@@ -37,7 +37,7 @@ const displayConfirmationDialog = () => {
 const cancelConfirmation = () => {
   isNoteDelete.value = false;
 };
-const deleteNote = (id: number) => {
+const deleteNote = (id: string) => {
   {
     notesStore.deleteNote(id).then(() => {
       isNoteDelete.value = false;

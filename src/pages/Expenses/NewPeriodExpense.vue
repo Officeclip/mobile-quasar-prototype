@@ -109,7 +109,6 @@ watch([period], ([newPeriodModel]) => {
             <q-btn v-if="period != '' && errorMsg == ''" class="q-ml-md q-mb-md q-mt-md" label="Next" color="primary" :to="{
               name: 'newExpense',
               params: {
-                expenseSid: '-1',
                 period: period.name
               },
             }"></q-btn>

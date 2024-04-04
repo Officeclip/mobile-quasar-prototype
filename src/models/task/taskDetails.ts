@@ -1,9 +1,9 @@
-import {security} from "src/models/security";
-import {subTask} from "src/models/task/subtask";
+import { security } from 'src/models/security';
+import { subTask } from 'src/models/task/subtask';
 
 export interface taskDetails {
   actualDuration: number;
-  completionDate: string ;
+  completionDate: string;
   description: string;
   dueDate: string;
   estimatedDuration: number;
@@ -19,18 +19,18 @@ export interface taskDetails {
       name: string;
     };
   };
-  id: string|number;
+  id: string;
   startDate: string;
   subject: string;
   taskOwnerName: string;
   taskOwnerSid: string;
   taskPriorityName: string;
-  taskPriorityId: number;
+  taskPriorityId: string;
   taskStatusName: string;
-  taskStatusId: number;
+  taskStatusId: string;
   taskStatusCategory: string;
   taskTypeName: string;
-  taskTypeId: number;
+  taskTypeId: string;
   assignees: assignee[];
   tags: tag[];
   createdByUserSid: string;
@@ -39,11 +39,18 @@ export interface taskDetails {
   modifiedDate: string;
   subTasks: subTask[];
   security: security;
-
-  remindTo: string,
-  remindBeforeMinutes: number,
-  repeatInfoText: string,
-  recurrenceRule: string
+  reminder: {
+    to: string;
+    beforeMinutes: number;
+  };
+  //remindTo: string;
+  //remindBeforeMinutes: number;
+  recurrence: {
+    text: string;
+    rule: string;
+  };
+  //repeatInfoText: string;
+  //recurrenceRule: string;
 }
 
 export interface assignee {

@@ -18,7 +18,7 @@ export interface customerProject {
 }
 
 export interface expenseType {
-  id: string;
+  expenseTypeSid: string;
   expenseTypeName: string;
   expenseName: string;
   isDetailsRequired: boolean;

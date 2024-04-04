@@ -8,8 +8,8 @@ import { Note } from '../../models/note';
 const router = useRouter();
 const route = useRoute();
 
-const parentObjectId = route.params.objectId ? route.params.objectId : -1;
-const parentObjectServiceType = route.params.objectTypeId ? route.params.objectTypeId : -1;
+const parentObjectId = route.params.objectId ? route.params.objectId : '';
+const parentObjectServiceType = route.params.objectTypeId ? route.params.objectTypeId : '';
 
 console.log('ParentObject as contact Id:', parentObjectId)
 
@@ -17,7 +17,7 @@ const notesStore = useNotesStore()
 const note = ref({
   title: '',
   description: '',
-  isPrivate: ''
+  isPrivate: false
 
 });
 
@@ -32,15 +32,24 @@ function onSubmit(e: Event) {
 
 
   const newNote: Note = {
+    id: '',
+    noteBookId: '',
+    parent: {
+      type: {
+        id: parentObjectServiceType as string,
+        name: ''
+      },
+      value: {
+        id: parentObjectId as string,
+        name: ''
+      }
+    },
     title: note.value.title,
     description: note.value.description,
-    isPrivate: note.value.isPrivate === 'Yes',
-    createdDateTime: '2023-05-26T10:43:32.203Z',
-    parentObjectServiceType: (Number(parentObjectServiceType)),
-    parentObjectId: (Number(parentObjectId)),
-    createdByUserId: 5,
-    noteBookId: -1,
-    id: Number()
+    isPrivate: note.value.isPrivate as boolean,
+    createdByUserSid: '',
+    createdDateTime: '',
+    security: []
   }
   // event.value.isAllDayEvent= newEvent.isAllDayEvent
 
@@ -53,6 +62,7 @@ function onSubmit(e: Event) {
 
 
 </script>
+
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header>

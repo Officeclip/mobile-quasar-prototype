@@ -6,16 +6,19 @@
 //
 // From: https://app.quicktype.io/#l=TypeScript
 
-import { label, ShowTimeAs, timeZone } from './eventLists';
+import { security } from '../security';
+import { label, ShowTimeAs } from './eventLists';
 
 export interface eventDetails {
-  id: number;
+  id: string;
   createdDate: string;
-  createdGroupSId: string;
+  createdGroupSid: string;
   createdUserSid: string;
   createdUserName: string;
-  parentServiceType: number;
-  parentSid: string;
+  parent: {
+    type: idAndName;
+    value: idAndName;
+  };
   eventType: string;
   eventName: string;
   eventDescription?: string;
@@ -26,24 +29,38 @@ export interface eventDetails {
   isRsvp: boolean;
   sendNotifications: boolean;
   eventLocation?: string;
-  repeatInfoText: string;
-  recurrenceRule: string;
   modifiedDate: string;
   modifiedUserSid: string;
   modifiedUserName: string;
-  timezoneId: timeZone[];
-  remindTo: string;
-  remindBeforeMinutes: number;
+  // timezoneId: timeZone[];
+  reminder: reminder[];
+  recurrence: recurrence[];
   label: label[];
   ShowTimeAs: ShowTimeAs[];
   meetingAttendees: meetingAttendee[];
   url: string;
+  security: security[];
 }
 
 export interface meetingAttendee {
   id: string;
   name: string;
   email: string;
+}
+
+export interface idAndName {
+  id: string;
+  name: string;
+}
+
+export interface reminder {
+  to: string;
+  beforeMinutes: string;
+}
+
+export interface recurrence {
+  text: string;
+  rule: string;
 }
 
 // Converts JSON strings to/from your types

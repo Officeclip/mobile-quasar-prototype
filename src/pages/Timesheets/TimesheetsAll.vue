@@ -5,7 +5,8 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
-import { useSessionStore } from 'src/stores/SessionStore';
+import { isAllowed } from 'src/helpers/security';
+// import { useSessionStore } from 'src/stores/SessionStore';
 
 const timesheetStatus = ref('inbox');
 const title = ref(capitalize(timesheetStatus.value));
@@ -13,14 +14,13 @@ const $q = useQuasar();
 const router = useRouter();
 
 const timesheetsStore = useTimesheetsStore();
-const sessionStore = useSessionStore();
+// const sessionStore = useSessionStore();
 // onMounted(() => {
 //   timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
 // });
 onBeforeMount(async () => {
   try {
     await timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
-    sessionStore.getSession();
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -40,90 +40,54 @@ onBeforeMount(async () => {
 const timesheetsAll = computed(() => {
   return timesheetsStore.Timesheets;
 });
-const sessionData = computed(() => {
-  return sessionStore.NewSession;
-});
 
-const roleAccess = computed(() => {
-  return sessionStore.RoleAccess;
-});
+// const session = sessionStore.Session;
+// const isAdmin = session.isAdmin;
 
-const isRoleAccess = computed(() => {
-  const data = roleAccess.value?.find(
-    (x: string) => x.name === 'TimeExpensesCreateTimeSheet'
-  );
-  return data.access;
-});
+// const isRoleAccess = () => {
+//   const data = session.roleAccess.find(
+//     (x) => x.name === 'TimeExpensesCreateTimeSheet'
+//   );
+//   return data?.access;
+// };
+
+const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
 
 watch([timesheetStatus], ([newModel]) => {
   timesheetsStore.getTimesheetsByStatus(String(newModel));
   title.value = capitalize(newModel);
 });
-
-// function getStatusColor(status: string) {
-//   if (status == 'Approved') {
-//     return 'status-approved';
-//   }
-//   if (status == 'Pending') {
-//     return 'status-pending';
-//   }
-//   if (status == 'Rejected') {
-//     return 'status-rejected';
-//   }
-// }
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title>{{ title }} Timesheets </q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-footer elevated>
-      <q-tabs
-        v-model="timesheetStatus"
-        class="bg-grey-9"
-        dense
-        align="justify"
-        switch-indicator
-      >
+      <q-tabs v-model="timesheetStatus" class="bg-grey-9" dense align="justify" switch-indicator>
         <q-tab name="inbox" label="Inbox" icon="inbox" class="text-orange">
           <q-badge color="red" floating>2</q-badge>
         </q-tab>
         <q-tab name="outbox" label="Outbox" icon="outbox" class="text-cyan" />
-        <q-tab
-          name="archived"
-          label="Archived"
-          icon="archive"
-          class="text-red"
-        />
+        <q-tab name="archived" label="Archived" icon="archive" class="text-red" />
       </q-tabs>
     </q-footer>
     <q-page-container>
       <q-page>
         <pre>{{ timesheetStatus }}</pre>
         <q-list v-for="item in timesheetsAll" :key="item.id">
-          <q-item
-            :to="{
-              name: 'timesheetDetails',
-              params: {
-                id: item.id,
-                fromDate: item.fromDate,
-                readOnly: item.readOnly,
-              },
-            }"
-            clickable
-            v-ripple
-          >
+          <q-item :to="{
+            name: 'timesheetDetails',
+            params: {
+              id: item.id,
+              fromDate: item.fromDate,
+              readOnly: item.security.read,
+            },
+          }" clickable v-ripple>
             <q-item-section>
               <q-item-label>
                 {{ item.createdByUserName }}
@@ -131,16 +95,13 @@ watch([timesheetStatus], ([newModel]) => {
               <q-item-label caption>
                 {{
                   item.fromDate
-                    ? dateTimeHelper.extractDateFromUtc(item.fromDate)
-                    : 'No Specific Date'
+                  ? item.fromDate
+                  : 'No Specific Date'
                 }}
               </q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-chip
-                dense
-                :color="getExpenseOrTimesheetStatusColor(item.status)"
-              >
+              <q-chip dense :color="getExpenseOrTimesheetStatusColor(item.status)">
                 <q-item-label caption>{{ item.status }}</q-item-label>
               </q-chip>
             </q-item-section>
@@ -150,22 +111,17 @@ watch([timesheetStatus], ([newModel]) => {
           </q-item>
           <q-separator></q-separator>
         </q-list>
+        <!-- <div>
+          <pre>{{ session.isAdmin }}</pre>
+          <pre>{{ isRoleAccess() }}</pre>
+        </div> -->
         <div>
-          <pre>{{ sessionData.isAdmin }}</pre>
-          <pre>{{ isRoleAccess }}</pre>
-          <!-- <pre>{{ isRoleAccess.access }}</pre> -->
+          <pre>{{ isAllow }}</pre>
         </div>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
-          <q-btn
-            v-if="sessionData.isAdmin || isRoleAccess"
-            :to="{
-              name: 'newTimesheetPeriod',
-            }"
-            fab
-            icon="add"
-            color="accent"
-            padding="sm"
-          >
+          <q-btn v-if="isAllow" :to="{
+            name: 'newTimesheetPeriod',
+          }" fab icon="add" color="accent" padding="sm">
           </q-btn>
         </q-page-sticky>
       </q-page>

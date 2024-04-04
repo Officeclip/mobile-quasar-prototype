@@ -3,7 +3,7 @@ import {
   label,
   ShowTimeAs,
   regardingParent,
-  timeZone,
+  // timeZone,
   user,
 } from 'src/models/event/eventLists';
 import { regardingContact } from 'src/models/event/eventLists';
@@ -15,7 +15,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
     // timesheetList: undefined as TimesheetList | undefined,
     labels: [] as label[],
     regardingParent: [] as regardingParent[],
-    timeZones: [] as timeZone[],
+    // timeZones: [] as timeZone[],
     showMyTimeAs: [] as ShowTimeAs[],
     users: [] as user[],
   }),
@@ -23,7 +23,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
   getters: {
     Labels: (state) => state.labels,
     RegardingParent: (state) => state.regardingParent,
-    TimeZones: (state) => state.timeZones,
+    // TimeZones: (state) => state.timeZones,
     ShowMyTimeAs: (state) => state.showMyTimeAs,
     Users: (state) => state.users,
   },
@@ -57,7 +57,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
 
-        const eventLists = response.data;
+        const eventLists = response.data[0];
         console.log('eventLists', eventLists);
         console.log('label', eventLists.label);
 
@@ -76,7 +76,8 @@ export const useEventListsStore = defineStore('eventListsStore', {
     },
     // async getRegardingContactList(searchString: string){
     //   try {
-    //     const response = await axios.get(
+    //     const instance = Constants.getAxiosInstance();
+    //    const response = await instance.get(
     //         `${Constants.endPointUrl}/event-lists/`
     //     );
     //     const eventLists = response.data[0];
@@ -109,7 +110,8 @@ export const useEventListsStore = defineStore('eventListsStore', {
     // async getRegardingContactListThatMatch(searchString: string) {
     //   try {
     //     this.regardingContacts = [];
-    //     const response = await axios.get(
+    //     const instance = Constants.getAxiosInstance();
+    //    const response = await instance.get(
     //       `${Constants.endPointUrl}/event-lists`
     //     );
     //     const eventLists = response.data[0];
@@ -128,7 +130,8 @@ export const useEventListsStore = defineStore('eventListsStore', {
     async getFilteredUsers(searchString: string) {
       try {
         this.users = [];
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/event-lists?user=${searchString}`
         );
         const userList = response.data.users;

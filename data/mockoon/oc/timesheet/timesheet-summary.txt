@@ -8,8 +8,14 @@
         "id": "1",
         "status": "Submitted",
         "totalHours": 14.75,
-        "fromDate": "2023-06-19T10:43:32.203Z",
-        "readOnly": false
+        "fromDate": "Jun 19, 2023",
+        "stageId": 1,
+        "security": {
+            "read": false,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       },
       {
         "createdByUserName": "Sudhakar Gundu",
@@ -17,8 +23,14 @@
         "id": "5",
         "status": "Saved",
         "totalHours": 44.08,
-        "fromDate": "2023-06-05T10:43:32.203Z",
-        "readOnly": true
+        "fromDate": "Jun 05, 2023",
+        "stageId": 1,
+        "security": {
+            "read": true,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       },
       {
         "createdByUserName": "Sudhakar Gundu",
@@ -26,8 +38,14 @@
         "id": "9",
         "status": "Approved",
         "totalHours": 33.25,
-        "fromDate": "2023-05-22T10:43:32.203Z",
-        "readOnly": false
+        "fromDate": "May 22, 2023",
+        "stageId": 1,
+        "security": {
+            "read": true,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       },
 
       {
@@ -36,8 +54,14 @@
         "id": "10",
         "status": "Rejected",
         "totalHours": 20.25,
-        "fromDate": "2023-04-24T10:43:32.203Z",
-        "readOnly": true
+        "fromDate": "Mar 24, 2023",
+        "stageId": 1,
+        "security": {
+            "read": true,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       }
       {{/case}}
       {{#case 'outbox'}}
@@ -47,8 +71,14 @@
         "id": "11",
         "status": "Pending",
         "totalHours": 22.25,
-        "fromDate": "2023-02-24T10:43:32.203Z",
-        "readOnly": true
+        "fromDate": "Feb 24, 2023",
+        "stageId": 1,
+        "security": {
+            "read": true,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       }
       {{/case}}
       {{#case 'archived'}}
@@ -58,8 +88,14 @@
         "id": "9",
         "status": "Approved",
         "totalHours": 33.25,
-        "fromDate": "2023-05-22T10:43:32.203Z",
-        "readOnly": false
+        "fromDate": "May 22, 2023",
+        "stageId": 1,
+        "security": {
+            "read": true,
+            "write": true,
+            "append": true,
+            "delete": true
+        }
       }
     {{/case}}
     {{/switch}}

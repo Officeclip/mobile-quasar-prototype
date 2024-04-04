@@ -82,28 +82,28 @@ const expenseTypeDefault = 'Select Expense Type';
 
 const isDetailRequired = ref(false);
 
-if (props.expenseDetail.expenseTypeName == '') {
-  props.expenseDetail.expenseTypeName = expenseTypeDefault;
+if (props.expenseDetail.expenseTypeSid == '') {
+  props.expenseDetail.expenseTypeSid = expenseTypeDefault;
   isBillableModify.value = true;
 }
 
 watch([expenseTypeOptions], () => {
-  getExpenseTypeDetail(props.expenseDetail.expenseTypeName);
+  getExpenseTypeDetail(props.expenseDetail.expenseTypeSid);
 });
 
-function getExpenseTypeDetail(expTypeName) {
-  console.log(`getExpenseTypeDetail( ${expTypeName} )`);
+function getExpenseTypeDetail(expTypeId) {
   const expenseType = expenseTypeOptions.value.find(
-    (x) => x.expenseTypeName === expTypeName
+    (x) => x.expenseTypeSid === expTypeId
   );
   if (expenseType != null) {
     isBillableModify.value = expenseType.isBillableModify;
     isDetailRequired.value = expenseType.isDetailsRequired;
     props.expenseDetail.billable = expenseType.isBillable;
-    props.expenseDetail.expenseTypeSid = expenseType.id
+    props.expenseDetail.expenseTypeSid = expenseType.expenseTypeSid;
+    props.expenseDetail.expenseTypeName = expenseType.expenseTypeName;
   }
 
-  switch (expTypeName) {
+  switch (expenseType.expenseTypeName) {
     case 'AIRFARE':
       props.expenseDetail.autoRentalExpense = null;
       props.expenseDetail.hotelExpense = null;
@@ -197,17 +197,17 @@ const updateCustomerProject = (newValue) => {
       </q-item-label>
 
       <q-select label="Expense Date" v-model="formattedExpenseDate"
-        @update:model-value="(newValue) => (props.expenseDetail.expenseDate = newValue)" :options="datesList"
+        @update:model-value="(newValue) => (props.expenseDetail.expenseDate = newValue.startDate)" :options="datesList"
         option-value="value" option-label="name" emit-value map-options />
 
       <q-select label="Customer : Project" v-model="customerProjectValue" @update:model-value="updateCustomerProject"
         :options="customerProjectOptions" option-label="name" option-value="id" />
 
-      <q-select label="Expense Type" v-model="expenseDetail.expenseTypeName" :options="expenseTypeOptions" :rules="[
+      <q-select label="Expense Type" v-model="expenseDetail.expenseTypeSid" :options="expenseTypeOptions" :rules="[
         (val) =>
           val !== expenseTypeDefault || 'Please select expense type..',
-      ]" @update:model-value="getExpenseTypeDetail" option-label="expenseName" emit-value
-        option-value="expenseTypeName" map-options />
+      ]" @update:model-value="getExpenseTypeDetail" option-label="expenseName" emit-value option-value="expenseTypeSid"
+        map-options />
 
       <q-card class="q-my-md">
         <airTravelExpenseForm :airTravel="props.expenseDetail.airTravelExpense == null
@@ -245,9 +245,8 @@ const updateCustomerProject = (newValue) => {
       <div v-if="isBillableModify === false" caption class="q-mb-md text-italic">
         <q-icon name="hide_source" /> You do not have permission to edit this item
       </div>
-
       <q-select label="Payment Method" v-model="expenseDetail.paymentType" :options="paymentTypeOptions" map-options
-        emit-value option-value="label" />
+        emit-value option-label="Name" option-value="Id" />
 
       <q-input label="Amount" v-model.number="expenseDetail.amount" placeholder="enter here..." lazy-rules type="number">
       </q-input>

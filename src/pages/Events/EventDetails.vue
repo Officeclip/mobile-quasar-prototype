@@ -7,6 +7,7 @@ import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
+import { isAllowed } from 'src/helpers/security';
 
 const route = useRoute();
 const router = useRouter();
@@ -18,22 +19,22 @@ const id = route.params.id;
 eventDetailsStore.getEventDetailsById(id);
 reminderDataStore.getReminderObject();
 const event = computed(() => {
-  console.log('details page:', eventDetailsStore.EventDetails);
-  return eventDetailsStore.EventDetails;
+  console.log('details page:', eventDetailsStore.eventDetails);
+  return eventDetailsStore.eventDetails;
 });
 
 // Find the selected reminder option and time based on refs
 const selectedOption = computed(() => {
   const reminderOptions = reminderDataStore.ReminderOptions;
   const obj = reminderOptions.find(
-    (option: any) => option.value === event.value?.remindTo
+    (option: any) => option.value === event.value?.reminder.to
   );
   return obj ? obj : 'null';
 });
 const selectedTime = computed(() => {
   const reminderTimes = reminderDataStore.ReminderTimes;
   const obj = reminderTimes.find(
-    (time: any) => time.value === event.value?.remindBeforeMinutes
+    (time: any) => time.value === event.value?.reminder.beforeMinutes
   );
   return obj ? obj : 'null';
 });
@@ -132,41 +133,43 @@ const openUrl = () => {
   const url = event.value?.url;
   window.open('http://' + url, '_blank');
 };
-const projectServiceItem = `${event.value?.parent.type.name} : ${event.value?.parent.value.name}`;
+const projectServiceItem = computed(() => {
+  return `${event.value?.parent.type.name} : ${event.value?.parent.value.name}`;
+});
+
+const isAllowEdit = computed(() => {
+  return isAllowed({
+    security: { write: event.value?.security.write },
+  });
+});
+const isAllowDelete = computed(() => {
+  return isAllowed({
+    security: { delete: event.value?.security.delete },
+  });
+});
 </script>
 
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header bordered class="bg-primary text-white" height-hint="98" reveal>
       <q-toolbar>
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="$router.go(-1)"
-        />
-        <q-toolbar-title
-          ><OCItem :value="`${showMeetingType(event?.eventType)} event`"
-        /></q-toolbar-title>
-
-        <q-btn
-          :to="{ name: 'editEvent', params: { id: id } }"
-          color="white"
-          dense
-          flat
-          icon="edit"
-          round
-        />
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="delete"
-          round
-          @click="displayConfirmationDialog"
-        />
+        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)" />
+        <q-toolbar-title>
+          <OCItem :value="`${showMeetingType(event?.eventType)} event`" />
+        </q-toolbar-title>
+        <div>
+          <q-btn v-if="isAllowEdit" :to="{ name: 'editEvent', params: { id: id } }" color="white" dense flat icon="edit"
+            round />
+          <q-btn v-else dense disable flat icon="edit" round>
+            <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>
+          </q-btn>
+        </div>
+        <div>
+          <q-btn v-if="isAllowDelete" color="white" dense flat icon="delete" round @click="displayConfirmationDialog" />
+          <q-btn v-else dense disable flat icon="delete" round>
+            <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -174,30 +177,17 @@ const projectServiceItem = `${event.value?.parent.type.name} : ${event.value?.pa
       <q-list>
         <!-- <OCItem :value="`${showMeetingType(event?.eventType)} event`" /> -->
         <OCItem :value="event?.eventName" class="text-weight-regular text-h6" />
-        <OCItem
-          v-if="event?.eventDescription"
-          :value="event?.eventDescription"
-        />
+        <OCItem v-if="event?.eventDescription" :value="event?.eventDescription" />
 
-        <OCItem
-          v-if="event?.eventLocation"
-          title="Location"
-          :value="event?.eventLocation"
-        />
+        <OCItem v-if="event?.eventLocation" title="Location" :value="event?.eventLocation" />
         <OCItem title="Start Date" :value="startDate" />
         <OCItem title="End Date" :value="endDate" />
-        <OCItem
-          title="Is All Day Event ?"
-          :value="event?.isAllDayEvent ? 'Yes' : 'No'"
-        />
+        <OCItem title="Is All Day Event ?" :value="event?.isAllDayEvent ? 'Yes' : 'No'" />
         <q-item v-if="event?.meetingAttendees">
           <q-item-section>
             <q-item-label caption> Attendees </q-item-label>
             <div style="display: inline-flex; align-items: baseline">
-              <q-item-label
-                v-for="attendee in attendeesList"
-                :key="attendee.name"
-              >
+              <q-item-label v-for="attendee in attendeesList" :key="attendee.name">
                 <q-chip dense class="q-px-sm">{{ attendee.name }}</q-chip>
                 <q-tooltip>{{ attendee.email }}</q-tooltip>
               </q-item-label>
@@ -207,8 +197,7 @@ const projectServiceItem = `${event.value?.parent.type.name} : ${event.value?.pa
         <q-item v-if="event?.url">
           <q-item-section>
             <q-item-label caption>Url </q-item-label>
-            <q-item-label class="cursor-pointer" @click="openUrl"
-              >{{ event.url }}
+            <q-item-label class="cursor-pointer" @click="openUrl">{{ event.url }}
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -216,11 +205,8 @@ const projectServiceItem = `${event.value?.parent.type.name} : ${event.value?.pa
           <q-item-section>
             <q-item-label caption> Label </q-item-label>
             <q-item-label>
-              <span
-                class="q-py-xs q-px-sm"
-                :style="{ backgroundColor: labelNameById?.color }"
-                >{{ labelNameById?.name }}</span
-              >
+              <span class="q-py-xs q-px-sm" :style="{ backgroundColor: labelNameById?.color }">{{ labelNameById?.name
+                }}</span>
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -228,24 +214,14 @@ const projectServiceItem = `${event.value?.parent.type.name} : ${event.value?.pa
           <q-item-section>
             <q-item-label caption> Show Time As </q-item-label>
             <q-item-label>
-              <span
-                class="q-py-xs q-px-sm"
-                :style="{ backgroundColor: showTimeAsById?.color }"
-                >{{ showTimeAsById?.name }}</span
-              >
+              <span class="q-py-xs q-px-sm" :style="{ backgroundColor: showTimeAsById?.color }">{{ showTimeAsById?.name
+                }}</span>
             </q-item-label>
           </q-item-section>
         </q-item>
-        <OCItem
-          v-if="event?.repeatInfoText"
-          title="Repeat"
-          :value="event?.repeatInfoText"
-        />
-        <OCItem
-          v-if="event?.remindTo"
-          title="Reminder"
-          :value="`${selectedOption?.label} ${selectedTime?.label} Before`"
-        />
+        <OCItem v-if="event?.recurrence.rule" title="Repeat" :value="event?.recurrence.text" />
+        <OCItem v-if="event?.reminder.to" title="Reminder"
+          :value="`${selectedOption?.label} ${selectedTime?.label} Before`" />
         <q-item>
           <q-item-section>
             <q-item-label caption> Created </q-item-label>
@@ -270,12 +246,6 @@ const projectServiceItem = `${event.value?.parent.type.name} : ${event.value?.pa
     </q-page-container>
   </q-layout>
 
-  <ConfirmationDialog
-    v-if="showConfirmationDialog"
-    :showConfirmationDialog="showConfirmationDialog"
-    :title="title"
-    :message="message"
-    @cancel="cancelConfirmation"
-    @confirm="confirmDeletion"
-  />
+  <ConfirmationDialog v-if="showConfirmationDialog" :showConfirmationDialog="showConfirmationDialog" :title="title"
+    :message="message" @cancel="cancelConfirmation" @confirm="confirmDeletion" />
 </template>

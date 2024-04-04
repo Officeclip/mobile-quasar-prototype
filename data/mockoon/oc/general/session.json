@@ -3,7 +3,7 @@
   "orgId": "123",
   "userName": "SK Dutta",
   "userEmail": "skd@officeclip.com",
-  "isAdmin": true,
+  "isAdmin": false,
   "orgKey": "WMJW-HMTX-XZ6C-HMJC-FC5Q",
   "applicationIds": [1, 2, 3, 4, 5, 6, 7, 8, 10],
   "roleAccess": [
@@ -89,7 +89,7 @@
     },
     {
       "name": "TimeExpensesCreateTimeSheet",
-      "access": false
+      "access": true
     },
     {
       "name": "PollsCreateNew",
@@ -137,7 +137,7 @@
     },
     {
       "name": "CreateContact",
-      "access": true
+      "access": false
     },
     {
       "name": "EditContact",

@@ -4,7 +4,7 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
-import FilePicker from 'components/Events/FilePicker.vue';
+// import FilePicker from 'components/Events/FilePicker.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventListsStore } from 'stores/event/eventListsStore';
 import { useReminderDataStore } from 'stores/reminder/reminderData';
@@ -81,9 +81,9 @@ const endsModelValue = computed(() => {
 const label = computed(() => {
   return eventListsStore.Labels;
 });
-const timeZone = computed(() => {
-  return eventListsStore.TimeZones;
-});
+// const timeZone = computed(() => {
+//   return eventListsStore.TimeZones;
+// });
 const ShowMyTimeAsOptions = computed(() => {
   return eventListsStore.ShowMyTimeAs;
 });
@@ -92,28 +92,37 @@ const ShowMyTimeAsOptions = computed(() => {
 const selectedOption = computed(() => {
   const reminderOptions = reminderDataStore.ReminderOptions;
   const obj = reminderOptions.find(
-    (option: any) => option.value === props.event.remindTo
+    (option: any) => option.value === props.event.reminder.to
   );
   return obj ? obj : 'null';
 });
 const selectedTime = computed(() => {
   const reminderTimes = reminderDataStore.ReminderTimes;
   const obj = reminderTimes.find(
-    (time: any) => time.value === props.event.remindBeforeMinutes
+    (time: any) => time.value === props.event.reminder.beforeMinutes
   );
   return obj ? obj : 'null';
 });
 
 // const reminderTextInfo = ref('Reminder');
-const reminderTextInfo = props.event?.remindTo
-  ? ref(`${selectedOption.value.label} ${selectedTime.value.label} before`)
+// this value getting from computed property so that while refresh the screen values vanishing need to fix
+// const reminderTextInfo = props.event?.reminder.to
+//   ? ref(`${selectedOption.value.label} ${selectedTime.value.label} before`)
+//   : ref('Reminder');
+
+const reminderTextInfo = props.event?.reminder.to
+  ? ref(
+      computed(() => {
+        return `${selectedOption.value.label} ${selectedTime.value.label} before`;
+      })
+    )
   : ref('Reminder');
 
 const reminderDialogOpened = ref(false);
 const recurrenceDialogOpened = ref(false);
 // const repeatString = ref('Does not repeat');
-const repeatString = props.event?.repeatInfoText
-  ? ref(props.event?.repeatInfoText)
+const repeatString = props.event?.recurrence.text
+  ? ref(props.event?.recurrence.text)
   : ref('Does not repeat');
 
 function handleRRuleString(rruleString: string) {
@@ -376,7 +385,7 @@ function isValidURL(url: string) {
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>
-      <q-item>
+      <!-- <q-item>
         <q-select
           v-model="event.timezoneId"
           :options="timeZone"
@@ -387,7 +396,7 @@ function isValidURL(url: string) {
           option-label="name"
           option-value="id"
         />
-      </q-item>
+      </q-item> -->
       <q-item v-if="event.eventType == '2'">
         <q-select
           v-model="event.meetingAttendees"
@@ -436,10 +445,10 @@ function isValidURL(url: string) {
       </q-item>
       <q-item>
         <q-item-section class="q-pr-xl">
-          <!-- <pre>{{ showTimeAs }}</pre> -->
+          <pre>{{ event.showTimeAs }}</pre>
           <q-select
             filled
-            v-model="showTimeAs"
+            v-model="event.showTimeAs"
             :options="ShowMyTimeAsOptions"
             label="Show Time As"
             emit-value
@@ -542,18 +551,17 @@ function isValidURL(url: string) {
         </q-item-section>
       </q-item> -->
       <!-- <pre>{{ event.attachments }}</pre> -->
-      <div>
-        <!-- <RegardingAll /> -->
+      <q-item>
         <Regarding
           v-model="event.parent"
           :regarding-parents="eventListsStore.RegardingParent"
         />
-      </div>
-
-      <q-item>
-        <!-- <FilePicker @get-attachments-generated="handleAttachments" /> -->
-        <FilePicker />
       </q-item>
+
+      <!-- we tempararly stopped the attachments latter on we will comeback here  -->
+      <!-- <q-item>
+        <FilePicker />
+      </q-item> -->
 
       <!-- <q-item>
         <q-btn

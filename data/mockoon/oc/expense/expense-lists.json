@@ -278,7 +278,7 @@
   ],
   "expenseTypes": [
     {
-      "expenseTypeId": "MMJUN6FRBZRC34HVMMGZYHYDYZGYXKHXJCYM6LQ",
+      "expenseTypeSid": "MMJUN6FRBZRC34HVMMGZYHYDYZGYXKHXJCYM6LQ",
       "expenseTypeName": "AIRFARE",
       "expenseName": "Air Travel",
       "isDetailsRequired": false,
@@ -286,7 +286,7 @@
       "isBillableModify": true
     },
     {
-      "expenseTypeId": "MMJUN6FRBZRC34HVZ88UWKKDVBTT32HEGJ9M6LQ",
+      "expenseTypeSid": "MMJUN6FRBZRC34HVZ88UWKKDVBTT32HEGJ9M6LQ",
       "expenseTypeName": "HOTEL",
       "expenseName": "Hotel Stay",
       "isDetailsRequired": false,
@@ -294,7 +294,7 @@
       "isBillableModify": true
     },
     {
-      "expenseTypeId": "MMJUN6FRBZRC34HVJB8R2B9DW6GRHUE5A4TM6LQ",
+      "expenseTypeSid": "MMJUN6FRBZRC34HVJB8R2B9DW6GRHUE5A4TM6LQ",
       "expenseTypeName": "AUTORENTAL",
       "expenseName": "Auto Rental",
       "isDetailsRequired": false,
@@ -302,7 +302,7 @@
       "isBillableModify": true
     },
     {
-      "expenseTypeId": "MMJUN6FRBZRC34HVA2FV22HVUGBZHHYF64YM6LQ",
+      "expenseTypeSid": "MMJUN6FRBZRC34HVA2FV22HVUGBZHHYF64YM6LQ",
       "expenseTypeName": "",
       "expenseName": "Other Expenses",
       "isDetailsRequired": false,
@@ -310,7 +310,7 @@
       "isBillableModify": true
     },
     {
-      "expenseTypeId": "MMJUN6FRBZRC34HVZ8GCHG9C7BYLBMSXDMJM6LQ",
+      "expenseTypeSid": "MMJUN6FRBZRC34HVZ8GCHG9C7BYLBMSXDMJM6LQ",
       "expenseTypeName": "",
       "expenseName": "Food",
       "isDetailsRequired": false,
@@ -318,7 +318,7 @@
       "isBillableModify": true
     },
     {
-      "expenseTypeId": "MMJUN6FRBZRC34HVA8TBXGAFBZJT3JKDYM9M6LQ",
+      "expenseTypeSid": "MMJUN6FRBZRC34HVA8TBXGAFBZJT3JKDYM9M6LQ",
       "expenseTypeName": "TAXI",
       "expenseName": "Taxi",
       "isDetailsRequired": false,
@@ -326,7 +326,7 @@
       "isBillableModify": true
     },
     {
-      "expenseTypeId": "MMJUN6FRBZRC34HVMCBVW39VS4HT3JWVVM9M6LQ",
+      "expenseTypeSid": "MMJUN6FRBZRC34HVMCBVW39VS4HT3JWVVM9M6LQ",
       "expenseTypeName": "TELEPHONE",
       "expenseName": "Telephone",
       "isDetailsRequired": false,
@@ -334,7 +334,7 @@
       "isBillableModify": true
     },
     {
-      "expenseTypeId": "MMJUN6FRBZRC34HVZ8BYYHAFZ8CE3GFSVM9M6LQ",
+      "expenseTypeSid": "MMJUN6FRBZRC34HVZ8BYYHAFZ8CE3GFSVM9M6LQ",
       "expenseTypeName": "",
       "expenseName": "Parking",
       "isDetailsRequired": false,
@@ -342,7 +342,7 @@
       "isBillableModify": true
     },
     {
-      "expenseTypeId": "MMJUN6FRBZRC34HVA4YCWGFFG4RC2CA3U8JM6LQ",
+      "expenseTypeSid": "MMJUN6FRBZRC34HVA4YCWGFFG4RC2CA3U8JM6LQ",
       "expenseTypeName": "",
       "expenseName": "Tolls",
       "isDetailsRequired": false,
@@ -350,7 +350,7 @@
       "isBillableModify": true
     },
     {
-      "expenseTypeId": "5M9XHMEXGGMKX6DV54TY3NGX4J4Q2ESVTJ9M6LQ",
+      "expenseTypeSid": "5M9XHMEXGGMKX6DV54TY3NGX4J4Q2ESVTJ9M6LQ",
       "expenseTypeName": "",
       "expenseName": "Entertainment",
       "isDetailsRequired": false,
@@ -358,7 +358,7 @@
       "isBillableModify": true
     },
     {
-      "expenseTypeId": "7BKVSMERMBRZ6GA3FBRWNKJF44HLXSGFB8JM6LQ",
+      "expenseTypeSid": "7BKVSMERMBRZ6GA3FBRWNKJF44HLXSGFB8JM6LQ",
       "expenseTypeName": "TELEPHONE",
       "expenseName": "Internet",
       "isDetailsRequired": false,
@@ -366,7 +366,7 @@
       "isBillableModify": false
     },
     {
-      "expenseTypeId": "A68Q7AFSG6HCYURXU8JMXRSFZ4NE7HHDCMJM6LQ",
+      "expenseTypeSid": "A68Q7AFSG6HCYURXU8JMXRSFZ4NE7HHDCMJM6LQ",
       "expenseTypeName": "MILEAGE",
       "expenseName": "Mileage",
       "isDetailsRequired": false,
@@ -374,7 +374,7 @@
       "isBillableModify": false
     },
     {
-      "expenseTypeId": "R8HWXBSF58MTSWGVR4RYYHFVCBJWX4HC7JJM6LQ",
+      "expenseTypeSid": "R8HWXBSF58MTSWGVR4RYYHFVCBJWX4HC7JJM6LQ",
       "expenseTypeName": "TELEPHONE",
       "expenseName": "SMS",
       "isDetailsRequired": false,
@@ -382,7 +382,7 @@
       "isBillableModify": false
     },
     {
-      "expenseTypeId": "V2BESN9EU2JRNTS4F4RCNDHFHMYCXEJV2MJM6LQ",
+      "expenseTypeSid": "V2BESN9EU2JRNTS4F4RCNDHFHMYCXEJV2MJM6LQ",
       "expenseTypeName": "",
       "expenseName": "Office Expenses",
       "isDetailsRequired": true,

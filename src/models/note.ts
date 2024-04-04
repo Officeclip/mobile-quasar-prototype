@@ -1,11 +1,21 @@
+import { security } from '../models/security';
 export interface Note {
-  id: number;
-  parentObjectServiceType: number;
-  parentObjectId: number;
-  noteBookId: number;
+  id: string;
+  noteBookId: string;
+  parent: {
+    type: {
+      id: string;
+      name: string;
+    };
+    value: {
+      id: string;
+      name: string;
+    };
+  };
   title: string;
   description: string;
   isPrivate: boolean;
-  createdByUserId: number;
+  createdByUserSid: string;
   createdDateTime: string;
+  security: security[];
 }

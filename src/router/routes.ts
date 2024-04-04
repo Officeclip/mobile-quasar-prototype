@@ -154,6 +154,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/attachmentsTest.vue'),
   },
   {
+    path: '/calEventsTest',
+    name: 'calEventsTest',
+    component: () => import('../pages/calEventsTest.vue'),
+  },
+
+  {
     path: '/timesheetsAll',
     name: 'timesheetsAll',
     component: () => import('../pages/Timesheets/TimesheetsAll.vue'),
@@ -208,13 +214,13 @@ const routes: RouteRecordRaw[] = [
     // params: true,
   },
   {
-    path: '/expenseDetails/:id/:fromDate',
+    path: '/expenseDetails/:id/:fromDate/:readOnly',
     name: 'expenseDetails',
     component: () => import('../pages/Expenses/ExpenseDetails.vue'),
     // params: true,
   },
   {
-    path: '/newExpense/:expenseSid/:period',
+    path: '/newExpense/:period',
     name: 'newExpense',
     component: () => import('../pages/Expenses/NewExpense.vue'),
     // params: true,

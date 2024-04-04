@@ -3,7 +3,7 @@ import dateTimeHelper from '../helpers/dateTimeHelper.js';
 import { Event } from '../models/event';
 import { MeetingAttendees } from '../models/meetingAttendees.js';
 import axios from 'axios';
-import {Constants} from "stores/Constants";
+import { Constants } from 'stores/Constants';
 
 export const useEventsStore = defineStore('eventsStore', {
   state: () => ({
@@ -22,7 +22,8 @@ export const useEventsStore = defineStore('eventsStore', {
     // for getting meeting attendees from separate json
     async getAllMeetingAttendees() {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/meetingAttendees`
         );
 
@@ -38,7 +39,8 @@ export const useEventsStore = defineStore('eventsStore', {
 
     async getAllEvents() {
       try {
-        const response = await axios.get(`${Constants.endPointUrl}events`);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(`${Constants.endPointUrl}events`);
         this.events = response.data;
         console.log(
           `EventsStore: getEvents - length - ${response.data.length}, ${this.events}`
@@ -56,7 +58,8 @@ export const useEventsStore = defineStore('eventsStore', {
       const callStr = `${Constants.endPointUrl}/events?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`;
 
       try {
-        const response = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
         this.events = response.data;
       } catch (error) {
         console.error(error);
@@ -66,7 +69,8 @@ export const useEventsStore = defineStore('eventsStore', {
     //   ----getting single user details by id----
     async getEventDetails(id: any) {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/events?id=${id}`
         );
         if (response.data && response.data.length > 0) {
@@ -128,7 +132,8 @@ export const useEventsStore = defineStore('eventsStore', {
       console.log(`editEvent 1: ${this.event?.id}`);
       // not added yet
       try {
-        const response = await axios.put(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.put(
           `${Constants.endPointUrl}/events/${event.id}`,
           event
         );
@@ -175,7 +180,8 @@ export const useEventsStore = defineStore('eventsStore', {
 
     async deleteEvent(id: number | undefined) {
       try {
-        const response = await axios.delete(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
           `${Constants.endPointUrl}/events/${id}`
         );
         if (response.status === 200) {

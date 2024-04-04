@@ -17,7 +17,7 @@ const note = computed(() => {
 });
 
 onMounted(() => {
-  notesStore.getNote(Number(id.value));
+  notesStore.getNote(id.value as string);
 });
 
 function onSubmit(e: Event) {

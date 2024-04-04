@@ -17,10 +17,10 @@ const id = ref<string | string[]>(route.params.id);
 const task: Ref<taskDetails> = ref(tasksDetailStore.TaskDetail);
 
 onMounted(() => {
-  tasksDetailStore.getTask((id.value.toString()));
+  tasksDetailStore.getTask((id.value));
 });
 
-function receiveTask(receivedTask:taskDetails){
+function receiveTask(receivedTask: taskDetails) {
   task.value = receivedTask;
 }
 
@@ -40,8 +40,8 @@ function onSubmit(e: any) {
     isLock: task.value.isLock,
     isPrivate: task.value.isPrivate,
     parent: task.value.parent,
-    startDate:task.value.startDate,
-    taskOwnerName:task.value.taskOwnerName,
+    startDate: task.value.startDate,
+    taskOwnerName: task.value.taskOwnerName,
     taskOwnerSid: task.value.taskOwnerSid,
     taskPriorityName: task.value.taskPriorityName,
     taskPriorityId: task.value.taskPriorityId,
@@ -56,10 +56,12 @@ function onSubmit(e: any) {
     modifiedDate: task.value.modifiedDate,
     subTasks: task.value.subTasks,
     security: task.value.security,
-    remindTo: task.value.remindTo,
-    remindBeforeMinutes: task.value.remindBeforeMinutes,
-    repeatInfoText: task.value.repeatInfoText,
-    recurrenceRule: task.value.recurrenceRule,
+    //remindTo: task.value.remindTo,
+    //remindBeforeMinutes: task.value.remindBeforeMinutes,
+    reminder: task.value.reminder,
+    //repeatInfoText: task.value.repeatInfoText,
+    //recurrenceRule: task.value.recurrenceRule,
+    recurrence: task.value.recurrence,
     taskStatusCategory: task.value.taskStatusCategory,
 
   }
@@ -81,7 +83,7 @@ function onSubmit(e: any) {
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <TasksForm :task-from-parent="task" @emit-task="receiveTask"/>
+          <TasksForm :task-from-parent="task" @emit-task="receiveTask" />
           <q-btn class="q-ml-md q-mb-md" color="primary" label="Submit" type="submit" />
         </div>
       </q-form>

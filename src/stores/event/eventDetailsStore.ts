@@ -4,6 +4,7 @@ import { MeetingAttendees } from 'src/models/meetingAttendees';
 import axios from 'axios';
 import { eventSummary } from 'src/models/event/eventSummary';
 import { Constants } from 'stores/Constants';
+import { security } from 'src/models/security';
 
 export const useEventDetailsStore = defineStore('eventDetailsStore', {
   state: () => ({
@@ -39,12 +40,12 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     //   ----getting single user details by id----
     async getEventDetailsById(id: string | string[]) {
       console.log('started the get function:', id);
-      const callStr = `${Constants.endPointUrl}/event-details?id=${id}`;
+      const callStr = `${Constants.endPointUrl}/event-detail/${id}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
         if (response.data) {
-          this.eventDetails = response.data[0];
+          this.eventDetails = response.data;
         }
       } catch (error) {
         alert(error);
@@ -52,14 +53,12 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       }
     },
 
-    async getEventsByParent(
-      parentObjectId: number,
-      parentObjectServiceType: number
-    ) {
-      const callStr = `${Constants.endPointUrl}/event-details?parentSid=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
+    async getEventsByParent(parentObjectId: number) {
+      const callStr = `${Constants.endPointUrl}/event-detail?parentSid=${parentObjectId}`;
       console.log(callStr);
       try {
-        const response = await axios.get(callStr);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
         this.eventDetails = response.data;
       } catch (error) {
         console.error(error);
@@ -68,7 +67,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
 
     async editEventDetails(event: eventDetails) {
       console.log(`editEvent 1: ${event.id}`);
-      const callStr = `${Constants.endPointUrl}/event-details/${event.id}`;
+      const callStr = `${Constants.endPointUrl}/event-detail/${event.id}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(callStr, event);
@@ -80,14 +79,27 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       }
     },
 
+    // async addEventDetails(event: eventDetails) {
+    //   const callStr = `${Constants.endPointUrl}/event-detail`;
+    //   await fetch(callStr, {
+    //     method: 'POST',
+    //     body: JSON.stringify(event),
+    //     headers: { 'Content-Type': 'application/json' },
+    //   });
+    //   console.log(this.eventDetails);
+    // },
+
     async addEventDetails(event: eventDetails) {
-      const callStr = `${Constants.endPointUrl}/event-details`;
-      await fetch(callStr, {
-        method: 'POST',
-        body: JSON.stringify(event),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      console.log(this.eventDetails);
+      const callStr = `${Constants.endPointUrl}/event-detail`;
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(callStr, event);
+        if (response.status === 200) {
+          this.eventDetails = response.data;
+        }
+      } catch (error) {
+        console.error(`editEvent Error: ${error}`);
+      }
     },
 
     async addEventSummary(eventSummary: eventSummary) {
@@ -101,7 +113,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     async deleteEventDetails(id: string | undefined) {
-      const callStr = `${Constants.endPointUrl}/event-details/${id}`;
+      const callStr = `${Constants.endPointUrl}/event-detail/${id}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(callStr);

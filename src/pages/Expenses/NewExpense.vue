@@ -40,7 +40,8 @@ const expenseDetail = ref({
   hotelExpense: null,
   mileageExpense: null,
   telephoneExpense: null,
-  taxiExpense: null
+  taxiExpense: null,
+  security: []
 });
 
 function onSubmit(e: any) {
@@ -57,12 +58,12 @@ function onSubmit(e: any) {
     employeeSid: expenseDetail.value.employeeSid,
     expenseDate: expenseDetail.value.expenseDate,
     id: expenseDetail.value.id,
-    expenseSid: expenseDetail.value.expenseSid,
+    expenseSid: expenseDetail.value.expenseSid ? expenseDetail.value.expenseSid : '',
     expenseTypeName: expenseDetail.value.expenseTypeName,
     expenseCategoryName: expenseDetail.value.expenseCategoryName,
     expenseTypeSid: expenseDetail.value.expenseTypeSid,
-    projectName: expenseDetail.value.projectName,
-    projectSid: expenseDetail.value.projectSid,
+    projectName: expenseDetail.value.projectName ? expenseDetail.value.projectName : '',
+    projectSid: expenseDetail.value.projectSid ? expenseDetail.value.projectSid : '',
     tax: expenseDetail.value.tax,
     paymentType: expenseDetail.value.paymentType,
     autoRentalExpense: expenseDetail.value.autoRentalExpense,
@@ -77,9 +78,10 @@ function onSubmit(e: any) {
 
   expenseDetailsStore.addExpense(newExpense);
 
-  router.push('/');
+  router.go(-2);
 }
 </script>
+
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header>

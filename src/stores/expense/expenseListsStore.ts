@@ -26,7 +26,8 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
   actions: {
     /*     async getEventLists() {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/expense-lists`
         );
         const expenseLists = response.data[0];
@@ -42,7 +43,8 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
     // TODO: Get all the list item at one time.
     async getExpensesList(name: string) {
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}expense-list?name=${name}`
         );
         console.log('Response', response);
@@ -64,54 +66,58 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
     async getExpensesList() {
       console.log('expenseListStore.ts > getExpensesList() - started');
       try {
-        const response = await axios.get(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/expense-lists`
         );
-        const expenseList = response.data;
+        const expenseList = response.data[0];
         this.periods = expenseList.periods;
         this.customerProjects = expenseList.customerProjects;
         this.expenseTypes = expenseList.expenseTypes;
-        this.paymentTypes = expenseList.paymentTypes;
+        this.paymentTypes = expenseList.paymentMethods;
       } catch (error) {
         console.error(error);
       }
-      console.log('expenseListStore > getExpensesList() - ended', this.periods);
+      console.log(
+        'expenseListStore > getExpensesList() - ended',
+        this.paymentTypes
+      );
     },
 
-    getDatesBetweenStartEnd(period: string) {
-      const expensePeriod = this.PeriodList.find((x) => x.name === period);
-      if (expensePeriod !== undefined) {
-        const dates = [];
-        let datesList = <Array<{ label: string; value: string }>>[];
-        const startDateUnix = new Date(expensePeriod?.start).getTime();
-        const endDateUnix = new Date(expensePeriod?.end).getTime();
+    // getDatesBetweenStartEnd(period: string) {
+    //   const expensePeriod = this.PeriodList.find((x) => x.name === period);
+    //   if (expensePeriod !== undefined) {
+    //     const dates = [];
+    //     let datesList = <Array<{ label: string; value: string }>>[];
+    //     const startDateUnix = new Date(expensePeriod?.start).getTime();
+    //     const endDateUnix = new Date(expensePeriod?.end).getTime();
 
-        // Calculate the difference between the start and end dates in days
-        const dayDifference =
-          (endDateUnix - startDateUnix) / (1000 * 60 * 60 * 24);
+    //     // Calculate the difference between the start and end dates in days
+    //     const dayDifference =
+    //       (endDateUnix - startDateUnix) / (1000 * 60 * 60 * 24);
 
-        // Iterate over the days and add them to the array
-        for (let i = 0; i <= dayDifference; i++) {
-          const date = new Date(startDateUnix + i * 1000 * 60 * 60 * 24);
-          dates.push(date);
-        }
+    //     // Iterate over the days and add them to the array
+    //     for (let i = 0; i <= dayDifference; i++) {
+    //       const date = new Date(startDateUnix + i * 1000 * 60 * 60 * 24);
+    //       dates.push(date);
+    //     }
 
-        const formattedDates = dates.map((date) => {
-          return {
-            label: `${date.toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric',
-            })}(${date.toLocaleDateString('en-US', { weekday: 'short' })})`,
-            value: date.toISOString(),
-          };
-        });
+    //     const formattedDates = dates.map((date) => {
+    //       return {
+    //         label: `${date.toLocaleDateString('en-US', {
+    //           month: 'short',
+    //           day: 'numeric',
+    //         })}(${date.toLocaleDateString('en-US', { weekday: 'short' })})`,
+    //         value: date.toISOString(),
+    //       };
+    //     });
 
-        console.log('testing dates', datesList);
-        datesList = formattedDates;
-        // Return the array of dates
-        return datesList;
-      }
-    },
+    //     console.log('testing dates', datesList);
+    //     datesList = formattedDates;
+    //     // Return the array of dates
+    //     return datesList;
+    //   }
+    // },
 
     /*     async getExpenseListAll() {
       await this.getExpensesList('CustomerProjects');

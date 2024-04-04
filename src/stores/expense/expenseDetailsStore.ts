@@ -49,8 +49,9 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   actions: {
     async getExpenseDetails(expenseSid: string | string[]) {
       try {
-        const response = await axios.get(
-          `${Constants.endPointUrl}/expense-details?expenseSid=${expenseSid}`
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${Constants.endPointUrl}/expense-detail?expenseSid=${expenseSid}`
         );
         console.log('Getting Id', expenseSid);
         this.expenseDetailsList = response.data;
@@ -67,13 +68,14 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         id
       );
       try {
-        const response = await axios.get(
-          `${Constants.endPointUrl}/expense-details?id=${id}`
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${Constants.endPointUrl}/expense-detail/${id}`
         );
         //console.log(`response.data[0]: ${response.data}`);
-        if (response.data && response.data.length > 0) {
+        if (response.data) {
           //this.expenseDetails = JSON.parse(JSON.stringify(response.data[0])); // see: https://stackoverflow.com/a/69204006/89256
-          this.expenseDetails = response.data[0]; // see: https://stackoverflow.com/a/69204006/89256
+          this.expenseDetails = response.data; // see: https://stackoverflow.com/a/69204006/89256
           console.log(
             `expenseDetailStore - getExpenseDetailById - expenseDetails: ${this.expenseDetails}`
           );
@@ -123,8 +125,9 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
 
     async addExpense(expenseDetails: expenseDetails) {
       try {
-        const response = await axios.post(
-          `${Constants.endPointUrl}/expense-details`,
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(
+          `${Constants.endPointUrl}/expense-detail`,
           expenseDetails
         );
         if (response.status === 200) {
@@ -140,8 +143,9 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       //console.log(`editExpense 1: ${this.expenseDetails?.id}`);
       // not added yet
       try {
-        const response = await axios.put(
-          `${Constants.endPointUrl}/expense-details/${expenseDetails.id}`,
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.put(
+          `${Constants.endPointUrl}/expense-detail/${expenseDetails.id}`,
           expenseDetails
         );
         if (response.status === 200) {
@@ -154,8 +158,9 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     },
     async deleteExpenseDetail(id: string | undefined) {
       try {
-        const response = await axios.delete(
-          `${Constants.endPointUrl}/expense-details/${id}`
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
+          `${Constants.endPointUrl}/expense-detail/${id}`
         );
         if (response.status === 200) {
           //debugger;
@@ -169,7 +174,8 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     // to remove whole timesheet top level delete need to make it work
     async deleteExpense(id: string | string[]) {
       try {
-        const response = await axios.delete(
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
           `${Constants.endPointUrl}/expense-summary/${id}`
         );
 

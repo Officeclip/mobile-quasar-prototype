@@ -1,7 +1,7 @@
-import {defineStore} from 'pinia';
-import {regardingItem} from 'src/models/general/regardingItem';
+import { defineStore } from 'pinia';
+import { regardingItem } from 'src/models/general/regardingItem';
 import axios from 'axios';
-import {Constants} from '../Constants';
+import { Constants } from '../Constants';
 
 export const useRegardingStore = defineStore('regardingStore', {
   state: () => ({
@@ -47,13 +47,15 @@ export const useRegardingStore = defineStore('regardingStore', {
 
     async getRegardingItemsThatMatch(searchString: string, type: string) {
       try {
-        this.regardingItems=[];
-        const response = await axios.get(
+        this.regardingItems = [];
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
           `${Constants.endPointUrl}/regarding?type=${type}&search_str=${searchString}`
         );
-        const response1 = await axios.get(
-          `${Constants.endPointUrl}/regarding`
-        );
+        //const instance = Constants.getAxiosInstance();
+        // const response1 = await instance.get(
+        //   `${Constants.endPointUrl}/regarding`
+        // );
         const regardingItems = response.data;
         console.log('getRegardingList: ', regardingItems[0]);
 
@@ -62,7 +64,7 @@ export const useRegardingStore = defineStore('regardingStore', {
         });
         console.log('getRegardingList: ', filtered);
         await new Promise((r) => setTimeout(r, 500));
-        this.regardingItems=filtered;
+        this.regardingItems = filtered;
         // console.log("Filtered contacts: ", this.regardingContacts);
       } catch (error) {
         console.error(error);
