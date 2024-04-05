@@ -14,7 +14,7 @@ const tokenStore = useTokenStore();
 const route1 = useRouter();
 
 const login: Ref<Login> = ref({
-  userName: 'ocdemo@officeclip.com',
+  userName: 'nagesh@officeclip.com',
   password: 'qa123',
 });
 
@@ -72,8 +72,8 @@ async function onSubmit(e: any) {
                 :rules="[(val) => (val && val.length > 0) || 'Please enter password']"></q-input>
             </q-card-section>
             <q-card-section>
-              <q-btn style="border-radius: 8px" color="dark" rounded size="md" label="Sign in" no-caps class="full-width"
-                type="submit"></q-btn>
+              <q-btn style="border-radius: 8px" color="dark" rounded size="md" label="Sign in" no-caps
+                class="full-width" type="submit"></q-btn>
             </q-card-section>
             <q-card-section class="text-center q-pt-none">
               <div class="text-grey-8">
@@ -82,8 +82,8 @@ async function onSubmit(e: any) {
               </div>
               <div>
                 <q-btn :to="{
-                  name: 'loginPage2',
-                }" style="border-radius: 8px" color="dark" rounded size="md" label="Test page" no-caps
+            name: 'loginPage2',
+          }" style="border-radius: 8px" color="dark" rounded size="md" label="Test page" no-caps
                   class="full-width" type="submit"></q-btn>
               </div>
             </q-card-section>

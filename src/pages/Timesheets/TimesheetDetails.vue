@@ -72,7 +72,7 @@ const deleteTimesheetDetail = (id: string) => {
 
 // const showComments = ref(false);
 const commentsList = computed(() => {
-  return timesheetCommentsStore.CommentsList;
+  return timesheetCommentsStore.commentsList;
 });
 console.log('getting the comment list from store:', commentsList.value);
 // const toggleList = () => {
@@ -190,8 +190,13 @@ const isReadOnly = isAllowed({
             </q-item-section>
           </template>
           <q-list>
-            <q-item v-for="(item, index) in commentsList" :key="index">
-              <q-item-section>{{ item.comment }}<q-separator /></q-item-section>
+            <q-item v-for="comments in commentsList" :key="comments.id">
+              <q-item-section style="white-space: pre-wrap">{{ comments.comment }}
+              </q-item-section>
+              <q-item-section style="white-space: pre-wrap">
+                by {{ comments.commentedUserName }}
+                on {{ comments.commentedDate }}
+              </q-item-section>
             </q-item>
             <q-item v-if="listLength == 0"> No Comments are present </q-item>
           </q-list>

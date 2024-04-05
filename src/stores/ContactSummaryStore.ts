@@ -51,10 +51,10 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
         // console.log("URL called", this.url);
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(this.url);
-        const summaries = response.data;
+        const summaries = response.data.data;
         this.contactSummary.push(...summaries);
 
-        this.links = JSON.parse(response.headers.get('Links') || '{}');
+        this.links = JSON.parse(response.data.pagination || '{}');
         this.url = this.links.next
           ? `${Constants.endPointUrl}${this.links.next}`
           : '';

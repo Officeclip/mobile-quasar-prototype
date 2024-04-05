@@ -16,15 +16,14 @@ export const useTimesheetCommentsStore = defineStore('timesheetCommentsStore', {
   },
 
   actions: {
-    async getTimesheetComments(timesheetId: string | string[]) {
+    async getTimesheetComments(timesheetSid: string | string[]) {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/timesheet-comments/${timesheetId}`
+          `${Constants.endPointUrl}/te-comments?category=timesheet&id=${timesheetSid}`
         );
         const newData = response.data;
-        const commentsList = newData.comments;
-        this.commentsList = commentsList;
+        this.commentsList = newData;
       } catch (error) {
         console.error(error);
       }
