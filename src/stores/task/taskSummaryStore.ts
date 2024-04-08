@@ -63,7 +63,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       let callStr = '';
       //if (this.links?.next) {
       if (!this.IsEmptyLinkHeader) {
-        callStr = `${Constants.endPointUrl}/${this.links.next}`;
+        callStr = `${this.links}`;
       } else {
         callStr = this.constructBaseURL();
         const queryParams = this.constructQueryParams();
@@ -100,18 +100,20 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(this.url);
-        const summaries = response.data;
+        const summaries = response.data.data;
         this.taskSummaries.push(...summaries);
+        this.links = response.data.pagination.next || '{}';
+        this.url = this.links ? `${this.links}` : '';
 
-        this.links = JSON.parse(response.headers.get('Links') || '{}');
-        this.url = this.links.next
-          ? `${Constants.endPointUrl}${this.links.next}`
-          : '';
+        // this.links = JSON.parse(response.headers.get('Links') || '{}');
+        // this.url = this.links.next
+        //   ? `${Constants.endPointUrl}${this.links.next}`
+        //   : '';
         // console.log("next url from header", this.url);
       } catch (error) {
         console.error(error);
       }
-      return this.url === '';
+      return this.url === 'null';
     },
 
     async getTasks(parentObjectId: number, parentObjectServiceType: number) {

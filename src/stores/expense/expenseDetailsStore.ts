@@ -117,7 +117,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr ?? '');
-        this.expenseSummary = response.data;
+        this.expenseSummary = response.data.data;
       } catch (error) {
         console.error(error);
       }

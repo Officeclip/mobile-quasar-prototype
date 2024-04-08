@@ -8,7 +8,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
   state: () => ({
     contactSummary: [] as ContactSummary[],
     url: '' as string,
-    pageSize: 30,
+    pageSize: 10,
     pageNum: 1,
     //filter: {} as searchFilter,
     //parentObjectId: 0,
@@ -53,16 +53,12 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
         const response = await instance.get(this.url);
         const summaries = response.data.data;
         this.contactSummary.push(...summaries);
-
-        this.links = JSON.parse(response.data.pagination || '{}');
-        this.url = this.links.next
-          ? `${Constants.endPointUrl}${this.links.next}`
-          : '';
-        // console.log("next url from header", this.url);
+        this.links = response.data.pagination.next || '{}';
+        this.url = this.links ? `${this.links}` : '';
       } catch (error) {
         console.error(error);
       }
-      return this.url === '';
+      return this.url === 'null';
     },
 
     async getContactSummary() {
