@@ -42,7 +42,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}/timesheet-lists`
         );
-        const newData = response.data;
+        const newData = response.data[0];
         const periods = newData.periods;
         const customerProjects = newData.customerProjects;
         const serviceItems = newData.serviceItems;

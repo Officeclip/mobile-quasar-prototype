@@ -64,7 +64,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         const response = await instance.get(callStr);
 
         if (response.data) {
-          this.timesheets = response.data;
+          this.timesheets = response.data.data;
         }
       } catch (error) {
         Constants.throwError(error);
@@ -88,7 +88,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}/timesheet-detail/${id}`
         );
-        this.timesheetDetail = response.data[0];
+        this.timesheetDetail = response.data;
         console.log(
           'Testing the single timesheet details by Id',
           this.timesheetDetail
