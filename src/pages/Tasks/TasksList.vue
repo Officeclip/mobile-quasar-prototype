@@ -28,8 +28,8 @@ const defaultFilterOptions: searchFilter = {
 let filterOptions: Ref<searchFilter> = ref({ ...defaultFilterOptions });
 
 const parent = {
-  parentObjectId: -1,
-  parentObjectServiceType: -1,
+  parentObjectId: '',
+  parentObjectServiceType: '',
 };
 
 const taskSummaryStore = useTaskSummaryStore();
@@ -150,14 +150,7 @@ onBeforeMount(() => {
   <q-layout view="lHh Lpr lFf">
     <q-header bordered class="bg-primary text-white" height-hint="98" reveal>
       <q-toolbar>
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="$router.go(-1)"
-        />
+        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)" />
         <q-toolbar-title> Tasks</q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -165,13 +158,8 @@ onBeforeMount(() => {
     <q-page-container>
       <q-page>
         <div class="q-pa-sm">
-          <q-input
-            v-model="filterOptions.filterString"
-            clearable
-            label="Search"
-            outlined
-            placeholder="Start typing to search"
-          >
+          <q-input v-model="filterOptions.filterString" clearable label="Search" outlined
+            placeholder="Start typing to search">
           </q-input>
         </div>
 
@@ -183,8 +171,8 @@ onBeforeMount(() => {
             <div class="q-mr-md">
               <q-btn flat icon="filter_list" @click="showAdvOptions = true">
                 <q-badge v-if="filterCount != 0" color="red" floating>{{
-                  filterCount
-                }}</q-badge>
+          filterCount
+        }}</q-badge>
               </q-btn>
             </div>
             <div class="q-mr-md">
@@ -194,29 +182,19 @@ onBeforeMount(() => {
         </div>
         <tasks-list-ctrl :parent="parent" />
         <q-dialog v-model="showAdvOptions">
-          <task-advanced-filters
-            :filter-options="filterOptions"
-            :parent="parent"
-            @advancedOptionsGenerated="receiveAdvFilters"
-            @filterCount="updateFilterCount"
-          />
+          <task-advanced-filters :filter-options="filterOptions" :parent="parent"
+            @advancedOptionsGenerated="receiveAdvFilters" @filterCount="updateFilterCount" />
         </q-dialog>
       </q-page>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
-        <q-btn
-          :to="{
-            name: 'newTask',
-            params: {
-              id: -1,
-              objectTypeId: -1,
-              objectId: -1,
-            },
-          }"
-          color="accent"
-          fab
-          icon="add"
-          padding="sm"
-        />
+        <q-btn :to="{
+          name: 'newTask',
+          params: {
+            id: -1,
+            objectTypeId: -1,
+            objectId: -1,
+          },
+        }" color="accent" fab icon="add" padding="sm" />
       </q-page-sticky>
     </q-page-container>
   </q-layout>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import {computed, ref, watch} from 'vue';
-import {useRegardingStore} from 'stores/regarding/regardingStore';
-import {regardingItem} from "src/models/general/regardingItem";
+import { computed, ref, watch } from 'vue';
+import { useRegardingStore } from 'stores/regarding/regardingStore';
+import { regardingItem } from 'src/models/general/regardingItem';
 
 
 const props = defineProps<{
@@ -56,7 +56,7 @@ async function filterItems(
   if (val.length < 2) {
     abort();
     return;
-  } else if (val.length === 2) {
+  } else if (val.length >= 2) {
     regardingItems.value = [] as regardingItem[];
     await regardingStore.getRegardingItemsThatMatch(val, regardingType.value);
     regardingItems.value = regardingStore.regardingItems;
@@ -77,28 +77,13 @@ async function filterItems(
   <q-list>
     <q-item class="q-pa-none">
       <q-item-section class="q-mr-sm">
-        <q-select
-          v-model="regardingType"
-          :options="metaTypeOptions"
-          dense
-          label="Regarding"
-          map-options
-          option-label="name"
-          option-value="id"
-        />
+        <q-select v-model="regardingType" :options="metaTypeOptions" dense label="Regarding" map-options
+          option-label="name" option-value="id" />
       </q-item-section>
       <q-item-section class="q-mr-sm">
 
-        <q-select
-          v-model="selectedRegItem"
-          :disable="regardingType.id==''"
-          :options="regardingItems"
-          dense
-          option-label="name"
-          option-value="id"
-          use-input
-          @filter="filterItems"
-        >
+        <q-select v-model="selectedRegItem" :disable="regardingType.id == ''" :options="regardingItems" dense
+          option-label="name" option-value="id" use-input @filter="filterItems">
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">No results</q-item-section>

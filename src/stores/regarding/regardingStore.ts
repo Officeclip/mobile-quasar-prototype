@@ -50,7 +50,7 @@ export const useRegardingStore = defineStore('regardingStore', {
         this.regardingItems = [];
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/regarding?type=${type}&search_str=${searchString}`
+          `${Constants.endPointUrl}/regarding?parentType=${type.name}&searchString=${searchString}`
         );
         //const instance = Constants.getAxiosInstance();
         // const response1 = await instance.get(
