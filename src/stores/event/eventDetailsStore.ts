@@ -53,8 +53,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       }
     },
 
-    async getEventsByParent(parentObjectId: number) {
-      const callStr = `${Constants.endPointUrl}/event-detail?parentSid=${parentObjectId}`;
+    async getEventsByParent(parentObjectId: string) {
+      const callStr = `${Constants.endPointUrl}/event-summary?parentSid=${parentObjectId}`;
       console.log(callStr);
       try {
         const instance = Constants.getAxiosInstance();

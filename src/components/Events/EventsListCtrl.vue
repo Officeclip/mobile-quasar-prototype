@@ -11,9 +11,7 @@ const parentObjectId = computed(() => props.params.parentObjectId);
 
 const eventDetailsStore = useEventDetailsStore();
 onBeforeMount(() => {
-  eventDetailsStore.getEventsByParent(
-    Number(parentObjectId.value)
-  );
+  eventDetailsStore.getEventsByParent(parentObjectId.value);
 });
 </script>
 <template>
