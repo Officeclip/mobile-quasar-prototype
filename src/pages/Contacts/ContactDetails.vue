@@ -10,12 +10,12 @@ import { useContactListsStore } from '../../stores/ContactListsStore';
 import { useRoute, useRouter } from 'vue-router';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import EventsList from '../../components/Events/EventsListCtrl.vue';
-import TasksList from 'components/tasks/tasksListCtrl.vue';
 import ContactDetails from '../../components/Contacts/ContactDetails.vue';
 import MetaDetails from '../../components/Meta/MetaDetails.vue';
 import { ObjectType } from '../../helpers/util';
 import { useQuasar } from 'quasar';
 import TasksListCtrl from 'components/tasks/tasksListCtrl.vue';
+import TaskMetaSummary from '../../components/tasks/TaskMetaSummaryItem.vue';
 import { isAllowed } from 'src/helpers/security';
 
 console.log('TESTING CONTACTVIEW: Setup');
@@ -297,7 +297,7 @@ const isAllowDelete = computed(() => {
                   </q-item-section>
                 </template>
                 <q-separator></q-separator>
-                <tasks-list-ctrl @numberOfTasks="handleTaskCount" :parent="parent2" />
+                <TaskMetaSummary @numberOfTasks="handleTaskCount" :parent="parent2" />
               </q-expansion-item>
             </q-list>
           </q-card-section>

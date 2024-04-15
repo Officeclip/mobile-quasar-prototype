@@ -143,6 +143,18 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
     },
 
+    async getTasksByParent(parentObjectId: string) {
+      const callStr = `${Constants.endPointUrl}/task-summary?parentSid=${parentObjectId}`;
+      console.log(callStr);
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(callStr);
+        this.taskSummaries = response.data.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     async addTask(taskSummary: taskSummary) {
       this.taskSummaries.push(taskSummary);
       const instance = Constants.getAxiosInstance();
