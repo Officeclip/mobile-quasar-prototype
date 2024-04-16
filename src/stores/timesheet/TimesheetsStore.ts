@@ -147,13 +147,26 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     },
 
     async addTimesheetDetails(timesheetDetail: TimesheetDetails) {
-      const callStr = `${Constants.endPointUrl}/timesheet-detail`;
-      await fetch(callStr, {
-        method: 'POST',
-        body: JSON.stringify(timesheetDetail),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      console.log(this.timesheetDetail);
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(
+          `${Constants.endPointUrl}/timesheet-detail`,
+          timesheetDetail
+        );
+        if (response.status === 200) {
+          //debugger;
+          this.timesheetDetail = response.data;
+        }
+      } catch (error) {
+        console.error(`New Timesheet Error: ${error}`);
+      }
+      // const callStr = `${Constants.endPointUrl}/timesheet-detail`;
+      // await fetch(callStr, {
+      //   method: 'POST',
+      //   body: JSON.stringify(timesheetDetail),
+      //   headers: { 'Content-Type': 'application/json' },
+      // });
+      // console.log(this.timesheetDetail);
     },
   },
 });

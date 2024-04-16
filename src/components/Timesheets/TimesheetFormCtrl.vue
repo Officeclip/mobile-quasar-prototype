@@ -26,13 +26,13 @@ taskDate.value = props.timesheet?.taskDate;
 const formattedTaskDate =
   taskDate.value != ''
     ? ref(
-        `${new Date().toLocaleString('en-US', {
-          month: 'short',
-          day: 'numeric',
-        })}(${new Date(taskDate.value).toLocaleString('en-US', {
-          weekday: 'short',
-        })})`
-      )
+      `${new Date().toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+      })}(${new Date(taskDate.value).toLocaleString('en-US', {
+        weekday: 'short',
+      })})`
+    )
     : ref('');
 
 const timesheetListStore = useTimesheetListStore();
@@ -141,62 +141,21 @@ const handleModelValue = (newValue) => {
       <q-item-label v-if="selectedPeriod">{{
         selectedPeriod.name
       }}</q-item-label>
-      <pre>{{ taskDate }}</pre>
-      <q-select
-        label="Date"
-        :model-value="formattedTaskDate"
-        @update:model-value="(newValue) => (taskDate = newValue)"
-        :options="dateOptions"
-        option-label="name"
-        map-options
-        emit-label
-      />
-      <pre>{{ customerProjectModel }}</pre>
-      <q-select
-        label="Customer: Project"
-        :model-value="selectedCustomerProject"
-        @update:model-value="handleModelValue"
-        :options="customerProjectOptions"
-        option-label="name"
-        option-value="id"
-        map-options
-      />
-      <!-- <pre>{{ props.timesheet.serviceItemName }}</pre>
-      <pre>{{ serviceItemModel }}</pre> -->
-      <q-select
-        label="ServiceItems"
-        v-model="serviceItemModel"
-        @update:model-value="
-          (newValue) => (props.timesheet.serviceItemName = newValue.name)
-        "
-        :options="serviceItemsOptions"
-        option-label="name"
-        option-value="id"
-        map-options
-        @click="getServiceItems()"
-      />
+      <q-select label="Date" :model-value="formattedTaskDate" @update:model-value="(newValue) => (taskDate = newValue)"
+        :options="dateOptions" option-label="name" map-options emit-label />
+      <q-select label="Customer: Project" :model-value="selectedCustomerProject" @update:model-value="handleModelValue"
+        :options="customerProjectOptions" option-label="name" option-value="id" map-options />
+      <q-select label="ServiceItems" v-model="serviceItemModel" @update:model-value="(newValue) => (props.timesheet.serviceItemName = newValue.name)
+        " :options="serviceItemsOptions" option-label="name" option-value="id" map-options
+        @click="getServiceItems()" />
 
-      <q-select
-        label="Billable"
-        v-model="props.timesheet.isBillable"
-        :options="billableOptions"
-        map-options
-        emit-value
-      />
+      <q-select label="Billable" v-model="props.timesheet.isBillable" :options="billableOptions" map-options
+        emit-value />
       <pre>{{ props.timesheet.timeDuration }}</pre>
-      <q-input
-        label="Duration"
-        v-model.number="props.timesheet.timeDuration"
-        placeholder="enter here..."
-        type="number"
-      >
+      <q-input label="Duration" v-model.number="props.timesheet.timeDuration" placeholder="enter here..." type="number">
       </q-input>
 
-      <q-input
-        label="Description"
-        v-model="props.timesheet.description"
-        placeholder="enter here..."
-      >
+      <q-input label="Description" v-model="props.timesheet.description" placeholder="enter here...">
       </q-input>
     </div>
   </div>

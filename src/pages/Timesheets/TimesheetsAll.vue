@@ -78,26 +78,25 @@ watch([timesheetStatus], ([newModel]) => {
     </q-footer>
     <q-page-container>
       <q-page>
-        <pre>{{ timesheetStatus }}</pre>
         <q-list v-for="item in timesheetsAll" :key="item.id">
           <q-item :to="{
-            name: 'timesheetDetails',
-            params: {
-              id: item.id,
-              fromDate: item.fromDate,
-              readOnly: item.security.read,
-            },
-          }" clickable v-ripple>
+          name: 'timesheetDetails',
+          params: {
+            id: item.id,
+            fromDate: item.fromDate,
+            readOnly: item.security.read,
+          },
+        }" clickable v-ripple>
             <q-item-section>
               <q-item-label>
                 {{ item.createdByUserName }}
               </q-item-label>
               <q-item-label caption>
                 {{
-                  item.fromDate
-                  ? item.fromDate
-                  : 'No Specific Date'
-                }}
+          item.fromDate
+            ? item.fromDate
+            : 'No Specific Date'
+        }}
               </q-item-label>
             </q-item-section>
             <q-item-section side>
@@ -111,17 +110,10 @@ watch([timesheetStatus], ([newModel]) => {
           </q-item>
           <q-separator></q-separator>
         </q-list>
-        <!-- <div>
-          <pre>{{ session.isAdmin }}</pre>
-          <pre>{{ isRoleAccess() }}</pre>
-        </div> -->
-        <div>
-          <pre>{{ isAllow }}</pre>
-        </div>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn v-if="isAllow" :to="{
-            name: 'newTimesheetPeriod',
-          }" fab icon="add" color="accent" padding="sm">
+          name: 'newTimesheetPeriod',
+        }" fab icon="add" color="accent" padding="sm">
           </q-btn>
         </q-page-sticky>
       </q-page>
