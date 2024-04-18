@@ -151,7 +151,6 @@ const handleModelValue = (newValue) => {
 
       <q-select label="Billable" v-model="props.timesheet.isBillable" :options="billableOptions" map-options
         emit-value />
-      <pre>{{ props.timesheet.timeDuration }}</pre>
       <q-input label="Duration" v-model.number="props.timesheet.timeDuration" placeholder="enter here..." type="number">
       </q-input>
 

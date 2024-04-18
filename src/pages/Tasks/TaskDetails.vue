@@ -261,7 +261,7 @@ function addSubtask(subtask: subTask) {
               <q-item-section>
                 <q-item-label caption>Repeating</q-item-label>
                 <q-item-label description>{{
-          taskDetail?.recurrence.text || 'None'
+          taskDetail?.recurrence?.text || 'Not Available'
         }}
                 </q-item-label>
               </q-item-section>
@@ -331,7 +331,6 @@ function addSubtask(subtask: subTask) {
 
           </div>
         </q-card-section>
-
         <q-toolbar class="bg-primary text-white shadow-2">
           <q-toolbar-title>Subtasks</q-toolbar-title>
           <q-btn dense flat icon="add" round @click="showAddSubtaskDialog = true" />
@@ -371,7 +370,7 @@ function addSubtask(subtask: subTask) {
       </q-page-sticky>
 
       <q-dialog v-model="showAddSubtaskDialog">
-        <add-subtask-dialog @save-subtask="addSubtask" />
+        <add-subtask-dialog :taskSid="taskDetail?.id" @save-subtask="addSubtask" />
       </q-dialog>
 
       <!-- <q-dialog v-model="showConfirmationDialog">

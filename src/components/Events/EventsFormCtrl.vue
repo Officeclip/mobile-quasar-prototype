@@ -13,6 +13,7 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { userSummary } from 'src/models/userSummary';
 import { useUserSummaryStore } from 'stores/userSummaryStore';
 import Regarding from '../general/regardingComponent.vue';
+import { useSessionStore } from 'src/stores/SessionStore';
 
 // eslint-disable-next-line vue/no-dupe-keys
 const props = defineProps(['event']);
@@ -61,9 +62,11 @@ const eventDetailsStore = useEventDetailsStore();
 const eventListsStore = useEventListsStore();
 const reminderDataStore = useReminderDataStore();
 const userSummaryStore = useUserSummaryStore();
+const sessionStore = useSessionStore();
+const session = sessionStore.Session;
 
 onMounted(() => {
-  eventDetailsStore.getAllMeetingAttendees();
+  userSummaryStore.getUserSummaries();
   eventListsStore.getEventLists();
   reminderDataStore.getReminderObject();
 });
@@ -158,7 +161,7 @@ const labelOptions = label;
 //const filterOptions = ref(meetingAttendee);
 const filterOptions: Ref<userSummary[]> = ref([]);
 
-function filterFn(val: any, update: any) {
+function filterFn(val: string, update: any) {
   update(() => {
     console.log('update');
     const needle = val.toLowerCase();
@@ -166,17 +169,6 @@ function filterFn(val: any, update: any) {
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
   });
-  // Filter the meetingAttendee array based on the search value.
-  // update(() => {
-  //   if (val === '') {
-  //     filterOptions.value = meetingAttendee;
-  //   } else {
-  //     const needle = val.toLowerCase();
-  //     filterOptions.value = meetingAttendee.value.filter(
-  //       (v: any) => v.name.toLowerCase().indexOf(needle) > -1
-  //     );
-  //   }
-  // });
 }
 
 function createValue(val: string, done: any) {
@@ -195,6 +187,14 @@ function createValue(val: string, done: any) {
     done({ id: id, email: val }, 'toggle'); // added the new input as an new item into the dropdown
   }
 }
+if (props.event.eventType == '2') {
+  props.event.meetingAttendees = [{
+    id: session.userId,
+    name: session.userName,
+    email: session.userEmail
+  }]
+};
+
 const testUrl = () => {
   const url = props.event.url;
   if (!url) {
@@ -225,7 +225,7 @@ function isValidURL(url: string) {
           <q-radio v-model="event.eventType" color="red" keep-color label="Meeting" val="2" size="sm" />
         </q-item-section>
         <q-item-section>
-          <q-radio v-model="event.eventType" color="cyan" keep-color label="Private" val="3" size="sm" />
+          <q-radio v-model="event.eventType" color="cyan" keep-color label="Personal" val="3" size="sm" />
         </q-item-section>
       </q-item>
 
@@ -349,7 +349,6 @@ function isValidURL(url: string) {
       </q-item>
       <q-item>
         <q-item-section class="q-pr-xl">
-          <pre>{{ event.showTimeAs }}</pre>
           <q-select filled v-model="event.showTimeAs" :options="ShowMyTimeAsOptions" label="Show Time As" emit-value
             map-options option-label="name" option-value="id">
             <template #option="scope">

@@ -98,18 +98,21 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
           this.eventDetails = response.data;
         }
       } catch (error) {
-        console.error(`editEvent Error: ${error}`);
+        console.error(`addEventDetail Error: ${error}`);
       }
     },
 
     async addEventSummary(eventSummary: eventSummary) {
       const callStr = `${Constants.endPointUrl}/event-summary`;
-      await fetch(callStr, {
-        method: 'POST',
-        body: JSON.stringify(eventSummary),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      console.log(this.eventSummary);
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(callStr, eventSummary);
+        if (response.status === 200) {
+          this.eventSummary = response.data;
+        }
+      } catch (error) {
+        console.error(`editEventSummary Error: ${error}`);
+      }
     },
 
     async deleteEventDetails(id: string | undefined) {
