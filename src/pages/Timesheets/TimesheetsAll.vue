@@ -121,6 +121,11 @@ watch([timesheetStatus], ([newModel]) => {
                 }}
               </q-item-label>
             </q-item-section>
+            <q-item-section style="float: right">
+              <q-item-label style="float: right">
+                {{ item.totalHours }}
+              </q-item-label>
+            </q-item-section>
             <q-item-section side>
               <q-chip
                 dense
