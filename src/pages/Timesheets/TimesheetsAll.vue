@@ -62,45 +62,70 @@ watch([timesheetStatus], ([newModel]) => {
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title>{{ title }} Timesheets </q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-footer elevated>
-      <q-tabs v-model="timesheetStatus" class="bg-grey-9" dense align="justify" switch-indicator>
+      <q-tabs
+        v-model="timesheetStatus"
+        class="bg-grey-9"
+        dense
+        align="justify"
+        switch-indicator
+      >
         <q-tab name="inbox" label="Inbox" icon="inbox" class="text-orange">
           <q-badge color="red" floating>2</q-badge>
         </q-tab>
         <q-tab name="outbox" label="Outbox" icon="outbox" class="text-cyan" />
-        <q-tab name="archived" label="Archived" icon="archive" class="text-red" />
+        <q-tab
+          name="archived"
+          label="Archived"
+          icon="archive"
+          class="text-red"
+        />
       </q-tabs>
     </q-footer>
     <q-page-container>
       <q-page>
         <q-list v-for="item in timesheetsAll" :key="item.id">
-          <q-item :to="{
-          name: 'timesheetDetails',
-          params: {
-            id: item.id,
-            fromDate: item.fromDate,
-            readOnly: item.security.read,
-          },
-        }" clickable v-ripple>
+          <q-item
+            :to="{
+              name: 'timesheetDetails',
+              params: {
+                id: item.id,
+                fromDate: item.fromDate,
+                readOnly: item.security.read,
+              },
+            }"
+            clickable
+            v-ripple
+          >
             <q-item-section>
               <q-item-label>
                 {{ item.createdByUserName }}
               </q-item-label>
               <q-item-label caption>
                 {{
-          item.fromDate
-            ? item.fromDate
-            : 'No Specific Date'
-        }}
+                  item.fromDate
+                    ? dateTimeHelper.extractDateFromUtc(item.fromDate)
+                    : 'No Specific Date'
+                }}
               </q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-chip dense :color="getExpenseOrTimesheetStatusColor(item.status)">
+              <q-chip
+                dense
+                :color="getExpenseOrTimesheetStatusColor(item.status)"
+              >
                 <q-item-label caption>{{ item.status }}</q-item-label>
               </q-chip>
             </q-item-section>
@@ -111,9 +136,16 @@ watch([timesheetStatus], ([newModel]) => {
           <q-separator></q-separator>
         </q-list>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
-          <q-btn v-if="isAllow" :to="{
-          name: 'newTimesheetPeriod',
-        }" fab icon="add" color="accent" padding="sm">
+          <q-btn
+            v-if="isAllow"
+            :to="{
+              name: 'newTimesheetPeriod',
+            }"
+            fab
+            icon="add"
+            color="accent"
+            padding="sm"
+          >
           </q-btn>
         </q-page-sticky>
       </q-page>
