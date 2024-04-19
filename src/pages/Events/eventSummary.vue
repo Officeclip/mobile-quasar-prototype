@@ -16,9 +16,9 @@ date.value = format(new Date(), 'yyyy/MM/dd');
 
 const yearAndMonth = ref(null);
 
-const eventSummary = computed(() => {
-  return eventSummaryStore.EventSummary;
-});
+// const eventSummary = computed(() => {
+//   return eventSummaryStore.EventSummary;
+// });
 
 onMounted(() => {
   eventSummaryStore.getAllEventSummary(null);
@@ -50,8 +50,8 @@ const eventsForADay = computed(() => {
 });
 
 function getFromToDate(event: eventSummary) {
-  const from = dateTimeHelper.extractTimeFromUtc(event.startDateTime);
-  const to = dateTimeHelper.extractTimeFromUtc(event.endDateTime);
+  const from = dateTimeHelper.extractTimeFromUtc(event.startDateTime as string);
+  const to = dateTimeHelper.extractTimeFromUtc(event.endDateTime as string);
   return `${from} - ${to}`;
 }
 
@@ -90,7 +90,6 @@ const getYearandMonth = (newvalue: any) => {
         <div class="q-ma-md">
           <q-list class="flex justify-center">
             <q-date v-model="date" :events="eventDates" today-btn @navigation="getYearandMonth" />
-            <!-- <div>{{ yearAndMonth }}</div> -->
           </q-list>
           <q-list class="q-pt-lg text-h6">Events for: {{ date }}</q-list>
           <q-list bordered class="q-mt-sm">

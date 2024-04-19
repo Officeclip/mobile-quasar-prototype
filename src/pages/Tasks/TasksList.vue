@@ -65,9 +65,9 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
 
 async function filterFn(val: string) {
   if (val.length === 0) {
-  } else if (val.length < 2) {
+  } else if (val.length < 3) {
     return;
-  } else if (val.length === 2) {
+  } else if (val.length >= 3) {
     filterOptions.value.filterString = val;
     console.log(`filterFn: ${JSON.stringify(filterOptions.value)}`);
     taskSummaryStore.resetPageNumber();

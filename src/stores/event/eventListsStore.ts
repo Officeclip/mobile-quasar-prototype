@@ -141,7 +141,6 @@ export const useEventListsStore = defineStore('eventListsStore', {
         console.log('userList: ', filtered);
         await new Promise((r) => setTimeout(r, 500));
         this.users = filtered;
-        // console.log("Filtered contacts: ", this.regardingContacts);
       } catch (error) {
         console.error(error);
       }

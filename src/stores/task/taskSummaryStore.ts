@@ -102,6 +102,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         const response = await instance.get(this.url);
         const summaries = response.data.data;
         this.taskSummaries.push(...summaries);
+        console.log('Task summaries in Task Summary store:', summaries);
         this.links = response.data.pagination.next || '{}';
         this.url = this.links ? `${this.links}` : '';
 

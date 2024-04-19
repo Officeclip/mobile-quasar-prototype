@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { regardingItem } from 'src/models/general/regardingItem';
-import axios from 'axios';
 import { Constants } from '../Constants';
 
 export const useRegardingStore = defineStore('regardingStore', {
@@ -52,10 +51,6 @@ export const useRegardingStore = defineStore('regardingStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}/regarding?parentType=${type.name}&searchString=${searchString}`
         );
-        //const instance = Constants.getAxiosInstance();
-        // const response1 = await instance.get(
-        //   `${Constants.endPointUrl}/regarding`
-        // );
         const regardingItems = response.data;
         console.log('getRegardingList: ', regardingItems[0]);
 
@@ -65,7 +60,6 @@ export const useRegardingStore = defineStore('regardingStore', {
         console.log('getRegardingList: ', filtered);
         await new Promise((r) => setTimeout(r, 500));
         this.regardingItems = filtered;
-        // console.log("Filtered contacts: ", this.regardingContacts);
       } catch (error) {
         console.error(error);
       }

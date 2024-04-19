@@ -79,16 +79,6 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       }
     },
 
-    // async addEventDetails(event: eventDetails) {
-    //   const callStr = `${Constants.endPointUrl}/event-detail`;
-    //   await fetch(callStr, {
-    //     method: 'POST',
-    //     body: JSON.stringify(event),
-    //     headers: { 'Content-Type': 'application/json' },
-    //   });
-    //   console.log(this.eventDetails);
-    // },
-
     async addEventDetails(event: eventDetails) {
       const callStr = `${Constants.endPointUrl}/event-detail`;
       try {
