@@ -86,7 +86,7 @@ async function filterFn(val: string, update: any, abort: any) {
   if (val.length < 2) {
     abort();
     return;
-  } else if (val.length === 2) {
+  } else if (val.length >= 2) {
     userList.value = [];
     await taskListsStore.getFilteredUsers(val);
     userList.value = taskListsStore.users;
@@ -107,121 +107,56 @@ async function filterFn(val: string, update: any, abort: any) {
     <div class="q-pa-md row">
       <q-item-section>
         <q-item-label>Due Date</q-item-label>
-        <q-input
-          v-model="advancedOptions.dueDateValue"
-          clearable
-          label="Due Date"
-          outlined
-          type="date"
-        />
-        <q-select
-          v-model="advancedOptions.dueDateOption"
-          :options="dateOptions"
-          clearable
-          emit-value
-          map-options
-          option-label="label"
-          option-value="value"
-        />
+        <q-input v-model="advancedOptions.dueDateValue" clearable label="Due Date" outlined type="date" />
+        <q-select v-model="advancedOptions.dueDateOption" :options="dateOptions" clearable emit-value map-options
+          option-label="label" option-value="value" />
       </q-item-section>
 
       <q-item-section>
         <q-item-label>Modified Date</q-item-label>
-        <q-input
-          v-model="advancedOptions.modifiedDateValue"
-          clearable
-          label="Modified Date"
-          outlined
-          type="date"
-        />
-        <q-select
-          v-model="advancedOptions.modifiedDateOption"
-          :options="dateOptions"
-          clearable
-          emit-value
-          map-options
-          option-label="label"
-          option-value="value"
-        />
+        <q-input v-model="advancedOptions.modifiedDateValue" clearable label="Modified Date" outlined type="date" />
+        <q-select v-model="advancedOptions.modifiedDateOption" :options="dateOptions" clearable emit-value map-options
+          option-label="label" option-value="value" />
       </q-item-section>
     </div>
 
     <div class="q-pa-md row">
       <q-item-section>
         <q-item-label>Status</q-item-label>
-        <q-select
-          v-model="advancedOptions.statusId"
-          :options="taskListsStore.TaskStatuses"
-          emit-value
-          map-options
-          option-label="name"
-          option-value="id"
-        />
+        <q-select v-model="advancedOptions.statusId" :options="taskListsStore.TaskStatuses" emit-value map-options
+          option-label="name" option-value="id" />
       </q-item-section>
 
       <q-item-section>
         <q-item-label>Priority</q-item-label>
-        <q-select
-          v-model="advancedOptions.priorityId"
-          :options="taskListsStore.TaskPriorities"
-          emit-value
-          map-options
-          option-label="name"
-          option-value="id"
-        />
+        <q-select v-model="advancedOptions.priorityId" :options="taskListsStore.TaskPriorities" emit-value map-options
+          option-label="name" option-value="id" />
       </q-item-section>
 
       <q-item-section>
         <q-item-label>Task Type</q-item-label>
-        <q-select
-          v-model="advancedOptions.taskTypeId"
-          :options="taskListsStore.TaskTypes"
-          emit-value
-          map-options
-          option-label="name"
-          option-value="id"
-        />
+        <q-select v-model="advancedOptions.taskTypeId" :options="taskListsStore.TaskTypes" emit-value map-options
+          option-label="name" option-value="id" />
       </q-item-section>
     </div>
 
     <div class="q-pa-md row">
       <q-item-section>
         <q-item-label>Assigned To</q-item-label>
-        <q-select
-          v-model="advancedOptions.assignedToId"
-          :options="userList"
-          clearable
-          emit-value
-          map-options
-          option-label="name"
-          option-value="id"
-          use-input
-          @filter="filterFn"
-        />
+        <q-select v-model="advancedOptions.assignedToId" :options="userList" clearable emit-value map-options
+          option-label="name" option-value="id" use-input @filter="filterFn" />
       </q-item-section>
 
       <q-item-section>
         <q-item-label>Owned By</q-item-label>
-        <q-select
-          v-model="advancedOptions.ownedById"
-          :options="userList"
-          clearable
-          emit-value
-          map-options
-          option-label="name"
-          option-value="id"
-          use-input
-          @filter="filterFn"
-        />
+        <q-select v-model="advancedOptions.ownedById" :options="userList" clearable emit-value map-options
+          option-label="name" option-value="id" use-input @filter="filterFn" />
       </q-item-section>
     </div>
     <div class="q-pa-md row">
       <q-item-section>
         <div class="q-mr-md">
-          <q-checkbox
-            v-model="advancedOptions.showCompleted"
-            label="Show completed tasks"
-          />
+          <q-checkbox v-model="advancedOptions.showCompleted" label="Show completed tasks" />
         </div>
       </q-item-section>
     </div>

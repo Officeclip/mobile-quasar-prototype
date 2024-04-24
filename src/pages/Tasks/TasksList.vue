@@ -64,23 +64,41 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
 }
 
 async function filterFn(val: string) {
-  if (val.length === 0) {
-  } else if (val.length < 3) {
-    return;
-  } else if (val.length >= 3) {
-    filterOptions.value.filterString = val;
+  if (val == null || val.length === 0) {
+    taskSummaryStore.resetPageNumber();
+    return await taskSummaryStore.getTasksUpdated();
+  } else {
+    filterOptions.value.filterString = val.toLowerCase();
     console.log(`filterFn: ${JSON.stringify(filterOptions.value)}`);
     taskSummaryStore.resetPageNumber();
     taskSummaryStore.setFilter(filterOptions.value);
-    await taskSummaryStore.getTasksUpdated(true);
-  } else {
-    taskSummaryStore.taskSummaries = taskSummaryStore.taskSummaries.filter(
-      (t: taskSummary) => {
-        return t.subject.toLowerCase().includes(val.toLowerCase());
-      }
-    );
+    await taskSummaryStore.getTasksUpdated();
   }
 }
+
+// async function filterFn(val: string) {
+//   if (val == null) {
+//     taskSummaryStore.resetPageNumber();
+//     return await taskSummaryStore.getTasksUpdated();
+//   }
+//   if (val.length === 0) {
+//   } else if (val.length < 3) {
+//     return;
+//   } else if (val.length >= 3) {
+//     filterOptions.value.filterString = val;
+//     console.log(`filterFn: ${JSON.stringify(filterOptions.value)}`);
+//     taskSummaryStore.resetPageNumber();
+//     taskSummaryStore.setFilter(filterOptions.value);
+//     //await taskSummaryStore.getTasksUpdated(true);
+//     await taskSummaryStore.getTasksUpdated();
+//   } else {
+//     taskSummaryStore.taskSummaries = taskSummaryStore.taskSummaries.filter(
+//       (t: taskSummary) => {
+//         return t.subject.toLowerCase().includes(val.toLowerCase());
+//       }
+//     );
+//   }
+// }
 
 watch(
   () => filterOptions.value.filterString,
@@ -97,7 +115,7 @@ watch(assignedToMe, async () => {
   }
   await taskSummaryStore.resetTaskSummaryList();
   setTimeout(async () => {
-    await taskSummaryStore.getTasksUpdated(false);
+    await taskSummaryStore.getTasksUpdated();
   }, 250);
 });
 

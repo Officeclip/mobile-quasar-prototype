@@ -52,7 +52,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       return queryParams;
     },
 
-    getUrl(isFilter: boolean) {
+    getUrl() {
       //if (this.url) return;
 
       if (this.IsParentPresent) {
@@ -87,30 +87,47 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       this.links = {} as linkHeader; // https://stackoverflow.com/a/45339463
     },
 
-    async getTasksUpdated(isFilter: boolean): Promise<boolean> {
-      this.getUrl(isFilter);
-      console.log(
-        `taskSummaryStore: getTasksUpdated: Url: ${
-          this.url
-        }, QueryParam: ${this.constructQueryParams()}, isFilter: ${isFilter}, Filter: ${JSON.stringify(
-          this.filter
-        )}`
-      );
+    // async getTasksUpdated(isFilter: boolean): Promise<boolean> {
+    //   this.getUrl();
+    //   console.log(
+    //     `taskSummaryStore: getTasksUpdated: Url: ${
+    //       this.url
+    //     }, QueryParam: ${this.constructQueryParams()}, isFilter: ${isFilter}, Filter: ${JSON.stringify(
+    //       this.filter
+    //     )}`
+    //   );
 
+    //   try {
+    //     const instance = Constants.getAxiosInstance();
+    //     const response = await instance.get(this.url);
+    //     const summaries = response.data.data;
+    //await this.resetTaskSummaryList();
+    // this.taskSummaries.push(...summaries);
+    // console.log('Task summaries in Task Summary store:', summaries);
+    // this.links = response.data.pagination.next || '{}';
+    // this.url = this.links ? `${this.links}` : '';
+
+    // this.links = JSON.parse(response.headers.get('Links') || '{}');
+    // this.url = this.links.next
+    //   ? `${Constants.endPointUrl}${this.links.next}`
+    //   : '';
+    // console.log("next url from header", this.url);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    //   return this.url === 'null';
+    // },
+
+    async getTasksUpdated(): Promise<boolean> {
+      this.getUrl();
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(this.url);
         const summaries = response.data.data;
+        await this.resetTaskSummaryList();
         this.taskSummaries.push(...summaries);
-        console.log('Task summaries in Task Summary store:', summaries);
         this.links = response.data.pagination.next || '{}';
         this.url = this.links ? `${this.links}` : '';
-
-        // this.links = JSON.parse(response.headers.get('Links') || '{}');
-        // this.url = this.links.next
-        //   ? `${Constants.endPointUrl}${this.links.next}`
-        //   : '';
-        // console.log("next url from header", this.url);
       } catch (error) {
         console.error(error);
       }

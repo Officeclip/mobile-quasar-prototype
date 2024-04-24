@@ -55,9 +55,9 @@ export const useTaskListsStore = defineStore('taskListsStore', {
         this.users = [];
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/task-lists?user=${searchString}`
+          `${Constants.endPointUrl}/task-lists?users`
         );
-        const userList = response.data.users;
+        const userList = response.data[0].users;
         const filtered = userList.filter((t: regardingContact) => {
           return t.name.toLowerCase().includes(searchString.toLowerCase());
         });
