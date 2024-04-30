@@ -1,36 +1,55 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 
-const selectedDate = ref(null); // Initially null to avoid filtering on mount
-
-const eventSummary = [
-  // Your event summary data here...
-];
-
-const filteredEvents = computed(() => {
-  if (!selectedDate.value) return [];
-
-  const currentMonth = selectedDate.value.getMonth() + 1;
-  return eventSummary.filter((event) => {
-    const eventMonth = new Date(event.startDateTime).getMonth() + 1;
-    return eventMonth === currentMonth;
-  });
-});
-
-const handleDateChange = (newDate) => {
-  console.log('Testing the Events sample program::', newDate);
-  selectedDate.value = newDate;
-};
+const date = ref('2024-02-01 12:44');
 </script>
 
 <template>
-  <div>
-    <q-date
-      v-model="selectedDate"
-      :events="filteredEvents"
-      @navigation="handleDateChange"
-    />
+  <div id="q-app" style="min-height: 100vh">
+    <div class="q-pa-md" style="max-width: 300px">
+      <q-input filled v-model="date">
+        <template v-slot:prepend>
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy
+              cover
+              transition-show="scale"
+              transition-hide="scale"
+            >
+              <q-date v-model="date" mask="YYYY-MM-DD HH:mm">
+                <div class="row items-center justify-end">
+                  <q-btn
+                    v-close-popup
+                    label="Close"
+                    color="primary"
+                    flat
+                  ></q-btn>
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+
+        <template v-slot:append>
+          <q-icon name="access_time" class="cursor-pointer">
+            <q-popup-proxy
+              cover
+              transition-show="scale"
+              transition-hide="scale"
+            >
+              <q-time v-model="date" mask="YYYY-MM-DD HH:mm">
+                <div class="row items-center justify-end">
+                  <q-btn
+                    v-close-popup
+                    label="Close"
+                    color="primary"
+                    flat
+                  ></q-btn>
+                </div>
+              </q-time>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
+    </div>
   </div>
 </template>
-
-<style></style>

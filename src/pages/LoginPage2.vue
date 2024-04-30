@@ -142,7 +142,7 @@ const submitLogin = () => {
                 :to="{
                   name: 'calEventsTest',
                 }"
-                label="Events"
+                label="Date time picker"
                 no-caps
               />
             </div>
