@@ -237,7 +237,7 @@ const isAllowDelete = computed(() => {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-if="event?.label">
+        <q-item v-if="labelNameById">
           <q-item-section>
             <q-item-label caption> Label </q-item-label>
             <q-item-label>
@@ -249,7 +249,7 @@ const isAllowDelete = computed(() => {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-if="event?.showTimeAs">
+        <q-item v-if="showTimeAsById">
           <q-item-section>
             <q-item-label caption> Show Time As </q-item-label>
             <q-item-label>
