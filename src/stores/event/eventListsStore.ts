@@ -63,11 +63,11 @@ export const useEventListsStore = defineStore('eventListsStore', {
 
         this.labels = eventLists.label;
         // this.timeZones = eventLists.timezone;
-        this.timeZones = eventLists.timezone.map((item: any) => ({
-          id: item.id,
-          name: `${item.name} ${item.standard_id}`,
-          locations: item.locations,
-        }));
+        // this.timeZones = eventLists.timezone.map((item: any) => ({
+        //   id: item.id,
+        //   name: `${item.name} ${item.standard_id}`,
+        //   locations: item.locations,
+        // }));
         this.showMyTimeAs = ShowMyTimeAsOptions;
         this.regardingParent = eventLists.regardingParentTypes;
       } catch (error) {

@@ -110,7 +110,7 @@ const labelNameById = computed(() => {
 
 const showTimeAsById = computed(() => {
   const data = eventListStore.ShowMyTimeAs;
-  const obj = data.find((obj: any) => obj.id === event.value?.ShowTimeAs);
+  const obj = data.find((obj: any) => obj.id === event.value?.showTimeAs);
   return obj ? obj : null;
 });
 
@@ -215,7 +215,7 @@ const isAllowDelete = computed(() => {
           title="Is All Day Event ?"
           :value="event?.isAllDayEvent ? 'Yes' : 'No'"
         />
-        <q-item v-if="event?.meetingAttendees">
+        <q-item v-if="event?.meetingAttendees.length">
           <q-item-section>
             <q-item-label caption> Attendees </q-item-label>
             <div style="display: inline-flex; align-items: baseline">
@@ -237,7 +237,7 @@ const isAllowDelete = computed(() => {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-if="event?.label">
+        <q-item v-if="labelNameById">
           <q-item-section>
             <q-item-label caption> Label </q-item-label>
             <q-item-label>
@@ -249,7 +249,7 @@ const isAllowDelete = computed(() => {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-if="event?.ShowTimeAs">
+        <q-item v-if="showTimeAsById">
           <q-item-section>
             <q-item-label caption> Show Time As </q-item-label>
             <q-item-label>

@@ -1,7 +1,7 @@
 export interface eventLists {
   labels: label[];
   // timeZones: timeZone[];
-  ShowTimeAs: ShowTimeAs[];
+  showTimeAs: showTimeAs[];
   regardingParent: regardingParent[];
   users: user[];
 }
@@ -11,7 +11,7 @@ export interface label {
   name: string;
   color: string;
 }
-export interface ShowTimeAs {
+export interface showTimeAs {
   id: string;
   name: string;
   color: string;
