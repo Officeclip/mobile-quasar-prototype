@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
-import { useTimesheetCommentsStore } from '../../stores/timesheet/timesheetCommentsStore';
+import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
@@ -22,7 +22,7 @@ const fromDate = route.params.fromDate;
 const readOnly = route.params.readOnly === 'false';
 console.log('Testing readOnlyreadOnlyreadOnly', route.params.readOnly);
 const timesheetsStore = useTimesheetsStore();
-const timesheetCommentsStore = useTimesheetCommentsStore();
+const timesheetCommentsStore = useTECommentsStore();
 const timesheetListsStore = useTimesheetListStore();
 
 onMounted(() => {
@@ -191,7 +191,7 @@ const isReadOnly = isAllowed({
           </template>
           <q-list>
             <q-item v-for="comments in commentsList" :key="comments.id">
-              <q-item-section style="white-space: pre-wrap">{{ comments.comment }}
+              <q-item-section style="white-space: pre-wrap">{{ comments.text_comment }}
               </q-item-section>
               <q-item-section style="white-space: pre-wrap">
                 by {{ comments.commentedUserName }}
@@ -202,12 +202,13 @@ const isReadOnly = isAllowed({
           </q-list>
         </q-expansion-item>
       </q-card>
-
+      <!-- <pre>{{ JSON.stringify(timesheetDetails[0]?.timesheetSid) }}</pre> -->
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn :to="{
           name: 'newTimesheet',
           params: {
             periodName: timesheetPeriod?.name,
+            timesheetSid: timesheetDetails[0]?.timesheetSid
           },
         }" fab icon="add" color="accent" padding="sm">
         </q-btn>

@@ -24,14 +24,7 @@ watch([periodModel], ([newPeriodModel]) => {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> New Timesheet</q-toolbar-title>
       </q-toolbar>
@@ -44,28 +37,16 @@ watch([periodModel], ([newPeriodModel]) => {
             <p v-if="warningMsg" class="text-orange">{{ warningMsg }}</p>
           </q-item>
           <q-item>
-            <q-select
-              class="full-width"
-              label="Period"
-              v-model="periodModel"
-              :options="periodsList"
-              map-options
-              option-label="name"
-          /></q-item>
+            <q-select class="full-width" label="Period" v-model="periodModel" :options="periodsList" map-options
+              option-label="name" /></q-item>
           <q-list>
-            <q-btn
-              v-if="periodModel != '' && errorMsg == ''"
-              class="q-ma-md"
-              label="Next"
-              color="primary"
-              :to="{
-                name: 'newTimesheet',
-                params: {
-                  periodName: periodModel.name,
-                },
-              }"
-            ></q-btn></q-list
-        ></q-list>
+            <q-btn v-if="periodModel != '' && errorMsg == ''" class="q-ma-md" label="Next" color="primary" :to="{
+          name: 'newTimesheet',
+          params: {
+            periodName: periodModel.name,
+            timesheetSid: '0'
+          },
+        }"></q-btn></q-list></q-list>
       </q-page>
     </q-page-container>
   </q-layout>

@@ -14,6 +14,7 @@ import taxiExpense from '../../components/expenses/details/taxiExpense.vue';
 import telephoneExpense from '../../components/expenses/details/telephoneExpense.vue';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import WorkFlow from '../../components/general/WorkFlow.vue';
+import { useTECommentsStore } from '../../stores/TECommentsStore';
 
 const route = useRoute();
 const router = useRouter();
@@ -23,7 +24,7 @@ const entityType = 'expense';
 const fromDate = route.params.fromDate;
 
 const expenseDetailsStore = useExpenseDetailsStore();
-
+const expenseCommentsStore = useTECommentsStore();
 const expenseListsStore = useExpenseListsStore();
 
 // const usesessionStore = useSessionStore();
@@ -32,6 +33,8 @@ onMounted(() => {
   expenseDetailsStore.getExpenseDetails(route.params.id);
   expenseListsStore.getExpensesList();
   // usesessionStore.getSession();
+  expenseCommentsStore.$reset();
+  expenseCommentsStore.getExpenseComments(route.params.id);
 });
 
 // const getSession = computed(() => {
@@ -46,6 +49,18 @@ onMounted(() => {
 
 const expenseDetails = computed(() => {
   return expenseDetailsStore.expenseDetailsList;
+});
+
+// const showComments = ref(false);
+const commentsList = computed(() => {
+  return expenseCommentsStore.commentsList;
+});
+console.log('getting the comment list from store:', commentsList.value);
+// const toggleList = () => {
+//   showComments.value = !showComments.value;
+// };
+const listLength = computed(() => {
+  return commentsList.value.length;
 });
 
 const periodOptions = computed(() => {
@@ -192,6 +207,7 @@ const deleteExpenseDetail = (id: string) => {
           name: 'newExpense',
           params: {
             period: expensePeriod?.name,
+            expenseSid: expenseDetail.expenseSid
           },
         }" fab icon="add" color="accent" padding="sm">
           </q-btn>
@@ -203,6 +219,31 @@ const deleteExpenseDetail = (id: string) => {
           :id="expenseDetail.id" :title="title" :message="message" @cancel="cancelConfirmation"
           @confirm="deleteExpenseDetail" />
       </div>
+      <q-card v-if="expenseDetails.length > 0" class="q-ma-sm bg-grey-4">
+        <q-expansion-item default-opened expand-separator expand-icon-class="text-primary">
+          <template v-slot:header>
+            <q-item-section>
+              <q-item-label>Comments: </q-item-label>
+            </q-item-section>
+
+            <q-item-section side>
+              <q-btn flat round dense icon="add" class="q-btn-hover:hover"
+                @click="showAddCommentsDialog = true"></q-btn>
+            </q-item-section>
+          </template>
+          <q-list>
+            <q-item v-for="comments in commentsList" :key="comments.id">
+              <q-item-section style="white-space: pre-wrap">{{ comments.text_comment }}
+              </q-item-section>
+              <q-item-section style="white-space: pre-wrap">
+                by {{ comments.commentedUserName }}
+                on {{ comments.commentedDate }}
+              </q-item-section>
+            </q-item>
+            <q-item v-if="listLength == 0"> No Comments are present </q-item>
+          </q-list>
+        </q-expansion-item>
+      </q-card>
     </q-page-container>
   </q-layout>
 </template>

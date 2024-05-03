@@ -4,7 +4,7 @@ import { TimesheetDetails } from 'src/models/Timesheet/timesheetDetails';
 // import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 // import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { useRouter, useRoute } from 'vue-router';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useTimesheetsStore } from 'src/stores/timesheet/TimesheetsStore';
 
 const router = useRouter();
@@ -17,9 +17,14 @@ const timesheetStore = useTimesheetsStore();
 // const selectedPeriod = computed(() => {
 //   return timesheetListStore.SelectedPeriod;
 // });
+
+const timesheetSid = computed(() => {
+  return route.params.timesheetSid;
+});
+
 const timesheetDetails: TimesheetDetails = ref({
   id: '',
-  timesheetSid: '',
+  timesheetSid: timesheetSid.value ? (timesheetSid.value !== '0' ? timesheetSid.value : '') : '',
   timeDuration: Number(),
   isBillable: true,
   accountName: '',
@@ -39,7 +44,8 @@ const timesheetDetails: TimesheetDetails = ref({
   serviceItemName: '',
   serviceItemSid: '',
   taskDate: '',
-  security: []
+  security: [],
+  comments: ''
 });
 function onSubmit(e: any) {
   e.preventDefault();

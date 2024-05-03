@@ -22,4 +22,5 @@ export interface TimesheetDetails {
   serviceItemSid: string;
   taskDate: string;
   security: security[];
+  comments: string;
 }

@@ -58,7 +58,7 @@ function onSubmit(e: any) {
     employeeSid: expenseDetail.value.employeeSid,
     expenseDate: expenseDetail.value.expenseDate,
     id: expenseDetail.value.id,
-    expenseSid: expenseDetail.value.expenseSid ? expenseDetail.value.expenseSid : '',
+    expenseSid: expenseDetail.value.expenseSid ? (expenseDetail.value.expenseSid !== '0' ? expenseDetail.value.expenseSid : '') : '',
     expenseTypeName: expenseDetail.value.expenseTypeName,
     expenseCategoryName: expenseDetail.value.expenseCategoryName,
     expenseTypeSid: expenseDetail.value.expenseTypeSid,

@@ -6,6 +6,7 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 
 const props = defineProps(['timesheet', 'periodName']);
+console.log('New Timesheet timesheet form:', props.timesheet.value);
 const accountName = props.timesheet?.accountName;
 const projectName = props.timesheet?.projectName;
 const selectedCustomerProject = ref(
@@ -155,6 +156,9 @@ const handleModelValue = (newValue) => {
       </q-input>
 
       <q-input label="Description" v-model="props.timesheet.description" placeholder="enter here...">
+      </q-input>
+
+      <q-input label="Comments" v-model="props.timesheet.comments" placeholder="enter here...">
       </q-input>
     </div>
   </div>

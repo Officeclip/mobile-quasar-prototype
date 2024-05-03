@@ -1,12 +1,9 @@
 import { defineStore } from 'pinia';
-import {
-  TimesheetComments,
-  Comments,
-} from 'src/models/Timesheet/timesheetComments';
+import { TEComments, Comments } from 'src/models/teComments';
 import axios from 'axios';
-import { Constants } from '../Constants';
+import { Constants } from './Constants';
 
-export const useTimesheetCommentsStore = defineStore('timesheetCommentsStore', {
+export const useTECommentsStore = defineStore('teCommentsStore', {
   state: () => ({
     commentsList: [] as Comments[],
   }),
@@ -21,6 +18,19 @@ export const useTimesheetCommentsStore = defineStore('timesheetCommentsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
           `${Constants.endPointUrl}/te-comments?category=timesheet&id=${timesheetSid}`
+        );
+        const newData = response.data;
+        this.commentsList = newData;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async getExpenseComments(expenseSid: string | string[]) {
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${Constants.endPointUrl}/te-comments?category=expense&id=${expenseSid}`
         );
         const newData = response.data;
         this.commentsList = newData;

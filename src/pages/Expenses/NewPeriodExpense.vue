@@ -106,12 +106,14 @@ watch([period], ([newPeriodModel]) => {
             <q-select class="full-width" label="Period" v-model="period" :options="periodOptions" map-options
               option-label="name" /></q-item>
           <q-list>
-            <q-btn v-if="period != '' && errorMsg == ''" class="q-ml-md q-mb-md q-mt-md" label="Next" color="primary" :to="{
-              name: 'newExpense',
-              params: {
-                period: period.name
-              },
-            }"></q-btn>
+            <q-btn v-if="period != '' && errorMsg == ''" class="q-ml-md q-mb-md q-mt-md" label="Next" color="primary"
+              :to="{
+          name: 'newExpense',
+          params: {
+            period: period.name,
+            expenseSid: '0'
+          },
+        }"></q-btn>
           </q-list></q-list>
       </q-page>
     </q-page-container>
