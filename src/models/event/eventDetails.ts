@@ -7,7 +7,7 @@
 // From: https://app.quicktype.io/#l=TypeScript
 
 import { security } from '../security';
-import { label, ShowTimeAs } from './eventLists';
+import { label, showTimeAs } from './eventLists';
 
 export interface eventDetails {
   id: string;
@@ -36,7 +36,7 @@ export interface eventDetails {
   reminder: reminder[];
   recurrence: recurrence[];
   label: label[];
-  ShowTimeAs: ShowTimeAs[];
+  showTimeAs: showTimeAs[];
   meetingAttendees: meetingAttendee[];
   url: string;
   security: security[];

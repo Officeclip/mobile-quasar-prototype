@@ -110,7 +110,7 @@ const labelNameById = computed(() => {
 
 const showTimeAsById = computed(() => {
   const data = eventListStore.ShowMyTimeAs;
-  const obj = data.find((obj: any) => obj.id === event.value?.ShowTimeAs);
+  const obj = data.find((obj: any) => obj.id === event.value?.showTimeAs);
   return obj ? obj : null;
 });
 
@@ -249,7 +249,7 @@ const isAllowDelete = computed(() => {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-if="event?.ShowTimeAs">
+        <q-item v-if="event?.showTimeAs">
           <q-item-section>
             <q-item-label caption> Show Time As </q-item-label>
             <q-item-label>
