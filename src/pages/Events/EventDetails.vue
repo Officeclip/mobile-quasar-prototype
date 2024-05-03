@@ -215,7 +215,7 @@ const isAllowDelete = computed(() => {
           title="Is All Day Event ?"
           :value="event?.isAllDayEvent ? 'Yes' : 'No'"
         />
-        <q-item v-if="event?.meetingAttendees">
+        <q-item v-if="event?.meetingAttendees.length">
           <q-item-section>
             <q-item-label caption> Attendees </q-item-label>
             <div style="display: inline-flex; align-items: baseline">
