@@ -18,7 +18,7 @@ const defaultFilterOptions: searchFilter = {
   statusId: '',
   priorityId: '',
   taskTypeId: '',
-  assignedToId: '',
+  assignedTo: '',
   ownedById: '',
   regardingTypeId: '',
   regardingValueId: '',
@@ -37,7 +37,7 @@ const sessionStore = useSessionStore();
 
 const showAdvOptions = ref(false);
 const assignedToMe = ref(
-  filterOptions.value.assignedToId === sessionStore.Session.userId
+  filterOptions.value.assignedTo === sessionStore.Session.userId
 );
 
 function clearFilterValues() {
@@ -52,7 +52,7 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.modifiedDateOption = advancedOptions.modifiedDateOption;
   filterOptions.value.statusId = advancedOptions.statusId;
   filterOptions.value.priorityId = advancedOptions.priorityId;
-  filterOptions.value.assignedToId = advancedOptions.assignedToId;
+  filterOptions.value.assignedTo = advancedOptions.assignedTo;
   filterOptions.value.ownedById = advancedOptions.ownedById;
   filterOptions.value.regardingValueId = advancedOptions.regardingValueId;
   filterOptions.value.regardingTypeId = advancedOptions.regardingTypeId;
@@ -60,21 +60,26 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.showCompleted = advancedOptions.showCompleted;
 
   assignedToMe.value =
-    advancedOptions.assignedToId === sessionStore.Session.userId;
+    advancedOptions.assignedTo === sessionStore.Session.userId;
 }
 
 async function filterFn(val: string) {
   if (val == null || val.length === 0) {
     taskSummaryStore.resetPageNumber();
-    return await taskSummaryStore.getTasksUpdated();
+    return await taskSummaryStore.getTasksUpdated(false);
   } else {
     filterOptions.value.filterString = val.toLowerCase();
     console.log(`filterFn: ${JSON.stringify(filterOptions.value)}`);
     taskSummaryStore.resetPageNumber();
     taskSummaryStore.setFilter(filterOptions.value);
-    await taskSummaryStore.getTasksUpdated();
+    await taskSummaryStore.getTasksUpdated(true);
   }
 }
+async function handleClear() {
+  await taskSummaryStore.resetTaskSummaryList();
+  taskSummaryStore.resetPageNumber();
+  //return await taskSummaryStore.getTasksUpdated(false);
+};
 
 // async function filterFn(val: string) {
 //   if (val == null) {
@@ -109,13 +114,13 @@ watch(
 
 watch(assignedToMe, async () => {
   if (assignedToMe.value) {
-    filterOptions.value.assignedToId = sessionStore.Session.userId;
+    filterOptions.value.assignedTo = sessionStore.Session.userId;
   } else {
-    filterOptions.value.assignedToId = '';
+    filterOptions.value.assignedTo = '';
   }
   await taskSummaryStore.resetTaskSummaryList();
   setTimeout(async () => {
-    await taskSummaryStore.getTasksUpdated();
+    await taskSummaryStore.getTasksUpdated(false);
   }, 250);
 });
 
@@ -176,7 +181,7 @@ onBeforeMount(() => {
     <q-page-container>
       <q-page>
         <div class="q-pa-sm">
-          <q-input v-model="filterOptions.filterString" clearable label="Search" outlined
+          <q-input v-model="filterOptions.filterString" clearable @clear="handleClear" label="Search" outlined
             placeholder="Start typing to search">
           </q-input>
         </div>

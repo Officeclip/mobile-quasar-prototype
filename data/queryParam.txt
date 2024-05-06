@@ -25,7 +25,7 @@ Tasks
   &statusId=73
   &priorityId=23
   &taskTypeId=7
-  &assignedToId=86
+  &assignedTo=86
   &ownedById=92
   &regardingTypeId=65
   &regardingValueId=69

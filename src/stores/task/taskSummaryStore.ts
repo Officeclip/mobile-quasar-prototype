@@ -72,6 +72,9 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       }
 
       this.url = callStr;
+      // if (!this.url.includes('filterString')) {
+      //   this.resetTaskSummaryList();
+      // }
       // if (isFilter) {
       //   //const queryParams = this.constructQueryParams();
       //   this.url += '&' + queryParams;
@@ -118,13 +121,15 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     //   return this.url === 'null';
     // },
 
-    async getTasksUpdated(): Promise<boolean> {
+    async getTasksUpdated(isFilter: boolean): Promise<boolean> {
       this.getUrl();
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(this.url);
         const summaries = response.data.data;
-        await this.resetTaskSummaryList();
+        if (isFilter) {
+          await this.resetTaskSummaryList();
+        }
         this.taskSummaries.push(...summaries);
         this.links = response.data.pagination.next || '{}';
         this.url = this.links ? `${this.links}` : '';
