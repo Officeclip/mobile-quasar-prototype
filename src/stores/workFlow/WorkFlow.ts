@@ -23,7 +23,7 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
           `${Constants.endPointUrl}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=1`
         );
         const response = await instance.get(
-          `${Constants.endPointUrl}/workflow-summary?entityId=${entityId}&entityType=${entityType}`
+          `${Constants.endPointUrl}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=1`
         );
         this.workFlow = response.data[0];
         this.workFlowUsers = response.data[0].users;
