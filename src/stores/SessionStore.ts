@@ -122,5 +122,19 @@ export const useSessionStore = defineStore('sessionStore', {
       ];
       return defaultHomeIcons;
     },
+
+    async changeOrganization(id: string) {
+      const callStr = `${Constants.endPointUrl}/session/${id}`;
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(callStr);
+        if (response.status === 200) {
+          this.session = response.data;
+          await this.getSession();
+        }
+      } catch (error) {
+        console.error(`addEventDetail Error: ${error}`);
+      }
+    },
   },
 });

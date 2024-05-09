@@ -18,7 +18,7 @@ const router = useRouter();
 const sessionStore = useSessionStore();
 const profileListsStore = useProfileListsStore();
 
-const model = ref('OfficeClip Work');
+const organization = ref('');
 const $q = useQuasar();
 
 const filteredHomeIcons = computed(() => {
@@ -26,14 +26,13 @@ const filteredHomeIcons = computed(() => {
   return sessionStore.getHomeIcons();
 });
 
-function getOrgApplications() {
-  console.log('getOrgApplications()', sessionStore.getHomeIcons());
-  sessionStore.getHomeIcons();
-}
+async function updateOrganization(newValue: any) {
+  await sessionStore.changeOrganization(newValue.id);
+};
 
 const session: ComputedRef<Session> = computed(() => {
-  console.log('Sessions stores', sessionStore.Session);
-  return sessionStore.Session;
+  console.log('Sessions stores', sessionStore.session);
+  return sessionStore.session;
 });
 
 const userGeneralProfile = computed(() => {
@@ -53,9 +52,21 @@ const organizationItems = computed(() => {
 onBeforeMount(async () => {
   try {
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
-    //await sessionStore.getSession();
-    //homeIconStore.getHomeIcons();
+    await sessionStore.getSession();
+    //sessionStore.getHomeIcons();
     await profileListsStore.getProfileLists();
+
+    const organizationItems = computed(() => {
+      console.log('organizationItems store', profileListsStore.profileLists);
+      return profileListsStore.profileLists.organization;
+    });
+
+    const organizationItem = computed(() => {
+      return organizationItems.value.find((orgItem) => orgItem.id === session.value.orgId);
+    });
+
+    organization.value = organizationItem.value?.name as string;
+
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -130,8 +141,8 @@ function goToApp(url: string) {
     <q-page-container>
       <q-page>
         <div class="q-pa-lg text-center">
-          <q-select v-model="model" :options="organizationItems" label="Select Organization" option-label="name" outlined
-            @update:model-value="getOrgApplications" />
+          <q-select v-model="organization" :options="organizationItems" label="Select Organization" option-label="name"
+            option-value="id" outlined @update:model-value="updateOrganization" />
         </div>
         <div>
           <div class="row">

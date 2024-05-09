@@ -1,5 +1,5 @@
 export interface profileLists {
-  organizations: Organization[];
+  organization: Organization[];
   regionalSettings: RegionalSettings;
   profiles: Profiles;
 }

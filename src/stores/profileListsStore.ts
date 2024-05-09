@@ -9,7 +9,7 @@ export const useProfileListsStore = defineStore('profileListsStore', {
 
   getters: {
     ProfileLists: (state) => state.profileLists,
-    Organizations: (state) => state.profileLists.organizations,
+    Organizations: (state) => state.profileLists.organization,
     ProfilesUserGeneral: (state) => state.profileLists.profiles.user.general,
     ProfilesGroupTimesheet: (state) =>
       state.profileLists.profiles.group.timesheet,
