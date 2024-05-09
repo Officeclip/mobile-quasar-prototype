@@ -172,7 +172,7 @@ const routes: RouteRecordRaw[] = [
   //   // params: true,
   // },
   {
-    path: '/timesheetDetails/:id/:fromDate/:readOnly',
+    path: '/timesheetDetails/:id/:fromDate/:readOnly/:stageId',
     name: 'timesheetDetails',
     component: () => import('../pages/Timesheets/TimesheetDetails.vue'),
     // params: true,

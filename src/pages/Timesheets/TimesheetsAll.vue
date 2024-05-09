@@ -104,6 +104,7 @@ watch([timesheetStatus], ([newModel]) => {
                 id: item.id,
                 fromDate: item.fromDate,
                 readOnly: item.security.read,
+                stageId: item.stageId,
               },
             }"
             clickable
