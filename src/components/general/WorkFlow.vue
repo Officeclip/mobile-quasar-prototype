@@ -3,13 +3,13 @@ import { onBeforeMount, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useWorkFlowStore } from 'src/stores/workFlow/WorkFlow';
 
-const props = defineProps(['entityId', 'entityType']);
+const props = defineProps(['entityId', 'entityType', 'stageId']);
 
 const router = useRouter();
 const workFlowModel = ref('');
 const workFlowStore = useWorkFlowStore();
 onBeforeMount(() => {
-  workFlowStore.getWorkFlow(props?.entityId, props?.entityType);
+  workFlowStore.getWorkFlow(props?.entityId, props?.entityType, props?.stageId);
 });
 const workFlowUsers = computed(() => {
   return workFlowStore.WorkFlowUsers;
