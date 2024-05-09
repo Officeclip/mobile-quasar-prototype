@@ -1,8 +1,8 @@
-export interface TEComments {
-  timesheetId: string;
-  isDcaa: boolean;
-  users: Comments[];
-}
+// export interface TEComments {
+//   timesheetId: string;
+//   isDcaa: boolean;
+//   users: Comments[];
+// }
 
 export interface Comments {
   id: string;
@@ -12,4 +12,19 @@ export interface Comments {
   commentedUserName: string;
   commentedDate: string;
   commentedUserSid: string;
+}
+
+export interface TimesheetDCAA {
+  mode: string;
+  periodicity: string;
+  timesheetHeader: string;
+  timesheetFooter: string;
+  showPayrollColumn: boolean;
+  timesheetStartDay: string;
+  dcaa: {
+    isEnabled: boolean;
+    relaxation: number;
+    isConfirmationRequiredToSubmit: boolean;
+    confirmationMessage: string;
+  };
 }
