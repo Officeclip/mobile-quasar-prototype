@@ -6,6 +6,7 @@ export interface workFlow {
   submitToUserId: string;
   approveToUserId: string;
   rejectToUserId: string;
+  password: string;
   users: users[];
 }
 
