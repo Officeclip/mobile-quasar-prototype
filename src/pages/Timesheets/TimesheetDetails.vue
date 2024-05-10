@@ -164,9 +164,9 @@ const isReadOnly = isAllowed({
               </q-item-label>
               <q-item-label>
                 {{
-                  timesheetDetail.createdDate
+                  timesheetDetail.taskDate
                     ? dateTimeHelper.extractDateFromUtc(
-                        timesheetDetail.createdDate
+                        timesheetDetail.taskDate
                       )
                     : 'No Specific Date'
                 }}
