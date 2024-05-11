@@ -50,25 +50,25 @@ const upDateWorkFlow = () => {
 
 const manualWorkflow = (newValue: string) => {
   workFlow.value.submitToUserId = newValue;
-  workFlow.value.id = '';
+  workFlow.value.stageId = props.stageId;
   workFlow.value.approveToUserId = '';
   workFlow.value.rejectToUserId = '';
 };
 
 const submitButtonWorkFlow = () => {
-  workFlow.value.id = '';
+  workFlow.value.stageId = props.stageId;
   workFlow.value.approveToUserId = '';
   workFlow.value.rejectToUserId = '';
   upDateWorkFlow();
 };
 const approveButtonWorkFlow = () => {
-  workFlow.value.id = '';
+  workFlow.value.stageId = props.stageId;
   workFlow.value.submitToUserId = '';
   workFlow.value.rejectToUserId = '';
   upDateWorkFlow();
 };
 const rejectButtonWorkFlow = () => {
-  workFlow.value.id = '';
+  workFlow.value.stageId = props.stageId;
   workFlow.value.submitToUserId = '';
   workFlow.value.approveToUserId = '';
   upDateWorkFlow();

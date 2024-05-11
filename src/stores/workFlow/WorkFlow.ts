@@ -50,6 +50,8 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
     // },
 
     async submitWorkFlow(workFlow: workFlow) {
+      console.log('new workFlow Object', workFlow);
+
       const callStr = `${Constants.endPointUrl}/workflow-summary`;
       await fetch(callStr, {
         method: 'POST',
