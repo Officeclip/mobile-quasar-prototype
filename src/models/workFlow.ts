@@ -2,7 +2,7 @@ export interface workFlow {
   entityId: string;
   entityType: string;
   workflowType: string;
-  stageId: string;
+  stageId: number;
   submitToUserId: string;
   approveToUserId: string;
   rejectToUserId: string;

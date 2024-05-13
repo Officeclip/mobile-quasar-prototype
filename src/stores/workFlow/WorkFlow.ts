@@ -49,16 +49,32 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
     //   }
     // },
 
-    async submitWorkFlow(workFlow: workFlow) {
-      console.log('new workFlow Object', workFlow);
+    // async submitWorkFlow(workFlow: workFlow) {
+    //   console.log('new workFlow Object', workFlow);
 
-      const callStr = `${Constants.endPointUrl}/workflow-summary`;
-      await fetch(callStr, {
-        method: 'POST',
-        body: JSON.stringify(workFlow),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      console.log('new workFlow Object', this.workFlow);
+    //   const callStr = `${Constants.endPointUrl}/workflow-summary`;
+    //   await fetch(callStr, {
+    //     method: 'POST',
+    //     body: JSON.stringify(workFlow),
+    //     headers: { 'Content-Type': 'application/json' },
+    //   });
+    //   console.log('new workFlow Object', this.workFlow);
+    // },
+
+    async submitWorkFlow(workFlow: workFlow) {
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(
+          `${Constants.endPointUrl}/workflow-summary`,
+          workFlow
+        );
+        if (response.status === 200) {
+          //debugger;
+          this.workFlow = response.data;
+        }
+      } catch (error) {
+        console.error(`editExpense Error: ${error}`);
+      }
     },
   },
 });
