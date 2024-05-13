@@ -6,6 +6,7 @@ import { TimesheetDetails } from 'src/models/Timesheet/timesheetDetails';
 import { useRouter, useRoute } from 'vue-router';
 import { ref, computed } from 'vue';
 import { useTimesheetsStore } from 'src/stores/timesheet/TimesheetsStore';
+import { useTECommentsStore } from '../../stores/TECommentsStore';
 
 const router = useRouter();
 const route = useRoute();
@@ -13,6 +14,8 @@ const periodName = route.params.periodName;
 console.log('Sending the period option from new==> new', periodName);
 // const startDate = periods.value.start
 const timesheetStore = useTimesheetsStore();
+const timesheetCommentsStore = useTECommentsStore();
+timesheetCommentsStore.getTimesheetGroupProfile();
 // const timesheetListStore = useTimesheetListStore();
 // const selectedPeriod = computed(() => {
 //   return timesheetListStore.SelectedPeriod;
@@ -21,6 +24,12 @@ const timesheetStore = useTimesheetsStore();
 const timesheetSid = computed(() => {
   return route.params.timesheetSid;
 });
+
+const timesheetDCAA = computed(() => {
+  return timesheetCommentsStore.timesheetDCAA;
+});
+
+console.log('New timesheet DCAA: ', timesheetDCAA.value);
 
 const timesheetDetails: TimesheetDetails = ref({
   id: '',
@@ -69,7 +78,8 @@ function onSubmit(e: any) {
       <q-page>
         <q-list>
           <q-form @submit="onSubmit" class="q-gutter-md">
-            <TimesheetForm v-if="timesheetDetails" :timesheet="timesheetDetails" :periodName="periodName" />
+            <TimesheetForm v-if="timesheetDetails && timesheetDCAA" :timesheet="timesheetDetails"
+              :timesheetDCAA="timesheetDCAA" :periodName="periodName" />
             <q-btn label="Save" type="submit" color="primary"></q-btn>
             <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
           </q-form>
