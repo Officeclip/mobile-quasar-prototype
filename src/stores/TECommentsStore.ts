@@ -46,7 +46,7 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}/timesheet-group-profile`
         );
-        const newData = response.data;
+        const newData = response.data[0];
         this.timesheetDCAA = newData;
       } catch (error) {
         console.error(error);
