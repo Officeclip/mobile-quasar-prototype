@@ -53,24 +53,28 @@ const manualWorkflow = (newValue: string) => {
   workFlow.value.stageId = props.stageId;
   workFlow.value.approveToUserId = '';
   workFlow.value.rejectToUserId = '';
+  workFlow.value.users = null;
 };
 
 const submitButtonWorkFlow = () => {
   workFlow.value.stageId = props.stageId;
   workFlow.value.approveToUserId = '';
   workFlow.value.rejectToUserId = '';
+  workFlow.value.users = null;
   upDateWorkFlow();
 };
 const approveButtonWorkFlow = () => {
   workFlow.value.stageId = props.stageId;
   workFlow.value.submitToUserId = '';
   workFlow.value.rejectToUserId = '';
+  workFlow.value.users = null;
   upDateWorkFlow();
 };
 const rejectButtonWorkFlow = () => {
   workFlow.value.stageId = props.stageId;
   workFlow.value.submitToUserId = '';
   workFlow.value.approveToUserId = '';
+  workFlow.value.users = null;
   upDateWorkFlow();
 };
 </script>

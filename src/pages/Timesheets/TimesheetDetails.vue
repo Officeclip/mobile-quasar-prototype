@@ -20,8 +20,7 @@ const timesheetDetailSid = ref('');
 const fromDate = route.params.fromDate;
 // made the readOnly params type as boolean, by default always coming as string only
 const readOnly = route.params.readOnly === 'false';
-const stageId = route.params.stageId;
-console.log('Testing readOnlyreadOnlyreadOnly', route.params.readOnly);
+const stageId = Number(route.params.stageId);
 const timesheetsStore = useTimesheetsStore();
 const timesheetCommentsStore = useTECommentsStore();
 const timesheetListsStore = useTimesheetListStore();

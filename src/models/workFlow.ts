@@ -7,7 +7,7 @@ export interface workFlow {
   approveToUserId: string;
   rejectToUserId: string;
   password: string;
-  users: users[];
+  users: users[] | null;
 }
 
 export interface users {
