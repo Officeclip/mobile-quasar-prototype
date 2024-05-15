@@ -98,6 +98,11 @@ function goToApp(url: string) {
     router.push({ path: url });
   }
 }
+
+function logout() {
+  localStorage.removeItem('X-Token');
+  router.push({ path: '/loginPage' });
+};
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -125,6 +130,10 @@ function goToApp(url: string) {
               </q-item-section>
             </q-item>
           </div>
+          <q-btn color="primary" style="margin-top: 16px; margin-left: 16px" @click="logout">
+            <q-icon left name="logout"></q-icon>
+            <div>Logout</div>
+          </q-btn>
         </q-list>
       </q-scroll-area>
       <q-img src="https://cdn.quasar.dev/img/material.png" class="absolute-top" style="height: 150px">
