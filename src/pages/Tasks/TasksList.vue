@@ -41,8 +41,9 @@ const assignedToMe = ref(
 );
 
 function clearFilterValues() {
-  filterOptions.value = { ...defaultFilterOptions };
-  filterCount.value = 0;
+  // filterOptions.value = { ...defaultFilterOptions };
+  // filterCount.value = 0;
+  window.location.reload();
 }
 
 function receiveAdvFilters(advancedOptions: searchFilter) {
@@ -113,15 +114,15 @@ watch(
 );
 
 watch(assignedToMe, async () => {
-  if (assignedToMe.value) {
-    filterOptions.value.assignedToId = sessionStore.Session.userId;
-  } else {
-    filterOptions.value.assignedToId = '';
+  if (!assignedToMe.value) {
+    window.location.reload();
+    //await taskSummaryStore.resetTaskSummaryList();
+    //return await taskSummaryStore.getTasksUpdated(false);
   }
+  filterOptions.value.assignedToId = sessionStore.Session.userId;
   await taskSummaryStore.resetTaskSummaryList();
-  setTimeout(async () => {
-    await taskSummaryStore.getTasksUpdated(false);
-  }, 250);
+  taskSummaryStore.setFilter(filterOptions.value);
+  await taskSummaryStore.getTasksUpdated(true);
 });
 
 watch(
