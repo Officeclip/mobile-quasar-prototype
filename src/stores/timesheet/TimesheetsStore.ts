@@ -47,25 +47,28 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     },
 
     getInOutboxList(status: string) {
+      let completeUrl = '';
       switch (status) {
         case 'Inbox':
-          return `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
+          completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
+          break;
         case 'Outbox':
-          return `${Constants.endPointUrl}/timesheet-summary?status=None&status=Pending`;
+          completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=None&status=Pending`;
+          break;
         case 'Archived':
-          return `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Rejected`;
+          completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Rejected`;
+          break;
       }
+      console.log(`getInOutboxList(): completeUrl - ${completeUrl}`);
+      return completeUrl;
     },
     // getting the timesheets by status
     async getTimesheetsByStatus(status: string) {
       const callStr = `${Constants.endPointUrl}/timesheet-summary?category=${status}`;
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(callStr);
-
-        if (response.data) {
-          this.timesheets = response.data.data;
-        }
+        const response = await instance.get(callStr ?? '');
+        this.timesheets = response.data.data;
       } catch (error) {
         Constants.throwError(error);
       }

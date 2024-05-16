@@ -3,13 +3,13 @@ import { onBeforeMount, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useWorkFlowStore } from 'src/stores/workFlow/WorkFlow';
 
-const props = defineProps(['entityId', 'entityType']);
+const props = defineProps(['entityId', 'entityType', 'stageId']);
 
 const router = useRouter();
 const workFlowModel = ref('');
 const workFlowStore = useWorkFlowStore();
 onBeforeMount(() => {
-  workFlowStore.getWorkFlow(props?.entityId, props?.entityType);
+  workFlowStore.getWorkFlow(props?.entityId, props?.entityType, props?.stageId);
 });
 const workFlowUsers = computed(() => {
   return workFlowStore.WorkFlowUsers;
@@ -50,27 +50,31 @@ const upDateWorkFlow = () => {
 
 const manualWorkflow = (newValue: string) => {
   workFlow.value.submitToUserId = newValue;
-  workFlow.value.id = '';
+  workFlow.value.stageId = props.stageId;
   workFlow.value.approveToUserId = '';
   workFlow.value.rejectToUserId = '';
+  workFlow.value.users = null;
 };
 
 const submitButtonWorkFlow = () => {
-  workFlow.value.id = '';
+  workFlow.value.stageId = props.stageId;
   workFlow.value.approveToUserId = '';
   workFlow.value.rejectToUserId = '';
+  workFlow.value.users = null;
   upDateWorkFlow();
 };
 const approveButtonWorkFlow = () => {
-  workFlow.value.id = '';
+  workFlow.value.stageId = props.stageId;
   workFlow.value.submitToUserId = '';
   workFlow.value.rejectToUserId = '';
+  workFlow.value.users = null;
   upDateWorkFlow();
 };
 const rejectButtonWorkFlow = () => {
-  workFlow.value.id = '';
+  workFlow.value.stageId = props.stageId;
   workFlow.value.submitToUserId = '';
   workFlow.value.approveToUserId = '';
+  workFlow.value.users = null;
   upDateWorkFlow();
 };
 </script>

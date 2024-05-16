@@ -25,7 +25,7 @@ const advancedOptions: Ref<searchFilter> = ref({
   statusId: '',
   priorityId: '',
   taskTypeId: '',
-  assignedTo: '',
+  assignedToId: '',
   ownedById: '',
   regardingTypeId: '',
   regardingValueId: '',
@@ -39,7 +39,7 @@ function filterNumber(filter: searchFilter) {
   val += filter.statusId ? 1 : 0;
   val += filter.priorityId ? 1 : 0;
   val += filter.taskTypeId ? 1 : 0;
-  val += filter.assignedTo ? 1 : 0;
+  val += filter.assignedToId ? 1 : 0;
   val += filter.ownedById ? 1 : 0;
   val += filter.regardingTypeId ? 1 : 0;
   val += filter.regardingValueId ? 1 : 0;
@@ -143,13 +143,13 @@ async function filterFn(val: string, update: any, abort: any) {
     <div class="q-pa-md row">
       <q-item-section>
         <q-item-label>Assigned To</q-item-label>
-        <q-select v-model="advancedOptions.assignedTo" :options="userList" clearable emit-value map-options
-          option-label="name" option-value="id" use-input @filter="filterFn" />
+        <q-select v-model="advancedOptions.assignedToId" :options="taskListsStore.users" clearable emit-value
+          map-options option-label="name" option-value="id" use-input @filter="filterFn" />
       </q-item-section>
 
       <q-item-section>
         <q-item-label>Owned By</q-item-label>
-        <q-select v-model="advancedOptions.ownedById" :options="userList" clearable emit-value map-options
+        <q-select v-model="advancedOptions.ownedById" :options="taskListsStore.users" clearable emit-value map-options
           option-label="name" option-value="id" use-input @filter="filterFn" />
       </q-item-section>
     </div>

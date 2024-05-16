@@ -74,6 +74,10 @@ export class Constants {
     if (axios.isAxiosError(error)) {
       if (error?.response?.data) {
         const responseError: responseError = error.response.data;
+        if (responseError.subStatus == 120) {
+          localStorage.removeItem('X-Token');
+          responseError.message = 'Invalid Login or Password.';
+        }
         Constants.throwError(
           `${responseError.description}: ${responseError.message}`
         );

@@ -4643,6 +4643,7 @@
       "submitToUserId": "2345",
       "approveToUserId": "2345",
       "rejectToUserId": "1234",
+      "password": null,
       "users": [
         {
           "id": "2345",
@@ -4664,6 +4665,7 @@
       "submitToUserId": "2345",
       "approveToUserId": "2345",
       "rejectToUserId": "1234",
+      "password": null,
       "users": [
         {
           "id": "2345",

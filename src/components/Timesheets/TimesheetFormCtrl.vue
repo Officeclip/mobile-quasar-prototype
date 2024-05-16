@@ -5,7 +5,7 @@ import { defineProps, ref, onMounted, computed, watch } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 
-const props = defineProps(['timesheet', 'periodName']);
+const props = defineProps(['timesheet', 'periodName', 'timesheetDCAA']);
 console.log('New Timesheet timesheet form:', props.timesheet.value);
 const accountName = props.timesheet?.accountName;
 const projectName = props.timesheet?.projectName;
@@ -35,11 +35,32 @@ const formattedTaskDate =
       })})`
     )
     : ref('');
-
 const timesheetListStore = useTimesheetListStore();
+
 onMounted(() => {
   timesheetListStore.getTimesheetListAll();
 });
+
+let errorMessage = '';
+let isCommentsRequired = false;
+
+function calculateDaysBetween(date) {
+  if (!date) {
+    return 0; // Handle invalid date
+  }
+  const today = new Date();
+  const selectedDate = new Date(date);
+  // Ensure both dates are valid Date objects
+  if (!selectedDate.getTime() || !today.getTime()) {
+    return 0; // Handle invalid dates
+  }
+  // Get the difference in milliseconds
+  const timeDiff = selectedDate.getTime() - today.getTime();
+  // Calculate the number of days (rounded down to whole days)
+  const daysDiff = Math.floor(Math.abs(timeDiff) / (1000 * 60 * 60 * 24));
+  return daysDiff;
+}
+
 const selectedPeriod = computed(() => {
   return timesheetListStore.PeriodList.find((x) => x.name === props.periodName);
 });
@@ -84,6 +105,15 @@ billableOptions.value = [
 watch([taskDate], ([newTaskDate]) => {
   formattedTaskDate.value = newTaskDate.name;
   props.timesheet.taskDate = newTaskDate.startDate;
+
+
+  if (props.timesheetDCAA?.dcaa.isEnabled == true) {
+    const totalDays = calculateDaysBetween(props.timesheet.taskDate);
+    if (totalDays > props.timesheetDCAA?.dcaa.relaxation && props.timesheet?.comments == '') {
+      isCommentsRequired = true;
+      errorMessage = 'Comments must be added';
+    }
+  }
 });
 watch([serviceItemModel], ([newServiceItemModel]) => {
   props.timesheet.serviceItemSid = newServiceItemModel.id;
@@ -158,7 +188,9 @@ const handleModelValue = (newValue) => {
       <q-input label="Description" v-model="props.timesheet.description" placeholder="enter here...">
       </q-input>
 
-      <q-input label="Comments" v-model="props.timesheet.comments" placeholder="enter here...">
+      <q-input label="Comments" v-model="props.timesheet.comments" placeholder="enter here..."
+        :label-color="isCommentsRequired ? 'red' : ''"
+        :rules="[(val) => (val && val.length > 0 || !isCommentsRequired) || errorMessage]">
       </q-input>
     </div>
   </div>

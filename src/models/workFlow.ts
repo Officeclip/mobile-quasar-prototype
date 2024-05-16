@@ -1,12 +1,13 @@
 export interface workFlow {
-  id: string;
   entityId: string;
   entityType: string;
   workflowType: string;
+  stageId: number;
   submitToUserId: string;
   approveToUserId: string;
   rejectToUserId: string;
-  users: users[];
+  password: string;
+  users: users[] | null;
 }
 
 export interface users {

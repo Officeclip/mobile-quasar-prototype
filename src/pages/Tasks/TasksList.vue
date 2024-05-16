@@ -18,7 +18,7 @@ const defaultFilterOptions: searchFilter = {
   statusId: '',
   priorityId: '',
   taskTypeId: '',
-  assignedTo: '',
+  assignedToId: '',
   ownedById: '',
   regardingTypeId: '',
   regardingValueId: '',
@@ -37,12 +37,13 @@ const sessionStore = useSessionStore();
 
 const showAdvOptions = ref(false);
 const assignedToMe = ref(
-  filterOptions.value.assignedTo === sessionStore.Session.userId
+  filterOptions.value.assignedToId === sessionStore.Session.userId
 );
 
 function clearFilterValues() {
-  filterOptions.value = { ...defaultFilterOptions };
-  filterCount.value = 0;
+  // filterOptions.value = { ...defaultFilterOptions };
+  // filterCount.value = 0;
+  window.location.reload();
 }
 
 function receiveAdvFilters(advancedOptions: searchFilter) {
@@ -52,7 +53,7 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.modifiedDateOption = advancedOptions.modifiedDateOption;
   filterOptions.value.statusId = advancedOptions.statusId;
   filterOptions.value.priorityId = advancedOptions.priorityId;
-  filterOptions.value.assignedTo = advancedOptions.assignedTo;
+  filterOptions.value.assignedToId = advancedOptions.assignedToId;
   filterOptions.value.ownedById = advancedOptions.ownedById;
   filterOptions.value.regardingValueId = advancedOptions.regardingValueId;
   filterOptions.value.regardingTypeId = advancedOptions.regardingTypeId;
@@ -60,7 +61,7 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.showCompleted = advancedOptions.showCompleted;
 
   assignedToMe.value =
-    advancedOptions.assignedTo === sessionStore.Session.userId;
+    advancedOptions.assignedToId === sessionStore.Session.userId;
 }
 
 async function filterFn(val: string) {
@@ -113,15 +114,15 @@ watch(
 );
 
 watch(assignedToMe, async () => {
-  if (assignedToMe.value) {
-    filterOptions.value.assignedTo = sessionStore.Session.userId;
-  } else {
-    filterOptions.value.assignedTo = '';
+  if (!assignedToMe.value) {
+    window.location.reload();
+    //await taskSummaryStore.resetTaskSummaryList();
+    //return await taskSummaryStore.getTasksUpdated(false);
   }
+  filterOptions.value.assignedToId = sessionStore.Session.userId;
   await taskSummaryStore.resetTaskSummaryList();
-  setTimeout(async () => {
-    await taskSummaryStore.getTasksUpdated(false);
-  }, 250);
+  taskSummaryStore.setFilter(filterOptions.value);
+  await taskSummaryStore.getTasksUpdated(true);
 });
 
 watch(

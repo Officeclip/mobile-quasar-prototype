@@ -1,15 +1,16 @@
 import { defineStore } from 'pinia';
-import { TEComments, Comments } from 'src/models/teComments';
-import axios from 'axios';
+import { Comments, TimesheetDCAA } from 'src/models/teComments';
 import { Constants } from './Constants';
 
 export const useTECommentsStore = defineStore('teCommentsStore', {
   state: () => ({
     commentsList: [] as Comments[],
+    timesheetDCAA: [] as TimesheetDCAA[],
   }),
 
   getters: {
     CommentsList: (state) => state.commentsList,
+    TimesheetDCAA: (state) => state.timesheetDCAA,
   },
 
   actions: {
@@ -34,6 +35,19 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
         );
         const newData = response.data;
         this.commentsList = newData;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async getTimesheetGroupProfile() {
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${Constants.endPointUrl}/timesheet-group-profile`
+        );
+        const newData = response.data[0];
+        this.timesheetDCAA = newData;
       } catch (error) {
         console.error(error);
       }

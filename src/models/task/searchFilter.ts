@@ -7,7 +7,7 @@ export interface searchFilter {
   statusId: number | string;
   priorityId: number | string;
   taskTypeId: number | string;
-  assignedTo: number | string;
+  assignedToId: number | string;
   ownedById: number | string;
   regardingTypeId: number | string;
   regardingValueId: number | string;

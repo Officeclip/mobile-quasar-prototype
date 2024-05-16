@@ -20,7 +20,7 @@ const timesheetDetailSid = ref('');
 const fromDate = route.params.fromDate;
 // made the readOnly params type as boolean, by default always coming as string only
 const readOnly = route.params.readOnly === 'false';
-console.log('Testing readOnlyreadOnlyreadOnly', route.params.readOnly);
+const stageId = Number(route.params.stageId);
 const timesheetsStore = useTimesheetsStore();
 const timesheetCommentsStore = useTECommentsStore();
 const timesheetListsStore = useTimesheetListStore();
@@ -119,21 +119,43 @@ const isReadOnly = isAllowed({
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title> Details </q-toolbar-title>
-        <q-btn flat round dense color="white" icon="delete" @click="displayConfirmationDialog">
+        <q-btn
+          flat
+          round
+          dense
+          color="white"
+          icon="delete"
+          @click="displayConfirmationDialog"
+        >
         </q-btn>
       </q-toolbar>
     </q-header>
 
     <q-page-container>
       <div>
-        <WorkFlow :entityId="id" :entityType="entityType" />
+        <WorkFlow :entityId="id" :entityType="entityType" :stageId="stageId" />
       </div>
       <!-- <pre>{{ timesheetPeriod }}</pre> -->
-      <q-card v-for="timesheetDetail in timesheetDetails" :key="timesheetDetail.id" class="q-ma-sm bg-grey-2">
-        <q-expansion-item default-opened expand-separator expand-icon-class="text-primary">
+      <q-card
+        v-for="timesheetDetail in timesheetDetails"
+        :key="timesheetDetail.id"
+        class="q-ma-sm bg-grey-2"
+      >
+        <q-expansion-item
+          default-opened
+          expand-separator
+          expand-icon-class="text-primary"
+        >
           <template v-slot:header>
             <q-item-section>
               <q-item-label caption>
@@ -141,61 +163,88 @@ const isReadOnly = isAllowed({
               </q-item-label>
               <q-item-label>
                 {{
-          timesheetDetail.createdDate
-            ? dateTimeHelper.extractDateFromUtc(
-              timesheetDetail.createdDate
-            )
-            : 'No Specific Date'
-        }}
+                  timesheetDetail.taskDate
+                    ? dateTimeHelper.extractDateFromUtc(
+                        timesheetDetail.taskDate
+                      )
+                    : 'No Specific Date'
+                }}
               </q-item-label>
             </q-item-section>
             <q-item-section side>
               {{ timesheetDetail.timeDuration }} hrs
             </q-item-section>
             <q-item-section side>
-              <q-btn v-if="isReadOnly" :to="{
-          name: 'editTimesheet',
-          params: {
-            id: timesheetDetail?.id,
-            fromDate: fromDate,
-          },
-        }" size="sm" flat round dense icon="edit">
+              <q-btn
+                v-if="isReadOnly"
+                :to="{
+                  name: 'editTimesheet',
+                  params: {
+                    id: timesheetDetail?.id,
+                    fromDate: fromDate,
+                  },
+                }"
+                size="sm"
+                flat
+                round
+                dense
+                icon="edit"
+              >
               </q-btn>
             </q-item-section>
             <q-item-section side>
-              <q-btn v-if="isReadOnly" @click="
-          displayShowDeleteTimesheetDetail(
-            timesheetDetail?.id
-          )
-          " size="sm" flat round dense icon="delete" class="q-btn-hover:hover"></q-btn>
+              <q-btn
+                v-if="isReadOnly"
+                @click="displayShowDeleteTimesheetDetail(timesheetDetail?.id)"
+                size="sm"
+                flat
+                round
+                dense
+                icon="delete"
+                class="q-btn-hover:hover"
+              ></q-btn>
             </q-item-section>
           </template>
           <OCItem title="Project" :value="timesheetDetail.projectName" />
           <OCItem title="Task" :value="timesheetDetail.serviceItemName" />
-          <OCItem title="Billable" :value="timesheetDetail.isBillable ? 'Yes' : 'No'" />
+          <OCItem
+            title="Billable"
+            :value="timesheetDetail.isBillable ? 'Yes' : 'No'"
+          />
           <OCItem title="Description" :value="timesheetDetail.description" />
         </q-expansion-item>
       </q-card>
 
       <q-card v-if="timesheetDetails.length > 0" class="q-ma-sm bg-grey-4">
-        <q-expansion-item default-opened expand-separator expand-icon-class="text-primary">
+        <q-expansion-item
+          default-opened
+          expand-separator
+          expand-icon-class="text-primary"
+        >
           <template v-slot:header>
             <q-item-section>
               <q-item-label>Comments: </q-item-label>
             </q-item-section>
 
             <q-item-section side>
-              <q-btn flat round dense icon="add" class="q-btn-hover:hover"
-                @click="showAddCommentsDialog = true"></q-btn>
+              <q-btn
+                flat
+                round
+                dense
+                icon="add"
+                class="q-btn-hover:hover"
+                @click="showAddCommentsDialog = true"
+              ></q-btn>
             </q-item-section>
           </template>
           <q-list>
             <q-item v-for="comments in commentsList" :key="comments.id">
-              <q-item-section style="white-space: pre-wrap">{{ comments.text_comment }}
+              <q-item-section style="white-space: pre-wrap"
+                >{{ comments.text_comment }}
               </q-item-section>
               <q-item-section style="white-space: pre-wrap">
-                by {{ comments.commentedUserName }}
-                on {{ comments.commentedDate }}
+                by {{ comments.commentedUserName }} on
+                {{ comments.commentedDate }}
               </q-item-section>
             </q-item>
             <q-item v-if="listLength == 0"> No Comments are present </q-item>
@@ -204,13 +253,19 @@ const isReadOnly = isAllowed({
       </q-card>
       <!-- <pre>{{ JSON.stringify(timesheetDetails[0]?.timesheetSid) }}</pre> -->
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn :to="{
-          name: 'newTimesheet',
-          params: {
-            periodName: timesheetPeriod?.name,
-            timesheetSid: timesheetDetails[0]?.timesheetSid
-          },
-        }" fab icon="add" color="accent" padding="sm">
+        <q-btn
+          :to="{
+            name: 'newTimesheet',
+            params: {
+              periodName: timesheetPeriod?.name,
+              timesheetSid: timesheetDetails[0]?.timesheetSid,
+            },
+          }"
+          fab
+          icon="add"
+          color="accent"
+          padding="sm"
+        >
         </q-btn>
       </q-page-sticky>
     </q-page-container>
@@ -225,22 +280,45 @@ const isReadOnly = isAllowed({
       </q-card-section>
 
       <q-card-section>
-        <q-input v-model="addComments.comments[0].comment"
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']" label="Comment" lazy-rules
-          placeholder="Enter text here..." />
+        <q-input
+          v-model="addComments.comments[0].comment"
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+          label="Comment"
+          lazy-rules
+          placeholder="Enter text here..."
+        />
       </q-card-section>
 
       <q-card-actions>
-        <q-btn dense v-close-popup color="primary" label="Add" @click="addComment" />
+        <q-btn
+          dense
+          v-close-popup
+          color="primary"
+          label="Add"
+          @click="addComment"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
 
-  <ConfirmDelete v-if="showDeleteTimesheet" :showConfirmationDialog="showDeleteTimesheet" :id="id" :title="title"
-    :message="message" @cancel="cancelConfirmation" @confirm="deleteTimesheet" />
-  <ConfirmDelete v-if="showDeleteTimesheetDetail" :showConfirmationDialog="showDeleteTimesheetDetail"
-    :id="timesheetDetailSid" :title="title" :message="message" @cancel="cancelConfirmation"
-    @confirm="deleteTimesheetDetail" />
+  <ConfirmDelete
+    v-if="showDeleteTimesheet"
+    :showConfirmationDialog="showDeleteTimesheet"
+    :id="id"
+    :title="title"
+    :message="message"
+    @cancel="cancelConfirmation"
+    @confirm="deleteTimesheet"
+  />
+  <ConfirmDelete
+    v-if="showDeleteTimesheetDetail"
+    :showConfirmationDialog="showDeleteTimesheetDetail"
+    :id="timesheetDetailSid"
+    :title="title"
+    :message="message"
+    @cancel="cancelConfirmation"
+    @confirm="deleteTimesheetDetail"
+  />
 </template>
 
 <style scoped>
