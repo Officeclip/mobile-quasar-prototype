@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { expenseSummary } from '../../models/expense/expenseSummary';
-import axios from 'axios';
 import { Constants } from 'stores/Constants';
 
 export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
@@ -15,7 +14,6 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
   },
 
   actions: {
-    // getting all the timesheets for testing only, probably no where this use
     async getExpenseSummary() {
       try {
         const instance = Constants.getAxiosInstance();
@@ -23,7 +21,6 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
           `${Constants.endPointUrl}/expense-summary`
         );
         this.expenseSummary = response.data;
-        console.log(`getExpenseSummary(): ${this.expenseSummary}`);
       } catch (error) {
         console.error(error);
       }
@@ -35,7 +32,6 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
         const newData = this.expenseSummary.filter((t) => {
           return t.status == status;
         });
-        console.log(`getExpenseSummaryCount(): ${newData}`);
         return newData.length;
       } else {
         return [];
@@ -50,14 +46,12 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
         );
         if (response.data && response.data.length > 0) {
           this.expenseSummaryById = response.data[0];
-          console.log('getExpenseSummaryById(): ', this.expenseSummaryById);
         }
       } catch (error) {
         alert(error);
       }
     },
 
-    // getting the timesheets by status
     async getExpenseSummaryByStatus(status: string) {
       const callStr =
         status != ''
@@ -67,7 +61,6 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
         this.expenseSummary = response.data;
-        console.log('getExpenseSummaryByStatus(): ', this.expenseSummaryById);
       } catch (error) {
         console.error(error);
       }

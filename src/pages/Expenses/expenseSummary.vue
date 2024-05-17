@@ -1,9 +1,4 @@
 <script setup lang="ts">
-import { useExpenseSummaryStore } from '../../stores/expense/expenseSummaryStore';
-
-const data = useExpenseSummaryStore();
-const arr = data.expenseSummary;
-
 const allExpenses = [
   {
     id: 1,
@@ -57,12 +52,12 @@ const allExpenses = [
       <q-page>
         <q-list v-for="expense in allExpenses" :key="expense.id">
           <q-item :to="{
-            name: 'expenseSummaryFiltered',
-            params: {
-              id: expense.id,
-              status: expense.status,
-            },
-          }" clickable v-ripple>
+          name: 'expenseSummaryFiltered',
+          params: {
+            id: expense.id,
+            status: expense.status,
+          },
+        }" clickable v-ripple>
             <q-item-section avatar>
               <q-icon :name="expense.icon" :color="expense.color"> </q-icon>
             </q-item-section>

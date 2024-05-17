@@ -4,7 +4,6 @@ import { computed, onMounted, watch, ref } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useRoute, useRouter } from 'vue-router';
-// import { useSessionStore } from 'stores/SessionStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import autoRentalExpense from '../../components/expenses/details/autoRentalExpense.vue';
 import airTravelExpense from '../../components/expenses/details/airTravelExpense.vue';
@@ -27,38 +26,21 @@ const expenseDetailsStore = useExpenseDetailsStore();
 const expenseCommentsStore = useTECommentsStore();
 const expenseListsStore = useExpenseListsStore();
 
-// const usesessionStore = useSessionStore();
-
 onMounted(() => {
   expenseDetailsStore.getExpenseDetails(route.params.id);
   expenseListsStore.getExpensesList();
-  // usesessionStore.getSession();
   expenseCommentsStore.$reset();
   expenseCommentsStore.getExpenseComments(route.params.id);
 });
-
-// const getSession = computed(() => {
-//   return usesessionStore.Session;
-// });
-
-// const getRoleAccess = computed(() => {
-//   return getSession.value.roleAccess;
-// });
-
-// const roleAccess = getRoleAccess.value;
 
 const expenseDetails = computed(() => {
   return expenseDetailsStore.expenseDetailsList;
 });
 
-// const showComments = ref(false);
 const commentsList = computed(() => {
   return expenseCommentsStore.commentsList;
 });
-console.log('getting the comment list from store:', commentsList.value);
-// const toggleList = () => {
-//   showComments.value = !showComments.value;
-// };
+
 const listLength = computed(() => {
   return commentsList.value.length;
 });
@@ -70,11 +52,10 @@ const periodOptions = computed(() => {
 const expensePeriod = ref('');
 
 watch([periodOptions], () => {
+  //TODO: CR: 2024-05-17: nk: Fix the type error?
   expensePeriod.value = periodOptions.value.find(
     (x) => x.start.toString() === fromDate
   );
-
-  console.log('Expense period in Expense details', expensePeriod);
 });
 
 const title = ref('Confirm');
@@ -82,7 +63,6 @@ const message = ref('Are you sure you want to delete this expense?');
 
 const isExpenseDetailDelete = ref(false);
 const showExpenseDetailDelete = (id: string) => {
-  //timesheetDetailSid.value = id;
   isExpenseDetailDelete.value = true;
 };
 
@@ -191,20 +171,12 @@ const deleteExpenseDetail = (id: string) => {
 
               <telephoneExpense v-if="expenseDetail.telephoneExpense" :expense="expenseDetail.telephoneExpense" />
             </q-item-section>
-
-            <!-- <q-item-section side flex>
-              <q-item-label>
-                <q-btn @click="
-                  expenseDetailsStore.deleteExpense(expenseDetail?.id);
-                $router.go(-1);
-                " size="sm" flat round dense icon="delete" class="q-mr-sm q-mb-sm"></q-btn>
-              </q-item-label>
-            </q-item-section> -->
           </q-expansion-item>
         </q-list>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn :to="{
           name: 'newExpense',
+          //TODO: CR: 2024-05-17: nk: Fix the type error?
           params: {
             period: expensePeriod?.name,
             expenseSid: expenseDetail.expenseSid
@@ -225,8 +197,8 @@ const deleteExpenseDetail = (id: string) => {
             <q-item-section>
               <q-item-label>Comments: </q-item-label>
             </q-item-section>
-
             <q-item-section side>
+              <!-- TODO: CR: 2024-05-17: nk: Fix the type error? -->
               <q-btn flat round dense icon="add" class="q-btn-hover:hover"
                 @click="showAddCommentsDialog = true"></q-btn>
             </q-item-section>

@@ -3,20 +3,18 @@ import { defineProps, ref, Ref } from 'vue';
 import { telephoneExpense } from '../../../models/expense/expenseDetails';
 
 const props = defineProps(['expense']);
-const telephoneExpense: Ref<telephoneExpense | undefined> = ref();
+const telephone: Ref<telephoneExpense | undefined> = ref();
 // eslint-disable-next-line vue/no-setup-props-destructure
-telephoneExpense.value = props.expense;
-//debugger;
-console.log(`telephoneExpense: ${props.expense}`);
+telephone.value = props.expense;
 </script>
 
 <template>
   <q-item-label caption> Phone Number </q-item-label>
   <q-item-label class="q-mb-sm">
-    {{ telephoneExpense?.phoneNumber }}
+    {{ telephone?.phoneNumber }}
   </q-item-label>
   <q-item-label caption> City </q-item-label>
   <q-item-label class="q-mb-sm">
-    {{ telephoneExpense?.city }}
+    {{ telephone?.city }}
   </q-item-label>
 </template>

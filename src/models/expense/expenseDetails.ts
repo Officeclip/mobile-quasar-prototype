@@ -1,10 +1,3 @@
-// To parse this data:
-//
-//   import { Convert, ExpenseDetail } from "./file";
-//
-//   const expenseDetail = Convert.toExpenseDetail(json);
-
-// From: https://app.quicktype.io/#l=TypeScript
 import { security } from '../security';
 
 export interface expenseDetails {
@@ -70,15 +63,3 @@ export interface telephoneExpense {
   phoneNumber: string;
   city: string;
 }
-
-// Converts JSON strings to/from your types
-/* export class Convert {
-  public static toExpenseDetail(json: string): ExpenseDetail {
-    return JSON.parse(json);
-  }
-
-  public static expenseDetailToJson(value: ExpenseDetail): string {
-    return JSON.stringify(value);
-  }
-}
- */

@@ -10,8 +10,6 @@ const expensesStore = useExpenseSummaryStore();
 
 onMounted(() => {
   const route = useRoute();
-  console.log('id=', route.params.id);
-  console.log('status=', route.params.status);
   id.value = route.params.id;
   status.value = route.params.status;
   expensesStore.getExpenseSummaryByStatus(String(route.params.status));
@@ -24,21 +22,21 @@ const getExpenses = computed(() => {
 <template>
   <q-list v-for="expense in getExpenses" :key="expense.id">
     <q-item :to="{
-      name: 'expenseDetails',
-      params: {
-        id: expense.id,
-        fromDate: expense.fromDate
-      },
-    }" clickable v-ripple>
+    name: 'expenseDetails',
+    params: {
+      id: expense.id,
+      fromDate: expense.fromDate
+    },
+  }" clickable v-ripple>
       <q-item-section>
         <q-item-label>
           {{ expense.createdByUserName }}
         </q-item-label>
         <q-item-label caption>{{
-          expense.fromDate
-          ? dateTimeHelper.extractMonthFromUtc(expense.fromDate)
-          : 'NoData msg'
-        }}
+    expense.fromDate
+      ? dateTimeHelper.extractMonthFromUtc(expense.fromDate)
+      : 'NoData msg'
+  }}
           - {{ expense.totalAmount }}
           {{ expense.currency }}</q-item-label>
       </q-item-section>

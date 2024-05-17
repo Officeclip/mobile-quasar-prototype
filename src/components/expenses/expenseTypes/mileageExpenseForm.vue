@@ -1,7 +1,6 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup>
-import { defineProps, ref, computed } from 'vue';
-import dateTimeHelper from '../../../helpers/dateTimeHelper';
+import { defineProps, ref } from 'vue';
 
 const props = defineProps(['mileage', 'isDetailRequired']);
 

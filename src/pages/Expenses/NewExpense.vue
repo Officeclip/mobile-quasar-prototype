@@ -73,11 +73,8 @@ function onSubmit(e: any) {
     telephoneExpense: expenseDetail.value.telephoneExpense,
     taxiExpense: expenseDetail.value.taxiExpense
   };
-  const str = JSON.stringify(newExpense);
-  console.log(`onSubmit Expense Value: ${str}`);
 
   expenseDetailsStore.addExpense(newExpense);
-
   router.go(-2);
 }
 </script>
@@ -102,5 +99,3 @@ function onSubmit(e: any) {
     </q-page-container>
   </q-layout>
 </template>
-
-<style scoped></style>

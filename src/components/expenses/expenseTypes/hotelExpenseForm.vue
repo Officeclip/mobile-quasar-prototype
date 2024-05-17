@@ -1,31 +1,10 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup>
-import { defineProps, ref, computed } from 'vue';
-import dateTimeHelper from '../../../helpers/dateTimeHelper';
+import { defineProps, ref } from 'vue';
 
 const props = defineProps(['hotel', 'isDetailRequired']);
 
 const dense = ref(false);
-
-// const fromDate = ref('');
-// const toDate = ref('');
-
-// fromDate.value = props.autoRental.fromDate;
-// toDate.value = props.autoRental.toDate;
-
-// const formattedFromDate = computed(() => {
-//   let dateValue = dateTimeHelper.extractDateFromUtc(fromDate.value);
-//   return dateValue;
-// });
-
-// const formattedFromDate1 = fromDate.value ? formattedFromDate : fromDate;
-
-// const formattedToDate = computed(() => {
-//   let dateValue = dateTimeHelper.extractDateFromUtc(toDate.value);
-//   return dateValue;
-// });
-
-// const formattedToDate1 = toDate.value ? formattedToDate : toDate;
 </script>
 
 <template>
@@ -42,8 +21,8 @@ const dense = ref(false);
       </q-input>
       <q-input name="fromDate" v-model="props.hotel.fromDate" label="From Date"
         :label-color="props.isDetailRequired ? 'red' : ''" :rules="[
-          (val) => (val && val.length > 0 || !props.isDetailRequired) || 'please select From Date',
-        ]">
+        (val) => (val && val.length > 0 || !props.isDetailRequired) || 'please select From Date',
+      ]">
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -58,8 +37,8 @@ const dense = ref(false);
       </q-input>
       <q-input name="toDate" v-model="props.hotel.toDate" label="To Date"
         :label-color="props.isDetailRequired ? 'red' : ''" :rules="[
-          (val) => (val && val.length > 0 || !props.isDetailRequired) || 'please select To Date',
-        ]">
+        (val) => (val && val.length > 0 || !props.isDetailRequired) || 'please select To Date',
+      ]">
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy cover transition-show="scale" transition-hide="scale">

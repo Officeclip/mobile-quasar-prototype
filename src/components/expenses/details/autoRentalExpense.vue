@@ -1,31 +1,29 @@
 <script setup lang="ts">
-import { defineProps, ref, Ref, computed } from 'vue';
+import { defineProps, ref, Ref } from 'vue';
 import { autoRentalExpense } from '../../../models/expense/expenseDetails';
 import dateTimeHelper from '../../../helpers/dateTimeHelper';
 
 const props = defineProps(['expense']);
-const autoRentalExpense: Ref<autoRentalExpense | undefined> = ref();
+const autoRental: Ref<autoRentalExpense | undefined> = ref();
 // eslint-disable-next-line vue/no-setup-props-destructure
-autoRentalExpense.value = props.expense;
-//debugger;
-console.log(`autoRentalExpense: ${props.expense}`);
+autoRental.value = props.expense;
 </script>
 
 <template>
   <q-item-label caption class="q-pt-md"> From Date </q-item-label>
   <q-item-label class="q-mb-sm">
-    {{ dateTimeHelper.extractDateFromUtc(autoRentalExpense?.fromDate) }}
+    {{ dateTimeHelper.extractDateFromUtc(autoRental?.fromDate) }}
   </q-item-label>
   <q-item-label caption> To Date </q-item-label>
   <q-item-label class="q-mb-sm">
-    {{ dateTimeHelper.extractDateFromUtc(autoRentalExpense?.toDate) }}
+    {{ dateTimeHelper.extractDateFromUtc(autoRental?.toDate) }}
   </q-item-label>
   <q-item-label caption> Rental Agency </q-item-label>
   <q-item-label class="q-mb-sm">
-    {{ autoRentalExpense?.rentalAgency }}
+    {{ autoRental?.rentalAgency }}
   </q-item-label>
   <q-item-label caption> City </q-item-label>
   <q-item-label class="q-mb-sm">
-    {{ autoRentalExpense?.city }}
+    {{ autoRental?.city }}
   </q-item-label>
 </template>

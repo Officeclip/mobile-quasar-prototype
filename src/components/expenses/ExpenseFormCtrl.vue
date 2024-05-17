@@ -164,10 +164,6 @@ const expenseDateValue = computed({
   },
   set(newValue) {
     props.expenseDetail.expenseDate = newValue;
-    console.log(
-      'Formatted expense date in expense form control',
-      props.expenseDetail.expenseDate
-    );
   },
 });
 formattedExpenseDate.value = expenseDateValue.value;
@@ -204,9 +200,9 @@ const updateCustomerProject = (newValue) => {
         :options="customerProjectOptions" option-label="name" option-value="id" />
 
       <q-select label="Expense Type" v-model="expenseDetail.expenseTypeSid" :options="expenseTypeOptions" :rules="[
-        (val) =>
-          val !== expenseTypeDefault || 'Please select expense type..',
-      ]" @update:model-value="getExpenseTypeDetail" option-label="expenseName" emit-value option-value="expenseTypeSid"
+          (val) =>
+            val !== expenseTypeDefault || 'Please select expense type..',
+        ]" @update:model-value="getExpenseTypeDetail" option-label="expenseName" emit-value option-value="expenseTypeSid"
         map-options />
 
       <q-card class="q-my-md">
@@ -248,7 +244,8 @@ const updateCustomerProject = (newValue) => {
       <q-select label="Payment Method" v-model="expenseDetail.paymentType" :options="paymentTypeOptions" map-options
         emit-value option-label="Name" option-value="Id" />
 
-      <q-input label="Amount" v-model.number="expenseDetail.amount" placeholder="enter here..." lazy-rules type="number">
+      <q-input label="Amount" v-model.number="expenseDetail.amount" placeholder="enter here..." lazy-rules
+        type="number">
       </q-input>
 
       <q-input label="Tax" v-model.number="expenseDetail.tax" placeholder="enter here..." type="number">

@@ -47,13 +47,8 @@ const period = computed(() => {
   );
 });
 
-console.log('Edit expense get period:', period);
-
 function onSubmit(e: any) {
   e.preventDefault();
-  const formData = new FormData(e.target);
-  const expenseDate = formData.get('newcreatedDate');
-  const taskDate = formData.get('newtaskDate');
 
   const editExpense: expenseDetails = {
     accountName: expenseDetail.value?.accountName as string,
@@ -81,13 +76,12 @@ function onSubmit(e: any) {
     mileageExpense: expenseDetail.value?.mileageExpense as mileageExpense,
     telephoneExpense: expenseDetail.value?.telephoneExpense as telephoneExpense,
     taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense,
+    currency: '',
+    security: []
   };
 
   expenseDetailsStore.editExpense(editExpense);
   router.go(-2);
-
-  const str = JSON.stringify(editExpense);
-  console.log(`onSubmit Expense Value: ${str}`);
 }
 </script>
 <template>
