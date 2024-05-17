@@ -21,10 +21,12 @@ export interface TimesheetDCAA {
   timesheetFooter: string;
   showPayrollColumn: boolean;
   timesheetStartDay: string;
-  dcaa: {
-    isEnabled: boolean;
-    relaxation: number;
-    isConfirmationRequiredToSubmit: boolean;
-    confirmationMessage: string;
-  };
+  dcaa: DCAA[];
+}
+
+export interface DCAA {
+  isEnabled: boolean;
+  relaxation: number;
+  isConfirmationRequiredToSubmit: boolean;
+  confirmationMessage: string;
 }
