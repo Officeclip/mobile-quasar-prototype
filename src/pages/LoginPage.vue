@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
+import { Ref, ref, onMounted } from 'vue';
 import { Login } from '../models/login';
 import { useSessionStore } from 'stores/SessionStore';
 import { useTokenStore } from '../stores/tokenStore';
@@ -51,6 +51,11 @@ async function onSubmit(e: any) {
     });
   }
 }
+
+onMounted(() => {
+  localStorage.removeItem('X-Token');
+  sessionStorage.removeItem('oc-session');
+});
 </script>
 
 <template>
@@ -83,8 +88,8 @@ async function onSubmit(e: any) {
               <div>
                 <q-btn :to="{
             name: 'loginPage2',
-          }" style="border-radius: 8px" color="dark" rounded size="md" label="Test page" no-caps
-                  class="full-width" type="submit"></q-btn>
+          }" style="border-radius: 8px" color="dark" rounded size="md" label="Test page" no-caps class="full-width"
+                  type="submit"></q-btn>
               </div>
             </q-card-section>
           </q-form>

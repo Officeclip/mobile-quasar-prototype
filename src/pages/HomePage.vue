@@ -100,7 +100,6 @@ function goToApp(url: string) {
 }
 
 function logout() {
-  localStorage.removeItem('X-Token');
   router.push({ path: '/loginPage' });
 };
 </script>
