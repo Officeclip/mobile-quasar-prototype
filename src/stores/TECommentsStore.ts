@@ -1,16 +1,18 @@
 import { defineStore } from 'pinia';
-import { Comments, TimesheetDCAA } from 'src/models/teComments';
+import { Comments, DCAA, TimesheetDCAA } from 'src/models/teComments';
 import { Constants } from './Constants';
 
 export const useTECommentsStore = defineStore('teCommentsStore', {
   state: () => ({
     commentsList: [] as Comments[],
     timesheetDCAA: [] as TimesheetDCAA[],
+    tDCAA: [] as DCAA[],
   }),
 
   getters: {
     CommentsList: (state) => state.commentsList,
     TimesheetDCAA: (state) => state.timesheetDCAA,
+    DCAA: (state) => state.tDCAA,
   },
 
   actions: {
@@ -48,6 +50,8 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
         );
         const newData = response.data[0];
         this.timesheetDCAA = newData;
+        this.tDCAA = newData.dcaa;
+        console.log('CHECKING THE DCAA DATA', this.tDCAA);
       } catch (error) {
         console.error(error);
       }

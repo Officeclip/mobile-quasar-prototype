@@ -2,14 +2,20 @@
 import { onBeforeMount, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useWorkFlowStore } from 'src/stores/workFlow/WorkFlow';
+import { useTECommentsStore } from 'src/stores/TECommentsStore';
 
 const props = defineProps(['entityId', 'entityType', 'stageId']);
+
+const showConfirmationDialog = ref(false);
+const password = ref('');
 
 const router = useRouter();
 const workFlowModel = ref('');
 const workFlowStore = useWorkFlowStore();
+const teCommentsStore = useTECommentsStore();
 onBeforeMount(() => {
   workFlowStore.getWorkFlow(props?.entityId, props?.entityType, props?.stageId);
+  teCommentsStore.getTimesheetGroupProfile();
 });
 const workFlowUsers = computed(() => {
   return workFlowStore.WorkFlowUsers;
@@ -43,7 +49,25 @@ const rejectToUserName = computed(() => {
   );
 });
 
+const timesheetDCAA = computed(() => {
+  return teCommentsStore.DCAA;
+});
+
 const upDateWorkFlow = () => {
+  if (
+    timesheetDCAA.value.isEnabled &&
+    timesheetDCAA.value.isConfirmationRequiredToSubmit &&
+    props.stageId == 1
+  ) {
+    showConfirmationDialog.value = true;
+  } else {
+    workFlowStore.submitWorkFlow(workFlow.value);
+    router.go(-1);
+  }
+};
+
+const teDCAAupdateWorkflow = () => {
+  workFlow.value.password = password.value;
   workFlowStore.submitWorkFlow(workFlow.value);
   router.go(-1);
 };
@@ -76,6 +100,10 @@ const rejectButtonWorkFlow = () => {
   workFlow.value.approveToUserId = '';
   workFlow.value.users = null;
   upDateWorkFlow();
+};
+
+const closePopUp = () => {
+  showConfirmationDialog.value = false;
 };
 </script>
 <template>
@@ -161,5 +189,21 @@ const rejectButtonWorkFlow = () => {
         @click="upDateWorkFlow"
       />
     </div>
+  </div>
+  <div>
+    <q-dialog v-model="showConfirmationDialog">
+      <q-card>
+        <q-card-section>
+          <h6 class="q-my-lg">Enter Password</h6>
+          <input
+            type="password"
+            v-model="password"
+            placeholder="Enter Password"
+          />
+          <button class="q-mx-sm" @click="teDCAAupdateWorkflow">Submit</button>
+          <button @click="closePopUp">Cancel</button>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
