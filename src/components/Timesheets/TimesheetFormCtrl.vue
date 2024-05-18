@@ -176,7 +176,6 @@ const handleModelValue = (newValue) => {
         selectedPeriod.name
       }}</q-item-label>
 
-      <pre>{{ taskDate }}</pre>
       <q-select
         label="Date"
         :model-value="formattedTaskDate"
