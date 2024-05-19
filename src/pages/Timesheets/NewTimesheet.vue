@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
 import { TimesheetDetails } from 'src/models/Timesheet/timesheetDetails';
-// import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
-// import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { useRouter, useRoute } from 'vue-router';
 import { ref, computed } from 'vue';
 import { useTimesheetsStore } from 'src/stores/timesheet/TimesheetsStore';
@@ -11,15 +9,9 @@ import { useTECommentsStore } from '../../stores/TECommentsStore';
 const router = useRouter();
 const route = useRoute();
 const periodName = route.params.periodName;
-console.log('Sending the period option from new==> new', periodName);
-// const startDate = periods.value.start
 const timesheetStore = useTimesheetsStore();
 const timesheetCommentsStore = useTECommentsStore();
 timesheetCommentsStore.getTimesheetGroupProfile();
-// const timesheetListStore = useTimesheetListStore();
-// const selectedPeriod = computed(() => {
-//   return timesheetListStore.SelectedPeriod;
-// });
 
 const timesheetSid = computed(() => {
   return route.params.timesheetSid;
@@ -33,7 +25,11 @@ console.log('New timesheet DCAA: ', timesheetDCAA.value);
 
 const timesheetDetails: TimesheetDetails = ref({
   id: '',
-  timesheetSid: timesheetSid.value ? (timesheetSid.value !== '0' ? timesheetSid.value : '') : '',
+  timesheetSid: timesheetSid.value
+    ? timesheetSid.value !== '0'
+      ? timesheetSid.value
+      : ''
+    : '',
   timeDuration: Number(),
   isBillable: true,
   accountName: '',
@@ -54,13 +50,12 @@ const timesheetDetails: TimesheetDetails = ref({
   serviceItemSid: '',
   taskDate: '',
   security: [],
-  comments: ''
+  comments: '',
 });
 function onSubmit(e: any) {
   e.preventDefault();
   const newTimesheet = ref(timesheetDetails);
   timesheetStore.addTimesheetDetails(newTimesheet.value);
-  // router.push('-1');
   router.go(-2);
 }
 </script>
@@ -69,7 +64,14 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title> New Timesheet</q-toolbar-title>
       </q-toolbar>
@@ -78,10 +80,20 @@ function onSubmit(e: any) {
       <q-page>
         <q-list>
           <q-form @submit="onSubmit" class="q-gutter-md">
-            <TimesheetForm v-if="timesheetDetails && timesheetDCAA" :timesheet="timesheetDetails"
-              :timesheetDCAA="timesheetDCAA" :periodName="periodName" />
+            <TimesheetForm
+              v-if="timesheetDetails && timesheetDCAA"
+              :timesheet="timesheetDetails"
+              :timesheetDCAA="timesheetDCAA"
+              :periodName="periodName"
+            />
             <q-btn label="Save" type="submit" color="primary"></q-btn>
-            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
+            <q-btn
+              label="Reset"
+              type="reset"
+              color="primary"
+              flat
+              class="q-ml-sm"
+            ></q-btn>
           </q-form>
         </q-list>
       </q-page>
