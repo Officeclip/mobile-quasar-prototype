@@ -40,14 +40,3 @@ export interface ServiceItem {
   isBillable: boolean;
   name: string;
 }
-
-// Converts JSON strings to/from your types
-/* export class Convert {
-  public static toTimesheetList(json: string): TimesheetList[] {
-      return JSON.parse(json);
-  }
-
-  public static timesheetListToJson(value: TimesheetList[]): string {
-      return JSON.stringify(value);
-  }
-} */
