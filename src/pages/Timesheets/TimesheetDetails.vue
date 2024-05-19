@@ -16,7 +16,6 @@ const route = useRoute();
 const id = route.params.id;
 const entityType = 'timesheet';
 const timesheetDetailSid = ref('');
-// newId.value = id;
 const fromDate = route.params.fromDate;
 // made the readOnly params type as boolean, by default always coming as string only
 const readOnly = route.params.readOnly === 'false';
@@ -69,15 +68,9 @@ const deleteTimesheetDetail = (id: string) => {
     });
   }
 };
-
-// const showComments = ref(false);
 const commentsList = computed(() => {
   return timesheetCommentsStore.commentsList;
 });
-console.log('getting the comment list from store:', commentsList.value);
-// const toggleList = () => {
-//   showComments.value = !showComments.value;
-// };
 const listLength = computed(() => {
   return commentsList.value.length;
 });
@@ -145,7 +138,6 @@ const isReadOnly = isAllowed({
       <div>
         <WorkFlow :entityId="id" :entityType="entityType" :stageId="stageId" />
       </div>
-      <!-- <pre>{{ timesheetPeriod }}</pre> -->
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
@@ -251,7 +243,6 @@ const isReadOnly = isAllowed({
           </q-list>
         </q-expansion-item>
       </q-card>
-      <!-- <pre>{{ JSON.stringify(timesheetDetails[0]?.timesheetSid) }}</pre> -->
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           :to="{

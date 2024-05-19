@@ -6,7 +6,6 @@ import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import { isAllowed } from 'src/helpers/security';
-// import { useSessionStore } from 'src/stores/SessionStore';
 
 const timesheetStatus = ref('inbox');
 const title = ref(capitalize(timesheetStatus.value));
@@ -14,10 +13,6 @@ const $q = useQuasar();
 const router = useRouter();
 
 const timesheetsStore = useTimesheetsStore();
-// const sessionStore = useSessionStore();
-// onMounted(() => {
-//   timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
-// });
 onBeforeMount(async () => {
   try {
     await timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
@@ -30,26 +25,12 @@ onBeforeMount(async () => {
       await router.push({ path: '/homePage' });
       router.go(0);
     });
-    // $q.notify({
-    //   message: error as string,
-    //   color: 'red',
-    // });
   }
 });
 
 const timesheetsAll = computed(() => {
   return timesheetsStore.Timesheets;
 });
-
-// const session = sessionStore.Session;
-// const isAdmin = session.isAdmin;
-
-// const isRoleAccess = () => {
-//   const data = session.roleAccess.find(
-//     (x) => x.name === 'TimeExpensesCreateTimeSheet'
-//   );
-//   return data?.access;
-// };
 
 const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
 
