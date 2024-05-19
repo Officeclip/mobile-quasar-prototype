@@ -156,14 +156,6 @@ const handleModelValue = (newValue) => {
     props.timesheet.accountSid = newValue.id;
     props.timesheet.projectSid = '';
   }
-
-  // split and separated the properties, values and assing to them
-  // const names = newValue.name.split(':');
-  // const ids = newValue.id.split(':');
-  // props.timesheet.accountName = names[0];
-  // props.timesheet.projectName = names[1];
-  // props.timesheet.accountSid = ids[0];
-  // props.timesheet.projectSid = ids[1];
 };
 </script>
 
