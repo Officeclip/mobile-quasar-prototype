@@ -17,8 +17,6 @@ const emit = defineEmits([
   'emit-task'
 ]);
 
-console.log(`props.task: ${props.taskFromParent}`);
-
 const task: Ref<taskDetails> = ref(props.taskFromParent);
 const userSummaryStore = useUserSummaryStore();
 const taskListsStore = useTaskListsStore();
@@ -37,22 +35,17 @@ onBeforeMount(() => {
 
 function handleRRuleString(rruleString: string) {
   task.value.recurrence.rule = rruleString;
-  // console.log('Received RRule String:', rruleString);
 }
 
 function handleRRuleText(rruleText: string) {
-  // console.log('Received RRule Plain Text:', rruleText);
   const repeatText = rruleText.charAt(0).toUpperCase() + rruleText.slice(1); //capitalize first letter
   repeatString.value = repeatText;
   task.value.recurrence.text = repeatText;
-  // emit('rrule-text-generated', repeatText);
 }
 
 function handleReminderData(reminderString: [string, number]) {
-  // console.log('Received Reminder String:', reminderString);
   task.value.reminder.to = reminderString[0];
   task.value.reminder.beforeMinutes = reminderString[1];
-  // emit('reminder-generated', reminderString);
 }
 
 function handleReminderText(reminderText: string) {
@@ -63,9 +56,8 @@ function handleReminderText(reminderText: string) {
 const shownOptions: Ref<userSummary[]> = ref([]);
 const shownTagOptions: Ref<tag[]> = ref([]);
 
-async function filterFn(val: string, update: any, abort: any) {
+async function filterFn(val: string, update: any) {
   update(() => {
-    console.log('update');
     const needle = val.toLowerCase();
     shownOptions.value = userSummaryStore.userSummaries.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
@@ -73,9 +65,8 @@ async function filterFn(val: string, update: any, abort: any) {
   });
 }
 
-async function filterTagFn(val: string, update: any, abort: any) {
+async function filterTagFn(val: string, update: any) {
   update(() => {
-    console.log('update');
     const needle = val.toLowerCase();
     shownTagOptions.value = taskListsStore.tags.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
@@ -119,10 +110,8 @@ watch(taskOwner, () => {
   task.value.taskOwnerName = taskOwner.value?.name;
 });
 watch(task.value, () => {
-  console.log('emitted', task.value)
   emit('emit-task', task.value);
 });
-
 </script>
 
 <template>
@@ -164,8 +153,8 @@ watch(task.value, () => {
           </template>
         </q-input>
 
-        <q-select v-model="taskType" :options="taskListsStore.TaskTypes" label="Task Type" map-options option-label="name"
-          option-value="id" />
+        <q-select v-model="taskType" :options="taskListsStore.TaskTypes" label="Task Type" map-options
+          option-label="name" option-value="id" />
 
         <q-select v-model="taskPriority" :options="taskListsStore.TaskPriorities" label="Priority" map-options
           option-label="name" option-value="id" />

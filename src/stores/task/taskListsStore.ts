@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
 import { Constants } from '../Constants';
 import {
   regardingParent,
@@ -14,7 +13,6 @@ import { regardingContact } from 'src/models/task/taskLists';
 
 export const useTaskListsStore = defineStore('taskListsStore', {
   state: () => ({
-    // timesheetList: undefined as TimesheetList | undefined,
     taskTypes: [] as taskType[],
     regardingParent: [] as regardingParent[],
     tags: [] as tag[],
@@ -61,10 +59,8 @@ export const useTaskListsStore = defineStore('taskListsStore', {
         const filtered = userList.filter((t: regardingContact) => {
           return t.name.toLowerCase().includes(searchString.toLowerCase());
         });
-        console.log('userList: ', filtered);
         await new Promise((r) => setTimeout(r, 500));
         this.users = filtered;
-        // console.log("Filtered contacts: ", this.regardingContacts);
       } catch (error) {
         console.error(error);
       }

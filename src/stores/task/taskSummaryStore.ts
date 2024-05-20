@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
 import { taskSummary } from 'src/models/task/taskSummary';
 import { Constants } from 'stores/Constants';
 import { searchFilter } from 'src/models/task/searchFilter';
@@ -39,29 +38,20 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       const queryParams = new URLSearchParams();
       const params: searchFilter = this.filter;
       const filterKeys = Object.keys(params);
-
+      //TODO: CR: 2024-05-17: nk: Fix the below type error?
       filterKeys.forEach((key) => {
         if (this.filter[key]) {
           queryParams.append(key, String(this.filter[key]));
         }
       });
-
-      // queryParams.append('pagesize', String(this.pageSize));
-      // queryParams.append('pagenumber', String(this.pageNum));
-
       return queryParams;
     },
 
     getUrl() {
-      //if (this.url) return;
-
       if (this.IsParentPresent) {
-        // parent does not need paging
         return this.constructBaseURL();
       }
-
       let callStr = '';
-      //if (this.links?.next) {
       if (!this.IsEmptyLinkHeader) {
         callStr = `${this.links}`;
       } else {
@@ -70,15 +60,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         const queryString = queryParams.toString();
         callStr += queryString ? `?${queryString}` : '';
       }
-
       this.url = callStr;
-      // if (!this.url.includes('filterString')) {
-      //   this.resetTaskSummaryList();
-      // }
-      // if (isFilter) {
-      //   //const queryParams = this.constructQueryParams();
-      //   this.url += '&' + queryParams;
-      // }
     },
 
     setFilter(searchFilter: searchFilter) {
@@ -89,37 +71,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       this.pageNum = 1;
       this.links = {} as linkHeader; // https://stackoverflow.com/a/45339463
     },
-
-    // async getTasksUpdated(isFilter: boolean): Promise<boolean> {
-    //   this.getUrl();
-    //   console.log(
-    //     `taskSummaryStore: getTasksUpdated: Url: ${
-    //       this.url
-    //     }, QueryParam: ${this.constructQueryParams()}, isFilter: ${isFilter}, Filter: ${JSON.stringify(
-    //       this.filter
-    //     )}`
-    //   );
-
-    //   try {
-    //     const instance = Constants.getAxiosInstance();
-    //     const response = await instance.get(this.url);
-    //     const summaries = response.data.data;
-    //await this.resetTaskSummaryList();
-    // this.taskSummaries.push(...summaries);
-    // console.log('Task summaries in Task Summary store:', summaries);
-    // this.links = response.data.pagination.next || '{}';
-    // this.url = this.links ? `${this.links}` : '';
-
-    // this.links = JSON.parse(response.headers.get('Links') || '{}');
-    // this.url = this.links.next
-    //   ? `${Constants.endPointUrl}${this.links.next}`
-    //   : '';
-    // console.log("next url from header", this.url);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    //   return this.url === 'null';
-    // },
 
     async getTasksUpdated(isFilter: boolean): Promise<boolean> {
       this.getUrl();
@@ -140,7 +91,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     },
 
     async getTasks(parentObjectId: number, parentObjectServiceType: number) {
-      // console.log(`TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`);
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
           ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
@@ -168,7 +118,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
     async getTasksByParent(parentObjectId: string) {
       const callStr = `${Constants.endPointUrl}/task-summary?parentSid=${parentObjectId}`;
-      console.log(callStr);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
@@ -185,7 +134,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         `${Constants.endPointUrl}/task-summary`,
         taskSummary
       );
-
       if (response.status === 200) {
         await this.getTask(taskSummary.id);
       } else {
@@ -194,7 +142,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     },
 
     async editTask(taskSummary: taskSummary) {
-      console.log(`editTask: ${this.taskSummary?.id}`);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
@@ -216,9 +163,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
           `${Constants.endPointUrl}/task-summary/${id}`
         );
         if (response.status === 200) {
-          //debugger;
           this.taskSummary = response.data;
-          //  console.log(`editNote 3: ${this.note?.title}`);
         }
       } catch (error) {
         console.error(`deleteNote Error: ${error}`);

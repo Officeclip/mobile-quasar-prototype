@@ -20,7 +20,6 @@ const loadMore = async (index: any, done: () => void) => {
 };
 
 onBeforeMount(() => {
-  // taskSummaryStore.getTasks(Number(parentObjectId.value), Number(parentObjectServiceType.value));
   taskSummaryStore.parentObjectId = props.parent.parentObjectId;
   taskSummaryStore.parentObjectServiceType =
     props.parent.parentObjectServiceType;

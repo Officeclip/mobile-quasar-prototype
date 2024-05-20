@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { Constants } from 'stores/Constants';
 import { subTask } from 'src/models/task/subtask';
@@ -38,9 +37,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           `${Constants.endPointUrl}/task-detail/${id}`
         );
         if (response.status === 200) {
-          //debugger;
           this.taskDetail = response.data;
-          //  console.log(`editNote 3: ${this.note?.title}`);
         }
       } catch (error) {
         console.error(`deleteNote Error: ${error}`);
@@ -49,7 +46,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
 
     async editTask(taskDetail: taskDetails) {
       console.log(`editNote 1: ${this.taskDetail?.id}`);
-      // not added yet
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
@@ -57,7 +53,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           taskDetail
         );
         if (response.status === 200) {
-          //debugger;
           this.taskDetail = response.data;
         }
       } catch (error) {
@@ -71,18 +66,13 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}/task-detail/${id}`
         );
-        console.log(response);
         this.taskDetail = response.data;
       } catch (error) {
-        this.taskDetail = undefined;
         console.error(error);
       }
     },
 
     async getTasks(parentObjectId: number, parentObjectServiceType: number) {
-      console.log(
-        `TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`
-      );
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
           ? `${Constants.endPointUrl}/task-detail?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
@@ -109,8 +99,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       );
 
       if (subtask) subtask = editedSubtask;
-      console.log(subtask);
-      console.log(editedSubtask);
       await this.editTask(<taskDetails>this.taskDetail);
     },
 

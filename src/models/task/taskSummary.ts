@@ -1,7 +1,5 @@
-import {security} from "src/models/security";
-
 export interface taskSummary {
-  id: number|string;
+  id: number | string;
   subject: string;
   dueDate: string;
   isPrivate: boolean;
@@ -9,5 +7,3 @@ export interface taskSummary {
   taskStatusCategory: string;
   taskPriorityName: string;
 }
-
-

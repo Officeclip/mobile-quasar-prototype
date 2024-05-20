@@ -18,7 +18,6 @@ function deleteSubtask(id: string) {
 }
 
 const showEditSubtaskDialog = ref(false);
-
 const showConfirmationDialog = ref(false);
 </script>
 
@@ -35,7 +34,7 @@ const showConfirmationDialog = ref(false);
         <span class="text-grey-8"> - {{ subtask.assignee.name }} </span>
       </q-item-label>
       <q-item-label caption lines="1" :class="subtask.isCompleted ? 'text-strike' : ''"> {{ subtask.description
-      }}</q-item-label>
+        }}</q-item-label>
       <q-item-label class="q-mt-xs text-body2 text-weight-bold text-primary text-uppercase" lines="1">
         <span v-if="!subtask.isCompleted" class="cursor-pointer" @click="toggleSubtaskStatus(subtask.id)">Mark as
           complete</span>

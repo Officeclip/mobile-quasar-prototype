@@ -11,7 +11,6 @@ taskSummaryStore.getTasksByParent(props.parent.parentObjectId);
 const taskSummaries = computed(() => {
   return taskSummaryStore.taskSummaries;
 });
-
 </script>
 
 <template>

@@ -11,10 +11,12 @@ export interface taskType {
   id: string;
   name: string;
 }
+
 export interface regardingParent {
   id: string;
   name: string;
 }
+
 export interface taskPriority {
   id: string;
   name: string;
@@ -23,7 +25,7 @@ export interface taskPriority {
 export interface taskStatus {
   id: string;
   name: string;
-  category: string
+  category: string;
 }
 
 export interface regardingContact {
@@ -35,8 +37,8 @@ export interface tag {
   id: string;
   name: string;
 }
+
 export interface user {
   id: string;
   name: string;
 }
-

@@ -4,7 +4,6 @@ import { useTaskListsStore } from 'stores/task/taskListsStore';
 import { user } from 'src/models/task/taskLists';
 import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
 import { searchFilter } from 'src/models/task/searchFilter';
-import { useSessionStore } from 'stores/SessionStore';
 
 const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
 
@@ -12,9 +11,9 @@ const props = defineProps<{
   parent: any;
   filterOptions: searchFilter;
 }>();
-const taskSummaryStore = useTaskSummaryStore();
-const sessionStore = useSessionStore();
 
+const taskSummaryStore = useTaskSummaryStore();
+const taskListsStore = useTaskListsStore();
 const advancedOptions: Ref<searchFilter> = ref({
   filterString: '',
   assignedToMe: false,
@@ -44,16 +43,10 @@ function filterNumber(filter: searchFilter) {
   val += filter.regardingTypeId ? 1 : 0;
   val += filter.regardingValueId ? 1 : 0;
   val += filter.showCompleted ? 1 : 0;
-
   return val;
 }
 
 function emitOptions() {
-  console.log(
-    `taskAdvancedFilters: emitOptions: advancedOptions ${JSON.stringify(
-      advancedOptions.value
-    )}`
-  );
   taskSummaryStore.setFilter(advancedOptions.value);
   taskSummaryStore.resetPageNumber();
   taskSummaryStore.getTasksUpdated(true);
@@ -62,10 +55,8 @@ function emitOptions() {
   emit('filterCount', filterNumber(advancedOptions.value));
 }
 
-const taskListsStore = useTaskListsStore();
 onBeforeMount(() => {
   taskListsStore.getTaskLists();
-  console.log(sessionStore.getSession());
   Object.assign(advancedOptions.value, props.filterOptions);
 });
 
@@ -93,7 +84,6 @@ async function filterFn(val: string, update: any, abort: any) {
   }
 
   update(() => {
-    console.log('update');
     const needle = val.toLowerCase();
     userList.value = taskListsStore.users.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1

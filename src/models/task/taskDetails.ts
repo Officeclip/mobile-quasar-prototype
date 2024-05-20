@@ -43,14 +43,10 @@ export interface taskDetails {
     to: string;
     beforeMinutes: number;
   };
-  //remindTo: string;
-  //remindBeforeMinutes: number;
   recurrence: {
     text: string;
     rule: string;
   };
-  //repeatInfoText: string;
-  //recurrenceRule: string;
 }
 
 export interface assignee {

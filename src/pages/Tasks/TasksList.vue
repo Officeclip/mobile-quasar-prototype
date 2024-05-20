@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-import { computed, onBeforeMount, ref, Ref, watch } from 'vue';
+import { onBeforeMount, ref, Ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
-
 import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
 import TaskAdvancedFilters from 'components/tasks/taskAdvancedFilters.vue';
 import { searchFilter } from 'src/models/task/searchFilter';
-import { taskSummary } from 'src/models/task/taskSummary';
 import { useSessionStore } from 'stores/SessionStore';
 import TasksListCtrl from 'components/tasks/tasksListCtrl.vue';
 
@@ -41,8 +39,6 @@ const assignedToMe = ref(
 );
 
 function clearFilterValues() {
-  // filterOptions.value = { ...defaultFilterOptions };
-  // filterCount.value = 0;
   window.location.reload();
 }
 
@@ -59,7 +55,6 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
   filterOptions.value.regardingTypeId = advancedOptions.regardingTypeId;
   filterOptions.value.taskTypeId = advancedOptions.taskTypeId;
   filterOptions.value.showCompleted = advancedOptions.showCompleted;
-
   assignedToMe.value =
     advancedOptions.assignedToId === sessionStore.Session.userId;
 }
@@ -70,7 +65,6 @@ async function filterFn(val: string) {
     return await taskSummaryStore.getTasksUpdated(false);
   } else {
     filterOptions.value.filterString = val.toLowerCase();
-    console.log(`filterFn: ${JSON.stringify(filterOptions.value)}`);
     taskSummaryStore.resetPageNumber();
     taskSummaryStore.setFilter(filterOptions.value);
     await taskSummaryStore.getTasksUpdated(true);
@@ -79,32 +73,7 @@ async function filterFn(val: string) {
 async function handleClear() {
   await taskSummaryStore.resetTaskSummaryList();
   taskSummaryStore.resetPageNumber();
-  //return await taskSummaryStore.getTasksUpdated(false);
 };
-
-// async function filterFn(val: string) {
-//   if (val == null) {
-//     taskSummaryStore.resetPageNumber();
-//     return await taskSummaryStore.getTasksUpdated();
-//   }
-//   if (val.length === 0) {
-//   } else if (val.length < 3) {
-//     return;
-//   } else if (val.length >= 3) {
-//     filterOptions.value.filterString = val;
-//     console.log(`filterFn: ${JSON.stringify(filterOptions.value)}`);
-//     taskSummaryStore.resetPageNumber();
-//     taskSummaryStore.setFilter(filterOptions.value);
-//     //await taskSummaryStore.getTasksUpdated(true);
-//     await taskSummaryStore.getTasksUpdated();
-//   } else {
-//     taskSummaryStore.taskSummaries = taskSummaryStore.taskSummaries.filter(
-//       (t: taskSummary) => {
-//         return t.subject.toLowerCase().includes(val.toLowerCase());
-//       }
-//     );
-//   }
-// }
 
 watch(
   () => filterOptions.value.filterString,
@@ -116,8 +85,6 @@ watch(
 watch(assignedToMe, async () => {
   if (!assignedToMe.value) {
     window.location.reload();
-    //await taskSummaryStore.resetTaskSummaryList();
-    //return await taskSummaryStore.getTasksUpdated(false);
   }
   filterOptions.value.assignedToId = sessionStore.Session.userId;
   await taskSummaryStore.resetTaskSummaryList();
@@ -127,13 +94,7 @@ watch(assignedToMe, async () => {
 
 watch(
   () => filterOptions.value,
-  (newVal, oldVal) => {
-    // console.log(
-    //   `watch filterOptions.value: ${JSON.stringify(oldVal)} to ${JSON.stringify(
-    //     newVal
-    //   )}`
-    // );
-    // This function will be called whenever any property in filterOptions changes
+  () => {
     taskSummaryStore.setFilter(filterOptions.value);
   },
   { deep: true } // This option is necessary to watch for nested changes

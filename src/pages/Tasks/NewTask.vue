@@ -1,21 +1,18 @@
 <script lang="ts" setup>
 import TasksForm from 'components/tasks/tasksFormCtrl.vue';
 import { ref, Ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { taskSummary } from 'src/models/task/taskSummary';
 import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
 import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 
 const router = useRouter();
-const route = useRoute();
 
-const parentObjectId = route.params.objectId ? route.params.objectId : -1;
-const parentObjectServiceType = route.params.objectTypeId ? route.params.objectTypeId : -1;
-
-console.log('ParentObject as contact Id:', parentObjectId)
 const taskSummaryStore = useTaskSummaryStore();
 const taskDetailsStore = useTaskDetailsStore();
+
+//TODO: CR: 2024-05-17: nk: Fix the below type error?
 const task: Ref<taskDetails> = ref({
   actualDuration: 0.0,
   completionDate: '',
@@ -59,14 +56,10 @@ const task: Ref<taskDetails> = ref({
     append: false,
     delete: true
   },
-  // remindTo: "",
-  // remindBeforeMinutes: 0,
   reminder: {
     to: '',
     beforeMinutes: 0
   },
-  // repeatInfoText: "",
-  // recurrenceRule: "",
   recurrence: {
     text: '',
     rule: ''
@@ -81,7 +74,6 @@ function onSubmit(e: any) {
   e.preventDefault()
   const formData = new FormData(e.target);
   const newDueDate = formData.get('dueDate')?.toString() ?? '';
-  const newStartDate = formData.get('startDate')?.toString() ?? '';
 
   const newTask: taskDetails = {
     id: task.value.id,
@@ -111,11 +103,7 @@ function onSubmit(e: any) {
     modifiedDate: task.value.modifiedDate,
     subTasks: task.value.subTasks,
     security: task.value.security,
-    //remindTo: task.value.remindTo,
-    //remindBeforeMinutes: task.value.remindBeforeMinutes,
     reminder: task.value.reminder,
-    //repeatInfoText: task.value.repeatInfoText,
-    //recurrenceRule: task.value.recurrenceRule,
     recurrence: task.value.recurrence,
     taskStatusCategory: task.value.taskStatusCategory,
   }
@@ -128,17 +116,12 @@ function onSubmit(e: any) {
     taskPriorityName: task.value.taskPriorityName,
     taskStatusCategory: task.value.taskStatusCategory
   }
-  // event.value.isAllDayEvent= newEvent.isAllDayEvent
-
-  console.log('new task form values: ', newTask)
   taskSummaryStore.addTask(newTaskSummary);
   taskDetailsStore.addTask(newTask);
-  //router.push('/tasksList')
   router.go(-1)
 }
-
-
 </script>
+
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header>
@@ -159,5 +142,3 @@ function onSubmit(e: any) {
     </q-page-container>
   </q-layout>
 </template>
-
-<style scoped></style>

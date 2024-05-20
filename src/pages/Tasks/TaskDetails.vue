@@ -62,14 +62,10 @@ const taskDetail: ComputedRef<taskDetails> = computed(() => {
         append: false,
         delete: false
       },
-      // remindTo: 'Not Available',
-      // remindBeforeMinutes: 0,
       reminder: {
         to: 'Not Available',
         beforeMinutes: 0
       },
-      // repeatInfoText: 'Not Available',
-      // recurrenceRule: 'Not Available',
       recurrence: {
         text: 'Not Available',
         rule: 'Not Available'
@@ -79,6 +75,7 @@ const taskDetail: ComputedRef<taskDetails> = computed(() => {
     return emptyTaskDetail;
   }
 });
+
 const pendingSubtasks = computed(() => {
   return taskDetail.value?.subTasks.filter(subtask => !subtask.isCompleted);
 });
@@ -89,10 +86,8 @@ const completedSubtasks = computed(() => {
 
 onMounted(() => {
   const route = useRoute();
-  // console.log('id=', route.params.id);
   id.value = route.params.id;
   taskDetailsStore.getTask((route.params.id.toString()));
-  // taskListStore.getTaskLists();
 });
 
 const title = ref('Confirm');
@@ -112,15 +107,6 @@ const confirmDeletion = () => {
   });
 };
 
-// function deleteTask() {
-//   let taskId = id.value;
-//   console.log('Deleted: ID=' + taskId);
-
-//   taskSummaryStore.deleteTask(taskId);
-//   taskDetailsStore.deleteTask(taskId);
-//   router.go(-1);
-// }
-
 const router = useRouter();
 
 const showAddSubtaskDialog = ref(false);
@@ -128,7 +114,6 @@ const showAddSubtaskDialog = ref(false);
 function addSubtask(subtask: subTask) {
   taskDetailsStore.addSubtask(subtask);
 }
-
 </script>
 
 <style>
@@ -169,12 +154,8 @@ function addSubtask(subtask: subTask) {
     <q-page-container>
       <q-card class="q-ma-md" flat>
         <q-card-section class="text-h5">{{ taskDetail?.subject }}</q-card-section>
-
         <q-card-section>{{ taskDetail?.description }}</q-card-section>
-
         <q-separator inset />
-
-        <!--        Start End-->
         <q-card-section class="row justify-between">
           <q-item>
             <q-item-section center side>
@@ -205,10 +186,7 @@ function addSubtask(subtask: subTask) {
             </q-item-section>
           </q-item>
         </q-card-section>
-
         <q-separator inset />
-
-        <!--       Type Status Category-->
         <q-card-section>
           <div class="row justify-around q-pt-sm">
             <div class="relative-position">
@@ -231,10 +209,7 @@ function addSubtask(subtask: subTask) {
             </div>
           </div>
         </q-card-section>
-
         <q-separator inset />
-
-        <!--        Assignees-->
         <q-item>
           <q-item-section center side>
             <q-icon name="group" />
@@ -242,6 +217,8 @@ function addSubtask(subtask: subTask) {
           <q-item-section>
             <q-item-label caption class="q-pl-xs">Assignees</q-item-label>
             <div class="q-pt-xs row">
+
+              <!-- TODO: CR: 2024-05-17: nk: Fix the below type error? -->
               <q-chip v-for="assignee in taskDetail?.assignees" :key="assignee" dense square>
                 {{ assignee.name }}
                 <q-tooltip>{{ assignee.email }}</q-tooltip>
@@ -249,9 +226,7 @@ function addSubtask(subtask: subTask) {
             </div>
           </q-item-section>
         </q-item>
-
         <q-separator inset />
-
         <q-card-section>
           <div class="row justify-between">
             <q-item>
@@ -276,9 +251,7 @@ function addSubtask(subtask: subTask) {
                 <q-icon name="notifications_active" />
               </q-item-section>
             </q-item>
-
           </div>
-
           <div class="row justify-between">
             <q-item>
               <q-item-section center side>
@@ -299,7 +272,6 @@ function addSubtask(subtask: subTask) {
               </q-item-section>
             </q-item>
           </div>
-
           <div class="row justify-between">
             <q-item>
               <q-item-section center side>
@@ -308,13 +280,13 @@ function addSubtask(subtask: subTask) {
               <q-item-section>
                 <q-item-label caption>Tags</q-item-label>
                 <div>
+                  <!-- TODO: CR: 2024-05-17: nk: Fix the below type error? -->
                   <q-chip v-for="tag in taskDetail?.tags" :key="tag" dense square>{{ tag.name }}</q-chip>
                 </div>
               </q-item-section>
             </q-item>
           </div>
           <div class="row justify-between">
-
             <q-item>
               <q-item-section center side>
                 <q-icon name="info" />
@@ -326,15 +298,12 @@ function addSubtask(subtask: subTask) {
         }}
                 </q-item-label>
               </q-item-section>
-
             </q-item>
-
           </div>
         </q-card-section>
         <q-toolbar class="bg-primary text-white shadow-2">
           <q-toolbar-title>Subtasks</q-toolbar-title>
           <q-btn dense flat icon="add" round @click="showAddSubtaskDialog = true" />
-
         </q-toolbar>
         <q-list bordered class="rounded-borders">
           <q-item-label caption class="q-ma-sm">Pending</q-item-label>
@@ -343,9 +312,7 @@ function addSubtask(subtask: subTask) {
           </div>
           <q-item-label v-if="pendingSubtasks.length === 0" class="text-center text-grey">No pending
             tasks</q-item-label>
-
           <q-separator spaced />
-
           <q-item-label caption class="q-ma-sm">Completed</q-item-label>
           <div v-for="subtask in completedSubtasks" :key="subtask.id">
             <subtask-item :subtask="subtask" />
@@ -353,7 +320,6 @@ function addSubtask(subtask: subTask) {
           <q-item-label v-if="completedSubtasks.length === 0" class="text-center text-grey">No completed tasks
           </q-item-label>
         </q-list>
-
       </q-card>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
         <q-fab color="purple" direction="up" icon="add" vertical-actions-align="right">
@@ -368,23 +334,9 @@ function addSubtask(subtask: subTask) {
         }" color="secondary" icon="add" label="Create New Task" />
         </q-fab>
       </q-page-sticky>
-
       <q-dialog v-model="showAddSubtaskDialog">
         <add-subtask-dialog :taskSid="taskDetail?.id" @save-subtask="addSubtask" />
       </q-dialog>
-
-      <!-- <q-dialog v-model="showConfirmationDialog">
-        <q-card>
-          <q-card-section>
-            <q-item-label>Confirm</q-item-label>
-            <q-item-label>Are you sure you want to delete this task?</q-item-label>
-            <q-card-actions align="right">
-              <q-btn color="primary" label="Cancel" @click="showConfirmationDialog = false" />
-              <q-btn color="negative" label="Delete" @click="deleteTask()" />
-            </q-card-actions>
-          </q-card-section>
-        </q-card>
-      </q-dialog> -->
     </q-page-container>
   </q-layout>
   <ConfirmationDialog v-if="showConfirmationDialog" :showConfirmationDialog="showConfirmationDialog" :title="title"

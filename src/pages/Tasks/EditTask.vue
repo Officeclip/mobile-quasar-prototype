@@ -1,11 +1,10 @@
 <!-- Cleaned up using Google Bard -->
 <script lang="ts" setup>
-import { computed, ComputedRef, onMounted, ref, Ref } from 'vue';
+import { onMounted, ref, Ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import TasksForm from 'components/tasks/tasksFormCtrl.vue';
 import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
-import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
 
 const tasksDetailStore = useTaskDetailsStore();
 
@@ -14,9 +13,11 @@ const router = useRouter();
 
 const id = ref<string | string[]>(route.params.id);
 
+//TODO: CR: 2024-05-17: nk: Fix the below type error?
 const task: Ref<taskDetails> = ref(tasksDetailStore.TaskDetail);
 
 onMounted(() => {
+  //TODO: CR: 2024-05-17: nk: Fix the below type error?
   tasksDetailStore.getTask((id.value));
 });
 
@@ -26,8 +27,6 @@ function receiveTask(receivedTask: taskDetails) {
 
 function onSubmit(e: any) {
   e.preventDefault();
-  const formData = new FormData(e.target);
-  console.log(`onSubmit Task Value: ${task.value}`);
 
   const newTask: taskDetails = {
     id: task.value.id,
@@ -56,22 +55,15 @@ function onSubmit(e: any) {
     modifiedDate: task.value.modifiedDate,
     subTasks: task.value.subTasks,
     security: task.value.security,
-    //remindTo: task.value.remindTo,
-    //remindBeforeMinutes: task.value.remindBeforeMinutes,
     reminder: task.value.reminder,
-    //repeatInfoText: task.value.repeatInfoText,
-    //recurrenceRule: task.value.recurrenceRule,
     recurrence: task.value.recurrence,
     taskStatusCategory: task.value.taskStatusCategory,
-
   }
-
   tasksDetailStore.editTask(newTask);
-  // taskSummaryStore.editTask(newTask);
-  //router.push(`/taskDetails/${task.value?.id}`);
   router.go(-2)
 }
 </script>
+
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header>

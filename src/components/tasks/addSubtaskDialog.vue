@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { onBeforeMount, ref, Ref, computed } from 'vue';
 import { useTaskListsStore } from 'stores/task/taskListsStore';
-//import {regardingContact} from 'src/models/task/taskLists';
 import { useUserSummaryStore } from 'stores/userSummaryStore';
 import { userSummary } from 'src/models/userSummary';
 
@@ -20,9 +19,8 @@ const assignee = computed(() => {
 
 const contactOptions: Ref<userSummary[]> = ref([]);
 
-async function filterFn(val: string, update: any, abort: any) {
+async function filterFn(val: string, update: any) {
   update(() => {
-    console.log('update');
     const needle = val.toLowerCase();
     contactOptions.value = userSummaryStore.userSummaries.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
