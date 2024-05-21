@@ -110,10 +110,10 @@ const closePopUp = () => {
   <div class="q-mt-sm">
     <!-- if submitToUserId there then this will comes up -->
     <div
-      v-if="workFlow?.submitToUserId && workFlow?.workflowType == 'auto'"
+      v-if="workFlow?.workflowType == 'auto'"
       class="row items-center justify-center"
     >
-      <div>
+      <div v-if="workFlow?.submitToUserId">
         <q-btn
           class="q-px-sm"
           no-caps
@@ -126,14 +126,14 @@ const closePopUp = () => {
           to: {{ submitToUserName?.name }}
         </q-item-label>
       </div>
-    </div>
+      <!-- </div> -->
 
-    <!-- if workflow routing setup as automatic this will comes up -->
-    <div
+      <!-- if workflow routing setup as automatic this will comes up -->
+      <!-- <div
       v-if="workFlow?.workflowType == 'auto'"
       class="row items-center justify-center"
-    >
-      <div>
+    > -->
+      <div v-if="workFlow?.approveToUserId">
         <q-btn
           no-caps
           class="q-px-sm q-mx-sm"
@@ -146,7 +146,7 @@ const closePopUp = () => {
           >to: {{ approveToUserName?.name }}</q-item-label
         >
       </div>
-      <div>
+      <div v-if="workFlow?.rejectToUserId">
         <q-btn
           no-caps
           class="q-px-sm q-mx-sm"
@@ -187,6 +187,14 @@ const closePopUp = () => {
         color="primary"
         label="Submit"
         @click="upDateWorkFlow"
+      />
+      <q-btn
+        no-caps
+        class="q-px-sm q-mx-sm"
+        dense
+        color="primary"
+        label="Approve"
+        @click="approveButtonWorkFlow"
       />
     </div>
   </div>

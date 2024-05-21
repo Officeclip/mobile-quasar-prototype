@@ -20,6 +20,7 @@ const fromDate = route.params.fromDate;
 // made the readOnly params type as boolean, by default always coming as string only
 const readOnly = route.params.readOnly === 'false';
 const stageId = Number(route.params.stageId);
+const status = route.params.status;
 const timesheetsStore = useTimesheetsStore();
 const timesheetCommentsStore = useTECommentsStore();
 const timesheetListsStore = useTimesheetListStore();
@@ -136,7 +137,12 @@ const isReadOnly = isAllowed({
 
     <q-page-container>
       <div>
-        <WorkFlow :entityId="id" :entityType="entityType" :stageId="stageId" />
+        <WorkFlow
+          v-if="status != 'Approved'"
+          :entityId="id"
+          :entityType="entityType"
+          :stageId="stageId"
+        />
       </div>
       <q-card
         v-for="timesheetDetail in timesheetDetails"
