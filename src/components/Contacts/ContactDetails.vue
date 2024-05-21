@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-console.log('TESTING ContactDetails:Setup');
 const props = defineProps(['params']);
 const contactDetails = computed(() => props.params.contactDetails);
 const stateName = computed(() => props.params.stateName);
 const countryName = computed(() => props.params.countryName);
-//const parentObjectId = computed(() => props.params.parentObjectId);
-console.log(
-  `ContactDetails: contactDetails: ${contactDetails.value}, stateName: ${stateName.value}`
-);
 </script>
 <template>
   <q-card-section class="q-pb-none">
@@ -22,12 +17,12 @@ console.log(
           }}</q-item-label>
           <q-item-label caption>Title</q-item-label>
           <q-item-label class="q-mb-sm">{{
-            contactDetails?.title
-          }}</q-item-label>
+              contactDetails?.title
+            }}</q-item-label>
           <q-item-label caption>Country</q-item-label>
           <q-item-label class="q-mb-sm">{{
-            countryName
-          }}</q-item-label>
+              countryName
+            }}</q-item-label>
 
           <q-item-label caption>Address</q-item-label>
           <q-item-label>{{ contactDetails?.street_address }}</q-item-label>
@@ -43,17 +38,17 @@ console.log(
 
           <q-item-label caption>Email</q-item-label>
           <q-item-label class="q-mb-sm">{{
-            contactDetails?.email
-          }}</q-item-label>
+              contactDetails?.email
+            }}</q-item-label>
 
           <q-item-label caption>Work Phone</q-item-label>
           <q-item-label class="q-mb-sm">{{
-            contactDetails?.work_phone
-          }}</q-item-label>
+              contactDetails?.work_phone
+            }}</q-item-label>
           <q-item-label caption>Home Phone</q-item-label>
           <q-item-label class="q-mb-sm">{{
-            contactDetails?.home_phone
-          }}</q-item-label>
+              contactDetails?.home_phone
+            }}</q-item-label>
         </q-item-section>
       </q-item>
     </q-list>

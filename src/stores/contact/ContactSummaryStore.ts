@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
-import { ContactSummary } from '../models/Contact/contactSummary';
-import axios from 'axios';
-import { Constants } from './Constants';
+import { ContactSummary } from '../../models/Contact/contactSummary';
+import { Constants } from '../Constants';
 import { linkHeader } from 'src/models/general/linkHeader';
 
 export const useContactSummaryStore = defineStore('contactSummaryStore', {
@@ -10,9 +9,6 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
     url: '' as string,
     pageSize: 10,
     pageNum: 1,
-    //filter: {} as searchFilter,
-    //parentObjectId: 0,
-    //parentObjectServiceType: 0,
     links: {} as linkHeader,
   }),
 
@@ -40,15 +36,12 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
         const queryString = queryParams.toString();
         callStr += queryString ? `${queryString}` : '';
       }
-
       this.url = callStr;
     },
 
     async getUpdatedContacts(): Promise<boolean> {
       this.getUrl();
-
       try {
-        // console.log("URL called", this.url);
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(this.url);
         const summaries = response.data.data;
@@ -68,7 +61,6 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
           `${Constants.endPointUrl}/contact-summary`
         );
         this.contactSummary = response.data;
-        //console.log(`ContactsStore: getContacts - ${this.contacts}`);
       } catch (error) {
         alert(error);
         console.log(error);
@@ -76,12 +68,9 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
     },
 
     async getContactSummaryByBatch(limit: number, page: number) {
-      // FIXME: put correct type
       const callStr = `${Constants.endPointUrl}/contact-summary?_limit=${limit}&_page=${page}`;
-      //console.log(`callStr: ${callStr}`)
       const response = await fetch(callStr);
       const data = await response.json();
-      //console.log(data);
       this.contactSummary.push(...data);
     },
 
@@ -90,12 +79,9 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
       page: number,
       filter: string
     ) {
-      // FIXME: put correct type
       const callStr = `${Constants.endPointUrl}/contact-summary?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
-      console.log(`callStr: ${callStr}`);
       const response = await fetch(callStr);
       const data = await response.json();
-      //console.log(data);
       this.contactSummary.push(...data);
     },
   },

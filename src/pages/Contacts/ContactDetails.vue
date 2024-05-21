@@ -2,51 +2,31 @@
 TODO: skd: Provide a way to edit the image also [1.5h]
 TODO: skd: Implement child events the same way as implemented in OfficeClip. Do at least the UI [2h]
 -->
-
 <script setup lang="ts">
 import { ref, onBeforeMount, computed, onMounted } from 'vue';
-import { useContactDetailsStore } from '../../stores/ContactDetailsStore';
-import { useContactListsStore } from '../../stores/ContactListsStore';
-import { useRoute, useRouter } from 'vue-router';
+import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
+import { useContactListsStore } from '../../stores/contact/ContactListsStore';
+import { useRoute } from 'vue-router';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import EventsList from '../../components/Events/EventsListCtrl.vue';
 import ContactDetails from '../../components/Contacts/ContactDetails.vue';
 import MetaDetails from '../../components/Meta/MetaDetails.vue';
 import { ObjectType } from '../../helpers/util';
-import { useQuasar } from 'quasar';
-import TasksListCtrl from 'components/tasks/tasksListCtrl.vue';
 import TaskMetaSummary from '../../components/tasks/TaskMetaSummaryItem.vue';
 import { isAllowed } from 'src/helpers/security';
 
-console.log('TESTING CONTACTVIEW: Setup');
 const model = ref('1');
 const contactDetailsStore = useContactDetailsStore();
 const contactListsStore = useContactListsStore();
-//const eventsStore = useEventsStore();
-//const allEvents = eventsStore.getEventsById(-1,-1)
 const route = useRoute();
-const router = useRouter();
-const $q = useQuasar();
-
-// onBeforeMount(() => {
-//   //contactsStore.$reset;
-//   console.log('TESTING CONTACTVIEW: onBeforeMount');
-//   console.log('Contactstorevarialble testing:', contactDetailsStore);
-//   contactDetailsStore.getContactDetails(Number(route.params.id));
-//   contactDetailsStore.getContactLists();
-//   console.log(`ContactDetails: params: ${params.value}`);
-// });
 
 onBeforeMount(async () => {
   try {
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
-    //await sessionStore.getSession();
-    //homeIconStore.getHomeIcons();
     await contactDetailsStore.getContactDetails(route.params.id as string);
-    console.log('On before mount: ', contactDetailsStore.ContactDetails);
     await contactDetailsStore.getContactLists();
   } catch (error) {
-    console.log('Error Msg: ', error);
+    console.error('Error Msg: ', error);
   }
 });
 
@@ -55,16 +35,11 @@ onMounted(() => {
 });
 
 const contactDetails = computed(() => {
-  console.log('Contact Details:', contactDetails);
   return contactDetailsStore.ContactDetails;
 });
 
 const children = computed(() => {
   return contactListsStore.Children;
-});
-
-const fullName = computed(() => {
-  return `${contactDetails.value?.first_name} ${contactDetails.value?.last_name}`;
 });
 
 const id = ref<string | string[]>('0');
@@ -75,7 +50,6 @@ const stateName = computed(() => {
     (state) => state.id === contactDetails.value?.state_id
   );
   const stateItem = item ? item.name : '';
-  console.log('State Name - ', stateItem);
   return stateItem;
 });
 
@@ -84,7 +58,6 @@ const countryName = computed(() => {
     (country) => country.id === contactDetails.value?.country_id
   );
   const countryItem = item ? item.name : '';
-  console.log('Country Name - ', countryItem);
   return countryItem;
 });
 
@@ -107,56 +80,37 @@ const parent2 = ref({
   parentObjectServiceType: ObjectType.Contact.toString(),
 });
 
-// const params = ref({
-//   contact: contact.value,
-//   stateName: stateName.value,
-// });
-
 const notesCount = ref<any>('0');
 
 const handleNoteCount = (value: string) => {
   notesCount.value = value;
-  console.log(`handleNoteCount(): ${notesCount.value}`);
 };
 
 const eventsCount = ref<any>('0');
 
 const handleEventCount = (value: string) => {
   eventsCount.value = value;
-  console.log(`handleEventCount(): ${eventsCount.value}`);
 };
 
 const tasksCount = ref<any>('0');
 
 const handleTaskCount = (value: string) => {
   tasksCount.value = value;
-  console.log(`handleTaskCount(): ${tasksCount.value}`);
 };
-// const isEdit = computed(() => {
-//   return isAllowed({ security: contactDetails.value?.security.write })
-// })
-// const isAllowEdit = isAllowed({
-//   security: { write: contactDetails.value?.security.write },
-// });
+
+//TODO: CR: 2024-05-17: nk: Fix the below type error?
 const isAllowEdit = computed(() => {
   return isAllowed({
     security: { write: contactDetails.value?.security.write },
   });
 });
+
+//TODO: CR: 2024-05-17: nk: Fix the below type error?
 const isAllowDelete = computed(() => {
   return isAllowed({
     security: { delete: contactDetails.value?.security.delete },
   });
 });
-
-// console.log(
-//   'Checking the isAllowEdit, isAllowDelete',
-//   isAllowEdit,
-//   isAllowDelete,
-//   contactDetails.value?.security.write,
-//   contactDetails.value?.security.delete
-// );
-//console.log(stateName);
 </script>
 
 <template>
@@ -166,7 +120,6 @@ const isAllowDelete = computed(() => {
         <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> Contact details </q-toolbar-title>
-
         <div>
           <q-btn v-if="isAllowEdit" @click="
           model === '1'
@@ -180,10 +133,9 @@ const isAllowDelete = computed(() => {
             <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>
           </q-btn>
         </div>
-
         <div>
           <q-btn v-if="isAllowDelete" @click="
-          contactDetailsStore.deleteContactDetails(contactDetails?.id);
+          contactDetailsStore.deleteContactDetails(contactDetails?.id as string);
         $router.go(-1);
         " flat round dense color="white" icon="delete" /><q-btn v-else dense disable flat icon="delete" round>
             <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>
@@ -191,13 +143,11 @@ const isAllowDelete = computed(() => {
         </div>
       </q-toolbar>
     </q-header>
-
     <q-page-container>
       <q-card class="relative-position card-example" flat bordered>
         <q-card-section class="q-pb-none">
           <div class="center">
             <q-avatar color="grey-3" size="200px" class="q-mb-sm">
-              <!-- <img :src="contactDetails?.picture" :alt="fullName" /> -->
               <q-img v-if="contactDetails?.picture" v-bind:src="contactDetails?.picture" />
               <q-icon name="image" v-else />
             </q-avatar>
@@ -212,7 +162,6 @@ const isAllowDelete = computed(() => {
         </q-card-section>
         <ContactDetails v-if="model === '1'" :params="params" />
         <MetaDetails v-if="model === '2'" :params="parent" />
-
         <div v-for="child in children" :key="child.id">
           <q-card-section v-if="child.id == ObjectType.Note">
             <q-list bordered class="rounded-borders">
@@ -243,7 +192,6 @@ const isAllowDelete = computed(() => {
               </q-expansion-item>
             </q-list>
           </q-card-section>
-
           <q-card-section v-if="child.id == ObjectType.ActivityTabForCrm">
             <q-list bordered class="rounded-borders">
               <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
@@ -254,7 +202,6 @@ const isAllowDelete = computed(() => {
                     </div>
                   </q-item-section>
                   <q-item-section> Events ({{ eventsCount }})</q-item-section>
-
                   <q-item-section side>
                     <q-btn :to="{
           name: 'newEvent',
@@ -272,7 +219,6 @@ const isAllowDelete = computed(() => {
               </q-expansion-item>
             </q-list>
           </q-card-section>
-
           <q-card-section v-if="child.id == ObjectType.ActivityTabForCrm">
             <q-list bordered class="rounded-borders">
               <q-expansion-item expand-separator expand-icon-class="text-primary" dense>
@@ -308,11 +254,6 @@ const isAllowDelete = computed(() => {
 </template>
 
 <style scoped>
-/* .q-img__content > div {
-  padding: 2px 16px !important;
-  background: rgba(0, 0, 0, 0.6);
-} */
-
 .center {
   display: flex;
   flex-direction: column;

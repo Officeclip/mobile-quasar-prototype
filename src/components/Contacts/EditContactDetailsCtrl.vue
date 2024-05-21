@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <script setup>
-import { defineProps, ref, onMounted, onBeforeMount, computed } from 'vue';
-import { useContactDetailsStore } from 'stores/ContactDetailsStore';
+import { defineProps, ref, onBeforeMount, computed } from 'vue';
+import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 
 const props = defineProps(['contactDetails']);
 
@@ -46,32 +46,6 @@ onBeforeMount(async () => {
     props.contactDetails.country_name = defaultCountry.value?.name;
   }
 });
-
-// onMounted(() => {
-//   //usecontactDetailsStore.getContactLists();
-//   if (props.contactDetails?.id == 0 && defaultState.value?.is_default == true) {
-//     props.contactDetails.state_name = defaultState.value.name;
-//     props.contactDetails.state_id = defaultState.value.id;
-//   }
-//   if (props.contactDetails?.id == 0 && defaultCountry.value?.is_default == true) {
-//     props.contactDetails.country_name = defaultCountry.value.name;
-//     props.contactDetails.country_id = defaultCountry.value.id;
-//   }
-// });
-
-// watch(
-//   [defaultState, defaultCountry],
-//   ([newDefaultState, newDefaultCountry]) => {
-//     if (props.contactDetails?.id == 0 && newDefaultState.value?.is_default == true) {
-//       props.contactDetails.state_name = newDefaultState.value.name;
-//       props.contactDetails.state_id = newDefaultState.value.id;
-//     }
-//     if (props.contactDetails?.id == 0 && newDefaultCountry.value?.is_default == true) {
-//       props.contactDetails.country_name = newDefaultCountry.value.name;
-//       props.contactDetails.country_id = newDefaultCountry.value.id;
-//     }
-//   }
-// );
 </script>
 
 <template>
