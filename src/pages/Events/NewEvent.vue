@@ -9,6 +9,7 @@ const eventDetailsStore = useEventDetailsStore();
 
 const router = useRouter();
 
+//TODO: CR: 2024-05-17: nk: Fix the below type error?
 const event: Ref<eventDetails> = ref({
   id: '',
   createdDate: new Date().toISOString(),
@@ -53,14 +54,17 @@ const event: Ref<eventDetails> = ref({
   security: [],
 });
 
+//TODO: CR: 2024-05-17: nk: Fix the below type error?
 function handleRRule(rrule: string) {
   event.value.recurrence.rule = rrule;
 }
 
+//TODO: CR: 2024-05-17: nk: Fix the below type error?
 function handleRRuleText(rruleText: string) {
   event.value.recurrence.text = rruleText;
 }
 
+//TODO: CR: 2024-05-17: nk: Fix the below type error?
 function handleReminder(reminder: [string, number]) {
   event.value.reminder.to = reminder[0];
   event.value.reminder.beforeMinutes = reminder[1];
@@ -70,18 +74,7 @@ function onSubmit(e: any) {
   e.preventDefault();
   const newEventDetails = ref(event);
   eventDetailsStore.addEventDetails(newEventDetails.value);
-  console.log('CCCCCCCChecking recurrence::::::', newEventDetails.value);
-  console.log(
-    'CCCCCCCChecking recurrence rrule::::::',
-    event.value.recurrence.rule
-  );
-  console.log(
-    'CCCCCCCChecking recurrence rruleText::::::',
-    event.value.recurrence.text
-  );
-
   router.go(-1);
-  //router.push('/eventSummary');
 }
 </script>
 
@@ -89,56 +82,20 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="$router.go(-1)"
-        >
+        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)">
         </q-btn>
         <q-toolbar-title> New Event</q-toolbar-title>
-        <q-btn
-          class="q-px-md"
-          dense
-          label="Save"
-          no-caps
-          outline
-          rounded
-          type="submit"
-          @click="onSubmit"
-        />
+        <q-btn class="q-px-md" dense label="Save" no-caps outline rounded type="submit" @click="onSubmit" />
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <EventForm
-            :event="event"
-            @rrule-generated="handleRRule"
-            @rrule-text-generated="handleRRuleText"
-            @reminder-generated="handleReminder"
-          />
-          <!-- <q-btn
-            class="q-ml-md"
-            color="primary"
-            label="Save"
-            no-caps
-            type="submit"
-          /> -->
-          <q-btn
-            class="q-ml-sm"
-            color="primary"
-            flat
-            label="Reset"
-            no-caps
-            type="reset"
-          />
+          <EventForm :event="event" @rrule-generated="handleRRule" @rrule-text-generated="handleRRuleText"
+            @reminder-generated="handleReminder" />
+          <q-btn class="q-ml-sm" color="primary" flat label="Reset" no-caps type="reset" />
         </div>
       </q-form>
     </q-page-container>
   </q-layout>
 </template>
-
-<style scoped></style>

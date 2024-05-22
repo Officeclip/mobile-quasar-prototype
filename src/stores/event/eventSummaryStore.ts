@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { eventSummary } from '../../models/event/eventSummary.js';
-import axios from 'axios';
 import dateTimeHelper from 'src/helpers/dateTimeHelper.js';
 import { Constants } from '../Constants';
 
@@ -19,14 +18,10 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       const callStr = yearAndMonth
         ? `${Constants.endPointUrl}/event-summary?year=${yearAndMonth.year}&month=${yearAndMonth.month}`
         : `${Constants.endPointUrl}/event-summary`;
-      console.log('TESTING CALL STR::', callStr);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
         this.eventSummary = response.data;
-        console.log(
-          `EventsStore: getAllEventSummary - length - ${response.data.length}, ${this.eventSummary}`
-        );
       } catch (error) {
         alert(error);
         console.log(error);
@@ -35,12 +30,10 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
 
     getEventSummaryForADay(date: any) {
       const formattedDate = date.replace(/\//g, '-');
-      //console.log(`getEventsForADay- date: ${formattedDate}`)
       if (this.eventSummary) {
         const eventsForADay = this.eventSummary.filter((t) => {
-          return t.startDateTime.includes(formattedDate);
+          return t.startDateTime?.includes(formattedDate);
         });
-        //console.log(`getEventsForADay: ${eventsForADay}`)
         return eventsForADay;
       } else {
         return [];
@@ -52,7 +45,6 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       parentObjectServiceType: number
     ) {
       const callStr = `${Constants.endPointUrl}/eventSummary?parentSId=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
-
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
@@ -69,7 +61,7 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
           //https://stackoverflow.com/a/19590901
           function (a) {
             const helper = dateTimeHelper.extractDateFromUtc(a.startDateTime);
-            return helper.replace(/-/g, '/');
+            return helper?.replace(/-/g, '/');
           }
         );
         return dates;

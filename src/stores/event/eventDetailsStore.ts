@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia';
 import { eventDetails } from 'src/models/event/eventDetails';
 import { MeetingAttendees } from 'src/models/meetingAttendees';
-import axios from 'axios';
 import { eventSummary } from 'src/models/event/eventSummary';
 import { Constants } from 'stores/Constants';
-import { security } from 'src/models/security';
 
 export const useEventDetailsStore = defineStore('eventDetailsStore', {
   state: () => ({
@@ -26,11 +24,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
-
         this.meetingAttendees = response.data;
-        console.log(
-          `EventsStore: getAllMeetingAttendees - length - ${response.data.length}, ${this.meetingAttendees}`
-        );
       } catch (error) {
         alert(error);
         console.log(error);
@@ -39,7 +33,6 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
 
     //   ----getting single user details by id----
     async getEventDetailsById(id: string | string[]) {
-      console.log('started the get function:', id);
       const callStr = `${Constants.endPointUrl}/event-detail/${id}`;
       try {
         const instance = Constants.getAxiosInstance();
@@ -55,7 +48,6 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
 
     async getEventsByParent(parentObjectId: string) {
       const callStr = `${Constants.endPointUrl}/event-summary?parentSid=${parentObjectId}`;
-      console.log(callStr);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
@@ -66,7 +58,6 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     async editEventDetails(event: eventDetails) {
-      console.log(`editEvent 1: ${event.id}`);
       const callStr = `${Constants.endPointUrl}/event-detail/${event.id}`;
       try {
         const instance = Constants.getAxiosInstance();
