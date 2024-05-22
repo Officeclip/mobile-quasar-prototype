@@ -124,6 +124,7 @@ const isReadOnly = isAllowed({
         </q-btn>
         <q-toolbar-title> Details </q-toolbar-title>
         <q-btn
+          v-if="status === 'Saved'"
           flat
           round
           dense
@@ -138,7 +139,7 @@ const isReadOnly = isAllowed({
     <q-page-container>
       <div>
         <WorkFlow
-          v-if="status != 'Approved'"
+          v-if="status != 'Approved' && status != 'Pending'"
           :entityId="id"
           :entityType="entityType"
           :stageId="stageId"
@@ -251,6 +252,7 @@ const isReadOnly = isAllowed({
       </q-card>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
+          v-if="status != 'Pending' && status != 'Approved'"
           :to="{
             name: 'newTimesheet',
             params: {
