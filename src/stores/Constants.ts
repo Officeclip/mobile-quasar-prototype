@@ -39,14 +39,16 @@ export class Constants {
       },
       (error) => {
         // Handle errors globally
-        console.error('axios response error:', error);
+        console.error('axios response error::', error);
         // Optionally, we can perform specific actions based on the error status
         if (error.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
+          console.log('error.response triggred');
           console.error('Response Status:', error.response.status);
           console.error('Response Data:', error.response.data);
         } else if (error.request) {
+          console.log('error.request triggred');
           // The request was made but no response was received
           console.error('No response received. Request:', error.request);
         } else {
