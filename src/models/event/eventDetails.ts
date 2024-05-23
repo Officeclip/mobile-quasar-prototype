@@ -1,11 +1,3 @@
-// To parse this data:
-//
-//   import { Convert, EventDetails } from "./file";
-//
-//   const eventDetails = Convert.toEventDetails(json);
-//
-// From: https://app.quicktype.io/#l=TypeScript
-
 import { security } from '../security';
 import { label, showTimeAs } from './eventLists';
 
@@ -32,7 +24,6 @@ export interface eventDetails {
   modifiedDate: string;
   modifiedUserSid: string;
   modifiedUserName: string;
-  // timezoneId: timeZone[];
   reminder: reminder[];
   recurrence: recurrence[];
   label: label[];
@@ -62,14 +53,3 @@ export interface recurrence {
   text: string;
   rule: string;
 }
-
-// Converts JSON strings to/from your types
-// export class Convert {
-//   public static toEventDetails(json: string): EventDetails {
-//       return JSON.parse(json);
-//   }
-
-//   public static eventDetailsToJson(value: EventDetails): string {
-//       return JSON.stringify(value);
-//   }
-// }

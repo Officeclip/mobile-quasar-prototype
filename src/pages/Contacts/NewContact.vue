@@ -1,35 +1,14 @@
 <script setup lang="ts">
-import { useContactDetailsStore } from 'stores/ContactDetailsStore';
+import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import { useRouter } from 'vue-router';
 import EditContactDetailsCtrl from '../../components/Contacts/EditContactDetailsCtrl.vue';
-import { useRoute } from 'vue-router';
 import { ContactDetails } from 'src/models/Contact/contactDetails';
-import { ref, computed, onMounted } from 'vue';
-const router = useRouter();
-const route = useRoute();
+import { ref } from 'vue';
 
+const router = useRouter();
 const usecontactDetailsStore = useContactDetailsStore();
 
-onMounted(() => {
-  //usecontactDetailsStore.getContactLists();
-});
-
-// const getStates = computed(() => {
-//   return usecontactDetailsStore.states;
-// });
-
-// const defaultState = computed(() => {
-//   return getStates.value.find((state) => state.is_default);
-// });
-
-// const getCountries = computed(() => {
-//   return usecontactDetailsStore.countries;
-// });
-
-// const defaultCountry = computed(() => {
-//   return getCountries.value.find((country) => country.is_default);
-// });
-
+//TODO: CR: 2024-05-17: nk: Fix the below type error?
 const contactDetails: ContactDetails = ref({
   //from: https://stackoverflow.com/a/49741799
   id: '',
@@ -51,19 +30,8 @@ const contactDetails: ContactDetails = ref({
   security: []
 });
 
-//const contactDetails = { current: contactDetailsEmpty };
-//contactDetails.value = contactDetailsEmpty;
-
-// onMounted(() => {
-//   console.log(`EditContacts: id= ${route.params.id}`);
-//   contactDetailsStore.getContactDetails(Number(route.params.id));
-// });
-
 function onSubmit(e: any) {
   e.preventDefault();
-
-  console.log('New contact values in new contact:', contactDetails);
-
   //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   usecontactDetailsStore.addContactDetails(contactDetails);
@@ -93,3 +61,4 @@ function onSubmit(e: any) {
 </template>
 
 <style></style>
+src/stores/contact/ContactDetailsStore

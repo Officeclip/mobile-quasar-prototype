@@ -1,7 +1,6 @@
 <!--
 TODO: sg: Show the details of multi day event in the text(Event timing) [45]
 -->
-
 <script lang="ts" setup>
 import { eventSummary } from '../../models/event/eventSummary';
 import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
@@ -15,10 +14,6 @@ const date = ref('');
 date.value = format(new Date(), 'yyyy/MM/dd');
 
 const yearAndMonth = ref(null);
-
-// const eventSummary = computed(() => {
-//   return eventSummaryStore.EventSummary;
-// });
 
 onMounted(() => {
   eventSummaryStore.getAllEventSummary(null);

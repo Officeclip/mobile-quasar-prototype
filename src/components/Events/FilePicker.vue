@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { Notify } from 'quasar';
 
-// const emit = defineEmits(['get-attachments-generated']);
 const files = ref([]);
 const imageUrl = ref('');
 const isPreviewing = ref(false);
@@ -17,9 +16,11 @@ const showPreview = (file) => {
   isPreviewing.value = true;
   imageUrl.value = URL.createObjectURL(file);
 };
+
 const closePreview = () => {
   isPreviewing.value = false;
 };
+
 const downloadFile = async (file) => {
   isDownloading.value = true;
 
@@ -36,11 +37,13 @@ const downloadFile = async (file) => {
 
   isDownloading.value = false;
 };
+
 const errorsMap = {
   accept: 'File type not accepted',
   'max-file-size': 'Max file size exceeded',
   'max-total-size': 'Max total size exceeded',
 };
+
 function onRejected(rejectedFiles) {
   rejectedFiles.forEach((rejectedFile) => {
     const errorMessage = errorsMap[rejectedFile.failedPropValidation];
@@ -55,33 +58,13 @@ function onRejected(rejectedFiles) {
     }
   });
 }
-
-// function getAttachments() {
-//   const data = fileModel.value;
-//   emit('get-attachments-generated', data);
-//   fileModel.value = '';
-// }
 </script>
 
 <template>
   <div>
-    <q-file
-      v-model="files"
-      dense
-      label="Pick a file"
-      color="primary"
-      filled
-      bottom-slots
-      counter
-      use-chips
-      multiple
-      append
-      max-files="5"
-      accept="jpg,image/*"
-      @rejected="onRejected"
-      @update:model-value="updateFile()"
-      style="max-width: 350px"
-    >
+    <q-file v-model="files" dense label="Pick a file" color="primary" filled bottom-slots counter use-chips multiple
+      append max-files="5" accept="jpg,image/*" @rejected="onRejected" @update:model-value="updateFile()"
+      style="max-width: 350px">
       <template v-slot:prepend>
         <q-icon name="attach_file" size="xs"></q-icon>
       </template>
@@ -89,31 +72,15 @@ function onRejected(rejectedFiles) {
     <q-list>
       <q-item v-for="file in files" :key="file.name">
         <a @click="showPreview(file)">{{ file.name }}</a>
-        <q-icon
-          class="q-ml-sm"
-          color="primary"
-          name="arrow_downward"
-          size="xs"
-          @click="downloadFile(file)"
-        />
+        <q-icon class="q-ml-sm" color="primary" name="arrow_downward" size="xs" @click="downloadFile(file)" />
       </q-item>
     </q-list>
 
     <!-- Full-Screen Preview Dialog -->
     <q-dialog v-model="isPreviewing" fullscreen no-backdrop no-route-dismiss>
       <q-card style="width: 100%; height: 100%">
-        <q-card-actions
-          align="right"
-          style="position: absolute; top: 0; right: 0; z-index: 1"
-        >
-          <q-btn
-            flat
-            round
-            dense
-            icon="close"
-            color="red"
-            @click="closePreview"
-          />
+        <q-card-actions align="right" style="position: absolute; top: 0; right: 0; z-index: 1">
+          <q-btn flat round dense icon="close" color="red" @click="closePreview" />
         </q-card-actions>
         <q-card-section style="height: 100%">
           <q-img :src="imageUrl" spinner-color="white" style="height: 100%" />
