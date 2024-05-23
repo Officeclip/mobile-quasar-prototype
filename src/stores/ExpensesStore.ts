@@ -1,28 +1,23 @@
 import { defineStore } from 'pinia';
 import { Expense } from '../models/expense';
-//import { ExpenseDetails } from '../models/expenseDetails';
 import {
   airTravelExpense,
   expenseDetails,
 } from '../models/expense/expenseDetails';
-import axios from 'axios';
 import { Constants } from 'stores/Constants';
 
 export const useExpensesStore = defineStore('expensesStore', {
   state: () => ({
     expenses: [] as Expense[],
     expense: undefined as Expense | undefined,
-
     expenseDetails: [] as expenseDetails[],
     expenseDetail: undefined as expenseDetails | undefined,
-
     airTravelExpense: undefined as airTravelExpense | undefined,
   }),
 
   getters: {
     Expenses: (state) => state.expenses,
     Expense: (state) => state.expense,
-
     ExpenseDetails: (state) => state.expenseDetails,
     ExpenseDetail: (state) => state.expenseDetail,
   },
@@ -36,7 +31,6 @@ export const useExpensesStore = defineStore('expensesStore', {
           `${Constants.endPointUrl}/expense-summary`
         );
         this.expenses = response.data;
-        console.log(this.expense);
       } catch (error) {
         console.error(error);
       }
@@ -47,7 +41,6 @@ export const useExpensesStore = defineStore('expensesStore', {
         const newData = this.expenses.filter((t) => {
           return t.status == status;
         });
-        console.log('QQQQQQQQQQQQQQQQ', newData);
         return newData.length;
       } else {
         return [];
@@ -76,7 +69,6 @@ export const useExpensesStore = defineStore('expensesStore', {
           `${Constants.endPointUrl}/expense-detail?id=${id}`
         );
         this.expenseDetails = response.data;
-        console.log(this.expenseDetails);
       } catch (error) {
         console.error(error);
       }
@@ -102,7 +94,6 @@ export const useExpensesStore = defineStore('expensesStore', {
           expenseDetail
         );
         if (response.status === 200) {
-          //debugger;
           this.expenseDetail = response.data;
         }
       } catch (error) {
@@ -111,8 +102,6 @@ export const useExpensesStore = defineStore('expensesStore', {
     },
 
     async editExpense(expenseDetail: expenseDetails) {
-      console.log(`editExpense 1: ${this.expenseDetail?.id}`);
-      // not added yet
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
@@ -120,7 +109,6 @@ export const useExpensesStore = defineStore('expensesStore', {
           expenseDetail
         );
         if (response.status === 200) {
-          //debugger;
           this.expenseDetail = response.data;
         }
       } catch (error) {
@@ -134,7 +122,6 @@ export const useExpensesStore = defineStore('expensesStore', {
           `${Constants.endPointUrl}/expense-detail/${id}`
         );
         if (response.status === 200) {
-          //debugger;
           this.expense = response.data;
         }
       } catch (error) {

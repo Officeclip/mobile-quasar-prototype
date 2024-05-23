@@ -5,16 +5,13 @@
 
 <script lang="ts" setup>
 import { computed, ComputedRef, onBeforeMount, ref } from 'vue';
-//import { useHomeIconsStore } from 'stores/HomeIconStore';
 import { useRouter } from 'vue-router';
 import { useSessionStore } from 'stores/SessionStore';
 import { Session } from '../models/session';
 import { useProfileListsStore } from 'stores/profileListsStore';
-import { profileLists } from 'src/models/general/profileLists';
 import { useQuasar } from 'quasar';
 
 const router = useRouter();
-//const homeIconStore = useHomeIconsStore();
 const sessionStore = useSessionStore();
 const profileListsStore = useProfileListsStore();
 
@@ -22,7 +19,6 @@ const organization = ref('');
 const $q = useQuasar();
 
 const filteredHomeIcons = computed(() => {
-  console.log('filteredHomeIcons computed', sessionStore.getHomeIcons());
   return sessionStore.getHomeIcons();
 });
 
@@ -31,13 +27,7 @@ async function updateOrganization(newValue: any) {
 };
 
 const session: ComputedRef<Session> = computed(() => {
-  console.log('Sessions stores', sessionStore.session);
   return sessionStore.session;
-});
-
-const userGeneralProfile = computed(() => {
-  console.log('UserProfile computed', profileListsStore.ProfilesUserGeneral);
-  return profileListsStore.ProfilesUserGeneral;
 });
 
 const userIcon = computed(() => {
@@ -45,7 +35,6 @@ const userIcon = computed(() => {
 });
 
 const organizationItems = computed(() => {
-  console.log('organizationItems store', profileListsStore.Organizations);
   return profileListsStore.Organizations;
 });
 
@@ -53,11 +42,9 @@ onBeforeMount(async () => {
   try {
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
     await sessionStore.getSession();
-    //sessionStore.getHomeIcons();
     await profileListsStore.getProfileLists();
 
     const organizationItems = computed(() => {
-      console.log('organizationItems store', profileListsStore.profileLists);
       return profileListsStore.profileLists.organization;
     });
 

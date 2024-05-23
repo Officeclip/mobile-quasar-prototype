@@ -19,7 +19,6 @@ const labelOptions = [
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
       <q-list>
-        <!-- <pre>{{ getOptionStyle }}</pre> -->
         <q-select
           v-model="model"
           :options="labelOptions"

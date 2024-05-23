@@ -1,5 +1,4 @@
 <script setup lang="ts">
-console.log('Components/ContactDetails: Setup');
 import { onMounted, computed } from 'vue';
 import { useMetaDetailsStore } from '../../stores/MetaDetailsStore';
 import MetaDetailsViewItem from '../../components/Meta/MetaDetailsViewItem.vue';
@@ -14,7 +13,6 @@ const contactDetails = computed(() => {
 });
 onMounted(() => {
   //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
-  //debugger;
   metaDetailsStore.getMetaDetail(Number(contactId.value), true);
   console.log(`onMounted: Contacts - ${metaDetailsStore.MetaDetails}`);
 });

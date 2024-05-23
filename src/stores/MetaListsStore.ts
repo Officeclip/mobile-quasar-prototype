@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { MetaLists } from '../models/Meta/metaLists';
-import axios from 'axios';
 import { Constants } from 'stores/Constants';
 
 export const useMetaListsStore = defineStore('metaListsStore', {
@@ -22,7 +21,6 @@ export const useMetaListsStore = defineStore('metaListsStore', {
           `${Constants.endPointUrl}meta-lists`
         );
         this.metaLists = response.data;
-        console.log(`MetaList: ${this.metaLists}`);
       } catch (error) {
         alert(error);
         console.log(error);

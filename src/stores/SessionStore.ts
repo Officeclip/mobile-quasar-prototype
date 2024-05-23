@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
 import { Session } from 'src/models/session';
 import { Constants } from 'stores/Constants';
 import { SessionStorage } from 'quasar';
@@ -8,12 +7,9 @@ import { HomeIcon } from 'src/models/homeIcon';
 export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
     session: {} as Session,
-    //session: undefined as Session | undefined
   }),
 
   getters: {
-    //Sessions: (state) => state.sessions, // see: https://stackoverflow.com/q/72151708
-    // Session: (state) => state.session
     Session: () => SessionStorage.getItem('oc-session') as Session,
   },
 
@@ -26,32 +22,18 @@ export const useSessionStore = defineStore('sessionStore', {
         const response = await instance.get(`${Constants.endPointUrl}/session`);
         if (response.data) {
           SessionStorage.set('oc-session', response.data);
-          console.log('Sessions data from store: ', response.data);
           this.session = response.data;
-          // this.roleAccess = response.data.roleAccess;
-          // console.log(
-          //   'Sessions data along with roleAccess: ',
-          //   response.data.roleAccess
-          // );
         }
       } catch (error) {
-        console.log(`getSession() Error: ${error}`);
         Constants.throwError(error);
       }
     },
 
     getHomeIcons(): HomeIcon[] {
       const defaultHomeIcons = this.getDefaultHomeIcons();
-      console.log(
-        `getHomeIcons(): applicationIds: ${this.Session.applicationIds}`
-      );
       const result = defaultHomeIcons.filter((item) => {
         return this.Session.applicationIds.includes(item.id);
       });
-
-      // const result = this.getDefaultHomeIcons().filter((o1) =>
-      //   this.Session.applicationIds.some((o2) => o1.id === o2)
-      // );
       return result;
     },
 

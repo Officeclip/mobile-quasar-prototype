@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { MetaDetails } from '../models/Meta/metaDetails';
-import axios from 'axios';
 import { Constants } from './Constants';
 import { useMetaListsStore } from './MetaListsStore';
 
@@ -70,8 +69,6 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
     },
 
     async getMetaDetail(id: number, isReadOnly: boolean) {
-      //debugger;
-      console.log(`ContactsStore: getContactDetail: id: ${id}`);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
@@ -79,14 +76,8 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
         );
         if (response.data && response.data.length > 0) {
           this.metaDetails = response.data[0];
-          //this.addOptionToContactDetail();
           this.fixValuesForSelect(isReadOnly);
         }
-        console.log(
-          `ContactsStore: getContactDetail - ${JSON.stringify(
-            this.MetaDetails
-          )}`
-        );
       } catch (error) {
         alert(error);
         console.log(error);

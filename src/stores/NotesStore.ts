@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { Note } from '../models/note';
 import { NoteBook } from '../models/noteBook';
-import axios from 'axios';
 import { Constants } from 'stores/Constants';
 
 export const useNotesStore = defineStore('notesStore', {
@@ -27,7 +26,6 @@ export const useNotesStore = defineStore('notesStore', {
           `${Constants.endPointUrl}/notebooks`
         );
         this.noteBooks = response.data;
-        //console.log(`NotesStore: getNoteBooks: Count: ${this.NoteBooksCount}`);
       } catch (error) {
         console.error(error);
       }
@@ -38,9 +36,6 @@ export const useNotesStore = defineStore('notesStore', {
       parentObjectId: string,
       noteBookId: string
     ) {
-      console.log(
-        `NotesStore: getNotes: parameters: ${parentObjectServiceType}, ${parentObjectId}, ${noteBookId}`
-      );
       const callStr =
         parentObjectId != '' && parentObjectServiceType != ''
           ? `${Constants.endPointUrl}/note-summary?parentSid=${parentObjectId}`
@@ -50,7 +45,6 @@ export const useNotesStore = defineStore('notesStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
         this.notes = response.data;
-        console.log(`NotesStore: getNotes: notes data: ${this.notes}`);
       } catch (error) {
         console.error(error);
       }
@@ -80,14 +74,11 @@ export const useNotesStore = defineStore('notesStore', {
     },
 
     async addNotes(note: Note) {
-      //this.notes.push(note);
-
       const instance = Constants.getAxiosInstance();
       const response = await instance.post(
         `${Constants.endPointUrl}/note-detail`,
         note
       );
-
       if (response.status === 200) {
         this.getNote(note.id);
       } else {
@@ -96,8 +87,6 @@ export const useNotesStore = defineStore('notesStore', {
     },
 
     async editNote(note: Note) {
-      console.log(`editNote 1: ${this.note?.id}`);
-      // not added yet
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
@@ -105,9 +94,7 @@ export const useNotesStore = defineStore('notesStore', {
           note
         );
         if (response.status === 200) {
-          //debugger;
           this.note = response.data;
-          console.log(`editNote 3: ${this.note?.title}`);
         }
       } catch (error) {
         console.error(`editNote Error: ${error}`);
@@ -121,9 +108,7 @@ export const useNotesStore = defineStore('notesStore', {
           `${Constants.endPointUrl}/note-detail/${id}`
         );
         if (response.status === 200) {
-          //debugger;
           this.note = response.data;
-          //  console.log(`editNote 3: ${this.note?.title}`);
         }
       } catch (error) {
         console.error(`deleteNote Error: ${error}`);

@@ -1,9 +1,3 @@
-// export interface TEComments {
-//   timesheetId: string;
-//   isDcaa: boolean;
-//   users: Comments[];
-// }
-
 export interface Comments {
   id: string;
   itemId: string;

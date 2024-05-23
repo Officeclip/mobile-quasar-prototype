@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { regardingContact } from '../../models/general/regardingAll';
-import axios from 'axios';
 import { Constants } from '../Constants';
 
 export const useRegardingAllStore = defineStore('regardingAllStore', {
@@ -56,10 +55,8 @@ export const useRegardingAllStore = defineStore('regardingAllStore', {
         const filtered = regardingContacts.filter((t: regardingContact) => {
           return t.name.toLowerCase().includes(searchString.toLowerCase());
         });
-        console.log('getRegardingContactList: ', filtered);
         await new Promise((r) => setTimeout(r, 500));
         this.regardingContacts = filtered;
-        // console.log("Filtered contacts: ", this.regardingContacts);
       } catch (error) {
         console.error(error);
       }

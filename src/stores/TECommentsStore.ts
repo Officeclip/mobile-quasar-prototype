@@ -51,7 +51,6 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
         const newData = response.data[0];
         this.timesheetDCAA = newData;
         this.tDCAA = newData.dcaa;
-        console.log('CHECKING THE DCAA DATA', this.tDCAA);
       } catch (error) {
         console.error(error);
       }
@@ -64,7 +63,6 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
         `${Constants.endPointUrl}/timesheet-comments`,
         comment
       );
-
       if (response.status === 200) {
         await this.getTimesheetComments(comment.id);
       } else {

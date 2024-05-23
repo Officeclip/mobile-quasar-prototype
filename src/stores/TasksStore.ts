@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { Task } from '../models/task';
-import axios from 'axios';
 import { Constants } from 'stores/Constants';
 
 export const useTasksStore = defineStore('tasksStore', {
@@ -16,9 +15,6 @@ export const useTasksStore = defineStore('tasksStore', {
 
   actions: {
     async getTasks(parentObjectId: number, parentObjectServiceType: number) {
-      console.log(
-        `TasksStore: getTasks: parameters: ${parentObjectId}, ${parentObjectServiceType}`
-      );
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
           ? `${Constants.endPointUrl}tasks?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
@@ -61,8 +57,6 @@ export const useTasksStore = defineStore('tasksStore', {
     },
 
     async editTask(task: Task) {
-      console.log(`editNote 1: ${this.task?.id}`);
-      // not added yet
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
@@ -70,7 +64,6 @@ export const useTasksStore = defineStore('tasksStore', {
           task
         );
         if (response.status === 200) {
-          //debugger;
           this.task = response.data;
         }
       } catch (error) {
@@ -85,9 +78,7 @@ export const useTasksStore = defineStore('tasksStore', {
           `${Constants.endPointUrl}/tasks/${id}`
         );
         if (response.status === 200) {
-          //debugger;
           this.task = response.data;
-          //  console.log(`editNote 3: ${this.note?.title}`);
         }
       } catch (error) {
         console.error(`deleteNote Error: ${error}`);

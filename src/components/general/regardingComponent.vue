@@ -39,8 +39,6 @@ const regardingItems = ref([] as regardingItem[]);
 
 watch(selectedRegItem, (newValue, oldValue) => {
   // This function will be called whenever selectedRegItem changes
-  console.log(regardingType.value);
-  console.log(selectedRegItem.value);
   const regarding = {
     type: regardingType.value,
     value: selectedRegItem.value

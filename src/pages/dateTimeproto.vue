@@ -11,8 +11,6 @@ function extractDateAndTime(dateTimeValue) {
   const dateObj = new Date(dateTimeValue);
   date.value = dateObj.toISOString().split('T')[0]; // Extract date (YYYY-MM-DD)
   time.value = dateObj.toISOString().split('T')[1].split('.')[0]; // Extract time (HH:mm:ss)
-  console.log('extracting date value is:  ---', date.value);
-  console.log('extracting time value is:  ---', time.value);
 }
 
 // Initial extraction

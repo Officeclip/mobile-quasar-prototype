@@ -49,15 +49,12 @@ export const useRegardingStore = defineStore('regardingStore', {
         this.regardingItems = [];
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/regarding?parentType=${type.name}&searchString=${searchString}`
+          `${Constants.endPointUrl}/regarding?parentType=${type}&searchString=${searchString}`
         );
         const regardingItems = response.data;
-        console.log('getRegardingList: ', regardingItems[0]);
-
         const filtered = regardingItems.filter((t: regardingItem) => {
           return t.name.toLowerCase().includes(searchString.toLowerCase());
         });
-        console.log('getRegardingList: ', filtered);
         await new Promise((r) => setTimeout(r, 500));
         this.regardingItems = filtered;
       } catch (error) {

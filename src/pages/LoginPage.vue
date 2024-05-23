@@ -3,7 +3,6 @@ import { Ref, ref, onMounted } from 'vue';
 import { Login } from '../models/login';
 import { useSessionStore } from 'stores/SessionStore';
 import { useTokenStore } from '../stores/tokenStore';
-import { Constants } from 'src/stores/Constants';
 import { useVuelidate } from '@vuelidate/core';
 import { email, required } from '@vuelidate/validators';
 import { useQuasar } from 'quasar';

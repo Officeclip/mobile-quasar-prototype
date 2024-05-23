@@ -1,9 +1,8 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, watch } from 'vue';
 import dateTimeHelper from '../helpers/dateTimeHelper';
 import { parse, format } from 'date-fns';
 
-// const startDateTime = ref(props.event.startDateTime);
 const start = ref('2024-04-10T11:50:07Z');
 const startDate = ref('');
 const startsModelValue = ref(
@@ -11,14 +10,6 @@ const startsModelValue = ref(
 );
 
 const ffffValue = ref('');
-// const originalDateString = '2024-05-30 18:50';
-// const parsedDate = computed(() => {
-//   return parse(originalDateString, 'yyyy-MM-dd HH:mm', new Date());
-// });
-
-// const formattedDate = computed(() => {
-//   return format(parsedDate.value, 'EEE, MMM dd, yyyy hh:mm aa');
-// });
 
 watch([startDate], ([newStartDate]) => {
   const parsedDate = parse(newStartDate, 'yyyy-MM-dd HH:mm', new Date());

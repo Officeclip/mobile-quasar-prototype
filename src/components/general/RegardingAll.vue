@@ -35,7 +35,6 @@ async function filterContacts(
   }
 
   update(() => {
-    console.log('update');
     const needle = val.toLowerCase();
     regardingContacts.value = regardingAllStore.regardingContacts.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
@@ -48,31 +47,12 @@ async function filterContacts(
   <q-list>
     <q-item class="q-mt-none">
       <q-item-section class="q-mr-sm">
-        <!-- <pre>{{ parentServiceType }}</pre> -->
-        <q-select
-          label="Regarding"
-          v-model="parentServiceType"
-          :options="metaTypeOptions"
-          dense
-          option-label="name"
-          option-value="id"
-          emit-value
-          map-options
-        />
+        <q-select label="Regarding" v-model="parentServiceType" :options="metaTypeOptions" dense option-label="name"
+          option-value="id" emit-value map-options />
       </q-item-section>
       <q-item-section class="q-mr-sm">
-        <q-select
-          v-model="selectedRegContact"
-          :options="regardingContacts"
-          dense
-          multiple
-          option-label="name"
-          option-value="id"
-          :option-disable="disabled"
-          :disable="disabled"
-          use-input
-          @filter="filterContacts"
-        >
+        <q-select v-model="selectedRegContact" :options="regardingContacts" dense multiple option-label="name"
+          option-value="id" option-disable="disabled" :disable="disabled" use-input @filter="filterContacts">
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey"> No results </q-item-section>
