@@ -11,11 +11,31 @@ import SubtaskItem from 'components/tasks/SubtaskItem.vue';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { getPriorityColor, getPriorityIcon, getTaskStatusColor, getTaskStatusIcon } from 'src/helpers/colorIconHelper';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
+import { useQuasar } from 'quasar';
 
 const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
+const $q = useQuasar();
 
 const id = ref<string | string[]>('0');
+
+const route = useRoute();
+id.value = route.params.id;
+taskDetailsStore.getTask((route.params.id.toString()));
+
+try {
+  await taskDetailsStore.getTask((route.params.id.toString()));
+}
+catch (error) {
+  $q.dialog({
+    title: 'Alert',
+    message: 'Testing alert',
+  }).onOk(async () => {
+    console.log('onBeforeMount OK button pressed');
+    await router.push({ path: '/tasksList' });
+    //router.go(-1);
+  });
+};
 
 const taskDetail: ComputedRef<taskDetails> = computed(() => {
   if (taskDetailsStore.TaskDetail) return taskDetailsStore.TaskDetail;
@@ -84,11 +104,11 @@ const completedSubtasks = computed(() => {
   return taskDetail.value?.subTasks.filter(subtask => subtask.isCompleted);
 });
 
-onMounted(() => {
-  const route = useRoute();
-  id.value = route.params.id;
-  taskDetailsStore.getTask((route.params.id.toString()));
-});
+// onMounted(() => {
+//   const route = useRoute();
+//   id.value = route.params.id;
+//   taskDetailsStore.getTask((route.params.id.toString()));
+// });
 
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this task?');
