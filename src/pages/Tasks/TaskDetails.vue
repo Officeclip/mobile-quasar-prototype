@@ -25,6 +25,8 @@ const $q = useQuasar();
 const id = ref<string | string[]>('0');
 
 const route = useRoute();
+const router = useRouter();
+
 id.value = route.params.id;
 //taskDetailsStore.getTask(route.params.id.toString());
 
@@ -38,7 +40,7 @@ try {
   }).onOk(async () => {
     console.log('*** taskDetails:onOk ***');
     await router.push({ path: '/tasksList' });
-    router.go(0);
+    await router.go(0);
   });
 }
 
@@ -131,8 +133,6 @@ const confirmDeletion = () => {
     router.go(-1);
   });
 };
-
-const router = useRouter();
 
 const showAddSubtaskDialog = ref(false);
 
