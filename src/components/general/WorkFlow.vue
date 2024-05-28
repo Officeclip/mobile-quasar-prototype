@@ -53,7 +53,6 @@ const timesheetDCAA = computed(() => {
   return teCommentsStore.DCAA;
 });
 
-
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
 const upDateWorkFlow = () => {
   if (
@@ -111,31 +110,86 @@ const closePopUp = () => {
 <template>
   <div class="q-mt-sm">
     <!-- if submitToUserId there then this will comes up -->
-    <div v-if="workFlow?.workflowType == 'auto'" class="row items-center justify-center">
+    <div
+      v-if="workFlow?.workflowType == 'auto'"
+      class="row items-center justify-center"
+    >
       <div v-if="workFlow?.submitToUserId">
-        <q-btn class="q-px-sm" no-caps dense color="primary" label="Submit" @click="submitButtonWorkFlow" />
+        <q-btn
+          class="q-px-sm"
+          no-caps
+          dense
+          color="primary"
+          label="Submit"
+          @click="submitButtonWorkFlow"
+        />
         <q-item-label class="text-caption">
           to: {{ submitToUserName?.name }}
         </q-item-label>
       </div>
       <div v-if="workFlow?.approveToUserId">
-        <q-btn no-caps class="q-px-sm q-mx-sm" dense color="primary" label="Approve" @click="approveButtonWorkFlow" />
-        <q-item-label class="text-caption q-mx-sm">to: {{ approveToUserName?.name }}</q-item-label>
+        <q-btn
+          no-caps
+          class="q-px-sm q-mx-sm"
+          dense
+          color="primary"
+          label="Approve"
+          @click="approveButtonWorkFlow"
+        />
+        <q-item-label class="text-caption q-mx-sm"
+          >to: {{ approveToUserName?.name }}</q-item-label
+        >
       </div>
       <div v-if="workFlow?.rejectToUserId">
-        <q-btn no-caps class="q-px-sm q-mx-sm" dense color="negative" label="Reject" @click="rejectButtonWorkFlow" />
-        <q-item-label class="text-caption q-mx-sm">to: {{ rejectToUserName?.name }}</q-item-label>
+        <q-btn
+          no-caps
+          class="q-px-sm q-mx-sm"
+          dense
+          color="negative"
+          label="Reject"
+          @click="rejectButtonWorkFlow"
+        />
+        <q-item-label class="text-caption q-mx-sm"
+          >to: {{ rejectToUserName?.name }}</q-item-label
+        >
       </div>
     </div>
 
     <!-- if the workflow routing setup as manual this will come up -->
-    <div v-if="workFlow?.workflowType == 'manual'" class="row items-center justify-center">
-      <q-select style="min-width: 160px" outlined dense label="Submit To:" v-model="workFlowModel"
-        :options="workFlowUsers" option-label="name" option-value="id" map-options emit-value
-        @update:model-value="(newValue) => manualWorkflow(newValue)" />
-      <q-btn v-if="workFlowModel" class="q-mx-md q-px-sm" no-caps dense color="primary" label="Submit"
-        @click="upDateWorkFlow" />
-      <q-btn no-caps class="q-px-sm q-mx-sm" dense color="primary" label="Approve" @click="approveButtonWorkFlow" />
+    <div
+      v-if="workFlow?.workflowType == 'manual'"
+      class="row items-center justify-center"
+    >
+      <q-select
+        style="min-width: 160px"
+        outlined
+        dense
+        label="Submit To:"
+        v-model="workFlowModel"
+        :options="workFlowUsers"
+        option-label="name"
+        option-value="id"
+        map-options
+        emit-value
+        @update:model-value="(newValue) => manualWorkflow(newValue)"
+      />
+      <q-btn
+        v-if="workFlowModel"
+        class="q-mx-md q-px-sm"
+        no-caps
+        dense
+        color="primary"
+        label="Submit"
+        @click="upDateWorkFlow"
+      />
+      <q-btn
+        no-caps
+        class="q-px-sm q-mx-sm"
+        dense
+        color="primary"
+        label="Approve"
+        @click="approveButtonWorkFlow"
+      />
     </div>
   </div>
   <div>
@@ -143,7 +197,11 @@ const closePopUp = () => {
       <q-card>
         <q-card-section>
           <h6 class="q-my-lg">Enter Password</h6>
-          <input type="password" v-model="password" placeholder="Enter Password" />
+          <input
+            type="password"
+            v-model="password"
+            placeholder="Enter Password"
+          />
           <button class="q-mx-sm" @click="teDCAAupdateWorkflow">Submit</button>
           <button @click="closePopUp">Cancel</button>
         </q-card-section>

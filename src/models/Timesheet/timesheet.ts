@@ -9,5 +9,6 @@ export interface Timesheet {
   fromDate: string;
   readOnly: boolean;
   stageId: number;
+  mode: string;
   security: security[];
 }

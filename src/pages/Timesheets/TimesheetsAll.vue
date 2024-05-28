@@ -6,14 +6,17 @@ import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import { isAllowed } from 'src/helpers/security';
+import { useTECommentsStore } from 'src/stores/TECommentsStore';
 
 const timesheetStatus = ref('inbox');
 const title = ref(capitalize(timesheetStatus.value));
 const $q = useQuasar();
 const router = useRouter();
+const teCommentsStore = useTECommentsStore();
 
 const timesheetsStore = useTimesheetsStore();
 onBeforeMount(async () => {
+  teCommentsStore.getTimesheetGroupProfile();
   try {
     await timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
   } catch (error) {
@@ -31,8 +34,16 @@ onBeforeMount(async () => {
 const timesheetsAll = computed(() => {
   return timesheetsStore.Timesheets;
 });
+const timesheetDCAA = computed(() => {
+  return teCommentsStore.TimesheetDCAA;
+});
 
 const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
+const showWarningMsg = () => {
+  alert(
+    'Add new time entry is not available in mobile app for Check-in, Check-out mode, please visit the web app to add the new timesheet'
+  );
+};
 
 watch([timesheetStatus], ([newModel]) => {
   timesheetsStore.getTimesheetsByStatus(String(newModel));
@@ -87,6 +98,7 @@ watch([timesheetStatus], ([newModel]) => {
                 readOnly: item.security.read,
                 stageId: item.stageId,
                 status: item.status,
+                mode: item.mode,
               },
             }"
             clickable
@@ -123,9 +135,10 @@ watch([timesheetStatus], ([newModel]) => {
           </q-item>
           <q-separator></q-separator>
         </q-list>
+        <pre>{{ timesheetDCAA.mode }}</pre>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
-            v-if="isAllow"
+            v-if="isAllow && timesheetDCAA.mode === 'PERIODIC'"
             :to="{
               name: 'newTimesheetPeriod',
             }"
@@ -133,6 +146,15 @@ watch([timesheetStatus], ([newModel]) => {
             icon="add"
             color="accent"
             padding="sm"
+          >
+          </q-btn>
+          <q-btn
+            v-else
+            fab
+            icon="add"
+            color="accent"
+            padding="sm"
+            @click="showWarningMsg"
           >
           </q-btn>
         </q-page-sticky>

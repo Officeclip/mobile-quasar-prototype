@@ -21,6 +21,7 @@ const fromDate = route.params.fromDate;
 const readOnly = route.params.readOnly === 'false';
 const stageId = Number(route.params.stageId);
 const status = route.params.status;
+// const mode = route.params.mode;
 const timesheetsStore = useTimesheetsStore();
 const timesheetCommentsStore = useTECommentsStore();
 const timesheetListsStore = useTimesheetListStore();
@@ -107,6 +108,11 @@ const addComment = () => {
 const isReadOnly = isAllowed({
   security: { read: readOnly },
 });
+// const showWarningMsg = () => {
+//   alert(
+//     'Add new time details entry is not available in mobile app for Check-in, Check-out mode, please visit the web app to add the new timesheet details'
+//   );
+// };
 </script>
 
 <template>
@@ -163,9 +169,7 @@ const isReadOnly = isAllowed({
               <q-item-label>
                 {{
                   timesheetDetail.taskDate
-                    ? dateTimeHelper.extractDateFromUtc(
-                        timesheetDetail.taskDate
-                      )
+                    ? timesheetDetail.taskDate
                     : 'No Specific Date'
                 }}
               </q-item-label>
@@ -204,16 +208,28 @@ const isReadOnly = isAllowed({
               ></q-btn>
             </q-item-section>
           </template>
-          <OCItem title="Project" :value="timesheetDetail.projectName" />
-          <OCItem title="Task" :value="timesheetDetail.serviceItemName" />
+          <OCItem
+            v-if="timesheetDetail?.projectName"
+            title="Project"
+            :value="timesheetDetail.projectName"
+          />
+          <OCItem
+            v-if="timesheetDetail?.serviceItemName"
+            title="Task"
+            :value="timesheetDetail.serviceItemName"
+          />
           <OCItem
             title="Billable"
             :value="timesheetDetail.isBillable ? 'Yes' : 'No'"
           />
-          <OCItem title="Description" :value="timesheetDetail.description" />
+          <OCItem
+            v-if="timesheetDetail?.description"
+            title="Description"
+            :value="timesheetDetail.description"
+          />
         </q-expansion-item>
       </q-card>
-
+      <!-- <pre>{{ mode }}</pre> -->
       <q-card v-if="timesheetDetails.length > 0" class="q-ma-sm bg-grey-4">
         <q-expansion-item
           default-opened
@@ -246,10 +262,11 @@ const isReadOnly = isAllowed({
                 {{ comments.commentedDate }}
               </q-item-section>
             </q-item>
-            <q-item v-if="listLength == 0"> No Comments are present </q-item>
+            <q-item v-if="listLength === 0"> No Comments are present </q-item>
           </q-list>
         </q-expansion-item>
       </q-card>
+
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           v-if="status != 'Pending' && status != 'Approved'"
@@ -266,6 +283,15 @@ const isReadOnly = isAllowed({
           padding="sm"
         >
         </q-btn>
+        <!-- <q-btn
+          v-else
+          fab
+          icon="add"
+          color="accent"
+          padding="sm"
+          @click="showWarningMsg"
+        >
+        </q-btn> -->
       </q-page-sticky>
     </q-page-container>
   </q-layout>
