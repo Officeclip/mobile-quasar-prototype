@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import TasksForm from 'components/tasks/tasksFormCtrl.vue';
-import { ref, Ref } from 'vue'
+import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { taskSummary } from 'src/models/task/taskSummary';
 import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
 import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();
 
 const router = useRouter();
 
@@ -24,12 +27,12 @@ const task: Ref<taskDetails> = ref({
   parent: {
     type: {
       id: '',
-      name: ''
+      name: '',
     },
     value: {
       id: '',
-      name: ''
-    }
+      name: '',
+    },
   },
   id: '',
   startDate: '',
@@ -54,71 +57,90 @@ const task: Ref<taskDetails> = ref({
     read: true,
     write: true,
     append: false,
-    delete: true
+    delete: true,
   },
   reminder: {
     to: '',
-    beforeMinutes: 0
+    beforeMinutes: 0,
   },
   recurrence: {
     text: '',
-    rule: ''
-  }
+    rule: '',
+  },
 });
 
 function receiveTask(receivedTask: taskDetails) {
   task.value = receivedTask;
 }
 
-function onSubmit(e: any) {
-  e.preventDefault()
-  const formData = new FormData(e.target);
-  const newDueDate = formData.get('dueDate')?.toString() ?? '';
+async function onSubmit(e: any) {
+  e.preventDefault();
+  console.log('*** NewTask:onSubmit(...): ***');
 
-  const newTask: taskDetails = {
-    id: task.value.id,
-    subject: task.value.subject,
-    description: task.value.description,
-    actualDuration: task.value.actualDuration,
-    completionDate: task.value.completionDate,
-    dueDate: task.value.dueDate,
-    estimatedDuration: task.value.estimatedDuration,
-    isLock: task.value.isLock,
-    isPrivate: task.value.isPrivate,
-    parent: task.value.parent,
-    startDate: task.value.startDate,
-    taskOwnerName: task.value.taskOwnerName,
-    taskOwnerSid: task.value.taskOwnerSid,
-    taskPriorityName: task.value.taskPriorityName,
-    taskPriorityId: task.value.taskPriorityId,
-    taskStatusName: task.value.taskStatusName,
-    taskStatusId: task.value.taskStatusId,
-    taskTypeName: task.value.taskTypeName,
-    taskTypeId: task.value.taskTypeId,
-    assignees: task.value.assignees,
-    tags: task.value.tags,
-    createdByUserSid: task.value.createdByUserSid,
-    createdDate: task.value.createdDate,
-    modifiedByUserSid: task.value.modifiedByUserSid,
-    modifiedDate: task.value.modifiedDate,
-    subTasks: task.value.subTasks,
-    security: task.value.security,
-    reminder: task.value.reminder,
-    recurrence: task.value.recurrence,
-    taskStatusCategory: task.value.taskStatusCategory,
+  try {
+    const formData = new FormData(e.target);
+    const newDueDate = formData.get('dueDate')?.toString() ?? '';
+
+    const newTask: taskDetails = {
+      id: task.value.id,
+      subject: task.value.subject,
+      description: task.value.description,
+      actualDuration: task.value.actualDuration,
+      completionDate: task.value.completionDate,
+      dueDate: task.value.dueDate,
+      estimatedDuration: task.value.estimatedDuration,
+      isLock: task.value.isLock,
+      isPrivate: task.value.isPrivate,
+      parent: task.value.parent,
+      startDate: task.value.startDate,
+      taskOwnerName: task.value.taskOwnerName,
+      taskOwnerSid: task.value.taskOwnerSid,
+      taskPriorityName: task.value.taskPriorityName,
+      taskPriorityId: task.value.taskPriorityId,
+      taskStatusName: task.value.taskStatusName,
+      taskStatusId: task.value.taskStatusId,
+      taskTypeName: task.value.taskTypeName,
+      taskTypeId: task.value.taskTypeId,
+      assignees: task.value.assignees,
+      tags: task.value.tags,
+      createdByUserSid: task.value.createdByUserSid,
+      createdDate: task.value.createdDate,
+      modifiedByUserSid: task.value.modifiedByUserSid,
+      modifiedDate: task.value.modifiedDate,
+      subTasks: task.value.subTasks,
+      security: task.value.security,
+      reminder: task.value.reminder,
+      recurrence: task.value.recurrence,
+      taskStatusCategory: task.value.taskStatusCategory,
+    };
+    // const newTaskSummary: taskSummary = {
+    //   id: task.value.id,
+    //   subject: task.value.subject,
+    //   taskStatusName: task.value.taskStatusName,
+    //   isPrivate: task.value.isPrivate,
+    //   dueDate: newDueDate,
+    //   taskPriorityName: task.value.taskPriorityName,
+    //   taskStatusCategory: task.value.taskStatusCategory
+    // }
+    //taskSummaryStore.addTask(newTaskSummary);
+    await taskDetailsStore.addTask(newTask);
+    router.go(-1);
+  } catch (error) {
+    console.log(`*** NewTask:onSubmit(...):catch: ${error} ***`);
+    console.log(`---------${error}---------`);
+    // $q.notify({
+    //   message: error as string,
+    //   color: 'red',
+    // });
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** NewTask:onSubmit(...):onOK ***');
+      // await router.push({ path: '/homePage' });
+      // router.go(0);
+    });
   }
-  const newTaskSummary: taskSummary = {
-    id: task.value.id,
-    subject: task.value.subject,
-    taskStatusName: task.value.taskStatusName,
-    isPrivate: task.value.isPrivate,
-    dueDate: newDueDate,
-    taskPriorityName: task.value.taskPriorityName,
-    taskStatusCategory: task.value.taskStatusCategory
-  }
-  taskSummaryStore.addTask(newTaskSummary);
-  taskDetailsStore.addTask(newTask);
-  router.go(-1)
 }
 </script>
 
@@ -126,7 +148,14 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)">
+        <q-btn
+          color="white"
+          dense
+          flat
+          icon="arrow_back"
+          round
+          @click="$router.go(-1)"
+        >
         </q-btn>
         <q-toolbar-title> New Task</q-toolbar-title>
       </q-toolbar>
@@ -135,8 +164,19 @@ function onSubmit(e: any) {
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
           <TasksForm :task-from-parent="task" @emit-task="receiveTask" />
-          <q-btn class="q-ml-md q-mb-md q-mt-md" color="primary" label="Submit" type="submit" />
-          <q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset" />
+          <q-btn
+            class="q-ml-md q-mb-md q-mt-md"
+            color="primary"
+            label="Submit"
+            type="submit"
+          />
+          <q-btn
+            class="q-ml-sm"
+            color="primary"
+            flat
+            label="Reset"
+            type="reset"
+          />
         </div>
       </q-form>
     </q-page-container>

@@ -16,17 +16,21 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
 
   actions: {
     async addTask(taskDetail: taskDetails) {
-      this.taskDetails.push(taskDetail);
-      const instance = Constants.getAxiosInstance();
-      const response = await instance.post(
-        `${Constants.endPointUrl}/task-detail`,
-        taskDetail
-      );
+      console.log('*** taskDetailStore:addTask(...) ***');
+      try {
+        this.taskDetails.push(taskDetail);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(
+          `${Constants.endPointUrl}/task-detail?errorBack=500`,
+          taskDetail
+        );
 
-      if (response.status === 200) {
-        await this.getTask(taskDetail.id);
-      } else {
-        console.error(response);
+        if (response.status === 200) {
+          await this.getTask(taskDetail.id);
+        }
+      } catch (error) {
+        console.log(`*** taskDetailStore:addTask(...):catch: ${error} ***`);
+        Constants.throwError(error);
       }
     },
 
