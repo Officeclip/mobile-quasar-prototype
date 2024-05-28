@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { Constants } from 'stores/Constants';
 import { subTask } from 'src/models/task/subtask';
+import logger from 'src/helpers/logger';
 
 export const useTaskDetailsStore = defineStore('taskDetailsStore', {
   state: () => ({
@@ -65,7 +66,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
     },
 
     async getTask(id: string) {
-      console.log(`*** taskDetailStore:getTask(${id}) ***`);
+      logger.log(`*** taskDetailStore:getTask(${id}) ***`);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
@@ -73,7 +74,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         );
         this.taskDetail = response.data;
       } catch (error) {
-        console.log(`*** taskDetailStore:catch(${error}) ***`);
+        logger.log(`*** taskDetailStore:catch(${error}) ***`, 'error');
         Constants.throwError(error);
       }
     },
