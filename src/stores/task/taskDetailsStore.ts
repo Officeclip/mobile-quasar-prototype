@@ -65,6 +65,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
     },
 
     async getTask(id: string) {
+      console.log(`*** taskDetailStore:getTask(${id}) ***`);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
@@ -72,8 +73,8 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         );
         this.taskDetail = response.data;
       } catch (error) {
+        console.log(`*** taskDetailStore:catch(${error}) ***`);
         Constants.throwError(error);
-        //console.error(error);
       }
     },
 
