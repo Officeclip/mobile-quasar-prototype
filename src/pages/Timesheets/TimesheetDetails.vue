@@ -21,6 +21,7 @@ const fromDate = route.params.fromDate;
 const readOnly = route.params.readOnly === 'false';
 const stageId = Number(route.params.stageId);
 const status = route.params.status;
+const mode = route.params.mode;
 // const mode = route.params.mode;
 const timesheetsStore = useTimesheetsStore();
 const timesheetCommentsStore = useTECommentsStore();
@@ -108,11 +109,11 @@ const addComment = () => {
 const isReadOnly = isAllowed({
   security: { read: readOnly },
 });
-// const showWarningMsg = () => {
-//   alert(
-//     'Add new time details entry is not available in mobile app for Check-in, Check-out mode, please visit the web app to add the new timesheet details'
-//   );
-// };
+const showWarningMsg = () => {
+  alert(
+    'Add new timesheet details entry is not available in mobile app for Check-in, Check-out mode, please visit the web app to add the new timesheet details'
+  );
+};
 </script>
 
 <template>
@@ -269,7 +270,9 @@ const isReadOnly = isAllowed({
 
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
-          v-if="status != 'Pending' && status != 'Approved'"
+          v-if="
+            status != 'Pending' && status != 'Approved' && mode === 'PERIODIC'
+          "
           :to="{
             name: 'newTimesheet',
             params: {
@@ -283,7 +286,7 @@ const isReadOnly = isAllowed({
           padding="sm"
         >
         </q-btn>
-        <!-- <q-btn
+        <q-btn
           v-else
           fab
           icon="add"
@@ -291,7 +294,7 @@ const isReadOnly = isAllowed({
           padding="sm"
           @click="showWarningMsg"
         >
-        </q-btn> -->
+        </q-btn>
       </q-page-sticky>
     </q-page-container>
   </q-layout>
