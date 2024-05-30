@@ -30,19 +30,31 @@ const router = useRouter();
 id.value = route.params.id;
 //taskDetailsStore.getTask(route.params.id.toString());
 
-try {
-  await taskDetailsStore.getTask(route.params.id.toString());
-} catch (error) {
-  console.log(`*** taskDetails:error: ${error} ***`);
-  $q.dialog({
-    title: 'Alert',
-    message: error as string,
-  }).onOk(async () => {
-    console.log('*** taskDetails:onOk ***');
+// try {
+//   await taskDetailsStore.getTask(route.params.id.toString());
+// } catch (error) {
+//   console.log(`*** taskDetails:error: ${error} ***`);
+//   $q.dialog({
+//     title: 'Alert',
+//     message: error as string,
+//   }).onOk(async () => {
+//     console.log('*** taskDetails:onOk ***');
+//     await router.push({ path: '/tasksList' });
+//     await router.go(0);
+//   });
+// }
+
+onMounted(async () => {
+  const route = useRoute();
+  id.value = route.params.id;
+  try {
+    await taskDetailsStore.getTask(route.params.id.toString());
+  } catch (error) {
+    console.log(`*** taskDetails:error:catch(${error}) ***`);
     await router.push({ path: '/tasksList' });
     await router.go(0);
-  });
-}
+  }
+});
 
 const taskDetail: ComputedRef<taskDetails> = computed(() => {
   if (taskDetailsStore.TaskDetail) return taskDetailsStore.TaskDetail;
@@ -110,12 +122,6 @@ const pendingSubtasks = computed(() => {
 const completedSubtasks = computed(() => {
   return taskDetail.value?.subTasks.filter((subtask) => subtask.isCompleted);
 });
-
-// onMounted(() => {
-//   const route = useRoute();
-//   id.value = route.params.id;
-//   taskDetailsStore.getTask((route.params.id.toString()));
-// });
 
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this task?');

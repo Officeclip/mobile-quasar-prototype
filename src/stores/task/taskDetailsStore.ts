@@ -70,7 +70,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/task-detail/${id}?errorBack=401`
+          `${Constants.endPointUrl}/task-detail/${id}`
         );
         this.taskDetail = response.data;
       } catch (error) {
