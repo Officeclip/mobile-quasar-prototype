@@ -51,8 +51,18 @@ onMounted(async () => {
     await taskDetailsStore.getTask(route.params.id.toString());
   } catch (error) {
     console.log(`*** taskDetails:error:catch(${error}) ***`);
-    await router.push({ path: '/tasksList' });
-    await router.go(0);
+
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** taskDetails:onOk ***');
+      await router.push({ path: '/tasksList' });
+      await router.go(0);
+    });
+
+    // await router.push({ path: '/tasksList' });
+    // await router.go(0);
   }
 });
 
