@@ -17,6 +17,7 @@ import {
 } from 'src/helpers/colorIconHelper';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import { useQuasar } from 'quasar';
+import logger from 'src/helpers/logger';
 
 const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
@@ -45,18 +46,19 @@ id.value = route.params.id;
 // }
 
 onMounted(async () => {
+  logger.log('*** taskDetails:onMounted(async...) ***');
   const route = useRoute();
   id.value = route.params.id;
   try {
     await taskDetailsStore.getTask(route.params.id.toString());
   } catch (error) {
-    console.log(`*** taskDetails:error:catch(${error}) ***`);
+    logger.log(`*** taskDetails:error:catch(${error}) ***`, 'error');
 
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** taskDetails:onOk ***');
+      logger.log('*** taskDetails:onMounted:onOk ***');
       await router.push({ path: '/tasksList' });
       await router.go(0);
     });
