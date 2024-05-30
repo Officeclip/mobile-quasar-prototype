@@ -10,6 +10,11 @@ export class Constants {
       ? 'http://localhost:4000' // using the json-server
       : import.meta.env.VITE_API_ENDPOINT;
 
+  static readonly defaultLogin =
+    import.meta.env.VITE_DEFAULT_LOGIN === undefined
+      ? 'see readme.md' // using the json-server
+      : import.meta.env.VITE_DEFAULT_LOGIN;
+
   static getAxiosInstance() {
     const instance = axios.create({
       //withCredentials: true, //https://stackoverflow.com/a/43178070
