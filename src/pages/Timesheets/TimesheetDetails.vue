@@ -180,7 +180,7 @@ const showWarningMsg = () => {
             </q-item-section>
             <q-item-section side>
               <q-btn
-                v-if="isReadOnly"
+                v-if="isReadOnly && mode === 'PERIODIC'"
                 :to="{
                   name: 'editTimesheet',
                   params: {
@@ -193,6 +193,16 @@ const showWarningMsg = () => {
                 round
                 dense
                 icon="edit"
+              >
+              </q-btn>
+              <q-btn
+                v-else
+                size="sm"
+                flat
+                round
+                dense
+                icon="edit"
+                @click="showWarningMsg"
               >
               </q-btn>
             </q-item-section>
