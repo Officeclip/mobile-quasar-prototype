@@ -90,7 +90,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         const response = await instance.get(callStr);
         this.taskDetails = response.data;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 

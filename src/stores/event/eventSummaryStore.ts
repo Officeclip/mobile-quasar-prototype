@@ -23,8 +23,7 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
         const response = await instance.get(callStr);
         this.eventSummary = response.data;
       } catch (error) {
-        alert(error);
-        console.log(error);
+        Constants.throwError(error);
       }
     },
 

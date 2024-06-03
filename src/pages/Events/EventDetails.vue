@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useEventListsStore } from '../../stores/event/eventListsStore';
 import { useReminderDataStore } from 'stores/reminder/reminderData';
@@ -8,16 +8,37 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import { isAllowed } from 'src/helpers/security';
+import { useQuasar } from 'quasar';
+import logger from 'src/helpers/logger';
 
 const route = useRoute();
 const router = useRouter();
 const eventDetailsStore = useEventDetailsStore();
 const reminderDataStore = useReminderDataStore();
+const $q = useQuasar();
 
 const id = route.params.id;
-
-eventDetailsStore.getEventDetailsById(id);
 reminderDataStore.getReminderObject();
+
+
+onMounted(async () => {
+  logger.log('*** Event Details:onMounted(async...) ***');
+  try {
+    await eventDetailsStore.getEventDetailsById(id);
+  } catch (error) {
+    logger.log(`*** Event Details:error:catch(${error}) ***`, 'error');
+
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      logger.log('*** Event Details:onMounted:onOk ***');
+      await router.push({ path: '/eventSummary' });
+      await router.go(0);
+    });
+  }
+});
+
 const event = computed(() => {
   return eventDetailsStore.eventDetails;
 });
@@ -124,11 +145,27 @@ const displayConfirmationDialog = () => {
 const cancelConfirmation = () => {
   showConfirmationDialog.value = false;
 };
-const confirmDeletion = () => {
-  eventDetailsStore.deleteEventDetails(event.value?.id).then(() => {
+const confirmDeletion = async () => {
+  // eventDetailsStore.deleteEventDetails(event.value?.id).then(() => {
+  //   showConfirmationDialog.value = false;
+  //   router.go(-1);
+  //}
+  try {
+    await eventDetailsStore.deleteEventDetails(event.value?.id)
     showConfirmationDialog.value = false;
     router.go(-1);
-  });
+  }
+  catch (error) {
+    //console.log('Error in deleting the task detail')
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** Delete event :onSubmit(...):onOK ***');
+      showConfirmationDialog.value = false;
+      router.go(0);
+    });
+  }
 };
 const openUrl = () => {
   const url = event.value?.url;
@@ -152,6 +189,12 @@ const isAllowDelete = computed(() => {
   });
 });
 </script>
+
+<style>
+.q-dialog__backdrop {
+  backdrop-filter: blur(7px);
+}
+</style>
 
 <template>
   <q-layout view="lHh Lpr lFf">

@@ -26,8 +26,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
         const response = await instance.get(callStr);
         this.meetingAttendees = response.data;
       } catch (error) {
-        alert(error);
-        console.log(error);
+        // alert(error);
+        Constants.throwError(error);
       }
     },
 
@@ -41,8 +41,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
           this.eventDetails = response.data;
         }
       } catch (error) {
-        alert(error);
-        console.log(error);
+        //alert(error);
+        Constants.throwError(error);
       }
     },
 
@@ -53,7 +53,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
         const response = await instance.get(callStr);
         this.eventDetails = response.data;
       } catch (error) {
-        console.error(error);
+        //console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -66,7 +67,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
           this.eventDetails = response.data;
         }
       } catch (error) {
-        console.error(`editEvent Error: ${error}`);
+        //console.error(`editEvent Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
@@ -79,7 +81,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
           this.eventDetails = response.data;
         }
       } catch (error) {
-        console.error(`addEventDetail Error: ${error}`);
+        //console.error(`addEventDetail Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
@@ -92,7 +95,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
           this.eventSummary = response.data;
         }
       } catch (error) {
-        console.error(`editEventSummary Error: ${error}`);
+        //console.error(`editEventSummary Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
@@ -105,7 +109,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
           this.eventDetails = response.data;
         }
       } catch (error) {
-        console.error(`deleteEvent Error: ${error}`);
+        //console.error(`deleteEvent Error: ${error}`);
+        Constants.throwError(error);
       }
     },
   },
