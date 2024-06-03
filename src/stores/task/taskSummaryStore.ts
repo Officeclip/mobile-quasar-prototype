@@ -85,7 +85,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         this.links = response.data.pagination.next || '{}';
         this.url = this.links ? `${this.links}` : '';
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
       return this.url === 'null';
     },
