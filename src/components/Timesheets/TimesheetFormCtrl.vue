@@ -28,10 +28,8 @@ const formattedTaskDate =
         `${new Date(taskDate.value).toLocaleString('en-US', {
           month: 'short',
           day: 'numeric',
-          timeZone: 'UTC',
         })}(${new Date(taskDate.value).toLocaleString('en-US', {
           weekday: 'short',
-          timeZone: 'UTC',
         })})`
       )
     : ref('');
@@ -167,7 +165,6 @@ const handleModelValue = (newValue) => {
       <q-item-label v-if="selectedPeriod">{{
         selectedPeriod.name
       }}</q-item-label>
-
       <q-select
         label="Date"
         :model-value="formattedTaskDate"
