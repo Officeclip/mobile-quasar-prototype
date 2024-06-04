@@ -4,7 +4,9 @@ import { useRouter } from 'vue-router';
 import EditContactDetailsCtrl from '../../components/Contacts/EditContactDetailsCtrl.vue';
 import { ContactDetails } from 'src/models/Contact/contactDetails';
 import { ref } from 'vue';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 const router = useRouter();
 const usecontactDetailsStore = useContactDetailsStore();
 
@@ -30,12 +32,30 @@ const contactDetails: ContactDetails = ref({
   security: []
 });
 
-function onSubmit(e: any) {
+async function onSubmit(e: any) {
   e.preventDefault();
-  //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  usecontactDetailsStore.addContactDetails(contactDetails);
-  router.push('/contactSummary');
+  try {
+    //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    await usecontactDetailsStore.addContactDetails(contactDetails);
+    router.push('/contactSummary');
+
+  } catch (error) {
+    console.log(`*** NewContact:onSubmit(...):catch: ${error} ***`);
+    console.log(`---------${error}---------`);
+    // $q.notify({
+    //   message: error as string,
+    //   color: 'red',
+    // });
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** NewContact:onSubmit(...):onOK ***');
+      // await router.push({ path: '/homePage' });
+      // router.go(0);
+    });
+  }
 }
 </script>
 
@@ -59,6 +79,3 @@ function onSubmit(e: any) {
     </q-page-container>
   </q-layout>
 </template>
-
-<style></style>
-src/stores/contact/ContactDetailsStore

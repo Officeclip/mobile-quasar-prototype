@@ -30,8 +30,8 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
         );
         this.contactDetailsList = response.data;
       } catch (error) {
-        alert(error);
-        console.log(error);
+        //alert(error);
+        Constants.throwError(error);
       }
     },
 
@@ -43,8 +43,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
         this.countries = contactListsStore.Countries;
         this.children = contactListsStore.Children;
       } catch (error) {
-        alert(error);
-        console.log(error);
+        Constants.throwError(error);
       }
     },
 
@@ -59,8 +58,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
           this.contactDetails = response.data;
         }
       } catch (error) {
-        alert(error);
-        console.log(error);
+        Constants.throwError(error);
       }
     },
 
@@ -87,7 +85,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
           this.contactDetails = response.data;
         }
       } catch (error) {
-        console.error(`editContact Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
@@ -102,14 +100,13 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
           this.contactDetails = response.data;
         }
       } catch (error) {
-        console.error(`newContact Error: ${error}`);
+        Constants.throwError(error);
       }
       this.getContacts();
     },
 
     async deleteContactDetails(id: string) {
       try {
-        alert('Want to delete this Contact...?');
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
           `${Constants.endPointUrl}/contact-detail/${id}`
@@ -118,7 +115,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
           this.contactDetails = response.data;
         }
       } catch (error) {
-        console.error(`deleteContact Error: ${error}`);
+        Constants.throwError(error);
       }
     },
   },

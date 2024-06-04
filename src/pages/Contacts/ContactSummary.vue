@@ -6,7 +6,11 @@
 import { useContactSummaryStore } from '../../stores/contact/ContactSummaryStore';
 import { computed, ref } from 'vue';
 import { useSessionStore } from 'src/stores/SessionStore';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+const $q = useQuasar();
 const contactSummaryStore = useContactSummaryStore();
 const sessionStore = useSessionStore();
 const session = sessionStore.Session;
@@ -28,9 +32,18 @@ const contacts = computed(() => {
 });
 let reachedEnd = ref(false); // indicate if all contacts have been loaded
 const loadMore = async (index: any, done: () => void) => {
-  reachedEnd.value = await contactSummaryStore.getUpdatedContacts();
-  //https://quasar.dev/vue-components/infinite-scroll/#usage
-  done();
+  try {
+    reachedEnd.value = await contactSummaryStore.getUpdatedContacts();
+    //https://quasar.dev/vue-components/infinite-scroll/#usage
+    done();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/HomePage' });
+    });
+  }
 };
 
 const getData = computed(() => {
@@ -51,6 +64,12 @@ const getData = computed(() => {
   return filteredContacts;
 });
 </script>
+
+<style>
+.q-dialog__backdrop {
+  backdrop-filter: blur(7px);
+}
+</style>
 
 <template>
   <q-layout view="lHh Lpr lFf">

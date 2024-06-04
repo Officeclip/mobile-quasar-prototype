@@ -6,7 +6,7 @@ TODO: skd: Implement child events the same way as implemented in OfficeClip. Do 
 import { ref, onBeforeMount, computed, onMounted } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import { useContactListsStore } from '../../stores/contact/ContactListsStore';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import EventsList from '../../components/Events/EventsListCtrl.vue';
 import ContactDetails from '../../components/Contacts/ContactDetails.vue';
@@ -14,11 +14,17 @@ import MetaDetails from '../../components/Meta/MetaDetails.vue';
 import { ObjectType } from '../../helpers/util';
 import TaskMetaSummary from '../../components/tasks/TaskMetaSummaryItem.vue';
 import { isAllowed } from 'src/helpers/security';
+import { useQuasar } from 'quasar';
+import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 
 const model = ref('1');
 const contactDetailsStore = useContactDetailsStore();
 const contactListsStore = useContactListsStore();
 const route = useRoute();
+const router = useRouter();
+const $q = useQuasar();
+
+const isLoaded = ref<boolean>(false);
 
 onBeforeMount(async () => {
   try {
@@ -26,7 +32,17 @@ onBeforeMount(async () => {
     await contactDetailsStore.getContactDetails(route.params.id as string);
     await contactDetailsStore.getContactLists();
   } catch (error) {
-    console.error('Error Msg: ', error);
+    //console.error('Error Msg: ', error);
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/contactSummary' });
+      await router.go(0);
+    });
+  }
+  finally {
+    isLoaded.value = true;
   }
 });
 
@@ -111,10 +127,45 @@ const isAllowDelete = computed(() => {
     security: { delete: contactDetails.value?.security.delete },
   });
 });
+
+const title = ref('Confirm');
+const message = ref('Are you sure you want to delete this task?');
+const showConfirmationDialog = ref(false);
+
+const displayConfirmationDialog = () => {
+  showConfirmationDialog.value = true;
+};
+const cancelConfirmation = () => {
+  showConfirmationDialog.value = false;
+};
+
+const confirmDeletion = async () => {
+  try {
+    await contactDetailsStore.deleteContactDetails(contactDetails.value?.id as string);
+    showConfirmationDialog.value = false;
+    router.go(-1);
+  }
+  catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** Delete contact:onSubmit(...):onOK ***');
+      showConfirmationDialog.value = false;
+      //router.go(0);
+    });
+  }
+};
 </script>
 
+<style>
+.q-dialog__backdrop {
+  backdrop-filter: blur(7px);
+}
+</style>
+
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
@@ -122,22 +173,20 @@ const isAllowDelete = computed(() => {
         <q-toolbar-title> Contact details </q-toolbar-title>
         <div>
           <q-btn v-if="isAllowEdit" @click="
-          model === '1'
-            ? $router.push({
-              name: 'editContactDetails',
-              params: { id: id },
-            })
-            : $router.push({ name: 'editMetaDetail', params: { id: id } })
-          " flat round dense color="white" icon="edit" />
+    model === '1'
+      ? $router.push({
+        name: 'editContactDetails',
+        params: { id: id },
+      })
+      : $router.push({ name: 'editMetaDetail', params: { id: id } })
+    " flat round dense color="white" icon="edit" />
           <q-btn v-else dense disable flat icon="edit" round>
             <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>
           </q-btn>
         </div>
         <div>
-          <q-btn v-if="isAllowDelete" @click="
-          contactDetailsStore.deleteContactDetails(contactDetails?.id as string);
-        $router.go(-1);
-        " flat round dense color="white" icon="delete" /><q-btn v-else dense disable flat icon="delete" round>
+          <q-btn v-if="isAllowDelete" @click="displayConfirmationDialog" flat round dense color="white"
+            icon="delete" /><q-btn v-else dense disable flat icon="delete" round>
             <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>
           </q-btn>
         </div>
@@ -154,9 +203,9 @@ const isAllowDelete = computed(() => {
             <div class="q-mt-md">
               <q-btn-toggle v-model="model" class="oc-custom-toggle" no-caps rounded unelevated toggle-color="primary"
                 color="white" text-color="primary" :options="[
-          { label: 'Summary', value: '1' },
-          { label: 'Details', value: '2' },
-        ]" />
+    { label: 'Summary', value: '1' },
+    { label: 'Details', value: '2' },
+  ]" />
             </div>
           </div>
         </q-card-section>
@@ -177,13 +226,13 @@ const isAllowDelete = computed(() => {
 
                   <q-item-section side>
                     <q-btn :to="{
-          name: 'newNotes',
-          params: {
-            id: -1,
-            objectTypeId: ObjectType.Contact,
-            objectId: contactDetails?.id,
-          },
-        }" size="sm" flat round dense icon="add">
+    name: 'newNotes',
+    params: {
+      id: -1,
+      objectTypeId: ObjectType.Contact,
+      objectId: contactDetails?.id,
+    },
+  }" size="sm" flat round dense icon="add">
                     </q-btn>
                   </q-item-section>
                 </template>
@@ -204,13 +253,13 @@ const isAllowDelete = computed(() => {
                   <q-item-section> Events ({{ eventsCount }})</q-item-section>
                   <q-item-section side>
                     <q-btn :to="{
-          name: 'newEvent',
-          params: {
-            id: -1,
-            objectTypeId: ObjectType.Contact,
-            objectId: contactDetails?.id,
-          },
-        }" size="sm" flat round dense icon="add">
+    name: 'newEvent',
+    params: {
+      id: -1,
+      objectTypeId: ObjectType.Contact,
+      objectId: contactDetails?.id,
+    },
+  }" size="sm" flat round dense icon="add">
                     </q-btn>
                   </q-item-section>
                 </template>
@@ -232,13 +281,13 @@ const isAllowDelete = computed(() => {
 
                   <q-item-section side>
                     <q-btn :to="{
-          name: 'newTask',
-          params: {
-            id: -1,
-            objectTypeId: ObjectType.Contact,
-            objectId: contactDetails?.id,
-          },
-        }" size="sm" flat round dense icon="add">
+    name: 'newTask',
+    params: {
+      id: -1,
+      objectTypeId: ObjectType.Contact,
+      objectId: contactDetails?.id,
+    },
+  }" size="sm" flat round dense icon="add">
                     </q-btn>
                   </q-item-section>
                 </template>
@@ -251,6 +300,8 @@ const isAllowDelete = computed(() => {
       </q-card>
     </q-page-container>
   </q-layout>
+  <ConfirmationDialog v-if="showConfirmationDialog" :showConfirmationDialog="showConfirmationDialog" :title="title"
+    :message="message" @cancel="cancelConfirmation" @confirm="confirmDeletion" />
 </template>
 
 <style scoped>

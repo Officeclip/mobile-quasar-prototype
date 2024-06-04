@@ -5,9 +5,11 @@ code and not the name [1.5h]
 <script setup lang="ts">
 import { onMounted, computed } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import EditContactDetailsCtrl from '../../components/Contacts/EditContactDetailsCtrl.vue';
-import { useRoute } from 'vue-router';
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();
 
 const contactDetailsStore = useContactDetailsStore();
 const route1 = useRouter();
@@ -21,13 +23,29 @@ onMounted(() => {
   contactDetailsStore.getContactDetails(route.params.id as string);
 });
 
-function onSubmit(e: any) {
+async function onSubmit(e: any) {
   e.preventDefault();
-
-  //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  contactDetailsStore.editContactDetails(contactDetails.value!);
-  route1.push('/contactSummary');
+  try {
+    //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    await contactDetailsStore.editContactDetails(contactDetails.value!);
+    route1.push('/contactSummary');
+  }
+  catch (error) {
+    console.log(`*** Edit Contact:onSubmit(...):catch: ${error} ***`);
+    // $q.notify({
+    //   message: error as string,
+    //   color: 'red',
+    // });
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** Edit Contact:onSubmit(...):onOK ***');
+      // await router.push({ path: '/homePage' });
+      // router.go(0);
+    });
+  }
 }
 </script>
 
