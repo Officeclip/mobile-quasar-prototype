@@ -4,7 +4,9 @@ import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { eventDetails } from 'src/models/event/eventDetails';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 const route = useRoute();
 const router = useRouter();
 const eventDetailsStore = useEventDetailsStore();
@@ -29,11 +31,22 @@ function handleReminder(reminder: [string, number]) {
   event.value.reminder.beforeMinutes = reminder[1];
 }
 
-function onSubmit(e: any) {
+async function onSubmit(e: any) {
   e.preventDefault();
-  const editEventDetails = ref(event);
-  eventDetailsStore.editEventDetails(editEventDetails.value);
-  router.go(-2);
+  try {
+    const editEventDetails = ref(event);
+    await eventDetailsStore.editEventDetails(editEventDetails.value);
+    router.go(-2);
+  }
+  catch (error) {
+    console.log(`*** Edit Event:onSubmit(...):catch: ${error} ***`);
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** Edit Event:onSubmit(...):onOK ***');
+    });
+  }
 }
 </script>
 

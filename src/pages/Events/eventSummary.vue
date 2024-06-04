@@ -7,16 +7,29 @@ import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import { computed, onMounted, ref } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper.js';
 import { format } from 'date-fns';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const eventSummaryStore = useEventSummaryStore();
+const router = useRouter();
+const $q = useQuasar();
 
 const date = ref('');
 date.value = format(new Date(), 'yyyy/MM/dd');
 
 const yearAndMonth = ref(null);
 
-onMounted(() => {
-  eventSummaryStore.getAllEventSummary(null);
+onMounted(async () => {
+  try {
+    await eventSummaryStore.getAllEventSummary(null);
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/HomePage' });
+    });
+  }
 });
 
 const eventDates = computed(() => {
@@ -69,6 +82,11 @@ const getYearandMonth = (newvalue: any) => {
   eventSummaryStore.getAllEventSummary(yearAndMonth.value);
 };
 </script>
+<style>
+.q-dialog__backdrop {
+  backdrop-filter: blur(7px);
+}
+</style>
 
 <template>
   <q-layout view="lHh Lpr lFf">

@@ -22,7 +22,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         this.taskDetails.push(taskDetail);
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
-          `${Constants.endPointUrl}/task-detail?errorBack=500`,
+          `${Constants.endPointUrl}/task-detail`,
           taskDetail
         );
 
@@ -45,12 +45,11 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           this.taskDetail = response.data;
         }
       } catch (error) {
-        console.error(`deleteNote Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
     async editTask(taskDetail: taskDetails) {
-      console.log(`editNote 1: ${this.taskDetail?.id}`);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
@@ -61,7 +60,9 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           this.taskDetail = response.data;
         }
       } catch (error) {
-        console.error(`editTask Error: ${error}`);
+        //console.error(`editTask Error: ${error}`);
+        console.log(`*** taskDetailStore:editTask(...):catch: ${error} ***`);
+        Constants.throwError(error);
       }
     },
 
@@ -70,7 +71,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/task-detail/${id}?errorBack=401`
+          `${Constants.endPointUrl}/task-detail/${id}`
         );
         this.taskDetail = response.data;
       } catch (error) {
@@ -89,7 +90,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         const response = await instance.get(callStr);
         this.taskDetails = response.data;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 

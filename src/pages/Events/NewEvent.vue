@@ -4,9 +4,11 @@ import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { eventDetails } from 'src/models/event/eventDetails';
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();
 
 const eventDetailsStore = useEventDetailsStore();
-
 const router = useRouter();
 
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
@@ -70,11 +72,22 @@ function handleReminder(reminder: [string, number]) {
   event.value.reminder.beforeMinutes = reminder[1];
 }
 
-function onSubmit(e: any) {
+async function onSubmit(e: any) {
   e.preventDefault();
-  const newEventDetails = ref(event);
-  eventDetailsStore.addEventDetails(newEventDetails.value);
-  router.go(-1);
+  try {
+    const newEventDetails = ref(event);
+    await eventDetailsStore.addEventDetails(newEventDetails.value);
+    router.go(-1);
+  } catch (error) {
+    console.log(`*** New Event:onSubmit(...):catch: ${error} ***`);
+    console.log(`---------${error}---------`);
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** New Event:onSubmit(...):onOK ***');
+    });
+  }
 }
 </script>
 
