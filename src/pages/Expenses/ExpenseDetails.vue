@@ -14,9 +14,11 @@ import telephoneExpense from '../../components/expenses/details/telephoneExpense
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import WorkFlow from '../../components/general/WorkFlow.vue';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
+import { useQuasar } from 'quasar';
 
 const route = useRoute();
 const router = useRouter();
+const $q = useQuasar();
 const readOnly = route.params.readOnly === 'false';
 const entityType = 'expense';
 
@@ -26,11 +28,21 @@ const expenseDetailsStore = useExpenseDetailsStore();
 const expenseCommentsStore = useTECommentsStore();
 const expenseListsStore = useExpenseListsStore();
 
-onMounted(() => {
-  expenseDetailsStore.getExpenseDetails(route.params.id);
-  expenseListsStore.getExpensesList();
-  expenseCommentsStore.$reset();
-  expenseCommentsStore.getExpenseComments(route.params.id);
+onMounted(async () => {
+  try {
+    await expenseDetailsStore.getExpenseDetails(route.params.id);
+    await expenseListsStore.getExpensesList();
+    await expenseCommentsStore.$reset();
+    await expenseCommentsStore.getExpenseComments(route.params.id);
+
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/expensesAll' });
+    });
+  }
 });
 
 const expenseDetails = computed(() => {
@@ -74,23 +86,51 @@ const cancelConfirmation = () => {
   isExpenseDelete.value = false;
   isExpenseDetailDelete.value = false;
 };
-const deleteExpense = (id: string) => {
+const deleteExpense = async (id: string) => {
   {
-    expenseDetailsStore.deleteExpense(id).then(() => {
+    try {
+      await expenseDetailsStore.deleteExpense(id)
       isExpenseDelete.value = false;
       router.go(-1);
-    });
+    } catch (error) {
+      //console.log('Error in deleting the task detail')
+      $q.dialog({
+        title: 'Alert',
+        message: error as string,
+      }).onOk(async () => {
+        console.log('*** Delete expense:onSubmit(...):onOK ***');
+        isExpenseDelete.value = false;
+        router.go(0);
+      });
+    }
   }
 };
-const deleteExpenseDetail = (id: string) => {
+const deleteExpenseDetail = async (id: string) => {
   {
-    expenseDetailsStore.deleteExpenseDetail(id).then(() => {
+    try {
+      await expenseDetailsStore.deleteExpenseDetail(id)
       isExpenseDetailDelete.value = false;
       router.go(-1);
-    });
+    } catch (error) {
+      //console.log('Error in deleting the task detail')
+      $q.dialog({
+        title: 'Alert',
+        message: error as string,
+      }).onOk(async () => {
+        console.log('*** Delete expense detail:onSubmit(...):onOK ***');
+        isExpenseDelete.value = false;
+        router.go(0);
+      });
+    }
   }
 };
 </script>
+
+<style>
+.q-dialog__backdrop {
+  backdrop-filter: blur(7px);
+}
+</style>
 
 <template>
   <q-layout view="lHh Lpr lFf">

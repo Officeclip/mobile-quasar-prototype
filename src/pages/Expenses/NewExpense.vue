@@ -3,7 +3,9 @@ import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import { ref, computed } from 'vue';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 const router = useRouter();
 const route = useRoute();
 const expenseDetailsStore = useExpenseDetailsStore();
@@ -44,38 +46,46 @@ const expenseDetail = ref({
   security: []
 });
 
-function onSubmit(e: any) {
+async function onSubmit(e: any) {
   e.preventDefault();
-
-  const newExpense: any = {
-    accountName: expenseDetail.value.accountName,
-    accountSid: expenseDetail.value.accountSid,
-    amount: expenseDetail.value.amount,
-    billable: expenseDetail.value.billable,
-    comments: expenseDetail.value.comments,
-    description: expenseDetail.value.description,
-    employeeFullName: expenseDetail.value.employeeFullName,
-    employeeSid: expenseDetail.value.employeeSid,
-    expenseDate: expenseDetail.value.expenseDate,
-    id: expenseDetail.value.id,
-    expenseSid: expenseDetail.value.expenseSid ? (expenseDetail.value.expenseSid !== '0' ? expenseDetail.value.expenseSid : '') : '',
-    expenseTypeName: expenseDetail.value.expenseTypeName,
-    expenseCategoryName: expenseDetail.value.expenseCategoryName,
-    expenseTypeSid: expenseDetail.value.expenseTypeSid,
-    projectName: expenseDetail.value.projectName ? expenseDetail.value.projectName : '',
-    projectSid: expenseDetail.value.projectSid ? expenseDetail.value.projectSid : '',
-    tax: expenseDetail.value.tax,
-    paymentType: expenseDetail.value.paymentType,
-    autoRentalExpense: expenseDetail.value.autoRentalExpense,
-    airTravelExpense: expenseDetail.value.airTravelExpense,
-    hotelExpense: expenseDetail.value.hotelExpense,
-    mileageExpense: expenseDetail.value.mileageExpense,
-    telephoneExpense: expenseDetail.value.telephoneExpense,
-    taxiExpense: expenseDetail.value.taxiExpense
-  };
-
-  expenseDetailsStore.addExpense(newExpense);
-  router.go(-2);
+  try {
+    const newExpense: any = {
+      accountName: expenseDetail.value.accountName,
+      accountSid: expenseDetail.value.accountSid,
+      amount: expenseDetail.value.amount,
+      billable: expenseDetail.value.billable,
+      comments: expenseDetail.value.comments,
+      description: expenseDetail.value.description,
+      employeeFullName: expenseDetail.value.employeeFullName,
+      employeeSid: expenseDetail.value.employeeSid,
+      expenseDate: expenseDetail.value.expenseDate,
+      id: expenseDetail.value.id,
+      expenseSid: expenseDetail.value.expenseSid ? (expenseDetail.value.expenseSid !== '0' ? expenseDetail.value.expenseSid : '') : '',
+      expenseTypeName: expenseDetail.value.expenseTypeName,
+      expenseCategoryName: expenseDetail.value.expenseCategoryName,
+      expenseTypeSid: expenseDetail.value.expenseTypeSid,
+      projectName: expenseDetail.value.projectName ? expenseDetail.value.projectName : '',
+      projectSid: expenseDetail.value.projectSid ? expenseDetail.value.projectSid : '',
+      tax: expenseDetail.value.tax,
+      paymentType: expenseDetail.value.paymentType,
+      autoRentalExpense: expenseDetail.value.autoRentalExpense,
+      airTravelExpense: expenseDetail.value.airTravelExpense,
+      hotelExpense: expenseDetail.value.hotelExpense,
+      mileageExpense: expenseDetail.value.mileageExpense,
+      telephoneExpense: expenseDetail.value.telephoneExpense,
+      taxiExpense: expenseDetail.value.taxiExpense
+    };
+    await expenseDetailsStore.addExpense(newExpense);
+    router.go(-2);
+  } catch (error) {
+    console.log(`*** NewExpense:onSubmit(...):catch: ${error} ***`);
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** NewExpnense:onSubmit(...):onOK ***');
+    });
+  }
 }
 </script>
 

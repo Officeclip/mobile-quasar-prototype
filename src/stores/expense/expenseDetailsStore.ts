@@ -47,7 +47,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         this.expenseDetailsList = response.data;
         console.log(this.expenseDetailsList);
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -65,26 +65,30 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
           );
         }
       } catch (error) {
-        alert(error);
-        console.log(error);
+        // alert(error);
+        // console.log(error);
+        Constants.throwError(error);
       }
     },
 
     getInOutboxList(status: string) {
-      let completeUrl = '';
-      switch (status) {
-        case 'Inbox':
-          completeUrl = `${Constants.endPointUrl}/expense-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
-          break;
-        case 'Outbox':
-          completeUrl = `${Constants.endPointUrl}/expense-summary?status=None&status=Pending`;
-          break;
-        case 'Archived':
-          completeUrl = `${Constants.endPointUrl}/expense-summary?status=Saved&status=Approved&status=Rejected`;
-          break;
+      try {
+        let completeUrl = '';
+        switch (status) {
+          case 'Inbox':
+            completeUrl = `${Constants.endPointUrl}/expense-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
+            break;
+          case 'Outbox':
+            completeUrl = `${Constants.endPointUrl}/expense-summary?status=None&status=Pending`;
+            break;
+          case 'Archived':
+            completeUrl = `${Constants.endPointUrl}/expense-summary?status=Saved&status=Approved&status=Rejected`;
+            break;
+        }
+        return completeUrl;
+      } catch (error) {
+        Constants.throwError(error);
       }
-      console.log(`getInOutboxList(): completeUrl - ${completeUrl}`);
-      return completeUrl;
     },
 
     async getExpensesByStatus(status: string) {
@@ -94,7 +98,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         const response = await instance.get(callStr ?? '');
         this.expenseSummary = response.data.data;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -109,7 +113,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
           this.expenseDetails = response.data;
         }
       } catch (error) {
-        console.error(`editExpense Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
@@ -124,7 +128,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
           this.expenseDetails = response.data;
         }
       } catch (error) {
-        console.error(`editExpense Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
@@ -138,7 +142,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
           this.expenseDetails = response.data;
         }
       } catch (error) {
-        console.error(`deleteExpense Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
@@ -152,7 +156,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
           this.expenseDetails = response.data;
         }
       } catch (error) {
-        console.error(`deleteExpense Error: ${error}`);
+        Constants.throwError(error);
       }
     },
   },

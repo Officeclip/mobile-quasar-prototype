@@ -25,7 +25,7 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
         const newData = response.data;
         this.commentsList = newData;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -38,7 +38,7 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
         const newData = response.data;
         this.commentsList = newData;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -52,21 +52,25 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
         this.timesheetDCAA = newData;
         this.tDCAA = newData.dcaa;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
     async addComment(comment: Comments) {
-      this.commentsList.push(comment);
-      const instance = Constants.getAxiosInstance();
-      const response = await instance.post(
-        `${Constants.endPointUrl}/timesheet-comments`,
-        comment
-      );
-      if (response.status === 200) {
-        await this.getTimesheetComments(comment.id);
-      } else {
-        console.error(response);
+      try {
+        this.commentsList.push(comment);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(
+          `${Constants.endPointUrl}/timesheet-comments`,
+          comment
+        );
+        if (response.status === 200) {
+          await this.getTimesheetComments(comment.id);
+        } else {
+          console.error(response);
+        }
+      } catch (error) {
+        Constants.throwError(error);
       }
     },
   },

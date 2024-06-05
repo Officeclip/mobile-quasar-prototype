@@ -4,13 +4,26 @@ import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { isAllowed } from 'src/helpers/security';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const expensesDetailsStore = useExpenseDetailsStore();
+const router = useRouter();
+const $q = useQuasar();
 const expenseStatus = ref('inbox');
 const title = ref(capitalize(expenseStatus.value));
 
-onMounted(() => {
-  expensesDetailsStore.getExpensesByStatus(String(expenseStatus.value));
+onMounted(async () => {
+  try {
+    await expensesDetailsStore.getExpensesByStatus(String(expenseStatus.value));
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/HomePage' });
+    });
+  }
 });
 
 const allExpenses = computed(() => {
@@ -23,7 +36,11 @@ watch([expenseStatus], ([newModel]) => {
 });
 const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
 </script>
-
+<style>
+.q-dialog__backdrop {
+  backdrop-filter: blur(7px);
+}
+</style>
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">

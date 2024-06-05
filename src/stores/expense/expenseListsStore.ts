@@ -35,7 +35,7 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
         this.expenseTypes = expenseList.expenseTypes;
         this.paymentTypes = expenseList.paymentMethods;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
   },

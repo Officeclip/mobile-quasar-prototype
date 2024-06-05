@@ -15,12 +15,14 @@ import {
   expenseDetails,
 } from '../../models/expense/expenseDetails';
 import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
+import { useQuasar } from 'quasar';
 
 const expenseDetailsStore = useExpenseDetailsStore();
 const expenseListStore = useExpenseListsStore();
 
 const router = useRouter();
 const route = useRoute();
+const $q = useQuasar();
 
 const id = computed(() => {
   return route.params.id;
@@ -28,9 +30,19 @@ const id = computed(() => {
 
 const fromDate = route.params.fromDate;
 
-onMounted(() => {
-  expenseDetailsStore.getExpenseDetailById(id.value);
-  expenseListStore.getExpensesList();
+onMounted(async () => {
+  try {
+    await expenseDetailsStore.getExpenseDetailById(id.value);
+    await expenseListStore.getExpensesList();
+  }
+  catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/expensesAll' });
+    });
+  }
 });
 
 const expenseDetail = computed(() => {
@@ -47,41 +59,50 @@ const period = computed(() => {
   );
 });
 
-function onSubmit(e: any) {
+async function onSubmit(e: any) {
   e.preventDefault();
+  try {
+    const editExpense: expenseDetails = {
+      accountName: expenseDetail.value?.accountName as string,
+      accountSid: expenseDetail.value?.accountSid as string,
+      amount: Number(expenseDetail.value?.amount),
+      billable: expenseDetail.value?.billable as boolean,
+      comments: expenseDetail.value?.comments as string,
+      description: expenseDetail.value?.description as string,
+      employeeFullName: expenseDetail.value?.employeeFullName as string,
+      employeeSid: expenseDetail.value?.employeeSid as string,
+      expenseDate: expenseDetail.value?.expenseDate as string,
+      id: expenseDetail.value?.id as string,
+      expenseSid: expenseDetail.value?.expenseSid as string,
+      expenseTypeName: expenseDetail.value?.expenseTypeName as string,
+      expenseCategoryName: expenseDetail.value?.expenseCategoryName as string,
+      expenseTypeSid: expenseDetail.value?.expenseTypeSid as string,
+      projectName: expenseDetail.value?.projectName as string,
+      projectSid: expenseDetail.value?.projectSid as string,
+      tax: Number(expenseDetail.value?.tax),
+      paymentType: expenseDetail.value?.paymentType as string,
+      autoRentalExpense: expenseDetail.value
+        ?.autoRentalExpense as autoRentalExpense,
+      airTravelExpense: expenseDetail.value?.airTravelExpense as airTravelExpense,
+      hotelExpense: expenseDetail.value?.hotelExpense as hotelExpense,
+      mileageExpense: expenseDetail.value?.mileageExpense as mileageExpense,
+      telephoneExpense: expenseDetail.value?.telephoneExpense as telephoneExpense,
+      taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense,
+      currency: '',
+      security: []
+    };
 
-  const editExpense: expenseDetails = {
-    accountName: expenseDetail.value?.accountName as string,
-    accountSid: expenseDetail.value?.accountSid as string,
-    amount: Number(expenseDetail.value?.amount),
-    billable: expenseDetail.value?.billable as boolean,
-    comments: expenseDetail.value?.comments as string,
-    description: expenseDetail.value?.description as string,
-    employeeFullName: expenseDetail.value?.employeeFullName as string,
-    employeeSid: expenseDetail.value?.employeeSid as string,
-    expenseDate: expenseDetail.value?.expenseDate as string,
-    id: expenseDetail.value?.id as string,
-    expenseSid: expenseDetail.value?.expenseSid as string,
-    expenseTypeName: expenseDetail.value?.expenseTypeName as string,
-    expenseCategoryName: expenseDetail.value?.expenseCategoryName as string,
-    expenseTypeSid: expenseDetail.value?.expenseTypeSid as string,
-    projectName: expenseDetail.value?.projectName as string,
-    projectSid: expenseDetail.value?.projectSid as string,
-    tax: Number(expenseDetail.value?.tax),
-    paymentType: expenseDetail.value?.paymentType as string,
-    autoRentalExpense: expenseDetail.value
-      ?.autoRentalExpense as autoRentalExpense,
-    airTravelExpense: expenseDetail.value?.airTravelExpense as airTravelExpense,
-    hotelExpense: expenseDetail.value?.hotelExpense as hotelExpense,
-    mileageExpense: expenseDetail.value?.mileageExpense as mileageExpense,
-    telephoneExpense: expenseDetail.value?.telephoneExpense as telephoneExpense,
-    taxiExpense: expenseDetail.value?.taxiExpense as taxiExpense,
-    currency: '',
-    security: []
-  };
-
-  expenseDetailsStore.editExpense(editExpense);
-  router.go(-2);
+    await expenseDetailsStore.editExpense(editExpense);
+    router.go(-2);
+  } catch (error) {
+    console.log(`*** Edit Expense:onSubmit(...):catch: ${error} ***`);
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** Edit Expense:onSubmit(...):onOK ***');
+    });
+  }
 }
 </script>
 <template>
