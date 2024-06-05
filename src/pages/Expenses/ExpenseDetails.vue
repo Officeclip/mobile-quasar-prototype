@@ -19,14 +19,14 @@ import { useQuasar } from 'quasar';
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
-const readOnly = route.params.readOnly === 'false';
-const entityType = 'expense';
-
-const fromDate = route.params.fromDate;
-
 const expenseDetailsStore = useExpenseDetailsStore();
 const expenseCommentsStore = useTECommentsStore();
 const expenseListsStore = useExpenseListsStore();
+
+const readOnly = route.params.readOnly === 'false';
+const entityType = 'expense';
+const fromDate = route.params.fromDate;
+const isLoaded = ref<boolean>(false);
 
 onMounted(async () => {
   try {
@@ -42,6 +42,9 @@ onMounted(async () => {
     }).onOk(async () => {
       await router.push({ path: '/expensesAll' });
     });
+  }
+  finally {
+    isLoaded.value = true;
   }
 });
 
@@ -133,7 +136,7 @@ const deleteExpenseDetail = async (id: string) => {
 </style>
 
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
@@ -159,12 +162,12 @@ const deleteExpenseDetail = async (id: string) => {
                 </q-item-label>
                 <q-item-label caption>
                   {{
-          expenseDetail.expenseDate
-            ? dateTimeHelper.extractDateFromUtc(
-              expenseDetail.expenseDate
-            )
-            : 'No Specific Date'
-        }}
+    expenseDetail.expenseDate
+      ? dateTimeHelper.extractDateFromUtc(
+        expenseDetail.expenseDate
+      )
+      : 'No Specific Date'
+  }}
                 </q-item-label>
               </q-item-section>
 
@@ -173,13 +176,13 @@ const deleteExpenseDetail = async (id: string) => {
                   {{ expenseDetail.amount }}
                   {{ expenseDetail.currency }}
                   <q-btn v-if="!readOnly" :to="{
-          name: 'editExpense',
-          params: {
-            id: expenseDetail?.id,
-            expenseSid: expenseDetail?.expenseSid,
-            fromDate: fromDate,
-          },
-        }" size="sm" flat round dense icon="edit" class="q-ml-sm">
+    name: 'editExpense',
+    params: {
+      id: expenseDetail?.id,
+      expenseSid: expenseDetail?.expenseSid,
+      fromDate: fromDate,
+    },
+  }" size="sm" flat round dense icon="edit" class="q-ml-sm">
                   </q-btn>
                 </q-item-label>
               </q-item-section>
@@ -215,13 +218,13 @@ const deleteExpenseDetail = async (id: string) => {
         </q-list>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn :to="{
-          name: 'newExpense',
-          //TODO: CR: 2024-05-17: nk: Fix the type error?
-          params: {
-            period: expensePeriod?.name,
-            expenseSid: expenseDetail.expenseSid
-          },
-        }" fab icon="add" color="accent" padding="sm">
+    name: 'newExpense',
+    //TODO: CR: 2024-05-17: nk: Fix the type error?
+    params: {
+      period: expensePeriod?.name,
+      expenseSid: expenseDetail.expenseSid
+    },
+  }" fab icon="add" color="accent" padding="sm">
           </q-btn>
         </q-page-sticky>
 
