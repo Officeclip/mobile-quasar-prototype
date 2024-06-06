@@ -2,17 +2,29 @@
 import { useExpenseSummaryStore } from '../../stores/expense/expenseSummaryStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { computed, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
 
 const id = ref<string | string[]>('0');
 const status = ref<string | string[]>('');
+const route = useRoute();
+const router = useRouter();
+const $q = useQuasar();
 const expensesStore = useExpenseSummaryStore();
 
-onMounted(() => {
-  const route = useRoute();
+onMounted(async () => {
   id.value = route.params.id;
   status.value = route.params.status;
-  expensesStore.getExpenseSummaryByStatus(String(route.params.status));
+  try {
+    await expensesStore.getExpenseSummaryByStatus(String(route.params.status));
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/HomePage' });
+    });
+  }
 });
 
 const getExpenses = computed(() => {
