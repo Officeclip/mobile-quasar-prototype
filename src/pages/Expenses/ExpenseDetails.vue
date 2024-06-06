@@ -23,18 +23,21 @@ const expenseDetailsStore = useExpenseDetailsStore();
 const expenseCommentsStore = useTECommentsStore();
 const expenseListsStore = useExpenseListsStore();
 
+const id = route.params.id;
+const stageId = Number(route.params.stageId);
 const readOnly = route.params.readOnly === 'false';
 const entityType = 'expense';
 const fromDate = route.params.fromDate;
+const mode = route.params.mode;
+const status = route.params.status;
 const isLoaded = ref<boolean>(false);
 
 onMounted(async () => {
   try {
-    await expenseDetailsStore.getExpenseDetails(route.params.id);
+    await expenseDetailsStore.getExpenseDetails(id);
     await expenseListsStore.getExpensesList();
     await expenseCommentsStore.$reset();
-    await expenseCommentsStore.getExpenseComments(route.params.id);
-
+    await expenseCommentsStore.getExpenseComments(id);
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -42,8 +45,7 @@ onMounted(async () => {
     }).onOk(async () => {
       await router.push({ path: '/expensesAll' });
     });
-  }
-  finally {
+  } finally {
     isLoaded.value = true;
   }
 });
@@ -92,7 +94,7 @@ const cancelConfirmation = () => {
 const deleteExpense = async (id: string) => {
   {
     try {
-      await expenseDetailsStore.deleteExpense(id)
+      await expenseDetailsStore.deleteExpense(id);
       isExpenseDelete.value = false;
       router.go(-1);
     } catch (error) {
@@ -111,7 +113,7 @@ const deleteExpense = async (id: string) => {
 const deleteExpenseDetail = async (id: string) => {
   {
     try {
-      await expenseDetailsStore.deleteExpenseDetail(id)
+      await expenseDetailsStore.deleteExpenseDetail(id);
       isExpenseDetailDelete.value = false;
       router.go(-1);
     } catch (error) {
@@ -127,6 +129,11 @@ const deleteExpenseDetail = async (id: string) => {
     }
   }
 };
+const showWarningMsg = () => {
+  alert(
+    'Add new timesheet details entry is not available in mobile app for Check-in, Check-out mode, please visit the web app to add the new timesheet details'
+  );
+};
 </script>
 
 <style>
@@ -139,17 +146,36 @@ const deleteExpenseDetail = async (id: string) => {
   <q-layout view="lHh Lpr lFf" v-if="isLoaded">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title> Expense Details </q-toolbar-title>
-        <q-btn flat round dense color="white" icon="delete" @click="displayConfirmationDialog">
+        <q-btn
+          flat
+          round
+          dense
+          color="white"
+          icon="delete"
+          @click="displayConfirmationDialog"
+        >
         </q-btn>
       </q-toolbar>
     </q-header>
 
     <q-page-container class="q-ma-sm">
       <div>
-        <WorkFlow :entityId="route.params.id" :entityType="entityType" />
+        <WorkFlow
+          v-if="status != 'Approved' && status != 'Pending'"
+          :entityId="id"
+          :entityType="entityType"
+          :stageId="stageId"
+        />
       </div>
       <div v-for="expenseDetail in expenseDetails" :key="expenseDetail.id">
         <q-list class="rounded-borders q-my-md bg-grey-3">
@@ -162,12 +188,12 @@ const deleteExpenseDetail = async (id: string) => {
                 </q-item-label>
                 <q-item-label caption>
                   {{
-    expenseDetail.expenseDate
-      ? dateTimeHelper.extractDateFromUtc(
-        expenseDetail.expenseDate
-      )
-      : 'No Specific Date'
-  }}
+                    expenseDetail.expenseDate
+                      ? dateTimeHelper.extractDateFromUtc(
+                          expenseDetail.expenseDate
+                        )
+                      : 'No Specific Date'
+                  }}
                 </q-item-label>
               </q-item-section>
 
@@ -175,20 +201,37 @@ const deleteExpenseDetail = async (id: string) => {
                 <q-item-label caption>
                   {{ expenseDetail.amount }}
                   {{ expenseDetail.currency }}
-                  <q-btn v-if="!readOnly" :to="{
-    name: 'editExpense',
-    params: {
-      id: expenseDetail?.id,
-      expenseSid: expenseDetail?.expenseSid,
-      fromDate: fromDate,
-    },
-  }" size="sm" flat round dense icon="edit" class="q-ml-sm">
+                  <q-btn
+                    v-if="!readOnly"
+                    :to="{
+                      name: 'editExpense',
+                      params: {
+                        id: expenseDetail?.id,
+                        expenseSid: expenseDetail?.expenseSid,
+                        fromDate: fromDate,
+                      },
+                    }"
+                    size="sm"
+                    flat
+                    round
+                    dense
+                    icon="edit"
+                    class="q-ml-sm"
+                  >
                   </q-btn>
                 </q-item-label>
               </q-item-section>
               <q-item-section side>
-                <q-btn v-if="!readOnly" @click="showExpenseDetailDelete(expenseDetail?.expenseSid)" size="sm" flat round
-                  dense icon="delete" class="q-btn-hover:hover"></q-btn>
+                <q-btn
+                  v-if="!readOnly"
+                  @click="showExpenseDetailDelete(expenseDetail?.expenseSid)"
+                  size="sm"
+                  flat
+                  round
+                  dense
+                  icon="delete"
+                  class="q-btn-hover:hover"
+                ></q-btn>
               </q-item-section>
             </template>
             <q-item-section class="q-ma-md">
@@ -202,57 +245,117 @@ const deleteExpenseDetail = async (id: string) => {
                 {{ expenseDetail.description }}
               </q-item-label>
 
-              <autoRentalExpense v-if="expenseDetail.autoRentalExpense" :expense="expenseDetail.autoRentalExpense" />
+              <autoRentalExpense
+                v-if="expenseDetail.autoRentalExpense"
+                :expense="expenseDetail.autoRentalExpense"
+              />
 
-              <airTravelExpense v-if="expenseDetail.airTravelExpense" :expense="expenseDetail.airTravelExpense" />
+              <airTravelExpense
+                v-if="expenseDetail.airTravelExpense"
+                :expense="expenseDetail.airTravelExpense"
+              />
 
-              <hotelExpense v-if="expenseDetail.hotelExpense" :expense="expenseDetail.hotelExpense" />
+              <hotelExpense
+                v-if="expenseDetail.hotelExpense"
+                :expense="expenseDetail.hotelExpense"
+              />
 
-              <mileageExpense v-if="expenseDetail.mileageExpense" :expense="expenseDetail.mileageExpense" />
+              <mileageExpense
+                v-if="expenseDetail.mileageExpense"
+                :expense="expenseDetail.mileageExpense"
+              />
 
-              <taxiExpense v-if="expenseDetail.taxiExpense" :expense="expenseDetail.taxiExpense" />
+              <taxiExpense
+                v-if="expenseDetail.taxiExpense"
+                :expense="expenseDetail.taxiExpense"
+              />
 
-              <telephoneExpense v-if="expenseDetail.telephoneExpense" :expense="expenseDetail.telephoneExpense" />
+              <telephoneExpense
+                v-if="expenseDetail.telephoneExpense"
+                :expense="expenseDetail.telephoneExpense"
+              />
             </q-item-section>
           </q-expansion-item>
         </q-list>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
-          <q-btn :to="{
-    name: 'newExpense',
-    //TODO: CR: 2024-05-17: nk: Fix the type error?
-    params: {
-      period: expensePeriod?.name,
-      expenseSid: expenseDetail.expenseSid
-    },
-  }" fab icon="add" color="accent" padding="sm">
+          <q-btn
+            v-if="
+              status != 'Pending' && status != 'Approved' && mode === 'PERIODIC'
+            "
+            :to="{
+              name: 'newExpense',
+              //TODO: CR: 2024-05-17: nk: Fix the type error?
+              params: {
+                period: expensePeriod?.name,
+                expenseSid: expenseDetail.expenseSid,
+              },
+            }"
+            fab
+            icon="add"
+            color="accent"
+            padding="sm"
+          >
+          </q-btn>
+          <q-btn
+            v-else
+            fab
+            icon="add"
+            color="accent"
+            padding="sm"
+            @click="showWarningMsg"
+          >
           </q-btn>
         </q-page-sticky>
 
-        <ConfirmDelete v-if="isExpenseDelete" :showConfirmationDialog="isExpenseDelete" :id="route.params.id"
-          :title="title" :message="message" @cancel="cancelConfirmation" @confirm="deleteExpense" />
-        <ConfirmDelete v-if="isExpenseDetailDelete" :showConfirmationDialog="isExpenseDetailDelete"
-          :id="expenseDetail.id" :title="title" :message="message" @cancel="cancelConfirmation"
-          @confirm="deleteExpenseDetail" />
+        <ConfirmDelete
+          v-if="isExpenseDelete"
+          :showConfirmationDialog="isExpenseDelete"
+          :id="id"
+          :title="title"
+          :message="message"
+          @cancel="cancelConfirmation"
+          @confirm="deleteExpense"
+        />
+        <ConfirmDelete
+          v-if="isExpenseDetailDelete"
+          :showConfirmationDialog="isExpenseDetailDelete"
+          :id="expenseDetail.id"
+          :title="title"
+          :message="message"
+          @cancel="cancelConfirmation"
+          @confirm="deleteExpenseDetail"
+        />
       </div>
       <q-card v-if="expenseDetails.length > 0" class="q-ma-sm bg-grey-4">
-        <q-expansion-item default-opened expand-separator expand-icon-class="text-primary">
+        <q-expansion-item
+          default-opened
+          expand-separator
+          expand-icon-class="text-primary"
+        >
           <template v-slot:header>
             <q-item-section>
               <q-item-label>Comments: </q-item-label>
             </q-item-section>
             <q-item-section side>
               <!-- TODO: CR: 2024-05-17: nk: Fix the type error? -->
-              <q-btn flat round dense icon="add" class="q-btn-hover:hover"
-                @click="showAddCommentsDialog = true"></q-btn>
+              <q-btn
+                flat
+                round
+                dense
+                icon="add"
+                class="q-btn-hover:hover"
+                @click="showAddCommentsDialog = true"
+              ></q-btn>
             </q-item-section>
           </template>
           <q-list>
             <q-item v-for="comments in commentsList" :key="comments.id">
-              <q-item-section style="white-space: pre-wrap">{{ comments.text_comment }}
+              <q-item-section style="white-space: pre-wrap"
+                >{{ comments.text_comment }}
               </q-item-section>
               <q-item-section style="white-space: pre-wrap">
-                by {{ comments.commentedUserName }}
-                on {{ comments.commentedDate }}
+                by {{ comments.commentedUserName }} on
+                {{ comments.commentedDate }}
               </q-item-section>
             </q-item>
             <q-item v-if="listLength == 0"> No Comments are present </q-item>
