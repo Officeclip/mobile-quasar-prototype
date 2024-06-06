@@ -45,13 +45,26 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title>{{ title }} Expenses </q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-footer elevated>
-      <q-tabs v-model="expenseStatus" no-caps inline-label class="bg-primary text-white shadow-2" align="justify">
+      <q-tabs
+        v-model="expenseStatus"
+        no-caps
+        inline-label
+        class="bg-primary text-white shadow-2"
+        align="justify"
+      >
         <q-tab name="inbox" label="Inbox" icon="inbox">
           <q-badge color="red" floating>2</q-badge>
         </q-tab>
@@ -63,34 +76,44 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
       <q-page>
         <q-list v-for="expense in allExpenses" :key="expense.id">
           <!-- TODO: CR: 2024-05-17: nk: Fix the type error? -->
-          <q-item :to="{
-          name: 'expenseDetails',
-          params: {
-            id: expense.id,
-            fromDate: expense.fromDate,
-            readOnly: expense.security.read,
-          },
-        }" clickable v-ripple>
+          <q-item
+            :to="{
+              name: 'expenseDetails',
+              params: {
+                id: expense.id,
+                fromDate: expense.fromDate,
+                readOnly: expense.security.read,
+                stageId: expense.stageId,
+                status: expense.status,
+                mode: expense.mode,
+              },
+            }"
+            clickable
+            v-ripple
+          >
             <q-item-section>
               <q-item-label>
                 {{ expense.createdByUserName }}
               </q-item-label>
               <q-item-label caption>{{
-          expense.fromDate
-            ? dateTimeHelper.extractDateFromUtc(expense.fromDate)
-            : 'No Specific Date'
-        }}</q-item-label>
+                expense.fromDate
+                  ? dateTimeHelper.extractDateFromUtc(expense.fromDate)
+                  : 'No Specific Date'
+              }}</q-item-label>
             </q-item-section>
-            <q-item-section style="float: right;">
-              <q-item-label style="float: right;">
+            <q-item-section style="float: right">
+              <q-item-label style="float: right">
                 {{ expense.totalAmount }}
                 {{ expense.currency }}
               </q-item-label>
             </q-item-section>
             <q-item-section justify="left" class="left-aligned-item-section">
-              <q-chip square :color="getExpenseOrTimesheetStatusColor(expense.status)" style="float: right;">{{
-          expense.status
-        }}</q-chip>
+              <q-chip
+                square
+                :color="getExpenseOrTimesheetStatusColor(expense.status)"
+                style="float: right"
+                >{{ expense.status }}</q-chip
+              >
             </q-item-section>
             <q-item-section side>
               <q-icon color="primary" name="chevron_right" />
@@ -100,9 +123,16 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
         </q-list>
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn v-if="isAllow" :to="{
-          name: 'newPeriodExpense',
-        }" fab icon="add" color="accent" padding="sm">
+        <q-btn
+          v-if="isAllow"
+          :to="{
+            name: 'newPeriodExpense',
+          }"
+          fab
+          icon="add"
+          color="accent"
+          padding="sm"
+        >
         </q-btn>
       </q-page-sticky>
     </q-page-container>

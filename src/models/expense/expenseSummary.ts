@@ -6,8 +6,10 @@ export interface expenseSummary {
   currency: string;
   createdByUserName: string;
   employeeId: string;
+  readOnly: boolean;
   status: string;
   fromDate: string;
   stageId: number;
+  mode: string;
   security: security[];
 }
