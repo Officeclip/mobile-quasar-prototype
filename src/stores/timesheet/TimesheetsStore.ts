@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { Timesheet } from '../../models/Timesheet/timesheet';
 import { TimesheetDetails } from '../../models/Timesheet/timesheetDetails';
-import axios from 'axios';
 import { Constants } from 'stores/Constants';
 
 export const useTimesheetsStore = defineStore('timesheetsStore', {
@@ -31,9 +30,10 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         );
         this.timesheets = response.data;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
+
     getTimesheetsCount(status: string) {
       this.getTimesheets();
       if (this.timesheets) {
@@ -47,20 +47,24 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     },
 
     getInOutboxList(status: string) {
-      let completeUrl = '';
-      switch (status) {
-        case 'Inbox':
-          completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
-          break;
-        case 'Outbox':
-          completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=None&status=Pending`;
-          break;
-        case 'Archived':
-          completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Rejected`;
-          break;
+      try {
+        let completeUrl = '';
+        switch (status) {
+          case 'Inbox':
+            completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
+            break;
+          case 'Outbox':
+            completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=None&status=Pending`;
+            break;
+          case 'Archived':
+            completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Rejected`;
+            break;
+        }
+        console.log(`getInOutboxList(): completeUrl - ${completeUrl}`);
+        return completeUrl;
+      } catch (error) {
+        Constants.throwError(error);
       }
-      console.log(`getInOutboxList(): completeUrl - ${completeUrl}`);
-      return completeUrl;
     },
     // getting the timesheets by status
     async getTimesheetsByStatus(status: string) {
@@ -82,7 +86,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         );
         this.timesheetDetails = response.data;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
     async getSingleTimesheetDetail(id: string | string[]) {
@@ -97,7 +101,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
           this.timesheetDetail
         );
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
     async editTimesheet(timesheetDetail: TimesheetDetails) {
@@ -114,7 +118,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
           this.timesheetDetail = response.data;
         }
       } catch (error) {
-        console.error(`editTimesheet Error: ${error}`);
+        Constants.throwError(error);
       }
     },
     async deleteTimesheet(id: string | string[]) {
@@ -128,7 +132,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
           this.timesheet = response.data;
         }
       } catch (error) {
-        console.error(`deleteTimesheet Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
@@ -145,7 +149,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
           this.timesheetDetails = response.data;
         }
       } catch (error) {
-        console.error(`deleteTimesheet Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
@@ -161,7 +165,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
           this.timesheetDetail = response.data;
         }
       } catch (error) {
-        console.error(`New Timesheet Error: ${error}`);
+        Constants.throwError(error);
       }
       // const callStr = `${Constants.endPointUrl}/timesheet-detail`;
       // await fetch(callStr, {

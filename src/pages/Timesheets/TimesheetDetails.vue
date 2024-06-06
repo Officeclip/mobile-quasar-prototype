@@ -10,9 +10,16 @@ import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import WorkFlow from '../../components/general/WorkFlow.vue';
 import { isAllowed } from 'src/helpers/security';
+import { useQuasar } from 'quasar';
+import logger from 'src/helpers/logger';
 
 const router = useRouter();
 const route = useRoute();
+const timesheetsStore = useTimesheetsStore();
+const timesheetCommentsStore = useTECommentsStore();
+const timesheetListsStore = useTimesheetListStore();
+const $q = useQuasar();
+
 const id = route.params.id;
 const entityType = 'timesheet';
 const timesheetDetailSid = ref('');
@@ -23,15 +30,29 @@ const stageId = Number(route.params.stageId);
 const status = route.params.status;
 const mode = route.params.mode;
 // const mode = route.params.mode;
-const timesheetsStore = useTimesheetsStore();
-const timesheetCommentsStore = useTECommentsStore();
-const timesheetListsStore = useTimesheetListStore();
 
-onMounted(() => {
-  timesheetsStore.getTimesheetDetails(id);
-  timesheetCommentsStore.$reset();
-  timesheetCommentsStore.getTimesheetComments(id);
-  timesheetListsStore.getTimesheetListAll();
+const isLoaded = ref<boolean>(false);
+
+onMounted(async () => {
+  try {
+    await timesheetsStore.getTimesheetDetails(id);
+    await timesheetCommentsStore.$reset();
+    await timesheetCommentsStore.getTimesheetComments(id);
+    await timesheetListsStore.getTimesheetListAll();
+  } catch (error) {
+    logger.log(`*** timesheetDetails:error:catch(${error}) ***`, 'error');
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      logger.log('*** timesheetDetails:onMounted:onOk ***');
+      await router.push({ path: '/timesheetsAll' });
+      //await router.go(0);
+    });
+  }
+  finally {
+    isLoaded.value = true;
+  }
 });
 
 const timesheetDetails = computed(() => {
@@ -55,19 +76,39 @@ const cancelConfirmation = () => {
   showDeleteTimesheet.value = false;
   showDeleteTimesheetDetail.value = false;
 };
-const deleteTimesheet = (id: string) => {
-  {
-    timesheetsStore.deleteAllTimesheets(id).then(() => {
+
+const deleteTimesheet = async (id: string) => {
+  try {
+    await timesheetsStore.deleteAllTimesheets(id)
+    showDeleteTimesheet.value = false;
+    router.go(-1);
+  } catch (error) {
+    //console.log('Error in deleting the task detail')
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** Delete timesheet:onSubmit(...):onOK ***');
       showDeleteTimesheet.value = false;
-      router.go(-1);
+      //router.go(0);
     });
   }
 };
-const deleteTimesheetDetail = (id: string) => {
-  {
-    timesheetsStore.deleteTimesheet(id).then(() => {
+
+const deleteTimesheetDetail = async (id: string) => {
+  try {
+    await timesheetsStore.deleteTimesheet(id)
+    showDeleteTimesheetDetail.value = false;
+    router.go(-1);
+  } catch (error) {
+    //console.log('Error in deleting the task detail')
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** Delete timesheetDetail:onSubmit(...):onOK ***');
       showDeleteTimesheetDetail.value = false;
-      router.go(-1);
+      //router.go(0);
     });
   }
 };
@@ -117,51 +158,25 @@ const showWarningMsg = () => {
 </script>
 
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> Details </q-toolbar-title>
-        <q-btn
-          v-if="status === 'Saved'"
-          flat
-          round
-          dense
-          color="white"
-          icon="delete"
-          @click="displayConfirmationDialog"
-        >
+        <q-btn v-if="status === 'Saved'" flat round dense color="white" icon="delete"
+          @click="displayConfirmationDialog">
         </q-btn>
       </q-toolbar>
     </q-header>
 
     <q-page-container>
       <div>
-        <WorkFlow
-          v-if="status != 'Approved' && status != 'Pending'"
-          :entityId="id"
-          :entityType="entityType"
-          :stageId="stageId"
-        />
+        <WorkFlow v-if="status != 'Approved' && status != 'Pending'" :entityId="id" :entityType="entityType"
+          :stageId="stageId" />
       </div>
-      <q-card
-        v-for="timesheetDetail in timesheetDetails"
-        :key="timesheetDetail.id"
-        class="q-ma-sm bg-grey-2"
-      >
-        <q-expansion-item
-          default-opened
-          expand-separator
-          expand-icon-class="text-primary"
-        >
+      <q-card v-for="timesheetDetail in timesheetDetails" :key="timesheetDetail.id" class="q-ma-sm bg-grey-2">
+        <q-expansion-item default-opened expand-separator expand-icon-class="text-primary">
           <template v-slot:header>
             <q-item-section>
               <q-item-label caption>
@@ -169,104 +184,54 @@ const showWarningMsg = () => {
               </q-item-label>
               <q-item-label>
                 {{
-                  timesheetDetail.taskDate
-                    ? timesheetDetail.taskDate
-                    : 'No Specific Date'
-                }}
+    timesheetDetail.taskDate
+      ? timesheetDetail.taskDate
+      : 'No Specific Date'
+  }}
               </q-item-label>
             </q-item-section>
             <q-item-section side>
               {{ timesheetDetail.timeDuration }} hrs
             </q-item-section>
             <q-item-section side>
-              <q-btn
-                v-if="isReadOnly && mode === 'PERIODIC'"
-                :to="{
-                  name: 'editTimesheet',
-                  params: {
-                    id: timesheetDetail?.id,
-                    fromDate: fromDate,
-                  },
-                }"
-                size="sm"
-                flat
-                round
-                dense
-                icon="edit"
-              >
+              <q-btn v-if="isReadOnly && mode === 'PERIODIC'" :to="{
+    name: 'editTimesheet',
+    params: {
+      id: timesheetDetail?.id,
+      fromDate: fromDate,
+    },
+  }" size="sm" flat round dense icon="edit">
               </q-btn>
-              <q-btn
-                v-else
-                size="sm"
-                flat
-                round
-                dense
-                icon="edit"
-                @click="showWarningMsg"
-              >
+              <q-btn v-else size="sm" flat round dense icon="edit" @click="showWarningMsg">
               </q-btn>
             </q-item-section>
             <q-item-section side>
-              <q-btn
-                v-if="isReadOnly"
-                @click="displayShowDeleteTimesheetDetail(timesheetDetail?.id)"
-                size="sm"
-                flat
-                round
-                dense
-                icon="delete"
-                class="q-btn-hover:hover"
-              ></q-btn>
+              <q-btn v-if="isReadOnly" @click="displayShowDeleteTimesheetDetail(timesheetDetail?.id)" size="sm" flat
+                round dense icon="delete" class="q-btn-hover:hover"></q-btn>
             </q-item-section>
           </template>
-          <OCItem
-            v-if="timesheetDetail?.projectName"
-            title="Project"
-            :value="timesheetDetail.projectName"
-          />
-          <OCItem
-            v-if="timesheetDetail?.serviceItemName"
-            title="Task"
-            :value="timesheetDetail.serviceItemName"
-          />
-          <OCItem
-            title="Billable"
-            :value="timesheetDetail.isBillable ? 'Yes' : 'No'"
-          />
-          <OCItem
-            v-if="timesheetDetail?.description"
-            title="Description"
-            :value="timesheetDetail.description"
-          />
+          <OCItem v-if="timesheetDetail?.projectName" title="Project" :value="timesheetDetail.projectName" />
+          <OCItem v-if="timesheetDetail?.serviceItemName" title="Task" :value="timesheetDetail.serviceItemName" />
+          <OCItem title="Billable" :value="timesheetDetail.isBillable ? 'Yes' : 'No'" />
+          <OCItem v-if="timesheetDetail?.description" title="Description" :value="timesheetDetail.description" />
         </q-expansion-item>
       </q-card>
       <!-- <pre>{{ mode }}</pre> -->
       <q-card v-if="timesheetDetails.length > 0" class="q-ma-sm bg-grey-4">
-        <q-expansion-item
-          default-opened
-          expand-separator
-          expand-icon-class="text-primary"
-        >
+        <q-expansion-item default-opened expand-separator expand-icon-class="text-primary">
           <template v-slot:header>
             <q-item-section>
               <q-item-label>Comments: </q-item-label>
             </q-item-section>
 
             <q-item-section side>
-              <q-btn
-                flat
-                round
-                dense
-                icon="add"
-                class="q-btn-hover:hover"
-                @click="showAddCommentsDialog = true"
-              ></q-btn>
+              <q-btn flat round dense icon="add" class="q-btn-hover:hover"
+                @click="showAddCommentsDialog = true"></q-btn>
             </q-item-section>
           </template>
           <q-list>
             <q-item v-for="comments in commentsList" :key="comments.id">
-              <q-item-section style="white-space: pre-wrap"
-                >{{ comments.text_comment }}
+              <q-item-section style="white-space: pre-wrap">{{ comments.text_comment }}
               </q-item-section>
               <q-item-section style="white-space: pre-wrap">
                 by {{ comments.commentedUserName }} on
@@ -279,31 +244,16 @@ const showWarningMsg = () => {
       </q-card>
 
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn
-          v-if="
-            status != 'Pending' && status != 'Approved' && mode === 'PERIODIC'
-          "
-          :to="{
-            name: 'newTimesheet',
-            params: {
-              periodName: timesheetPeriod?.name,
-              timesheetSid: timesheetDetails[0]?.timesheetSid,
-            },
-          }"
-          fab
-          icon="add"
-          color="accent"
-          padding="sm"
-        >
+        <q-btn v-if="status != 'Pending' && status != 'Approved' && mode === 'PERIODIC'
+    " :to="{
+    name: 'newTimesheet',
+    params: {
+      periodName: timesheetPeriod?.name,
+      timesheetSid: timesheetDetails[0]?.timesheetSid,
+    },
+  }" fab icon="add" color="accent" padding="sm">
         </q-btn>
-        <q-btn
-          v-else
-          fab
-          icon="add"
-          color="accent"
-          padding="sm"
-          @click="showWarningMsg"
-        >
+        <q-btn v-else fab icon="add" color="accent" padding="sm" @click="showWarningMsg">
         </q-btn>
       </q-page-sticky>
     </q-page-container>
@@ -318,45 +268,22 @@ const showWarningMsg = () => {
       </q-card-section>
 
       <q-card-section>
-        <q-input
-          v-model="addComments.comments[0].comment"
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-          label="Comment"
-          lazy-rules
-          placeholder="Enter text here..."
-        />
+        <q-input v-model="addComments.comments[0].comment"
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']" label="Comment" lazy-rules
+          placeholder="Enter text here..." />
       </q-card-section>
 
       <q-card-actions>
-        <q-btn
-          dense
-          v-close-popup
-          color="primary"
-          label="Add"
-          @click="addComment"
-        />
+        <q-btn dense v-close-popup color="primary" label="Add" @click="addComment" />
       </q-card-actions>
     </q-card>
   </q-dialog>
 
-  <ConfirmDelete
-    v-if="showDeleteTimesheet"
-    :showConfirmationDialog="showDeleteTimesheet"
-    :id="id"
-    :title="title"
-    :message="message"
-    @cancel="cancelConfirmation"
-    @confirm="deleteTimesheet"
-  />
-  <ConfirmDelete
-    v-if="showDeleteTimesheetDetail"
-    :showConfirmationDialog="showDeleteTimesheetDetail"
-    :id="timesheetDetailSid"
-    :title="title"
-    :message="message"
-    @cancel="cancelConfirmation"
-    @confirm="deleteTimesheetDetail"
-  />
+  <ConfirmDelete v-if="showDeleteTimesheet" :showConfirmationDialog="showDeleteTimesheet" :id="id" :title="title"
+    :message="message" @cancel="cancelConfirmation" @confirm="deleteTimesheet" />
+  <ConfirmDelete v-if="showDeleteTimesheetDetail" :showConfirmationDialog="showDeleteTimesheetDetail"
+    :id="timesheetDetailSid" :title="title" :message="message" @cancel="cancelConfirmation"
+    @confirm="deleteTimesheetDetail" />
 </template>
 
 <style scoped>

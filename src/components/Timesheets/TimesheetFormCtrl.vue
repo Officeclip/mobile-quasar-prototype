@@ -25,19 +25,28 @@ taskDate.value = props.timesheet?.taskDate;
 const formattedTaskDate =
   taskDate.value != ''
     ? ref(
-        `${new Date(taskDate.value).toLocaleString('en-US', {
-          month: 'short',
-          day: 'numeric',
-        })}(${new Date(taskDate.value).toLocaleString('en-US', {
-          weekday: 'short',
-        })})`
-      )
+      `${new Date(taskDate.value).toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+      })}(${new Date(taskDate.value).toLocaleString('en-US', {
+        weekday: 'short',
+      })})`
+    )
     : ref('');
 
 const timesheetListStore = useTimesheetListStore();
 
-onMounted(() => {
-  timesheetListStore.getTimesheetListAll();
+onMounted(async () => {
+  try {
+    await timesheetListStore.getTimesheetListAll();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error,
+    }).onOk(async () => {
+      await router.push({ path: '/HomePage' });
+    });
+  }
 });
 
 let errorMessage = '';
@@ -165,69 +174,27 @@ const handleModelValue = (newValue) => {
       <q-item-label v-if="selectedPeriod">{{
         selectedPeriod.name
       }}</q-item-label>
-      <q-select
-        label="Date"
-        :model-value="formattedTaskDate"
-        @update:model-value="(newValue) => (taskDate = newValue)"
-        :options="dateOptions"
-        option-label="name"
-        map-options
-        emit-label
-      />
-      <q-select
-        label="Customer: Project"
-        :model-value="selectedCustomerProject"
-        @update:model-value="handleModelValue"
-        :options="customerProjectOptions"
-        option-label="name"
-        option-value="id"
-        map-options
-      />
-      <q-select
-        label="ServiceItems"
-        v-model="serviceItemModel"
-        @update:model-value="
-          (newValue) => (props.timesheet.serviceItemName = newValue.name)
-        "
-        :options="serviceItemsOptions"
-        option-label="name"
-        option-value="id"
-        map-options
-        @click="getServiceItems()"
-      />
+      <q-select label="Date" :model-value="formattedTaskDate" @update:model-value="(newValue) => (taskDate = newValue)"
+        :options="dateOptions" option-label="name" map-options emit-label />
+      <q-select label="Customer: Project" :model-value="selectedCustomerProject" @update:model-value="handleModelValue"
+        :options="customerProjectOptions" option-label="name" option-value="id" map-options />
+      <q-select label="ServiceItems" v-model="serviceItemModel" @update:model-value="(newValue) => (props.timesheet.serviceItemName = newValue.name)
+        " :options="serviceItemsOptions" option-label="name" option-value="id" map-options
+        @click="getServiceItems()" />
 
-      <q-select
-        label="Billable"
-        v-model="props.timesheet.isBillable"
-        :options="billableOptions"
-        map-options
-        emit-value
-      />
-      <q-input
-        label="Duration"
-        v-model.number="props.timesheet.timeDuration"
-        placeholder="enter here..."
-        type="number"
-      >
+      <q-select label="Billable" v-model="props.timesheet.isBillable" :options="billableOptions" map-options
+        emit-value />
+      <q-input label="Duration" v-model.number="props.timesheet.timeDuration" placeholder="enter here..." type="number">
       </q-input>
 
-      <q-input
-        label="Description"
-        v-model="props.timesheet.description"
-        placeholder="enter here..."
-      >
+      <q-input label="Description" v-model="props.timesheet.description" placeholder="enter here...">
       </q-input>
 
-      <q-input
-        label="Comments"
-        v-model="props.timesheet.comments"
-        placeholder="enter here..."
-        :label-color="isCommentsRequired ? 'red' : ''"
-        :rules="[
-          (val) =>
-            (val && val.length > 0) || !isCommentsRequired || errorMessage,
-        ]"
-      >
+      <q-input label="Comments" v-model="props.timesheet.comments" placeholder="enter here..."
+        :label-color="isCommentsRequired ? 'red' : ''" :rules="[
+        (val) =>
+          (val && val.length > 0) || !isCommentsRequired || errorMessage,
+      ]">
       </q-input>
     </div>
   </div>

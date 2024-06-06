@@ -44,7 +44,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
         this.payrollsList = payrolls;
         this.customFieldsList = customFields;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -59,7 +59,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
         this.customerProjectsList = timesheetList.customerProjects;
         this.serviceItemsList = timesheetList.serviceItems;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
     getServiceItemsBycustomerProjectId(customerProjectId: string) {

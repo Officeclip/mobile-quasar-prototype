@@ -5,7 +5,9 @@ import { useRouter, useRoute } from 'vue-router';
 import { ref, computed } from 'vue';
 import { useTimesheetsStore } from 'src/stores/timesheet/TimesheetsStore';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 const router = useRouter();
 const route = useRoute();
 const periodName = route.params.periodName;
@@ -52,11 +54,22 @@ const timesheetDetails: TimesheetDetails = ref({
   security: [],
   comments: '',
 });
-function onSubmit(e: any) {
+
+async function onSubmit(e: any) {
   e.preventDefault();
-  const newTimesheet = ref(timesheetDetails);
-  timesheetStore.addTimesheetDetails(newTimesheet.value);
-  router.go(-2);
+  try {
+    const newTimesheet = ref(timesheetDetails);
+    await timesheetStore.addTimesheetDetails(newTimesheet.value);
+    router.go(-2);
+  } catch (error) {
+    console.log(`*** NewTimesheet:onSubmit(...):catch: ${error} ***`);
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** NewTimesheet:onSubmit(...):onOK ***');
+    });
+  }
 }
 </script>
 
@@ -64,14 +77,7 @@ function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
+        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
         </q-btn>
         <q-toolbar-title> New Timesheet</q-toolbar-title>
       </q-toolbar>
@@ -80,20 +86,10 @@ function onSubmit(e: any) {
       <q-page>
         <q-list>
           <q-form @submit="onSubmit" class="q-gutter-md">
-            <TimesheetForm
-              v-if="timesheetDetails && timesheetDCAA"
-              :timesheet="timesheetDetails"
-              :timesheetDCAA="timesheetDCAA"
-              :periodName="periodName"
-            />
+            <TimesheetForm v-if="timesheetDetails && timesheetDCAA" :timesheet="timesheetDetails"
+              :timesheetDCAA="timesheetDCAA" :periodName="periodName" />
             <q-btn label="Save" type="submit" color="primary"></q-btn>
-            <q-btn
-              label="Reset"
-              type="reset"
-              color="primary"
-              flat
-              class="q-ml-sm"
-            ></q-btn>
+            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
           </q-form>
         </q-list>
       </q-page>
