@@ -147,7 +147,7 @@ const confirmDeletion = async () => {
     }).onOk(async () => {
       console.log('*** Delete task:onSubmit(...):onOK ***');
       showConfirmationDialog.value = false;
-      router.go(0);
+      //router.go(0);
     });
   }
 };

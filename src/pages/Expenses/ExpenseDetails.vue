@@ -103,7 +103,7 @@ const deleteExpense = async (id: string) => {
       }).onOk(async () => {
         console.log('*** Delete expense:onSubmit(...):onOK ***');
         isExpenseDelete.value = false;
-        router.go(0);
+        //router.go(0);
       });
     }
   }
@@ -122,7 +122,7 @@ const deleteExpenseDetail = async (id: string) => {
       }).onOk(async () => {
         console.log('*** Delete expense detail:onSubmit(...):onOK ***');
         isExpenseDelete.value = false;
-        router.go(0);
+        //router.go(0);
       });
     }
   }
