@@ -30,6 +30,11 @@ const allExpenses = computed(() => {
   return expensesDetailsStore.ExpenseSummary;
 });
 
+console.log(
+  'allExpenses allExpenses allExpenses allExpenses',
+  allExpenses.value
+);
+
 watch([expenseStatus], ([newModel]) => {
   expensesDetailsStore.getExpensesByStatus(String(newModel));
   title.value = capitalize(newModel);
@@ -85,7 +90,6 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
                 readOnly: expense.security.read,
                 stageId: expense.stageId,
                 status: expense.status,
-                mode: expense.mode,
               },
             }"
             clickable

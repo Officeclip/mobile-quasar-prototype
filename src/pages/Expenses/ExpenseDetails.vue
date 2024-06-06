@@ -15,6 +15,7 @@ import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import WorkFlow from '../../components/general/WorkFlow.vue';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
+import { isAllowed } from 'src/helpers/security';
 
 const route = useRoute();
 const router = useRouter();
@@ -28,7 +29,6 @@ const stageId = Number(route.params.stageId);
 const readOnly = route.params.readOnly === 'false';
 const entityType = 'expense';
 const fromDate = route.params.fromDate;
-const mode = route.params.mode;
 const status = route.params.status;
 const isLoaded = ref<boolean>(false);
 
@@ -66,14 +66,18 @@ const periodOptions = computed(() => {
   return expenseListsStore.PeriodList;
 });
 
-const expensePeriod = ref('');
-
-watch([periodOptions], () => {
-  //TODO: CR: 2024-05-17: nk: Fix the type error?
-  expensePeriod.value = periodOptions.value.find(
-    (x) => x.start.toString() === fromDate
-  );
+const expensePeriod = computed(() => {
+  return periodOptions.value?.find((x) => x.start.toString() === fromDate);
 });
+
+// const expensePeriod = ref('');
+
+// watch([periodOptions], () => {
+//   //TODO: CR: 2024-05-17: nk: Fix the type error?
+//   expensePeriod.value = periodOptions.value.find(
+//     (x) => x.start.toString() === fromDate
+//   );
+// });
 
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this expense?');
@@ -129,11 +133,9 @@ const deleteExpenseDetail = async (id: string) => {
     }
   }
 };
-const showWarningMsg = () => {
-  alert(
-    'Add new timesheet details entry is not available in mobile app for Check-in, Check-out mode, please visit the web app to add the new timesheet details'
-  );
-};
+const isReadOnly = isAllowed({
+  security: { read: readOnly },
+});
 </script>
 
 <style>
@@ -202,7 +204,7 @@ const showWarningMsg = () => {
                   {{ expenseDetail.amount }}
                   {{ expenseDetail.currency }}
                   <q-btn
-                    v-if="!readOnly"
+                    v-if="!isReadOnly"
                     :to="{
                       name: 'editExpense',
                       params: {
@@ -279,9 +281,7 @@ const showWarningMsg = () => {
         </q-list>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
-            v-if="
-              status != 'Pending' && status != 'Approved' && mode === 'PERIODIC'
-            "
+            v-if="status != 'Pending' && status != 'Approved'"
             :to="{
               name: 'newExpense',
               //TODO: CR: 2024-05-17: nk: Fix the type error?
@@ -294,15 +294,6 @@ const showWarningMsg = () => {
             icon="add"
             color="accent"
             padding="sm"
-          >
-          </q-btn>
-          <q-btn
-            v-else
-            fab
-            icon="add"
-            color="accent"
-            padding="sm"
-            @click="showWarningMsg"
           >
           </q-btn>
         </q-page-sticky>
