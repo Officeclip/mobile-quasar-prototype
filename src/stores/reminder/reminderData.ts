@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { Constants } from '../Constants';
 
 export const useReminderDataStore = defineStore('reminderDataStore', {
   state: () => ({
@@ -48,7 +49,7 @@ export const useReminderDataStore = defineStore('reminderDataStore', {
         this.reminderOptions = reminderOptions;
         this.reminderTimes = reminderTimes;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
   },

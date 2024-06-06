@@ -15,19 +15,20 @@ const route = useRoute();
 const router = useRouter();
 const eventDetailsStore = useEventDetailsStore();
 const reminderDataStore = useReminderDataStore();
+const eventListStore = useEventListsStore();
 const $q = useQuasar();
 
 const id = route.params.id;
-reminderDataStore.getReminderObject();
 
 
 onMounted(async () => {
   logger.log('*** Event Details:onMounted(async...) ***');
   try {
     await eventDetailsStore.getEventDetailsById(id);
+    await eventListStore.getEventLists();
+    await reminderDataStore.getReminderObject();
   } catch (error) {
     logger.log(`*** Event Details:error:catch(${error}) ***`, 'error');
-
     $q.dialog({
       title: 'Alert',
       message: error as string,
@@ -122,8 +123,6 @@ const attendeesList = computed(() => {
 });
 
 //filter and get the single label object by labelId
-const eventListStore = useEventListsStore();
-eventListStore.getEventLists();
 const labelNameById = computed(() => {
   const labelData = eventListStore.Labels;
   const obj = labelData.find((obj: any) => obj.id === event.value?.label);

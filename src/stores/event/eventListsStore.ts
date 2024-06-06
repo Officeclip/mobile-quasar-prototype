@@ -35,7 +35,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
         this.showMyTimeAs = eventLists.showTimeAs;
         this.regardingParent = eventLists.regardingParentTypes;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -53,7 +53,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
         await new Promise((r) => setTimeout(r, 500));
         this.users = filtered;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
   },

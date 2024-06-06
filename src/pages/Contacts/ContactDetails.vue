@@ -46,9 +46,19 @@ onBeforeMount(async () => {
   }
 });
 
-onMounted(() => {
-  contactListsStore.getContactList();
-});
+// onMounted(async () => {
+//   try {
+//     await contactListsStore.getContactList();
+//   } catch (error) {
+//     $q.dialog({
+//       title: 'Alert',
+//       message: error as string,
+//     }).onOk(async () => {
+//       await router.push({ path: '/contactSummary' });
+//       await router.go(0);
+//     });
+//   }
+// });
 
 const contactDetails = computed(() => {
   return contactDetailsStore.ContactDetails;

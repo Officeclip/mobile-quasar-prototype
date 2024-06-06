@@ -1,11 +1,24 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const expenseListsStore = useExpenseListsStore();
+const router = useRouter();
+const $q = useQuasar();
 
-onMounted(() => {
-  expenseListsStore.getExpensesList();
+onMounted(async () => {
+  try {
+    await expenseListsStore.getExpensesList();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/expensesAll' });
+    });
+  }
 });
 
 const periodOptions = computed(() => {

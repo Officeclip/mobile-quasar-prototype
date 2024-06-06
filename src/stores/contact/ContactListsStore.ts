@@ -27,7 +27,7 @@ export const useContactListsStore = defineStore('contactListsStore', {
         this.countries = contactList.countries;
         this.children = contactList.children;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
   },

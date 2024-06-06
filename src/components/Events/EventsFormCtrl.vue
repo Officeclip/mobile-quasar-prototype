@@ -12,6 +12,18 @@ import { userSummary } from 'src/models/userSummary';
 import { useUserSummaryStore } from 'stores/userSummaryStore';
 import Regarding from '../general/regardingComponent.vue';
 import { useSessionStore } from 'src/stores/SessionStore';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
+
+const $q = useQuasar();
+const router = useRouter();
+const eventDetailsStore = useEventDetailsStore();
+const eventListsStore = useEventListsStore();
+const reminderDataStore = useReminderDataStore();
+const userSummaryStore = useUserSummaryStore();
+const sessionStore = useSessionStore();
+
+const session = sessionStore.Session;
 
 // eslint-disable-next-line vue/no-dupe-keys
 const props = defineProps(['event']);
@@ -51,17 +63,19 @@ watch(
   }
 );
 
-const eventDetailsStore = useEventDetailsStore();
-const eventListsStore = useEventListsStore();
-const reminderDataStore = useReminderDataStore();
-const userSummaryStore = useUserSummaryStore();
-const sessionStore = useSessionStore();
-const session = sessionStore.Session;
-
-onMounted(() => {
-  userSummaryStore.getUserSummaries();
-  eventListsStore.getEventLists();
-  reminderDataStore.getReminderObject();
+onMounted(async () => {
+  try {
+    await userSummaryStore.getUserSummaries();
+    await eventListsStore.getEventLists();
+    await reminderDataStore.getReminderObject();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/eventSummary' });
+    });
+  }
 });
 
 const meetingAttendee = computed(() => {
