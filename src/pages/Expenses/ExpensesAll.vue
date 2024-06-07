@@ -105,18 +105,19 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
                   : 'No Specific Date'
               }}</q-item-label>
             </q-item-section>
-            <q-item-section style="float: right">
-              <q-item-label style="float: right">
+            <q-item-section>
+              <q-item-label>
                 {{ expense.totalAmount }}
                 {{ expense.currency }}
               </q-item-label>
             </q-item-section>
-            <q-item-section justify="left" class="left-aligned-item-section">
+            <q-item-section>
               <q-chip
-                square
+                dense
                 :color="getExpenseOrTimesheetStatusColor(expense.status)"
-                style="float: right"
-                >{{ expense.status }}</q-chip
+                ><q-item-label caption>{{
+                  expense.status
+                }}</q-item-label></q-chip
               >
             </q-item-section>
             <q-item-section side>
@@ -143,7 +144,10 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
   </q-layout>
 </template>
 
-<style scoped>
+<style lang="scss">
+@import '../../css/status.scss';
+</style>
+<!-- <style scoped>
 .q-router-link--active {
   color: black;
 }
@@ -155,4 +159,4 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
 .left-aligned-item-section {
   text-align: left;
 }
-</style>
+</style> -->
