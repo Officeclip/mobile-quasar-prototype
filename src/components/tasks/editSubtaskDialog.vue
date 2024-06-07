@@ -5,6 +5,8 @@ import { subTask } from 'src/models/task/subtask';
 import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 import { useUserSummaryStore } from 'stores/userSummaryStore';
 import { userSummary } from 'src/models/userSummary';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const props = defineProps<{
   subtask: subTask
@@ -14,14 +16,25 @@ const { subtask } = toRefs(props);
 const taskListsStore = useTaskListsStore();
 const taskDetailsStore = useTaskDetailsStore();
 const userSummaryStore = useUserSummaryStore();
+const $q = useQuasar();
+const router = useRouter();
 
 function editSubtask() {
   taskDetailsStore.editSubtask(subtask.value);
 }
 
-onBeforeMount(() => {
-  taskListsStore.getTaskLists();
-  userSummaryStore.getUserSummaries();
+onBeforeMount(async () => {
+  try {
+    await taskListsStore.getTaskLists();
+    await userSummaryStore.getUserSummaries();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/tasksList' });
+    });
+  }
 });
 
 const contactOptions: Ref<userSummary[]> = ref([]);

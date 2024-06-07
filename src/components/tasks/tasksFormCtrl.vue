@@ -8,6 +8,8 @@ import { userSummary } from 'src/models/userSummary';
 import { useUserSummaryStore } from 'stores/userSummaryStore';
 import { tag } from 'src/models/task/taskLists';
 import Regarding from 'components/general/regardingComponent.vue';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 
 const props = defineProps<{
@@ -20,6 +22,8 @@ const emit = defineEmits([
 const task: Ref<taskDetails> = ref(props.taskFromParent);
 const userSummaryStore = useUserSummaryStore();
 const taskListsStore = useTaskListsStore();
+const $q = useQuasar();
+const router = useRouter();
 
 
 const repeatString = ref('Does not repeat');
@@ -27,9 +31,18 @@ const reminderTextInfo = ref('Reminder');
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
 
-onBeforeMount(() => {
-  taskListsStore.getTaskLists();
-  userSummaryStore.getUserSummaries();
+onBeforeMount(async () => {
+  try {
+    await taskListsStore.getTaskLists();
+    await userSummaryStore.getUserSummaries();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/tasksList' });
+    });
+  }
 });
 
 

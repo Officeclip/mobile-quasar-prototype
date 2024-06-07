@@ -100,7 +100,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         const response = await instance.get(callStr);
         this.taskSummaries = response.data;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -112,7 +112,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         );
         this.taskSummary = response.data[0];
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -123,21 +123,23 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         const response = await instance.get(callStr);
         this.taskSummaries = response.data.data;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
     async addTask(taskSummary: taskSummary) {
-      this.taskSummaries.push(taskSummary);
-      const instance = Constants.getAxiosInstance();
-      const response = await instance.post(
-        `${Constants.endPointUrl}/task-summary`,
-        taskSummary
-      );
-      if (response.status === 200) {
-        await this.getTask(taskSummary.id);
-      } else {
-        console.error(response);
+      try {
+        this.taskSummaries.push(taskSummary);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(
+          `${Constants.endPointUrl}/task-summary`,
+          taskSummary
+        );
+        if (response.status === 200) {
+          await this.getTask(taskSummary.id);
+        }
+      } catch (error) {
+        Constants.throwError(error);
       }
     },
 
@@ -152,7 +154,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
           this.taskSummary = response.data;
         }
       } catch (error) {
-        console.error(`editTask Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
@@ -166,7 +168,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
           this.taskSummary = response.data;
         }
       } catch (error) {
-        console.error(`deleteNote Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 

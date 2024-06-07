@@ -44,7 +44,7 @@ export const useTaskListsStore = defineStore('taskListsStore', {
         this.taskStatuses = taskLists.status;
         this.regardingParent = taskLists.regardingParentTypes;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -62,7 +62,7 @@ export const useTaskListsStore = defineStore('taskListsStore', {
         await new Promise((r) => setTimeout(r, 500));
         this.users = filtered;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
   },
