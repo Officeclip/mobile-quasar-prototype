@@ -3,14 +3,27 @@ import { onBeforeMount, ref, Ref, computed } from 'vue';
 import { useTaskListsStore } from 'stores/task/taskListsStore';
 import { useUserSummaryStore } from 'stores/userSummaryStore';
 import { userSummary } from 'src/models/userSummary';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const props = defineProps(['taskSid']);
 const taskListsStore = useTaskListsStore();
 const userSummaryStore = useUserSummaryStore();
+const $q = useQuasar();
+const router = useRouter();
 
-onBeforeMount(() => {
-  taskListsStore.getTaskLists();
-  userSummaryStore.getUserSummaries();
+onBeforeMount(async () => {
+  try {
+    await taskListsStore.getTaskLists();
+    await userSummaryStore.getUserSummaries();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/tasksList' });
+    });
+  }
 });
 
 const assignee = computed(() => {

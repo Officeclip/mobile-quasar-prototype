@@ -18,6 +18,8 @@ const profileListsStore = useProfileListsStore();
 const organization = ref('');
 const $q = useQuasar();
 
+const isLoaded = ref<boolean>(false);
+
 const filteredHomeIcons = computed(() => {
   return sessionStore.getHomeIcons();
 });
@@ -64,6 +66,9 @@ onBeforeMount(async () => {
       router.go(0);
     });
   }
+  finally {
+    isLoaded.value = true;
+  }
 });
 
 const leftDrawerOpen = ref(false);
@@ -90,8 +95,13 @@ function logout() {
   router.push({ path: '/loginPage' });
 };
 </script>
+<style>
+.q-dialog__backdrop {
+  backdrop-filter: blur(7px);
+}
+</style>
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
     <q-header elevated>
       <q-toolbar>
         <q-btn aria-label="Menu" dense flat icon="menu" round @click="toggleLeftDrawer" />

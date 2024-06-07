@@ -4,8 +4,12 @@ import { useTaskListsStore } from 'stores/task/taskListsStore';
 import { user } from 'src/models/task/taskLists';
 import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
 import { searchFilter } from 'src/models/task/searchFilter';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
+const $q = useQuasar();
+const router = useRouter();
 
 const props = defineProps<{
   parent: any;
@@ -55,9 +59,18 @@ function emitOptions() {
   emit('filterCount', filterNumber(advancedOptions.value));
 }
 
-onBeforeMount(() => {
-  taskListsStore.getTaskLists();
-  Object.assign(advancedOptions.value, props.filterOptions);
+onBeforeMount(async () => {
+  try {
+    await taskListsStore.getTaskLists();
+    Object.assign(advancedOptions.value, props.filterOptions);
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/HomePage' });
+    });
+  }
 });
 
 const dateOptions = [
