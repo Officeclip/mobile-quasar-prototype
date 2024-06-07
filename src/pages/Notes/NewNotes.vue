@@ -4,21 +4,20 @@ import { useNotesStore } from '../../stores/NotesStore';
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router';
 import { Note } from '../../models/note';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 const router = useRouter();
 const route = useRoute();
 
 const parentObjectId = route.params.objectId ? route.params.objectId : '';
 const parentObjectServiceType = route.params.objectTypeId ? route.params.objectTypeId : '';
 
-console.log('ParentObject as contact Id:', parentObjectId)
-
 const notesStore = useNotesStore()
 const note = ref({
   title: '',
   description: '',
   isPrivate: false
-
 });
 
 function onSubmit(e: Event) {
@@ -27,40 +26,40 @@ function onSubmit(e: Event) {
     alert('Please add text')
     return
   }
-
   // note.value.isPrivate = (note.value.isPrivate === 'Yes')
-
-
-  const newNote: Note = {
-    id: '',
-    noteBookId: '',
-    parent: {
-      type: {
-        id: parentObjectServiceType as string,
-        name: ''
+  try {
+    const newNote: Note = {
+      id: '',
+      noteBookId: '',
+      parent: {
+        type: {
+          id: parentObjectServiceType as string,
+          name: ''
+        },
+        value: {
+          id: parentObjectId as string,
+          name: ''
+        }
       },
-      value: {
-        id: parentObjectId as string,
-        name: ''
-      }
-    },
-    title: note.value.title,
-    description: note.value.description,
-    isPrivate: note.value.isPrivate as boolean,
-    createdByUserSid: '',
-    createdDateTime: '',
-    security: []
+      title: note.value.title,
+      description: note.value.description,
+      isPrivate: note.value.isPrivate as boolean,
+      createdByUserSid: '',
+      createdDateTime: '',
+      security: []
+    }
+    notesStore.addNotes(newNote);
+    router.go(-1)
+  } catch (error) {
+    console.log(`*** NewNote:onSubmit(...):catch: ${error} ***`);
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** NewNote:onSubmit(...):onOK ***');
+    });
   }
-  // event.value.isAllDayEvent= newEvent.isAllDayEvent
-
-  console.log('new note form values: ', newNote)
-  notesStore.addNotes(newNote);
-
-  router.go(-1)
-  //router.push('/')
 }
-
-
 </script>
 
 <template>

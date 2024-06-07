@@ -27,7 +27,7 @@ export const useNotesStore = defineStore('notesStore', {
         );
         this.noteBooks = response.data;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -46,7 +46,7 @@ export const useNotesStore = defineStore('notesStore', {
         const response = await instance.get(callStr);
         this.notes = response.data;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -69,20 +69,22 @@ export const useNotesStore = defineStore('notesStore', {
         );
         this.note = response.data;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
     async addNotes(note: Note) {
-      const instance = Constants.getAxiosInstance();
-      const response = await instance.post(
-        `${Constants.endPointUrl}/note-detail`,
-        note
-      );
-      if (response.status === 200) {
-        this.getNote(note.id);
-      } else {
-        console.error(response);
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(
+          `${Constants.endPointUrl}/note-detail`,
+          note
+        );
+        if (response.status === 200) {
+          this.getNote(note.id);
+        }
+      } catch (error) {
+        Constants.throwError(error);
       }
     },
 
@@ -97,7 +99,7 @@ export const useNotesStore = defineStore('notesStore', {
           this.note = response.data;
         }
       } catch (error) {
-        console.error(`editNote Error: ${error}`);
+        Constants.throwError(error);
       }
     },
 
@@ -111,7 +113,7 @@ export const useNotesStore = defineStore('notesStore', {
           this.note = response.data;
         }
       } catch (error) {
-        console.error(`deleteNote Error: ${error}`);
+        Constants.throwError(error);
       }
     },
   },

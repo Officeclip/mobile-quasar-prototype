@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import { useNotesStore } from '../../stores/NotesStore';
 import { computed, onBeforeMount } from 'vue';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const props = defineProps(['params']);
+const notesStore = useNotesStore();
+const router = useRouter();
+const $q = useQuasar();
+
 const parentObjectId = computed(() => props.params.parentObjectId);
 const parentObjectServiceType = computed(
   () => props.params.parentObjectServiceType
 );
 const noteBookId = computed(() => props.params.selectedNoteBook);
-const notesStore = useNotesStore();
 const emit = defineEmits(['numberOfNotes']);
 
 const getNotes = computed(() => {
@@ -19,13 +24,22 @@ const getNotesCount = computed(() => {
   return notesStore.NotesCount;
 });
 
-onBeforeMount(() => {
-  notesStore.getNotes(
-    parentObjectServiceType.value,
-    parentObjectId.value,
-    noteBookId.value
-  );
-  emit('numberOfNotes', getNotesCount);
+onBeforeMount(async () => {
+  try {
+    await notesStore.getNotes(
+      parentObjectServiceType.value,
+      parentObjectId.value,
+      noteBookId.value
+    );
+    emit('numberOfNotes', getNotesCount);
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/HomePage' });
+    });
+  }
 });
 </script>
 <template>

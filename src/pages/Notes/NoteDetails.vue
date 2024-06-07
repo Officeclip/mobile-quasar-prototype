@@ -4,9 +4,12 @@ import { ref, computed, onMounted } from 'vue';
 import { useNotesStore } from '../../stores/NotesStore';
 import { useRoute, useRouter } from 'vue-router';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
+import { useQuasar } from 'quasar';
+import logger from 'src/helpers/logger';
 
 const route = useRoute();
 const router = useRouter();
+const $q = useQuasar();
 
 const parentObjectId = route.params.objectId ? route.params.objectId : '';
 const parentObjectServiceType = route.params.objectTypeId ? route.params.objectTypeId : '';
@@ -16,13 +19,30 @@ const isPrivate = ref<string>();
 
 const id = ref<string | string[]>('0');
 
+const isLoaded = ref<boolean>(false);
+
 const note = computed(() => {
   return notesStore.Note;
 });
 
-onMounted(() => {
-  id.value = route.params.id;
-  notesStore.getNote(route.params.id as string);
+onMounted(async () => {
+  try {
+    id.value = route.params.id;
+    await notesStore.getNote(route.params.id as string);
+  } catch (error) {
+    logger.log(`*** noteDetails:error:catch(${error}) ***`, 'error');
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      logger.log('*** noteDetails:onMounted:onOk ***');
+      await router.push({ path: `/contactDetails/${parentObjectId}` });
+      //await router.go(0);
+    });
+  }
+  finally {
+    isLoaded.value = true;
+  }
 });
 
 isPrivate.value = note.value?.isPrivate ? 'Yes' : 'No';
@@ -37,18 +57,30 @@ const displayConfirmationDialog = () => {
 const cancelConfirmation = () => {
   isNoteDelete.value = false;
 };
-const deleteNote = (id: string) => {
-  {
-    notesStore.deleteNote(id).then(() => {
-      isNoteDelete.value = false;
-      router.go(-1);
+const deleteNote = async (id: string) => {
+  try {
+    await notesStore.deleteNote(id)
+    router.go(-1);
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** Delete task:onSubmit(...):onOK ***');
     });
   }
+  isNoteDelete.value = false;
 };
 </script>
 
+<style>
+.q-dialog__backdrop {
+  backdrop-filter: blur(7px);
+}
+</style>
+
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
@@ -61,7 +93,6 @@ const deleteNote = (id: string) => {
         <q-btn @click="displayConfirmationDialog" flat round dense color="white" icon="delete" />
       </q-toolbar>
     </q-header>
-
     <q-page-container>
       <q-card class="relative-position card-example" flat bordered>
         <q-card-section class="q-pb-none">
@@ -90,5 +121,3 @@ const deleteNote = (id: string) => {
     </q-page-container>
   </q-layout>
 </template>
-
-<style></style>

@@ -4,9 +4,10 @@ import { ref, onMounted, computed } from 'vue';
 import { useNotesStore } from '../../stores/NotesStore';
 import { useRouter, useRoute } from 'vue-router';
 import NotesForm from '../../components/Notes/NotesFormCtrl.vue';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 const notesStore = useNotesStore();
-
 const route = useRoute();
 const router = useRouter();
 
@@ -20,12 +21,21 @@ onMounted(() => {
   notesStore.getNote(id.value as string);
 });
 
-function onSubmit(e: Event) {
+async function onSubmit(e: Event) {
   e.preventDefault();
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  notesStore.editNote(note.value!);
-  //router.push(`/noteDetails/${note.value?.id}`); // FIXME: This does not seem right... use standard form
-  router.go(-2)
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    await notesStore.editNote(note.value!);
+    //router.push(`/noteDetails/${note.value?.id}`); // FIXME: This does not seem right... use standard form
+    router.go(-2)
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** Edit notes:onSubmit(...):onOK ***');
+    });
+  }
 }
 </script>
 <template>
