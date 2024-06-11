@@ -63,15 +63,15 @@ const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this timesheet?');
 
 const showDeleteTimesheetDetail = ref(false);
-const displayShowDeleteTimesheetDetail = (id: string) => {
-  timesheetDetailSid.value = id;
-  showDeleteTimesheetDetail.value = true;
-};
+// const displayShowDeleteTimesheetDetail = (id: string) => {
+//   timesheetDetailSid.value = id;
+//   showDeleteTimesheetDetail.value = true;
+// };
 
 const showDeleteTimesheet = ref(false);
-const displayConfirmationDialog = () => {
-  showDeleteTimesheet.value = true;
-};
+// const displayConfirmationDialog = () => {
+//   showDeleteTimesheet.value = true;
+// };
 const cancelConfirmation = () => {
   showDeleteTimesheet.value = false;
   showDeleteTimesheetDetail.value = false;
@@ -171,7 +171,7 @@ const showWarningMsg = () => {
         >
         </q-btn>
         <q-toolbar-title> Details </q-toolbar-title>
-        <q-btn
+        <!-- <q-btn
           v-if="status === 'Saved'"
           flat
           round
@@ -180,7 +180,7 @@ const showWarningMsg = () => {
           icon="delete"
           @click="displayConfirmationDialog"
         >
-        </q-btn>
+        </q-btn> -->
       </q-toolbar>
     </q-header>
 
@@ -193,8 +193,8 @@ const showWarningMsg = () => {
           :stageId="stageId"
         />
       </div>
-      <pre>{{ fromDate }}</pre>
-      <pre>{{ periodOptions }}</pre>
+      <!-- <pre>{{ fromDate }}</pre>
+      <pre>{{ periodOptions }}</pre> -->
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
@@ -313,8 +313,8 @@ const showWarningMsg = () => {
           </q-list>
         </q-expansion-item>
       </q-card>
-      <pre>{{ timesheetPeriod?.name }}</pre>
-      <pre>{{ timesheetDetails[0]?.timesheetSid }}</pre>
+      <!-- <pre>{{ timesheetPeriod?.name }}</pre>
+      <pre>{{ timesheetDetails[0]?.timesheetSid }}</pre> -->
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           v-if="
