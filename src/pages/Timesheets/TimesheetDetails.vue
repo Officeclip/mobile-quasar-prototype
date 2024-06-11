@@ -25,7 +25,8 @@ const entityType = 'timesheet';
 const timesheetDetailSid = ref('');
 const fromDate = route.params.fromDate;
 // made the readOnly params type as boolean, by default always coming as string only
-const readOnly = route.params.readOnly === 'false';
+// const readOnly = route.params.readOnly === 'false';
+const isWrite = route.params.isWrite;
 const stageId = Number(route.params.stageId);
 const status = route.params.status;
 const mode = route.params.mode;
@@ -146,8 +147,8 @@ const addComment = () => {
   addComments.value.comments[0].comment = '';
 };
 
-const isReadOnly = isAllowed({
-  security: { read: readOnly },
+const isAllowedWrite = isAllowed({
+  security: { read: isWrite },
 });
 const showWarningMsg = () => {
   alert(
@@ -192,6 +193,8 @@ const showWarningMsg = () => {
           :stageId="stageId"
         />
       </div>
+      <pre>{{ fromDate }}</pre>
+      <pre>{{ periodOptions }}</pre>
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
@@ -221,7 +224,7 @@ const showWarningMsg = () => {
             <q-item-section side>
               <q-btn
                 v-if="
-                  !isReadOnly && mode === 'PERIODIC' && status != 'Approved'
+                  isAllowedWrite && mode === 'PERIODIC' && status != 'Approved'
                 "
                 :to="{
                   name: 'editTimesheet',
@@ -240,7 +243,7 @@ const showWarningMsg = () => {
               <q-btn v-else size="sm" flat round dense icon="edit" disable>
               </q-btn>
             </q-item-section>
-            <q-item-section side>
+            <!-- <q-item-section side>
               <q-btn
                 @click="displayShowDeleteTimesheetDetail(timesheetDetail?.id)"
                 size="sm"
@@ -250,7 +253,7 @@ const showWarningMsg = () => {
                 icon="delete"
                 class="q-btn-hover:hover"
               ></q-btn>
-            </q-item-section>
+            </q-item-section> -->
           </template>
           <OCItem
             v-if="timesheetDetail?.projectName"
@@ -310,7 +313,8 @@ const showWarningMsg = () => {
           </q-list>
         </q-expansion-item>
       </q-card>
-
+      <pre>{{ timesheetPeriod?.name }}</pre>
+      <pre>{{ timesheetDetails[0]?.timesheetSid }}</pre>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           v-if="

@@ -95,7 +95,7 @@ watch([timesheetStatus], ([newModel]) => {
               params: {
                 id: item.id,
                 fromDate: item.fromDate,
-                readOnly: item.security.read,
+                isWrite: item.security.write,
                 stageId: item.stageId,
                 status: item.status,
                 mode: item.mode,
