@@ -29,7 +29,7 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
         this.workFlowUsers = response.data[0].users;
         console.log('Work flow response -data', response.data[0]);
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
 
@@ -45,7 +45,7 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
           this.workFlow = response.data;
         }
       } catch (error) {
-        console.error(`editExpense Error: ${error}`);
+        Constants.throwError(error);
       }
     },
   },

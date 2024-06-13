@@ -3,20 +3,35 @@ import { onBeforeMount, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useWorkFlowStore } from 'src/stores/workFlow/WorkFlow';
 import { useTECommentsStore } from 'src/stores/TECommentsStore';
+import { useQuasar } from 'quasar';
 
 const props = defineProps(['entityId', 'entityType', 'stageId']);
-
+const $q = useQuasar();
+const router = useRouter();
 const showConfirmationDialog = ref(false);
 const password = ref('');
-
-const router = useRouter();
 const workFlowModel = ref('');
 const workFlowStore = useWorkFlowStore();
 const teCommentsStore = useTECommentsStore();
-onBeforeMount(() => {
-  workFlowStore.getWorkFlow(props?.entityId, props?.entityType, props?.stageId);
-  teCommentsStore.getTimesheetGroupProfile();
+
+onBeforeMount(async () => {
+  try {
+    await workFlowStore.getWorkFlow(
+      props?.entityId,
+      props?.entityType,
+      props?.stageId
+    );
+    await teCommentsStore.getTimesheetGroupProfile();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/timesheetsAll' });
+    });
+  }
 });
+
 const workFlowUsers = computed(() => {
   return workFlowStore.WorkFlowUsers;
 });

@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
+const $q = useQuasar();
+const router = useRouter();
 const periodModel: any = ref('');
-
 const errorMsg: any = ref('');
 const warningMsg: any = ref('');
 
@@ -11,8 +14,18 @@ const periodsList = computed(() => {
   return timesheetListStore.PeriodList;
 });
 const timesheetListStore = useTimesheetListStore();
-onMounted(() => {
-  timesheetListStore.getTimesheetListAll();
+
+onMounted(async () => {
+  try {
+    await timesheetListStore.getTimesheetListAll();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/HomePage' });
+    });
+  }
 });
 
 watch([periodModel], ([newPeriodModel]) => {

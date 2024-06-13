@@ -16,8 +16,8 @@ const teCommentsStore = useTECommentsStore();
 
 const timesheetsStore = useTimesheetsStore();
 onBeforeMount(async () => {
-  teCommentsStore.getTimesheetGroupProfile();
   try {
+    await teCommentsStore.getTimesheetGroupProfile();
     await timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
   } catch (error) {
     $q.dialog({
