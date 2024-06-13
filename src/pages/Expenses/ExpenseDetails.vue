@@ -1,6 +1,6 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
-import { computed, onMounted, watch, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useRoute, useRouter } from 'vue-router';
@@ -16,6 +16,7 @@ import WorkFlow from '../../components/general/WorkFlow.vue';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
 import { isAllowed } from 'src/helpers/security';
+import { write } from 'fs';
 
 const route = useRoute();
 const router = useRouter();
@@ -26,7 +27,8 @@ const expenseListsStore = useExpenseListsStore();
 
 const id = route.params.id;
 const stageId = Number(route.params.stageId);
-const readOnly = route.params.readOnly === 'false';
+// const readOnly = route.params.readOnly === 'false';
+const isWrite = route.params.isWrite;
 const entityType = 'expense';
 const fromDate = route.params.fromDate;
 const status = route.params.status;
@@ -133,8 +135,8 @@ const deleteExpenseDetail = async (id: string) => {
     }
   }
 };
-const isReadOnly = isAllowed({
-  security: { read: readOnly },
+const isAllowedWrite = isAllowed({
+  security: { write: isWrite },
 });
 </script>
 
@@ -204,7 +206,7 @@ const isReadOnly = isAllowed({
                   {{ expenseDetail.amount }}
                   {{ expenseDetail.currency }}
                   <q-btn
-                    v-if="!isReadOnly"
+                    v-if="isAllowedWrite"
                     :to="{
                       name: 'editExpense',
                       params: {
@@ -225,7 +227,6 @@ const isReadOnly = isAllowed({
               </q-item-section>
               <q-item-section side>
                 <q-btn
-                  v-if="!readOnly"
                   @click="showExpenseDetailDelete(expenseDetail?.expenseSid)"
                   size="sm"
                   flat
