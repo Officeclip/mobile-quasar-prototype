@@ -87,7 +87,7 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
               params: {
                 id: expense.id,
                 fromDate: expense.fromDate,
-                readOnly: expense.security.read,
+                isWrite: expense.security.write,
                 stageId: expense.stageId,
                 status: expense.status,
               },
@@ -147,16 +147,6 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
 <style lang="scss">
 @import '../../css/status.scss';
 </style>
-<!-- <style scoped>
-.q-router-link--active {
-  color: black;
-}
-
-.q-list:nth-child(odd) {
-  background: rgb(238, 238, 238);
-}
-
-.left-aligned-item-section {
-  text-align: left;
-}
-</style> -->
+<style lang="scss">
+@import '../../css/status.scss';
+</style>
