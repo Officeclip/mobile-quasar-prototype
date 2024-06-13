@@ -63,15 +63,15 @@ const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this timesheet?');
 
 const showDeleteTimesheetDetail = ref(false);
-// const displayShowDeleteTimesheetDetail = (id: string) => {
-//   timesheetDetailSid.value = id;
-//   showDeleteTimesheetDetail.value = true;
-// };
+const displayShowDeleteTimesheetDetail = (id: string) => {
+  timesheetDetailSid.value = id;
+  showDeleteTimesheetDetail.value = true;
+};
 
 const showDeleteTimesheet = ref(false);
-// const displayConfirmationDialog = () => {
-//   showDeleteTimesheet.value = true;
-// };
+const displayConfirmationDialog = () => {
+  showDeleteTimesheet.value = true;
+};
 const cancelConfirmation = () => {
   showDeleteTimesheet.value = false;
   showDeleteTimesheetDetail.value = false;
@@ -171,7 +171,7 @@ const showWarningMsg = () => {
         >
         </q-btn>
         <q-toolbar-title> Details </q-toolbar-title>
-        <!-- <q-btn
+        <q-btn
           v-if="status === 'Saved'"
           flat
           round
@@ -180,7 +180,7 @@ const showWarningMsg = () => {
           icon="delete"
           @click="displayConfirmationDialog"
         >
-        </q-btn> -->
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -243,7 +243,7 @@ const showWarningMsg = () => {
               <q-btn v-else size="sm" flat round dense icon="edit" disable>
               </q-btn>
             </q-item-section>
-            <!-- <q-item-section side>
+            <q-item-section side>
               <q-btn
                 @click="displayShowDeleteTimesheetDetail(timesheetDetail?.id)"
                 size="sm"
@@ -253,7 +253,7 @@ const showWarningMsg = () => {
                 icon="delete"
                 class="q-btn-hover:hover"
               ></q-btn>
-            </q-item-section> -->
+            </q-item-section>
           </template>
           <OCItem
             v-if="timesheetDetail?.projectName"
