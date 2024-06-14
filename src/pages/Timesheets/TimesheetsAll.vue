@@ -121,7 +121,7 @@ watch([timesheetStatus], ([newModel]) => {
                 {{ item.totalHours }}
               </q-item-label>
             </q-item-section>
-            <q-item-section side>
+            <q-item-section>
               <q-chip
                 dense
                 :color="getExpenseOrTimesheetStatusColor(item.status)"

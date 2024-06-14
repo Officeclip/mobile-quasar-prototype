@@ -62,6 +62,8 @@ export function getExpenseOrTimesheetStatusColor(status: string) {
       return 'yellow-3';
     case 'Rejected':
       return 'red-2';
+    case 'Submitted':
+      return 'yellow-3';
     default:
       return '';
   }
