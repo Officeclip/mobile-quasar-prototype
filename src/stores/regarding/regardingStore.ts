@@ -58,7 +58,7 @@ export const useRegardingStore = defineStore('regardingStore', {
         await new Promise((r) => setTimeout(r, 500));
         this.regardingItems = filtered;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
   },

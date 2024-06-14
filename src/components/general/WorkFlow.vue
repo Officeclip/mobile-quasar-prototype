@@ -69,7 +69,7 @@ const timesheetDCAA = computed(() => {
 });
 
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
-const upDateWorkFlow = () => {
+const upDateWorkFlow = async () => {
   if (
     timesheetDCAA.value.isEnabled &&
     timesheetDCAA.value.isConfirmationRequiredToSubmit &&
@@ -77,15 +77,33 @@ const upDateWorkFlow = () => {
   ) {
     showConfirmationDialog.value = true;
   } else {
-    workFlowStore.submitWorkFlow(workFlow.value);
-    router.go(-1);
+    try {
+      await workFlowStore.submitWorkFlow(workFlow.value);
+      router.go(-1);
+    } catch (error) {
+      $q.dialog({
+        title: 'Alert',
+        message: error as string,
+      }).onOk(async () => {
+        console.log('*** Work Flow:onSubmit(...):onOK ***');
+      });
+    }
   }
 };
 
-const teDCAAupdateWorkflow = () => {
+const teDCAAupdateWorkflow = async () => {
   workFlow.value.password = password.value;
-  workFlowStore.submitWorkFlow(workFlow.value);
-  router.go(-1);
+  try {
+    await workFlowStore.submitWorkFlow(workFlow.value);
+    router.go(-1);
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** Work Flow:onSubmit(...):onOK ***');
+    });
+  }
 };
 
 const manualWorkflow = (newValue: string) => {

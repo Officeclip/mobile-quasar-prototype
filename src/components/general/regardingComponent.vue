@@ -2,13 +2,13 @@
 import { computed, ref, watch } from 'vue';
 import { useRegardingStore } from 'stores/regarding/regardingStore';
 import { regardingItem } from 'src/models/general/regardingItem';
+import { useQuasar } from 'quasar';
 
-
+const $q = useQuasar();
 const props = defineProps<{
-  modelValue: any,
-  regardingParents: any
+  modelValue: any;
+  regardingParents: any;
 }>();
-
 
 const regardingType = ref(props.modelValue.type || '');
 const selectedRegItem = ref(props.modelValue.value || null);
@@ -16,7 +16,7 @@ const selectedRegItem = ref(props.modelValue.value || null);
 const updateModelValue = () => {
   const regarding = {
     type: regardingType.value,
-    value: selectedRegItem.value
+    value: selectedRegItem.value,
   };
   emit('update:modelValue', regarding);
 };
@@ -24,8 +24,7 @@ const updateModelValue = () => {
 watch(regardingType, updateModelValue);
 watch(selectedRegItem, updateModelValue);
 
-const emit = defineEmits(['regarding-generated', 'update:modelValue'])
-
+const emit = defineEmits(['regarding-generated', 'update:modelValue']);
 
 const regardingStore = useRegardingStore();
 regardingStore.getMetaTypes();
@@ -36,13 +35,12 @@ const metaTypeOptions = computed(() => {
 
 const regardingItems = ref([] as regardingItem[]);
 
-
 watch(selectedRegItem, (newValue, oldValue) => {
   // This function will be called whenever selectedRegItem changes
   const regarding = {
     type: regardingType.value,
-    value: selectedRegItem.value
-  }
+    value: selectedRegItem.value,
+  };
   emit('regarding-generated', regarding);
 });
 
@@ -56,7 +54,17 @@ async function filterItems(
     return;
   } else if (val.length >= 2) {
     regardingItems.value = [] as regardingItem[];
-    await regardingStore.getRegardingItemsThatMatch(val, regardingType.value);
+    try {
+      await regardingStore.getRegardingItemsThatMatch(val, regardingType.value);
+    } catch (error) {
+      console.log(`*** Regarding:onSubmit(...):catch: ${error} ***`);
+      $q.dialog({
+        title: 'Alert',
+        message: error as string,
+      }).onOk(async () => {
+        console.log('*** Regarding:onSubmit(...):onOK ***');
+      });
+    }
     regardingItems.value = regardingStore.regardingItems;
   }
 
@@ -68,20 +76,33 @@ async function filterItems(
     );
   });
 }
-
 </script>
 
 <template>
   <q-list>
     <q-item class="q-pa-none">
       <q-item-section class="q-mr-sm">
-        <q-select v-model="regardingType" :options="metaTypeOptions" dense label="Regarding" map-options
-          option-label="name" option-value="id" />
+        <q-select
+          v-model="regardingType"
+          :options="metaTypeOptions"
+          dense
+          label="Regarding"
+          map-options
+          option-label="name"
+          option-value="id"
+        />
       </q-item-section>
       <q-item-section class="q-mr-sm">
-
-        <q-select v-model="selectedRegItem" :disable="regardingType.id == ''" :options="regardingItems" dense
-          option-label="name" option-value="id" use-input @filter="filterItems">
+        <q-select
+          v-model="selectedRegItem"
+          :disable="regardingType.id == ''"
+          :options="regardingItems"
+          dense
+          option-label="name"
+          option-value="id"
+          use-input
+          @filter="filterItems"
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">No results</q-item-section>

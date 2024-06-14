@@ -2,7 +2,9 @@
 import { computed, ref } from 'vue';
 import { regardingContact } from '../../models/general/regardingAll';
 import { useRegardingAllStore } from '../../stores/regarding/regardingAllStore';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 const parentServiceType = ref('');
 
 const regardingAllStore = useRegardingAllStore();
@@ -30,7 +32,17 @@ async function filterContacts(
     return;
   } else if (val.length === 2) {
     regardingContacts.value = [] as regardingContact[];
-    await regardingAllStore.getRegardingContactListThatMatch(val);
+    try {
+      await regardingAllStore.getRegardingContactListThatMatch(val);
+    } catch (error) {
+      console.log(`*** Regarding:onSubmit(...):catch: ${error} ***`);
+      $q.dialog({
+        title: 'Alert',
+        message: error as string,
+      }).onOk(async () => {
+        console.log('*** Regarding:onSubmit(...):onOK ***');
+      });
+    }
     regardingContacts.value = regardingAllStore.regardingContacts;
   }
 
@@ -47,12 +59,30 @@ async function filterContacts(
   <q-list>
     <q-item class="q-mt-none">
       <q-item-section class="q-mr-sm">
-        <q-select label="Regarding" v-model="parentServiceType" :options="metaTypeOptions" dense option-label="name"
-          option-value="id" emit-value map-options />
+        <q-select
+          label="Regarding"
+          v-model="parentServiceType"
+          :options="metaTypeOptions"
+          dense
+          option-label="name"
+          option-value="id"
+          emit-value
+          map-options
+        />
       </q-item-section>
       <q-item-section class="q-mr-sm">
-        <q-select v-model="selectedRegContact" :options="regardingContacts" dense multiple option-label="name"
-          option-value="id" option-disable="disabled" :disable="disabled" use-input @filter="filterContacts">
+        <q-select
+          v-model="selectedRegContact"
+          :options="regardingContacts"
+          dense
+          multiple
+          option-label="name"
+          option-value="id"
+          option-disable="disabled"
+          :disable="disabled"
+          use-input
+          @filter="filterContacts"
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey"> No results </q-item-section>

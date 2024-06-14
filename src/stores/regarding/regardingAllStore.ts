@@ -58,7 +58,7 @@ export const useRegardingAllStore = defineStore('regardingAllStore', {
         await new Promise((r) => setTimeout(r, 500));
         this.regardingContacts = filtered;
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
     },
   },
