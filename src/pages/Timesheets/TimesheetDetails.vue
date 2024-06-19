@@ -306,7 +306,7 @@ const showWarningMsg = () => {
               </q-item-section>
               <q-item-section style="white-space: pre-wrap">
                 by {{ comments.commentedUserName }} on
-                {{ comments.commentedDate }}
+                {{ comments.commentedDate.split('T')[0] }}
               </q-item-section>
             </q-item>
             <q-item v-if="listLength === 0"> No Comments are present </q-item>
