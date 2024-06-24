@@ -287,7 +287,7 @@ const showWarningMsg = () => {
             <q-item-section>
               <q-item-label>Comments: </q-item-label>
             </q-item-section>
-
+            <!--
             <q-item-section side>
               <q-btn
                 flat
@@ -297,7 +297,7 @@ const showWarningMsg = () => {
                 class="q-btn-hover:hover"
                 @click="showAddCommentsDialog = true"
               ></q-btn>
-            </q-item-section>
+            </q-item-section> -->
           </template>
           <q-list>
             <q-item v-for="comments in commentsList" :key="comments.id">
