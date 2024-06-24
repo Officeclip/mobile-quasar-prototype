@@ -328,8 +328,7 @@ const isAllowedWrite = isAllowed({
             <q-item-section>
               <q-item-label>Comments: </q-item-label>
             </q-item-section>
-            <q-item-section side>
-              <!-- TODO: CR: 2024-05-17: nk: Fix the type error? -->
+            <!-- <q-item-section side>
               <q-btn
                 flat
                 round
@@ -338,7 +337,7 @@ const isAllowedWrite = isAllowed({
                 class="q-btn-hover:hover"
                 @click="showAddCommentsDialog = true"
               ></q-btn>
-            </q-item-section>
+            </q-item-section> -->
           </template>
           <q-list>
             <q-item v-for="comments in commentsList" :key="comments.id">
@@ -347,7 +346,7 @@ const isAllowedWrite = isAllowed({
               </q-item-section>
               <q-item-section style="white-space: pre-wrap">
                 by {{ comments.commentedUserName }} on
-                {{ comments.commentedDate }}
+                {{ comments.commentedDate.split('T')[0] }}
               </q-item-section>
             </q-item>
             <q-item v-if="listLength == 0"> No Comments are present </q-item>
