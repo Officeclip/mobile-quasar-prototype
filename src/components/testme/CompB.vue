@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 const msg = ref('');
+//location.reload();
 </script>
 
 <template>
