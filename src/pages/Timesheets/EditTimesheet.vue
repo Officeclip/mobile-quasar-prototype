@@ -44,6 +44,22 @@ const timesheetDCAA = computed(() => {
 const timesheet = computed(() => {
   return timesheetsStore.TimesheetDetail;
 });
+// const timesheet = computed(() => {
+//   const storeData = timesheetsStore.TimesheetDetail;
+//   const newData = {
+//     ...storeData,
+//     customerProject: `${storeData?.accountSid}:${storeData?.projectSid}`,
+//   };
+//   return newData;
+// });
+
+// const newDataSet = {
+//   ...computed(() => {
+//     return timesheet.value;
+//   }),
+//   customerProject: timesheet.value?.accountName,
+// };
+// console.log('NEW DATA SET', timesheet.value);
 
 async function onSubmit(e: any) {
   e.preventDefault();

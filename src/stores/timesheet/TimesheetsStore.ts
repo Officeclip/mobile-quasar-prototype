@@ -105,8 +105,6 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       }
     },
     async editTimesheet(timesheetDetail: TimesheetDetails) {
-      console.log(`editTimesheet 1: ${this.timesheetDetail?.id}`);
-      // not added yet
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
