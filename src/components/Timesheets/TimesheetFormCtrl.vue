@@ -21,21 +21,21 @@ const serviceItemModel = ref('');
 serviceItemModel.value = props.timesheet ? props.timesheet.serviceItemName : '';
 const serviceItemsOptions = ref('');
 const customerProjectModel = ref('');
-const taskDate = ref('');
-taskDate.value = props.timesheet?.taskDate;
+// const taskDate = ref('');
+// taskDate.value = props.timesheet?.taskDate;
 
 // format the taskDate and show for user interface like Nov 02(Fri)
-const formattedTaskDate =
-  taskDate.value != ''
-    ? ref(
-        `${new Date(taskDate.value).toLocaleString('en-US', {
-          month: 'short',
-          day: 'numeric',
-        })}(${new Date(taskDate.value).toLocaleString('en-US', {
-          weekday: 'short',
-        })})`
-      )
-    : ref('');
+// const formattedTaskDate =
+//   taskDate.value != ''
+//     ? ref(
+//         `${new Date(taskDate.value).toLocaleString('en-US', {
+//           month: 'short',
+//           day: 'numeric',
+//         })}(${new Date(taskDate.value).toLocaleString('en-US', {
+//           weekday: 'short',
+//         })})`
+//       )
+//     : ref('');
 
 const timesheetListStore = useTimesheetListStore();
 
@@ -113,21 +113,21 @@ billableOptions.value = [
   },
 ];
 
-watch([taskDate], ([newTaskDate]) => {
-  formattedTaskDate.value = newTaskDate.name;
-  props.timesheet.taskDate = newTaskDate.startDate;
+// watch([taskDate], ([newTaskDate]) => {
+//   formattedTaskDate.value = newTaskDate.name;
+//   props.timesheet.taskDate = newTaskDate.startDate;
 
-  if (props.timesheetDCAA?.dcaa.isEnabled == true) {
-    const totalDays = calculateDaysBetween(props.timesheet.taskDate);
-    if (
-      totalDays > props.timesheetDCAA?.dcaa.relaxation &&
-      props.timesheet?.comments == ''
-    ) {
-      isCommentsRequired = true;
-      errorMessage = 'Comments must be added';
-    }
-  }
-});
+//   if (props.timesheetDCAA?.dcaa.isEnabled == true) {
+//     const totalDays = calculateDaysBetween(props.timesheet.taskDate);
+//     if (
+//       totalDays > props.timesheetDCAA?.dcaa.relaxation &&
+//       props.timesheet?.comments == ''
+//     ) {
+//       isCommentsRequired = true;
+//       errorMessage = 'Comments must be added';
+//     }
+//   }
+// });
 watch([serviceItemModel], ([newServiceItemModel]) => {
   props.timesheet.serviceItemSid = newServiceItemModel.id;
 });
@@ -177,14 +177,15 @@ const handleModelValue = (newValue) => {
       <q-item-label v-if="selectedPeriod">{{
         selectedPeriod.name
       }}</q-item-label>
+      <pre>{{ props.timesheet.taskDate }}</pre>
       <q-select
         label="Date"
-        :model-value="formattedTaskDate"
-        @update:model-value="(newValue) => (taskDate = newValue)"
+        v-model="props.timesheet.taskDate"
         :options="dateOptions"
         option-label="name"
+        option-value="startDate"
+        emit-value
         map-options
-        emit-label
       />
       <q-select
         label="Customer: Project"
