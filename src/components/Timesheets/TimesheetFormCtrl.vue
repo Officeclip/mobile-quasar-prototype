@@ -106,7 +106,7 @@ watch(
     <div class="q-ml-sm">
       <q-item-label caption>Period</q-item-label>
       <q-item-label v-if="selectedPeriod">{{
-        selectedPeriod.name
+        selectedPeriod?.name
       }}</q-item-label>
       <q-select
         label="Date"
@@ -139,25 +139,25 @@ watch(
       />
       <q-select
         label="Billable"
-        v-model="props.timesheet.isBillable"
+        v-model="timesheet.isBillable"
         :options="billableOptions"
         map-options
         emit-value
       />
       <q-input
         label="Duration"
-        v-model.number="props.timesheet.timeDuration"
+        v-model.number="timesheet.timeDuration"
         placeholder="enter here..."
         type="number"
       />
       <q-input
         label="Description"
-        v-model="props.timesheet.description"
+        v-model="timesheet.description"
         placeholder="enter here..."
       />
       <q-input
         label="Comments"
-        v-model="props.timesheet.comments"
+        v-model="timesheet.comments"
         placeholder="enter here..."
         :label-color="isCommentsRequired ? 'red' : ''"
         :rules="[

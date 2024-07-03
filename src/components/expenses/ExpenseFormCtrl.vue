@@ -17,7 +17,8 @@ const props = defineProps(['expenseDetail', 'period']);
 const expenseListsStore = useExpenseListsStore();
 const router = useRouter();
 const $q = useQuasar();
-
+const date = ref('');
+const customerProjectModel = ref('');
 onMounted(async () => {
   try {
     await expenseListsStore.getExpensesList();
@@ -29,11 +30,29 @@ onMounted(async () => {
       await router.push({ path: '/expensesAll' });
     });
   }
+  date.value = props.expenseDetail?.expenseDate;
+
+  customerProjectModel.value =
+    props.expenseDetail?.accountSid +
+    (props.expenseDetail?.projectSid
+      ? ':' + props.expenseDetail?.projectSid
+      : '');
 });
 
 const customerProjectOptions = computed(() => {
   return expenseListsStore.CustomerProjectsList;
 });
+
+// function handleServiceItems() {
+//   return (serviceItemModel.value = '');
+// }
+
+//make sure to select the customer project first then only select service items
+// function checkCustomerProject() {
+//   if (!customerProjectModel.value) {
+//     alert('Select the Customer:Project first');
+//   }
+// }
 
 const expenseTypeOptions = computed(() => {
   return expenseListsStore.ExpenseTypes;
@@ -47,7 +66,7 @@ const period = computed(() => {
   return expenseListsStore.PeriodList.find((x) => x.name === props.period);
 });
 
-const datesList = computed(() => {
+const dateOptions = computed(() => {
   return dateTimeHelper.populateDates(period.value?.start, period.value?.end);
 });
 
@@ -99,6 +118,23 @@ if (props.expenseDetail.expenseTypeSid == '') {
 
 watch([expenseTypeOptions], () => {
   getExpenseTypeDetail(props.expenseDetail.expenseTypeSid);
+});
+watch(date, (newDate) => {
+  props.expenseDetail.expenseDate = newDate;
+});
+
+watch([customerProjectModel], ([newCustomerProjectModel]) => {
+  const customerProjectArray = newCustomerProjectModel.split(':');
+  props.expenseDetail.accountSid = customerProjectArray[0];
+  props.expenseDetail.projectSid =
+    customerProjectArray.length > 1 ? customerProjectArray[1] : '';
+  // props.timesheet.serviceItemSid = newServiceItemModel;
+
+  //update the service item options each time when customer project get changed
+  // serviceItemsOptions.value =
+  //   timesheetListStore.getServiceItemsBycustomerProjectId(
+  //     newCustomerProjectModel
+  //   );
 });
 
 function getExpenseTypeDetail(expTypeId) {
@@ -159,38 +195,38 @@ function getExpenseTypeDetail(expTypeId) {
   }
 }
 
-const formattedExpenseDate = ref('');
-const expenseDateValue = computed({
-  get() {
-    if (props.expenseDetail.expenseDate == '') {
-      return;
-    }
-    const newExpenseDate = new Date(props.expenseDetail.expenseDate);
-    return `${newExpenseDate.toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-    })}(${newExpenseDate.toLocaleString('en-US', { weekday: 'short' })})`;
-  },
-  set(newValue) {
-    props.expenseDetail.expenseDate = newValue;
-  },
-});
-formattedExpenseDate.value = expenseDateValue.value;
+// const formattedExpenseDate = ref('');
+// const expenseDateValue = computed({
+//   get() {
+//     if (props.expenseDetail.expenseDate == '') {
+//       return;
+//     }
+//     const newExpenseDate = new Date(props.expenseDetail.expenseDate);
+//     return `${newExpenseDate.toLocaleString('en-US', {
+//       month: 'short',
+//       day: 'numeric',
+//     })}(${newExpenseDate.toLocaleString('en-US', { weekday: 'short' })})`;
+//   },
+//   set(newValue) {
+//     props.expenseDetail.expenseDate = newValue;
+//   },
+// });
+// formattedExpenseDate.value = expenseDateValue.value;
 
-const customerProjectValue = ref(
-  props.expenseDetail.accountName
-    ? `${props.expenseDetail.accountName}:${props.expenseDetail.projectName}`
-    : ''
-);
+// const customerProjectValue = ref(
+//   props.expenseDetail.accountName
+//     ? `${props.expenseDetail.accountName}:${props.expenseDetail.projectName}`
+//     : ''
+// );
 
-const updateCustomerProject = (newValue) => {
-  const names = newValue.name.split(':');
-  const ids = newValue.id.split(':');
-  props.expenseDetail.accountName = names[0];
-  props.expenseDetail.projectName = names[1];
-  props.expenseDetail.accountSid = ids[0];
-  props.expenseDetail.projectSid = ids[1];
-};
+// const updateCustomerProject = (newValue) => {
+//   const names = newValue.name.split(':');
+//   const ids = newValue.id.split(':');
+//   props.expenseDetail.accountName = names[0];
+//   props.expenseDetail.projectName = names[1];
+//   props.expenseDetail.accountSid = ids[0];
+//   props.expenseDetail.projectSid = ids[1];
+// };
 </script>
 
 <template>
@@ -201,70 +237,164 @@ const updateCustomerProject = (newValue) => {
       <q-item-label class="q-mb-sm">
         {{ period?.name }}
       </q-item-label>
-
-      <q-select label="Expense Date" v-model="formattedExpenseDate" @update:model-value="(newValue) => (props.expenseDetail.expenseDate = newValue.startDate)
-          " :options="datesList" option-value="value" option-label="name" emit-value map-options />
-
-      <q-select label="Customer : Project" v-model="customerProjectValue" @update:model-value="updateCustomerProject"
-        :options="customerProjectOptions" option-label="name" option-value="id" />
-
-      <q-select label="Expense Type" v-model="expenseDetail.expenseTypeSid" :options="expenseTypeOptions" :rules="[
+      <!-- <pre>{{ expenseDetail }}</pre> -->
+      <!-- <pre>{{ dateOptions }}</pre> -->
+      <q-select
+        label="Date"
+        v-model="date"
+        :options="dateOptions"
+        option-value="startDate"
+        option-label="name"
+        emit-value
+        map-options
+      />
+      <!-- <pre>{{ customerProjectModel }}</pre> -->
+      <!-- <pre>{{ customerProjectOptions }}</pre> -->
+      <q-select
+        label="Customer: Project"
+        v-model="customerProjectModel"
+        :options="customerProjectOptions"
+        option-label="name"
+        option-value="id"
+        map-options
+        emit-value
+      />
+      <!-- <pre>{{ expenseDetail.expenseTypeSid }}</pre> -->
+      <!-- <pre>{{ expenseTypeOptions }}</pre> -->
+      <q-select
+        label="Expense Type"
+        v-model="expenseDetail.expenseTypeSid"
+        :options="expenseTypeOptions"
+        :rules="[
           (val) => val !== expenseTypeDefault || 'Please select expense type..',
-        ]" @update:model-value="getExpenseTypeDetail" option-label="expenseName" emit-value
-        option-value="expenseTypeSid" map-options />
+        ]"
+        @update:model-value="getExpenseTypeDetail"
+        option-label="expenseName"
+        emit-value
+        option-value="expenseTypeSid"
+        map-options
+      />
 
       <q-card class="q-my-md">
-        <airTravelExpenseForm :airTravel="props.expenseDetail.airTravelExpense == null
-          ? (props.expenseDetail.airTravelExpense = airTravel)
-          : props.expenseDetail.airTravelExpense
-          " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'AIRFARE'" />
+        <airTravelExpenseForm
+          :airTravel="
+            props.expenseDetail.airTravelExpense == null
+              ? (props.expenseDetail.airTravelExpense = airTravel)
+              : props.expenseDetail.airTravelExpense
+          "
+          :isDetailRequired="isDetailRequired"
+          v-if="expenseDetail.expenseTypeName == 'AIRFARE'"
+        />
 
-        <autoRentalExpenseForm :autoRental="props.expenseDetail.autoRentalExpense == null
-          ? (props.expenseDetail.autoRentalExpense = autoRental)
-          : props.expenseDetail.autoRentalExpense
-          " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'AUTORENTAL'" />
-        <hotelExpenseForm :hotel="props.expenseDetail.hotelExpense == null
-          ? (props.expenseDetail.hotelExpense = hotel)
-          : props.expenseDetail.hotelExpense
-          " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'HOTEL'" />
+        <autoRentalExpenseForm
+          :autoRental="
+            props.expenseDetail.autoRentalExpense == null
+              ? (props.expenseDetail.autoRentalExpense = autoRental)
+              : props.expenseDetail.autoRentalExpense
+          "
+          :isDetailRequired="isDetailRequired"
+          v-if="expenseDetail.expenseTypeName == 'AUTORENTAL'"
+        />
+        <hotelExpenseForm
+          :hotel="
+            props.expenseDetail.hotelExpense == null
+              ? (props.expenseDetail.hotelExpense = hotel)
+              : props.expenseDetail.hotelExpense
+          "
+          :isDetailRequired="isDetailRequired"
+          v-if="expenseDetail.expenseTypeName == 'HOTEL'"
+        />
 
-        <mileageExpenseForm :mileage="props.expenseDetail.mileageExpense == null
-          ? (props.expenseDetail.mileageExpense = mileage)
-          : props.expenseDetail.mileageExpense
-          " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'MILEAGE'" />
+        <mileageExpenseForm
+          :mileage="
+            props.expenseDetail.mileageExpense == null
+              ? (props.expenseDetail.mileageExpense = mileage)
+              : props.expenseDetail.mileageExpense
+          "
+          :isDetailRequired="isDetailRequired"
+          v-if="expenseDetail.expenseTypeName == 'MILEAGE'"
+        />
 
-        <taxiExpenseForm :taxi="props.expenseDetail.taxiExpense == null
-          ? (props.expenseDetail.taxiExpense = taxi)
-          : props.expenseDetail.taxiExpense
-          " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'TAXI'" />
+        <taxiExpenseForm
+          :taxi="
+            props.expenseDetail.taxiExpense == null
+              ? (props.expenseDetail.taxiExpense = taxi)
+              : props.expenseDetail.taxiExpense
+          "
+          :isDetailRequired="isDetailRequired"
+          v-if="expenseDetail.expenseTypeName == 'TAXI'"
+        />
 
-        <telephoneExpenseForm :telephone="props.expenseDetail.telephoneExpense == null
-          ? (props.expenseDetail.telephoneExpense = telephone)
-          : props.expenseDetail.telephoneExpense
-          " :isDetailRequired="isDetailRequired" v-if="expenseDetail.expenseTypeName == 'TELEPHONE'" />
+        <telephoneExpenseForm
+          :telephone="
+            props.expenseDetail.telephoneExpense == null
+              ? (props.expenseDetail.telephoneExpense = telephone)
+              : props.expenseDetail.telephoneExpense
+          "
+          :isDetailRequired="isDetailRequired"
+          v-if="expenseDetail.expenseTypeName == 'TELEPHONE'"
+        />
       </q-card>
 
-      <q-toggle label="Billable" :false-value="false" :true-value="true" :disable="!isBillableModify" color="primary"
-        keep-color v-model="expenseDetail.billable" option-value="expenseTypeName" map-options></q-toggle>
-      <div v-if="isBillableModify === false" caption class="q-mb-md text-italic">
+      <q-toggle
+        label="Billable"
+        :false-value="false"
+        :true-value="true"
+        :disable="!isBillableModify"
+        color="primary"
+        keep-color
+        v-model="expenseDetail.billable"
+        option-value="expenseTypeName"
+        map-options
+      ></q-toggle>
+      <div
+        v-if="isBillableModify === false"
+        caption
+        class="q-mb-md text-italic"
+      >
         <q-icon name="hide_source" /> You do not have permission to edit this
         item
       </div>
-      <q-select label="Payment Method" v-model="expenseDetail.paymentType" :options="paymentTypeOptions" map-options
-        emit-value option-label="Name" option-value="Id" />
+      <q-select
+        label="Payment Method"
+        v-model="expenseDetail.paymentType"
+        :options="paymentTypeOptions"
+        map-options
+        emit-value
+        option-label="Name"
+        option-value="Id"
+      />
 
-      <q-input label="Amount" v-model.number="expenseDetail.amount" placeholder="enter here..." lazy-rules
-        type="number">
+      <q-input
+        label="Amount"
+        v-model.number="expenseDetail.amount"
+        placeholder="enter here..."
+        lazy-rules
+        type="number"
+      >
       </q-input>
 
-      <q-input label="Tax" v-model.number="expenseDetail.tax" placeholder="enter here..." type="number">
+      <q-input
+        label="Tax"
+        v-model.number="expenseDetail.tax"
+        placeholder="enter here..."
+        type="number"
+      >
+      </q-input>
+      <q-input
+        label="Description"
+        v-model="expenseDetail.description"
+        placeholder="enter here..."
+        lazy-rules
+        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+      >
       </q-input>
 
-      <q-input label="Description" v-model="expenseDetail.description" placeholder="enter here..." lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']">
-      </q-input>
-
-      <q-input label="Comments" v-model="expenseDetail.comments" placeholder="enter here...">
+      <q-input
+        label="Comments"
+        v-model="expenseDetail.comments"
+        placeholder="enter here..."
+      >
       </q-input>
     </div>
   </div>
