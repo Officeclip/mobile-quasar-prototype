@@ -16,7 +16,6 @@ import WorkFlow from '../../components/general/WorkFlow.vue';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
 import { isAllowed } from 'src/helpers/security';
-import { write } from 'fs';
 
 const route = useRoute();
 const router = useRouter();
@@ -328,16 +327,6 @@ const isAllowedWrite = isAllowed({
             <q-item-section>
               <q-item-label>Comments: </q-item-label>
             </q-item-section>
-            <!-- <q-item-section side>
-              <q-btn
-                flat
-                round
-                dense
-                icon="add"
-                class="q-btn-hover:hover"
-                @click="showAddCommentsDialog = true"
-              ></q-btn>
-            </q-item-section> -->
           </template>
           <q-list>
             <q-item v-for="comments in commentsList" :key="comments.id">

@@ -5,7 +5,6 @@ import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useRoute, useRouter } from 'vue-router';
-// import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import WorkFlow from '../../components/general/WorkFlow.vue';
@@ -24,13 +23,10 @@ const id = route.params.id;
 const entityType = 'timesheet';
 const timesheetDetailSid = ref('');
 const fromDate = route.params.fromDate;
-// made the readOnly params type as boolean, by default always coming as string only
-// const readOnly = route.params.readOnly === 'false';
 const isWrite = route.params.isWrite;
 const stageId = Number(route.params.stageId);
 const status = route.params.status;
 const mode = route.params.mode;
-// const mode = route.params.mode;
 
 const isLoaded = ref<boolean>(false);
 
@@ -101,7 +97,6 @@ const deleteTimesheetDetail = async (id: string) => {
     showDeleteTimesheetDetail.value = false;
     router.go(-1);
   } catch (error) {
-    //console.log('Error in deleting the task detail')
     $q.dialog({
       title: 'Alert',
       message: error as string,
@@ -118,7 +113,7 @@ const commentsList = computed(() => {
 const listLength = computed(() => {
   return commentsList.value.length;
 });
-//trying to get the period name from periodOptions  find by fromDate
+
 const periodOptions = computed(() => {
   return timesheetListsStore.PeriodList;
 });
@@ -193,8 +188,6 @@ const showWarningMsg = () => {
           :stageId="stageId"
         />
       </div>
-      <!-- <pre>{{ fromDate }}</pre>
-      <pre>{{ periodOptions }}</pre> -->
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
@@ -276,7 +269,6 @@ const showWarningMsg = () => {
           />
         </q-expansion-item>
       </q-card>
-      <!-- <pre>{{ mode }}</pre> -->
       <q-card v-if="timesheetDetails.length > 0" class="q-ma-sm bg-grey-4">
         <q-expansion-item
           default-opened
@@ -287,17 +279,6 @@ const showWarningMsg = () => {
             <q-item-section>
               <q-item-label>Comments: </q-item-label>
             </q-item-section>
-            <!--
-            <q-item-section side>
-              <q-btn
-                flat
-                round
-                dense
-                icon="add"
-                class="q-btn-hover:hover"
-                @click="showAddCommentsDialog = true"
-              ></q-btn>
-            </q-item-section> -->
           </template>
           <q-list>
             <q-item v-for="comments in commentsList" :key="comments.id">
