@@ -20,6 +20,7 @@ const timesheetListsStore = useTimesheetListStore();
 const $q = useQuasar();
 
 const id = route.params.id;
+const employeeId = route.params.employeeId;
 const entityType = 'timesheet';
 const timesheetDetailSid = ref('');
 const fromDate = route.params.fromDate;
@@ -184,6 +185,7 @@ const showWarningMsg = () => {
         <WorkFlow
           v-if="status != 'Approved' && status != 'Pending'"
           :entityId="id"
+          :employeeId="employeeId"
           :entityType="entityType"
           :stageId="stageId"
         />

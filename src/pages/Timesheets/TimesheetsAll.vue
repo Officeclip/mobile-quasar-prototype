@@ -88,12 +88,14 @@ watch([timesheetStatus], ([newModel]) => {
     </q-footer>
     <q-page-container>
       <q-page>
+        <pre>{{ timesheetsAll }}</pre>
         <q-list v-for="item in timesheetsAll" :key="item.id">
           <q-item
             :to="{
               name: 'timesheetDetails',
               params: {
                 id: item.id,
+                employeeId: item.employeeId,
                 fromDate: item.fromDate,
                 isWrite: item.security.write,
                 stageId: item.stageId,

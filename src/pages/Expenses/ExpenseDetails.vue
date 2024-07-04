@@ -25,6 +25,7 @@ const expenseCommentsStore = useTECommentsStore();
 const expenseListsStore = useExpenseListsStore();
 
 const id = route.params.id;
+const employeeId = route.params.employeeId;
 const stageId = Number(route.params.stageId);
 // const readOnly = route.params.readOnly === 'false';
 const isWrite = route.params.isWrite;
@@ -176,10 +177,12 @@ const isAllowedWrite = isAllowed({
         <WorkFlow
           v-if="status != 'Approved' && status != 'Pending'"
           :entityId="id"
+          :employeeId="employeeId"
           :entityType="entityType"
           :stageId="stageId"
         />
       </div>
+      <pre>{{ expenseDetails }}</pre>
       <div v-for="expenseDetail in expenseDetails" :key="expenseDetail.id">
         <q-list class="rounded-borders q-my-md bg-grey-3">
           <q-expansion-item expand-separator expand-icon-class="text-primary">

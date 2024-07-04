@@ -34,6 +34,7 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
     },
 
     async submitWorkFlow(workFlow: workFlow) {
+      console.log('CHECKING THE WORKFLOW POSTING DATA::::', workFlow);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(

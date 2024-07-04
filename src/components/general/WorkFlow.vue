@@ -5,7 +5,7 @@ import { useWorkFlowStore } from 'src/stores/workFlow/WorkFlow';
 import { useTECommentsStore } from 'src/stores/TECommentsStore';
 import { useQuasar } from 'quasar';
 
-const props = defineProps(['entityId', 'entityType', 'stageId']);
+const props = defineProps(['entityId', 'entityType', 'stageId', 'employeeId']);
 const $q = useQuasar();
 const router = useRouter();
 const showConfirmationDialog = ref(false);
@@ -73,7 +73,7 @@ const upDateWorkFlow = async () => {
   if (
     timesheetDCAA.value.isEnabled &&
     timesheetDCAA.value.isConfirmationRequiredToSubmit &&
-    props.stageId == 1
+    props.stageId === 1
   ) {
     showConfirmationDialog.value = true;
   } else {
@@ -106,6 +106,12 @@ const teDCAAupdateWorkflow = async () => {
   }
 };
 
+const setApproveToUserId = computed(() => {
+  return workFlow.value.approveToUserId === null
+    ? props.employeeId
+    : workFlow.value.approveToUserId;
+});
+
 const manualWorkflow = (newValue: string) => {
   workFlow.value.submitToUserId = newValue;
   workFlow.value.stageId = props.stageId;
@@ -125,6 +131,7 @@ const approveButtonWorkFlow = () => {
   workFlow.value.stageId = props.stageId;
   workFlow.value.submitToUserId = '';
   workFlow.value.rejectToUserId = '';
+  workFlow.value.approveToUserId = setApproveToUserId.value;
   workFlow.value.users = null;
   upDateWorkFlow();
 };
@@ -141,6 +148,8 @@ const closePopUp = () => {
 };
 </script>
 <template>
+  <pre>{{ employeeId }}</pre>
+  <pre>{{ workFlow.approveToUserId }}</pre>
   <div class="q-mt-sm">
     <!-- if submitToUserId there then this will comes up -->
     <div
