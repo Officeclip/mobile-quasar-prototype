@@ -88,7 +88,6 @@ watch([timesheetStatus], ([newModel]) => {
     </q-footer>
     <q-page-container>
       <q-page>
-        <pre>{{ timesheetsAll }}</pre>
         <q-list v-for="item in timesheetsAll" :key="item.id">
           <q-item
             :to="{
@@ -137,7 +136,6 @@ watch([timesheetStatus], ([newModel]) => {
           </q-item>
           <q-separator></q-separator>
         </q-list>
-        <pre>{{ timesheetDCAA.mode }}</pre>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
             v-if="isAllow && timesheetDCAA.mode === 'PERIODIC'"

@@ -148,8 +148,6 @@ const closePopUp = () => {
 };
 </script>
 <template>
-  <pre>{{ employeeId }}</pre>
-  <pre>{{ workFlow.approveToUserId }}</pre>
   <div class="q-mt-sm">
     <!-- if submitToUserId there then this will comes up -->
     <div
