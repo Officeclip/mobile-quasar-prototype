@@ -44,12 +44,12 @@ export const useRegardingStore = defineStore('regardingStore', {
       }
     },
 
-    async getRegardingItemsThatMatch(searchString: string, type: string) {
+    async getRegardingItemsThatMatch(searchString: string, type: any) {
       try {
         this.regardingItems = [];
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/regarding?parentType=${type}&searchString=${searchString}`
+          `${Constants.endPointUrl}/regarding?parentType=${type.name}&searchString=${searchString}`
         );
         const regardingItems = response.data;
         const filtered = regardingItems.filter((t: regardingItem) => {

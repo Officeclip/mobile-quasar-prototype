@@ -46,27 +46,27 @@ watch(selectedRegItem, (newValue, oldValue) => {
 
 async function filterItems(
   val: string,
-  update: (arg0: () => void) => void,
-  abort: () => void
+  update: (arg0: () => void) => void
+  //abort: () => void
 ) {
-  if (val.length < 2) {
-    abort();
-    return;
-  } else if (val.length >= 2) {
-    regardingItems.value = [] as regardingItem[];
-    try {
-      await regardingStore.getRegardingItemsThatMatch(val, regardingType.value);
-    } catch (error) {
-      console.log(`*** Regarding:onSubmit(...):catch: ${error} ***`);
-      $q.dialog({
-        title: 'Alert',
-        message: error as string,
-      }).onOk(async () => {
-        console.log('*** Regarding:onSubmit(...):onOK ***');
-      });
-    }
-    regardingItems.value = regardingStore.regardingItems;
+  // if (val.length < 2) {
+  //   abort();
+  //   return;
+  // } else if (val.length >= 2) {
+  regardingItems.value = [] as regardingItem[];
+  try {
+    await regardingStore.getRegardingItemsThatMatch(val, regardingType.value);
+  } catch (error) {
+    console.log(`*** Regarding:onSubmit(...):catch: ${error} ***`);
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** Regarding:onSubmit(...):onOK ***');
+    });
   }
+  regardingItems.value = regardingStore.regardingItems;
+  //}
 
   update(() => {
     console.log('update');
