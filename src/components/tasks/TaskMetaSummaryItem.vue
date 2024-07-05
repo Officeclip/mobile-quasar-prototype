@@ -1,15 +1,28 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import { useTaskSummaryStore } from '../../stores/task/taskSummaryStore';
 import TaskSummaryItem from '../../components/tasks/TaskSummaryItem.vue';
 
 const props = defineProps(['parent']);
 
-const taskSummaryStore = useTaskSummaryStore();
-taskSummaryStore.getTasksByParent(props.parent.parentObjectId);
+const emit = defineEmits(['numberOfTasks']);
 
-const taskSummaries = computed(() => {
-  return taskSummaryStore.taskSummaries;
+const taskSummaryStore = useTaskSummaryStore();
+
+const taskSummaries = ref({});
+
+// const taskSummaries = computed(() => {
+//   return taskSummaryStore.taskSummaries;
+// });
+
+const taskSummariesCount = computed(() => {
+  return taskSummaryStore.taskSummaries.length;
+});
+
+onBeforeMount(async () => {
+  await taskSummaryStore.getTasksByParent(props.parent.parentObjectId);
+  taskSummaries.value = taskSummaryStore.taskSummaries;
+  emit('numberOfTasks', taskSummariesCount.value);
 });
 </script>
 

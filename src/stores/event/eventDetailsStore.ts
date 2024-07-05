@@ -6,6 +6,7 @@ import { Constants } from 'stores/Constants';
 
 export const useEventDetailsStore = defineStore('eventDetailsStore', {
   state: () => ({
+    eventsCount: [] as eventDetails[],
     eventDetails: undefined as eventDetails | undefined, // for single event access
     eventSummary: undefined as eventSummary | undefined, // for single event access
     meetingAttendees: [] as MeetingAttendees[],
@@ -15,6 +16,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     EventDetails: (state) => state.eventDetails,
     EventSummary: (state) => state.eventSummary,
     MeetingAttendees: (state) => state.meetingAttendees,
+    EventsCount: (state) => state.eventDetails,
   },
 
   actions: {
@@ -52,6 +54,7 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
         this.eventDetails = response.data;
+        this.eventsCount = response.data.length;
       } catch (error) {
         //console.error(error);
         Constants.throwError(error);
