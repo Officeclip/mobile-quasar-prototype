@@ -182,7 +182,6 @@ const isAllowedWrite = isAllowed({
           :stageId="stageId"
         />
       </div>
-      <pre>{{ expenseDetails }}</pre>
       <div v-for="expenseDetail in expenseDetails" :key="expenseDetail.id">
         <q-list class="rounded-borders q-my-md bg-grey-3">
           <q-expansion-item expand-separator expand-icon-class="text-primary">
