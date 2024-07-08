@@ -9,7 +9,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     taskSummaries: [] as taskSummary[],
     taskSummary: undefined as taskSummary | undefined,
     url: '' as string,
-    pageSize: 5,
+    pageSize: 10,
     pageNum: 1,
     filter: {} as searchFilter,
     parentObjectId: 0,
@@ -27,7 +27,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
   actions: {
     constructBaseURL() {
-      let baseUrl = `${Constants.endPointUrl}/task-summary`;
+      let baseUrl = `${Constants.endPointUrl}/task-summary?pagenumber=${this.pageNum}&pagesize=${this.pageSize}`;
       if (this.IsParentPresent) {
         baseUrl += `?parentObjectId=${this.parentObjectId}&parentObjectServiceType=${this.parentObjectServiceType}`;
       }

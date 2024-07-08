@@ -27,7 +27,8 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         );
 
         if (response.status === 200) {
-          await this.getTask(taskDetail.id);
+          //await this.getTask(taskDetail.id);
+          this.taskDetail = response.data;
         }
       } catch (error) {
         console.log(`*** taskDetailStore:addTask(...):catch: ${error} ***`);
