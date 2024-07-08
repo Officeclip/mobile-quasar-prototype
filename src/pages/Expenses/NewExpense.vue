@@ -43,7 +43,7 @@ const expenseDetail = ref({
   mileageExpense: null,
   telephoneExpense: null,
   taxiExpense: null,
-  security: []
+  security: [],
 });
 
 async function onSubmit(e: any) {
@@ -60,12 +60,20 @@ async function onSubmit(e: any) {
       employeeSid: expenseDetail.value.employeeSid,
       expenseDate: expenseDetail.value.expenseDate,
       id: expenseDetail.value.id,
-      expenseSid: expenseDetail.value.expenseSid ? (expenseDetail.value.expenseSid !== '0' ? expenseDetail.value.expenseSid : '') : '',
+      expenseSid: expenseDetail.value.expenseSid
+        ? expenseDetail.value.expenseSid !== '0'
+          ? expenseDetail.value.expenseSid
+          : ''
+        : '',
       expenseTypeName: expenseDetail.value.expenseTypeName,
       expenseCategoryName: expenseDetail.value.expenseCategoryName,
       expenseTypeSid: expenseDetail.value.expenseTypeSid,
-      projectName: expenseDetail.value.projectName ? expenseDetail.value.projectName : '',
-      projectSid: expenseDetail.value.projectSid ? expenseDetail.value.projectSid : '',
+      projectName: expenseDetail.value.projectName
+        ? expenseDetail.value.projectName
+        : '',
+      projectSid: expenseDetail.value.projectSid
+        ? expenseDetail.value.projectSid
+        : '',
       tax: expenseDetail.value.tax,
       paymentType: expenseDetail.value.paymentType,
       autoRentalExpense: expenseDetail.value.autoRentalExpense,
@@ -73,7 +81,7 @@ async function onSubmit(e: any) {
       hotelExpense: expenseDetail.value.hotelExpense,
       mileageExpense: expenseDetail.value.mileageExpense,
       telephoneExpense: expenseDetail.value.telephoneExpense,
-      taxiExpense: expenseDetail.value.taxiExpense
+      taxiExpense: expenseDetail.value.taxiExpense,
     };
     await expenseDetailsStore.addExpense(newExpense);
     router.go(-2);
@@ -93,7 +101,14 @@ async function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title> New Expense</q-toolbar-title>
       </q-toolbar>
@@ -102,8 +117,19 @@ async function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <ExpenseForm :expenseDetail="expenseDetail" :period="period" />
-          <q-btn class="q-ml-md q-mb-md q-mt-md" label="Submit" type="submit" color="primary"></q-btn>
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
+          <q-btn
+            class="q-ml-md q-mb-md q-mt-md"
+            label="Save"
+            type="submit"
+            color="primary"
+          ></q-btn>
+          <q-btn
+            label="Reset"
+            type="reset"
+            color="primary"
+            flat
+            class="q-ml-sm"
+          ></q-btn>
         </div>
       </q-form>
     </q-page-container>

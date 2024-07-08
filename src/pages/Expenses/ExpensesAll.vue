@@ -78,7 +78,6 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
       </q-tabs>
     </q-footer>
     <q-page-container>
-      <pre>{{ allExpenses }}</pre>
       <q-page>
         <q-list v-for="expense in allExpenses" :key="expense.id">
           <!-- TODO: CR: 2024-05-17: nk: Fix the type error? -->
