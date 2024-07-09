@@ -1,29 +1,17 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import dateTimeHelper from '../helpers/dateTimeHelper';
-import { parse, format } from 'date-fns';
 
 const start = ref('2024-04-10T11:50:07Z');
-const startDate = ref('');
 const startsModelValue = ref(
   dateTimeHelper.extractDateandTimeFromUtc(start.value, false)
 );
-
-const ffffValue = ref('');
-
-watch([startDate], ([newStartDate]) => {
-  const parsedDate = parse(newStartDate, 'yyyy-MM-dd HH:mm', new Date());
-  const formattedDate = format(parsedDate, 'EEE, MMM dd, yyyy hh:mm aa');
-  ffffValue.value = formattedDate;
-  startsModelValue.value = formattedDate;
-});
 </script>
 
 <template>
   <div id="q-app" style="min-height: 100vh">
     <div class="q-pa-md" style="max-width: 300px">
-      <pre>{{ startDate }}</pre>
-      <pre>{{ ffffValue }}</pre>
+      <pre>{{ startsModelValue }}</pre>
       <q-input v-model="startsModelValue" label="Starts*">
         <template v-slot:prepend>
           <q-icon class="cursor-pointer" name="event">
@@ -32,7 +20,7 @@ watch([startDate], ([newStartDate]) => {
               transition-hide="scale"
               transition-show="scale"
             >
-              <q-date v-model="startDate" mask="YYYY-MM-DD HH:mm">
+              <q-date v-model="startsModelValue" mask="ddd, MMM D, YYYY HH:mm">
                 <div class="row items-center justify-end">
                   <q-btn v-close-popup color="primary" flat label="Close" />
                 </div>
@@ -48,7 +36,7 @@ watch([startDate], ([newStartDate]) => {
               transition-hide="scale"
               transition-show="scale"
             >
-              <q-time v-model="startDate" mask="YYYY-MM-DD HH:mm">
+              <q-time v-model="startsModelValue" mask="ddd, MMM D, YYYY HH:mm">
                 <div class="row items-center justify-end">
                   <q-btn v-close-popup color="primary" flat label="Close" />
                 </div>

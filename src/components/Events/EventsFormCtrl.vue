@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import { computed, onMounted, ref, Ref, watch } from 'vue';
+import { computed, onMounted, ref, Ref } from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
@@ -32,37 +32,21 @@ const emit = defineEmits([
   'reminder-generated',
   'rrule-text-generated',
 ]);
+
 const startDateTime = ref(props.event.startDateTime);
 const endDateTime = ref(props.event.endDateTime);
-const startDate = ref('');
-const startTime = ref('');
-const endDate = ref('');
-const endTime = ref('');
-function extractDateAndTime(
-  dateTimeValue: any,
-  dateX = ref(''),
-  timeX = ref('')
-) {
-  if (dateTimeValue) {
-    const dateObj = new Date(dateTimeValue);
-    dateX.value = dateObj.toISOString().split('T')[0]; // Extract startDate (YYYY-MM-DD)
-    timeX.value = dateObj.toISOString().split('T')[1].split('.')[0]; // Extract startTime (HH:mm:ss)
-  }
-  return;
-}
-// Initial extraction
-extractDateAndTime(startDateTime.value, startDate, startTime);
-extractDateAndTime(endDateTime.value, endDate, endTime);
-watch(
-  [startDate, startTime, endDate, endTime],
-  ([newStartDate, newStartTime, newEndDate, newEndTime]) => {
-    const utcDateStart = new Date(`${newStartDate}T${newStartTime}Z`);
-    const utcDateEnd = new Date(`${newEndDate}T${newEndTime}Z`);
-    props.event.startDateTime = utcDateStart;
-    props.event.endDateTime = utcDateEnd;
-  }
+const startDateModelValue = ref(
+  dateTimeHelper.extractDateandTimeFromUtc(
+    startDateTime.value,
+    props.event?.isAllDayEvent
+  )
 );
-
+const endDateModelValue = ref(
+  dateTimeHelper.extractDateandTimeFromUtc(
+    endDateTime.value,
+    props.event?.isAllDayEvent
+  )
+);
 onMounted(async () => {
   try {
     await userSummaryStore.getUserSummaries();
@@ -81,21 +65,6 @@ onMounted(async () => {
 const meetingAttendee = computed(() => {
   return eventDetailsStore.MeetingAttendees;
 });
-
-const startsModelValue = computed(() => {
-  return dateTimeHelper.extractDateandTimeFromUtc(
-    props.event.startDateTime,
-    props.event.isAllDayEvent
-  );
-});
-
-const endsModelValue = computed(() => {
-  return dateTimeHelper.extractDateandTimeFromUtc(
-    props.event.endDateTime,
-    props.event.isAllDayEvent
-  );
-});
-
 const label = computed(() => {
   return eventListsStore.Labels;
 });
@@ -123,10 +92,10 @@ const selectedTime = computed(() => {
 
 const reminderTextInfo = props.event?.reminder.to
   ? ref(
-    computed(() => {
-      return `${selectedOption.value.label} ${selectedTime.value.label} before`;
-    })
-  )
+      computed(() => {
+        return `${selectedOption.value.label} ${selectedTime.value.label} before`;
+      })
+    )
   : ref('Reminder');
 
 const reminderDialogOpened = ref(false);
@@ -214,42 +183,93 @@ function isValidURL(url: string) {
 </script>
 
 <template>
-  <!-- FIXME: remove the warning -->
   <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <q-list>
       <q-item>
         <q-item-section>
-          <q-radio v-model="event.eventType" color="teal" keep-color label="Group" val="1" size="sm" />
+          <q-radio
+            v-model="event.eventType"
+            color="teal"
+            keep-color
+            label="Group"
+            val="1"
+            size="sm"
+          />
         </q-item-section>
         <q-item-section>
-          <q-radio v-model="event.eventType" color="red" keep-color label="Meeting" val="2" size="sm" />
+          <q-radio
+            v-model="event.eventType"
+            color="red"
+            keep-color
+            label="Meeting"
+            val="2"
+            size="sm"
+          />
         </q-item-section>
         <q-item-section>
-          <q-radio v-model="event.eventType" color="cyan" keep-color label="Personal" val="3" size="sm" />
+          <q-radio
+            v-model="event.eventType"
+            color="cyan"
+            keep-color
+            label="Personal"
+            val="3"
+            size="sm"
+          />
         </q-item-section>
       </q-item>
 
       <q-item v-if="event.eventType == '1'" class="column">
-        <q-checkbox v-model="event.sendNotifications" label="Send notifications to the group?" color="teal" size="xs" />
-        <q-checkbox v-model="event.isRsvp" label="Ask for RSVP's" color="orange" size="xs" />
+        <q-checkbox
+          v-model="event.sendNotifications"
+          label="Send notifications to the group?"
+          color="teal"
+          size="xs"
+        />
+        <q-checkbox
+          v-model="event.isRsvp"
+          label="Ask for RSVP's"
+          color="orange"
+          size="xs"
+        />
       </q-item>
       <q-item>
-        <q-input v-model="event.eventName"
-          :rules="[(val: string | any[]) => (val && val.length > 0) || 'Please type something']" class="full-width"
-          label="Event Name*" lazy-rules placeholder="enter event name" />
+        <q-input
+          v-model="event.eventName"
+          :rules="[(val: string | any[]) => (val && val.length > 0) || 'Please type something']"
+          class="full-width"
+          label="Event Name*"
+          lazy-rules
+          placeholder="enter event name"
+        />
       </q-item>
       <q-item>
-        <q-toggle v-model="event.isAllDayEvent" :false-value="false" :true-value="true" color="primary" dense keep-color
-          label="All Day Event" left-label />
+        <q-toggle
+          v-model="event.isAllDayEvent"
+          :false-value="false"
+          :true-value="true"
+          color="primary"
+          dense
+          keep-color
+          label="All Day Event"
+          left-label
+        />
       </q-item>
+      <pre>event.startDateTime:{{ event.startDateTime }}</pre>
+      <PRE>startDateModelValue:{{ startDateModelValue }}</PRE>
       <q-item class="column">
-        <q-input :model-value="startsModelValue" @update:model-value="(newValue) => (startDate = newValue as string)"
-          :rules="[(val: any) => !!val || 'Start Date is required']" label="Starts*">
+        <q-input v-model="startDateModelValue" label="Starts*">
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
-              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
-                <q-date v-model="startDate" mask="YYYY-MM-DD">
+              <q-popup-proxy
+                cover
+                transition-hide="scale"
+                transition-show="scale"
+              >
+                <q-date
+                  v-model="startDateModelValue"
+                  mask="ddd, MMM D, YYYY  HH:mm"
+                >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -258,10 +278,17 @@ function isValidURL(url: string) {
             </q-icon>
           </template>
 
-          <template v-if="!props.event.isAllDayEvent" v-slot:append>
+          <template v-if="!event.isAllDayEvent" v-slot:append>
             <q-icon class="cursor-pointer" name="access_time">
-              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
-                <q-time v-if="!props.event.isAllDayEvent" v-model="startTime" mask="HH:mm">
+              <q-popup-proxy
+                cover
+                transition-hide="scale"
+                transition-show="scale"
+              >
+                <q-time
+                  v-model="startDateModelValue"
+                  mask="ddd, MMM D, YYYY  HH:mm"
+                >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -270,12 +297,21 @@ function isValidURL(url: string) {
             </q-icon>
           </template>
         </q-input>
-        <q-input :model-value="endsModelValue" @update:model-value="(newValue) => (endDate = newValue as string)"
-          :rules="[(val: any) => !!val || 'End Date is required']" label="Ends*">
+      </q-item>
+
+      <q-item class="column">
+        <q-input v-model="endDateModelValue" label="Ends*">
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
-              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
-                <q-date v-model="endDate" mask="YYYY-MM-DD">
+              <q-popup-proxy
+                cover
+                transition-hide="scale"
+                transition-show="scale"
+              >
+                <q-date
+                  v-model="endDateModelValue"
+                  mask="ddd, MMM D, YYYY HH:mm"
+                >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -284,10 +320,17 @@ function isValidURL(url: string) {
             </q-icon>
           </template>
 
-          <template v-if="!props.event.isAllDayEvent" v-slot:append>
+          <template v-if="!event.isAllDayEvent" v-slot:append>
             <q-icon class="cursor-pointer" name="access_time">
-              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
-                <q-time v-model="endTime" mask="HH:mm">
+              <q-popup-proxy
+                cover
+                transition-hide="scale"
+                transition-show="scale"
+              >
+                <q-time
+                  v-model="endDateModelValue"
+                  mask="ddd, MMM D, YYYY HH:mm"
+                >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -298,12 +341,23 @@ function isValidURL(url: string) {
         </q-input>
       </q-item>
       <q-item>
-        <q-input v-model="event.eventDescription" autogrow class="full-width" dense label="Notes"
-          placeholder="enter event description" />
+        <q-input
+          v-model="event.eventDescription"
+          autogrow
+          class="full-width"
+          dense
+          label="Notes"
+          placeholder="enter event description"
+        />
       </q-item>
       <q-item>
-        <q-input v-model="event.eventLocation" class="full-width" dense label="Location"
-          placeholder="enter where the event will take place">
+        <q-input
+          v-model="event.eventLocation"
+          class="full-width"
+          dense
+          label="Location"
+          placeholder="enter where the event will take place"
+        >
         </q-input>
       </q-item>
       <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
@@ -316,9 +370,21 @@ function isValidURL(url: string) {
         </q-item-section>
       </q-item>
       <q-item v-if="event.eventType == '2'">
-        <q-select v-model="event.meetingAttendees" :options="filterOptions" class="full-width" input-debounce="0"
-          label="Attendees" multiple option-label="email" option-value="id" style="min-width: 250px" use-chips use-input
-          @filter="filterFn" @new-value="createValue"></q-select>
+        <q-select
+          v-model="event.meetingAttendees"
+          :options="filterOptions"
+          class="full-width"
+          input-debounce="0"
+          label="Attendees"
+          multiple
+          option-label="email"
+          option-value="id"
+          style="min-width: 250px"
+          use-chips
+          use-input
+          @filter="filterFn"
+          @new-value="createValue"
+        ></q-select>
       </q-item>
       <q-item v-ripple clickable @click="reminderDialogOpened = true">
         <q-item-section avatar>
@@ -330,43 +396,88 @@ function isValidURL(url: string) {
         </q-item-section>
       </q-item>
       <q-item>
-        <q-input v-model="event.url" class="full-width" dense label="Url" map-options>
+        <q-input
+          v-model="event.url"
+          class="full-width"
+          dense
+          label="Url"
+          map-options
+        >
           <template v-slot:append>
-            <q-btn color="primary" dense flat label="Test URL" no-caps @click="testUrl" />
+            <q-btn
+              color="primary"
+              dense
+              flat
+              label="Test URL"
+              no-caps
+              @click="testUrl"
+            />
           </template>
         </q-input>
       </q-item>
       <q-item>
         <q-item-section class="q-pr-xl">
-          <q-select filled v-model="event.showTimeAs" :options="ShowMyTimeAsOptions" label="Show Time As" emit-value
-            map-options option-label="name" option-value="id">
+          <q-select
+            filled
+            v-model="event.showTimeAs"
+            :options="ShowMyTimeAsOptions"
+            label="Show Time As"
+            emit-value
+            map-options
+            option-label="name"
+            option-value="id"
+          >
             <template #option="scope">
-              <q-item class="q-my-xs" v-bind="scope.itemProps" v-bind:style="{ backgroundColor: scope.opt.color }">
+              <q-item
+                class="q-my-xs"
+                v-bind="scope.itemProps"
+                v-bind:style="{ backgroundColor: scope.opt.color }"
+              >
                 {{ scope.opt.name }}
               </q-item>
             </template>
             <template #selected-item="scope">
-              <q-item dense class="q-selectedItem" v-bind:style="{
-            backgroundColor: scope.opt.color,
-          }">
+              <q-item
+                dense
+                class="q-selectedItem"
+                v-bind:style="{
+                  backgroundColor: scope.opt.color,
+                }"
+              >
                 {{ scope.opt.name }}
               </q-item>
             </template>
           </q-select>
         </q-item-section>
         <q-item-section>
-          <q-select filled v-model="event.label" :options="labelOptions" emit-value label="Label" map-options
-            option-label="name" option-value="id">
+          <q-select
+            filled
+            v-model="event.label"
+            :options="labelOptions"
+            emit-value
+            label="Label"
+            map-options
+            option-label="name"
+            option-value="id"
+          >
             <template #option="scope">
-              <q-item dense class="q-my-xs" v-bind="scope.itemProps"
-                v-bind:style="{ backgroundColor: scope.opt.color }">
+              <q-item
+                dense
+                class="q-my-xs"
+                v-bind="scope.itemProps"
+                v-bind:style="{ backgroundColor: scope.opt.color }"
+              >
                 {{ scope.opt.name }}
               </q-item>
             </template>
             <template #selected-item="scope">
-              <q-item dense class="q-selectedItem" v-bind:style="{
-            backgroundColor: scope.opt.color,
-          }">
+              <q-item
+                dense
+                class="q-selectedItem"
+                v-bind:style="{
+                  backgroundColor: scope.opt.color,
+                }"
+              >
                 {{ scope.opt.name }}
               </q-item>
             </template>
@@ -374,16 +485,24 @@ function isValidURL(url: string) {
         </q-item-section>
       </q-item>
       <q-item>
-        <Regarding v-model="event.parent" :regarding-parents="eventListsStore.RegardingParent" />
+        <Regarding
+          v-model="event.parent"
+          :regarding-parents="eventListsStore.RegardingParent"
+        />
       </q-item>
     </q-list>
 
     <q-dialog v-model="recurrenceDialogOpened">
-      <EventsRecurrenceDialog @rrule-string-generated="handleRRuleString" @rrule-text-generated="handleRRuleText" />
+      <EventsRecurrenceDialog
+        @rrule-string-generated="handleRRuleString"
+        @rrule-text-generated="handleRRuleText"
+      />
     </q-dialog>
     <q-dialog v-model="reminderDialogOpened">
-      <EventsReminderDialog @reminder-text-generated="handleReminderText"
-        @reminder-data-generated="handleReminderData" />
+      <EventsReminderDialog
+        @reminder-text-generated="handleReminderText"
+        @reminder-data-generated="handleReminderData"
+      />
     </q-dialog>
   </div>
 </template>
