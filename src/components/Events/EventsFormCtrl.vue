@@ -47,6 +47,11 @@ const endDateModelValue = ref(
     props.event?.isAllDayEvent
   )
 );
+
+const mask = props.event.isAllDayEvent
+  ? 'ddd, MMM D, YYYY'
+  : 'ddd, MMM D, YYYY  HH:mm';
+
 onMounted(async () => {
   try {
     await userSummaryStore.getUserSummaries();
@@ -266,10 +271,7 @@ function isValidURL(url: string) {
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date
-                  v-model="startDateModelValue"
-                  mask="ddd, MMM D, YYYY  HH:mm"
-                >
+                <q-date v-model="startDateModelValue" :mask="mask">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -285,10 +287,7 @@ function isValidURL(url: string) {
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-time
-                  v-model="startDateModelValue"
-                  mask="ddd, MMM D, YYYY  HH:mm"
-                >
+                <q-time v-model="startDateModelValue" :mask="mask">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
