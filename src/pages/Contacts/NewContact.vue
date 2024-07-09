@@ -29,7 +29,7 @@ const contactDetails: ContactDetails = ref({
   home_phone: '',
   thumbnail: '',
   picture: '',
-  security: []
+  security: [],
 });
 
 async function onSubmit(e: any) {
@@ -37,9 +37,9 @@ async function onSubmit(e: any) {
   try {
     //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    await usecontactDetailsStore.addContactDetails(contactDetails);
+    const newContactDetails = ref(contactDetails);
+    await usecontactDetailsStore.addContactDetails(newContactDetails.value);
     router.push('/contactSummary');
-
   } catch (error) {
     console.log(`*** NewContact:onSubmit(...):catch: ${error} ***`);
     console.log(`---------${error}---------`);
@@ -63,7 +63,14 @@ async function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title> New Contact </q-toolbar-title>
       </q-toolbar>
@@ -72,7 +79,12 @@ async function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <EditContactDetailsCtrl :contactDetails="contactDetails" />
-          <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
+          <q-btn
+            class="q-ml-md q-mb-md"
+            label="Submit"
+            type="submit"
+            color="primary"
+          >
           </q-btn>
         </div>
       </q-form>

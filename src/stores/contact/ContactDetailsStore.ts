@@ -96,7 +96,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
           `${Constants.endPointUrl}/contact-detail`,
           contactDetails
         );
-        if (response.status === 200) {
+        if (response.status === 201) {
           this.contactDetails = response.data;
         }
       } catch (error) {
