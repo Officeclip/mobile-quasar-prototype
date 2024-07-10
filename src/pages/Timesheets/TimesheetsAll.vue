@@ -69,21 +69,16 @@ watch([timesheetStatus], ([newModel]) => {
     <q-footer elevated>
       <q-tabs
         v-model="timesheetStatus"
-        class="bg-grey-9"
-        dense
+        no-caps
+        inline-label
+        class="bg-primary text-white shadow-2"
         align="justify"
-        switch-indicator
       >
-        <q-tab name="inbox" label="Inbox" icon="inbox" class="text-orange">
+        <q-tab name="inbox" label="Inbox" icon="inbox">
           <q-badge color="red" floating>2</q-badge>
         </q-tab>
-        <q-tab name="outbox" label="Outbox" icon="outbox" class="text-cyan" />
-        <q-tab
-          name="archived"
-          label="Archived"
-          icon="archive"
-          class="text-red"
-        />
+        <q-tab name="outbox" label="Outbox" icon="outbox" />
+        <q-tab name="archived" label="Archived" icon="archive" />
       </q-tabs>
     </q-footer>
     <q-page-container>
@@ -109,7 +104,7 @@ watch([timesheetStatus], ([newModel]) => {
               <q-item-label>
                 {{ item.createdByUserName }}
               </q-item-label>
-              <q-item-label caption>
+              <q-item-label caption class="text-grey-8">
                 {{
                   item.fromDate
                     ? dateTimeHelper.extractDateFromUtc(item.fromDate)
@@ -122,12 +117,14 @@ watch([timesheetStatus], ([newModel]) => {
                 {{ item.totalHours }}
               </q-item-label>
             </q-item-section>
-            <q-item-section>
+            <q-item-section style="align-items: end">
               <q-chip
                 dense
                 :color="getExpenseOrTimesheetStatusColor(item.status)"
               >
-                <q-item-label caption>{{ item.status }}</q-item-label>
+                <q-item-label caption class="q-pa-md text-grey-9">{{
+                  item.status
+                }}</q-item-label>
               </q-chip>
             </q-item-section>
             <q-item-section side>

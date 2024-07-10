@@ -71,6 +71,7 @@ const timesheetDCAA = computed(() => {
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
 const upDateWorkFlow = async () => {
   if (
+    props?.entityType == 'timesheet' &&
     timesheetDCAA.value.isEnabled &&
     timesheetDCAA.value.isConfirmationRequiredToSubmit &&
     props.stageId === 1
