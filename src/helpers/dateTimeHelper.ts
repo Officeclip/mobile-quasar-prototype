@@ -23,7 +23,7 @@ const extractDateandTimeFromUtc = (
       const formattedTime = format(utcDate, 'EEE, MMM dd, yyyy');
       return formattedTime;
     }
-    return format(utcDate, 'EEE, MMM dd, yyyy  hh:mm a');
+    return format(utcDate, 'EEE, MMM dd, yyyy hh:mm a');
   }
   return null;
 };
