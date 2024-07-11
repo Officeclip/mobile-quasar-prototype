@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import { computed, ComputedRef, onMounted, ref, Ref, watch } from 'vue';
+import { computed, onMounted, ref, Ref, watch } from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
@@ -35,12 +35,7 @@ const emit = defineEmits([
 
 const startDateTime = props.event.startDateTime;
 const endDateTime = props.event.endDateTime;
-// const startDateModelValue = computed(() => {
-//   return dateTimeHelper.extractDateandTimeFromUtc(
-//     startDateTime,
-//     props.event?.isAllDayEvent
-//   );
-// });
+
 const startDateModelValue = ref();
 startDateModelValue.value = dateTimeHelper.extractDateandTimeFromUtc(
   startDateTime,
@@ -69,12 +64,20 @@ watch(props.event, () => {
   }
 });
 
+watch(
+  [startDateModelValue, endDateModelValue],
+  ([newStartDateModelValue, newEndtDateModelValue]) => {
+    props.event.startDateTime = new Date(newStartDateModelValue).toISOString();
+    props.event.endDateTime = new Date(newEndtDateModelValue).toISOString();
+  }
+);
+
 const dateTimeMask = 'ddd, MMM D, YYYY hh:mm A';
 const dateMask = 'ddd, MMM D, YYYY';
 const mask = (x: boolean) => {
   return x ? dateMask : dateTimeMask;
 };
-
+const testing = 'Thu, Jul 11, 2024';
 onMounted(async () => {
   try {
     await userSummaryStore.getUserSummaries();
@@ -88,6 +91,10 @@ onMounted(async () => {
       await router.push({ path: '/eventSummary' });
     });
   }
+  console.log(
+    '################ startDateTime',
+    new Date(testing).toISOString()
+  );
 });
 
 const meetingAttendee = computed(() => {
@@ -271,10 +278,6 @@ function isValidURL(url: string) {
           placeholder="enter event name"
         />
       </q-item>
-      <pre>event.isAllDayEvent: {{ event.isAllDayEvent }}</pre>
-      <pre>mask:{{ mask(event.isAllDayEvent) }}</pre>
-      <pre>event.startDateTime:{{ event.startDateTime }}</pre>
-      <Pre>startDateModelValue:{{ startDateModelValue }}</Pre>
       <q-item>
         <q-toggle
           v-model="props.event.isAllDayEvent"
@@ -339,7 +342,10 @@ function isValidURL(url: string) {
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-model="endDateModelValue" :mask="mask()">
+                <q-date
+                  v-model="endDateModelValue"
+                  :mask="mask(event.isAllDayEvent)"
+                >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -355,7 +361,10 @@ function isValidURL(url: string) {
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-time v-model="endDateModelValue" :mask="mask()">
+                <q-time
+                  v-model="endDateModelValue"
+                  :mask="mask(event.isAllDayEvent)"
+                >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
