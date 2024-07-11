@@ -67,8 +67,11 @@ watch(props.event, () => {
 watch(
   [startDateModelValue, endDateModelValue],
   ([newStartDateModelValue, newEndtDateModelValue]) => {
-    props.event.startDateTime = new Date(newStartDateModelValue).toISOString();
-    props.event.endDateTime = new Date(newEndtDateModelValue).toISOString();
+    // props.event.startDateTime = new Date(newStartDateModelValue).toISOString();
+    // props.event.endDateTime = new Date(newEndtDateModelValue).toISOString();
+    // console.log('props.event.startDateTime ZZZZZ', props.event.startDateTime);
+    props.event.startDateTime = new Date(newStartDateModelValue);
+    props.event.endDateTime = new Date(newEndtDateModelValue);
   }
 );
 
@@ -77,7 +80,6 @@ const dateMask = 'ddd, MMM D, YYYY';
 const mask = (x: boolean) => {
   return x ? dateMask : dateTimeMask;
 };
-const testing = 'Thu, Jul 11, 2024';
 onMounted(async () => {
   try {
     await userSummaryStore.getUserSummaries();
@@ -91,10 +93,6 @@ onMounted(async () => {
       await router.push({ path: '/eventSummary' });
     });
   }
-  console.log(
-    '################ startDateTime',
-    new Date(testing).toISOString()
-  );
 });
 
 const meetingAttendee = computed(() => {
@@ -278,9 +276,12 @@ function isValidURL(url: string) {
           placeholder="enter event name"
         />
       </q-item>
+      <pre>event.isAllDayEvent::{{ event.isAllDayEvent }}</pre>
+      <pre>startDateModelValue::{{ startDateModelValue }}</pre>
+      <pre>mask::{{ mask(event.isAllDayEvent) }}</pre>
       <q-item>
         <q-toggle
-          v-model="props.event.isAllDayEvent"
+          v-model="event.isAllDayEvent"
           :false-value="false"
           :true-value="true"
           color="primary"
