@@ -27,6 +27,30 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       }
     },
 
+    getNewEventSummary() {
+      if (this.eventSummary) {
+        const dates = this.eventSummary.map(
+          //https://stackoverflow.com/a/19590901
+          function (a: eventSummary) {
+            if (a.isAllDayEvent) {
+              const helper = dateTimeHelper.extractDateFromUtc(a.startDateTime);
+              // return helper?.replace(/-/g, '/');
+              a.startDateTime = new Date(helper);
+            } else {
+              const date = new Date(a.startDateTime);
+              // const year = date.getFullYear();
+              // const month = String(date.getMonth() + 1).padStart(2, '0'); // Pad month with leading zero
+              // const day = String(date.getDate()).padStart(2, '0'); // Pad day with leading zero
+              // return `${year}/${month}/${day}`;
+              a.startDateTime = new Date(date);
+            }
+          }
+        );
+        console.log('@@@@@@@@@@@@@@@@@@', this.EventSummary);
+        return dates;
+      }
+    },
+
     getEventSummaryForADay(date: any) {
       const formattedDate = date.replace(/\//g, '-');
       if (this.eventSummary) {
@@ -55,12 +79,23 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
 
     // Gets all the event dates so that we can color the simple calendar
     getEventSummaryDates() {
+      this.getNewEventSummary();
       if (this.eventSummary) {
         const dates = this.eventSummary.map(
           //https://stackoverflow.com/a/19590901
           function (a) {
-            const helper = dateTimeHelper.extractDateFromUtc(a.startDateTime);
-            return helper?.replace(/-/g, '/');
+            // const helper = dateTimeHelper.extractDateFromUtc(a.startDateTime);
+            // return helper?.replace(/-/g, '/');
+            if (a.isAllDayEvent) {
+              const helper = dateTimeHelper.extractDateFromUtc(a.startDateTime);
+              return helper?.replace(/-/g, '/');
+            } else {
+              const date = new Date(a.startDateTime);
+              const year = date.getFullYear();
+              const month = String(date.getMonth() + 1).padStart(2, '0'); // Pad month with leading zero
+              const day = String(date.getDate()).padStart(2, '0'); // Pad day with leading zero
+              return `${year}/${month}/${day}`;
+            }
           }
         );
         return dates;

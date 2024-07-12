@@ -219,6 +219,7 @@ function isValidURL(url: string) {
   <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <q-list>
+      <pre>{{ props.event }}</pre>
       <q-item>
         <q-item-section>
           <q-radio

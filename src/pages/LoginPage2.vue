@@ -31,14 +31,27 @@ const submitLogin = () => {
             <div class="text-h4 text-bold">Login OfficeClip</div>
             <div class="text-grey-7">Please Login to your account</div>
             <div class="column">
-              <q-input v-model="form.email.value" :error="form.email.error" :error-message="form.email.msg"
-                label="Enter email *" outline type="text">
+              <q-input
+                v-model="form.email.value"
+                :error="form.email.error"
+                :error-message="form.email.msg"
+                label="Enter email *"
+                outline
+                type="text"
+              >
                 <template v-slot:prepend>
                   <q-icon name="email" />
                 </template>
               </q-input>
-              <q-input v-model="form.password.value" :error="form.password.error" :error-message="form.password.msg"
-                class="q-mt-md" label="Enter password *" outline type="text">
+              <q-input
+                v-model="form.password.value"
+                :error="form.password.error"
+                :error-message="form.password.msg"
+                class="q-mt-md"
+                label="Enter password *"
+                outline
+                type="text"
+              >
                 <template v-slot:prepend>
                   <q-icon name="lock" />
                 </template>
@@ -52,54 +65,84 @@ const submitLogin = () => {
             </div>
 
             <div class="column">
-              <q-btn :to="{ name: 'homePage' }" color="primary" label="Goto Home" />
+              <q-btn
+                :to="{ name: 'homePage' }"
+                color="primary"
+                label="Goto Home"
+              />
             </div>
             <div class="column m-t-md">
-              <q-btn :to="{
-                name: 'testMe',
-                params: {
-                  id: 1,
-                },
-              }" label="Test Me" />
+              <q-btn
+                :to="{
+                  name: 'testMe',
+                  params: {
+                    id: 1,
+                  },
+                }"
+                label="Test Me"
+              />
             </div>
             <div class="column m-t-md">
-              <q-btn :to="{
-                name: 'dTest',
-                params: {
-                  id: 1,
-                },
-              }" label="D Login" />
+              <q-btn
+                :to="{
+                  name: 'dTest',
+                  params: {
+                    id: 1,
+                  },
+                }"
+                label="D Login"
+              />
             </div>
             <div class="column m-t-md">
-              <q-btn :to="{
-                name: 'formData',
-                // params: {
-                //   id: 1,
-                // },
-              }" label="sg-Form Data" no-caps />
+              <q-btn
+                :to="{
+                  name: 'formData',
+                  // params: {
+                  //   id: 1,
+                  // },
+                }"
+                label="sg-Form Data"
+                no-caps
+              />
             </div>
             <div class="column m-t-md">
-              <q-btn :to="{
-                name: 'kRegarding',
-                // params: {
-                //   id: 1,
-                // },
-              }" label="K Regarding Test Page" no-caps />
+              <q-btn
+                :to="{
+                  name: 'kRegarding',
+                  // params: {
+                  //   id: 1,
+                  // },
+                }"
+                label="K Regarding Test Page"
+                no-caps
+              />
             </div>
             <div class="column m-t-md">
-              <q-btn :to="{
-                name: 'coloredDdOptions',
-              }" label="sg-colored dd options" no-caps />
+              <q-btn
+                :to="{
+                  name: 'coloredDdOptions',
+                }"
+                label="Utc datetime"
+                no-caps
+              />
             </div>
             <div class="column m-t-md">
-              <q-btn :to="{
-                name: 'attachmentsTest',
-              }" label="sg-attchments" no-caps />
+              <q-btn
+                :to="{
+                  name: 'attachmentsTest',
+                }"
+                label="sg-attchments"
+                no-caps
+              />
             </div>
             <div class="column m-t-md">
-              <q-btn :to="{
-                name: 'calEventsTest',
-              }" label="Date time picker" no-caps />
+              <q-btn
+                :to="{
+                  name: 'calEventsTest',
+                }"
+                label="Date time picker"
+                no-caps
+              />
             </div>
           </div>
         </div>

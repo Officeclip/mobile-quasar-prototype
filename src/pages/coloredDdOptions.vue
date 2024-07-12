@@ -1,53 +1,81 @@
-<script setup>
-import { ref } from 'vue';
-const model = ref('1');
-const labelOptions = [
+<script lang="ts" setup>
+import dateTimeHelper from 'src/helpers/dateTimeHelper';
+
+const eventSummary = [
   {
-    id: '1',
-    name: 'Office',
-    color: '#FFCCCC',
+    startDateTime: '2024-07-05T00:00:00Z',
+    isAllDayEvent: true,
   },
   {
-    id: '2',
-    name: 'Home',
-    color: '#CCFFCC',
+    startDateTime: '2024-07-10T00:00:00Z',
+    isAllDayEvent: false,
+  },
+  {
+    startDateTime: '2024-07-15T00:00:00Z',
+    isAllDayEvent: true,
   },
 ];
+
+function getEventSummaryDates() {
+  if (eventSummary) {
+    const dates = eventSummary.map(function (data) {
+      if (data.isAllDayEvent) {
+        const helper = dateTimeHelper.extractDateFromUtc(data.startDateTime);
+        return helper?.replace(/-/g, '/');
+      } else {
+        const date = new Date(data.startDateTime);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Pad month with leading zero
+        const day = String(date.getDate()).padStart(2, '0'); // Pad day with leading zero
+        return `${year}/${month}/${day}`;
+      }
+    });
+    return dates;
+  }
+  return [];
+}
+
+const sampleData = [
+  {
+    startDateTime: '2024-07-05T00:00:00Z',
+    isAllDayEvent: true,
+  },
+  {
+    startDateTime: '2024-07-10T21:00:00Z',
+    isAllDayEvent: false,
+  },
+  {
+    startDateTime: '2024-07-15T00:00:00Z',
+    isAllDayEvent: true,
+  },
+];
+
+function convertStartDateTimeToDateObject(data) {
+  // Loop through each object in the data
+  for (let i = 0; i < data.length; i++) {
+    // Check if isAllDayEvent is true
+    if (!data[i].isAllDayEvent) {
+      // Create a new Date object from the startDateTime string
+      data[i].startDateTime = new Date(data[i].startDateTime);
+    } else {
+      data[i].startDateTime = new Date(
+        dateTimeHelper.extractDateFromUtc(data[i].startDateTime)
+      );
+    }
+  }
+  console.log('XXXXXXXXXXXXXXXXXX', data);
+  return data; // Return the modified data array
+}
+
+const dataWithDateObjects = convertStartDateTimeToDateObject(sampleData);
+console.log(dataWithDateObjects);
 </script>
 
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
       <q-list>
-        <q-select
-          v-model="model"
-          :options="labelOptions"
-          emit-value
-          label="Label"
-          map-options
-          name="label"
-          option-label="name"
-          option-value="id"
-        >
-          <template #option="scope">
-            <q-item
-              class="q-my-xs"
-              v-bind="scope.itemProps"
-              v-bind:style="{ backgroundColor: scope.opt.color }"
-            >
-              <q-item-section>
-                <q-item-label>
-                  {{ scope.opt.name }}
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-          </template>
-          <template #selected-item="scope">
-            <q-item dense v-bind:style="{ backgroundColor: scope.opt.color }">
-              {{ scope.opt.name }}
-            </q-item>
-          </template>
-        </q-select>
+        <q-list-item>{{ dataWithDateObjects }}</q-list-item>
       </q-list>
     </div>
   </div>
