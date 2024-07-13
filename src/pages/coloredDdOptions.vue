@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
-const eventSummary = [
+/* const eventSummary = [
   {
     startDateTime: '2024-07-05T00:00:00Z',
     isAllDayEvent: true,
@@ -14,9 +14,9 @@ const eventSummary = [
     startDateTime: '2024-07-15T00:00:00Z',
     isAllDayEvent: true,
   },
-];
+]; */
 
-function getEventSummaryDates() {
+/* function getEventSummaryDates() {
   if (eventSummary) {
     const dates = eventSummary.map(function (data) {
       if (data.isAllDayEvent) {
@@ -33,7 +33,7 @@ function getEventSummaryDates() {
     return dates;
   }
   return [];
-}
+} */
 
 const sampleData = [
   {
@@ -41,7 +41,7 @@ const sampleData = [
     isAllDayEvent: true,
   },
   {
-    startDateTime: '2024-07-10T21:00:00Z',
+    startDateTime: '2024-07-10T01:00:00Z',
     isAllDayEvent: false,
   },
   {
@@ -53,22 +53,26 @@ const sampleData = [
 function convertStartDateTimeToDateObject(data) {
   // Loop through each object in the data
   for (let i = 0; i < data.length; i++) {
+    data[i].startDateTime = dateTimeHelper.newExtractDateFromUtc(
+      data[i].startDateTime,
+      data[i].isAllDayEvent
+    );
     // Check if isAllDayEvent is true
-    if (!data[i].isAllDayEvent) {
-      // Create a new Date object from the startDateTime string
-      data[i].startDateTime = new Date(data[i].startDateTime);
-    } else {
-      data[i].startDateTime = new Date(
-        dateTimeHelper.extractDateFromUtc(data[i].startDateTime)
-      );
-    }
+    // if (!data[i].isAllDayEvent) {
+    //   // Create a new Date object from the startDateTime string
+    //   data[i].startDateTime = new Date(data[i].startDateTime);
+    // } else {
+    //   data[i].startDateTime = new Date(
+    //     dateTimeHelper.extractDateFromUtc(data[i].startDateTime)
+    //   );
+    // }
   }
   console.log('XXXXXXXXXXXXXXXXXX', data);
   return data; // Return the modified data array
 }
 
 const dataWithDateObjects = convertStartDateTimeToDateObject(sampleData);
-console.log(dataWithDateObjects);
+// console.log(dataWithDateObjects);
 </script>
 
 <template>

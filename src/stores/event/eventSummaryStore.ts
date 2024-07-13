@@ -27,29 +27,57 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       }
     },
 
-    getNewEventSummary() {
-      if (this.eventSummary) {
-        const dates = this.eventSummary.map(
-          //https://stackoverflow.com/a/19590901
-          function (a: eventSummary) {
-            if (a.isAllDayEvent) {
-              const helper = dateTimeHelper.extractDateFromUtc(a.startDateTime);
-              // return helper?.replace(/-/g, '/');
-              a.startDateTime = new Date(helper);
-            } else {
-              const date = new Date(a.startDateTime);
-              // const year = date.getFullYear();
-              // const month = String(date.getMonth() + 1).padStart(2, '0'); // Pad month with leading zero
-              // const day = String(date.getDate()).padStart(2, '0'); // Pad day with leading zero
-              // return `${year}/${month}/${day}`;
-              a.startDateTime = new Date(date);
-            }
-          }
-        );
-        console.log('@@@@@@@@@@@@@@@@@@', this.EventSummary);
-        return dates;
-      }
-    },
+    // getNewEventSummary() {
+    //   if (this.eventSummary) {
+    //     // const convertedData = sampleData.map(event => {
+    //     //   // Create a new object to avoid mutating the original data
+    //     //   const newEvent = { ...event };
+
+    //     //   // Parse the startDateTime string into a Date object
+    //     //   newEvent.startDateTime = new Date(newEvent.startDateTime);
+
+    //     //   return newEvent;
+    //     // });
+
+    //     const convertedSummaries = this.eventSummary.map((event) => {
+    //       const newEvent = { ...event };
+    //       if (newEvent.isAllDayEvent) {
+    //         const helper = dateTimeHelper.extractDateFromUtc(
+    //           newEvent.startDateTime
+    //         );
+    //         // return helper?.replace(/-/g, '/');
+    //         if (helper !== undefined) {
+    //           newEvent.startDate = new Date(helper);
+    //         }
+    //       } else {
+    //         if (newEvent.startDateTime !== undefined) {
+    //           const date = new Date(newEvent.startDateTime);
+    //           newEvent.startDate = new Date(date);
+    //         }
+    //       }
+    //       return newEvent;
+    //     });
+    //     // const newEventSummary = {... this.eventSummary};
+    //     // //https://stackoverflow.com/a/19590901
+    //     // function (a: eventSummary) {
+    //     //   if (a.isAllDayEvent) {
+    //     //     const helper = dateTimeHelper.extractDateFromUtc(a.startDateTime);
+    //     //     // return helper?.replace(/-/g, '/');
+    //     //     a.startDateTime = new Date(helper);
+    //     //   } else {
+    //     //     const date = new Date(a.startDateTime);
+    //     //     // const year = date.getFullYear();
+    //     //     // const month = String(date.getMonth() + 1).padStart(2, '0'); // Pad month with leading zero
+    //     //     // const day = String(date.getDate()).padStart(2, '0'); // Pad day with leading zero
+    //     //     // return `${year}/${month}/${day}`;
+    //     //     a.startDateTime = new Date(date);
+    //     //   }
+    //     //   }
+    //     // );
+    //     console.log('@@@@@@@@@@@@@@@@@@', convertedSummaries);
+    //     return convertedSummaries;
+    //   }
+    // },
 
     getEventSummaryForADay(date: any) {
       const formattedDate = date.replace(/\//g, '-');
@@ -79,7 +107,7 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
 
     // Gets all the event dates so that we can color the simple calendar
     getEventSummaryDates() {
-      this.getNewEventSummary();
+      //this.getNewEventSummary();
       if (this.eventSummary) {
         const dates = this.eventSummary.map(
           //https://stackoverflow.com/a/19590901
