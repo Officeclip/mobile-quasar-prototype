@@ -3,10 +3,21 @@ import { parse } from 'date-fns';
 
 const newExtractDateFromUtc = (
   utcDateTime: string | undefined,
-  isAllDay: boolean
+  isAllDayEvent: boolean
 ) => {
   if (utcDateTime === undefined) {
     return null;
+  }
+
+  if (isAllDayEvent) {
+    const helper = utcDateTime?.substring(0, 10);
+    return helper?.replace(/-/g, '/');
+  } else {
+    const date = new Date(utcDateTime);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Pad month with leading zero
+    const day = String(date.getDate()).padStart(2, '0'); // Pad day with leading zero
+    return `${year}/${month}/${day}`;
   }
 
   return new Date(isAllDay ? utcDateTime?.substring(0, 10) : utcDateTime);
