@@ -5,8 +5,6 @@ export interface eventSummary {
   eventType: string;
   eventName: string;
   startDateTime?: string;
-  startDate: Date;
-  endDate: Date;
   endDateTime?: string;
   isAllDayEvent: boolean;
   security: security[];
