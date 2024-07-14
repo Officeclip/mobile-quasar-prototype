@@ -25,14 +25,14 @@ const extractTimeFromUtc = (utcDateTime: string) => {
   return formattedTime;
 };
 
-const extractDateandTimeFromUtc = (
-  utcDateTime: string,
-  optionalParameter = false
+const formatDateandTimeFromUtc = (
+  utcDateTimeStr: string,
+  isDateFormat = false
 ) => {
-  const data = utcDateTime;
-  if (data) {
-    const utcDate = new Date(utcDateTime);
-    if (optionalParameter) {
+  //const data = utcDateTimeStr;
+  if (utcDateTimeStr) {
+    const utcDate = new Date(utcDateTimeStr);
+    if (isDateFormat) {
       const formattedTime = format(utcDate, 'EEE, MMM dd, yyyy');
       return formattedTime;
     }
@@ -126,7 +126,7 @@ const formatFullDateTime = (date: Date) => {
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
-  extractDateandTimeFromUtc,
+  formatDateandTimeFromUtc,
   extractTimeFromUtcForQTime,
   extractMonthFromUtc,
   convertGeneralToUtc,

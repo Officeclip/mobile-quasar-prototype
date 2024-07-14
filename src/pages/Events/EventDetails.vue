@@ -75,7 +75,7 @@ function showMeetingType(eventType: string | undefined) {
 }
 const startDate = computed(() => {
   if (event.value?.startDateTime) {
-    const data = dateTimeHelper.extractDateandTimeFromUtc(
+    const data = dateTimeHelper.formatDateandTimeFromUtc(
       event.value?.startDateTime,
       event.value?.isAllDayEvent
     );
@@ -85,7 +85,7 @@ const startDate = computed(() => {
 });
 const endDate = computed(() => {
   if (event.value?.endDateTime) {
-    const data = dateTimeHelper.extractDateandTimeFromUtc(
+    const data = dateTimeHelper.formatDateandTimeFromUtc(
       event.value?.endDateTime,
       event.value?.isAllDayEvent
     );
@@ -95,7 +95,7 @@ const endDate = computed(() => {
 });
 const createdDate = computed(() => {
   if (event.value?.createdDate) {
-    const data = dateTimeHelper.extractDateandTimeFromUtc(
+    const data = dateTimeHelper.formatDateandTimeFromUtc(
       event.value?.createdDate,
       event.value?.isAllDayEvent
     );
@@ -105,7 +105,7 @@ const createdDate = computed(() => {
 });
 const lastModifiedDate = computed(() => {
   if (event.value?.modifiedDate) {
-    const data = dateTimeHelper.extractDateandTimeFromUtc(
+    const data = dateTimeHelper.formatDateandTimeFromUtc(
       event.value?.modifiedDate,
       event.value?.isAllDayEvent
     );

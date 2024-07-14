@@ -37,13 +37,13 @@ const startDateTime = props.event.startDateTime;
 const endDateTime = props.event.endDateTime;
 
 const startDateModelValue = ref();
-startDateModelValue.value = dateTimeHelper.extractDateandTimeFromUtc(
+startDateModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
   startDateTime,
   props.event.isAllDayEvent
 );
 
 const endDateModelValue = ref();
-endDateModelValue.value = dateTimeHelper.extractDateandTimeFromUtc(
+endDateModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
   endDateTime,
   props.event?.isAllDayEvent
 );
@@ -52,11 +52,11 @@ let isAllDay = props.event.isAllDayEvent;
 
 watch(props.event, () => {
   if (isAllDay !== props.event.isAllDayEvent) {
-    startDateModelValue.value = dateTimeHelper.extractDateandTimeFromUtc(
+    startDateModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
       startDateTime,
       props.event.isAllDayEvent
     );
-    endDateModelValue.value = dateTimeHelper.extractDateandTimeFromUtc(
+    endDateModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
       endDateTime,
       props.event?.isAllDayEvent
     );
@@ -67,9 +67,6 @@ watch(props.event, () => {
 watch(
   [startDateModelValue, endDateModelValue],
   ([newStartDateModelValue, newEndtDateModelValue]) => {
-    // props.event.startDateTime = new Date(newStartDateModelValue).toISOString();
-    // props.event.endDateTime = new Date(newEndtDateModelValue).toISOString();
-    // console.log('props.event.startDateTime ZZZZZ', props.event.startDateTime);
     props.event.startDateTime = new Date(newStartDateModelValue);
     props.event.endDateTime = new Date(newEndtDateModelValue);
   }
@@ -227,7 +224,7 @@ function startDateChanged(val) {
   <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <q-list>
-      <pre>{{ props.event }}</pre>
+      <!-- <pre>{{ props.event }}</pre> -->
       <q-item>
         <q-item-section>
           <q-radio
@@ -285,9 +282,9 @@ function startDateChanged(val) {
           placeholder="enter event name"
         />
       </q-item>
-      <pre>event.isAllDayEvent::{{ event.isAllDayEvent }}</pre>
+      <!--       <pre>event.isAllDayEvent::{{ event.isAllDayEvent }}</pre>
       <pre>startDateModelValue::{{ startDateModelValue }}</pre>
-      <pre>mask::{{ mask(event.isAllDayEvent) }}</pre>
+      <pre>mask::{{ mask(event.isAllDayEvent) }}</pre> -->
       <q-item>
         <q-toggle
           v-model="event.isAllDayEvent"

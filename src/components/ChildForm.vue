@@ -13,7 +13,7 @@ const mask = computed(() => {
 const startDateParsed = computed(() => {
   const data = props.testData?.startDate;
   const data2 = props.testData.isAllDay;
-  return dateTimeHelper.extractDateandTimeFromUtc(data, data2);
+  return dateTimeHelper.formatDateandTimeFromUtc(data, data2);
 });
 </script>
 

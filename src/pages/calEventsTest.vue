@@ -6,7 +6,7 @@ const isAllDayEvent = ref(false);
 
 const start = ref('2024-04-10T11:50:07Z');
 const startsModelValue = ref();
-startsModelValue.value = dateTimeHelper.extractDateandTimeFromUtc(
+startsModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
   start.value,
   isAllDayEvent.value
 );
@@ -16,7 +16,7 @@ const mask = (x: boolean) => {
   return x ? dateMask : dateTimeMask;
 };
 watch(isAllDayEvent, () => {
-  startsModelValue.value = dateTimeHelper.extractDateandTimeFromUtc(
+  startsModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
     start.value,
     isAllDayEvent.value
   );
