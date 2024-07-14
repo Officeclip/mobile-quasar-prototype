@@ -15,7 +15,7 @@ const router = useRouter();
 const $q = useQuasar();
 
 const selectedDate = ref('');
-selectedDate.value = format(new Date(), 'yyyy/MM/dd');
+selectedDate.value = format(new Date(), 'yyyy-MM-dd');
 
 const yearAndMonth = ref(null);
 
