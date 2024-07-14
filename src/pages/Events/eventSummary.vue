@@ -32,7 +32,7 @@ onMounted(async () => {
   }
 });
 
-const eventDates = computed(() => {
+const calendarEventDates = computed(() => {
   return eventSummaryStore.getEventSummaryDates();
 });
 
@@ -111,7 +111,7 @@ const getYearandMonth = (newvalue: any) => {
           <q-list class="flex justify-center">
             <q-date
               v-model="selectedDate"
-              :events="eventDates"
+              :events="calendarEventDates"
               today-btn
               @navigation="getYearandMonth"
             />
