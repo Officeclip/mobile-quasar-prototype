@@ -95,18 +95,45 @@ async function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)">
+        <q-btn
+          color="white"
+          dense
+          flat
+          icon="arrow_back"
+          round
+          @click="$router.go(-1)"
+        >
         </q-btn>
         <q-toolbar-title> New Event</q-toolbar-title>
-        <q-btn class="q-px-md" dense label="Save" no-caps outline rounded type="submit" @click="onSubmit" />
+        <q-btn
+          class="q-px-md"
+          dense
+          label="Save"
+          no-caps
+          outline
+          rounded
+          type="submit"
+          @click="onSubmit"
+        />
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <EventForm :event="event" @rrule-generated="handleRRule" @rrule-text-generated="handleRRuleText"
-            @reminder-generated="handleReminder" />
-          <q-btn class="q-ml-sm" color="primary" flat label="Reset" no-caps type="reset" />
+          <EventForm
+            :event="event"
+            @rrule-generated="handleRRule"
+            @rrule-text-generated="handleRRuleText"
+            @reminder-generated="handleReminder"
+          />
+          <q-btn
+            class="q-ml-sm"
+            color="primary"
+            flat
+            label="Reset"
+            no-caps
+            type="reset"
+          />
         </div>
       </q-form>
     </q-page-container>

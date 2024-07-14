@@ -76,6 +76,8 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
     },
 
     async addEventDetails(event: eventDetails) {
+      console.log('AAABBB', event);
+
       const callStr = `${Constants.endPointUrl}/event-detail`;
       try {
         const instance = Constants.getAxiosInstance();

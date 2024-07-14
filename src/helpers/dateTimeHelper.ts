@@ -3,7 +3,7 @@ import { parse } from 'date-fns';
 
 const extractDateFromUtc = (
   utcDateTime: string | undefined,
-  isAllDayEvent = false
+  isAllDayEvent = true
 ) => {
   if (utcDateTime === undefined) {
     return null;
