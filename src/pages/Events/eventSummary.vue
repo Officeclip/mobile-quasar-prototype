@@ -14,8 +14,8 @@ const eventSummaryStore = useEventSummaryStore();
 const router = useRouter();
 const $q = useQuasar();
 
-const date = ref('');
-date.value = format(new Date(), 'yyyy/MM/dd');
+const selectedDate = ref('');
+selectedDate.value = format(new Date(), 'yyyy/MM/dd');
 
 const yearAndMonth = ref(null);
 
@@ -53,7 +53,7 @@ const eventsForADay = computed(() => {
   if (myEvents.length === 0) {
     eventSummaryStore.getAllEventSummary(yearAndMonth.value);
   }
-  let events = eventSummaryStore.getEventSummaryForADay(date.value);
+  let events = eventSummaryStore.getEventSummaryForADay(selectedDate.value);
   return events;
 });
 
@@ -92,7 +92,14 @@ const getYearandMonth = (newvalue: any) => {
   <q-layout view="lHh Lpr lFf">
     <q-header elevated height-hint="48">
       <q-toolbar>
-        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)">
+        <q-btn
+          color="white"
+          dense
+          flat
+          icon="arrow_back"
+          round
+          @click="$router.go(-1)"
+        >
         </q-btn>
         <q-toolbar-title> OfficeClip Calendar</q-toolbar-title>
       </q-toolbar>
@@ -102,16 +109,32 @@ const getYearandMonth = (newvalue: any) => {
       <q-page>
         <div class="q-ma-md">
           <q-list class="flex justify-center">
-            <q-date v-model="date" :events="eventDates" today-btn @navigation="getYearandMonth" />
+            <q-date
+              v-model="selectedDate"
+              :events="eventDates"
+              today-btn
+              @navigation="getYearandMonth"
+            />
           </q-list>
-          <q-list class="q-pt-lg text-h6">Events for: {{ date }}</q-list>
+          <q-list class="q-pt-lg text-h6"
+            >Events for: {{ selectedDate }}</q-list
+          >
           <q-list bordered class="q-mt-sm">
-            <q-item v-for="event in eventsForADay" :key="event.id" v-ripple :to="{
-          name: 'eventDetails',
-          params: { id: event.id },
-        }" clickable>
+            <q-item
+              v-for="event in eventsForADay"
+              :key="event.id"
+              v-ripple
+              :to="{
+                name: 'eventDetails',
+                params: { id: event.id },
+              }"
+              clickable
+            >
               <q-item-section avatar>
-                <q-icon :name="getEventIcon(event.eventType)" :color="getEventTypeColour(event.eventType)" />
+                <q-icon
+                  :name="getEventIcon(event.eventType)"
+                  :color="getEventTypeColour(event.eventType)"
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{ event.eventName }}</q-item-label>
@@ -125,7 +148,8 @@ const getYearandMonth = (newvalue: any) => {
             </q-item>
           </q-list>
           <q-list>
-            <q-item class="flex items-center">Legends:
+            <q-item class="flex items-center"
+              >Legends:
               <q-icon class="q-ml-md" color="primary" name="person" />
               <div class="q-ml-sm text-caption">Personal</div>
               <q-icon class="q-ml-md" color="secondary" name="group" />
@@ -135,14 +159,20 @@ const getYearandMonth = (newvalue: any) => {
             </q-item>
           </q-list>
           <q-page-sticky :offset="[18, 18]" position="bottom-right">
-            <q-btn :to="{
-          name: 'newEvent',
-          params: {
-            id: -1,
-            objectTypeId: -1,
-            objectId: -1,
-          },
-        }" color="accent" fab icon="add" padding="sm">
+            <q-btn
+              :to="{
+                name: 'newEvent',
+                params: {
+                  id: -1,
+                  objectTypeId: -1,
+                  objectId: -1,
+                },
+              }"
+              color="accent"
+              fab
+              icon="add"
+              padding="sm"
+            >
             </q-btn>
           </q-page-sticky>
         </div>

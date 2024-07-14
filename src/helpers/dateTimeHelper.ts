@@ -19,8 +19,6 @@ const newExtractDateFromUtc = (
     const day = String(date.getDate()).padStart(2, '0'); // Pad day with leading zero
     return `${year}/${month}/${day}`;
   }
-
-  return new Date(isAllDay ? utcDateTime?.substring(0, 10) : utcDateTime);
 };
 
 const extractDateFromUtc = (utcDateTime: string | undefined) =>
