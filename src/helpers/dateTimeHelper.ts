@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import { parse } from 'date-fns';
+import { addHours } from 'date-fns';
 
 const extractDateFromUtc = (
   utcDateTime: string | undefined,
@@ -114,6 +115,14 @@ const populateDates = (startDate: Date, endDate: Date) => {
   return dates;
 };
 
+const addHoursToDate = (date: Date, hours: number) => {
+  return addHours(date, hours);
+};
+
+const formatFullDateTime = (date: Date) => {
+  return format(date, 'EEE, MMM dd, yyyy hh:mm a');
+};
+
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
@@ -125,4 +134,6 @@ export default {
   convertLocalDateToUTC,
   convertDateTimeUTCtoLocal,
   populateDates,
+  addHoursToDate,
+  formatFullDateTime,
 };

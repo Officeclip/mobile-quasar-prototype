@@ -213,6 +213,14 @@ function isValidURL(url: string) {
   const pattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
   return pattern.test(url);
 }
+
+function startDateChanged(val) {
+  if (!props.event.isAllDayEvent) {
+    const date = new Date(val);
+    const endDateTime = dateTimeHelper.addHoursToDate(date, 1);
+    endDateModelValue.value = dateTimeHelper.formatFullDateTime(endDateTime);
+  }
+}
 </script>
 
 <template>
@@ -294,7 +302,11 @@ function isValidURL(url: string) {
       </q-item>
 
       <q-item class="column">
-        <q-input v-model="startDateModelValue" label="Starts*">
+        <q-input
+          v-model="startDateModelValue"
+          label="Starts*"
+          @update:model-value="startDateChanged"
+        >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy
@@ -305,6 +317,7 @@ function isValidURL(url: string) {
                 <q-date
                   v-model="startDateModelValue"
                   :mask="mask(event.isAllDayEvent)"
+                  @update:model-value="startDateChanged"
                 >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
@@ -324,6 +337,7 @@ function isValidURL(url: string) {
                 <q-time
                   v-model="startDateModelValue"
                   :mask="mask(event.isAllDayEvent)"
+                  @update:model-value="startDateChanged"
                 >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
