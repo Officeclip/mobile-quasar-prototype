@@ -53,7 +53,7 @@ const sampleData = [
 function convertStartDateTimeToDateObject(data) {
   // Loop through each object in the data
   for (let i = 0; i < data.length; i++) {
-    data[i].startDateTime = dateTimeHelper.newExtractDateFromUtc(
+    data[i].startDateTime = dateTimeHelper.extractDateFromUtc(
       data[i].startDateTime,
       data[i].isAllDayEvent
     );

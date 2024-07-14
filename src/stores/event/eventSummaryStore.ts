@@ -31,17 +31,12 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       const formattedDate = date.replace(/\//g, '-');
       if (this.eventSummary) {
         const eventsForADay = this.eventSummary.filter((t) => {
-          const newDate = dateTimeHelper.newExtractDateFromUtc(
+          const newDate = dateTimeHelper.extractDateFromUtc(
             t.startDateTime,
             t.isAllDayEvent
           );
-          console.log('cvcvcv:', newDate);
           return newDate === formattedDate;
-
-          // return t.startDateTime?.includes(formattedDate);
         });
-        console.log('yzyzyzyzyzyz', formattedDate);
-        console.log('xyxyxyxyxy', eventsForADay);
         return eventsForADay;
       } else {
         return [];
@@ -64,16 +59,14 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
 
     // Gets all the event dates so that we can color the simple calendar
     getEventSummaryDates() {
-      //this.getNewEventSummary();
       if (this.eventSummary) {
         const dates = this.eventSummary.map(
           //https://stackoverflow.com/a/19590901
           function (a) {
-            const mydate = dateTimeHelper.newExtractDateFromUtc(
+            const mydate = dateTimeHelper.extractDateFromUtc(
               a.startDateTime,
               a.isAllDayEvent
             );
-            console.log(`$@$@$@$@: ${mydate}`);
             return mydate?.replace(/-/g, '/');
           }
         );

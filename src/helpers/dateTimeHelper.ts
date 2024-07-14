@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { parse } from 'date-fns';
 
-const newExtractDateFromUtc = (
+const extractDateFromUtc = (
   utcDateTime: string | undefined,
   isAllDayEvent = false
 ) => {
@@ -11,7 +11,6 @@ const newExtractDateFromUtc = (
 
   if (isAllDayEvent) {
     const helper = utcDateTime?.substring(0, 10);
-    //   return helper?.replace(/-/g, '/');
     return helper;
   } else {
     const date = new Date(utcDateTime);
@@ -19,15 +18,9 @@ const newExtractDateFromUtc = (
   }
 };
 
-const extractDateFromUtc = (utcDateTime: string | undefined) =>
-  utcDateTime?.substring(0, 10);
-
 const extractTimeFromUtc = (utcDateTime: string) => {
-  //console.log(`extractTimeFromUtc - utcDateTime: ${utcDateTime}`)
   const utcDate = new Date(utcDateTime);
-  //console.log(`extractTimeFromUtc - utcDate: ${utcDate}`)
   const formattedTime = format(utcDate, 'hh:mm aaa');
-  //console.log(`extractTimeFromUtc - formattedTime: ${formattedTime}`)
   return formattedTime;
 };
 
@@ -123,7 +116,6 @@ const populateDates = (startDate: Date, endDate: Date) => {
 
 export default {
   extractDateFromUtc,
-  newExtractDateFromUtc,
   extractTimeFromUtc,
   extractDateandTimeFromUtc,
   extractTimeFromUtcForQTime,
