@@ -3,7 +3,7 @@ import { parse } from 'date-fns';
 
 const newExtractDateFromUtc = (
   utcDateTime: string | undefined,
-  isAllDayEvent: boolean
+  isAllDayEvent = false
 ) => {
   if (utcDateTime === undefined) {
     return null;
@@ -33,7 +33,7 @@ const extractTimeFromUtc = (utcDateTime: string) => {
 
 const extractDateandTimeFromUtc = (
   utcDateTime: string,
-  optionalParameter: any = false
+  optionalParameter = false
 ) => {
   const data = utcDateTime;
   if (data) {
