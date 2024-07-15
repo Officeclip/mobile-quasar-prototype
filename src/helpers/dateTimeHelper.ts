@@ -118,9 +118,11 @@ const formatFullDateTime = (date: Date) => {
   return format(date, 'EEE, MMM dd, yyyy hh:mm a');
 };
 
-const removeLastZ = (dateString: string) => {
-  if (dateString.endsWith('Z')) {
-    return dateString.slice(0, -1);
+const removeLastZ = (dateString: string | undefined) => {
+  if (dateString) {
+    if (dateString.endsWith('Z')) {
+      return dateString.slice(0, -1);
+    }
   }
   return dateString;
 };

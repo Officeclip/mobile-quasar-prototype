@@ -108,7 +108,7 @@ const createdDate = computed(() => {
     );
     return data;
   }
-  return 'YYYY';
+  return null;
 });
 
 const lastModifiedDate = computed(() => {
@@ -118,7 +118,7 @@ const lastModifiedDate = computed(() => {
     );
     return data;
   }
-  return 'YYYY';
+  return null;
 });
 const attendeesList = computed(() => {
   if (event.value?.meetingAttendees) {
@@ -151,10 +151,6 @@ const cancelConfirmation = () => {
   showConfirmationDialog.value = false;
 };
 const confirmDeletion = async () => {
-  // eventDetailsStore.deleteEventDetails(event.value?.id).then(() => {
-  //   showConfirmationDialog.value = false;
-  //   router.go(-1);
-  //}
   try {
     await eventDetailsStore.deleteEventDetails(event.value?.id);
     showConfirmationDialog.value = false;
@@ -167,7 +163,6 @@ const confirmDeletion = async () => {
     }).onOk(async () => {
       console.log('*** Delete event :onSubmit(...):onOK ***');
       showConfirmationDialog.value = false;
-      //router.go(0);
     });
   }
 };

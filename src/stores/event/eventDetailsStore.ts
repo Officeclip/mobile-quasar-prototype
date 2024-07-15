@@ -3,6 +3,7 @@ import { eventDetails } from 'src/models/event/eventDetails';
 import { MeetingAttendees } from 'src/models/meetingAttendees';
 import { eventSummary } from 'src/models/event/eventSummary';
 import { Constants } from 'stores/Constants';
+import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 export const useEventDetailsStore = defineStore('eventDetailsStore', {
   state: () => ({
@@ -54,9 +55,17 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
         this.eventDetails = response.data;
+        if (this.eventDetails) {
+          this.eventDetails.startDateTime = this.eventDetails.isAllDayEvent
+            ? dateTimeHelper.removeLastZ(this.eventDetails.startDateTime)
+            : this.eventDetails.startDateTime;
+
+          this.eventDetails.endDateTime = this.eventDetails.isAllDayEvent
+            ? dateTimeHelper.removeLastZ(this.eventDetails.endDateTime)
+            : this.eventDetails.endDateTime;
+        }
         this.eventsCount = response.data.length;
       } catch (error) {
-        //console.error(error);
         Constants.throwError(error);
       }
     },
@@ -70,14 +79,11 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
           this.eventDetails = response.data;
         }
       } catch (error) {
-        //console.error(`editEvent Error: ${error}`);
         Constants.throwError(error);
       }
     },
 
     async addEventDetails(event: eventDetails) {
-      console.log('AAABBB', event);
-
       const callStr = `${Constants.endPointUrl}/event-detail`;
       try {
         const instance = Constants.getAxiosInstance();
@@ -86,7 +92,6 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
           this.eventDetails = response.data;
         }
       } catch (error) {
-        //console.error(`addEventDetail Error: ${error}`);
         Constants.throwError(error);
       }
     },
@@ -114,7 +119,6 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
           this.eventDetails = response.data;
         }
       } catch (error) {
-        //console.error(`deleteEvent Error: ${error}`);
         Constants.throwError(error);
       }
     },

@@ -43,10 +43,7 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       const formattedDate = date.replace(/\//g, '-');
       if (this.eventSummary) {
         const eventsForADay = this.eventSummary.filter((t) => {
-          const newDate = dateTimeHelper.extractDateFromUtc(
-            t.startDateTime,
-            t.isAllDayEvent
-          );
+          const newDate = dateTimeHelper.extractDateFromUtc(t.startDateTime);
           return newDate === formattedDate;
         });
         return eventsForADay;
@@ -75,10 +72,7 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
         const dates = this.eventSummary.map(
           //https://stackoverflow.com/a/19590901
           function (a) {
-            const mydate = dateTimeHelper.extractDateFromUtc(
-              a.startDateTime,
-              a.isAllDayEvent
-            );
+            const mydate = dateTimeHelper.extractDateFromUtc(a.startDateTime);
             return mydate?.replace(/-/g, '/');
           }
         );
