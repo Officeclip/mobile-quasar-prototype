@@ -15,7 +15,7 @@ const router = useRouter();
 const $q = useQuasar();
 
 const selectedDate = ref('');
-selectedDate.value = format(new Date(), 'yyyy-MM-dd');
+selectedDate.value = format(new Date(), 'yyyy/MM/dd');
 
 const yearAndMonth = ref(null);
 
@@ -64,14 +64,8 @@ function getFromToDate(event: eventSummary) {
 }
 
 function getEventType(event: eventSummary) {
-  const fromDate = dateTimeHelper.extractDateFromUtc(
-    event.startDateTime,
-    event.isAllDayEvent
-  );
-  const toDate = dateTimeHelper.extractDateFromUtc(
-    event.endDateTime,
-    event.isAllDayEvent
-  );
+  const fromDate = dateTimeHelper.extractDateFromUtc(event.startDateTime);
+  const toDate = dateTimeHelper.extractDateFromUtc(event.endDateTime);
   const time = getFromToDate(event);
   if (event.isAllDayEvent) {
     return 'All day event';
