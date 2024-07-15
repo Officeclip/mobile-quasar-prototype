@@ -2,69 +2,38 @@ import { format } from 'date-fns';
 import { parse } from 'date-fns';
 import { addHours } from 'date-fns';
 
-const extractDateFromUtc = (
-  utcDateTime: string | undefined,
-  isAllDayEvent = true
-) => {
-  if (utcDateTime === undefined) {
+const extractDateFromUtc = (utcDateTime: string | undefined) => {
+  // See: https://stackoverflow.com/a/5515349/89256
+  if (!utcDateTime) {
     return null;
   }
 
-  if (isAllDayEvent) {
-    const helper = utcDateTime?.substring(0, 10);
-    return helper;
-  } else {
-    const date = new Date(utcDateTime);
-    return format(date, 'yyyy-MM-dd');
-  }
+  const date = new Date(utcDateTime);
+  return format(date, 'yyyy-MM-dd');
 };
 
 const extractTimeFromUtc = (utcDateTime: string) => {
+  if (!utcDateTime) {
+    return null;
+  }
   const utcDate = new Date(utcDateTime);
   const formattedTime = format(utcDate, 'hh:mm aaa');
   return formattedTime;
 };
 
-// From: https://stackoverflow.com/a/18330682
-// function convertUTCDateToLocalDate(date: Date) {
-//   const newDate = new Date(
-//     date.getTime() + date.getTimezoneOffset() * 60 * 1000
-//   );
-
-//   const offset = date.getTimezoneOffset() / 60;
-//   const hours = date.getHours();
-
-//   newDate.setHours(hours - offset);
-
-//   return newDate;
-// }
-
 const formatDateandTimeFromUtc = (
   utcDateTimeStr: string,
   isAllDayEvent = false
 ) => {
-  // console.log(`dfdfdf: ${utcDateTimeStr}, ${isAllDayEvent}`);
-  //const data = utcDateTimeStr;
-  if (utcDateTimeStr) {
-    //const utcDate = new Date(utcDateTimeStr);
-    if (isAllDayEvent) {
-      const dateFromUtc = extractDateFromUtc(utcDateTimeStr);
-      if (dateFromUtc === null) {
-        return null;
-      }
-      //const utcDate = convertUTCDateToLocalDate(new Date(dateFromUtc));
-      const utcDate = new Date(dateFromUtc + 'T00:00:00');
-      const formattedTime = format(utcDate, 'EEE, MMM dd, yyyy');
-      // console.log(
-      //   `dfdfdfxxx: dateFromUtc: ${dateFromUtc}, utcDate: ${utcDate}, formattedTime: ${formattedTime}`
-      // );
-      return formattedTime;
-    } else {
-      const utcDateTime = new Date(utcDateTimeStr);
-      return format(utcDateTime, 'EEE, MMM dd, yyyy hh:mm a');
-    }
+  if (!utcDateTimeStr) {
+    return null;
   }
-  return null;
+  const utcDate = new Date(utcDateTimeStr);
+  if (isAllDayEvent) {
+    return format(utcDate, 'EEE, MMM dd, yyyy');
+  } else {
+    return format(utcDate, 'EEE, MMM dd, yyyy hh:mm a');
+  }
 };
 
 const extractTimeFromUtcForQTime = (utcDateTime: string) => {
@@ -149,11 +118,12 @@ const formatFullDateTime = (date: Date) => {
   return format(date, 'EEE, MMM dd, yyyy hh:mm a');
 };
 
-// const dateWithoutTimezone = (date: Date) => {
-//   const tzoffset = date.getTimezoneOffset() * 60000; //offset in milliseconds
-//   const withoutTimezone = new Date(date.valueOf() - tzoffset);
-//   return withoutTimezone;
-// };
+const removeLastZ = (dateString: string) => {
+  if (dateString.endsWith('Z')) {
+    return dateString.slice(0, -1);
+  }
+  return dateString;
+};
 
 export default {
   extractDateFromUtc,
@@ -168,5 +138,6 @@ export default {
   populateDates,
   addHoursToDate,
   formatFullDateTime,
+  removeLastZ,
   // dateWithoutTimezone,
 };

@@ -30,7 +30,7 @@ export interface eventDetails {
   showTimeAs: showTimeAs[];
   meetingAttendees: meetingAttendee[];
   url: string;
-  security: security[];
+  security: security;
 }
 
 export interface meetingAttendee {

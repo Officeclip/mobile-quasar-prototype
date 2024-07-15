@@ -21,7 +21,19 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
-        this.eventSummary = response.data;
+        const events = response.data;
+
+        this.eventSummary = events.map((event: any) => ({
+          ...event,
+          startDateTime: event.isAllDayEvent
+            ? dateTimeHelper.removeLastZ(event.startDateTime)
+            : event.startDateTime,
+          endDateTime: event.isAllDayEvent
+            ? dateTimeHelper.removeLastZ(event.endDateTime)
+            : event.endDateTime,
+        }));
+        //console.log('jkjkjkjk', this.eventSummary);
+        //this.eventSummary = events;
       } catch (error) {
         Constants.throwError(error);
       }

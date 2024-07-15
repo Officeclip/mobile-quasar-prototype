@@ -74,40 +74,47 @@ function showMeetingType(eventType: string | undefined) {
   }
 }
 const startDate = computed(() => {
-  if (event.value?.startDateTime) {
-    const data = dateTimeHelper.formatDateandTimeFromUtc(
-      event.value?.startDateTime,
-      event.value?.isAllDayEvent
-    );
-    return data;
+  let eventValue = event.value;
+  if (eventValue) {
+    if (eventValue.startDateTime) {
+      const data = dateTimeHelper.formatDateandTimeFromUtc(
+        eventValue.startDateTime,
+        eventValue.isAllDayEvent
+      );
+      return data;
+    }
   }
-  return 'YYYY';
+  return null;
 });
+
 const endDate = computed(() => {
-  if (event.value?.endDateTime) {
-    const data = dateTimeHelper.formatDateandTimeFromUtc(
-      event.value?.endDateTime,
-      event.value?.isAllDayEvent
-    );
-    return data;
+  let eventValue = event.value;
+  if (eventValue) {
+    if (eventValue.endDateTime) {
+      const data = dateTimeHelper.formatDateandTimeFromUtc(
+        eventValue.endDateTime,
+        eventValue.isAllDayEvent
+      );
+      return data;
+    }
   }
-  return 'YYYY';
+  return null;
 });
+
 const createdDate = computed(() => {
   if (event.value?.createdDate) {
     const data = dateTimeHelper.formatDateandTimeFromUtc(
-      event.value?.createdDate,
-      event.value?.isAllDayEvent
+      event.value?.createdDate
     );
     return data;
   }
   return 'YYYY';
 });
+
 const lastModifiedDate = computed(() => {
   if (event.value?.modifiedDate) {
     const data = dateTimeHelper.formatDateandTimeFromUtc(
-      event.value?.modifiedDate,
-      event.value?.isAllDayEvent
+      event.value?.modifiedDate
     );
     return data;
   }
@@ -320,8 +327,9 @@ const isAllowDelete = computed(() => {
           <q-item-section>
             <q-item-label caption> Created </q-item-label>
             <q-item-label>
-              {{ event?.createdUserName }} <span class="text-italic">On</span>
               {{ createdDate }}
+              <span class="text-italic">by</span>
+              {{ event?.createdUserName }}
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -329,8 +337,9 @@ const isAllowDelete = computed(() => {
           <q-item-section>
             <q-item-label caption> Last Modified </q-item-label>
             <q-item-label>
-              {{ event?.modifiedUserName }} <span class="text-italic">On</span>
               {{ lastModifiedDate }}
+              <span class="text-italic">by</span>
+              {{ event?.modifiedUserName }}
             </q-item-label>
           </q-item-section>
         </q-item>
