@@ -72,8 +72,8 @@ watch(
   }
 );
 
-const dateTimeMask = 'ddd, MMM D, YYYY hh:mm A';
-const dateMask = 'ddd, MMM D, YYYY';
+const dateTimeMask = 'ddd, MMM DD, YYYY hh:mm A';
+const dateMask = 'ddd, MMM DD, YYYY';
 const mask = (x: boolean) => {
   return x ? dateMask : dateTimeMask;
 };
