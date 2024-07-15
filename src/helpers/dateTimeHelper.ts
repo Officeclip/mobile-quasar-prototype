@@ -25,18 +25,44 @@ const extractTimeFromUtc = (utcDateTime: string) => {
   return formattedTime;
 };
 
+// From: https://stackoverflow.com/a/18330682
+// function convertUTCDateToLocalDate(date: Date) {
+//   const newDate = new Date(
+//     date.getTime() + date.getTimezoneOffset() * 60 * 1000
+//   );
+
+//   const offset = date.getTimezoneOffset() / 60;
+//   const hours = date.getHours();
+
+//   newDate.setHours(hours - offset);
+
+//   return newDate;
+// }
+
 const formatDateandTimeFromUtc = (
   utcDateTimeStr: string,
-  isDateFormat = false
+  isAllDayEvent = false
 ) => {
+  // console.log(`dfdfdf: ${utcDateTimeStr}, ${isAllDayEvent}`);
   //const data = utcDateTimeStr;
   if (utcDateTimeStr) {
-    const utcDate = new Date(utcDateTimeStr);
-    if (isDateFormat) {
+    //const utcDate = new Date(utcDateTimeStr);
+    if (isAllDayEvent) {
+      const dateFromUtc = extractDateFromUtc(utcDateTimeStr);
+      if (dateFromUtc === null) {
+        return null;
+      }
+      //const utcDate = convertUTCDateToLocalDate(new Date(dateFromUtc));
+      const utcDate = new Date(dateFromUtc + 'T00:00:00');
       const formattedTime = format(utcDate, 'EEE, MMM dd, yyyy');
+      // console.log(
+      //   `dfdfdfxxx: dateFromUtc: ${dateFromUtc}, utcDate: ${utcDate}, formattedTime: ${formattedTime}`
+      // );
       return formattedTime;
+    } else {
+      const utcDateTime = new Date(utcDateTimeStr);
+      return format(utcDateTime, 'EEE, MMM dd, yyyy hh:mm a');
     }
-    return format(utcDate, 'EEE, MMM dd, yyyy hh:mm a');
   }
   return null;
 };
@@ -123,6 +149,12 @@ const formatFullDateTime = (date: Date) => {
   return format(date, 'EEE, MMM dd, yyyy hh:mm a');
 };
 
+// const dateWithoutTimezone = (date: Date) => {
+//   const tzoffset = date.getTimezoneOffset() * 60000; //offset in milliseconds
+//   const withoutTimezone = new Date(date.valueOf() - tzoffset);
+//   return withoutTimezone;
+// };
+
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
@@ -136,4 +168,5 @@ export default {
   populateDates,
   addHoursToDate,
   formatFullDateTime,
+  // dateWithoutTimezone,
 };
