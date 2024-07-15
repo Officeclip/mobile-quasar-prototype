@@ -12,7 +12,9 @@ const router = useRouter();
 const $q = useQuasar();
 
 const parentObjectId = route.params.objectId ? route.params.objectId : '';
-const parentObjectServiceType = route.params.objectTypeId ? route.params.objectTypeId : '';
+const parentObjectServiceType = route.params.objectTypeId
+  ? route.params.objectTypeId
+  : '';
 
 const notesStore = useNotesStore();
 const isPrivate = ref<string>();
@@ -29,6 +31,7 @@ onMounted(async () => {
   try {
     id.value = route.params.id;
     await notesStore.getNote(route.params.id as string);
+    isPrivate.value = note.value?.isPrivate ? 'Yes' : 'No';
   } catch (error) {
     logger.log(`*** noteDetails:error:catch(${error}) ***`, 'error');
     $q.dialog({
@@ -39,13 +42,10 @@ onMounted(async () => {
       await router.push({ path: `/contactDetails/${parentObjectId}` });
       //await router.go(0);
     });
-  }
-  finally {
+  } finally {
     isLoaded.value = true;
   }
 });
-
-isPrivate.value = note.value?.isPrivate ? 'Yes' : 'No';
 
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this note?');
@@ -59,7 +59,7 @@ const cancelConfirmation = () => {
 };
 const deleteNote = async (id: string) => {
   try {
-    await notesStore.deleteNote(id)
+    await notesStore.deleteNote(id);
     router.go(-1);
   } catch (error) {
     $q.dialog({
@@ -83,14 +83,40 @@ const deleteNote = async (id: string) => {
   <q-layout view="lHh Lpr lFf" v-if="isLoaded">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title> Note details </q-toolbar-title>
 
         <q-btn
-          :to="{ name: 'editNote', params: { id: id, objectTypeId: parentObjectServiceType, objectId: parentObjectId } }"
-          flat round dense color="white" icon="edit" />
-        <q-btn @click="displayConfirmationDialog" flat round dense color="white" icon="delete" />
+          :to="{
+            name: 'editNote',
+            params: {
+              id: id,
+              objectTypeId: parentObjectServiceType,
+              objectId: parentObjectId,
+            },
+          }"
+          flat
+          round
+          dense
+          color="white"
+          icon="edit"
+        />
+        <q-btn
+          @click="displayConfirmationDialog"
+          flat
+          round
+          dense
+          color="white"
+          icon="delete"
+        />
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -105,7 +131,7 @@ const deleteNote = async (id: string) => {
                 <q-item-label caption>Description</q-item-label>
                 <!-- <div v-html="note?.description"> </div> -->
                 <q-item-label class="q-mb-sm">
-                  <div v-html="note?.description"> </div>
+                  <div v-html="note?.description"></div>
                 </q-item-label>
 
                 <q-item-label caption>Private</q-item-label>
@@ -116,8 +142,15 @@ const deleteNote = async (id: string) => {
         </q-card-section>
       </q-card>
 
-      <ConfirmDelete v-if="isNoteDelete" :showConfirmationDialog="isNoteDelete" :id="route.params.id" :title="title"
-        :message="message" @cancel="cancelConfirmation" @confirm="deleteNote" />
+      <ConfirmDelete
+        v-if="isNoteDelete"
+        :showConfirmationDialog="isNoteDelete"
+        :id="route.params.id"
+        :title="title"
+        :message="message"
+        @cancel="cancelConfirmation"
+        @confirm="deleteNote"
+      />
     </q-page-container>
   </q-layout>
 </template>
