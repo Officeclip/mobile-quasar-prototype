@@ -8,6 +8,7 @@ import { email, required } from '@vuelidate/validators';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import { Constants } from 'src/stores/Constants';
+import logger from 'src/helpers/logger';
 
 const sessionStore = useSessionStore();
 const tokenStore = useTokenStore();
@@ -17,6 +18,8 @@ const login: Ref<Login> = ref({
   userName: Constants.defaultLogin,
   password: 'qa123',
 });
+
+const pin = ref('');
 
 const rules = {
   userName: { required, email },
@@ -40,7 +43,7 @@ async function onSubmit(e: any) {
       }
       return;
     }
-    await tokenStore.validateLogin(login.value);
+    await tokenStore.validateLogin(login.value, pin.value);
     await sessionStore.getSession();
 
     route1.push('/HomePage');
@@ -52,9 +55,27 @@ async function onSubmit(e: any) {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   localStorage.removeItem('X-Token');
   sessionStorage.removeItem('oc-session');
+  let uri = window.location.href.split('?');
+  if (uri.length >= 1) {
+    pin.value = uri[1];
+  }
+  //debugger;
+  if (pin.value) {
+    try {
+      await tokenStore.validateLogin(login.value, pin.value);
+      await sessionStore.getSession();
+      route1.push('/HomePage');
+    } catch (error) {
+      $q.notify({
+        message: error as string,
+        color: 'red',
+      });
+    }
+  }
+  logger.log(`PIN is: ${pin.value}`, 'warn');
 });
 </script>
 

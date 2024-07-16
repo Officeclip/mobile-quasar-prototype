@@ -1,4 +1,3 @@
-import { DateTime } from 'rrule/dist/esm/datetime';
 import { security } from '../security';
 export interface eventSummary {
   id: string;

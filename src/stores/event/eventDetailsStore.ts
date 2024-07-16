@@ -29,7 +29,6 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
         const response = await instance.get(callStr);
         this.meetingAttendees = response.data;
       } catch (error) {
-        // alert(error);
         Constants.throwError(error);
       }
     },

@@ -32,8 +32,6 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
             ? dateTimeHelper.removeLastZ(event.endDateTime)
             : event.endDateTime,
         }));
-        //console.log('jkjkjkjk', this.eventSummary);
-        //this.eventSummary = events;
       } catch (error) {
         Constants.throwError(error);
       }
