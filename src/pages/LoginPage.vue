@@ -58,8 +58,8 @@ async function onSubmit(e: any) {
 onMounted(async () => {
   localStorage.removeItem('X-Token');
   sessionStorage.removeItem('oc-session');
-  let uri = window.location.href.split('?');
-  if (uri.length >= 1) {
+  const uri = window.location.href.split('?');
+  if (uri.length >= 2) {
     pin.value = uri[1];
   }
   //debugger;

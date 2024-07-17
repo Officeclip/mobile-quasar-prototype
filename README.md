@@ -42,6 +42,7 @@ npm run format
 
 ```bash
 quasar build
+# remove the value of VITE_API_ENDPOINT from the env.local file
 ```
 
 ### Customize the configuration

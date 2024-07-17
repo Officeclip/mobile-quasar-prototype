@@ -1,14 +1,15 @@
 import axios, { AxiosInstance } from 'axios';
 import { error } from 'console';
 import { LocalStorage, SessionStorage } from 'quasar';
+import logger from 'src/helpers/logger';
+import util from 'src/helpers/util';
 import { responseError } from 'src/models/responseError';
 import { Session } from 'src/models/session';
 
 export class Constants {
-  static readonly endPointUrl =
-    import.meta.env.VITE_API_ENDPOINT === undefined
-      ? 'http://localhost:4000' // using the json-server
-      : import.meta.env.VITE_API_ENDPOINT;
+  static readonly endPointUrl = import.meta.env.VITE_API_ENDPOINT
+    ? import.meta.env.VITE_API_ENDPOINT
+    : util.getEndPointUrlFromUri();
 
   static readonly defaultLogin =
     import.meta.env.VITE_DEFAULT_LOGIN === undefined

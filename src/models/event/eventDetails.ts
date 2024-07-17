@@ -11,7 +11,7 @@ export interface eventDetails {
     type: idAndName;
     value: idAndName;
   };
-  eventType: string;
+  eventType: eventType;
   eventName: string;
   eventDescription?: string;
   startDateTime?: string;
@@ -26,11 +26,16 @@ export interface eventDetails {
   modifiedUserName: string;
   reminder: reminder[];
   recurrence: recurrence[];
-  label: label[];
+  label: label;
   showTimeAs: showTimeAs[];
   meetingAttendees: meetingAttendee[];
   url: string;
   security: security;
+}
+
+export interface eventType {
+  id: number;
+  name: string;
 }
 
 export interface meetingAttendee {

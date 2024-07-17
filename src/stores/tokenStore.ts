@@ -22,7 +22,7 @@ export const useTokenStore = defineStore('loginStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
           `${Constants.endPointUrl}/login`,
-          pin.length > 0 ? pin : login
+          pin && pin.length > 0 ? pin : login
         );
         //TODO: 20240306: skd: nk: the token and expiration date is returning as undefined in mockoon we need to fix it
         if (response.data) {

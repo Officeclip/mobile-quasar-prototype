@@ -283,14 +283,14 @@ const isAllowDelete = computed(() => {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-if="labelNameById">
+        <q-item v-if="event?.label?.id !== '-1'">
           <q-item-section>
             <q-item-label caption> Label </q-item-label>
             <q-item-label>
               <span
                 class="q-py-xs q-px-sm"
-                :style="{ backgroundColor: labelNameById?.color }"
-                >{{ labelNameById?.name }}</span
+                :style="{ backgroundColor: event?.label?.color }"
+                >{{ event?.label?.name }}</span
               >
             </q-item-label>
           </q-item-section>
