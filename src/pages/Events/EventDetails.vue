@@ -74,44 +74,51 @@ function showMeetingType(eventType: string | undefined) {
   }
 }
 const startDate = computed(() => {
-  if (event.value?.startDateTime) {
-    const data = dateTimeHelper.formatDateandTimeFromUtc(
-      event.value?.startDateTime,
-      event.value?.isAllDayEvent
-    );
-    return data;
+  let eventValue = event.value;
+  if (eventValue) {
+    if (eventValue.startDateTime) {
+      const data = dateTimeHelper.formatDateandTimeFromUtc(
+        eventValue.startDateTime,
+        eventValue.isAllDayEvent
+      );
+      return data;
+    }
   }
-  return 'YYYY';
+  return null;
 });
+
 const endDate = computed(() => {
-  if (event.value?.endDateTime) {
-    const data = dateTimeHelper.formatDateandTimeFromUtc(
-      event.value?.endDateTime,
-      event.value?.isAllDayEvent
-    );
-    return data;
+  let eventValue = event.value;
+  if (eventValue) {
+    if (eventValue.endDateTime) {
+      const data = dateTimeHelper.formatDateandTimeFromUtc(
+        eventValue.endDateTime,
+        eventValue.isAllDayEvent
+      );
+      return data;
+    }
   }
-  return 'YYYY';
+  return null;
 });
+
 const createdDate = computed(() => {
   if (event.value?.createdDate) {
     const data = dateTimeHelper.formatDateandTimeFromUtc(
-      event.value?.createdDate,
-      event.value?.isAllDayEvent
+      event.value?.createdDate
     );
     return data;
   }
-  return 'YYYY';
+  return null;
 });
+
 const lastModifiedDate = computed(() => {
   if (event.value?.modifiedDate) {
     const data = dateTimeHelper.formatDateandTimeFromUtc(
-      event.value?.modifiedDate,
-      event.value?.isAllDayEvent
+      event.value?.modifiedDate
     );
     return data;
   }
-  return 'YYYY';
+  return null;
 });
 const attendeesList = computed(() => {
   if (event.value?.meetingAttendees) {
@@ -144,10 +151,6 @@ const cancelConfirmation = () => {
   showConfirmationDialog.value = false;
 };
 const confirmDeletion = async () => {
-  // eventDetailsStore.deleteEventDetails(event.value?.id).then(() => {
-  //   showConfirmationDialog.value = false;
-  //   router.go(-1);
-  //}
   try {
     await eventDetailsStore.deleteEventDetails(event.value?.id);
     showConfirmationDialog.value = false;
@@ -160,7 +163,6 @@ const confirmDeletion = async () => {
     }).onOk(async () => {
       console.log('*** Delete event :onSubmit(...):onOK ***');
       showConfirmationDialog.value = false;
-      //router.go(0);
     });
   }
 };
@@ -281,14 +283,14 @@ const isAllowDelete = computed(() => {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-if="labelNameById">
+        <q-item v-if="event?.label?.id !== '-1'">
           <q-item-section>
             <q-item-label caption> Label </q-item-label>
             <q-item-label>
               <span
                 class="q-py-xs q-px-sm"
-                :style="{ backgroundColor: labelNameById?.color }"
-                >{{ labelNameById?.name }}</span
+                :style="{ backgroundColor: event?.label?.color }"
+                >{{ event?.label?.name }}</span
               >
             </q-item-label>
           </q-item-section>
@@ -320,8 +322,9 @@ const isAllowDelete = computed(() => {
           <q-item-section>
             <q-item-label caption> Created </q-item-label>
             <q-item-label>
-              {{ event?.createdUserName }} <span class="text-italic">On</span>
               {{ createdDate }}
+              <span class="text-italic">by</span>
+              {{ event?.createdUserName }}
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -329,8 +332,9 @@ const isAllowDelete = computed(() => {
           <q-item-section>
             <q-item-label caption> Last Modified </q-item-label>
             <q-item-label>
-              {{ event?.modifiedUserName }} <span class="text-italic">On</span>
               {{ lastModifiedDate }}
+              <span class="text-italic">by</span>
+              {{ event?.modifiedUserName }}
             </q-item-label>
           </q-item-section>
         </q-item>

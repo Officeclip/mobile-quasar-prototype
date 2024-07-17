@@ -21,7 +21,17 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
-        this.eventSummary = response.data;
+        const events = response.data;
+
+        this.eventSummary = events.map((event: any) => ({
+          ...event,
+          startDateTime: event.isAllDayEvent
+            ? dateTimeHelper.removeLastZ(event.startDateTime)
+            : event.startDateTime,
+          endDateTime: event.isAllDayEvent
+            ? dateTimeHelper.removeLastZ(event.endDateTime)
+            : event.endDateTime,
+        }));
       } catch (error) {
         Constants.throwError(error);
       }
@@ -31,10 +41,7 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       const formattedDate = date.replace(/\//g, '-');
       if (this.eventSummary) {
         const eventsForADay = this.eventSummary.filter((t) => {
-          const newDate = dateTimeHelper.extractDateFromUtc(
-            t.startDateTime,
-            t.isAllDayEvent
-          );
+          const newDate = dateTimeHelper.extractDateFromUtc(t.startDateTime);
           return newDate === formattedDate;
         });
         return eventsForADay;
@@ -63,10 +70,7 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
         const dates = this.eventSummary.map(
           //https://stackoverflow.com/a/19590901
           function (a) {
-            const mydate = dateTimeHelper.extractDateFromUtc(
-              a.startDateTime,
-              a.isAllDayEvent
-            );
+            const mydate = dateTimeHelper.extractDateFromUtc(a.startDateTime);
             return mydate?.replace(/-/g, '/');
           }
         );

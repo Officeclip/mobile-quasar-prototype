@@ -2,24 +2,20 @@ import { format } from 'date-fns';
 import { parse } from 'date-fns';
 import { addHours } from 'date-fns';
 
-const extractDateFromUtc = (
-  utcDateTime: string | undefined,
-  isAllDayEvent = true
-) => {
-  if (utcDateTime === undefined) {
+const extractDateFromUtc = (utcDateTime: string | undefined) => {
+  // See: https://stackoverflow.com/a/5515349/89256
+  if (!utcDateTime) {
     return null;
   }
 
-  if (isAllDayEvent) {
-    const helper = utcDateTime?.substring(0, 10);
-    return helper;
-  } else {
-    const date = new Date(utcDateTime);
-    return format(date, 'yyyy-MM-dd');
-  }
+  const date = new Date(utcDateTime);
+  return format(date, 'yyyy-MM-dd');
 };
 
 const extractTimeFromUtc = (utcDateTime: string) => {
+  if (!utcDateTime) {
+    return null;
+  }
   const utcDate = new Date(utcDateTime);
   const formattedTime = format(utcDate, 'hh:mm aaa');
   return formattedTime;
@@ -27,18 +23,17 @@ const extractTimeFromUtc = (utcDateTime: string) => {
 
 const formatDateandTimeFromUtc = (
   utcDateTimeStr: string,
-  isDateFormat = false
+  isAllDayEvent = false
 ) => {
-  //const data = utcDateTimeStr;
-  if (utcDateTimeStr) {
-    const utcDate = new Date(utcDateTimeStr);
-    if (isDateFormat) {
-      const formattedTime = format(utcDate, 'EEE, MMM dd, yyyy');
-      return formattedTime;
-    }
+  if (!utcDateTimeStr) {
+    return null;
+  }
+  const utcDate = new Date(utcDateTimeStr);
+  if (isAllDayEvent) {
+    return format(utcDate, 'EEE, MMM dd, yyyy');
+  } else {
     return format(utcDate, 'EEE, MMM dd, yyyy hh:mm a');
   }
-  return null;
 };
 
 const extractTimeFromUtcForQTime = (utcDateTime: string) => {
@@ -123,6 +118,15 @@ const formatFullDateTime = (date: Date) => {
   return format(date, 'EEE, MMM dd, yyyy hh:mm a');
 };
 
+const removeLastZ = (dateString: string | undefined) => {
+  if (dateString) {
+    if (dateString.endsWith('Z')) {
+      return dateString.slice(0, -1);
+    }
+  }
+  return dateString;
+};
+
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
@@ -136,4 +140,6 @@ export default {
   populateDates,
   addHoursToDate,
   formatFullDateTime,
+  removeLastZ,
+  // dateWithoutTimezone,
 };
