@@ -36,15 +36,15 @@ const calendarEventDates = computed(() => {
   return eventSummaryStore.getEventSummaryDates();
 });
 
-function getEventIcon(type: any) {
-  if (type === 1) return 'groups'; // group event
-  if (type === 2) return 'group'; // Personal
+function getEventIcon(type: string) {
+  if (type === '1') return 'groups'; // group event
+  if (type === '2') return 'group'; // Personal
   return 'person'; // meetings
 }
 
-function getEventTypeColour(type: any) {
-  if (type === 1) return 'red'; // group event
-  if (type === 2) return 'secondary'; // personal
+function getEventTypeColour(type: string) {
+  if (type === '1') return 'red'; // group event
+  if (type === '2') return 'secondary'; // personal
   return 'primary'; // meetings
 }
 
@@ -132,8 +132,8 @@ const getYearandMonth = (newvalue: any) => {
             >
               <q-item-section avatar>
                 <q-icon
-                  :name="getEventIcon(event.eventType)"
-                  :color="getEventTypeColour(event.eventType)"
+                  :name="getEventIcon(event.eventType.id)"
+                  :color="getEventTypeColour(event.eventType.id)"
                 />
               </q-item-section>
               <q-item-section>

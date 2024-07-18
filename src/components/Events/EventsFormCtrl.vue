@@ -224,11 +224,12 @@ function startDateChanged(val) {
   <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <q-list>
-      <!-- <pre>{{ props.event }}</pre> -->
+      <pre>{{ props.event }}</pre>
+      <pre>event.eventType.name:::{{ event.eventType.id }}</pre>
       <q-item>
         <q-item-section>
           <q-radio
-            v-model="event.eventType"
+            v-model="event.eventType.id"
             color="teal"
             keep-color
             label="Group"
@@ -238,7 +239,7 @@ function startDateChanged(val) {
         </q-item-section>
         <q-item-section>
           <q-radio
-            v-model="event.eventType"
+            v-model="event.eventType.id"
             color="red"
             keep-color
             label="Meeting"
@@ -248,7 +249,7 @@ function startDateChanged(val) {
         </q-item-section>
         <q-item-section>
           <q-radio
-            v-model="event.eventType"
+            v-model="event.eventType.id"
             color="cyan"
             keep-color
             label="Personal"
@@ -407,7 +408,9 @@ function startDateChanged(val) {
         >
         </q-input>
       </q-item>
-      <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
+
+      <!-- while edit the event making the recurrence filed readOnly -->
+      <q-item v-if="event.recurrence.rule" v-ripple>
         <q-item-section avatar>
           <q-icon color="primary" name="repeat" size="sm" />
         </q-item-section>
@@ -416,7 +419,22 @@ function startDateChanged(val) {
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>
-      <q-item v-if="event.eventType == '2'">
+
+      <q-item
+        v-if="!event.recurrence.text"
+        v-ripple
+        clickable
+        @click="recurrenceDialogOpened = true"
+      >
+        <q-item-section avatar>
+          <q-icon color="primary" name="repeat" size="sm" />
+        </q-item-section>
+        <q-item-section> {{ repeatString }}</q-item-section>
+        <q-item-section side>
+          <q-icon color="primary" name="chevron_right" />
+        </q-item-section>
+      </q-item>
+      <q-item v-if="event.eventType.id == '2'">
         <q-select
           v-model="event.meetingAttendees"
           :options="filterOptions"

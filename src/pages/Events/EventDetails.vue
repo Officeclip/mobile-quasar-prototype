@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, onMounted } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
-import { useEventListsStore } from '../../stores/event/eventListsStore';
+// import { useEventListsStore } from '../../stores/event/eventListsStore';
 import { useReminderDataStore } from 'stores/reminder/reminderData';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
@@ -15,7 +15,7 @@ const route = useRoute();
 const router = useRouter();
 const eventDetailsStore = useEventDetailsStore();
 const reminderDataStore = useReminderDataStore();
-const eventListStore = useEventListsStore();
+// const eventListStore = useEventListsStore();
 const $q = useQuasar();
 
 const id = route.params.id;
@@ -24,7 +24,7 @@ onMounted(async () => {
   logger.log('*** Event Details:onMounted(async...) ***');
   try {
     await eventDetailsStore.getEventDetailsById(id);
-    await eventListStore.getEventLists();
+    // await eventListStore.getEventLists();
     await reminderDataStore.getReminderObject();
   } catch (error) {
     logger.log(`*** Event Details:error:catch(${error}) ***`, 'error');
@@ -44,13 +44,13 @@ const event = computed(() => {
 });
 
 // Find the selected reminder option and time based on refs
-const selectedOption = computed(() => {
-  const reminderOptions = reminderDataStore.ReminderOptions;
-  const obj = reminderOptions.find(
-    (option: any) => option.value === event.value?.reminder.to
-  );
-  return obj ? obj : 'null';
-});
+// const selectedOption = computed(() => {
+//   const reminderOptions = reminderDataStore.ReminderOptions;
+//   const obj = reminderOptions.find(
+//     (option: any) => option.value === event.value?.reminder.to
+//   );
+//   return obj ? obj : 'null';
+// });
 
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
 const selectedTime = computed(() => {
@@ -61,42 +61,37 @@ const selectedTime = computed(() => {
   return obj ? obj : 'null';
 });
 
-function showMeetingType(eventType: string | undefined) {
-  switch (eventType) {
-    case '1':
-      return 'Group';
-    case '2':
-      return 'Meeting';
-    case '3':
-      return 'Private';
-    default:
-      return '';
-  }
-}
+// function showMeetingType(eventType: string | undefined) {
+//   switch (eventType) {
+//     case '1':
+//       return 'Group';
+//     case '2':
+//       return 'Meeting';
+//     case '3':
+//       return 'Private';
+//     default:
+//       return '';
+//   }
+// }
+
 const startDate = computed(() => {
-  let eventValue = event.value;
-  if (eventValue) {
-    if (eventValue.startDateTime) {
-      const data = dateTimeHelper.formatDateandTimeFromUtc(
-        eventValue.startDateTime,
-        eventValue.isAllDayEvent
-      );
-      return data;
-    }
+  if (event.value?.startDateTime) {
+    const data = dateTimeHelper.formatDateandTimeFromUtc(
+      event.value?.startDateTime,
+      event.value?.isAllDayEvent
+    );
+    return data;
   }
   return null;
 });
 
 const endDate = computed(() => {
-  let eventValue = event.value;
-  if (eventValue) {
-    if (eventValue.endDateTime) {
-      const data = dateTimeHelper.formatDateandTimeFromUtc(
-        eventValue.endDateTime,
-        eventValue.isAllDayEvent
-      );
-      return data;
-    }
+  if (event.value?.endDateTime) {
+    const data = dateTimeHelper.formatDateandTimeFromUtc(
+      event.value?.endDateTime,
+      event.value?.isAllDayEvent
+    );
+    return data;
   }
   return null;
 });
@@ -125,21 +120,21 @@ const attendeesList = computed(() => {
     const data = event.value?.meetingAttendees;
     return data;
   }
-  return 'No attendees added yet';
+  return null;
 });
 
 //filter and get the single label object by labelId
-const labelNameById = computed(() => {
-  const labelData = eventListStore.Labels;
-  const obj = labelData.find((obj: any) => obj.id === event.value?.label);
-  return obj ? obj : null;
-});
+// const labelNameById = computed(() => {
+//   const labelData = eventListStore.Labels;
+//   const obj = labelData.find((obj: any) => obj.id === event.value?.label);
+//   return obj ? obj : null;
+// });
 
-const showTimeAsById = computed(() => {
-  const data = eventListStore.ShowMyTimeAs;
-  const obj = data.find((obj: any) => obj.id === event.value?.showTimeAs);
-  return obj ? obj : null;
-});
+// const showTimeAsById = computed(() => {
+//   const data = eventListStore.ShowMyTimeAs;
+//   const obj = data.find((obj: any) => obj.id === event.value?.showTimeAs);
+//   return obj ? obj : null;
+// });
 
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this event?');
@@ -208,7 +203,8 @@ const isAllowDelete = computed(() => {
           @click="$router.go(-1)"
         />
         <q-toolbar-title>
-          <OCItem :value="`${showMeetingType(event?.eventType)} event`" />
+          <!-- <OCItem :value="`${showMeetingType(event?.eventType)} event`" /> -->
+          <OCItem :value="event?.eventType.name" />
         </q-toolbar-title>
         <div>
           <q-btn
@@ -242,13 +238,13 @@ const isAllowDelete = computed(() => {
     </q-header>
 
     <q-page-container>
+      <pre>{{ event }}</pre>
       <q-list>
         <OCItem :value="event?.eventName" class="text-weight-regular text-h6" />
         <OCItem
-          v-if="event?.eventDescription"
+          v-if="event?.eventDescription !== ''"
           :value="event?.eventDescription"
         />
-
         <OCItem
           v-if="event?.eventLocation"
           title="Location"
@@ -267,13 +263,16 @@ const isAllowDelete = computed(() => {
             <div style="display: inline-flex; align-items: baseline">
               <q-item-label
                 v-for="attendee in attendeesList"
-                :key="attendee.name"
+                :key="attendee.id"
               >
                 <q-chip dense class="q-px-sm">{{ attendee.name }}</q-chip>
                 <q-tooltip>{{ attendee.email }}</q-tooltip>
               </q-item-label>
             </div>
           </q-item-section>
+        </q-item>
+        <q-item v-else>
+          <q-item-section> No Attendees selected </q-item-section>
         </q-item>
         <q-item v-if="event?.url">
           <q-item-section>
@@ -289,20 +288,20 @@ const isAllowDelete = computed(() => {
             <q-item-label>
               <span
                 class="q-py-xs q-px-sm"
-                :style="{ backgroundColor: event?.label?.color }"
+                :style="{ backgroundColor: event?.label?.backColor }"
                 >{{ event?.label?.name }}</span
               >
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-if="showTimeAsById">
+        <q-item v-if="event?.showTimeAs.id !== '-1'">
           <q-item-section>
             <q-item-label caption> Show Time As </q-item-label>
             <q-item-label>
               <span
                 class="q-py-xs q-px-sm"
-                :style="{ backgroundColor: showTimeAsById?.color }"
-                >{{ showTimeAsById?.name }}</span
+                :style="{ backgroundColor: event?.label?.backColor }"
+                >{{ event?.showTimeAs.name }}</span
               >
             </q-item-label>
           </q-item-section>
@@ -316,7 +315,7 @@ const isAllowDelete = computed(() => {
         <OCItem
           v-if="event?.reminder.to"
           title="Reminder"
-          :value="`${selectedOption?.label} ${selectedTime?.label} Before`"
+          :value="`${event.reminder.to} ${selectedTime?.label} Before`"
         />
         <q-item>
           <q-item-section>
