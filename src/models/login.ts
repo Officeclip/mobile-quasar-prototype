@@ -1,4 +1,5 @@
 export interface Login {
-  userName: string;
-  password: string;
+  mpin: string | null;
+  userName: string | null;
+  password: string | null;
 }
