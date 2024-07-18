@@ -8,13 +8,14 @@ export interface eventLists {
 export interface label {
   id: string;
   name: string;
-  color: string;
+  backColor: string;
+  foreColor: string;
+  borderColor: string;
 }
 
 export interface showTimeAs {
   id: string;
   name: string;
-  color: string;
 }
 
 export interface regardingParent {
@@ -29,5 +30,10 @@ export interface regardingContact {
 
 export interface user {
   id: string;
+  name: string;
+}
+
+export interface eventType {
+  id: number;
   name: string;
 }

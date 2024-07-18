@@ -24,12 +24,37 @@ isPrivate.value = props.note.isPrivate ? 'Yes' : 'No';
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
-        <q-input v-model="note.title" label="Title" placeholder="enter note title" lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']">
+        <q-input
+          v-model="note.title"
+          label="Title"
+          placeholder="enter note title"
+        >
         </q-input>
-        <q-editor class="q-mt-none" v-model="note.description" label="Description" paragraph-tag="div"
-          placeholder="enter description"></q-editor>
-        <q-select v-model="note.isPrivate" :options="options" map-options emit-value label="Private" />
+        <q-field
+          class="q-mt-md"
+          v-model="note.description"
+          label-slot
+          borderless
+          :rules="[(val) => (!!val && val !== '<br>') || 'Field is required']"
+        >
+          <template #label>Description</template>
+          <template #control>
+            <q-editor
+              style="color: black"
+              class="q-mt-md full-width"
+              v-model="note.description"
+              paragraph-tag="div"
+              placeholder="enter description"
+            ></q-editor>
+          </template>
+        </q-field>
+        <q-select
+          v-model="note.isPrivate"
+          :options="options"
+          map-options
+          emit-value
+          label="Private"
+        />
       </div>
     </div>
   </div>

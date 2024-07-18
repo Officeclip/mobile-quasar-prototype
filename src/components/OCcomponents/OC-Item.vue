@@ -8,8 +8,8 @@ defineProps({
 <template>
   <q-item>
     <q-item-section>
-      <q-item-label caption>{{ title }}</q-item-label>
-      <q-item-label>{{ value }}</q-item-label>
+      <q-item-label caption v-if="title">{{ title }}</q-item-label>
+      <q-item-label v-if="value">{{ value }}</q-item-label>
     </q-item-section>
   </q-item>
 </template>
