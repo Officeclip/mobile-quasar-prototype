@@ -1,5 +1,5 @@
 import { security } from '../security';
-import { label, showTimeAs } from './eventLists';
+import { label, showTimeAs, eventType } from './eventLists';
 
 export interface eventDetails {
   id: string;
@@ -24,18 +24,13 @@ export interface eventDetails {
   modifiedDate: string;
   modifiedUserSid: string;
   modifiedUserName: string;
-  reminder: reminder[];
-  recurrence: recurrence[];
+  reminder: reminder;
+  recurrence: recurrence;
   label: label;
-  showTimeAs: showTimeAs[];
+  showTimeAs: showTimeAs;
   meetingAttendees: meetingAttendee[];
   url: string;
   security: security;
-}
-
-export interface eventType {
-  id: number;
-  name: string;
 }
 
 export interface meetingAttendee {
