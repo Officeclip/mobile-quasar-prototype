@@ -10,12 +10,12 @@ import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
+import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 
 const route = useRoute();
 const router = useRouter();
 const eventDetailsStore = useEventDetailsStore();
 const reminderDataStore = useReminderDataStore();
-// const eventListStore = useEventListsStore();
 const $q = useQuasar();
 
 const id = route.params.id;
@@ -24,7 +24,6 @@ onMounted(async () => {
   logger.log('*** Event Details:onMounted(async...) ***');
   try {
     await eventDetailsStore.getEventDetailsById(id);
-    // await eventListStore.getEventLists();
     await reminderDataStore.getReminderObject();
   } catch (error) {
     logger.log(`*** Event Details:error:catch(${error}) ***`, 'error');
@@ -43,15 +42,6 @@ const event = computed(() => {
   return eventDetailsStore.eventDetails;
 });
 
-// Find the selected reminder option and time based on refs
-// const selectedOption = computed(() => {
-//   const reminderOptions = reminderDataStore.ReminderOptions;
-//   const obj = reminderOptions.find(
-//     (option: any) => option.value === event.value?.reminder.to
-//   );
-//   return obj ? obj : 'null';
-// });
-
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
 const selectedTime = computed(() => {
   const reminderTimes = reminderDataStore.ReminderTimes;
@@ -60,19 +50,6 @@ const selectedTime = computed(() => {
   );
   return obj ? obj : 'null';
 });
-
-// function showMeetingType(eventType: string | undefined) {
-//   switch (eventType) {
-//     case '1':
-//       return 'Group';
-//     case '2':
-//       return 'Meeting';
-//     case '3':
-//       return 'Private';
-//     default:
-//       return '';
-//   }
-// }
 
 const startDate = computed(() => {
   if (event.value?.startDateTime) {
@@ -122,20 +99,6 @@ const attendeesList = computed(() => {
   }
   return null;
 });
-
-//filter and get the single label object by labelId
-// const labelNameById = computed(() => {
-//   const labelData = eventListStore.Labels;
-//   const obj = labelData.find((obj: any) => obj.id === event.value?.label);
-//   return obj ? obj : null;
-// });
-
-// const showTimeAsById = computed(() => {
-//   const data = eventListStore.ShowMyTimeAs;
-//   const obj = data.find((obj: any) => obj.id === event.value?.showTimeAs);
-//   return obj ? obj : null;
-// });
-
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this event?');
 const showConfirmationDialog = ref(false);
@@ -151,7 +114,6 @@ const confirmDeletion = async () => {
     showConfirmationDialog.value = false;
     router.go(-1);
   } catch (error) {
-    //console.log('Error in deleting the task detail')
     $q.dialog({
       title: 'Alert',
       message: error as string,
@@ -170,14 +132,12 @@ const projectServiceItem = computed(() => {
 });
 
 const isAllowEdit = computed(() => {
-  //TODO: CR: 2024-05-17: nk: Fix the below type error?
   return isAllowed({
     security: { write: event.value?.security.write },
   });
 });
 
 const isAllowDelete = computed(() => {
-  //TODO: CR: 2024-05-17: nk: Fix the below type error?
   return isAllowed({
     security: { delete: event.value?.security.delete },
   });
@@ -203,7 +163,6 @@ const isAllowDelete = computed(() => {
           @click="$router.go(-1)"
         />
         <q-toolbar-title>
-          <!-- <OCItem :value="`${showMeetingType(event?.eventType)} event`" /> -->
           <OCItem :value="event?.eventType.name" />
         </q-toolbar-title>
         <div>
@@ -238,7 +197,6 @@ const isAllowDelete = computed(() => {
     </q-header>
 
     <q-page-container>
-      <pre>{{ event }}</pre>
       <q-list>
         <OCItem :value="event?.eventName" class="text-weight-regular text-h6" />
         <OCItem
@@ -300,13 +258,16 @@ const isAllowDelete = computed(() => {
             <q-item-label>
               <span
                 class="q-py-xs q-px-sm"
-                :style="{ backgroundColor: event?.label?.backColor }"
+                :style="{
+                  backgroundColor: getEventShowTimeAsColor(
+                    event?.showTimeAs.name
+                  ),
+                }"
                 >{{ event?.showTimeAs.name }}</span
               >
             </q-item-label>
           </q-item-section>
         </q-item>
-        <!-- TODO: CR: 2024-05-17: nk: Fix the below type error? -->
         <OCItem
           v-if="event?.recurrence.rule"
           title="Repeat"

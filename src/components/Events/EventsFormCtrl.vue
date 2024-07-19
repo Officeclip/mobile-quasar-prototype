@@ -14,6 +14,7 @@ import Regarding from '../general/regardingComponent.vue';
 import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -104,13 +105,13 @@ const ShowMyTimeAsOptions = computed(() => {
 });
 
 // Find the selected reminder option and time based on refs
-const selectedOption = computed(() => {
-  const reminderOptions = reminderDataStore.ReminderOptions;
-  const obj = reminderOptions.find(
-    (option: any) => option.value === props.event.reminder.to
-  );
-  return obj ? obj : 'null';
-});
+// const selectedOption = computed(() => {
+//   const reminderOptions = reminderDataStore.ReminderOptions;
+//   const obj = reminderOptions.find(
+//     (option: any) => option.value === props.event.reminder.to
+//   );
+//   return obj ? obj : 'null';
+// });
 
 const selectedTime = computed(() => {
   const reminderTimes = reminderDataStore.ReminderTimes;
@@ -120,10 +121,17 @@ const selectedTime = computed(() => {
   return obj ? obj : 'null';
 });
 
+// const reminderTextInfo = props.event?.reminder.to
+//   ? ref(
+//       computed(() => {
+//         return `${selectedOption.value.label} ${selectedTime.value.label} before`;
+//       })
+//     )
+//   : ref('Reminder');
 const reminderTextInfo = props.event?.reminder.to
   ? ref(
       computed(() => {
-        return `${selectedOption.value.label} ${selectedTime.value.label} before`;
+        return `${props.event.reminder.to} ${selectedTime.value.label} before`;
       })
     )
   : ref('Reminder');
@@ -185,7 +193,7 @@ function createValue(val: string, done: any) {
   }
 }
 
-if (props.event.eventType == '2') {
+if (props.event.eventType.id == '2') {
   props.event.meetingAttendees = [
     {
       id: session.userId,
@@ -218,14 +226,13 @@ function startDateChanged(val) {
     endDateModelValue.value = dateTimeHelper.formatFullDateTime(endDateTime);
   }
 }
+const showTimeAsBackColor = getEventShowTimeAsColor();
 </script>
 
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <q-list>
-      <pre>{{ props.event }}</pre>
-      <pre>event.eventType.name:::{{ event.eventType.id }}</pre>
       <q-item>
         <q-item-section>
           <q-radio
@@ -259,7 +266,7 @@ function startDateChanged(val) {
         </q-item-section>
       </q-item>
 
-      <q-item v-if="event.eventType == '1'" class="column">
+      <q-item v-if="event.eventType.id == '1'" class="column">
         <q-checkbox
           v-model="event.sendNotifications"
           label="Send notifications to the group?"
@@ -283,9 +290,6 @@ function startDateChanged(val) {
           placeholder="enter event name"
         />
       </q-item>
-      <!--       <pre>event.isAllDayEvent::{{ event.isAllDayEvent }}</pre>
-      <pre>startDateModelValue::{{ startDateModelValue }}</pre>
-      <pre>mask::{{ mask(event.isAllDayEvent) }}</pre> -->
       <q-item>
         <q-toggle
           v-model="event.isAllDayEvent"
@@ -410,7 +414,7 @@ function startDateChanged(val) {
       </q-item>
 
       <!-- while edit the event making the recurrence filed readOnly -->
-      <q-item v-if="event.recurrence.rule" v-ripple>
+      <q-item v-if="event.id" v-ripple>
         <q-item-section avatar>
           <q-icon color="primary" name="repeat" size="sm" />
         </q-item-section>
@@ -420,12 +424,7 @@ function startDateChanged(val) {
         </q-item-section>
       </q-item>
 
-      <q-item
-        v-if="!event.recurrence.text"
-        v-ripple
-        clickable
-        @click="recurrenceDialogOpened = true"
-      >
+      <q-item v-else v-ripple clickable @click="recurrenceDialogOpened = true">
         <q-item-section avatar>
           <q-icon color="primary" name="repeat" size="sm" />
         </q-item-section>
@@ -451,7 +450,11 @@ function startDateChanged(val) {
           @new-value="createValue"
         ></q-select>
       </q-item>
-      <q-item v-ripple clickable @click="reminderDialogOpened = true">
+
+      <!-- temporarly hiding this remider section
+       because we have issue in localhost itself once we fix there then show this section  -->
+
+      <!-- <q-item v-ripple clickable @click="reminderDialogOpened = true">
         <q-item-section avatar>
           <q-icon color="primary" name="alarm" size="sm" />
         </q-item-section>
@@ -459,7 +462,7 @@ function startDateChanged(val) {
         <q-item-section side>
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
-      </q-item>
+      </q-item> -->
       <q-item>
         <q-input
           v-model="event.url"
@@ -487,7 +490,6 @@ function startDateChanged(val) {
             v-model="event.showTimeAs"
             :options="ShowMyTimeAsOptions"
             label="Show Time As"
-            emit-value
             map-options
             option-label="name"
             option-value="id"
@@ -496,7 +498,9 @@ function startDateChanged(val) {
               <q-item
                 class="q-my-xs"
                 v-bind="scope.itemProps"
-                v-bind:style="{ backgroundColor: scope.opt.color }"
+                v-bind:style="{
+                  backgroundColor: showTimeAsBackColor[scope.opt.id],
+                }"
               >
                 {{ scope.opt.name }}
               </q-item>
@@ -506,7 +510,7 @@ function startDateChanged(val) {
                 dense
                 class="q-selectedItem"
                 v-bind:style="{
-                  backgroundColor: scope.opt.color,
+                  backgroundColor: showTimeAsBackColor[scope.opt.id],
                 }"
               >
                 {{ scope.opt.name }}
@@ -519,7 +523,6 @@ function startDateChanged(val) {
             filled
             v-model="event.label"
             :options="labelOptions"
-            emit-value
             label="Label"
             map-options
             option-label="name"
@@ -530,7 +533,7 @@ function startDateChanged(val) {
                 dense
                 class="q-my-xs"
                 v-bind="scope.itemProps"
-                v-bind:style="{ backgroundColor: scope.opt.color }"
+                v-bind:style="{ backgroundColor: scope.opt.backColor }"
               >
                 {{ scope.opt.name }}
               </q-item>
@@ -540,7 +543,7 @@ function startDateChanged(val) {
                 dense
                 class="q-selectedItem"
                 v-bind:style="{
-                  backgroundColor: scope.opt.color,
+                  backgroundColor: scope.opt.backColor,
                 }"
               >
                 {{ scope.opt.name }}

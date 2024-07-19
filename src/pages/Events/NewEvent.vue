@@ -41,28 +41,13 @@ const event: Ref<eventDetails> = ref({
   modifiedDate: '',
   modifiedUserSid: '',
   modifiedUserName: '',
-  reminder: {
-    to: '',
-    beforeMinutes: '',
-  },
-  recurrence: {
-    text: '',
-    rule: '',
-  },
-  label: {
-    id: '',
-    name: '',
-    backColor: '',
-    foreColor: '',
-    borderColor: '',
-  },
-  showTimeAs: {
-    id: '',
-    name: '',
-  },
+  reminder: {},
+  recurrence: {},
+  label: {},
+  showTimeAs: {},
   meetingAttendees: [],
   url: '',
-  security: [],
+  security: {},
 });
 
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
