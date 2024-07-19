@@ -499,7 +499,7 @@ const showTimeAsBackColor = getEventShowTimeAsColor();
                 class="q-my-xs"
                 v-bind="scope.itemProps"
                 v-bind:style="{
-                  backgroundColor: showTimeAsBackColor[scope.opt.id],
+                  backgroundColor: (showTimeAsBackColor as string[])[scope.opt.id]
                 }"
               >
                 {{ scope.opt.name }}
@@ -510,7 +510,7 @@ const showTimeAsBackColor = getEventShowTimeAsColor();
                 dense
                 class="q-selectedItem"
                 v-bind:style="{
-                  backgroundColor: showTimeAsBackColor[scope.opt.id],
+                  backgroundColor: (showTimeAsBackColor as string[])[scope.opt.id],
                 }"
               >
                 {{ scope.opt.name }}

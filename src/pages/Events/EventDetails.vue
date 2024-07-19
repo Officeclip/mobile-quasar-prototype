@@ -261,7 +261,7 @@ const isAllowDelete = computed(() => {
                 :style="{
                   backgroundColor: getEventShowTimeAsColor(
                     event?.showTimeAs.name
-                  ),
+                  ) as string,
                 }"
                 >{{ event?.showTimeAs.name }}</span
               >
