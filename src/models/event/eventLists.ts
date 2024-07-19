@@ -34,6 +34,6 @@ export interface user {
 }
 
 export interface eventType {
-  id: number;
+  id: string;
   name: string;
 }
