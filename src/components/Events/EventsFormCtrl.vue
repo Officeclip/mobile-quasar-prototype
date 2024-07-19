@@ -14,6 +14,7 @@ import Regarding from '../general/regardingComponent.vue';
 import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -225,6 +226,7 @@ function startDateChanged(val) {
     endDateModelValue.value = dateTimeHelper.formatFullDateTime(endDateTime);
   }
 }
+const showTimeAsBackColor = getEventShowTimeAsColor();
 </script>
 
 <template>
@@ -496,7 +498,9 @@ function startDateChanged(val) {
               <q-item
                 class="q-my-xs"
                 v-bind="scope.itemProps"
-                v-bind:style="{ backgroundColor: scope.opt.color }"
+                v-bind:style="{
+                  backgroundColor: showTimeAsBackColor[scope.opt.id],
+                }"
               >
                 {{ scope.opt.name }}
               </q-item>
@@ -506,7 +510,7 @@ function startDateChanged(val) {
                 dense
                 class="q-selectedItem"
                 v-bind:style="{
-                  backgroundColor: scope.opt.color,
+                  backgroundColor: showTimeAsBackColor[scope.opt.id],
                 }"
               >
                 {{ scope.opt.name }}

@@ -68,3 +68,20 @@ export function getExpenseOrTimesheetStatusColor(status: string) {
       return '';
   }
 }
+
+export function getEventShowTimeAsColor(name = '') {
+  if (name) {
+    switch (name) {
+      case 'Busy':
+        return '#FF0000';
+      case 'Free':
+        return '#FFFFFF';
+      case 'Tentative':
+        return '#EFB505';
+      case 'Out Of Office':
+        return '#003399';
+    }
+  } else {
+    return ['#FF0000', '#FFFFFF', '#EFB505', '#003399'];
+  }
+}

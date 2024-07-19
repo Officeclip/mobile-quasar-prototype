@@ -10,12 +10,12 @@ import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
+import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 
 const route = useRoute();
 const router = useRouter();
 const eventDetailsStore = useEventDetailsStore();
 const reminderDataStore = useReminderDataStore();
-// const eventListStore = useEventListsStore();
 const $q = useQuasar();
 
 const id = route.params.id;
@@ -197,7 +197,6 @@ const isAllowDelete = computed(() => {
     </q-header>
 
     <q-page-container>
-      <pre>{{ event }}</pre>
       <q-list>
         <OCItem :value="event?.eventName" class="text-weight-regular text-h6" />
         <OCItem
@@ -259,7 +258,11 @@ const isAllowDelete = computed(() => {
             <q-item-label>
               <span
                 class="q-py-xs q-px-sm"
-                :style="{ backgroundColor: event?.label?.backColor }"
+                :style="{
+                  backgroundColor: getEventShowTimeAsColor(
+                    event?.showTimeAs.name
+                  ),
+                }"
                 >{{ event?.showTimeAs.name }}</span
               >
             </q-item-label>
