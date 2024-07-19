@@ -112,6 +112,7 @@ watch(
         label="Date"
         v-model="date"
         :options="dateOptions"
+        :rules="[(val) => val !== '' || 'Please select date']"
         option-label="name"
         option-value="startDate"
         emit-value
@@ -149,6 +150,8 @@ watch(
         v-model.number="timesheet.timeDuration"
         placeholder="enter here..."
         type="number"
+        lazy-rules
+        :rules="[(val) => (val && val > 0) || 'Please enter duration']"
       />
       <q-input
         label="Description"

@@ -31,21 +31,22 @@ isPrivate.value = props.note.isPrivate ? 'Yes' : 'No';
         >
         </q-input>
         <q-field
-          class="q-mt-none"
-          ref="fieldRef"
-          v-model="editor"
+          class="q-mt-md"
+          v-model="note.description"
           label-slot
           borderless
           :rules="[(val) => (!!val && val !== '<br>') || 'Field is required']"
         >
-          <q-editor
-            style="color: black"
-            class="q-mt-none full-width"
-            v-model="note.description"
-            label="Description"
-            paragraph-tag="div"
-            placeholder="enter description"
-          ></q-editor>
+          <template #label>Description</template>
+          <template #control>
+            <q-editor
+              style="color: black"
+              class="q-mt-md full-width"
+              v-model="note.description"
+              paragraph-tag="div"
+              placeholder="enter description"
+            ></q-editor>
+          </template>
         </q-field>
         <q-select
           v-model="note.isPrivate"

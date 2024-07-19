@@ -19,7 +19,7 @@ export enum ObjectType {
 function getEndPointUrlFromUri() {
   const urlObject = new URL(window.location.href);
   urlObject.search = '';
-  const endPointUrl = urlObject.toString().replace('/m/#/', '/api');
+  const endPointUrl = urlObject.toString().replace('/m/', '/api');
   console.log(`endpoint url is: ${endPointUrl}`);
   return endPointUrl;
 }
