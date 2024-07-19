@@ -247,6 +247,7 @@ function getExpenseTypeDetail(expTypeId) {
         option-label="name"
         emit-value
         map-options
+        :rules="[(val) => val !== '' || 'Please select date']"
       />
       <!-- <pre>{{ customerProjectModel }}</pre> -->
       <!-- <pre>{{ customerProjectOptions }}</pre> -->
@@ -369,8 +370,8 @@ function getExpenseTypeDetail(expTypeId) {
         label="Amount"
         v-model.number="expenseDetail.amount"
         placeholder="enter here..."
-        lazy-rules
         type="number"
+        :rules="[(val) => (val && val > 0) || 'Please enter duration']"
       >
       </q-input>
 
@@ -385,8 +386,6 @@ function getExpenseTypeDetail(expTypeId) {
         label="Description"
         v-model="expenseDetail.description"
         placeholder="enter here..."
-        lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       >
       </q-input>
 
