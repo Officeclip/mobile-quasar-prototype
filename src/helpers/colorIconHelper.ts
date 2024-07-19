@@ -78,7 +78,7 @@ export function getEventShowTimeAsColor(name = '') {
         return '#FFFFFF';
       case 'Tentative':
         return '#EFB505';
-      case 'Out Of Office':
+      case 'Out of Office':
         return '#003399';
     }
   } else {
