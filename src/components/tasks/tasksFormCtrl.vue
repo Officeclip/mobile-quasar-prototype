@@ -11,20 +11,16 @@ import Regarding from 'components/general/regardingComponent.vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
-
 const props = defineProps<{
-  taskFromParent: taskDetails
+  taskFromParent: taskDetails;
 }>();
-const emit = defineEmits([
-  'emit-task'
-]);
+const emit = defineEmits(['emit-task']);
 
 const task: Ref<taskDetails> = ref(props.taskFromParent);
 const userSummaryStore = useUserSummaryStore();
 const taskListsStore = useTaskListsStore();
 const $q = useQuasar();
 const router = useRouter();
-
 
 const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
@@ -44,7 +40,6 @@ onBeforeMount(async () => {
     });
   }
 });
-
 
 function handleRRuleString(rruleString: string) {
   task.value.recurrence.rule = rruleString;
@@ -89,20 +84,20 @@ async function filterTagFn(val: string, update: any) {
 
 const taskType = ref({
   id: task.value.taskTypeId,
-  name: task.value.taskTypeName
+  name: task.value.taskTypeName,
 });
 const taskStatus = ref({
   id: task.value.taskStatusId,
   name: task.value.taskStatusName,
-  category: task.value.taskStatusCategory
+  category: task.value.taskStatusCategory,
 });
 const taskPriority = ref({
   id: task.value.taskPriorityId,
-  name: task.value.taskPriorityName
+  name: task.value.taskPriorityName,
 });
 const taskOwner = ref({
   id: task.value.taskOwnerSid,
-  name: task.value.taskOwnerName
+  name: task.value.taskOwnerName,
 });
 
 watch(taskType, () => {
@@ -132,16 +127,30 @@ watch(task.value, () => {
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
-        <q-input v-model="task.subject" :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-          label="Subject" lazy-rules placeholder="enter task subject" />
+        <q-input
+          v-model="task.subject"
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+          label="Subject"
+          lazy-rules
+          placeholder="enter task subject"
+        />
 
-        <q-editor v-model="task.description" class="q-mt-none" label="Description" paragraph-tag="div"
-          placeholder="type here...." />
+        <q-editor
+          v-model="task.description"
+          class="q-mt-none"
+          label="Description"
+          paragraph-tag="div"
+          placeholder="type here...."
+        />
 
-        <q-input v-model="task.startDate" :rules="['date']" label="Start Date" mask="date">
+        <q-input v-model="task.startDate" label="Start Date" readonly>
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
-              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
+              <q-popup-proxy
+                cover
+                transition-hide="scale"
+                transition-show="scale"
+              >
                 <q-date v-model="task.startDate">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
@@ -152,10 +161,20 @@ watch(task.value, () => {
           </template>
         </q-input>
 
-        <q-input v-model="task.dueDate" :rules="['date']" label="Due Date" mask="date">
+        <q-input
+          v-model="task.dueDate"
+          :rules="['date']"
+          error-message="Please enter a valid date"
+          label="Due Date"
+          mask="date"
+        >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
-              <q-popup-proxy cover transition-hide="scale" transition-show="scale">
+              <q-popup-proxy
+                cover
+                transition-hide="scale"
+                transition-show="scale"
+              >
                 <q-date v-model="task.dueDate">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
@@ -166,19 +185,46 @@ watch(task.value, () => {
           </template>
         </q-input>
 
-        <q-select v-model="taskType" :options="taskListsStore.TaskTypes" label="Task Type" map-options
-          option-label="name" option-value="id" />
+        <q-select
+          v-model="taskType"
+          :options="taskListsStore.TaskTypes"
+          label="Task Type"
+          map-options
+          option-label="name"
+          option-value="id"
+        />
 
-        <q-select v-model="taskPriority" :options="taskListsStore.TaskPriorities" label="Priority" map-options
-          option-label="name" option-value="id" />
+        <q-select
+          v-model="taskPriority"
+          :options="taskListsStore.TaskPriorities"
+          label="Priority"
+          map-options
+          option-label="name"
+          option-value="id"
+        />
 
-        <q-select v-model="taskStatus" :options="taskListsStore.TaskStatuses" label="Status" map-options
-          option-label="name" option-value="id" />
+        <q-select
+          v-model="taskStatus"
+          :options="taskListsStore.TaskStatuses"
+          label="Status"
+          map-options
+          option-label="name"
+          option-value="id"
+        />
 
         <q-checkbox v-model="task.isPrivate" label="Private?" />
 
-        <q-select v-model="taskOwner" :options="shownOptions" clearable hint="Start typing" input-debounce="0"
-          label="Owned by" option-label="name" use-input @filter="filterFn">
+        <q-select
+          v-model="taskOwner"
+          :options="shownOptions"
+          clearable
+          hint="Start typing"
+          input-debounce="0"
+          label="Owned by"
+          option-label="name"
+          use-input
+          @filter="filterFn"
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey"> No results</q-item-section>
@@ -186,8 +232,19 @@ watch(task.value, () => {
           </template>
         </q-select>
 
-        <q-select v-model="task.assignees" :options="shownOptions" hint="Start typing" input-debounce="0"
-          label="Assigned to" multiple option-label="name" option-value="name" use-chips use-input @filter="filterFn">
+        <q-select
+          v-model="task.assignees"
+          :options="shownOptions"
+          hint="Start typing"
+          input-debounce="0"
+          label="Assigned to"
+          multiple
+          option-label="name"
+          option-value="name"
+          use-chips
+          use-input
+          @filter="filterFn"
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey"> No results</q-item-section>
@@ -195,8 +252,18 @@ watch(task.value, () => {
           </template>
         </q-select>
 
-        <q-select v-model="task.tags" :options="shownTagOptions" hint="Start typing" input-debounce="0" label="Tags"
-          multiple option-label="name" use-chips use-input @filter="filterTagFn">
+        <q-select
+          v-model="task.tags"
+          :options="shownTagOptions"
+          hint="Start typing"
+          input-debounce="0"
+          label="Tags"
+          multiple
+          option-label="name"
+          use-chips
+          use-input
+          @filter="filterTagFn"
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey"> No results</q-item-section>
@@ -204,9 +271,17 @@ watch(task.value, () => {
           </template>
         </q-select>
 
-        <Regarding v-model="task.parent" :regarding-parents="taskListsStore.RegardingParent" />
+        <Regarding
+          v-model="task.parent"
+          :regarding-parents="taskListsStore.RegardingParent"
+        />
 
-        <q-item class="q-pa-none" v-ripple clickable @click="recurrenceDialogOpened = true">
+        <q-item
+          class="q-pa-none"
+          v-ripple
+          clickable
+          @click="recurrenceDialogOpened = true"
+        >
           <q-item-section avatar>
             <q-icon color="primary" name="repeat" size="sm" />
           </q-item-section>
@@ -216,7 +291,12 @@ watch(task.value, () => {
           </q-item-section>
         </q-item>
 
-        <q-item class="q-pa-none" v-ripple clickable @click="reminderDialogOpened = true">
+        <q-item
+          class="q-pa-none"
+          v-ripple
+          clickable
+          @click="reminderDialogOpened = true"
+        >
           <q-item-section avatar>
             <q-icon color="primary" name="alarm" size="sm" />
           </q-item-section>
@@ -230,9 +310,15 @@ watch(task.value, () => {
   </div>
 
   <q-dialog v-model="recurrenceDialogOpened">
-    <EventsRecurrenceDialog @rrule-string-generated="handleRRuleString" @rrule-text-generated="handleRRuleText" />
+    <EventsRecurrenceDialog
+      @rrule-string-generated="handleRRuleString"
+      @rrule-text-generated="handleRRuleText"
+    />
   </q-dialog>
   <q-dialog v-model="reminderDialogOpened">
-    <EventsReminderDialog @reminder-text-generated="handleReminderText" @reminder-data-generated="handleReminderData" />
+    <EventsReminderDialog
+      @reminder-text-generated="handleReminderText"
+      @reminder-data-generated="handleReminderData"
+    />
   </q-dialog>
 </template>
