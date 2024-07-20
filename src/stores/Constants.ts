@@ -12,9 +12,12 @@ export class Constants {
     : util.getEndPointUrlFromUri();
 
   static readonly defaultLogin =
-    import.meta.env.VITE_DEFAULT_LOGIN === undefined
-      ? 'see readme.md' // using the json-server
-      : import.meta.env.VITE_DEFAULT_LOGIN;
+    // import.meta.env.VITE_DEFAULT_LOGIN === undefined
+    //   ? 'see readme.md' // using the json-server
+    //   : import.meta.env.VITE_DEFAULT_LOGIN;
+    LocalStorage.has('userName')
+      ? String(LocalStorage.getItem('userName'))
+      : '';
 
   static getAxiosInstance() {
     const instance = axios.create({
@@ -83,6 +86,12 @@ export class Constants {
     expirationUnixEpoch: number
   ) {
     LocalStorage.set('X-Token', `${token},${expirationUnixEpoch}`);
+  }
+
+  static saveUserNameInLocalStorage(userName: string | null) {
+    if (userName) {
+      LocalStorage.set('userName', userName);
+    }
   }
 
   static getOrgKeyFromSession() {

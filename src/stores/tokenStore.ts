@@ -37,6 +37,8 @@ export const useTokenStore = defineStore('loginStore', {
             this.token.accessToken,
             this.token.expirationTime
           );
+          //debugger;
+          Constants.saveUserNameInLocalStorage(login.userName);
         }
       } catch (error) {
         Constants.throwError(error);

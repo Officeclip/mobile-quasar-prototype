@@ -16,7 +16,7 @@ const route1 = useRouter();
 
 const login: Ref<Login> = ref({
   userName: Constants.defaultLogin,
-  password: 'qa123',
+  password: '',
   mpin: '',
 });
 
