@@ -1,17 +1,39 @@
-<script setup>
-import { shallowRef } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 import CompA from '../../src/components/testme/CompA.vue';
-import CompB from '../../src/components/testme/CompB.vue';
 
-const current = shallowRef(CompA);
+const current = ref('test');
+const isValid = ref(false);
+
+const handleValidation = (valid: boolean) => {
+  console.log(`handleValidation: ${isValid.value}`);
+  isValid.value = valid;
+};
+
+const onSubmit = () => {
+  console.log(`onSubmit: ${isValid.value}`);
+  if (isValid.value) {
+    alert('Form submitted successfully! ' + current.value);
+  } else {
+    alert('Please correct the errors in the form.');
+  }
+};
 </script>
 
 <template>
   <div class="demo">
-    <label><input type="radio" v-model="current" :value="CompA" /> A</label>
-    <label><input type="radio" v-model="current" :value="CompB" /> B</label>
-    <keep-alive>
-      <component :is="current"></component>
-    </keep-alive>
+    <q-form class="q-gutter-md" @submit="onSubmit">
+      <div>
+        <CompA :current="current" @validation="handleValidation" />
+        <q-btn
+          class="q-ml-sm"
+          color="primary"
+          flat
+          label="Submit"
+          no-caps
+          type="submit"
+        />
+      </div>
+    </q-form>
   </div>
 </template>

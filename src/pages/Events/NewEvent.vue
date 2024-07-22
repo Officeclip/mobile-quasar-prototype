@@ -112,6 +112,8 @@ async function onSubmit(e: any) {
       </q-toolbar>
     </q-header>
     <q-page-container>
+      // TODO: 20240719: emove @submit as the onSubmit is working for he button
+      and not this one
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
           <EventForm
