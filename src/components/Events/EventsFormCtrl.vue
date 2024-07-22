@@ -32,6 +32,7 @@ const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
   'rrule-text-generated',
+  'validation',
 ]);
 
 const startDateTime = props.event.startDateTime;
@@ -227,6 +228,20 @@ function startDateChanged(val) {
   }
 }
 const showTimeAsBackColor = getEventShowTimeAsColor();
+
+const endDateRule = (value: string) => {
+  console.log(`@@@@ endDateRule: ${value}`);
+  if (!value) return false;
+  if (!props.event.startDateTime) return true;
+  const isGreater = new Date(value) > new Date(props.event.startDateTime);
+  return isGreater;
+};
+
+const isEndDateValid = computed(() => {
+  const isEndDateValid = endDateRule(props.event.endDateTime) === true;
+  emit('validation', isEndDateValid);
+  return isEndDateValid;
+});
 </script>
 
 <template>
@@ -352,7 +367,14 @@ const showTimeAsBackColor = getEventShowTimeAsColor();
       </q-item>
 
       <q-item class="column">
-        <q-input v-model="endDateModelValue" label="Ends*">
+        <q-input
+          v-model="endDateModelValue"
+          label="Ends*"
+          :rules="[(val: string) => (val && val.length > 0) || 'Please type something']"
+        >
+          <span v-if="!isEndDateValid" style="color: red"
+            >End date must be later than start date</span
+          >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy
