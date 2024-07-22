@@ -57,13 +57,13 @@ export function getPriorityColor(priority: string) {
 export function getExpenseOrTimesheetStatusColor(status: string) {
   switch (status) {
     case 'Approved':
-      return 'green-2';
+      return 'status-approved';
     case 'Pending':
-      return 'yellow-3';
+      return 'status-pending';
     case 'Rejected':
-      return 'red-2';
+      return 'status-rejected';
     case 'Submitted':
-      return 'yellow-3';
+      return 'status-pending';
     default:
       return '';
   }
@@ -73,15 +73,15 @@ export function getEventShowTimeAsColor(name = '') {
   if (name) {
     switch (name) {
       case 'Busy':
-        return '#FF0000';
+        return 'red';
       case 'Free':
         return '#FFFFFF';
       case 'Tentative':
         return '#EFB505';
       case 'Out of Office':
-        return '#003399';
+        return '#006699';
     }
   } else {
-    return ['#FF0000', '#FFFFFF', '#EFB505', '#003399'];
+    return ['#ff6666', '#FFFFFF', '#EFB505', '#006699'];
   }
 }

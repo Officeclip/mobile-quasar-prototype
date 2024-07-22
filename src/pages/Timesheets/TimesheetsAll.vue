@@ -120,9 +120,9 @@ watch([timesheetStatus], ([newModel]) => {
             <q-item-section style="align-items: end">
               <q-chip
                 dense
-                :color="getExpenseOrTimesheetStatusColor(item.status)"
+                :class="getExpenseOrTimesheetStatusColor(item.status)"
               >
-                <q-item-label caption class="q-pa-md text-grey-9">{{
+                <q-item-label caption class="q-px-sm">{{
                   item.status
                 }}</q-item-label>
               </q-chip>
