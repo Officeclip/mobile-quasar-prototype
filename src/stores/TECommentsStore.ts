@@ -4,7 +4,7 @@ import { Constants } from './Constants';
 
 export const useTECommentsStore = defineStore('teCommentsStore', {
   state: () => ({
-    commentsList: {} as Comments,
+    commentsList: [] as Comments[],
     timesheetDCAA: {} as TimesheetDCAA,
     tDCAA: {} as DCAA,
   }),

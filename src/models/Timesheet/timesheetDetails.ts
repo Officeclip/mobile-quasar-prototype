@@ -1,4 +1,5 @@
 import { security } from '../security';
+import { Comments } from '../teComments';
 export interface TimesheetDetails {
   id: string;
   timesheetSid: string;
@@ -21,6 +22,6 @@ export interface TimesheetDetails {
   serviceItemName: string;
   serviceItemSid: string;
   taskDate: string;
-  security: security[];
-  comments: string;
+  security: security;
+  comments: Comments[];
 }

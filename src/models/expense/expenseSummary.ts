@@ -11,5 +11,5 @@ export interface expenseSummary {
   fromDate: string;
   stageId: number;
   mode: string;
-  security: security[];
+  security: security;
 }

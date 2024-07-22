@@ -112,11 +112,11 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
                 {{ expense.currency }}
               </q-item-label>
             </q-item-section>
-            <q-item-section>
+            <q-item-section style="align-items: end">
               <q-chip
                 dense
-                :color="getExpenseOrTimesheetStatusColor(expense.status)"
-                ><q-item-label caption>{{
+                :class="getExpenseOrTimesheetStatusColor(expense.status)"
+                ><q-item-label caption class="q-px-sm">{{
                   expense.status
                 }}</q-item-label></q-chip
               >
