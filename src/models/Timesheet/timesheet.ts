@@ -10,5 +10,5 @@ export interface Timesheet {
   readOnly: boolean;
   stageId: number;
   mode: string;
-  security: security[];
+  security: security;
 }

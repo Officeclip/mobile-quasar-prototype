@@ -4,9 +4,9 @@ import { Constants } from './Constants';
 
 export const useTECommentsStore = defineStore('teCommentsStore', {
   state: () => ({
-    commentsList: [] as Comments[],
-    timesheetDCAA: [] as TimesheetDCAA[],
-    tDCAA: [] as DCAA[],
+    commentsList: {} as Comments,
+    timesheetDCAA: {} as TimesheetDCAA,
+    tDCAA: {} as DCAA,
   }),
 
   getters: {
@@ -16,7 +16,7 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
   },
 
   actions: {
-    async getTimesheetComments(timesheetSid: string | string[]) {
+    async getTimesheetComments(timesheetSid: string | object) {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(

@@ -15,7 +15,7 @@ export interface TimesheetDCAA {
   timesheetFooter: string;
   showPayrollColumn: boolean;
   timesheetStartDay: string;
-  dcaa: DCAA[];
+  dcaa: DCAA;
 }
 
 export interface DCAA {
