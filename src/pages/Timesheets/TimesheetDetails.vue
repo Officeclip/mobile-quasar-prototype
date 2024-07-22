@@ -123,25 +123,25 @@ const timesheetPeriod = computed(() => {
   return periodOptions.value?.find((x) => x.start.toString() === fromDate);
 });
 
-const showAddCommentsDialog = ref(false);
+// const showAddCommentsDialog = ref(false);
 
-const addComments = ref({
-  id: '',
-  isDcaa: true,
-  comments: [
-    {
-      id: '',
-      comment: '',
-      createdBy: 'Sudhakar Gundu',
-      createdDate: '2020-03-05T15:01:17Z',
-    },
-  ],
-});
+// const addComments = ref({
+//   id: '',
+//   isDcaa: true,
+//   comments: [
+//     {
+//       id: '',
+//       comment: '',
+//       createdBy: 'Sudhakar Gundu',
+//       createdDate: '2020-03-05T15:01:17Z',
+//     },
+//   ],
+// });
 
-const addComment = () => {
-  timesheetCommentsStore.addComment(addComments.value);
-  addComments.value.comments[0].comment = '';
-};
+// const addComment = () => {
+//   timesheetCommentsStore.addComment(addComments.value);
+//   addComments.value.comments[0].comment = '';
+// };
 
 const isAllowedWrite = isAllowed({
   security: { read: isWrite },
@@ -329,7 +329,7 @@ const showWarningMsg = () => {
     </q-page-container>
   </q-layout>
 
-  <q-dialog v-model="showAddCommentsDialog">
+  <!-- <q-dialog v-model="showAddCommentsDialog">
     <q-card style="min-width: 450px">
       <q-card-section class="row items-center q-pb-none">
         <div>Add New Comment</div>
@@ -357,7 +357,7 @@ const showWarningMsg = () => {
         />
       </q-card-actions>
     </q-card>
-  </q-dialog>
+  </q-dialog> -->
 
   <ConfirmDelete
     v-if="showDeleteTimesheet"
