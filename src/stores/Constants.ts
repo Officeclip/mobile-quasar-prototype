@@ -16,6 +16,7 @@ export class Constants {
     : '';
 
   static getAxiosInstance() {
+    //console.log(`endPointUrl***: ${Constants.endPointUrl}`);
     const instance = axios.create({
       //withCredentials: true, //https://stackoverflow.com/a/43178070
       baseURL: Constants.endPointUrl,
