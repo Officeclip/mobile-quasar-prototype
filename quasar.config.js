@@ -62,7 +62,7 @@ module.exports = configure(function (/* ctx */) {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: '/officeclip/m/',
+      publicPath: '',
       // analyze: true,
       // env: {},
       // rawDefine: {}
@@ -71,7 +71,9 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      extendViteConf(viteConf, { isServer, isClient }) {
+        viteConf.base = '';
+      },
       // viteVuePluginOptions: {},
 
       vitePlugins: [
