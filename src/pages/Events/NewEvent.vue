@@ -11,6 +11,8 @@ const $q = useQuasar();
 const eventDetailsStore = useEventDetailsStore();
 const router = useRouter();
 
+const isValid = ref(false);
+
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
 const event: Ref<eventDetails> = ref({
   id: '',
@@ -83,6 +85,11 @@ async function onSubmit(e: any) {
     });
   }
 }
+
+const handleValidation = (valid: boolean) => {
+  console.log(`handleValidation: ${isValid.value}`);
+  isValid.value = valid;
+};
 </script>
 
 <template>
@@ -119,6 +126,7 @@ async function onSubmit(e: any) {
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"
             @reminder-generated="handleReminder"
+            @validation="handleValidation"
           />
           <q-btn
             class="q-ml-sm"
