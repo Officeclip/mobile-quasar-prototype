@@ -9,6 +9,7 @@ import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import { Constants } from 'src/stores/Constants';
 import logger from 'src/helpers/logger';
+import util from 'src/helpers/util';
 
 const sessionStore = useSessionStore();
 const tokenStore = useTokenStore();
@@ -58,8 +59,15 @@ async function onSubmit(e: any) {
 
 onMounted(async () => {
   localStorage.removeItem('X-Token');
+  localStorage.removeItem('endPointUrl');
   sessionStorage.removeItem('oc-session');
-  const uri = window.location.href.split('?');
+
+  const addressBarUrl = window.location.href;
+  const endPointUrl = util.getEndPointUrlFromUri(addressBarUrl);
+  console.log(`endPointUrl: ${endPointUrl}`);
+  Constants.saveEndPointUrlInLocalStorage(endPointUrl);
+
+  const uri = addressBarUrl.split('?');
   if (uri.length >= 2) {
     pin.value = uri[1];
   }
@@ -78,6 +86,10 @@ onMounted(async () => {
   }
   logger.log(`PIN is: ${pin.value}`, 'warn');
 });
+
+function getEndPointUrlFromUri(href: string): string | null {
+  throw new Error('Function not implemented.');
+}
 </script>
 
 <template>

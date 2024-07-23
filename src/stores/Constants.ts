@@ -9,15 +9,11 @@ import { Session } from 'src/models/session';
 export class Constants {
   static readonly endPointUrl = import.meta.env.VITE_API_ENDPOINT
     ? import.meta.env.VITE_API_ENDPOINT
-    : util.getEndPointUrlFromUri();
+    : String(LocalStorage.getItem('endPointUrl'));
 
-  static readonly defaultLogin =
-    // import.meta.env.VITE_DEFAULT_LOGIN === undefined
-    //   ? 'see readme.md' // using the json-server
-    //   : import.meta.env.VITE_DEFAULT_LOGIN;
-    LocalStorage.has('userName')
-      ? String(LocalStorage.getItem('userName'))
-      : '';
+  static readonly defaultLogin = LocalStorage.has('userName')
+    ? String(LocalStorage.getItem('userName'))
+    : '';
 
   static getAxiosInstance() {
     const instance = axios.create({
@@ -91,6 +87,12 @@ export class Constants {
   static saveUserNameInLocalStorage(userName: string | null) {
     if (userName) {
       LocalStorage.set('userName', userName);
+    }
+  }
+
+  static saveEndPointUrlInLocalStorage(endPointUrl: string | null) {
+    if (endPointUrl) {
+      LocalStorage.set('endPointUrl', endPointUrl);
     }
   }
 

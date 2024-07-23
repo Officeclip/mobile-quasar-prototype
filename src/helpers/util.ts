@@ -16,11 +16,11 @@ export enum ObjectType {
   ActivityTabForCrm = 35,
 }
 
-function getEndPointUrlFromUri() {
-  const urlObject = new URL(window.location.href);
-  urlObject.search = '';
-  const endPointUrl = urlObject.toString().replace('/m/#/', '/api');
-  console.log(`endpoint url is: ${endPointUrl}`);
+function getEndPointUrlFromUri(url: string) {
+  // Define the pattern to match "/m/#/""
+  const pattern = /m\/#\/(.*)$/;
+  // Use replace method with a callback function
+  const endPointUrl = `${url.replace(pattern, '')}api/`;
   return endPointUrl;
 }
 
