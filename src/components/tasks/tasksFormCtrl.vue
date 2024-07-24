@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineProps, onBeforeMount, ref, Ref, watch } from 'vue';
+import { defineProps, onBeforeMount, ref, Ref, watch, computed } from 'vue';
 import { useTaskListsStore } from 'stores/task/taskListsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
@@ -26,6 +26,8 @@ const repeatString = ref('Does not repeat');
 const reminderTextInfo = ref('Reminder');
 const recurrenceDialogOpened = ref(false);
 const reminderDialogOpened = ref(false);
+
+const dateMask = 'ddd, MMM DD, YYYY';
 
 onBeforeMount(async () => {
   try {
@@ -120,6 +122,19 @@ watch(taskOwner, () => {
 watch(task.value, () => {
   emit('emit-task', task.value);
 });
+
+const endDateRule = (value: string) => {
+  console.log(`@@@@ endDateRule: ${value}`);
+  if (!value) return true;
+  if (!task.value.startDate) return true;
+  const isGreater = new Date(value) > new Date(task.value.startDate);
+  return isGreater;
+};
+
+const isEndDateValid = computed(() => {
+  const isEndDateValid = endDateRule(task.value.dueDate) === true;
+  return isEndDateValid;
+});
 </script>
 
 <template>
@@ -151,7 +166,7 @@ watch(task.value, () => {
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-model="task.startDate">
+                <q-date v-model="task.startDate" :mask="dateMask">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>
@@ -163,11 +178,13 @@ watch(task.value, () => {
 
         <q-input
           v-model="task.dueDate"
-          :rules="['date']"
+          :rules="[(val: string) => (val && val.length > 0)]"
           error-message="Please enter a valid date"
           label="Due Date"
-          mask="date"
         >
+          <span v-if="!isEndDateValid" style="color: red"
+            >End date must be later than start date</span
+          >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy
@@ -175,7 +192,7 @@ watch(task.value, () => {
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-model="task.dueDate">
+                <q-date v-model="task.dueDate" :mask="dateMask">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
                   </div>

@@ -225,11 +225,7 @@ function addSubtask(subtask: subTask) {
             <q-item-section>
               <q-item-label caption>Start Date</q-item-label>
               <q-item-label description
-                >{{
-                  taskDetail?.startDate
-                    ? dateTimeHelper.extractDateFromUtc(taskDetail?.startDate)
-                    : 'Not set'
-                }}
+                >{{ taskDetail?.startDate }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -240,11 +236,7 @@ function addSubtask(subtask: subTask) {
             <q-item-section>
               <q-item-label caption>Due Date</q-item-label>
               <q-item-label description
-                >{{
-                  taskDetail?.dueDate
-                    ? dateTimeHelper.extractDateFromUtc(taskDetail?.dueDate)
-                    : 'Not set'
-                }}
+                >{{ taskDetail?.dueDate }}
               </q-item-label>
             </q-item-section>
           </q-item>

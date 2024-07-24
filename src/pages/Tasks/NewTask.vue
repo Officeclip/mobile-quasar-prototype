@@ -7,6 +7,8 @@ import { taskSummary } from 'src/models/task/taskSummary';
 import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
 import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 import { useQuasar } from 'quasar';
+import { formatDistanceStrictWithOptions } from 'date-fns/fp';
+import format from 'date-fns/format';
 
 const $q = useQuasar();
 
@@ -79,7 +81,7 @@ async function onSubmit(e: any) {
 
   try {
     const formData = new FormData(e.target);
-    const newDueDate = formData.get('dueDate')?.toString() ?? '';
+    //const newDueDate = formData.get('dueDate')?.toString() ?? '';
 
     const newTask: taskDetails = {
       id: task.value.id,
@@ -87,12 +89,12 @@ async function onSubmit(e: any) {
       description: task.value.description,
       actualDuration: task.value.actualDuration,
       completionDate: task.value.completionDate,
-      dueDate: task.value.dueDate,
+      dueDate: format(new Date(task.value.dueDate), 'yyyy-MM-dd'),
       estimatedDuration: task.value.estimatedDuration,
       isLock: task.value.isLock,
       isPrivate: task.value.isPrivate,
       parent: task.value.parent,
-      startDate: task.value.startDate,
+      startDate: format(new Date(task.value.startDate), 'yyyy-MM-dd'),
       taskOwnerName: task.value.taskOwnerName,
       taskOwnerSid: task.value.taskOwnerSid,
       taskPriorityName: task.value.taskPriorityName,
@@ -113,6 +115,7 @@ async function onSubmit(e: any) {
       recurrence: task.value.recurrence,
       taskStatusCategory: task.value.taskStatusCategory,
     };
+    console.log(`***New Task*** ${newTask.startDate}`);
     // const newTaskSummary: taskSummary = {
     //   id: task.value.id,
     //   subject: task.value.subject,
