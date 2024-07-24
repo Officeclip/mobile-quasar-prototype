@@ -11,6 +11,7 @@ import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
+import format from 'date-fns/format';
 
 const route = useRoute();
 const router = useRouter();
@@ -53,22 +54,24 @@ const selectedTime = computed(() => {
 
 const startDate = computed(() => {
   if (event.value?.startDateTime) {
-    const data = dateTimeHelper.formatDateandTimeFromUtc(
+    //debugger;
+    const formattedDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
       event.value?.startDateTime,
       event.value?.isAllDayEvent
     );
-    return data;
+    return formattedDate;
   }
   return null;
 });
 
 const endDate = computed(() => {
   if (event.value?.endDateTime) {
-    const data = dateTimeHelper.formatDateandTimeFromUtc(
+    //debugger;
+    const formattedDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
       event.value?.endDateTime,
       event.value?.isAllDayEvent
     );
-    return data;
+    return formattedDate;
   }
   return null;
 });

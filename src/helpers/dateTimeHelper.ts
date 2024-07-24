@@ -1,6 +1,10 @@
 import { format } from 'date-fns';
 import { parse } from 'date-fns';
 import { addHours } from 'date-fns';
+import { is } from 'quasar';
+
+const dateTimeMask = 'EEE, MMM dd, yyyy hh:mm a';
+const dateMask = 'EEE, MMM dd, yyyy';
 
 const extractDateFromUtc = (utcDateTime: string | undefined) => {
   // See: https://stackoverflow.com/a/5515349/89256
@@ -127,6 +131,22 @@ const removeLastZ = (dateString: string | undefined) => {
   return dateString;
 };
 
+// Reads date from what is supplied by the rest api, in this case if there is a time conponent,
+// it is converted to the localtime else the date is kept as-is
+// ** See: https://stackoverflow.com/a/52352512
+const readDateTimeFromRestAPI = (input: string, isDateOnly: boolean) => {
+  let dt = new Date(input);
+  if (isDateOnly) {
+    dt = new Date(dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000);
+  }
+  return dt;
+};
+
+const formatDateTimeFromRestAPIForUI = (input: string, isDateOnly: boolean) => {
+  const dt = readDateTimeFromRestAPI(input, isDateOnly);
+  return isDateOnly ? format(dt, dateMask) : format(dt, dateTimeMask);
+};
+
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
@@ -141,5 +161,8 @@ export default {
   addHoursToDate,
   formatFullDateTime,
   removeLastZ,
-  // dateWithoutTimezone,
+  readDateTimeFromRestAPI,
+  formatDateTimeFromRestAPIForUI,
+  dateMask,
+  dateTimeMask,
 };
