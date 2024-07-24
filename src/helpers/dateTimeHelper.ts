@@ -142,9 +142,13 @@ const readDateTimeFromRestAPI = (input: string, isDateOnly: boolean) => {
   return dt;
 };
 
+const formatDateTimeForUI = (input: Date, isDateOnly: boolean) => {
+  return isDateOnly ? format(input, dateMask) : format(input, dateTimeMask);
+};
+
 const formatDateTimeFromRestAPIForUI = (input: string, isDateOnly: boolean) => {
   const dt = readDateTimeFromRestAPI(input, isDateOnly);
-  return isDateOnly ? format(dt, dateMask) : format(dt, dateTimeMask);
+  return formatDateTimeForUI(dt, isDateOnly);
 };
 
 export default {
@@ -163,6 +167,5 @@ export default {
   removeLastZ,
   readDateTimeFromRestAPI,
   formatDateTimeFromRestAPIForUI,
-  dateMask,
-  dateTimeMask,
+  formatDateTimeForUI,
 };
