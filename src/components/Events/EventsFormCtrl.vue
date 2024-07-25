@@ -39,13 +39,13 @@ const startDateTime = props.event.startDateTime;
 const endDateTime = props.event.endDateTime;
 
 const startDateModelValue = ref();
-startDateModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
+startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
   startDateTime,
   props.event.isAllDayEvent
 );
 
 const endDateModelValue = ref();
-endDateModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
+endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
   endDateTime,
   props.event?.isAllDayEvent
 );
@@ -54,11 +54,11 @@ let isAllDay = props.event.isAllDayEvent;
 
 watch(props.event, () => {
   if (isAllDay !== props.event.isAllDayEvent) {
-    startDateModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
+    startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
       startDateTime,
       props.event.isAllDayEvent
     );
-    endDateModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
+    endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
       endDateTime,
       props.event?.isAllDayEvent
     );
