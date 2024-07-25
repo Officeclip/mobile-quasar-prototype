@@ -233,7 +233,6 @@ function getExpenseTypeDetail(expTypeId) {
   <!-- eslint-disable vue/no-mutating-props -->
   <div class="q-ma-lg">
     <div class="q-ml-sm">
-      <pre>{{ expenseDetail }}</pre>
       <q-item-label caption class="q-pt-md"> Period </q-item-label>
       <q-item-label class="q-mb-sm">
         {{ period?.name }}
