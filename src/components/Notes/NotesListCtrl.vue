@@ -25,6 +25,9 @@ const getNotesCount = computed(() => {
 });
 
 onBeforeMount(async () => {
+  console.log(
+    `NotesListCtrl: onBeforeMount Started, noteBookId: ${noteBookId.value}`
+  );
   try {
     await notesStore.getNotes(
       parentObjectServiceType.value,
@@ -44,14 +47,18 @@ onBeforeMount(async () => {
 </script>
 <template>
   <q-list v-for="note in getNotes" :key="note.id">
-    <q-item :to="{
-    name: 'noteDetails',
-    params: {
-      id: note.id,
-      objectTypeId: parentObjectServiceType,
-      objectId: parentObjectId
-    },
-  }" clickable v-ripple>
+    <q-item
+      :to="{
+        name: 'noteDetails',
+        params: {
+          id: note.id,
+          objectTypeId: parentObjectServiceType,
+          objectId: parentObjectId,
+        },
+      }"
+      clickable
+      v-ripple
+    >
       <q-item-section>
         <q-item-label>
           {{ note.title }}

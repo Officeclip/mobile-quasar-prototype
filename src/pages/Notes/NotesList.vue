@@ -5,13 +5,13 @@ import { onBeforeMount, ref, computed } from 'vue';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import { useNotesStore } from '../../stores/NotesStore';
 
-const selectedNoteBook = ref();
+const selectedNoteBook = ref('');
 const notesStore = useNotesStore();
 //const noteBooks = ref<any>([]);
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   console.log('NotesList: onBeforeMount Started');
-  notesStore.getNoteBooks();
+  await notesStore.getNoteBooks();
   //noteBooks.value = notesStore.NoteBooks
   console.log('NotesList: onBeforeMount Ended');
 });
@@ -24,7 +24,7 @@ const noteBooks = computed(() => {
 const parent = ref({
   parentObjectId: '',
   parentObjectServiceType: '', // FIXME: Use enumerated types
-  selectedNoteBook: ''
+  selectedNoteBook: '',
 });
 console.log('NotesList: Setup Ended');
 </script>
@@ -33,7 +33,14 @@ console.log('NotesList: Setup Ended');
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn @click="$router.go(-1)" flat round dense color="white" icon="arrow_back">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
         </q-btn>
         <q-toolbar-title> All Notes </q-toolbar-title>
       </q-toolbar>
@@ -42,21 +49,40 @@ console.log('NotesList: Setup Ended');
     <q-page-container>
       <q-page>
         <div class="q-pa-lg text-center">
-          <q-select outlined v-model="selectedNoteBook" :options="noteBooks" option-label="name" option-value="id"
-            label="Select Notebook" emit-value map-options />
+          <q-select
+            outlined
+            v-model="parent.selectedNoteBook"
+            :options="noteBooks"
+            option-label="notebookName"
+            option-value="id"
+            label="Select Notebook"
+            emit-value
+            map-options
+          />
         </div>
-        <!-- <pre>SelectedNoteBook: {{ selectedNoteBook }}</pre>
-        <pre>Parent: {{ parent }}</pre> -->
+        <pre>SelectedNoteBook: {{ parent.selectedNoteBook }}</pre>
+        <pre>Parent: {{ parent }}</pre>
         <!-- See: https://michaelnthiessen.com/force-re-render/#key-changing-to-force-a-component-refresh-->
-        <NoteList :params="parent" :key="selectedNoteBook" />
+        <NoteList
+          v-if="parent.selectedNoteBook.length > 0"
+          @numberOfNotes="selectedNoteBook.length"
+          :params="parent"
+          :key="parent.selectedNoteBook"
+        />
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn :to="{
-          name: 'newNotes',
-          params: {
-            id: '',
-          },
-        }" fab icon="add" color="accent" padding="sm">
+        <q-btn
+          :to="{
+            name: 'newNotes',
+            params: {
+              id: '',
+            },
+          }"
+          fab
+          icon="add"
+          color="accent"
+          padding="sm"
+        >
         </q-btn>
       </q-page-sticky>
     </q-page-container>

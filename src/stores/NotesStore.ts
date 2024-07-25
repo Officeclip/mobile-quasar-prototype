@@ -23,8 +23,9 @@ export const useNotesStore = defineStore('notesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/notebooks`
+          `${Constants.endPointUrl}/notebook`
         );
+        console.log(`@@@@@: ${this.noteBooks}`);
         this.noteBooks = response.data;
       } catch (error) {
         Constants.throwError(error);
@@ -36,10 +37,14 @@ export const useNotesStore = defineStore('notesStore', {
       parentObjectId: string,
       noteBookId: string
     ) {
+      // if all three are empty then ignore
+      if (parentObjectId === '' && parentObjectId === '' && noteBookId === '') {
+        return;
+      }
       const callStr =
         parentObjectId != '' && parentObjectServiceType != ''
           ? `${Constants.endPointUrl}/note-summary?parentSid=${parentObjectId}`
-          : `${Constants.endPointUrl}/notes?noteBookId=${noteBookId}`;
+          : `${Constants.endPointUrl}/note-summary?noteBookSId=${noteBookId}`;
 
       try {
         const instance = Constants.getAxiosInstance();
