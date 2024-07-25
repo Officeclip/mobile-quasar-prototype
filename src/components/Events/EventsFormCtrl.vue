@@ -139,9 +139,11 @@ const reminderTextInfo = props.event?.reminder.to
 
 const reminderDialogOpened = ref(false);
 const recurrenceDialogOpened = ref(false);
-const repeatString = props.event?.recurrence.text
-  ? ref(props.event?.recurrence.text)
-  : ref('Does not repeat');
+const repeatString =
+  !props.event?.recurrence.text.startsWith('None') &&
+  props.event?.recurrence.text !== ''
+    ? ref(props.event?.recurrence.text)
+    : ref('Does not repeat');
 
 function handleRRuleString(rruleString: string) {
   // You can now use the rruleString in your parent component
@@ -295,6 +297,7 @@ const isEndDateValid = computed(() => {
           size="xs"
         />
       </q-item>
+      <pre>{{ event }}</pre>
       <q-item>
         <q-input
           v-model="event.eventName"

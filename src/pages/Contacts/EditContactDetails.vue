@@ -13,7 +13,7 @@ import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 const $q = useQuasar();
 
 const contactDetailsStore = useContactDetailsStore();
-const route1 = useRouter();
+const router = useRouter();
 const route = useRoute();
 
 const contactDetails = computed(() => {
@@ -30,7 +30,8 @@ async function onSubmit(e: any) {
     //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await contactDetailsStore.editContactDetails(contactDetails.value!);
-    route1.push('/contactSummary');
+    // router.push('/contactSummary');
+    router.go(-1);
   } catch (error) {
     console.log(`*** Edit Contact:onSubmit(...):catch: ${error} ***`);
     // $q.notify({

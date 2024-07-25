@@ -44,7 +44,10 @@ const event: Ref<eventDetails> = ref({
   modifiedUserSid: '',
   modifiedUserName: '',
   reminder: {},
-  recurrence: {},
+  recurrence: {
+    text: '',
+    rule: '',
+  },
   label: {},
   showTimeAs: {},
   meetingAttendees: [],
