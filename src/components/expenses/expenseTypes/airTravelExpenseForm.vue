@@ -6,6 +6,7 @@ import { date } from 'quasar';
 const props = defineProps(['airTravel', 'isDetailRequired']);
 
 const dense = ref(false);
+const mask = 'YYYY-MM-DD';
 
 const errorMessage = ref('');
 
@@ -61,7 +62,6 @@ function dateValidation(dateString) {
         :label-color="props.isDetailRequired ? 'red' : ''"
         lazy-rules
         :rules="['date']"
-        mask="date"
         error-message="Please enter a valid date"
       >
         <template v-slot:prepend>
@@ -71,7 +71,7 @@ function dateValidation(dateString) {
               transition-show="scale"
               transition-hide="scale"
             >
-              <q-date v-model="props.airTravel.departureDate">
+              <q-date v-model="props.airTravel.departureDate" :mask="mask">
                 <div class="row items-center justify-end">
                   <q-btn
                     v-close-popup
@@ -92,7 +92,6 @@ function dateValidation(dateString) {
         :label-color="props.isDetailRequired ? 'red' : ''"
         lazy-rules
         :rules="[(val) => val && dateValidation(val)]"
-        mask="date"
         :error-message="
           errorMessage ? errorMessage : 'Please enter a valid date'
         "
@@ -104,7 +103,7 @@ function dateValidation(dateString) {
               transition-show="scale"
               transition-hide="scale"
             >
-              <q-date v-model="props.airTravel.arrivalDate">
+              <q-date v-model="props.airTravel.arrivalDate" :mask="mask">
                 <div class="row items-center justify-end">
                   <q-btn
                     v-close-popup
