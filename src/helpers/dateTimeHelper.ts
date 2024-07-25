@@ -5,6 +5,8 @@ import { is } from 'quasar';
 
 const dateTimeMask = 'EEE, MMM dd, yyyy hh:mm a';
 const dateMask = 'EEE, MMM dd, yyyy';
+const genericDateFormat = 'yyyy-MM-dd';
+const calendarDateFormat = 'yyyy/MM/dd';
 
 const extractDateFromUtc = (utcDateTime: string | undefined) => {
   // See: https://stackoverflow.com/a/5515349/89256
@@ -13,7 +15,7 @@ const extractDateFromUtc = (utcDateTime: string | undefined) => {
   }
 
   const date = new Date(utcDateTime);
-  return format(date, 'yyyy-MM-dd');
+  return format(date, genericDateFormat);
 };
 
 const extractTimeFromUtc = (utcDateTime: string) => {
@@ -133,10 +135,10 @@ const removeLastZ = (dateString: string | undefined) => {
 
 // Reads date from what is supplied by the rest api, in this case if there is a time conponent,
 // it is converted to the localtime else the date is kept as-is
-// ** See: https://stackoverflow.com/a/52352512
-const readDateTimeFromRestAPI = (input: string, isDateOnly: boolean) => {
+const getDateTimeFromRestAPI = (input: string, isDateOnly: boolean) => {
   let dt = new Date(input);
   if (isDateOnly) {
+    // ** See: https://stackoverflow.com/a/52352512
     dt = new Date(dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000);
   }
   return dt;
@@ -146,8 +148,16 @@ const formatDateTimeForUI = (input: Date, isDateOnly: boolean) => {
   return isDateOnly ? format(input, dateMask) : format(input, dateTimeMask);
 };
 
+const formatDateForCalendar = (input: Date) => {
+  return format(input, calendarDateFormat);
+};
+
+const formatDateForGeneric = (input: Date) => {
+  return format(input, genericDateFormat);
+};
+
 const formatDateTimeFromRestAPIForUI = (input: string, isDateOnly: boolean) => {
-  const dt = readDateTimeFromRestAPI(input, isDateOnly);
+  const dt = getDateTimeFromRestAPI(input, isDateOnly);
   return formatDateTimeForUI(dt, isDateOnly);
 };
 
@@ -165,7 +175,9 @@ export default {
   addHoursToDate,
   formatFullDateTime,
   removeLastZ,
-  readDateTimeFromRestAPI,
+  getDateTimeFromRestAPI,
   formatDateTimeFromRestAPIForUI,
   formatDateTimeForUI,
+  formatDateForCalendar,
+  formatDateForGeneric,
 };

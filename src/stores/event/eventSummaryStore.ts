@@ -23,26 +23,35 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
         const response = await instance.get(callStr);
         const events = response.data;
 
-        this.eventSummary = events.map((event: any) => ({
-          ...event,
-          startDateTime: event.isAllDayEvent
-            ? dateTimeHelper.removeLastZ(event.startDateTime)
-            : event.startDateTime,
-          endDateTime: event.isAllDayEvent
-            ? dateTimeHelper.removeLastZ(event.endDateTime)
-            : event.endDateTime,
-        }));
+        this.eventSummary = events;
+
+        // this.eventSummary = events.map((event: any) => ({
+        //   ...event,
+        //   startDateTime: event.isAllDayEvent
+        //     ? dateTimeHelper.removeLastZ(event.startDateTime)
+        //     : event.startDateTime,
+        //   endDateTime: event.isAllDayEvent
+        //     ? dateTimeHelper.removeLastZ(event.endDateTime)
+        //     : event.endDateTime,
+        // }));
       } catch (error) {
         Constants.throwError(error);
       }
     },
 
     getEventSummaryForADay(date: any) {
-      const formattedDate = date.replace(/\//g, '-');
+      //const formattedDate = date.replace(/\//g, '-');
+      console.log(`Date: ${date}`);
       if (this.eventSummary) {
         const eventsForADay = this.eventSummary.filter((t) => {
-          const newDate = dateTimeHelper.extractDateFromUtc(t.startDateTime);
-          return newDate === formattedDate;
+          if (t.startDateTime) {
+            const newDate = dateTimeHelper.getDateTimeFromRestAPI(
+              t.startDateTime,
+              true
+            );
+            //const newDate = dateTimeHelper.extractDateFromUtc(t.startDateTime);
+            return dateTimeHelper.formatDateForCalendar(newDate) === date;
+          }
         });
         return eventsForADay;
       } else {
@@ -70,8 +79,17 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
         const dates = this.eventSummary.map(
           //https://stackoverflow.com/a/19590901
           function (a) {
-            const mydate = dateTimeHelper.extractDateFromUtc(a.startDateTime);
-            return mydate?.replace(/-/g, '/');
+            if (a.startDateTime) {
+              const mydate = dateTimeHelper.getDateTimeFromRestAPI(
+                a.startDateTime,
+                true
+              );
+              const dateString = dateTimeHelper.formatDateForCalendar(mydate);
+              //console.log(`*******: ${a.startDateTime}, ${dateString}`);
+              return dateString;
+            } else {
+              return null;
+            }
           }
         );
         return dates;
