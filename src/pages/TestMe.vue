@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import CompA from '../../src/components/testme/CompA.vue';
+import dateTimeHelper from '../helpers/dateTimeHelper';
 
 const current = ref('test');
 const isValid = ref(false);
+
+const myDate = ref('');
+myDate.value = '2024-07-25';
 
 const handleValidation = (valid: boolean) => {
   console.log(`handleValidation: ${isValid.value}`);
@@ -24,6 +28,10 @@ const onSubmit = () => {
   <div class="demo">
     <q-form class="q-gutter-md" @submit="onSubmit">
       <div>
+        <pre>
+myDate = {{ dateTimeHelper.formatDateTimeFromRestAPIForUI(myDate, true) }}</pre
+        >
+        <q-date v-model="myDate" mask="YYYY-MM-DD" />
         <CompA :current="current" @validation="handleValidation" />
         <q-btn
           class="q-ml-sm"
