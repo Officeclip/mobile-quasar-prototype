@@ -5,6 +5,7 @@ import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { Note } from '../../models/note';
 import { useQuasar } from 'quasar';
+import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -23,7 +24,7 @@ const note = ref({
 });
 
 function onSubmit(e: Event) {
-  e.preventDefault();
+  // e.preventDefault();
   // if (!note.value.title) {
   //   alert('Please add text')
   //   return
@@ -80,18 +81,19 @@ function onSubmit(e: Event) {
         >
         </q-btn>
         <q-toolbar-title> New Notes</q-toolbar-title>
+        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <NotesForm :note="note" />
-          <q-btn
+          <!-- <q-btn
             class="q-ml-md q-mb-md q-mt-md"
             label="Submit"
             type="submit"
             color="primary"
-          ></q-btn>
+          ></q-btn> -->
           <q-btn
             label="Reset"
             type="reset"

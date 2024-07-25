@@ -5,6 +5,7 @@ import EditContactDetailsCtrl from '../../components/Contacts/EditContactDetails
 import { ContactDetails } from 'src/models/Contact/contactDetails';
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
+import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -33,7 +34,7 @@ const contactDetails: ContactDetails = ref({
 });
 
 async function onSubmit(e: any) {
-  e.preventDefault();
+  // e.preventDefault();
   try {
     //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -73,19 +74,20 @@ async function onSubmit(e: any) {
         >
         </q-btn>
         <q-toolbar-title> New Contact </q-toolbar-title>
+        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <EditContactDetailsCtrl :contactDetails="contactDetails" />
-          <q-btn
+          <!-- <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"
             type="submit"
             color="primary"
           >
-          </q-btn>
+          </q-btn> -->
         </div>
       </q-form>
     </q-page-container>

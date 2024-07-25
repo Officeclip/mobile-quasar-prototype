@@ -4,6 +4,7 @@ import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore
 import { useRoute, useRouter } from 'vue-router';
 import { ref, computed } from 'vue';
 import { useQuasar } from 'quasar';
+import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -111,18 +112,19 @@ async function onSubmit(e: any) {
         >
         </q-btn>
         <q-toolbar-title> New Expense</q-toolbar-title>
+        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <ExpenseForm :expenseDetail="expenseDetail" :period="period" />
-          <q-btn
+          <!-- <q-btn
             class="q-ml-md q-mb-md q-mt-md"
             label="Save"
             type="submit"
             color="primary"
-          ></q-btn>
+          ></q-btn> -->
           <q-btn
             label="Reset"
             type="reset"

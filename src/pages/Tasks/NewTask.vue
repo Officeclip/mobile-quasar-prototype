@@ -9,6 +9,7 @@ import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 import { useQuasar } from 'quasar';
 import { formatDistanceStrictWithOptions } from 'date-fns/fp';
 import format from 'date-fns/format';
+import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 
 const $q = useQuasar();
 
@@ -76,7 +77,7 @@ function receiveTask(receivedTask: taskDetails) {
 }
 
 async function onSubmit(e: any) {
-  e.preventDefault();
+  // e.preventDefault();
   console.log('*** NewTask:onSubmit(...): ***');
 
   try {
@@ -161,18 +162,19 @@ async function onSubmit(e: any) {
         >
         </q-btn>
         <q-toolbar-title> New Task</q-toolbar-title>
+        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
           <TasksForm :task-from-parent="task" @emit-task="receiveTask" />
-          <q-btn
+          <!-- <q-btn
             class="q-ml-md q-mb-md q-mt-md"
             color="primary"
             label="Submit"
             type="submit"
-          />
+          /> -->
           <q-btn
             class="q-ml-sm"
             color="primary"

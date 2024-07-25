@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { eventDetails } from 'src/models/event/eventDetails';
 import { useQuasar } from 'quasar';
+import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
 
 const $q = useQuasar();
 const route = useRoute();
@@ -74,6 +75,7 @@ async function onSubmit(e: any) {
           type="submit"
           @click="onSubmit"
         />
+        <!-- <OCSaveButton @handleClick="onSubmit"></OCSaveButton> -->
       </q-toolbar>
     </q-header>
     <q-page-container>

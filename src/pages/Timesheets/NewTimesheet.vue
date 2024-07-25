@@ -6,6 +6,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from 'src/stores/timesheet/TimesheetsStore';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
+import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -67,8 +68,8 @@ const timesheetDetails: TimesheetDetails = ref({
   comments: '',
 });
 
-async function onSubmit(e: any) {
-  e.preventDefault();
+async function onSubmit() {
+  // e.preventDefault();
   try {
     const newTimesheet = ref(timesheetDetails);
     await timesheetStore.addTimesheetDetails(newTimesheet.value);
@@ -99,6 +100,7 @@ async function onSubmit(e: any) {
         >
         </q-btn>
         <q-toolbar-title> New Timesheet</q-toolbar-title>
+        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -111,7 +113,7 @@ async function onSubmit(e: any) {
               :timesheetDCAA="timesheetDCAA"
               :periodName="periodName"
             />
-            <q-btn label="Save" type="submit" color="primary"></q-btn>
+            <!-- <q-btn label="Save" type="submit" color="primary"></q-btn> -->
             <q-btn
               label="Reset"
               type="reset"

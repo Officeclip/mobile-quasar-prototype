@@ -8,6 +8,7 @@ import { useRouter, useRoute } from 'vue-router';
 import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
+import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 
 const $q = useQuasar();
 const route = useRoute();
@@ -44,25 +45,9 @@ const timesheetDCAA = computed(() => {
 const timesheet = computed(() => {
   return timesheetsStore.TimesheetDetail;
 });
-// const timesheet = computed(() => {
-//   const storeData = timesheetsStore.TimesheetDetail;
-//   const newData = {
-//     ...storeData,
-//     customerProject: `${storeData?.accountSid}:${storeData?.projectSid}`,
-//   };
-//   return newData;
-// });
 
-// const newDataSet = {
-//   ...computed(() => {
-//     return timesheet.value;
-//   }),
-//   customerProject: timesheet.value?.accountName,
-// };
-// console.log('NEW DATA SET', timesheet.value);
-
-async function onSubmit(e: any) {
-  e.preventDefault();
+async function onSubmit() {
+  // e.preventDefault();
   try {
     const editTimesheet = ref(timesheet);
     await timesheetsStore.editTimesheet(editTimesheet.value);
@@ -92,6 +77,17 @@ async function onSubmit(e: any) {
         >
         </q-btn>
         <q-toolbar-title> Edit Timesheet</q-toolbar-title>
+        <!-- <q-btn
+          class="q-px-md"
+          dense
+          label="Save"
+          no-caps
+          outline
+          rounded
+          type="submit"
+          @click="onSubmit"
+        /> -->
+        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -103,13 +99,13 @@ async function onSubmit(e: any) {
             :timesheetDCAA="timesheetDCAA"
             :periodName="periodName?.name"
           />
-          <q-btn
+          <!-- <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"
             type="submit"
             color="primary"
           >
-          </q-btn>
+          </q-btn> -->
         </div>
       </q-form>
     </q-page-container>

@@ -6,6 +6,7 @@ import TasksForm from 'components/tasks/tasksFormCtrl.vue';
 import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { useQuasar } from 'quasar';
+import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 
 const $q = useQuasar();
 const tasksDetailStore = useTaskDetailsStore();
@@ -19,7 +20,7 @@ const task: Ref<taskDetails> = ref(tasksDetailStore.TaskDetail);
 
 onMounted(() => {
   //TODO: CR: 2024-05-17: nk: Fix the below type error?
-  tasksDetailStore.getTask((id.value));
+  tasksDetailStore.getTask(id.value);
 });
 
 function receiveTask(receivedTask: taskDetails) {
@@ -27,7 +28,7 @@ function receiveTask(receivedTask: taskDetails) {
 }
 
 async function onSubmit(e: any) {
-  e.preventDefault();
+  // e.preventDefault();
   try {
     const newTask: taskDetails = {
       id: task.value.id,
@@ -50,7 +51,8 @@ async function onSubmit(e: any) {
       taskTypeName: task.value.taskTypeName,
       taskTypeId: task.value.taskTypeId,
       assignees: task.value.assignees,
-      tags: task.value.tags, createdByUserSid: task.value.createdByUserSid,
+      tags: task.value.tags,
+      createdByUserSid: task.value.createdByUserSid,
       createdDate: task.value.createdDate,
       modifiedByUserSid: task.value.modifiedByUserSid,
       modifiedDate: task.value.modifiedDate,
@@ -59,11 +61,10 @@ async function onSubmit(e: any) {
       reminder: task.value.reminder,
       recurrence: task.value.recurrence,
       taskStatusCategory: task.value.taskStatusCategory,
-    }
+    };
     await tasksDetailStore.editTask(newTask);
-    router.go(-2)
-  }
-  catch (error) {
+    router.go(-2);
+  } catch (error) {
     console.log(`*** Edit Task:onSubmit(...):catch: ${error} ***`);
     // $q.notify({
     //   message: error as string,
@@ -85,15 +86,28 @@ async function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn color="white" dense flat icon="arrow_back" round @click="$router.go(-1)" />
+        <q-btn
+          color="white"
+          dense
+          flat
+          icon="arrow_back"
+          round
+          @click="$router.go(-1)"
+        />
         <q-toolbar-title>Edit Task</q-toolbar-title>
+        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
           <TasksForm :task-from-parent="task" @emit-task="receiveTask" />
-          <q-btn class="q-ml-md q-mb-md" color="primary" label="Submit" type="submit" />
+          <!-- <q-btn
+            class="q-ml-md q-mb-md"
+            color="primary"
+            label="Submit"
+            type="submit"
+          /> -->
         </div>
       </q-form>
     </q-page-container>

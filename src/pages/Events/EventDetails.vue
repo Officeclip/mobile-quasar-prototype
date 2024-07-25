@@ -301,7 +301,11 @@ const isAllowDelete = computed(() => {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <OCItem title="Regarding" :value="projectServiceItem" />
+        <OCItem
+          v-if="event?.parent.value.id"
+          title="Regarding"
+          :value="projectServiceItem"
+        />
       </q-list>
     </q-page-container>
   </q-layout>
