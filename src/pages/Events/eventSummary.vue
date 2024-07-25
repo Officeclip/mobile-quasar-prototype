@@ -117,7 +117,8 @@ const getYearandMonth = (newvalue: any) => {
             />
           </q-list>
           <q-list class="q-pt-lg text-h6"
-            >Events for: {{ selectedDate }}</q-list
+            >Events for:
+            {{ dateTimeHelper.convertCalendarDateForUI(selectedDate) }}</q-list
           >
           <q-list bordered class="q-mt-sm">
             <q-item

@@ -161,6 +161,11 @@ const formatDateTimeFromRestAPIForUI = (input: string, isDateOnly: boolean) => {
   return formatDateTimeForUI(dt, isDateOnly);
 };
 
+const convertCalendarDateForUI = (input: string) => {
+  const date = parse(input, calendarDateFormat, new Date());
+  return formatDateTimeForUI(date, true);
+};
+
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
@@ -180,4 +185,5 @@ export default {
   formatDateTimeForUI,
   formatDateForCalendar,
   formatDateForGeneric,
+  convertCalendarDateForUI,
 };
