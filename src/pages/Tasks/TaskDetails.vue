@@ -122,6 +122,20 @@ const completedSubtasks = computed(() => {
   return taskDetail.value?.subTasks.filter((subtask) => subtask.isCompleted);
 });
 
+const formattedStartDate = computed(() => {
+  return dateTimeHelper.formatDateTimeFromRestAPIForUI(
+    taskDetail.value?.startDate,
+    true
+  );
+});
+
+const formattedEndDate = computed(() => {
+  return dateTimeHelper.formatDateTimeFromRestAPIForUI(
+    taskDetail.value?.dueDate,
+    true
+  );
+});
+
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this task?');
 const showConfirmationDialog = ref(false);
@@ -224,9 +238,7 @@ function addSubtask(subtask: subTask) {
             </q-item-section>
             <q-item-section>
               <q-item-label caption>Start Date</q-item-label>
-              <q-item-label description
-                >{{ taskDetail?.startDate }}
-              </q-item-label>
+              <q-item-label description>{{ formattedStartDate }} </q-item-label>
             </q-item-section>
           </q-item>
           <q-item>
@@ -235,9 +247,7 @@ function addSubtask(subtask: subTask) {
             </q-item-section>
             <q-item-section>
               <q-item-label caption>Due Date</q-item-label>
-              <q-item-label description
-                >{{ taskDetail?.dueDate }}
-              </q-item-label>
+              <q-item-label description>{{ formattedEndDate }} </q-item-label>
             </q-item-section>
           </q-item>
         </q-card-section>
