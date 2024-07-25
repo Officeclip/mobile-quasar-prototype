@@ -144,6 +144,14 @@ const getDateTimeFromRestAPI = (input: string, isDateOnly: boolean) => {
   return dt;
 };
 
+const formatDateTimeFromUIForRestAPI = (input: string, isDateOnly: boolean) => {
+  const dt = new Date(input);
+  const strDate = isDateOnly
+    ? formatDateForGeneric(dt)
+    : dt.toISOString().replace(/.\d+Z$/g, 'Z'); // see: https://stackoverflow.com/a/63267652
+  return strDate;
+};
+
 const formatDateTimeForUI = (input: Date, isDateOnly: boolean) => {
   return isDateOnly ? format(input, dateMask) : format(input, dateTimeMask);
 };
@@ -181,6 +189,7 @@ export default {
   formatFullDateTime,
   removeLastZ,
   getDateTimeFromRestAPI,
+  formatDateTimeFromUIForRestAPI,
   formatDateTimeFromRestAPIForUI,
   formatDateTimeForUI,
   formatDateForCalendar,
