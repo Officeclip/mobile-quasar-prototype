@@ -202,10 +202,16 @@ const isAllowedWrite = isAllowed({
                 </q-item-label>
               </q-item-section>
 
-              <q-item-section side flex>
-                <q-item-label caption>
+              <q-item-section>
+                <q-item-label
+                  >$
                   {{ expenseDetail.amount }}
-                  {{ expenseDetail.currency }}
+                  <span class="text-caption q-pl-xs">{{
+                    expenseDetail.currency
+                  }}</span>
+                </q-item-label> </q-item-section
+              ><q-item-section side>
+                <q-item-label>
                   <q-btn
                     v-if="isAllowedWrite"
                     :to="{
