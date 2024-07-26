@@ -14,7 +14,11 @@ function isRoleAccess(roleAccess: string): boolean {
   return true;
 }
 
-export function isAllowed({ roleAccess = '', security = {} }) {
+export function isAllowed({
+  roleAccess = '',
+  security = {},
+  isTimeExpense = false,
+}) {
   const {
     read = true,
     write = true,
@@ -22,9 +26,14 @@ export function isAllowed({ roleAccess = '', security = {} }) {
     delete: del = true,
   } = security;
 
+  // if (security) {
+  //   return { read, write, append, del };
+  // }
   // Check if the admin is true
-  if (isSessionAdmin) {
+  if (!isTimeExpense && isSessionAdmin) {
+    // if (isSessionAdmin) {
     return true;
+    // }
   }
 
   // Check if both the roleAccess and security arguments are true

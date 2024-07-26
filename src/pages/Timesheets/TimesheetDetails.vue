@@ -30,6 +30,8 @@ const status = route.params.status;
 const mode = route.params.mode;
 
 const isLoaded = ref<boolean>(false);
+const isAllowedWrite = ref();
+const isAllowedDelete = ref();
 
 onMounted(async () => {
   try {
@@ -50,6 +52,19 @@ onMounted(async () => {
   } finally {
     isLoaded.value = true;
   }
+
+  isAllowedWrite.value = isAllowed({
+    security: {
+      write: timesheetDetails?.value[0].security.write,
+    },
+    isTimeExpense: true,
+  });
+  isAllowedDelete.value = isAllowed({
+    security: {
+      delete: timesheetDetails?.value[0].security.delete,
+    },
+    isTimeExpense: true,
+  });
 });
 
 const timesheetDetails = computed(() => {
@@ -143,16 +158,6 @@ const timesheetPeriod = computed(() => {
 //   addComments.value.comments[0].comment = '';
 // };
 
-const isAllowedWrite = isAllowed({
-  security: {
-    write: false,
-  },
-});
-const isAllowedDelete = isAllowed({
-  security: {
-    delete: false,
-  },
-});
 const showWarningMsg = () => {
   alert(
     'Add new timesheet details entry is not available in mobile app for Check-in, Check-out mode, please visit the web app to add the new timesheet details'
