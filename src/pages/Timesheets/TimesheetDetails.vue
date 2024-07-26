@@ -24,7 +24,7 @@ const employeeId = route.params.employeeId;
 const entityType = 'timesheet';
 const timesheetDetailSid = ref('');
 const fromDate = route.params.fromDate;
-const isWrite = route.params.isWrite;
+// const isWrite = route.params.isWrite;
 const stageId = Number(route.params.stageId);
 const status = route.params.status;
 const mode = route.params.mode;
@@ -33,7 +33,7 @@ const isLoaded = ref<boolean>(false);
 
 onMounted(async () => {
   try {
-    await timesheetsStore.getTimesheetDetails(id);
+    await timesheetsStore.getTimesheetDetails(id, stageId);
     await timesheetCommentsStore.$reset();
     await timesheetCommentsStore.getTimesheetComments(id);
     await timesheetListsStore.getTimesheetListAll();
@@ -144,7 +144,14 @@ const timesheetPeriod = computed(() => {
 // };
 
 const isAllowedWrite = isAllowed({
-  security: { read: isWrite },
+  security: {
+    write: false,
+  },
+});
+const isAllowedDelete = isAllowed({
+  security: {
+    delete: false,
+  },
 });
 const showWarningMsg = () => {
   alert(
@@ -179,7 +186,6 @@ const showWarningMsg = () => {
         </q-btn>
       </q-toolbar>
     </q-header>
-
     <q-page-container>
       <div>
         <WorkFlow
@@ -218,9 +224,7 @@ const showWarningMsg = () => {
             </q-item-section>
             <q-item-section side>
               <q-btn
-                v-if="
-                  isAllowedWrite && mode === 'PERIODIC' && status != 'Approved'
-                "
+                v-if="isAllowedWrite && mode === 'PERIODIC'"
                 :to="{
                   name: 'editTimesheet',
                   params: {
@@ -240,6 +244,7 @@ const showWarningMsg = () => {
             </q-item-section>
             <q-item-section side>
               <q-btn
+                v-if="isAllowedDelete"
                 @click="displayShowDeleteTimesheetDetail(timesheetDetail?.id)"
                 size="sm"
                 flat
@@ -300,9 +305,7 @@ const showWarningMsg = () => {
       <pre>{{ timesheetDetails[0]?.timesheetSid }}</pre> -->
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
-          v-if="
-            status != 'Pending' && status != 'Approved' && mode === 'PERIODIC'
-          "
+          v-if="isAllowedWrite && mode === 'PERIODIC'"
           :to="{
             name: 'newTimesheet',
             params: {

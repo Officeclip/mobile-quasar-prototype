@@ -36,7 +36,7 @@ const isLoaded = ref<boolean>(false);
 
 onMounted(async () => {
   try {
-    await expenseDetailsStore.getExpenseDetails(id);
+    await expenseDetailsStore.getExpenseDetails(id, stageId);
     await expenseListsStore.getExpensesList();
     await expenseCommentsStore.$reset();
     await expenseCommentsStore.getExpenseComments(id);
