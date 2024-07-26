@@ -203,8 +203,7 @@ const isAllowedWrite = isAllowed({
               </q-item-section>
 
               <q-item-section>
-                <q-item-label
-                  >$
+                <q-item-label>
                   {{ expenseDetail.amount }}
                   <span class="text-caption q-pl-xs">{{
                     expenseDetail.currency
