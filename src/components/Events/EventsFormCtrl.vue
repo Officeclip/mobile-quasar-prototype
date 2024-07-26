@@ -305,7 +305,7 @@ const isEndDateValid = computed(() => {
           size="xs"
         />
       </q-item>
-      <pre>{{ event }}</pre>
+      <!-- <pre>{{ event }}</pre> -->
       <q-item>
         <q-input
           v-model="event.eventName"

@@ -60,8 +60,8 @@ console.log('NotesList: Setup Ended');
             map-options
           />
         </div>
-        <pre>SelectedNoteBook: {{ parent.selectedNoteBook }}</pre>
-        <pre>Parent: {{ parent }}</pre>
+        <!-- <pre>SelectedNoteBook: {{ parent.selectedNoteBook }}</pre>
+        <pre>Parent: {{ parent }}</pre> -->
         <!-- See: https://michaelnthiessen.com/force-re-render/#key-changing-to-force-a-component-refresh-->
         <NoteList
           v-if="parent.selectedNoteBook.length > 0"

@@ -3,17 +3,30 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+// import { Period } from 'src/models/Timesheet/timesheetList';
 
 const $q = useQuasar();
 const router = useRouter();
-const periodModel: any = ref('');
+const periodModel: any = ref();
 const errorMsg: any = ref('');
 const warningMsg: any = ref('');
+
+const toDaysDate = new Date().toISOString().split('T')[0];
+
+console.log('startDateOfWeek:::startDateOfWeek', toDaysDate);
 
 const periodsList = computed(() => {
   return timesheetListStore.PeriodList;
 });
 const timesheetListStore = useTimesheetListStore();
+
+const setModelValue = computed(() => {
+  return periodsList.value.find((option) => {
+    const start = option.start.toString();
+    const end = option.end.toString();
+    return toDaysDate >= start && toDaysDate <= end;
+  });
+});
 
 onMounted(async () => {
   try {
@@ -26,6 +39,7 @@ onMounted(async () => {
       await router.push({ path: '/HomePage' });
     });
   }
+  periodModel.value = setModelValue.value;
 });
 
 watch([periodModel], ([newPeriodModel]) => {
@@ -56,6 +70,8 @@ watch([periodModel], ([newPeriodModel]) => {
             <p v-if="errorMsg" class="text-red">{{ errorMsg }}</p>
             <p v-if="warningMsg" class="text-orange">{{ warningMsg }}</p>
           </q-item>
+          <!-- <pre>setModelValue1{{ setModelValue }}</pre> -->
+          <!-- <pre>periodModel:::{{ periodModel }}</pre> -->
           <q-item>
             <q-select
               class="full-width"
@@ -74,7 +90,7 @@ watch([periodModel], ([newPeriodModel]) => {
               :to="{
                 name: 'newTimesheet',
                 params: {
-                  periodName: periodModel.name,
+                  periodName: periodModel?.name,
                   timesheetSid: '0',
                 },
               }"
