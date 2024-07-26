@@ -115,6 +115,7 @@ watch([timesheetStatus], ([newModel]) => {
             <q-item-section>
               <q-item-label>
                 {{ item.totalHours }}
+                <span class="text-caption q-pl-xs">hrs</span>
               </q-item-label>
             </q-item-section>
             <q-item-section style="align-items: end">
