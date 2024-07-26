@@ -3,7 +3,7 @@ import { defineProps, onBeforeMount, ref, Ref, watch, computed } from 'vue';
 import { useTaskListsStore } from 'stores/task/taskListsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
-import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
+// import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import { userSummary } from 'src/models/userSummary';
 import { useUserSummaryStore } from 'stores/userSummaryStore';
 import { tag } from 'src/models/task/taskLists';
@@ -23,9 +23,9 @@ const $q = useQuasar();
 const router = useRouter();
 
 const repeatString = ref('Does not repeat');
-const reminderTextInfo = ref('Reminder');
+// const reminderTextInfo = ref('Reminder');
 const recurrenceDialogOpened = ref(false);
-const reminderDialogOpened = ref(false);
+// const reminderDialogOpened = ref(false);
 
 const dateMask = 'ddd, MMM DD, YYYY';
 
@@ -53,15 +53,15 @@ function handleRRuleText(rruleText: string) {
   task.value.recurrence.text = repeatText;
 }
 
-function handleReminderData(reminderString: [string, number]) {
-  task.value.reminder.to = reminderString[0];
-  task.value.reminder.beforeMinutes = reminderString[1];
-}
+// function handleReminderData(reminderString: [string, number]) {
+//   task.value.reminder.to = reminderString[0];
+//   task.value.reminder.beforeMinutes = reminderString[1];
+// }
 
-function handleReminderText(reminderText: string) {
-  reminderTextInfo.value = reminderText;
-  reminderTextInfo.value = reminderText;
-}
+// function handleReminderText(reminderText: string) {
+//   reminderTextInfo.value = reminderText;
+//   reminderTextInfo.value = reminderText;
+// }
 
 const shownOptions: Ref<userSummary[]> = ref([]);
 const shownTagOptions: Ref<tag[]> = ref([]);
@@ -308,7 +308,7 @@ const isEndDateValid = computed(() => {
           </q-item-section>
         </q-item>
 
-        <q-item
+        <!-- <q-item
           class="q-pa-none"
           v-ripple
           clickable
@@ -321,7 +321,7 @@ const isEndDateValid = computed(() => {
           <q-item-section side>
             <q-icon color="primary" name="chevron_right" />
           </q-item-section>
-        </q-item>
+        </q-item> -->
       </div>
     </div>
   </div>
@@ -332,10 +332,10 @@ const isEndDateValid = computed(() => {
       @rrule-text-generated="handleRRuleText"
     />
   </q-dialog>
-  <q-dialog v-model="reminderDialogOpened">
+  <!-- <q-dialog v-model="reminderDialogOpened">
     <EventsReminderDialog
       @reminder-text-generated="handleReminderText"
       @reminder-data-generated="handleReminderData"
     />
-  </q-dialog>
+  </q-dialog> -->
 </template>
