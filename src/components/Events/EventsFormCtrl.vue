@@ -69,8 +69,16 @@ watch(props.event, () => {
 watch(
   [startDateModelValue, endDateModelValue],
   ([newStartDateModelValue, newEndtDateModelValue]) => {
-    props.event.startDateTime = new Date(newStartDateModelValue);
-    props.event.endDateTime = new Date(newEndtDateModelValue);
+    // props.event.startDateTime = new Date(newStartDateModelValue);
+    // props.event.endDateTime = new Date(newEndtDateModelValue);
+    props.event.startDateTime = dateTimeHelper.formatDateTimeFromUIForRestAPI(
+      newStartDateModelValue,
+      isAllDay
+    );
+    props.event.endDateTime = dateTimeHelper.formatDateTimeFromUIForRestAPI(
+      newEndtDateModelValue,
+      isAllDay
+    );
   }
 );
 
