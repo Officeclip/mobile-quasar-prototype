@@ -35,6 +35,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     },
 
     constructQueryParams() {
+      //debugger;
       const queryParams = new URLSearchParams();
       const params: searchFilter = this.filter;
       const filterKeys = Object.keys(params);
@@ -58,7 +59,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         callStr = this.constructBaseURL();
         const queryParams = this.constructQueryParams();
         const queryString = queryParams.toString();
-        callStr += queryString ? `?${queryString}` : '';
+        callStr += queryString ? `&${queryString}` : '';
       }
       this.url = callStr;
     },

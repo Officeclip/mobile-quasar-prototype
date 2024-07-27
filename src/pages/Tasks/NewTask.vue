@@ -78,10 +78,11 @@ function receiveTask(receivedTask: taskDetails) {
 
 async function onSubmit(e: any) {
   // e.preventDefault();
-  console.log('*** NewTask:onSubmit(...): ***');
+  //debugger;
+  //console.log(`*** NewTask:onSubmit(...): e.target: ${e}`);
 
   try {
-    const formData = new FormData(e.target);
+    //const formData = new FormData(e.target);
     //const newDueDate = formData.get('dueDate')?.toString() ?? '';
 
     const newTask: taskDetails = {
@@ -90,12 +91,12 @@ async function onSubmit(e: any) {
       description: task.value.description,
       actualDuration: task.value.actualDuration,
       completionDate: task.value.completionDate,
-      dueDate: format(new Date(task.value.dueDate), 'yyyy-MM-dd'),
+      dueDate: task.value.dueDate,
       estimatedDuration: task.value.estimatedDuration,
       isLock: task.value.isLock,
       isPrivate: task.value.isPrivate,
       parent: task.value.parent,
-      startDate: format(new Date(task.value.startDate), 'yyyy-MM-dd'),
+      startDate: task.value.startDate,
       taskOwnerName: task.value.taskOwnerName,
       taskOwnerSid: task.value.taskOwnerSid,
       taskPriorityName: task.value.taskPriorityName,
