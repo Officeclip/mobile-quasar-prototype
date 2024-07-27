@@ -35,49 +35,47 @@ const emit = defineEmits([
   'validation',
 ]);
 
-const startDateTime = props.event.startDateTime;
-const endDateTime = props.event.endDateTime;
+//const startDateTime = props.event.startDateTime;
+//const endDateTime = props.event.endDateTime;
 
 const startDateModelValue = ref();
 startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
-  startDateTime,
+  props.event.startDateTime,
   props.event.isAllDayEvent
 );
 
 const endDateModelValue = ref();
 endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
-  endDateTime,
-  props.event?.isAllDayEvent
+  props.event.endDateTime,
+  props.event.isAllDayEvent
 );
 
-let isAllDay = props.event.isAllDayEvent;
+// let isAllDay = props.event.isAllDayEvent;
 
-watch(props.event, () => {
-  if (isAllDay !== props.event.isAllDayEvent) {
-    startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
-      startDateTime,
-      props.event.isAllDayEvent
-    );
-    endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
-      endDateTime,
-      props.event?.isAllDayEvent
-    );
-    isAllDay = props.event.isAllDayEvent;
-  }
-});
+// watch(props.event, () => {
+//   if (isAllDay !== props.event.isAllDayEvent) {
+//     startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
+//       props.event.startDateTime,
+//       props.event.isAllDayEvent
+//     );
+//     endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
+//       props.event.endDateTime,
+//       props.event.isAllDayEvent
+//     );
+//     isAllDay = props.event.isAllDayEvent;
+//   }
+// });
 
 watch(
   [startDateModelValue, endDateModelValue],
   ([newStartDateModelValue, newEndtDateModelValue]) => {
-    // props.event.startDateTime = new Date(newStartDateModelValue);
-    // props.event.endDateTime = new Date(newEndtDateModelValue);
     props.event.startDateTime = dateTimeHelper.formatDateTimeFromUIForRestAPI(
       newStartDateModelValue,
-      isAllDay
+      props.event.isAllDayEvent
     );
     props.event.endDateTime = dateTimeHelper.formatDateTimeFromUIForRestAPI(
       newEndtDateModelValue,
-      isAllDay
+      props.event.isAllDayEvent
     );
   }
 );
@@ -230,7 +228,7 @@ function isValidURL(url: string) {
   return pattern.test(url);
 }
 
-function startDateChanged(val) {
+function changeEndDateWhenStartDateChanged(val: string) {
   if (!props.event.isAllDayEvent) {
     const date = new Date(val);
     const endDateTime = dateTimeHelper.addHoursToDate(date, 1);
@@ -239,19 +237,36 @@ function startDateChanged(val) {
 }
 const showTimeAsBackColor = getEventShowTimeAsColor();
 
-const endDateRule = (value: string) => {
-  console.log(`@@@@ endDateRule: ${value}`);
-  if (!value) return false;
-  if (!props.event.startDateTime) return true;
-  const isGreater = new Date(value) > new Date(props.event.startDateTime);
-  return isGreater;
-};
+// const endDateRule = (value: string) => {
+//   if (!value) return false;
+//   if (!props.event.startDateTime) return true;
+//   const isGreater = new Date(value) > new Date(props.event.startDateTime);
+//   return isGreater;
+// };
 
 const isEndDateValid = computed(() => {
-  const isEndDateValid = endDateRule(props.event.endDateTime) === true;
+  if (!props.event.endDateTime) return false;
+  if (!props.event.startDateTime) return true;
+  const dtStartDateTime = new Date(props.event.startDateTime);
+  const dtEndDateTime = new Date(props.event.endDateTime);
+  const isEndDateValid = props.event.isAllDayEvent
+    ? dtEndDateTime >= dtStartDateTime
+    : dtEndDateTime > dtStartDateTime;
+  //const isEndDateValid = endDateRule(props.event.endDateTime) === true;
   emit('validation', isEndDateValid);
   return isEndDateValid;
 });
+
+function toggleAllDay(evt: boolean) {
+  startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
+    props.event.startDateTime,
+    evt
+  );
+  endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
+    props.event.endDateTime,
+    evt
+  );
+}
 </script>
 
 <template>
@@ -326,6 +341,7 @@ const isEndDateValid = computed(() => {
           keep-color
           label="All Day Event"
           left-label
+          @update:model-value="toggleAllDay"
         />
       </q-item>
 
@@ -333,7 +349,7 @@ const isEndDateValid = computed(() => {
         <q-input
           v-model="startDateModelValue"
           label="Starts*"
-          @update:model-value="startDateChanged"
+          @update:model-value="changeEndDateWhenStartDateChanged"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -345,7 +361,7 @@ const isEndDateValid = computed(() => {
                 <q-date
                   v-model="startDateModelValue"
                   :mask="mask(event.isAllDayEvent)"
-                  @update:model-value="startDateChanged"
+                  @update:model-value="changeEndDateWhenStartDateChanged"
                 >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
@@ -365,7 +381,7 @@ const isEndDateValid = computed(() => {
                 <q-time
                   v-model="startDateModelValue"
                   :mask="mask(event.isAllDayEvent)"
-                  @update:model-value="startDateChanged"
+                  @update:model-value="changeEndDateWhenStartDateChanged"
                 >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup color="primary" flat label="Close" />
