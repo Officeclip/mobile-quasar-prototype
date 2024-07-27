@@ -136,6 +136,9 @@ const removeLastZ = (dateString: string | undefined) => {
 // Reads date from what is supplied by the rest api, in this case if there is a time conponent,
 // it is converted to the localtime else the date is kept as-is
 const getDateTimeFromRestAPI = (input: string, isDateOnly: boolean) => {
+  if (!input || input === '') {
+    return null;
+  }
   let dt = new Date(input);
   if (isDateOnly) {
     // ** See: https://stackoverflow.com/a/52352512
@@ -145,6 +148,9 @@ const getDateTimeFromRestAPI = (input: string, isDateOnly: boolean) => {
 };
 
 const formatDateTimeFromUIForRestAPI = (input: string, isDateOnly: boolean) => {
+  if (!input || input === '') {
+    return '';
+  }
   const dt = new Date(input);
   const strDate = isDateOnly
     ? formatDateForGeneric(dt)
@@ -166,6 +172,7 @@ const formatDateForGeneric = (input: Date) => {
 
 const formatDateTimeFromRestAPIForUI = (input: string, isDateOnly: boolean) => {
   const dt = getDateTimeFromRestAPI(input, isDateOnly);
+  if (dt === null) return '';
   return formatDateTimeForUI(dt, isDateOnly);
 };
 

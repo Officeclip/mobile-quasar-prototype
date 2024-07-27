@@ -74,8 +74,8 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}/task-detail/${id}`
         );
-        this.taskDetail = response.data;
         //debugger;
+        this.taskDetail = response.data;
       } catch (error) {
         logger.log(`*** taskDetailStore:catch(${error}) ***`, 'error');
         Constants.throwError(error);

@@ -7,6 +7,8 @@ import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
+import dateTimeHelper from 'src/helpers/dateTimeHelper';
+import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const tasksDetailStore = useTaskDetailsStore();
@@ -30,18 +32,25 @@ function receiveTask(receivedTask: taskDetails) {
 async function onSubmit(e: any) {
   // e.preventDefault();
   try {
+    //debugger;
     const newTask: taskDetails = {
       id: task.value.id,
       subject: task.value.subject,
       description: task.value.description,
       actualDuration: task.value.actualDuration,
       completionDate: task.value.completionDate,
-      dueDate: task.value.dueDate,
+      dueDate: dateTimeHelper.formatDateTimeFromUIForRestAPI(
+        task.value.dueDate,
+        true
+      ),
       estimatedDuration: task.value.estimatedDuration,
       isLock: task.value.isLock,
       isPrivate: task.value.isPrivate,
       parent: task.value.parent,
-      startDate: task.value.startDate,
+      startDate: dateTimeHelper.formatDateTimeFromUIForRestAPI(
+        task.value.startDate,
+        true
+      ),
       taskOwnerName: task.value.taskOwnerName,
       taskOwnerSid: task.value.taskOwnerSid,
       taskPriorityName: task.value.taskPriorityName,
@@ -62,6 +71,7 @@ async function onSubmit(e: any) {
       recurrence: task.value.recurrence,
       taskStatusCategory: task.value.taskStatusCategory,
     };
+    logger.log(`xxxxxx task Details: ${newTask.dueDate}, ${newTask.startDate}`);
     await tasksDetailStore.editTask(newTask);
     router.go(-2);
   } catch (error) {
