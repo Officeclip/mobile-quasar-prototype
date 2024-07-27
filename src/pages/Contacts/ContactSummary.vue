@@ -47,7 +47,7 @@ const loadMore = async (index: any, done: () => void) => {
 };
 
 const getData = computed(() => {
-  if (contacts.value.length === 0) {
+  if (contacts?.value.length === 0) {
     return null;
   }
   // First we need to filter the contact with any strings
@@ -89,7 +89,7 @@ const getData = computed(() => {
       </q-toolbar>
     </q-header>
     <q-page-container>
-      <q-page>
+      <q-page v-if="contacts.length > 0">
         <q-input
           v-model="text"
           class="GNL__toolbar-input q-ma-md"
@@ -156,6 +156,9 @@ const getData = computed(() => {
             />
           </q-page-sticky>
         </div>
+      </q-page>
+      <q-page v-else>
+        <q-item> No Contacts found </q-item>
       </q-page>
     </q-page-container>
   </q-layout>

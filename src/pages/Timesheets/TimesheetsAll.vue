@@ -51,7 +51,7 @@ watch([timesheetStatus], ([newModel]) => {
 });
 </script>
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" v-if="timesheetsAll.length > 0">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
         <q-btn
@@ -91,7 +91,7 @@ watch([timesheetStatus], ([newModel]) => {
                 id: item.id,
                 employeeId: item.employeeId,
                 fromDate: item.fromDate,
-                // isWrite: item.security.write,
+                isWrite: item.security.write,
                 stageId: item.stageId,
                 status: item.status,
                 mode: item.mode,
@@ -134,6 +134,59 @@ watch([timesheetStatus], ([newModel]) => {
           </q-item>
           <q-separator></q-separator>
         </q-list>
+        <q-page-sticky position="bottom-right" :offset="[18, 18]">
+          <q-btn
+            v-if="isAllow && timesheetDCAA.mode === 'PERIODIC'"
+            :to="{
+              name: 'newTimesheetPeriod',
+            }"
+            fab
+            icon="add"
+            color="accent"
+            padding="sm"
+          >
+          </q-btn>
+          <q-btn
+            v-else
+            fab
+            icon="add"
+            color="accent"
+            padding="sm"
+            @click="showWarningMsg"
+          >
+          </q-btn>
+        </q-page-sticky>
+      </q-page>
+    </q-page-container>
+  </q-layout>
+  <q-layout v-else>
+    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
+      <q-toolbar class="glossy">
+        <q-btn
+          @click="$router.go(-1)"
+          flat
+          round
+          dense
+          color="white"
+          icon="arrow_back"
+        >
+        </q-btn>
+        <q-toolbar-title>{{ title }} Timesheets </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
+    <q-page-container>
+      <q-page class="flex flex-center">
+        <q-item>
+          <q-item-section>
+            <q-item-label class="text-h6 q-py-md">
+              Create your first Timesheet
+            </q-item-label>
+            <q-item-label>
+              A timesheet is used to track employee's time spent on projects and
+              tasks.
+            </q-item-label>
+          </q-item-section>
+        </q-item>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
             v-if="isAllow && timesheetDCAA.mode === 'PERIODIC'"
