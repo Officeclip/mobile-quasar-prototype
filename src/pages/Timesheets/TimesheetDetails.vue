@@ -160,7 +160,7 @@ const timesheetPeriod = computed(() => {
 
 const showWarningMsg = () => {
   alert(
-    'Add new timesheet details entry is not available in mobile app for Check-in, Check-out mode, please visit the web app to add the new timesheet details'
+    'Add new timesheet details entry is not available in mobile app for Check-in, Check-out mode,please visit the web app to add the new timesheet details'
   );
 };
 </script>
@@ -180,7 +180,7 @@ const showWarningMsg = () => {
         </q-btn>
         <q-toolbar-title> Details </q-toolbar-title>
         <q-btn
-          v-if="status === 'Saved'"
+          v-if="isAllowedDelete"
           flat
           round
           dense
@@ -243,8 +243,6 @@ const showWarningMsg = () => {
                 dense
                 icon="edit"
               >
-              </q-btn>
-              <q-btn v-else size="sm" flat round dense icon="edit" disable>
               </q-btn>
             </q-item-section>
             <q-item-section side>
