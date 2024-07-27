@@ -26,7 +26,7 @@ export interface expenseDetails {
   mileageExpense: mileageExpense;
   telephoneExpense: telephoneExpense;
   taxiExpense: taxiExpense;
-  security: security[];
+  security: security;
 }
 
 export interface airTravelExpense {

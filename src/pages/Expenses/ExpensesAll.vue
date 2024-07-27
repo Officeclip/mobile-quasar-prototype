@@ -88,7 +88,7 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
                 id: expense.id,
                 employeeId: expense.employeeId,
                 fromDate: expense.fromDate,
-                isWrite: expense.security.write,
+                // isWrite: expense.security.write,
                 stageId: expense.stageId,
                 status: expense.status,
               },

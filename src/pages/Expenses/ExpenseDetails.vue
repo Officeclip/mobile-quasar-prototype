@@ -27,12 +27,13 @@ const expenseListsStore = useExpenseListsStore();
 const id = route.params.id;
 const employeeId = route.params.employeeId;
 const stageId = Number(route.params.stageId);
-// const readOnly = route.params.readOnly === 'false';
-const isWrite = route.params.isWrite;
 const entityType = 'expense';
 const fromDate = route.params.fromDate;
 const status = route.params.status;
 const isLoaded = ref<boolean>(false);
+
+const isAllowedWrite = ref();
+const isAllowedDelete = ref();
 
 onMounted(async () => {
   try {
@@ -50,6 +51,18 @@ onMounted(async () => {
   } finally {
     isLoaded.value = true;
   }
+  isAllowedWrite.value = isAllowed({
+    security: {
+      write: expenseDetails?.value[0].security.write,
+    },
+    isTimeExpense: true,
+  });
+  isAllowedDelete.value = isAllowed({
+    security: {
+      delete: expenseDetails?.value[0].security.delete,
+    },
+    isTimeExpense: true,
+  });
 });
 
 const expenseDetails = computed(() => {
@@ -71,15 +84,6 @@ const periodOptions = computed(() => {
 const expensePeriod = computed(() => {
   return periodOptions.value?.find((x) => x.start.toString() === fromDate);
 });
-
-// const expensePeriod = ref('');
-
-// watch([periodOptions], () => {
-//   //TODO: CR: 2024-05-17: nk: Fix the type error?
-//   expensePeriod.value = periodOptions.value.find(
-//     (x) => x.start.toString() === fromDate
-//   );
-// });
 
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this expense?');
@@ -104,14 +108,12 @@ const deleteExpense = async (id: string) => {
       isExpenseDelete.value = false;
       router.go(-1);
     } catch (error) {
-      //console.log('Error in deleting the task detail')
       $q.dialog({
         title: 'Alert',
         message: error as string,
       }).onOk(async () => {
         console.log('*** Delete expense:onSubmit(...):onOK ***');
         isExpenseDelete.value = false;
-        //router.go(0);
       });
     }
   }
@@ -123,21 +125,16 @@ const deleteExpenseDetail = async (id: string) => {
       isExpenseDetailDelete.value = false;
       router.go(-1);
     } catch (error) {
-      //console.log('Error in deleting the task detail')
       $q.dialog({
         title: 'Alert',
         message: error as string,
       }).onOk(async () => {
         console.log('*** Delete expense detail:onSubmit(...):onOK ***');
         isExpenseDelete.value = false;
-        //router.go(0);
       });
     }
   }
 };
-const isAllowedWrite = isAllowed({
-  security: { write: isWrite },
-});
 </script>
 
 <style>
@@ -161,6 +158,7 @@ const isAllowedWrite = isAllowed({
         </q-btn>
         <q-toolbar-title> Expense Details </q-toolbar-title>
         <q-btn
+          v-if="isAllowedDelete"
           flat
           round
           dense
@@ -233,6 +231,7 @@ const isAllowedWrite = isAllowed({
               </q-item-section>
               <q-item-section side>
                 <q-btn
+                  v-if="isAllowedDelete"
                   @click="showExpenseDetailDelete(expenseDetail?.expenseSid)"
                   size="sm"
                   flat
@@ -288,10 +287,9 @@ const isAllowedWrite = isAllowed({
         </q-list>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
-            v-if="status != 'Pending' && status != 'Approved'"
+            v-if="isAllowedWrite"
             :to="{
               name: 'newExpense',
-              //TODO: CR: 2024-05-17: nk: Fix the type error?
               params: {
                 period: expensePeriod?.name,
                 expenseSid: expenseDetail.expenseSid,
