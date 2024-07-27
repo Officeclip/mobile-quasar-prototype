@@ -48,7 +48,7 @@ export const useSessionStore = defineStore('sessionStore', {
           url: '/eventSummary',
         },
         {
-          id: 2,
+          id: 22,
           name: 'Contacts',
           icon: 'person',
           url: '/contactSummary',
@@ -72,7 +72,7 @@ export const useSessionStore = defineStore('sessionStore', {
         //   url: '',
         // },
         {
-          id: 6,
+          id: 8,
           icon: 'schedule',
           name: 'Timesheet',
           url: '/timesheetsAll',
@@ -84,13 +84,13 @@ export const useSessionStore = defineStore('sessionStore', {
           url: '/expensesAll',
         },
         {
-          id: 8,
+          id: 20,
           icon: 'checklist',
           name: 'Tasks',
           url: '/tasksList',
         },
         {
-          id: 9,
+          id: 21,
           icon: 'subject',
           name: 'Notes',
           url: '/notesList',
