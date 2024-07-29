@@ -89,7 +89,7 @@ const getData = computed(() => {
       </q-toolbar>
     </q-header>
     <q-page-container>
-      <q-page v-if="contacts.length > 0">
+      <q-page>
         <q-input
           v-model="text"
           class="GNL__toolbar-input q-ma-md"
@@ -156,9 +156,6 @@ const getData = computed(() => {
             />
           </q-page-sticky>
         </div>
-      </q-page>
-      <q-page v-else>
-        <q-item> No Contacts found </q-item>
       </q-page>
     </q-page-container>
   </q-layout>
