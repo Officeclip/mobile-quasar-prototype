@@ -4,6 +4,7 @@ import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { ref, Ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { eventDetails } from 'src/models/event/eventDetails';
+import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
@@ -40,7 +41,7 @@ const event: Ref<eventDetails> = ref({
   eventName: '',
   eventDescription: '',
   startDateTime: new Date().toISOString(),
-  endDateTime: new Date().toISOString(),
+  endDateTime: dateTimeHelper.addHoursToDate(new Date(), 1).toISOString(),
   isAllDayEvent: false,
   eventUserSid: '',
   isRsvp: false,
