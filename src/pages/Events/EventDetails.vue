@@ -11,7 +11,6 @@ import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
-import format from 'date-fns/format';
 
 const route = useRoute();
 const router = useRouter();
@@ -39,15 +38,27 @@ onMounted(async () => {
   }
 });
 
+const isAllowEdit = computed(() => {
+  return isAllowed({
+    security: { write: event.value?.security?.write },
+  });
+});
+
+const isAllowDelete = computed(() => {
+  return isAllowed({
+    security: { delete: event.value?.security?.delete },
+  });
+});
+
 const event = computed(() => {
-  return eventDetailsStore.eventDetails;
+  return eventDetailsStore?.eventDetails;
 });
 
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
 const selectedTime = computed(() => {
   const reminderTimes = reminderDataStore.ReminderTimes;
   const obj = reminderTimes.find(
-    (time: any) => time.value === event.value?.reminder.beforeMinutes
+    (time: any) => time.value === event.value?.reminder?.beforeMinutes
   );
   return obj ? obj : 'null';
 });
@@ -131,19 +142,7 @@ const openUrl = () => {
   window.open('http://' + url, '_blank');
 };
 const projectServiceItem = computed(() => {
-  return `${event.value?.parent.type.name} : ${event.value?.parent.value.name}`;
-});
-
-const isAllowEdit = computed(() => {
-  return isAllowed({
-    security: { write: event.value?.security.write },
-  });
-});
-
-const isAllowDelete = computed(() => {
-  return isAllowed({
-    security: { delete: event.value?.security.delete },
-  });
+  return `${event.value?.parent.type?.name} : ${event.value?.parent.value?.name}`;
 });
 </script>
 
@@ -166,7 +165,7 @@ const isAllowDelete = computed(() => {
           @click="$router.go(-1)"
         />
         <q-toolbar-title>
-          <OCItem :value="event?.eventType.name" />
+          <OCItem :value="event?.eventType?.name" />
         </q-toolbar-title>
         <div>
           <q-btn
@@ -218,7 +217,7 @@ const isAllowDelete = computed(() => {
           title="Is All Day Event ?"
           :value="event?.isAllDayEvent ? 'Yes' : 'No'"
         />
-        <q-item v-if="event?.meetingAttendees.length">
+        <q-item v-if="event?.meetingAttendees?.length">
           <q-item-section>
             <q-item-label caption> Attendees </q-item-label>
             <div style="display: inline-flex; align-items: baseline">
@@ -226,8 +225,8 @@ const isAllowDelete = computed(() => {
                 v-for="attendee in attendeesList"
                 :key="attendee.id"
               >
-                <q-chip dense class="q-px-sm">{{ attendee.name }}</q-chip>
-                <q-tooltip>{{ attendee.email }}</q-tooltip>
+                <q-chip dense class="q-px-sm">{{ attendee?.name }}</q-chip>
+                <q-tooltip>{{ attendee?.email }}</q-tooltip>
               </q-item-label>
             </div>
           </q-item-section>
@@ -239,7 +238,7 @@ const isAllowDelete = computed(() => {
           <q-item-section>
             <q-item-label caption>Url </q-item-label>
             <q-item-label class="cursor-pointer" @click="openUrl"
-              >{{ event.url }}
+              >{{ event?.url }}
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -255,7 +254,7 @@ const isAllowDelete = computed(() => {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-if="event?.showTimeAs.id !== '-1'">
+        <q-item v-if="event?.showTimeAs?.id !== '-1'">
           <q-item-section>
             <q-item-label caption> Show Time As </q-item-label>
             <q-item-label>
@@ -263,23 +262,23 @@ const isAllowDelete = computed(() => {
                 class="q-py-xs q-px-sm"
                 :style="{
                   backgroundColor: getEventShowTimeAsColor(
-                    event?.showTimeAs.name
+                    event?.showTimeAs?.name
                   ) as string,
                 }"
-                >{{ event?.showTimeAs.name }}</span
+                >{{ event?.showTimeAs?.name }}</span
               >
             </q-item-label>
           </q-item-section>
         </q-item>
         <OCItem
-          v-if="event?.recurrence.rule"
+          v-if="event?.recurrence?.rule"
           title="Repeat"
-          :value="event?.recurrence.text"
+          :value="event?.recurrence?.text"
         />
         <OCItem
-          v-if="event?.reminder.to"
+          v-if="event?.reminder?.to"
           title="Reminder"
-          :value="`${event.reminder.to} ${selectedTime?.label} Before`"
+          :value="`${event?.reminder?.to} ${selectedTime?.label} Before`"
         />
         <q-item>
           <q-item-section>
@@ -302,7 +301,7 @@ const isAllowDelete = computed(() => {
           </q-item-section>
         </q-item>
         <OCItem
-          v-if="event?.parent.value.id"
+          v-if="event?.parent?.value?.id"
           title="Regarding"
           :value="projectServiceItem"
         />
