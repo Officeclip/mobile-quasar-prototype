@@ -2,7 +2,7 @@
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { ref, Ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { eventDetails } from 'src/models/event/eventDetails';
 import { useQuasar } from 'quasar';
 
@@ -10,6 +10,12 @@ const $q = useQuasar();
 
 const eventDetailsStore = useEventDetailsStore();
 const router = useRouter();
+const route = useRoute();
+
+const parentObjectId = route.params.objectId ? route.params.objectId : '';
+const parentObjectServiceType = route.params.objectTypeId
+  ? route.params.objectTypeId
+  : '';
 
 const isValid = ref(false);
 
@@ -22,11 +28,11 @@ const event: Ref<eventDetails> = ref({
   createdUserName: '',
   parent: {
     type: {
-      id: '',
+      id: parentObjectServiceType as string,
       name: '',
     },
     value: {
-      id: '',
+      id: parentObjectId as string,
       name: '',
     },
   },
