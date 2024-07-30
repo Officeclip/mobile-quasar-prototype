@@ -1,87 +1,74 @@
-<script lang="ts" setup>
-import dateTimeHelper from 'src/helpers/dateTimeHelper';
+<script setup>
+import { ref, computed } from 'vue';
 
-/* const eventSummary = [
+const options = ref([
   {
-    startDateTime: '2024-07-05T00:00:00Z',
-    isAllDayEvent: true,
+    id: '684EHRFDNJ8CHAGVJC5Q',
+    name: 'Sample One',
+    email: 'testmail1@gmail.com',
   },
   {
-    startDateTime: '2024-07-10T00:00:00Z',
-    isAllDayEvent: false,
+    id: 'NJ9MYHSFZB9RHHHFFC5Q',
+    name: 'Sample Two',
+    email: 'testmail2@gmail.com',
   },
   {
-    startDateTime: '2024-07-15T00:00:00Z',
-    isAllDayEvent: true,
+    id: 'U6BCWDSF266ESD9R545Q',
+    name: 'Sample Three',
+    email: 'testmail3@gmail.com',
   },
-]; */
+]);
 
-/* function getEventSummaryDates() {
-  if (eventSummary) {
-    const dates = eventSummary.map(function (data) {
-      if (data.isAllDayEvent) {
-        const helper = dateTimeHelper.extractDateFromUtc(data.startDateTime);
-        return helper?.replace(/-/g, '/');
-      } else {
-        const date = new Date(data.startDateTime);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Pad month with leading zero
-        const day = String(date.getDate()).padStart(2, '0'); // Pad day with leading zero
-        return `${year}/${month}/${day}`;
-      }
-    });
-    return dates;
-  }
-  return [];
-} */
+const createdUser = { createdUserSid: '684EHRFDNJ8CHAGVJC5Q' };
 
-const sampleData = [
-  {
-    startDateTime: '2024-07-05T00:00:00Z',
-    isAllDayEvent: true,
-  },
-  {
-    startDateTime: '2024-07-10T01:00:00Z',
-    isAllDayEvent: false,
-  },
-  {
-    startDateTime: '2024-07-15T00:00:00Z',
-    isAllDayEvent: true,
-  },
-];
+const initialValue = ref({
+  id: '684EHRFDNJ8CHAGVJC5Q',
+  name: 'Sample One',
+  email: 'testmail1@gmail.com',
+});
 
-function convertStartDateTimeToDateObject(data) {
-  // Loop through each object in the data
-  for (let i = 0; i < data.length; i++) {
-    data[i].startDateTime = dateTimeHelper.extractDateFromUtc(
-      data[i].startDateTime,
-      data[i].isAllDayEvent
+const selectedOptions = ref([initialValue.value]);
+
+const canBeRemoved = computed(
+  () => (item) => item.id !== createdUser.createdUserSid
+);
+
+function handleRemove(item) {
+  if (canBeRemoved.value(item)) {
+    const index = selectedOptions.value.findIndex(
+      (option) => option.id === item.id
     );
-    // Check if isAllDayEvent is true
-    // if (!data[i].isAllDayEvent) {
-    //   // Create a new Date object from the startDateTime string
-    //   data[i].startDateTime = new Date(data[i].startDateTime);
-    // } else {
-    //   data[i].startDateTime = new Date(
-    //     dateTimeHelper.extractDateFromUtc(data[i].startDateTime)
-    //   );
-    // }
+    if (index !== -1) {
+      selectedOptions.value.splice(index, 1);
+    }
   }
-  console.log('XXXXXXXXXXXXXXXXXX', data);
-  return data; // Return the modified data array
 }
-
-const dataWithDateObjects = convertStartDateTimeToDateObject(sampleData);
-// console.log(dataWithDateObjects);
 </script>
 
 <template>
-  <div class="q-pa-md">
-    <div class="q-gutter-y-md column">
-      <q-list>
-        <q-list-item>{{ dataWithDateObjects }}</q-list-item>
-      </q-list>
-    </div>
-  </div>
+  <q-select
+    v-model="selectedOptions"
+    :options="options"
+    class="full-width"
+    input-debounce="0"
+    label="Attendees"
+    multiple
+    option-label="email"
+    option-value="id"
+    style="min-width: 250px"
+    use-input
+  >
+    <template v-slot:selected-item="scope">
+      <q-chip
+        removable
+        dense
+        @remove="handleRemove(scope.opt)"
+        :tabindex="scope.tabindex"
+        text-color="secondary"
+        class="q-ma-none"
+      >
+        {{ scope.opt.name }}
+      </q-chip>
+    </template>
+  </q-select>
 </template>
-<style></style>
