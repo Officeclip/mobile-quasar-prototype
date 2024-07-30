@@ -251,11 +251,11 @@ defineExpose({
         <q-select
           v-model="taskOwner"
           :options="shownOptions"
-          clearable
           hint="Start typing"
           input-debounce="0"
           label="Owned by"
           option-label="name"
+          use-chips
           use-input
           @filter="filterFn"
         >
