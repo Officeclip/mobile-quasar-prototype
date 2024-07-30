@@ -32,10 +32,12 @@ function handleReminder(reminder: [string, number]) {
   event.value.reminder.to = reminder[0];
   event.value.reminder.beforeMinutes = reminder[1];
 }
+const childComponent = ref(null);
 
 async function onSubmit(e: any) {
-  e.preventDefault();
+  //e.preventDefault();
   try {
+    if (!childComponent.value.validateAll()) return;
     const editEventDetails = ref(event);
     await eventDetailsStore.editEventDetails(editEventDetails.value);
     router.go(-2);
@@ -65,7 +67,7 @@ async function onSubmit(e: any) {
         >
         </q-btn>
         <q-toolbar-title> Edit Event</q-toolbar-title>
-        <q-btn
+        <!-- <q-btn
           class="q-px-md"
           dense
           label="Save"
@@ -74,8 +76,8 @@ async function onSubmit(e: any) {
           rounded
           type="submit"
           @click="onSubmit"
-        />
-        <!-- <OCSaveButton @handleClick="onSubmit"></OCSaveButton> -->
+        /> -->
+        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -84,6 +86,7 @@ async function onSubmit(e: any) {
           <EventForm
             v-if="event"
             :event="event"
+            ref="childComponent"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"
             @reminder-generated="handleReminder"
