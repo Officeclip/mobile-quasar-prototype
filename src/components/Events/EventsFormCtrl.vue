@@ -201,7 +201,7 @@ function createValue(val: string, done: any) {
   }
 }
 
-if (props.event.eventType.id == '2') {
+if (props.event?.eventId == '' && props.event?.eventType?.id == '2') {
   props.event.meetingAttendees = [
     {
       id: session.userId,
