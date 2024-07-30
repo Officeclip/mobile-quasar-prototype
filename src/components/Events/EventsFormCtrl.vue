@@ -202,7 +202,7 @@ function createValue(val: string, done: any) {
   }
 }
 
-if (props.event.eventType.id == '2') {
+if (props.event?.id == '' && props.event?.eventType?.id == '2') {
   props.event.meetingAttendees = [
     {
       id: session.userId,
@@ -267,6 +267,21 @@ function toggleAllDay(evt: boolean) {
     evt
   );
 }
+
+// function handleRemove(indexToRemove: any) {
+//   if (
+//     props.event?.meetingAttendees[indexToRemove].id !==
+//     props.event?.meetingAttendees[0].id
+//   ) {
+//     props.event?.meetingAttendees.splice(indexToRemove, 1);
+//   }
+// }
+
+function handleRemove(indexToRemove: any) {
+  if (props.event?.createdUserSid !== props.event?.meetingAttendees[0].id) {
+    props.event?.meetingAttendees.splice(indexToRemove, 1);
+  }
+}
 </script>
 
 <template>
@@ -320,7 +335,7 @@ function toggleAllDay(evt: boolean) {
           size="xs"
         />
       </q-item>
-      <!-- <pre>{{ event }}</pre> -->
+      <pre>{{ event }}</pre>
       <q-item>
         <q-input
           v-model="event.eventName"
@@ -482,6 +497,7 @@ function toggleAllDay(evt: boolean) {
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>
+      <pre>{{ event.meetingAttendees }}</pre>
       <q-item v-if="event.eventType.id == '2'">
         <q-select
           v-model="event.meetingAttendees"
@@ -493,11 +509,23 @@ function toggleAllDay(evt: boolean) {
           option-label="email"
           option-value="id"
           style="min-width: 250px"
-          use-chips
           use-input
           @filter="filterFn"
           @new-value="createValue"
-        ></q-select>
+          @remove="handleRemove"
+        >
+          <template v-slot:selected-item="scope">
+            <q-chip
+              removable
+              dense
+              @remove="() => handleRemove(scope.opt)"
+              :tabindex="scope.tabindex"
+              class="q-ma-none"
+            >
+              {{ scope.opt.name }}
+            </q-chip>
+          </template>
+        </q-select>
       </q-item>
 
       <!-- temporarly hiding this remider section
