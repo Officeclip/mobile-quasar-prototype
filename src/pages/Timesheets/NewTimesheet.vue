@@ -68,9 +68,12 @@ const timesheetDetails: TimesheetDetails = ref({
   comments: '',
 });
 
+const childComponent = ref(null);
+
 async function onSubmit() {
   // e.preventDefault();
   try {
+    if (!childComponent.value.validateAll()) return;
     const newTimesheet = ref(timesheetDetails);
     await timesheetStore.addTimesheetDetails(newTimesheet.value);
     router.go(-2);
@@ -112,6 +115,7 @@ async function onSubmit() {
               :timesheet="timesheetDetails"
               :timesheetDCAA="timesheetDCAA"
               :periodName="periodName"
+              ref="childComponent"
             />
             <!-- <q-btn label="Save" type="submit" color="primary"></q-btn> -->
             <q-btn

@@ -46,9 +46,12 @@ const timesheet = computed(() => {
   return timesheetsStore.TimesheetDetail;
 });
 
+const childComponent = ref(null);
+
 async function onSubmit() {
   // e.preventDefault();
   try {
+    if (!childComponent.value.validateAll()) return;
     const editTimesheet = ref(timesheet);
     await timesheetsStore.editTimesheet(editTimesheet.value);
     router.go(-1);
@@ -98,6 +101,7 @@ async function onSubmit() {
             :timesheet="timesheet"
             :timesheetDCAA="timesheetDCAA"
             :periodName="periodName?.name"
+            ref="childComponent"
           />
           <!-- <q-btn
             class="q-ml-md q-mb-md"
