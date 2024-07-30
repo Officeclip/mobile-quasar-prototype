@@ -6,7 +6,7 @@ const inputValue = ref('');
 const startDate = ref('');
 const endDate = ref('');
 
-const emit = defineEmits(['validation']);
+//const emit = defineEmits(['validation']);
 
 // const validateInput = () => {
 //   console.log(`validateInput: ${inputValue.value}`);

@@ -32,7 +32,6 @@ const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
   'rrule-text-generated',
-  'validation',
 ]);
 
 //const startDateTime = props.event.startDateTime;
@@ -244,19 +243,6 @@ const showTimeAsBackColor = getEventShowTimeAsColor();
 //   return isGreater;
 // };
 
-const isEndDateValid = computed(() => {
-  if (!props.event.endDateTime) return false;
-  if (!props.event.startDateTime) return true;
-  const dtStartDateTime = new Date(props.event.startDateTime);
-  const dtEndDateTime = new Date(props.event.endDateTime);
-  const isEndDateValid = props.event.isAllDayEvent
-    ? dtEndDateTime >= dtStartDateTime
-    : dtEndDateTime > dtStartDateTime;
-  //const isEndDateValid = endDateRule(props.event.endDateTime) === true;
-  emit('validation', isEndDateValid);
-  return isEndDateValid;
-});
-
 function toggleAllDay(evt: boolean) {
   startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
     props.event.startDateTime,
@@ -268,10 +254,29 @@ function toggleAllDay(evt: boolean) {
   );
 }
 
-const isValid = computed(() => {
+const isEndDateValid = computed(() => {
+  if (!props.event.endDateTime) return false;
+  if (!props.event.startDateTime) return true;
+  const dtStartDateTime = new Date(props.event.startDateTime);
+  const dtEndDateTime = new Date(props.event.endDateTime);
+  const isEndDateValid = props.event.isAllDayEvent
+    ? dtEndDateTime >= dtStartDateTime
+    : dtEndDateTime > dtStartDateTime;
+  //const isEndDateValid = endDateRule(props.event.endDateTime) === true;
+  return isEndDateValid;
+});
+
+const isNameValid = computed(() => {
   const condition = props.event.eventName.length > 0;
-  emit('validation', condition);
   return condition;
+});
+
+const validateAll = () => {
+  return isNameValid.value && isEndDateValid.value;
+};
+
+defineExpose({
+  validateAll,
 });
 </script>
 
@@ -331,10 +336,9 @@ const isValid = computed(() => {
         <q-input
           v-model="event.eventName"
           error-message="Please type something"
-          :error="!isValid"
+          :error="!isNameValid"
           class="full-width"
           label="Event Name*"
-          lazy-rules
           placeholder="enter event name"
         />
       </q-item>

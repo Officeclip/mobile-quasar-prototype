@@ -78,10 +78,15 @@ function handleReminder(reminder: [string, number]) {
   event.value.reminder.beforeMinutes = reminder[1];
 }
 
+const childComponent = ref(null);
+
 async function onSubmit(e: any) {
   e.preventDefault();
   try {
-    if (!isValid.value) return;
+    console.log(
+      `onSubmit::childComponent validateAll: ${childComponent.value.validateAll()}`
+    );
+    if (!childComponent.value.validateAll()) return;
     const newEventDetails = ref(event);
     await eventDetailsStore.addEventDetails(newEventDetails.value);
     router.go(-1);
@@ -96,11 +101,6 @@ async function onSubmit(e: any) {
     });
   }
 }
-
-const handleValidation = (valid: boolean) => {
-  console.log(`handleValidation: ${valid}`);
-  isValid.value = isValid.value && valid;
-};
 </script>
 
 <template>
@@ -134,10 +134,10 @@ const handleValidation = (valid: boolean) => {
         <div>
           <EventForm
             :event="event"
+            ref="childComponent"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"
             @reminder-generated="handleReminder"
-            @validation="handleValidation"
           />
           <q-btn
             class="q-ml-sm"
