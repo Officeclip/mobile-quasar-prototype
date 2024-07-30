@@ -33,11 +33,16 @@ const contactDetails: ContactDetails = ref({
   security: [],
 });
 
+const childComponent = ref(null);
+
 async function onSubmit(e: any) {
   // e.preventDefault();
   try {
     //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
+    if (!childComponent.value.validateAll()) return;
+
     const newContactDetails = ref(contactDetails);
     await usecontactDetailsStore.addContactDetails(newContactDetails.value);
     router.push('/contactSummary');
@@ -80,7 +85,10 @@ async function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <EditContactDetailsCtrl :contactDetails="contactDetails" />
+          <EditContactDetailsCtrl
+            :contactDetails="contactDetails"
+            ref="childComponent"
+          />
           <!-- <q-btn
             class="q-ml-md q-mb-md"
             label="Submit"

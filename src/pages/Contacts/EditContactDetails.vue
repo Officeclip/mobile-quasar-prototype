@@ -3,7 +3,7 @@ TODO: skd: Edit the address also with state as a dropdown. It should be done wit
 code and not the name [1.5h]
 -->
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import { useRouter, useRoute } from 'vue-router';
 import EditContactDetailsCtrl from '../../components/Contacts/EditContactDetailsCtrl.vue';
@@ -24,11 +24,16 @@ onMounted(() => {
   contactDetailsStore.getContactDetails(route.params.id as string);
 });
 
+const childComponent = ref(null);
+
 async function onSubmit(e: any) {
   // e.preventDefault();
   try {
     //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
+    if (!childComponent.value.validateAll()) return;
+
     await contactDetailsStore.editContactDetails(contactDetails.value!);
     // router.push('/contactSummary');
     router.go(-1);
@@ -70,7 +75,10 @@ async function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <EditContactDetailsCtrl :contactDetails="contactDetails" />
+          <EditContactDetailsCtrl
+            :contactDetails="contactDetails"
+            ref="childComponent"
+          />
           <!-- <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn> -->
         </div>

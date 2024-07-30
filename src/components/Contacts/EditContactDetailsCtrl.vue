@@ -54,14 +54,18 @@ onBeforeMount(async () => {
   }
 });
 
-// https://emaillistvalidation.com/blog/mastering-email-validation-in-quasar-elevate-your-data-integrity-with-expert-techniques/
+const isLastNameValid = computed(() => {
+  const condition = props.contactDetails.last_name.length > 0;
+  return condition;
+});
 
-function isValidEmail(email) {
-  if (email === '') return true;
-  const regex =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/;
-  return regex.test(email);
-}
+const validateAll = () => {
+  return isLastNameValid.value;
+};
+
+defineExpose({
+  validateAll,
+});
 </script>
 
 <template>
@@ -81,11 +85,8 @@ function isValidEmail(email) {
           label="Last Name"
           placeholder="enter last name"
           :dense="dense"
-          :label-color="contactDetails.last_name == '' ? 'red' : ''"
-          lazy-rules
-          :rules="[
-            (val) => (val && val.length > 0) || 'Please enter your last name',
-          ]"
+          error-message="Please enter your last name"
+          :error="!isLastNameValid"
         >
         </q-input>
         <q-input
