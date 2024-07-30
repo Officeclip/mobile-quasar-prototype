@@ -39,27 +39,27 @@ const isEndDateValid = computed(() => {
 });
 
 const validateAll = () => {
-  return isEndDateValid.value && isNameValid.value;
+  return isEndDateValid.value && isNameValid;
 };
 
 defineExpose({
   validateAll,
 });
 
-const isNameValid = computed(() => {
+const isNameValid = () => {
   const condition = inputValue.value.length > 0;
   return condition;
-});
+};
 </script>
 
 <template>
   <div>
     <q-input
       v-model="inputValue"
-      error-message="Please type something"
-      :error="!isNameValid"
       label="Event Name*"
       placeholder="enter event name"
+      error-message="enter event name"
+      :rules="[isNameValid]"
     />
   </div>
   <div>
