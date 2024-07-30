@@ -51,7 +51,6 @@ const getData = computed(() => {
     return null;
   }
   // First we need to filter the contact with any strings
-  //const searchText = text.value.toLowerCase();
   const filteredContacts =
     text.value.length === 0
       ? contacts.value

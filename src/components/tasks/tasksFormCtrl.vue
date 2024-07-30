@@ -131,9 +131,26 @@ const endDateRule = (value: string) => {
   return isGreater;
 };
 
+const isSubjectValid = computed(() => {
+  const condition = task.value.subject.length > 0;
+  return condition;
+});
+
 const isEndDateValid = computed(() => {
-  const isEndDateValid = endDateRule(task.value.dueDate) === true;
-  return isEndDateValid;
+  if (task.value.dueDate !== '') {
+    const isEndDateValid = endDateRule(task.value.dueDate) === true;
+    return isEndDateValid;
+  } else {
+    return false;
+  }
+});
+
+const validateAll = () => {
+  return isSubjectValid.value && isEndDateValid.value;
+};
+
+defineExpose({
+  validateAll,
 });
 </script>
 
@@ -144,9 +161,9 @@ const isEndDateValid = computed(() => {
       <div class="q-gutter-y-md column">
         <q-input
           v-model="task.subject"
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+          :error="!isSubjectValid"
+          error-message="Please type something"
           label="Subject"
-          lazy-rules
           placeholder="enter task subject"
         />
 
@@ -182,9 +199,6 @@ const isEndDateValid = computed(() => {
           error-message="Please enter a valid date"
           label="Due Date"
         >
-          <span v-if="!isEndDateValid" style="color: red"
-            >End date must be later than start date</span
-          >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy
@@ -200,6 +214,9 @@ const isEndDateValid = computed(() => {
               </q-popup-proxy>
             </q-icon>
           </template>
+          <span v-if="!isEndDateValid" style="color: red"
+            >Due date must be later than start date</span
+          >
         </q-input>
 
         <q-select

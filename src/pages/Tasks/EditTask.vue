@@ -28,11 +28,13 @@ onMounted(() => {
 function receiveTask(receivedTask: taskDetails) {
   task.value = receivedTask;
 }
+const childComponent = ref(null);
 
 async function onSubmit(e: any) {
   // e.preventDefault();
   try {
     //debugger;
+    if (!childComponent.value.validateAll()) return;
     const newTask: taskDetails = {
       id: task.value.id,
       subject: task.value.subject,
@@ -111,7 +113,11 @@ async function onSubmit(e: any) {
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <TasksForm :task-from-parent="task" @emit-task="receiveTask" />
+          <TasksForm
+            ref="childComponent"
+            :task-from-parent="task"
+            @emit-task="receiveTask"
+          />
           <!-- <q-btn
             class="q-ml-md q-mb-md"
             color="primary"

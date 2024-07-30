@@ -6,6 +6,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { eventDetails } from 'src/models/event/eventDetails';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useQuasar } from 'quasar';
+import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
 
 const $q = useQuasar();
 
@@ -81,7 +82,7 @@ function handleReminder(reminder: [string, number]) {
 const childComponent = ref(null);
 
 async function onSubmit(e: any) {
-  e.preventDefault();
+  //e.preventDefault();
   try {
     console.log(
       `onSubmit::childComponent validateAll: ${childComponent.value.validateAll()}`
@@ -117,7 +118,7 @@ async function onSubmit(e: any) {
         >
         </q-btn>
         <q-toolbar-title> New Event</q-toolbar-title>
-        <q-btn
+        <!-- <q-btn
           class="q-px-md"
           dense
           label="Save"
@@ -126,7 +127,8 @@ async function onSubmit(e: any) {
           rounded
           type="submit"
           @click="onSubmit"
-        />
+        /> -->
+        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>
     <q-page-container>

@@ -82,6 +82,8 @@ function receiveTask(receivedTask: taskDetails) {
   task.value = receivedTask;
 }
 
+const childComponent = ref(null);
+
 async function onSubmit(e: any) {
   // e.preventDefault();
   //debugger;
@@ -90,6 +92,8 @@ async function onSubmit(e: any) {
   try {
     //const formData = new FormData(e.target);
     //const newDueDate = formData.get('dueDate')?.toString() ?? '';
+
+    if (!childComponent.value.validateAll()) return;
 
     const newTask: taskDetails = {
       id: task.value.id,
@@ -175,7 +179,11 @@ async function onSubmit(e: any) {
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <TasksForm :task-from-parent="task" @emit-task="receiveTask" />
+          <TasksForm
+            ref="childComponent"
+            :task-from-parent="task"
+            @emit-task="receiveTask"
+          />
           <!-- <q-btn
             class="q-ml-md q-mb-md q-mt-md"
             color="primary"
