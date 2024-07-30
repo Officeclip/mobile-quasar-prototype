@@ -296,10 +296,9 @@ function addSubtask(subtask: subTask) {
           <q-item-section>
             <q-item-label caption class="q-pl-xs">Assignees</q-item-label>
             <div class="q-pt-xs row">
-              <!-- TODO: CR: 2024-05-17: nk: Fix the below type error? -->
               <q-chip
                 v-for="assignee in taskDetail?.assignees"
-                :key="assignee"
+                :key="assignee.id"
                 dense
                 square
               >
@@ -323,7 +322,7 @@ function addSubtask(subtask: subTask) {
                 </q-item-label>
               </q-item-section>
             </q-item>
-            <q-item>
+            <!-- <q-item>
               <q-item-section>
                 <q-item-label caption>Reminder</q-item-label>
                 <q-item-label description
@@ -334,7 +333,7 @@ function addSubtask(subtask: subTask) {
               <q-item-section center side>
                 <q-icon name="notifications_active" />
               </q-item-section>
-            </q-item>
+            </q-item> -->
           </div>
           <div class="row justify-between">
             <q-item>
