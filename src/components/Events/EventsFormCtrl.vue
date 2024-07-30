@@ -201,7 +201,7 @@ function createValue(val: string, done: any) {
   }
 }
 
-if (props.event?.eventId == '' && props.event?.eventType?.id == '2') {
+if (props.event?.id == '' && props.event?.eventType?.id == '2') {
   props.event.meetingAttendees = [
     {
       id: session.userId,
@@ -278,6 +278,19 @@ const validateAll = () => {
 defineExpose({
   validateAll,
 });
+
+const canBeRemoved = computed(() => (item) => item.id !== session.userId);
+
+function handleRemove(item) {
+  if (canBeRemoved.value(item)) {
+    const index = props.event?.meetingAttendees.findIndex(
+      (option) => option.id === item.id
+    );
+    if (index !== -1) {
+      props.event?.meetingAttendees.splice(index, 1);
+    }
+  }
+}
 </script>
 
 <template>
@@ -331,7 +344,7 @@ defineExpose({
           size="xs"
         />
       </q-item>
-      <!-- <pre>{{ event }}</pre> -->
+      <pre>{{ event }}</pre>
       <q-item>
         <q-input
           v-model="event.eventName"
@@ -504,11 +517,23 @@ defineExpose({
           option-label="email"
           option-value="id"
           style="min-width: 250px"
-          use-chips
           use-input
           @filter="filterFn"
           @new-value="createValue"
-        ></q-select>
+        >
+          <template v-slot:selected-item="scope">
+            <q-chip
+              removable
+              dense
+              @remove="handleRemove(scope.opt)"
+              :tabindex="scope.tabindex"
+              text-color="secondary"
+              class="q-ma-none"
+            >
+              {{ scope.opt.name }}
+            </q-chip>
+          </template>
+        </q-select>
       </q-item>
 
       <!-- temporarly hiding this remider section
