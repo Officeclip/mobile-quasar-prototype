@@ -201,7 +201,7 @@ function createValue(val: string, done: any) {
   }
 }
 
-if (props.event?.id == '' && props.event?.eventType?.id == '2') {
+if (props.event.eventType.id == '2') {
   props.event.meetingAttendees = [
     {
       id: session.userId,
@@ -254,22 +254,6 @@ function toggleAllDay(evt: boolean) {
   );
 }
 
-<<<<<<< HEAD
-// function handleRemove(indexToRemove: any) {
-//   if (
-//     props.event?.meetingAttendees[indexToRemove].id !==
-//     props.event?.meetingAttendees[0].id
-//   ) {
-//     props.event?.meetingAttendees.splice(indexToRemove, 1);
-//   }
-// }
-
-function handleRemove(indexToRemove: any) {
-  if (props.event?.createdUserSid !== props.event?.meetingAttendees[0].id) {
-    props.event?.meetingAttendees.splice(indexToRemove, 1);
-  }
-}
-=======
 const isEndDateValid = computed(() => {
   if (!props.event.endDateTime) return false;
   if (!props.event.startDateTime) return true;
@@ -294,7 +278,6 @@ const validateAll = () => {
 defineExpose({
   validateAll,
 });
->>>>>>> 53221f8c6c18b47ab5d000c5a34420157d342f21
 </script>
 
 <template>
@@ -348,7 +331,7 @@ defineExpose({
           size="xs"
         />
       </q-item>
-      <pre>{{ event }}</pre>
+      <!-- <pre>{{ event }}</pre> -->
       <q-item>
         <q-input
           v-model="event.eventName"
@@ -510,7 +493,6 @@ defineExpose({
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>
-      <pre>{{ event.meetingAttendees }}</pre>
       <q-item v-if="event.eventType.id == '2'">
         <q-select
           v-model="event.meetingAttendees"
@@ -522,23 +504,11 @@ defineExpose({
           option-label="email"
           option-value="id"
           style="min-width: 250px"
+          use-chips
           use-input
           @filter="filterFn"
           @new-value="createValue"
-          @remove="handleRemove"
-        >
-          <template v-slot:selected-item="scope">
-            <q-chip
-              removable
-              dense
-              @remove="() => handleRemove(scope.opt)"
-              :tabindex="scope.tabindex"
-              class="q-ma-none"
-            >
-              {{ scope.opt.name }}
-            </q-chip>
-          </template>
-        </q-select>
+        ></q-select>
       </q-item>
 
       <!-- temporarly hiding this remider section

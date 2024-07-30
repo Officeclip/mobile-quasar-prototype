@@ -1,78 +1,23 @@
-<script setup>
-import { ref, computed } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
+import CompA from '../../src/components/testme/CompA.vue';
+import dateTimeHelper from '../helpers/dateTimeHelper';
 
-const options = ref([
-  {
-    id: '684EHRFDNJ8CHAGVJC5Q',
-    name: 'Sample One',
-    email: 'testmail1@gmail.com',
-  },
-  {
-    id: 'NJ9MYHSFZB9RHHHFFC5Q',
-    name: 'Sample Two',
-    email: 'testmail2@gmail.com',
-  },
-  {
-    id: 'U6BCWDSF266ESD9R545Q',
-    name: 'Sample Three',
-    email: 'testmail3@gmail.com',
-  },
-]);
+const current = ref('test');
+const isValid = ref(false);
 
-const createdUser = { createdUserSid: '684EHRFDNJ8CHAGVJC5Q' };
+const startDateTime = '2024-07-25T21:00:00Z';
+const isAllDayEvent = false;
 
-const initialValue = ref({
-  id: '684EHRFDNJ8CHAGVJC5Q',
-  name: 'Sample One',
-  email: 'testmail1@gmail.com',
-});
+// const startDateTime = '2024-07-25';
+// const isAllDayEvent = true;
 
-const selectedOptions = ref([initialValue.value]);
-
-const canBeRemoved = computed(
-  () => (item) => item.id !== createdUser.createdUserSid
+const startDateModelValue = ref();
+startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
+  startDateTime,
+  isAllDayEvent
 );
 
-<<<<<<< HEAD
-function handleRemove(item) {
-  if (canBeRemoved.value(item)) {
-    const index = selectedOptions.value.findIndex(
-      (option) => option.id === item.id
-    );
-    if (index !== -1) {
-      selectedOptions.value.splice(index, 1);
-    }
-  }
-}
-</script>
-
-<template>
-  <q-select
-    v-model="selectedOptions"
-    :options="options"
-    class="full-width"
-    input-debounce="0"
-    label="Attendees"
-    multiple
-    option-label="email"
-    option-value="id"
-    style="min-width: 250px"
-    use-input
-  >
-    <template v-slot:selected-item="scope">
-      <q-chip
-        removable
-        dense
-        @remove="handleRemove(scope.opt)"
-        :tabindex="scope.tabindex"
-        text-color="secondary"
-        class="q-ma-none"
-      >
-        {{ scope.opt.name }}
-      </q-chip>
-    </template>
-  </q-select>
-=======
 // const handleValidation = (valid: boolean) => {
 //   console.log(`handleValidation: ${isValid.value}`);
 //   isValid.value = valid;
@@ -167,5 +112,4 @@ const onSave = () => {
       </div>
     </q-form>
   </div>
->>>>>>> 53221f8c6c18b47ab5d000c5a34420157d342f21
 </template>
