@@ -2,16 +2,23 @@
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { ref, Ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { eventDetails } from 'src/models/event/eventDetails';
+import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
 
 const eventDetailsStore = useEventDetailsStore();
 const router = useRouter();
+const route = useRoute();
 
-const isValid = ref(false);
+const parentObjectId = route.params.objectId ? route.params.objectId : '';
+const parentObjectServiceType = route.params.objectTypeId
+  ? route.params.objectTypeId
+  : '';
+
+const isValid = ref(true);
 
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
 const event: Ref<eventDetails> = ref({
@@ -22,11 +29,11 @@ const event: Ref<eventDetails> = ref({
   createdUserName: '',
   parent: {
     type: {
-      id: '',
+      id: parentObjectServiceType as string,
       name: '',
     },
     value: {
-      id: '',
+      id: parentObjectId as string,
       name: '',
     },
   },
@@ -34,7 +41,7 @@ const event: Ref<eventDetails> = ref({
   eventName: '',
   eventDescription: '',
   startDateTime: new Date().toISOString(),
-  endDateTime: new Date().toISOString(),
+  endDateTime: dateTimeHelper.addHoursToDate(new Date(), 1).toISOString(),
   isAllDayEvent: false,
   eventUserSid: '',
   isRsvp: false,
@@ -71,9 +78,15 @@ function handleReminder(reminder: [string, number]) {
   event.value.reminder.beforeMinutes = reminder[1];
 }
 
+const childComponent = ref(null);
+
 async function onSubmit(e: any) {
   e.preventDefault();
   try {
+    console.log(
+      `onSubmit::childComponent validateAll: ${childComponent.value.validateAll()}`
+    );
+    if (!childComponent.value.validateAll()) return;
     const newEventDetails = ref(event);
     await eventDetailsStore.addEventDetails(newEventDetails.value);
     router.go(-1);
@@ -88,11 +101,6 @@ async function onSubmit(e: any) {
     });
   }
 }
-
-const handleValidation = (valid: boolean) => {
-  console.log(`handleValidation: ${isValid.value}`);
-  isValid.value = valid;
-};
 </script>
 
 <template>
@@ -126,10 +134,10 @@ const handleValidation = (valid: boolean) => {
         <div>
           <EventForm
             :event="event"
+            ref="childComponent"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"
             @reminder-generated="handleReminder"
-            @validation="handleValidation"
           />
           <q-btn
             class="q-ml-sm"

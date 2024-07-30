@@ -32,7 +32,6 @@ const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
   'rrule-text-generated',
-  'validation',
 ]);
 
 //const startDateTime = props.event.startDateTime;
@@ -244,19 +243,6 @@ const showTimeAsBackColor = getEventShowTimeAsColor();
 //   return isGreater;
 // };
 
-const isEndDateValid = computed(() => {
-  if (!props.event.endDateTime) return false;
-  if (!props.event.startDateTime) return true;
-  const dtStartDateTime = new Date(props.event.startDateTime);
-  const dtEndDateTime = new Date(props.event.endDateTime);
-  const isEndDateValid = props.event.isAllDayEvent
-    ? dtEndDateTime >= dtStartDateTime
-    : dtEndDateTime > dtStartDateTime;
-  //const isEndDateValid = endDateRule(props.event.endDateTime) === true;
-  emit('validation', isEndDateValid);
-  return isEndDateValid;
-});
-
 function toggleAllDay(evt: boolean) {
   startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
     props.event.startDateTime,
@@ -268,6 +254,7 @@ function toggleAllDay(evt: boolean) {
   );
 }
 
+<<<<<<< HEAD
 // function handleRemove(indexToRemove: any) {
 //   if (
 //     props.event?.meetingAttendees[indexToRemove].id !==
@@ -282,6 +269,32 @@ function handleRemove(indexToRemove: any) {
     props.event?.meetingAttendees.splice(indexToRemove, 1);
   }
 }
+=======
+const isEndDateValid = computed(() => {
+  if (!props.event.endDateTime) return false;
+  if (!props.event.startDateTime) return true;
+  const dtStartDateTime = new Date(props.event.startDateTime);
+  const dtEndDateTime = new Date(props.event.endDateTime);
+  const isEndDateValid = props.event.isAllDayEvent
+    ? dtEndDateTime >= dtStartDateTime
+    : dtEndDateTime > dtStartDateTime;
+  //const isEndDateValid = endDateRule(props.event.endDateTime) === true;
+  return isEndDateValid;
+});
+
+const isNameValid = computed(() => {
+  const condition = props.event.eventName.length > 0;
+  return condition;
+});
+
+const validateAll = () => {
+  return isNameValid.value && isEndDateValid.value;
+};
+
+defineExpose({
+  validateAll,
+});
+>>>>>>> 53221f8c6c18b47ab5d000c5a34420157d342f21
 </script>
 
 <template>
@@ -339,10 +352,10 @@ function handleRemove(indexToRemove: any) {
       <q-item>
         <q-input
           v-model="event.eventName"
-          :rules="[(val: string | any[]) => (val && val.length > 0) || 'Please type something']"
+          error-message="Please type something"
+          :error="!isNameValid"
           class="full-width"
           label="Event Name*"
-          lazy-rules
           placeholder="enter event name"
         />
       </q-item>

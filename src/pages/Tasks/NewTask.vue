@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import TasksForm from 'components/tasks/tasksFormCtrl.vue';
 import { ref, Ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { taskSummary } from 'src/models/task/taskSummary';
 import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
@@ -14,6 +14,12 @@ import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 const $q = useQuasar();
 
 const router = useRouter();
+const route = useRoute();
+
+const parentObjectId = route.params.objectId ? route.params.objectId : '';
+const parentObjectServiceType = route.params.objectTypeId
+  ? route.params.objectTypeId
+  : '';
 
 const taskSummaryStore = useTaskSummaryStore();
 const taskDetailsStore = useTaskDetailsStore();
@@ -29,11 +35,11 @@ const task: Ref<taskDetails> = ref({
   isPrivate: false,
   parent: {
     type: {
-      id: '',
+      id: parentObjectServiceType as string,
       name: '',
     },
     value: {
-      id: '',
+      id: parentObjectId as string,
       name: '',
     },
   },

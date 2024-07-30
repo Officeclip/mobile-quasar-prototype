@@ -51,11 +51,15 @@ const getData = computed(() => {
     return null;
   }
   // First we need to filter the contact with any strings
+  //const searchText = text.value.toLowerCase();
   const filteredContacts =
     text.value.length === 0
       ? contacts.value
       : contacts.value.filter((t: any) => {
-          return t.first_name.toLowerCase().includes(text.value.toLowerCase());
+          return (
+            t.first_name.toLowerCase().includes(text.value.toLowerCase()) ||
+            t.last_name.toLowerCase().includes(text.value.toLowerCase())
+          );
         });
 
   //FIXME: Remove the lint suppress line from here. See: https://stackoverflow.com/a/54535439

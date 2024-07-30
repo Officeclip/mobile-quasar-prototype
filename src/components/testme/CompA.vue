@@ -6,7 +6,7 @@ const inputValue = ref('');
 const startDate = ref('');
 const endDate = ref('');
 
-const emit = defineEmits(['validation']);
+//const emit = defineEmits(['validation']);
 
 // const validateInput = () => {
 //   console.log(`validateInput: ${inputValue.value}`);
@@ -35,8 +35,20 @@ const endDateRule = (value: string) => {
 
 const isEndDateValid = computed(() => {
   const isEndDateValid = endDateRule(endDate.value) === true;
-  emit('validation', isEndDateValid);
   return isEndDateValid;
+});
+
+const validateAll = () => {
+  return isEndDateValid.value && isNameValid.value;
+};
+
+defineExpose({
+  validateAll,
+});
+
+const isNameValid = computed(() => {
+  const condition = inputValue.value.length > 0;
+  return condition;
 });
 </script>
 
@@ -44,7 +56,8 @@ const isEndDateValid = computed(() => {
   <div>
     <q-input
       v-model="inputValue"
-      :rules="[(val: string) => (val && val.length > 0) || 'Please type something']"
+      error-message="Please type something"
+      :error="!isNameValid"
       label="Event Name*"
       placeholder="enter event name"
     />
