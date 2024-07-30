@@ -98,6 +98,24 @@ watch(
       );
   }
 );
+
+const isDateValid = computed(() => {
+  const condition = date.value != '';
+  return condition;
+});
+
+const isDurationValid = computed(() => {
+  const condition = props.timesheet.timeDuration > 0;
+  return condition;
+});
+
+const validateAll = () => {
+  return isDurationValid.value && isDateValid.value;
+};
+
+defineExpose({
+  validateAll,
+});
 </script>
 
 <template>
@@ -112,7 +130,8 @@ watch(
         label="Date"
         v-model="date"
         :options="dateOptions"
-        :rules="[(val) => val !== '' || 'Please select date']"
+        error-message="Please select date"
+        :error="!isDateValid"
         option-label="name"
         option-value="startDate"
         emit-value
@@ -150,8 +169,8 @@ watch(
         v-model.number="timesheet.timeDuration"
         placeholder="enter here..."
         type="number"
-        lazy-rules
-        :rules="[(val) => (val && val > 0) || 'Please enter duration']"
+        error-message="Please enter duration"
+        :error="!isDurationValid"
       />
       <q-input
         label="Description"
