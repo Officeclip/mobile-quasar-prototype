@@ -9,7 +9,9 @@ const notesStore = useNotesStore();
 const router = useRouter();
 const $q = useQuasar();
 
-const parentObjectId = computed(() => props.params.parentObjectId);
+const parentObjectId = computed(() => {
+  return props.params.parentObjectId;
+});
 const parentObjectServiceType = computed(
   () => props.params.parentObjectServiceType
 );
@@ -26,7 +28,7 @@ const getNotesCount = computed(() => {
 
 onBeforeMount(async () => {
   console.log(
-    `NotesListCtrl: onBeforeMount Started, noteBookId: ${noteBookId.value}`
+    `NotesListCtrl: onBeforeMount Started, noteBookId: ${noteBookId.value}, parentObjectServiceType: ${parentObjectServiceType.value}, parentObjectId: ${parentObjectId.value}`
   );
   try {
     await notesStore.getNotes(
@@ -52,8 +54,9 @@ onBeforeMount(async () => {
         name: 'noteDetails',
         params: {
           id: note.id,
-          objectTypeId: parentObjectServiceType,
-          objectId: parentObjectId,
+          objectTypeId:
+            parentObjectServiceType === '' ? '-1' : parentObjectServiceType,
+          objectId: parentObjectId === '' ? '-1' : parentObjectId,
         },
       }"
       clickable
