@@ -18,28 +18,13 @@ startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
   isAllDayEvent
 );
 
-// const handleValidation = (valid: boolean) => {
-//   console.log(`handleValidation: ${isValid.value}`);
-//   isValid.value = valid;
-// };
-
 const onSubmit = () => {
+  console.log();
   const strDate = dateTimeHelper.formatDateTimeFromUIForRestAPI(
     startDateModelValue.value,
     isAllDayEvent
   );
-  // const dt = new Date(startDateModelValue.value);
-
-  // var strDate = !isAllDayEvent
-  //   ? dt.toISOString().replace(/.\d+Z$/g, 'Z')
-  //   : dateTimeHelper.formatDateForGeneric(dt);
-  //dt.setSeconds(0, 0);
   console.log(`onSubmit: ${strDate}`);
-  // if (isValid.value) {
-  //   alert('Form submitted successfully! ' + current.value);
-  // } else {
-  //   alert('Please correct the errors in the form.');
-  // }
 };
 
 const dateTimeMask = 'ddd, MMM DD, YYYY hh:mm A';

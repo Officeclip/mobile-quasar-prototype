@@ -1,54 +1,46 @@
 <script lang="ts" setup>
+import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { ref, watch, computed } from 'vue';
 
-const error = ref('');
 const inputValue = ref('');
 const startDate = ref('');
 const endDate = ref('');
 
-//const emit = defineEmits(['validation']);
-
-// const validateInput = () => {
-//   console.log(`validateInput: ${inputValue.value}`);
-
-// };
-
-// watch(inputValue, (newValue) => {
-//   console.log(`watch: ${newValue}`);
-//   inputValue.value = newValue;
-//   if (inputValue.value === '') {
-//     error.value = 'This field is required';
-//     emit('validation', false);
-//   } else {
-//     error.value = '';
-//     emit('validation', true);
-//   }
-// });
-
-const endDateRule = (value: string) => {
-  console.log(`endDateRule: ${value}`);
-  if (!value) return false;
-  if (!startDate.value) return true;
-  const isGreater = new Date(value) > new Date(startDate.value);
-  return isGreater;
-};
-
-const isEndDateValid = computed(() => {
-  const isEndDateValid = endDateRule(endDate.value) === true;
-  return isEndDateValid;
-});
+const isAllDay = ref(true);
+const endDateModelValue = ref('');
+endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
+  endDate.value,
+  isAllDay.value
+);
 
 const validateAll = () => {
-  return isEndDateValid.value && isNameValid;
+  var val =
+    ruleNotEmpty(inputValue.value) &
+    ruleNotEmpty(endDateModelValue.value) &
+    ruleEndDateGreaterThanStartDate(endDateModelValue.value);
+  return val == true;
 };
 
 defineExpose({
   validateAll,
 });
 
-const isNameValid = () => {
-  const condition = inputValue.value.length > 0;
-  return condition;
+const ruleNotEmpty = (val: string) => {
+  const condition = val && val.length > 0;
+  return condition ? true : 'Please enter something';
+};
+
+const ruleEndDateGreaterThanStartDate = (val: string) => {
+  console.log(`startDate: ${startDate.value}, endDate: ${val}`);
+  if (!startDate.value || startDate.value.length === 0) return true;
+  const isGreater = new Date(val) > new Date(startDate.value);
+  return isGreater ? true : 'End Date should be more than start date';
+};
+
+const dateTimeMask = 'ddd, MMM DD, YYYY hh:mm A';
+const dateMask = 'ddd, MMM DD, YYYY';
+const mask = (x: boolean) => {
+  return x ? dateMask : dateTimeMask;
 };
 </script>
 
@@ -58,8 +50,7 @@ const isNameValid = () => {
       v-model="inputValue"
       label="Event Name*"
       placeholder="enter event name"
-      error-message="enter event name"
-      :rules="[isNameValid]"
+      :rules="[ruleNotEmpty]"
     />
   </div>
   <div>
@@ -68,14 +59,34 @@ const isNameValid = () => {
   </div>
   <div>
     <label for="endDate">End Date:</label>
-    <input
-      id="endDate"
-      type="date"
-      v-model="endDate"
-      :rules="[(val: string) => (val && val.length > 0) || 'Please type something']"
-    />
-    <span v-if="!isEndDateValid" style="color: red"
-      >End date must be later than start date</span
+    <q-input
+      v-model="endDateModelValue"
+      label="Ends*"
+      :rules="[ruleNotEmpty, ruleEndDateGreaterThanStartDate]"
     >
+      <template v-slot:prepend>
+        <q-icon class="cursor-pointer" name="event">
+          <q-popup-proxy cover transition-hide="scale" transition-show="scale">
+            <q-date v-model="endDateModelValue" :mask="mask(isAllDay)">
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup color="primary" flat label="Close" />
+              </div>
+            </q-date>
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+
+      <template v-if="!isAllDay" v-slot:append>
+        <q-icon class="cursor-pointer" name="access_time">
+          <q-popup-proxy cover transition-hide="scale" transition-show="scale">
+            <q-time v-model="endDateModelValue" :mask="mask(isAllDay)">
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup color="primary" flat label="Close" />
+              </div>
+            </q-time>
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+    </q-input>
   </div>
 </template>
