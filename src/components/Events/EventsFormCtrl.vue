@@ -267,6 +267,12 @@ function toggleAllDay(evt: boolean) {
     evt
   );
 }
+
+const isValid = computed(() => {
+  const condition = props.event.eventName.length > 0;
+  emit('validation', condition);
+  return condition;
+});
 </script>
 
 <template>
@@ -324,7 +330,8 @@ function toggleAllDay(evt: boolean) {
       <q-item>
         <q-input
           v-model="event.eventName"
-          :rules="[(val: string | any[]) => (val && val.length > 0) || 'Please type something']"
+          error-message="Please type something"
+          :error="!isValid"
           class="full-width"
           label="Event Name*"
           lazy-rules

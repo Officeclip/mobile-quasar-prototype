@@ -47,6 +47,11 @@ const dateMask = 'ddd, MMM DD, YYYY';
 const mask = (x: boolean) => {
   return x ? dateMask : dateTimeMask;
 };
+
+const childComponent = ref(null);
+const onSave = () => {
+  alert(childComponent.value.validateAll());
+};
 </script>
 
 <template>
@@ -94,7 +99,7 @@ const mask = (x: boolean) => {
           </template>
         </q-input>
 
-        <!-- <CompA :current="current" @validation="handleValidation" /> -->
+        <CompA :current="current" ref="childComponent" />
         <q-btn
           class="q-ml-sm"
           color="primary"
@@ -103,6 +108,7 @@ const mask = (x: boolean) => {
           no-caps
           type="submit"
         />
+        <button id="external-button" @click="onSave">External Button</button>
       </div>
     </q-form>
   </div>

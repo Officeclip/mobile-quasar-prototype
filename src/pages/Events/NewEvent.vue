@@ -18,7 +18,7 @@ const parentObjectServiceType = route.params.objectTypeId
   ? route.params.objectTypeId
   : '';
 
-const isValid = ref(false);
+const isValid = ref(true);
 
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
 const event: Ref<eventDetails> = ref({
@@ -81,6 +81,7 @@ function handleReminder(reminder: [string, number]) {
 async function onSubmit(e: any) {
   e.preventDefault();
   try {
+    if (!isValid.value) return;
     const newEventDetails = ref(event);
     await eventDetailsStore.addEventDetails(newEventDetails.value);
     router.go(-1);
@@ -97,8 +98,8 @@ async function onSubmit(e: any) {
 }
 
 const handleValidation = (valid: boolean) => {
-  console.log(`handleValidation: ${isValid.value}`);
-  isValid.value = valid;
+  console.log(`handleValidation: ${valid}`);
+  isValid.value = isValid.value && valid;
 };
 </script>
 
