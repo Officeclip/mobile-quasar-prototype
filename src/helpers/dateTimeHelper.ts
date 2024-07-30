@@ -171,6 +171,9 @@ const formatDateForGeneric = (input: Date) => {
 };
 
 const formatDateTimeFromRestAPIForUI = (input: string, isDateOnly: boolean) => {
+  if (!input || input === '') {
+    return '';
+  }
   const dt = getDateTimeFromRestAPI(input, isDateOnly);
   if (dt === null) return '';
   return formatDateTimeForUI(dt, isDateOnly);

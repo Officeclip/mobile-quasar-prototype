@@ -123,9 +123,6 @@ const completedSubtasks = computed(() => {
 });
 
 const formattedStartDate = computed(() => {
-  if (taskDetail.value.startDate || taskDetail.value.startDate === '') {
-    return '';
-  }
   return dateTimeHelper.formatDateTimeFromRestAPIForUI(
     taskDetail.value?.startDate,
     true
@@ -133,9 +130,6 @@ const formattedStartDate = computed(() => {
 });
 
 const formattedEndDate = computed(() => {
-  if (taskDetail.value.dueDate || taskDetail.value.dueDate === '') {
-    return '';
-  }
   return dateTimeHelper.formatDateTimeFromRestAPIForUI(
     taskDetail.value?.dueDate,
     true
