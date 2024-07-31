@@ -5,6 +5,8 @@ import { ref, watch, computed } from 'vue';
 const inputValue = ref('');
 const startDate = ref('');
 const endDate = ref('');
+const nameRef = ref(null);
+const dateRef = ref(null);
 
 const isAllDay = ref(true);
 const endDateModelValue = ref('');
@@ -14,11 +16,18 @@ endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
 );
 
 const validateAll = () => {
-  var val =
-    ruleNotEmpty(inputValue.value) &
-    ruleNotEmpty(endDateModelValue.value) &
-    ruleEndDateGreaterThanStartDate(endDateModelValue.value);
-  return val == true;
+  // var val =
+  //   ruleNotEmpty(inputValue.value) &
+  //   ruleNotEmpty(endDateModelValue.value) &
+  //   ruleEndDateGreaterThanStartDate(endDateModelValue.value);
+  // return val == true;
+  nameRef.value.validate();
+  dateRef.value.validate();
+  if (nameRef.value.hasError || dateRef.value.hasError) {
+    return false;
+  } else {
+    return true;
+  }
 };
 
 defineExpose({
@@ -47,6 +56,7 @@ const mask = (x: boolean) => {
 <template>
   <div>
     <q-input
+      ref="nameRef"
       v-model="inputValue"
       label="Event Name*"
       placeholder="enter event name"
@@ -60,6 +70,7 @@ const mask = (x: boolean) => {
   <div>
     <label for="endDate">End Date:</label>
     <q-input
+      ref="dateRef"
       v-model="endDateModelValue"
       label="Ends*"
       :rules="[ruleNotEmpty, ruleEndDateGreaterThanStartDate]"

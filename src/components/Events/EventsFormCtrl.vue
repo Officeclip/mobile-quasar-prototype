@@ -266,13 +266,42 @@ const isEndDateValid = computed(() => {
   return isEndDateValid;
 });
 
-const isNameValid = computed(() => {
-  const condition = props.event.eventName.length > 0;
-  return condition;
-});
+const eventNameRef = ref(null);
+const startDateRef = ref(null);
+const endDateRef = ref(null);
+
+// const isNameValid = (val: string) => {
+//   const condition = val && val.length > 0;
+//   return condition ? true : 'Please enter event name';
+// };
+
+const ruleNotEmpty = (val: string) => {
+  const condition = val && val.length > 0;
+  return condition ? true : 'Please enter something';
+};
+
+const ruleEndDateGreaterThanStartDate = (val: string) => {
+  console.log(`startDate: ${startDateModelValue.value}, endDate: ${val}`);
+  if (!startDateModelValue.value || startDateModelValue.value.length === 0)
+    return true;
+  const isGreater = new Date(val) > new Date(startDateModelValue.value);
+  return isGreater ? true : 'End Date should be more than start date';
+};
 
 const validateAll = () => {
-  return isNameValid.value && isEndDateValid.value;
+  eventNameRef.value.validate();
+  startDateRef.value.validate();
+  endDateRef.value.validate();
+
+  if (
+    eventNameRef.value.hasError ||
+    startDateRef.value.hasError ||
+    endDateRef.value.hasError
+  ) {
+    return false;
+  } else {
+    return true;
+  }
 };
 
 defineExpose({
@@ -344,12 +373,11 @@ function handleRemove(item) {
           size="xs"
         />
       </q-item>
-      <pre>{{ event }}</pre>
       <q-item>
         <q-input
+          ref="eventNameRef"
           v-model="event.eventName"
-          error-message="Please type something"
-          :error="!isNameValid"
+          :rules="[ruleNotEmpty]"
           class="full-width"
           label="Event Name*"
           placeholder="enter event name"
@@ -374,6 +402,8 @@ function handleRemove(item) {
           v-model="startDateModelValue"
           label="Starts*"
           @update:model-value="changeEndDateWhenStartDateChanged"
+          :rules="[ruleNotEmpty]"
+          ref="startDateRef"
         >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -421,11 +451,9 @@ function handleRemove(item) {
         <q-input
           v-model="endDateModelValue"
           label="Ends*"
-          :rules="[(val: string) => (val && val.length > 0) || 'Please type something']"
+          :rules="[ruleNotEmpty, ruleEndDateGreaterThanStartDate]"
+          ref="endDateRef"
         >
-          <span v-if="!isEndDateValid" style="color: red"
-            >End date must be later than start date</span
-          >
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy
