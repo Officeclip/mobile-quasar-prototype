@@ -15,6 +15,7 @@ const parentObjectId = route.params.objectId ? route.params.objectId : '';
 const parentObjectServiceType = route.params.objectTypeId
   ? route.params.objectTypeId
   : '';
+const notebookId = route.params.id !== '-1' ? route.params.id : '';
 
 const notesStore = useNotesStore();
 const note = ref({
@@ -33,7 +34,7 @@ function onSubmit(e: Event) {
   try {
     const newNote: Note = {
       id: '',
-      noteBookId: '',
+      noteBookId: notebookId as string,
       parent: {
         type: {
           id: parentObjectServiceType as string,
@@ -53,6 +54,7 @@ function onSubmit(e: Event) {
       createdDateTime: '',
       security: [],
     };
+    console.log(`NewNotes:Submit():newNote: ${newNote}`);
     notesStore.addNotes(newNote);
     router.go(-1);
   } catch (error) {

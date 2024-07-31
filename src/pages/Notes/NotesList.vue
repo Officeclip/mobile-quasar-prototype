@@ -75,7 +75,9 @@ console.log('NotesList: Setup Ended');
           :to="{
             name: 'newNotes',
             params: {
-              id: '',
+              id: parent.selectedNoteBook,
+              objectTypeId: '-1',
+              objectId: '-1',
             },
           }"
           fab

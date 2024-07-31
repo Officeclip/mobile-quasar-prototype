@@ -23,11 +23,12 @@ const validateAll = () => {
   // return val == true;
   nameRef.value.validate();
   dateRef.value.validate();
-  if (nameRef.value.hasError || dateRef.value.hasError) {
-    return false;
-  } else {
-    return true;
-  }
+  return nameRef.value.hasError || dateRef.value.hasError;
+  // if (nameRef.value.hasError || dateRef.value.hasError) {
+  //   return false;
+  // } else {
+  //   return true;
+  // }
 };
 
 defineExpose({
