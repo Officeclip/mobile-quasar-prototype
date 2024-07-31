@@ -99,18 +99,28 @@ watch(
   }
 );
 
-const isDateValid = computed(() => {
-  const condition = date.value != '';
-  return condition;
-});
+const dateRef = ref(null);
+const durationRef = ref(null);
 
-const isDurationValid = computed(() => {
+const isDateValid = () => {
+  const condition = date.value != '';
+  return condition ? true : 'Please select date';
+};
+
+const isDurationValid = () => {
   const condition = props.timesheet.timeDuration > 0;
-  return condition;
-});
+  return condition ? true : 'Please enter duration';
+};
 
 const validateAll = () => {
-  return isDurationValid.value && isDateValid.value;
+  dateRef.value.validate();
+  durationRef.value.validate();
+
+  if (dateRef.value.hasError || durationRef.value.hasError) {
+    return false;
+  } else {
+    return true;
+  }
 };
 
 defineExpose({
@@ -130,8 +140,8 @@ defineExpose({
         label="Date"
         v-model="date"
         :options="dateOptions"
-        error-message="Please select date"
-        :error="!isDateValid"
+        :rules="[isDateValid]"
+        ref="dateRef"
         option-label="name"
         option-value="startDate"
         emit-value
@@ -169,8 +179,8 @@ defineExpose({
         v-model.number="timesheet.timeDuration"
         placeholder="enter here..."
         type="number"
-        error-message="Please enter duration"
-        :error="!isDurationValid"
+        :rules="[isDurationValid]"
+        ref="durationRef"
       />
       <q-input
         label="Description"
