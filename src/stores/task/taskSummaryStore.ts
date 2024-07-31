@@ -78,13 +78,18 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(this.url);
-        const summaries = response.data.data;
-        if (isFilter) {
-          await this.resetTaskSummaryList();
+        if (response.status === 200) {
+          const summaries = response.data.data;
+          //console.log(`getTasksUpdated: summaries: ${summaries}`);
+          if (isFilter) {
+            await this.resetTaskSummaryList();
+          }
+          this.taskSummaries.push(...summaries);
+          this.links = response.data.pagination.next || '{}';
+          this.url = this.links ? `${this.links}` : '';
+        } else {
+          return true;
         }
-        this.taskSummaries.push(...summaries);
-        this.links = response.data.pagination.next || '{}';
-        this.url = this.links ? `${this.links}` : '';
       } catch (error) {
         Constants.throwError(error);
       }
