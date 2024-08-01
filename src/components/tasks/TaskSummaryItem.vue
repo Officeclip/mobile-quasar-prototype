@@ -1,11 +1,17 @@
 <script lang="ts" setup>
 import { onBeforeMount, ref } from 'vue';
 import { taskSummary } from 'src/models/task/taskSummary';
-import { getPriorityColor, getPriorityIcon, getTaskStatusColor, getTaskStatusIcon } from 'src/helpers/colorIconHelper';
+import {
+  getPriorityColor,
+  getPriorityIcon,
+  getTaskStatusColor,
+  getTaskStatusIcon,
+} from 'src/helpers/colorIconHelper';
 import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
+import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 const props = defineProps<{
-  task: taskSummary
+  task: taskSummary;
 }>();
 
 const taskSummaryStore = useTaskSummaryStore();
@@ -13,8 +19,7 @@ const taskSummaryStore = useTaskSummaryStore();
 const taskDone = ref(false);
 onBeforeMount(() => {
   taskDone.value = props.task.taskStatusName === 'Completed';
-}
-);
+});
 
 function markTaskAsCompleted() {
   let completedTask: taskSummary = props.task;
@@ -37,31 +42,48 @@ function toggleTaskStatus() {
     markTaskAsCompleted();
   }
 }
-
 </script>
 
 <template>
-  <q-item v-ripple :to="{ name: 'taskDetails', params: { id: task.id } }" class="TaskCard">
+  <q-item
+    v-ripple
+    :to="{ name: 'taskDetails', params: { id: task.id } }"
+    class="TaskCard"
+  >
     <q-item-section class="TaskDetails">
-      <q-item-label class="TaskTitle" :class="{ 'StrikeThrough': task.taskStatusName === 'Completed' }">
+      <q-item-label
+        class="TaskTitle"
+        :class="{ StrikeThrough: task.taskStatusName === 'Completed' }"
+      >
         {{ task.subject }}
       </q-item-label>
 
       <div class="DueDate">
         <q-icon class="DueIcon" name="event" />
         <q-item-label>
-          Due: {{ new Date(task.dueDate).toLocaleDateString() }}
+          Due:
+          {{
+            dateTimeHelper.formatDateTimeFromRestAPIForUI(task.dueDate, true)
+          }}
         </q-item-label>
       </div>
 
-      <div class="StatusAndPriority ">
-        <q-chip :color="getTaskStatusColor(task.taskStatusCategory)"
-          :icon-right="getTaskStatusIcon(task.taskStatusCategory)" square text-color="white">
+      <div class="StatusAndPriority">
+        <q-chip
+          :color="getTaskStatusColor(task.taskStatusCategory)"
+          :icon-right="getTaskStatusIcon(task.taskStatusCategory)"
+          square
+          text-color="white"
+        >
           {{ task.taskStatusName }}
         </q-chip>
 
-        <q-chip :color="getPriorityColor(task.taskPriorityName)" :icon-right="getPriorityIcon(task.taskPriorityName)"
-          square text-color="white">
+        <q-chip
+          :color="getPriorityColor(task.taskPriorityName)"
+          :icon-right="getPriorityIcon(task.taskPriorityName)"
+          square
+          text-color="white"
+        >
           {{ task.taskPriorityName }}
         </q-chip>
       </div>
@@ -87,7 +109,6 @@ function toggleTaskStatus() {
   transition: all 0.3s ease;
 }
 
-
 .TaskTitle {
   font-size: 18px;
   font-weight: 600;
@@ -106,11 +127,11 @@ function toggleTaskStatus() {
   margin-right: 5px;
 }
 
-.TaskDetails>* {
+.TaskDetails > * {
   margin-bottom: 5px;
 }
 
-.TaskDetails> :last-child {
+.TaskDetails > :last-child {
   margin-bottom: 0;
 }
 </style>

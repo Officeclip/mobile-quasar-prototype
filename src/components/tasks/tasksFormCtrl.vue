@@ -22,6 +22,9 @@ const taskListsStore = useTaskListsStore();
 const $q = useQuasar();
 const router = useRouter();
 
+const nameRef = ref();
+const dateRef = ref();
+
 const repeatString = ref('Does not repeat');
 // const reminderTextInfo = ref('Reminder');
 const recurrenceDialogOpened = ref(false);
@@ -123,30 +126,48 @@ watch(task.value, () => {
   emit('emit-task', task.value);
 });
 
-const endDateRule = (value: string) => {
-  console.log(`@@@@ endDateRule: ${value}`);
-  if (!value) return true;
-  if (!task.value.startDate) return true;
-  const isGreater = new Date(value) > new Date(task.value.startDate);
-  return isGreater;
+// const endDateRule = (value: string) => {
+//   console.log(`@@@@ endDateRule: ${value}`);
+//   if (!value) return true;
+//   if (!task.value.startDate) return true;
+//   const isGreater = new Date(value) > new Date(task.value.startDate);
+//   return isGreater;
+// };
+
+// const isSubjectValid = computed(() => {
+//   const condition = task.value.subject.length > 0;
+//   return condition;
+// });
+
+// const isEndDateValid = computed(() => {
+//   if (task.value.dueDate !== '') {
+//     const isEndDateValid = endDateRule(task.value.dueDate) === true;
+//     return isEndDateValid;
+//   } else {
+//     return false;
+//   }
+// });
+
+const ruleDueDateGreaterThanStartDate = (val: string) => {
+  console.log(`startDate: ${task.value.startDate}, endDate: ${val}`);
+  if (!task.value.startDate || task.value.startDate.length === 0) return true;
+  const isGreater = new Date(val) > new Date(task.value.startDate);
+  return isGreater ? true : 'Due Date should be more than start date';
 };
 
-const isSubjectValid = computed(() => {
-  const condition = task.value.subject.length > 0;
-  return condition;
-});
-
-const isEndDateValid = computed(() => {
-  if (task.value.dueDate !== '') {
-    const isEndDateValid = endDateRule(task.value.dueDate) === true;
-    return isEndDateValid;
-  } else {
-    return false;
-  }
-});
-
 const validateAll = () => {
-  return isSubjectValid.value && isEndDateValid.value;
+  //return;
+  //isSubjectValid.value &&
+  //isEndDateValid.value;
+
+  nameRef.value.validate();
+  dateRef.value.validate();
+  return !(nameRef.value.hasError || dateRef.value.hasError);
+};
+
+const ruleNotEmpty = (val: string) => {
+  const condition = val && val.length > 0;
+  return condition ? true : 'Please enter something';
 };
 
 defineExpose({
@@ -160,11 +181,12 @@ defineExpose({
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
         <q-input
+          ref="nameRef"
           v-model="task.subject"
-          :error="!isSubjectValid"
           error-message="Please type something"
           label="Subject"
           placeholder="enter task subject"
+          :rules="[ruleNotEmpty]"
         />
 
         <q-editor
@@ -194,8 +216,9 @@ defineExpose({
         </q-input>
 
         <q-input
+          ref="dateRef"
           v-model="task.dueDate"
-          :rules="[(val: string) => (val && val.length > 0)]"
+          :rules="[ruleNotEmpty, ruleDueDateGreaterThanStartDate]"
           error-message="Please enter a valid date"
           label="Due Date"
         >
@@ -214,9 +237,9 @@ defineExpose({
               </q-popup-proxy>
             </q-icon>
           </template>
-          <span v-if="!isEndDateValid" style="color: red"
+          <!-- <span v-if="!isEndDateValid" style="color: red"
             >Due date must be later than start date</span
-          >
+          > -->
         </q-input>
 
         <q-select

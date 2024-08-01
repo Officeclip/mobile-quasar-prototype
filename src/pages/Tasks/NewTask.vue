@@ -82,7 +82,7 @@ function receiveTask(receivedTask: taskDetails) {
   task.value = receivedTask;
 }
 
-const childComponent = ref(null);
+const childComponent = ref();
 
 async function onSubmit(e: any) {
   // e.preventDefault();
