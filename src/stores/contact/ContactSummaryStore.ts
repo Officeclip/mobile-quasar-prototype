@@ -44,10 +44,14 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(this.url);
-        const summaries = response.data.data;
-        this.contactSummary.push(...summaries);
-        this.links = response.data.pagination.next || '{}';
-        this.url = this.links ? `${this.links}` : '';
+        if (response.status === 200) {
+          const summaries = response.data.data;
+          this.contactSummary.push(...summaries);
+          this.links = response.data.pagination.next || '{}';
+          this.url = this.links ? `${this.links}` : '';
+        } else {
+          return true;
+        }
       } catch (error) {
         Constants.throwError(error);
       }
