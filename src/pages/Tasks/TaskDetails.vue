@@ -18,10 +18,13 @@ import {
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
+import { getCurrentInstance } from 'vue';
 
 const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
 const $q = useQuasar();
+const instance = getCurrentInstance();
+const subTaskKey = ref(0);
 
 const id = ref<string | string[]>('0');
 
@@ -167,8 +170,10 @@ const confirmDeletion = async () => {
 
 const showAddSubtaskDialog = ref(false);
 
-function addSubtask(subtask: subTask) {
-  taskDetailsStore.addSubtask(subtask);
+async function addSubtask(subtask: subTask) {
+  await taskDetailsStore.addSubtask(subtask);
+  subTaskKey.value++;
+  //instance?.proxy?.$forceUpdate();
 }
 </script>
 
@@ -414,7 +419,7 @@ function addSubtask(subtask: subTask) {
           <q-separator spaced />
           <q-item-label caption class="q-ma-sm">Completed</q-item-label>
           <div v-for="subtask in completedSubtasks" :key="subtask.id">
-            <subtask-item :subtask="subtask" />
+            <subtask-item :subtask="subtask" :key="subTaskKey" />
           </div>
           <q-item-label
             v-if="completedSubtasks.length === 0"
