@@ -24,7 +24,7 @@ const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
 const $q = useQuasar();
 const instance = getCurrentInstance();
-const subTaskKey = ref(0);
+//const subTaskKey = ref(0);
 
 const id = ref<string | string[]>('0');
 
@@ -172,8 +172,9 @@ const showAddSubtaskDialog = ref(false);
 
 async function addSubtask(subtask: subTask) {
   await taskDetailsStore.addSubtask(subtask);
-  subTaskKey.value++;
+  // subTaskKey.value++;
   //instance?.proxy?.$forceUpdate();
+  router.go(0);
 }
 </script>
 
@@ -419,7 +420,7 @@ async function addSubtask(subtask: subTask) {
           <q-separator spaced />
           <q-item-label caption class="q-ma-sm">Completed</q-item-label>
           <div v-for="subtask in completedSubtasks" :key="subtask.id">
-            <subtask-item :subtask="subtask" :key="subTaskKey" />
+            <subtask-item :subtask="subtask" />
           </div>
           <q-item-label
             v-if="completedSubtasks.length === 0"
