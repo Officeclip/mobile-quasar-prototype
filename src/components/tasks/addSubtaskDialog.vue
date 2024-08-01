@@ -48,28 +48,44 @@ const subtask = ref({
   description: '',
   assignee: [],
   isCompleted: false,
-  completedDate: ''
-})
+  completedDate: '',
+});
 
 const emit = defineEmits(['saveSubtask']);
 
 function emitSubtask() {
   emit('saveSubtask', subtask.value);
 }
-
 </script>
 
 <template>
   <q-card>
     <div class="q-pa-md column">
-      <q-input v-model="subtask.title" :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        label="Subject" lazy-rules placeholder="Enter Subtask Title" />
+      <q-input
+        v-model="subtask.title"
+        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        label="Subject"
+        lazy-rules
+        placeholder="Enter Subtask Title"
+      />
 
-      <q-input v-model="subtask.description" class="q-mt-none" label="Description" placeholder="Type Here...." />
+      <q-input
+        v-model="subtask.description"
+        class="q-mt-none"
+        label="Description"
+        placeholder="Type Here...."
+      />
 
       <q-item-section>
-        <q-select v-model="subtask.assignee" :options="contactOptions" label="Assigned to" option-label="name" use-chips
-          use-input @filter="filterFn">
+        <q-select
+          v-model="subtask.assignee"
+          :options="contactOptions"
+          label="Assigned to"
+          option-label="name"
+          use-chips
+          use-input
+          @filter="filterFn"
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">No results</q-item-section>
@@ -83,5 +99,4 @@ function emitSubtask() {
       <q-btn v-close-popup color="primary" label="Apply" @click="emitSubtask" />
     </q-card-actions>
   </q-card>
-
 </template>
