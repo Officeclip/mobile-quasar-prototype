@@ -47,7 +47,7 @@ const convertedDate = computed(() => {
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
       <q-list>
-        <pre>{{ dateTime }}</pre>
+        <!-- <pre>{{ dateTime }}</pre> -->
         <q-input
           v-model="date"
           :rules="[(val) => !!val || 'Start Date is required']"

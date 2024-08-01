@@ -26,9 +26,9 @@ watch(isAllDayEvent, () => {
 <template>
   <div id="q-app" style="min-height: 100vh">
     <div class="q-pa-md" style="min-width: 500px">
-      <pre>startsModelValue: {{ startsModelValue }}</pre>
+      <!-- <pre>startsModelValue: {{ startsModelValue }}</pre>
       <pre>isAllDayEvent: {{ isAllDayEvent }}</pre>
-      <pre>mask: {{ mask(isAllDayEvent) }}</pre>
+      <pre>mask: {{ mask(isAllDayEvent) }}</pre> -->
       <q-item>
         <q-toggle
           v-model="isAllDayEvent"
