@@ -231,7 +231,11 @@ function changeEndDateWhenStartDateChanged(val: string) {
   if (!props.event.isAllDayEvent) {
     const date = new Date(val);
     const endDateTime = dateTimeHelper.addHoursToDate(date, 1);
-    endDateModelValue.value = dateTimeHelper.formatFullDateTime(endDateTime);
+    // endDateModelValue.value = dateTimeHelper.formatFullDateTime(endDateTime);
+    endDateModelValue.value = dateTimeHelper.formatDateTimeForUI(
+      endDateTime,
+      false
+    );
   }
 }
 const showTimeAsBackColor = getEventShowTimeAsColor();
