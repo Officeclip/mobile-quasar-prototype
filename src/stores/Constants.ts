@@ -27,6 +27,9 @@ export class Constants {
 
   static setupAxiosInstance(instance: AxiosInstance) {
     instance.defaults.headers.common['X-OrgKey'] = this.getOrgKeyFromSession();
+    instance.defaults.headers.common['Cache-Control'] = 'no-cache';
+    instance.defaults.headers.common['Pragma'] = 'no-cache';
+    instance.defaults.headers.common['Expires'] = '0';
     // import.meta.env.VITE_X_OrgKey;
 
     this.setupAxiosAuthorizationHeader(instance, 'X-Token'); //add the token if available
