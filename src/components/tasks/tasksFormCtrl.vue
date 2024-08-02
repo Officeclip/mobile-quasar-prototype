@@ -219,7 +219,6 @@ defineExpose({
           ref="dateRef"
           v-model="task.dueDate"
           :rules="[ruleNotEmpty, ruleDueDateGreaterThanStartDate]"
-          error-message="Please enter a valid date"
           label="Due Date"
         >
           <template v-slot:prepend>
