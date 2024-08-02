@@ -54,13 +54,16 @@ onBeforeMount(async () => {
   }
 });
 
-const isLastNameValid = computed(() => {
+const lastNameRef = ref(null);
+
+const isLastNameValid = () => {
   const condition = props.contactDetails.last_name.length > 0;
-  return condition;
-});
+  return condition ? true : 'Please enter your last name';
+};
 
 const validateAll = () => {
-  return isLastNameValid.value;
+  lastNameRef.value.validate();
+  return !lastNameRef.value.hasError;
 };
 
 defineExpose({
@@ -85,8 +88,8 @@ defineExpose({
           label="Last Name"
           placeholder="enter last name"
           :dense="dense"
-          error-message="Please enter your last name"
-          :error="!isLastNameValid"
+          :rules="[isLastNameValid]"
+          ref="lastNameRef"
         >
         </q-input>
         <q-input
