@@ -49,7 +49,3 @@ quasar build -d
 ### Customize the configuration
 
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
-
-### How to create default login
-
-1. add a property VITE_DEFAULT_LOGIN in env.local and set it to to default login you want
