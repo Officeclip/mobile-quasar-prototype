@@ -24,6 +24,8 @@ const note = ref({
   isPrivate: false,
 });
 
+const childComponent = ref(null);
+
 function onSubmit(e: Event) {
   // e.preventDefault();
   // if (!note.value.title) {
@@ -32,6 +34,7 @@ function onSubmit(e: Event) {
   // }
   // note.value.isPrivate = (note.value.isPrivate === 'Yes')
   try {
+    if (!childComponent.value.validateAll()) return;
     const newNote: Note = {
       id: '',
       noteBookId: notebookId as string,
@@ -89,7 +92,7 @@ function onSubmit(e: Event) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <NotesForm :note="note" />
+          <NotesForm :note="note" ref="childComponent" />
           <!-- <q-btn
             class="q-ml-md q-mb-md q-mt-md"
             label="Submit"
