@@ -6,9 +6,15 @@ const isAllDayEvent = ref(false);
 
 const start = ref('2024-04-10T11:50:07Z');
 const startsModelValue = ref();
+const startsModelValue2 = ref();
 startsModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
   start.value,
   isAllDayEvent.value
+);
+
+startsModelValue2.value = dateTimeHelper.formatDateTimeForUI(
+  new Date(start.value),
+  true
 );
 const dateTimeMask = 'ddd, MMM D, YYYY hh:mm A';
 const dateMask = 'ddd, MMM D, YYYY';
@@ -26,9 +32,11 @@ watch(isAllDayEvent, () => {
 <template>
   <div id="q-app" style="min-height: 100vh">
     <div class="q-pa-md" style="min-width: 500px">
-      <!-- <pre>startsModelValue: {{ startsModelValue }}</pre>
+      <pre>start:::{{ start }}</pre>
+      <pre>startsModelValue: {{ startsModelValue }}</pre>
+      <pre>startsModelValue2::{{ startsModelValue2 }}</pre>
       <pre>isAllDayEvent: {{ isAllDayEvent }}</pre>
-      <pre>mask: {{ mask(isAllDayEvent) }}</pre> -->
+      <pre>mask: {{ mask(isAllDayEvent) }}</pre>
       <q-item>
         <q-toggle
           v-model="isAllDayEvent"

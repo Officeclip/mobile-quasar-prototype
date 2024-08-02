@@ -42,21 +42,21 @@ const formatDateandTimeFromUtc = (
   }
 };
 
-const extractTimeFromUtcForQTime = (utcDateTime: string) => {
-  const utcDate = new Date(utcDateTime);
-  const formattedTime = format(utcDate, 'HH:mm');
-  console.log(`extractTimeFromUtc - formattedTime: ${formattedTime}`);
+// const extractTimeFromUtcForQTime = (utcDateTime: string) => {
+//   const utcDate = new Date(utcDateTime);
+//   const formattedTime = format(utcDate, 'HH:mm');
+//   console.log(`extractTimeFromUtc - formattedTime: ${formattedTime}`);
 
-  return formattedTime;
-};
+//   return formattedTime;
+// };
 
-const extractMonthFromUtc = (utcDateTime: string) => {
-  const utcDate = new Date(utcDateTime);
-  const formattedDate = format(utcDate, 'MMM dd, yyyy');
-  console.log(`extractTimeFromUtc - formattedTime: ${formattedDate}`);
+// const extractMonthFromUtc = (utcDateTime: string) => {
+//   const utcDate = new Date(utcDateTime);
+//   const formattedDate = format(utcDate, 'MMM dd, yyyy');
+//   console.log(`extractTimeFromUtc - formattedTime: ${formattedDate}`);
 
-  return formattedDate;
-};
+//   return formattedDate;
+// };
 
 // const convertGeneralToUtc = (generalDateTime: string | null) => {
 //   // Converts "2023-07-27 12:00 am" to 2023-07-27T00:00:00Z
@@ -120,9 +120,9 @@ const addHoursToDate = (date: Date, hours: number) => {
   return addHours(date, hours);
 };
 
-const formatFullDateTime = (date: Date) => {
-  return format(date, 'EEE, MMM dd, yyyy hh:mm a');
-};
+// const formatFullDateTime = (date: Date) => {
+//   return format(date, 'EEE, MMM dd, yyyy hh:mm a');
+// };
 
 // const removeLastZ = (dateString: string | undefined) => {
 //   if (dateString) {
@@ -188,15 +188,15 @@ export default {
   extractDateFromUtc,
   extractTimeFromUtc,
   formatDateandTimeFromUtc,
-  extractTimeFromUtcForQTime,
-  extractMonthFromUtc,
+  // extractTimeFromUtcForQTime,
+  // extractMonthFromUtc,
   // convertGeneralToUtc,
   // convertDateToUtc,
   // convertLocalDateToUTC,
   // convertDateTimeUTCtoLocal,
   populateDates,
   addHoursToDate,
-  formatFullDateTime,
+  // formatFullDateTime,
   // removeLastZ,
   getDateTimeFromRestAPI,
   formatDateTimeFromUIForRestAPI,
