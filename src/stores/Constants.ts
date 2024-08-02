@@ -32,14 +32,14 @@ export class Constants {
     this.setupAxiosAuthorizationHeader(instance, 'X-Token'); //add the token if available
 
     instance.interceptors.request.use((x) => {
-      console.log(`axios request: ${JSON.stringify(x)}`);
+      console.log(`axios request: ${JSON.stringify(x, null, 4)}`);
       console.log('++++++');
       return x;
     });
 
     instance.interceptors.response.use(
       (x) => {
-        console.log(`axios response: ${JSON.stringify(x)}`);
+        console.log(`axios response: ${JSON.stringify(x, null, 4)}`);
         console.log('++++++');
         return x;
       },
@@ -113,7 +113,7 @@ export class Constants {
     // if (error.response.status === 401) {
     //   window.location.href = '/';
     // }
-    console.log(`throwError(...): ${JSON.stringify(error)}`);
+    console.log(`throwError(...): ${JSON.stringify(error, null, 4)}`);
     if (axios.isAxiosError(error)) {
       if (error?.response?.data) {
         const responseError: responseError = error.response.data;
