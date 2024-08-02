@@ -195,6 +195,45 @@ function getExpenseTypeDetail(expTypeId) {
   }
 }
 
+const dateRef = ref(null);
+const amountRef = ref(null);
+const expenseTypeRef = ref(null);
+
+const isDateValid = () => {
+  const condition = date.value != '';
+  return condition ? true : 'Please select date';
+};
+
+const isAmountValid = () => {
+  const condition = props.expenseDetail.amount > 0;
+  return condition ? true : 'Please enter amount';
+};
+
+const isExpenseTypeValid = () => {
+  const condition = props.expenseDetail.expenseTypeSid != expenseTypeDefault;
+  return condition ? true : 'Please select expense type';
+};
+
+const validateAll = () => {
+  dateRef.value.validate();
+  amountRef.value.validate();
+  expenseTypeRef.value.validate();
+
+  if (
+    dateRef.value.hasError ||
+    amountRef.value.hasError ||
+    expenseTypeRef.value.hasError
+  ) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+defineExpose({
+  validateAll,
+});
+
 // const formattedExpenseDate = ref('');
 // const expenseDateValue = computed({
 //   get() {
@@ -247,7 +286,8 @@ function getExpenseTypeDetail(expTypeId) {
         option-label="name"
         emit-value
         map-options
-        :rules="[(val) => val !== '' || 'Please select date']"
+        :rules="[isDateValid]"
+        ref="dateRef"
       />
       <!-- <pre>{{ customerProjectModel }}</pre> -->
       <!-- <pre>{{ customerProjectOptions }}</pre> -->
@@ -266,9 +306,8 @@ function getExpenseTypeDetail(expTypeId) {
         label="Expense Type"
         v-model="expenseDetail.expenseTypeSid"
         :options="expenseTypeOptions"
-        :rules="[
-          (val) => val !== expenseTypeDefault || 'Please select expense type..',
-        ]"
+        :rules="[isExpenseTypeValid]"
+        ref="expenseTypeRef"
         @update:model-value="getExpenseTypeDetail"
         option-label="expenseName"
         emit-value
@@ -371,7 +410,8 @@ function getExpenseTypeDetail(expTypeId) {
         v-model.number="expenseDetail.amount"
         placeholder="enter here..."
         type="number"
-        :rules="[(val) => (val && val > 0) || 'Please enter duration']"
+        :rules="[isAmountValid]"
+        ref="amountRef"
       >
       </q-input>
 

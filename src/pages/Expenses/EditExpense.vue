@@ -1,7 +1,7 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useRouter, useRoute } from 'vue-router';
@@ -57,9 +57,12 @@ const period = computed(() => {
   return expensePeriod.value.find((y) => y.start.toString() === fromDate);
 });
 
+const childComponent = ref(null);
+
 async function onSubmit() {
   // e.preventDefault();
   try {
+    if (!childComponent.value.validateAll()) return;
     const editExpense: expenseDetails = {
       accountName: expenseDetail.value?.accountName as string,
       accountSid: expenseDetail.value?.accountSid as string,
@@ -126,6 +129,7 @@ async function onSubmit() {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <ExpenseForm
+            ref="childComponent"
             v-if="expenseDetail"
             :expenseDetail="expenseDetail"
             :period="period?.name"

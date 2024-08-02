@@ -47,9 +47,12 @@ const expenseDetail = ref({
   security: [],
 });
 
+const childComponent = ref(null);
+
 async function onSubmit(e: any) {
-  e.preventDefault();
+  //e.preventDefault();
   try {
+    if (!childComponent.value.validateAll()) return;
     const newExpense: any = {
       accountName: expenseDetail.value.accountName,
       accountSid: expenseDetail.value.accountSid,
@@ -118,7 +121,11 @@ async function onSubmit(e: any) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <ExpenseForm :expenseDetail="expenseDetail" :period="period" />
+          <ExpenseForm
+            :expenseDetail="expenseDetail"
+            :period="period"
+            ref="childComponent"
+          />
           <!-- <q-btn
             class="q-ml-md q-mb-md q-mt-md"
             label="Save"
