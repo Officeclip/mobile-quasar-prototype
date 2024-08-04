@@ -54,15 +54,6 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
         this.eventDetails = response.data;
-        if (this.eventDetails) {
-          this.eventDetails.startDateTime = this.eventDetails.isAllDayEvent
-            ? dateTimeHelper.removeLastZ(this.eventDetails.startDateTime)
-            : this.eventDetails.startDateTime;
-
-          this.eventDetails.endDateTime = this.eventDetails.isAllDayEvent
-            ? dateTimeHelper.removeLastZ(this.eventDetails.endDateTime)
-            : this.eventDetails.endDateTime;
-        }
         this.eventsCount = response.data.length;
       } catch (error) {
         Constants.throwError(error);

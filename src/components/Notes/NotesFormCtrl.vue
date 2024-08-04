@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import { defineProps, ref } from 'vue';
 
 const options = ref([]);
@@ -16,6 +16,23 @@ options.value = [
 const props = defineProps(['note']);
 const isPrivate = ref('');
 isPrivate.value = props.note.isPrivate ? 'Yes' : 'No';
+
+const descriptionRef = ref(null);
+
+const ruleNotEmpty = (val: string) => {
+  const condition = val && val.length > 0;
+  return condition ? true : 'Please type something';
+};
+
+const validateAll = () => {
+  descriptionRef.value.validate();
+  return !descriptionRef.value.hasError;
+};
+
+defineExpose({
+  validateAll,
+});
+//:rules="[(val) => (!!val && val !== '<br>') || 'Field is required']"
 </script>
 
 <template>
@@ -35,7 +52,8 @@ isPrivate.value = props.note.isPrivate ? 'Yes' : 'No';
           v-model="note.description"
           label-slot
           borderless
-          :rules="[(val) => (!!val && val !== '<br>') || 'Field is required']"
+          :rules="[ruleNotEmpty]"
+          ref="descriptionRef"
         >
           <template #label>Description</template>
           <template #control>

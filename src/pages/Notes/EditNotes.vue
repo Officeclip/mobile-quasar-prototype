@@ -22,10 +22,13 @@ onMounted(() => {
   notesStore.getNote(id.value as string);
 });
 
+const childComponent = ref(null);
+
 async function onSubmit(e: Event) {
   // e.preventDefault();
   try {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    if (!childComponent.value.validateAll()) return;
     await notesStore.editNote(note.value!);
     //router.push(`/noteDetails/${note.value?.id}`); // FIXME: This does not seem right... use standard form
     router.go(-2);
@@ -59,7 +62,7 @@ async function onSubmit(e: Event) {
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
-          <NotesForm :note="note" />
+          <NotesForm :note="note" ref="childComponent" />
           <!-- <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
           </q-btn> -->
         </div>
