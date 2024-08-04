@@ -79,15 +79,15 @@ function handleReminder(reminder: [string, number]) {
   event.value.reminder.beforeMinutes = reminder[1];
 }
 
-const childComponent = ref(null);
+const childComponent = ref<typeof EventForm>(); // see: https://stackoverflow.com/a/65027995
 
 async function onSubmit(e: any) {
   //e.preventDefault();
   try {
     console.log(
-      `onSubmit::childComponent validateAll: ${childComponent.value.validateAll()}`
+      `onSubmit::childComponent validateAll: ${childComponent.value?.validateAll()}`
     );
-    if (!childComponent.value.validateAll()) return;
+    if (!childComponent.value?.validateAll()) return;
     const newEventDetails = ref(event);
     await eventDetailsStore.addEventDetails(newEventDetails.value);
     router.go(-1);

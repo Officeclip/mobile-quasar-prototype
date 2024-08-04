@@ -12,7 +12,7 @@ import { userSummary } from 'src/models/userSummary';
 import { useUserSummaryStore } from 'stores/userSummaryStore';
 import Regarding from '../general/regardingComponent.vue';
 import { useSessionStore } from 'src/stores/SessionStore';
-import { useQuasar } from 'quasar';
+import { useQuasar, QInput } from 'quasar';
 import { useRouter } from 'vue-router';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 
@@ -254,21 +254,20 @@ function toggleAllDay(evt: boolean) {
   );
 }
 
-const isEndDateValid = computed(() => {
-  if (!props.event.endDateTime) return false;
-  if (!props.event.startDateTime) return true;
-  const dtStartDateTime = new Date(props.event.startDateTime);
-  const dtEndDateTime = new Date(props.event.endDateTime);
-  const isEndDateValid = props.event.isAllDayEvent
-    ? dtEndDateTime >= dtStartDateTime
-    : dtEndDateTime > dtStartDateTime;
-  //const isEndDateValid = endDateRule(props.event.endDateTime) === true;
-  return isEndDateValid;
-});
-
-const eventNameRef = ref(null);
-const startDateRef = ref(null);
-const endDateRef = ref(null);
+// const isEndDateValid = computed(() => {
+//   if (!props.event.endDateTime) return false;
+//   if (!props.event.startDateTime) return true;
+//   const dtStartDateTime = new Date(props.event.startDateTime);
+//   const dtEndDateTime = new Date(props.event.endDateTime);
+//   const isEndDateValid = props.event.isAllDayEvent
+//     ? dtEndDateTime >= dtStartDateTime
+//     : dtEndDateTime > dtStartDateTime;
+//   //const isEndDateValid = endDateRule(props.event.endDateTime) === true;
+//   return isEndDateValid;
+// });
+const eventNameRef = ref<QInput>(); // from: https://stackoverflow.com/a/65106524
+const startDateRef = ref<QInput>();
+const endDateRef = ref<QInput>();
 
 // const isNameValid = (val: string) => {
 //   const condition = val && val.length > 0;
@@ -289,14 +288,14 @@ const ruleEndDateGreaterThanStartDate = (val: string) => {
 };
 
 const validateAll = () => {
-  eventNameRef.value.validate();
-  startDateRef.value.validate();
-  endDateRef.value.validate();
+  eventNameRef.value?.validate();
+  startDateRef.value?.validate();
+  endDateRef.value?.validate();
 
   if (
-    eventNameRef.value.hasError ||
-    startDateRef.value.hasError ||
-    endDateRef.value.hasError
+    eventNameRef.value?.hasError ||
+    startDateRef.value?.hasError ||
+    endDateRef.value?.hasError
   ) {
     return false;
   } else {
@@ -308,12 +307,14 @@ defineExpose({
   validateAll,
 });
 
-const canBeRemoved = computed(() => (item) => item.id !== session.userId);
+const canBeRemoved = computed(
+  () => (item: { id: string }) => item.id !== session.userId
+);
 
-function handleRemove(item) {
+function handleRemove(item: { id: string }) {
   if (canBeRemoved.value(item)) {
     const index = props.event?.meetingAttendees.findIndex(
-      (option) => option.id === item.id
+      (option: { id: string }) => option.id === item.id
     );
     if (index !== -1) {
       props.event?.meetingAttendees.splice(index, 1);
@@ -696,3 +697,4 @@ function handleRemove(item) {
   justify-content: center;
 }
 </style>
+: { id: any; }: { id: any; }
