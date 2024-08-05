@@ -85,16 +85,8 @@ function receiveTask(receivedTask: taskDetails) {
 const childComponent = ref();
 
 async function onSubmit(e: any) {
-  // e.preventDefault();
-  //debugger;
-  //console.log(`*** NewTask:onSubmit(...): e.target: ${e}`);
-
   try {
-    //const formData = new FormData(e.target);
-    //const newDueDate = formData.get('dueDate')?.toString() ?? '';
-
     if (!childComponent.value.validateAll()) return;
-
     const newTask: taskDetails = {
       id: task.value.id,
       subject: task.value.subject,
@@ -128,32 +120,16 @@ async function onSubmit(e: any) {
       taskStatusCategory: task.value.taskStatusCategory,
     };
     console.log(`***New Task*** ${newTask.startDate}`);
-    // const newTaskSummary: taskSummary = {
-    //   id: task.value.id,
-    //   subject: task.value.subject,
-    //   taskStatusName: task.value.taskStatusName,
-    //   isPrivate: task.value.isPrivate,
-    //   dueDate: newDueDate,
-    //   taskPriorityName: task.value.taskPriorityName,
-    //   taskStatusCategory: task.value.taskStatusCategory
-    // }
-    //taskSummaryStore.addTask(newTaskSummary);
     await taskDetailsStore.addTask(newTask);
     router.go(-1);
   } catch (error) {
     console.log(`*** NewTask:onSubmit(...):catch: ${error} ***`);
     console.log(`---------${error}---------`);
-    // $q.notify({
-    //   message: error as string,
-    //   color: 'red',
-    // });
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
       console.log('*** NewTask:onSubmit(...):onOK ***');
-      // await router.push({ path: '/homePage' });
-      // router.go(0);
     });
   }
 }
@@ -184,12 +160,6 @@ async function onSubmit(e: any) {
             :task-from-parent="task"
             @emit-task="receiveTask"
           />
-          <!-- <q-btn
-            class="q-ml-md q-mb-md q-mt-md"
-            color="primary"
-            label="Submit"
-            type="submit"
-          /> -->
           <q-btn
             class="q-ml-sm"
             color="primary"

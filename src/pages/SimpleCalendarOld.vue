@@ -12,13 +12,6 @@ import { eventSummary } from '../models/event/eventSummary';
 import { useEventSummaryStore } from '../stores/event/eventSummaryStore';
 
 const eventsStore = useEventSummaryStore();
-//const events = ref<Event[]>([]);
-
-//const eventStore = ref([]);
-//eventStore.value = useEventsStore();
-//eventStore.value.getAllEvents(); // FIXME: skd: This is unnecessary as we do not need
-// to get all the events [1h]
-
 const date = ref('');
 date.value = format(new Date(), 'yyyy/MM/dd');
 
@@ -28,7 +21,6 @@ const events = computed(() => {
 
 onMounted(() => {
   eventsStore.getAllEventSummary();
-  //events.value = eventsStore.Events;
 });
 
 const eventDates = computed(() => {
@@ -113,7 +105,6 @@ function getEventType(event: eventSummary) {
               <q-item-section>
                 <q-item-label>{{ event.eventName }}</q-item-label>
                 <q-item-label caption lines="1">
-                  <!-- {{ getFromToDate(event) }} -->
                   {{ getEventType(event) }}
                 </q-item-label>
               </q-item-section>

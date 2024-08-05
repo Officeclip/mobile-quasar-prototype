@@ -258,25 +258,9 @@ function toggleAllDay(evt: boolean) {
   );
 }
 
-// const isEndDateValid = computed(() => {
-//   if (!props.event.endDateTime) return false;
-//   if (!props.event.startDateTime) return true;
-//   const dtStartDateTime = new Date(props.event.startDateTime);
-//   const dtEndDateTime = new Date(props.event.endDateTime);
-//   const isEndDateValid = props.event.isAllDayEvent
-//     ? dtEndDateTime >= dtStartDateTime
-//     : dtEndDateTime > dtStartDateTime;
-//   //const isEndDateValid = endDateRule(props.event.endDateTime) === true;
-//   return isEndDateValid;
-// });
 const eventNameRef = ref<QInput>(); // from: https://stackoverflow.com/a/65106524
 const startDateRef = ref<QInput>();
 const endDateRef = ref<QInput>();
-
-// const isNameValid = (val: string) => {
-//   const condition = val && val.length > 0;
-//   return condition ? true : 'Please enter event name';
-// };
 
 const ruleNotEmpty = (val: string) => {
   const condition = val && val.length > 0;

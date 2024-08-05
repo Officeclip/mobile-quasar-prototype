@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
-
+// TODO: CR: 2024-08-05: Are these hardcoding really needed any more?
 const options = ref([
   {
     id: '684EHRFDNJ8CHAGVJC5Q',

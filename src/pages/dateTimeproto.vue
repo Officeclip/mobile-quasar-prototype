@@ -18,7 +18,6 @@ extractDateAndTime(dateTime.value);
 
 watch([date, time], ([newDate, newTime]) => {
   // Watch for changes in dateTime
-  // extractDateAndTime(newDateTime);
   // Create Date objects and explicitly set the time zone to UTC
   const utcDate = new Date(`${newDate}T${newTime}Z`);
   dateTime.value = utcDate.toISOString();
@@ -26,7 +25,6 @@ watch([date, time], ([newDate, newTime]) => {
 
 // Function to format the date and time
 function formatDateTime(dateValue = '', timeValue = '', isAllDay = false) {
-  // const utcDate = new Date(`${dateValue}T${timeValue}Z`);
   const utcDate =
     dateValue && timeValue
       ? new Date(`${dateValue}T${timeValue}Z`)
@@ -47,7 +45,6 @@ const convertedDate = computed(() => {
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
       <q-list>
-        <!-- <pre>{{ dateTime }}</pre> -->
         <q-input
           v-model="date"
           :rules="[(val) => !!val || 'Start Date is required']"

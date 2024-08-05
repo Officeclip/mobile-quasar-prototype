@@ -45,20 +45,6 @@ onBeforeMount(async () => {
   }
 });
 
-// onMounted(async () => {
-//   try {
-//     await contactListsStore.getContactList();
-//   } catch (error) {
-//     $q.dialog({
-//       title: 'Alert',
-//       message: error as string,
-//     }).onOk(async () => {
-//       await router.push({ path: '/contactSummary' });
-//       await router.go(0);
-//     });
-//   }
-// });
-
 const contactDetails = computed(() => {
   return contactDetailsStore.ContactDetails;
 });
@@ -235,13 +221,6 @@ const confirmDeletion = async () => {
               />
               <q-icon name="image" v-else />
             </q-avatar>
-            <!-- <div class="q-mt-md">
-              <q-btn-toggle v-model="model" class="oc-custom-toggle" no-caps rounded unelevated toggle-color="primary"
-                color="white" text-color="primary" :options="[
-    { label: 'Summary', value: '1' },
-    { label: 'Details', value: '2' },
-  ]" />
-            </div> -->
           </div>
         </q-card-section>
         <ContactDetails v-if="model === '1'" :params="params" />

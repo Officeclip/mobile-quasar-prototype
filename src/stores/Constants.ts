@@ -16,7 +16,6 @@ export class Constants {
     : '';
 
   static getAxiosInstance() {
-    //console.log(`endPointUrl***: ${Constants.endPointUrl}`);
     const instance = axios.create({
       //withCredentials: true, //https://stackoverflow.com/a/43178070
       baseURL: Constants.endPointUrl,
@@ -30,7 +29,6 @@ export class Constants {
     instance.defaults.headers.common['Cache-Control'] = 'no-cache';
     instance.defaults.headers.common['Pragma'] = 'no-cache';
     instance.defaults.headers.common['Expires'] = '0';
-    // import.meta.env.VITE_X_OrgKey;
 
     this.setupAxiosAuthorizationHeader(instance, 'X-Token'); //add the token if available
 
@@ -113,9 +111,6 @@ export class Constants {
 
   static throwError(error: unknown) {
     //TODO: We need a way to go to the login page if token expires: https://dev.to/darkmavis1980/how-to-use-axios-interceptors-to-handle-api-error-responses-2ij1
-    // if (error.response.status === 401) {
-    //   window.location.href = '/';
-    // }
     console.log(`throwError(...): ${JSON.stringify(error, null, 4)}`);
     if (axios.isAxiosError(error)) {
       if (error?.response?.data) {

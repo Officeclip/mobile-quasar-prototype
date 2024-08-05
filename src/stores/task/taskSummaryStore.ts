@@ -80,7 +80,6 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         const response = await instance.get(this.url);
         if (response.status === 200) {
           const summaries = response.data.data;
-          //console.log(`getTasksUpdated: summaries: ${summaries}`);
           if (isFilter) {
             await this.resetTaskSummaryList();
           }

@@ -32,7 +32,6 @@ const validateAll = () => {
 defineExpose({
   validateAll,
 });
-//:rules="[(val) => (!!val && val !== '<br>') || 'Field is required']"
 </script>
 
 <template>

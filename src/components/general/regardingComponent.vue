@@ -44,15 +44,7 @@ watch(selectedRegItem, (newValue, oldValue) => {
   emit('regarding-generated', regarding);
 });
 
-async function filterItems(
-  val: string,
-  update: (arg0: () => void) => void
-  //abort: () => void
-) {
-  // if (val.length < 2) {
-  //   abort();
-  //   return;
-  // } else if (val.length >= 2) {
+async function filterItems(val: string, update: (arg0: () => void) => void) {
   regardingItems.value = [] as regardingItem[];
   try {
     await regardingStore.getRegardingItemsThatMatch(val, regardingType.value);

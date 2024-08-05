@@ -126,12 +126,6 @@ async function onSubmit(e: any) {
             :period="period"
             ref="childComponent"
           />
-          <!-- <q-btn
-            class="q-ml-md q-mb-md q-mt-md"
-            label="Save"
-            type="submit"
-            color="primary"
-          ></q-btn> -->
           <q-btn
             label="Reset"
             type="reset"

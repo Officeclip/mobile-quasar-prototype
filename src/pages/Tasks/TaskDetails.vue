@@ -24,7 +24,6 @@ const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
 const $q = useQuasar();
 const instance = getCurrentInstance();
-//const subTaskKey = ref(0);
 
 const id = ref<string | string[]>('0');
 
@@ -150,20 +149,17 @@ const cancelConfirmation = () => {
 };
 
 const confirmDeletion = async () => {
-  //taskSummaryStore.deleteTask(id.value);
   try {
     await taskDetailsStore.deleteTask(id.value);
     showConfirmationDialog.value = false;
     router.go(-1);
   } catch (error) {
-    //console.log('Error in deleting the task detail')
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
       console.log('*** Delete task:onSubmit(...):onOK ***');
       showConfirmationDialog.value = false;
-      //router.go(0);
     });
   }
 };
@@ -172,8 +168,6 @@ const showAddSubtaskDialog = ref(false);
 
 async function addSubtask(subtask: subTask) {
   await taskDetailsStore.addSubtask(subtask);
-  // subTaskKey.value++;
-  //instance?.proxy?.$forceUpdate();
   router.go(0);
 }
 </script>
@@ -322,18 +316,6 @@ async function addSubtask(subtask: subTask) {
                 </q-item-label>
               </q-item-section>
             </q-item>
-            <!-- <q-item>
-              <q-item-section>
-                <q-item-label caption>Reminder</q-item-label>
-                <q-item-label description
-                  >{{ taskDetail?.reminder.beforeMinutes }} minutes
-                  before</q-item-label
-                >
-              </q-item-section>
-              <q-item-section center side>
-                <q-icon name="notifications_active" />
-              </q-item-section>
-            </q-item> -->
           </div>
           <div class="row justify-between">
             <q-item>

@@ -24,7 +24,6 @@ const employeeId = route.params.employeeId;
 const entityType = 'timesheet';
 const timesheetDetailSid = ref('');
 const fromDate = route.params.fromDate;
-// const isWrite = route.params.isWrite;
 const stageId = Number(route.params.stageId);
 const status = route.params.status;
 const mode = route.params.mode;
@@ -47,7 +46,6 @@ onMounted(async () => {
     }).onOk(async () => {
       logger.log('*** timesheetDetails:onMounted:onOk ***');
       await router.push({ path: '/timesheetsAll' });
-      //await router.go(0);
     });
   } finally {
     isLoaded.value = true;
@@ -95,14 +93,12 @@ const deleteTimesheet = async (id: string) => {
     showDeleteTimesheet.value = false;
     router.go(-1);
   } catch (error) {
-    //console.log('Error in deleting the task detail')
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
       console.log('*** Delete timesheet:onSubmit(...):onOK ***');
       showDeleteTimesheet.value = false;
-      //router.go(0);
     });
   }
 };
@@ -119,7 +115,6 @@ const deleteTimesheetDetail = async (id: string) => {
     }).onOk(async () => {
       console.log('*** Delete timesheetDetail:onSubmit(...):onOK ***');
       showDeleteTimesheetDetail.value = false;
-      //router.go(0);
     });
   }
 };
@@ -137,26 +132,6 @@ const periodOptions = computed(() => {
 const timesheetPeriod = computed(() => {
   return periodOptions.value?.find((x) => x.start.toString() === fromDate);
 });
-
-// const showAddCommentsDialog = ref(false);
-
-// const addComments = ref({
-//   id: '',
-//   isDcaa: true,
-//   comments: [
-//     {
-//       id: '',
-//       comment: '',
-//       createdBy: 'Sudhakar Gundu',
-//       createdDate: '2020-03-05T15:01:17Z',
-//     },
-//   ],
-// });
-
-// const addComment = () => {
-//   timesheetCommentsStore.addComment(addComments.value);
-//   addComments.value.comments[0].comment = '';
-// };
 
 const showWarningMsg = () => {
   alert(
@@ -304,8 +279,6 @@ const showWarningMsg = () => {
           </q-list>
         </q-expansion-item>
       </q-card>
-      <!-- <pre>{{ timesheetPeriod?.name }}</pre>
-      <pre>{{ timesheetDetails[0]?.timesheetSid }}</pre> -->
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
           v-if="isAllowedWrite && mode === 'PERIODIC'"
@@ -334,36 +307,6 @@ const showWarningMsg = () => {
       </q-page-sticky>
     </q-page-container>
   </q-layout>
-
-  <!-- <q-dialog v-model="showAddCommentsDialog">
-    <q-card style="min-width: 450px">
-      <q-card-section class="row items-center q-pb-none">
-        <div>Add New Comment</div>
-        <q-space></q-space>
-        <q-btn icon="close" size="sm" flat round dense v-close-popup></q-btn>
-      </q-card-section>
-
-      <q-card-section>
-        <q-input
-          v-model="addComments.comments[0].comment"
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-          label="Comment"
-          lazy-rules
-          placeholder="Enter text here..."
-        />
-      </q-card-section>
-
-      <q-card-actions>
-        <q-btn
-          dense
-          v-close-popup
-          color="primary"
-          label="Add"
-          @click="addComment"
-        />
-      </q-card-actions>
-    </q-card>
-  </q-dialog> -->
 
   <ConfirmDelete
     v-if="showDeleteTimesheet"

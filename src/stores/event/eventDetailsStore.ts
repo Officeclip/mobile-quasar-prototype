@@ -95,7 +95,6 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
           this.eventSummary = response.data;
         }
       } catch (error) {
-        //console.error(`editEventSummary Error: ${error}`);
         Constants.throwError(error);
       }
     },

@@ -49,17 +49,11 @@ async function onSubmit(e: any) {
   } catch (error) {
     console.log(`*** NewContact:onSubmit(...):catch: ${error} ***`);
     console.log(`---------${error}---------`);
-    // $q.notify({
-    //   message: error as string,
-    //   color: 'red',
-    // });
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
       console.log('*** NewContact:onSubmit(...):onOK ***');
-      // await router.push({ path: '/homePage' });
-      // router.go(0);
     });
   }
 }
@@ -89,13 +83,6 @@ async function onSubmit(e: any) {
             :contactDetails="contactDetails"
             ref="childComponent"
           />
-          <!-- <q-btn
-            class="q-ml-md q-mb-md"
-            label="Submit"
-            type="submit"
-            color="primary"
-          >
-          </q-btn> -->
         </div>
       </q-form>
     </q-page-container>

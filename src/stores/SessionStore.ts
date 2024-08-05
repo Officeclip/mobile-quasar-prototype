@@ -53,24 +53,6 @@ export const useSessionStore = defineStore('sessionStore', {
           icon: 'person',
           url: '/contactSummary',
         },
-        // {
-        //   id: 3,
-        //   icon: 'business_center',
-        //   name: 'Accounts',
-        //   url: '',
-        // },
-        // {
-        //   id: 4,
-        //   icon: 'request_quote',
-        //   name: 'Opportunities',
-        //   url: '',
-        // },
-        // {
-        //   id: 5,
-        //   icon: 'contact_mail',
-        //   name: 'Campaigns',
-        //   url: '',
-        // },
         {
           id: 8,
           icon: 'schedule',
@@ -95,12 +77,6 @@ export const useSessionStore = defineStore('sessionStore', {
           name: 'Notes',
           url: '/notesList',
         },
-        // {
-        //   id: 10,
-        //   icon: 'support_agent',
-        //   name: 'Support Desk',
-        //   url: '',
-        // },
       ];
       return defaultHomeIcons;
     },

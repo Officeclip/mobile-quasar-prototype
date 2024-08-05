@@ -74,9 +74,7 @@ watch([timesheetStatus], ([newModel]) => {
         class="bg-primary text-white shadow-2"
         align="justify"
       >
-        <q-tab name="inbox" label="Inbox" icon="inbox">
-          <!-- <q-badge color="red" floating>2</q-badge> -->
-        </q-tab>
+        <q-tab name="inbox" label="Inbox" icon="inbox"> </q-tab>
         <q-tab name="outbox" label="Outbox" icon="outbox" />
         <q-tab name="archived" label="Archived" icon="archive" />
       </q-tabs>

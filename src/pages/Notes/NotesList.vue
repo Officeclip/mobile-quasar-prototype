@@ -7,12 +7,10 @@ import { useNotesStore } from '../../stores/NotesStore';
 
 const selectedNoteBook = ref('');
 const notesStore = useNotesStore();
-//const noteBooks = ref<any>([]);
 
 onBeforeMount(async () => {
   console.log('NotesList: onBeforeMount Started');
   await notesStore.getNoteBooks();
-  //noteBooks.value = notesStore.NoteBooks
   console.log('NotesList: onBeforeMount Ended');
 });
 
@@ -60,8 +58,6 @@ console.log('NotesList: Setup Ended');
             map-options
           />
         </div>
-        <!-- <pre>SelectedNoteBook: {{ parent.selectedNoteBook }}</pre>
-        <pre>Parent: {{ parent }}</pre> -->
         <!-- See: https://michaelnthiessen.com/force-re-render/#key-changing-to-force-a-component-refresh-->
         <NoteList
           v-if="parent.selectedNoteBook.length > 0"

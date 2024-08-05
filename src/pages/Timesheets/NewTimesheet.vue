@@ -71,7 +71,6 @@ const timesheetDetails: TimesheetDetails = ref({
 const childComponent = ref(null);
 
 async function onSubmit() {
-  // e.preventDefault();
   try {
     if (!childComponent.value.validateAll()) return;
     const newTimesheet = ref(timesheetDetails);
@@ -117,7 +116,6 @@ async function onSubmit() {
               :periodName="periodName"
               ref="childComponent"
             />
-            <!-- <q-btn label="Save" type="submit" color="primary"></q-btn> -->
             <q-btn
               label="Reset"
               type="reset"

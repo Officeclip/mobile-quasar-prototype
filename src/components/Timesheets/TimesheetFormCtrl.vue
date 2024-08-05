@@ -35,7 +35,6 @@ onMounted(async () => {
     props.timesheet?.accountSid +
     (props.timesheet?.projectSid ? ':' + props.timesheet?.projectSid : '');
 
-  // serviceItemModel.value = props.timesheet.serviceItemName;
   serviceItemModel.value = props.timesheet?.serviceItemSid;
 });
 

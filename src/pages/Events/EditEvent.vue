@@ -16,9 +16,7 @@ const paramsId = route.params.id;
 eventDetailsStore.getEventDetailsById(paramsId);
 
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
-// const event: Ref<eventDetails> = computed(() => {
-//   return eventDetailsStore.EventDetails;
-// });
+
 const event: Ref<eventDetails> = eventDetailsStore.EventDetails;
 function handleRRule(rrule: string) {
   event.value.recurrence.rule = rrule;
@@ -67,16 +65,6 @@ async function onSubmit(e: any) {
         >
         </q-btn>
         <q-toolbar-title> Edit Event</q-toolbar-title>
-        <!-- <q-btn
-          class="q-px-md"
-          dense
-          label="Save"
-          no-caps
-          outline
-          rounded
-          type="submit"
-          @click="onSubmit"
-        /> -->
         <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>

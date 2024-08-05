@@ -21,11 +21,6 @@ const routes: RouteRecordRaw[] = [
     name: 'homePage',
     component: () => import('pages/HomePage.vue'),
   },
-  // {
-  //   path: '/dTestHomePage',
-  //   name: 'dTestHomePage',
-  //   component: () => import('pages/dTestHomePage.vue'),
-  // },
   {
     path: '/contactSummary',
     name: 'contactSummary',
