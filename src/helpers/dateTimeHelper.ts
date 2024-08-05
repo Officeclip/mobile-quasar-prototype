@@ -96,10 +96,11 @@ const formatDateandTimeFromUtc = (
 // };
 
 // populate dates between the start and end dates
-const populateDates = (startDate: Date, endDate: Date) => {
-  const newStartDate = new Date(startDate);
-  const newEndDate = new Date(endDate);
+const populateDates = (startDate: string, endDate: string) => {
+  const newStartDate = getDateTimeFromRestAPI(startDate, true);
+  const newEndDate = getDateTimeFromRestAPI(endDate, true);
   const dates = [];
+  if (newStartDate == null || newEndDate == null) return null;
   while (newStartDate <= newEndDate) {
     const formattedDate = `${newStartDate.toLocaleString('en-US', {
       month: 'short',
