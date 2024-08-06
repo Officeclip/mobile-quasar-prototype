@@ -15,6 +15,7 @@ import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar, QInput } from 'quasar';
 import { useRouter } from 'vue-router';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
+import OCItem from '../../components/OCcomponents/OC-Item.vue';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -309,6 +310,10 @@ function handleRemove(item: { id: string }) {
     }
   }
 }
+
+const regarding = computed(() => {
+  return `${props.event?.parent.type.name} : ${props.event?.parent.value.name}`;
+});
 </script>
 
 <template>
@@ -660,6 +665,11 @@ function handleRemove(item: { id: string }) {
           :regarding-parents="eventListsStore.RegardingParent"
         />
       </q-item>
+      <OCItem
+        v-if="appName !== 'event' && event?.parent?.value?.name"
+        title="Regarding"
+        :value="regarding"
+      />
     </q-list>
 
     <q-dialog v-model="recurrenceDialogOpened">
