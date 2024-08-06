@@ -112,7 +112,6 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
           timesheetDetail
         );
         if (response.status === 200) {
-          //debugger;
           this.timesheetDetail = response.data;
         }
       } catch (error) {
@@ -126,7 +125,6 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
           `${Constants.endPointUrl}/timesheet-detail/${id}`
         );
         if (response.status === 200) {
-          //debugger;
           this.timesheet = response.data;
         }
       } catch (error) {
@@ -159,19 +157,11 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
           timesheetDetail
         );
         if (response.status === 200) {
-          //debugger;
           this.timesheetDetail = response.data;
         }
       } catch (error) {
         Constants.throwError(error);
       }
-      // const callStr = `${Constants.endPointUrl}/timesheet-detail`;
-      // await fetch(callStr, {
-      //   method: 'POST',
-      //   body: JSON.stringify(timesheetDetail),
-      //   headers: { 'Content-Type': 'application/json' },
-      // });
-      // console.log(this.timesheetDetail);
     },
   },
 });

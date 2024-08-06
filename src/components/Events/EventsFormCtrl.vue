@@ -15,6 +15,7 @@ import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar, QInput } from 'quasar';
 import { useRouter } from 'vue-router';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
+import OCItem from '../../components/OCcomponents/OC-Item.vue';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -27,7 +28,7 @@ const sessionStore = useSessionStore();
 const session = sessionStore.Session;
 
 // eslint-disable-next-line vue/no-dupe-keys
-const props = defineProps(['event']);
+const props = defineProps(['event', 'appName']);
 const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
@@ -259,25 +260,9 @@ function toggleAllDay(evt: boolean) {
   );
 }
 
-// const isEndDateValid = computed(() => {
-//   if (!props.event.endDateTime) return false;
-//   if (!props.event.startDateTime) return true;
-//   const dtStartDateTime = new Date(props.event.startDateTime);
-//   const dtEndDateTime = new Date(props.event.endDateTime);
-//   const isEndDateValid = props.event.isAllDayEvent
-//     ? dtEndDateTime >= dtStartDateTime
-//     : dtEndDateTime > dtStartDateTime;
-//   //const isEndDateValid = endDateRule(props.event.endDateTime) === true;
-//   return isEndDateValid;
-// });
 const eventNameRef = ref<QInput>(); // from: https://stackoverflow.com/a/65106524
 const startDateRef = ref<QInput>();
 const endDateRef = ref<QInput>();
-
-// const isNameValid = (val: string) => {
-//   const condition = val && val.length > 0;
-//   return condition ? true : 'Please enter event name';
-// };
 
 const ruleNotEmpty = (val: string) => {
   const condition = val && val.length > 0;
@@ -326,6 +311,10 @@ function handleRemove(item: { id: string }) {
     }
   }
 }
+
+const regarding = computed(() => {
+  return `${props.event?.parent.type.name} : ${props.event?.parent.value.name}`;
+});
 </script>
 
 <template>
@@ -671,12 +660,17 @@ function handleRemove(item: { id: string }) {
           </q-select>
         </q-item-section>
       </q-item>
-      <q-item>
+      <q-item v-if="appName === 'event'">
         <Regarding
           v-model="event.parent"
           :regarding-parents="eventListsStore.RegardingParent"
         />
       </q-item>
+      <OCItem
+        v-if="appName !== 'event' && event?.parent?.value?.name"
+        title="Regarding"
+        :value="regarding"
+      />
     </q-list>
 
     <q-dialog v-model="recurrenceDialogOpened">

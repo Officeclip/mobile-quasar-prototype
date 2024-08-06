@@ -1,4 +1,3 @@
-<!-- ConfirmationDialog.vue -->
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue';
 

@@ -79,8 +79,6 @@ async function onSubmit(e: any) {
             :contactDetails="contactDetails"
             ref="childComponent"
           />
-          <!-- <q-btn class="q-ml-md q-mb-md" label="Submit" type="submit" color="primary">
-          </q-btn> -->
         </div>
       </q-form>
     </q-page-container>

@@ -42,7 +42,6 @@ onMounted(async () => {
     }).onOk(async () => {
       logger.log('*** noteDetails:onMounted:onOk ***');
       await router.push({ path: `/contactDetails/${parentObjectId}` });
-      //await router.go(0);
     });
   } finally {
     isLoaded.value = true;
@@ -131,7 +130,6 @@ const deleteNote = async (id: string) => {
                 <q-item-label class="q-mb-sm">{{ note?.title }}</q-item-label>
 
                 <q-item-label caption>Description</q-item-label>
-                <!-- <div v-html="note?.description"> </div> -->
                 <q-item-label class="q-mb-sm">
                   <div v-html="note?.description"></div>
                 </q-item-label>

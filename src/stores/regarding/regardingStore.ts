@@ -15,6 +15,7 @@ export const useRegardingStore = defineStore('regardingStore', {
 
   actions: {
     getMetaTypes() {
+      //TODO: CR: 2024-08-05: can these be put in the constants
       const metaTypeOptions: any = [
         {
           id: -1,

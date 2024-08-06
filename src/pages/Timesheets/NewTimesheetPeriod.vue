@@ -3,7 +3,6 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
-// import { Period } from 'src/models/Timesheet/timesheetList';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -70,8 +69,6 @@ watch([periodModel], ([newPeriodModel]) => {
             <p v-if="errorMsg" class="text-red">{{ errorMsg }}</p>
             <p v-if="warningMsg" class="text-orange">{{ warningMsg }}</p>
           </q-item>
-          <!-- <pre>setModelValue1{{ setModelValue }}</pre> -->
-          <!-- <pre>periodModel:::{{ periodModel }}</pre> -->
           <q-item>
             <q-select
               class="full-width"

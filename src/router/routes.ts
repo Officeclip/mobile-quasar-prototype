@@ -21,11 +21,6 @@ const routes: RouteRecordRaw[] = [
     name: 'homePage',
     component: () => import('pages/HomePage.vue'),
   },
-  // {
-  //   path: '/dTestHomePage',
-  //   name: 'dTestHomePage',
-  //   component: () => import('pages/dTestHomePage.vue'),
-  // },
   {
     path: '/contactSummary',
     name: 'contactSummary',
@@ -57,17 +52,17 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/Events/eventSummary.vue'),
   },
   {
-    path: '/eventDetails/:id',
+    path: '/eventDetails/:id/:appName',
     name: 'eventDetails',
     component: () => import('pages/Events/EventDetails.vue'),
   },
   {
-    path: '/newEvent/:id/:objectTypeId/:objectId',
+    path: '/newEvent/:id/:objectTypeId/:objectId/:appName',
     name: 'newEvent',
     component: () => import('pages/Events/NewEvent.vue'),
   },
   {
-    path: '/editEvent/:id',
+    path: '/editEvent/:id/:appName',
     name: 'editEvent',
     component: () => import('pages/Events/EditEvent.vue'),
   },

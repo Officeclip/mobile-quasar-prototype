@@ -80,16 +80,6 @@ async function onSubmit() {
         >
         </q-btn>
         <q-toolbar-title> Edit Timesheet</q-toolbar-title>
-        <!-- <q-btn
-          class="q-px-md"
-          dense
-          label="Save"
-          no-caps
-          outline
-          rounded
-          type="submit"
-          @click="onSubmit"
-        /> -->
         <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>
@@ -103,13 +93,6 @@ async function onSubmit() {
             :periodName="periodName?.name"
             ref="childComponent"
           />
-          <!-- <q-btn
-            class="q-ml-md q-mb-md"
-            label="Submit"
-            type="submit"
-            color="primary"
-          >
-          </q-btn> -->
         </div>
       </q-form>
     </q-page-container>

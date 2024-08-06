@@ -70,9 +70,7 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
         class="bg-primary text-white shadow-2"
         align="justify"
       >
-        <q-tab name="inbox" label="Inbox" icon="inbox">
-          <!-- <q-badge color="red" floating>2</q-badge> -->
-        </q-tab>
+        <q-tab name="inbox" label="Inbox" icon="inbox"> </q-tab>
         <q-tab name="outbox" label="Outbox" icon="outbox" />
         <q-tab name="archived" label="Archived" icon="archive" />
       </q-tabs>
@@ -88,7 +86,6 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
                 id: expense.id,
                 employeeId: expense.employeeId,
                 fromDate: expense.fromDate,
-                // isWrite: expense.security.write,
                 stageId: expense.stageId,
                 status: expense.status,
               },

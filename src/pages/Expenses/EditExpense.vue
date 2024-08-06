@@ -134,13 +134,6 @@ async function onSubmit() {
             :expenseDetail="expenseDetail"
             :period="period?.name"
           />
-          <!-- <q-btn
-            class="q-ml-md q-mb-md"
-            label="Submit"
-            type="submit"
-            color="primary"
-          >
-          </q-btn> -->
         </div>
       </q-form>
     </q-page-container>

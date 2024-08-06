@@ -8,14 +8,12 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
   state: () => ({
     taskDetails: [] as taskDetails[],
     taskDetail: undefined as taskDetails | undefined,
-    //subTasks: [] as subTask[],
     subTask: undefined as subTask | undefined,
   }),
 
   getters: {
     TaskDetails: (state) => state.taskDetails,
     TaskDetail: (state) => state.taskDetail,
-    //SubTasks: (state) => state.subTasks,
     SubTask: (state) => state.subTask,
   },
 
@@ -31,7 +29,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         );
 
         if (response.status === 200) {
-          //await this.getTask(taskDetail.id);
           this.taskDetail = response.data;
         }
       } catch (error) {
@@ -65,7 +62,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           this.taskDetail = response.data;
         }
       } catch (error) {
-        //console.error(`editTask Error: ${error}`);
         console.log(`*** taskDetailStore:editTask(...):catch: ${error} ***`);
         Constants.throwError(error);
       }
@@ -78,7 +74,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}/task-detail/${id}`
         );
-        //debugger;
         this.taskDetail = response.data;
       } catch (error) {
         logger.log(`*** taskDetailStore:catch(${error}) ***`, 'error');
@@ -101,8 +96,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
     },
 
     async addSubtask(subtask: subTask) {
-      // this.taskDetail?.subTasks.push(subtask);
-      // await this.editTask(<taskDetails>this.taskDetail);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
@@ -111,7 +104,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         );
 
         if (response.status === 200) {
-          //await this.getTask(taskDetail.id);
           this.subTask = response.data;
         }
       } catch (error) {
@@ -121,14 +113,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
     },
 
     async editSubtask(subtask: subTask) {
-      // let subtask: subTask | undefined = this.taskDetail?.subTasks.find(
-      //   (subtask: subTask) => {
-      //     return subtask.id === editedSubtask.id;
-      //   }
-      // );
-
-      // if (subtask) subtask = editedSubtask;
-      // await this.editTask(<taskDetails>this.taskDetail);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
@@ -139,7 +123,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           this.subTask = response.data;
         }
       } catch (error) {
-        //console.error(`editTask Error: ${error}`);
         console.log(`*** taskDetailStore:editSubTask(...):catch: ${error} ***`);
         Constants.throwError(error);
       }
@@ -156,11 +139,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
     },
 
     async deleteSubtask(id: string) {
-      // const modifiedSubtasks = this.taskDetail?.subTasks.filter((s) => {
-      //   return s.id != subtaskId;
-      // });
-      // if (this.taskDetail) this.taskDetail.subTasks = modifiedSubtasks ?? [];
-      // await this.editTask(<taskDetails>this.taskDetail);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(

@@ -126,28 +126,6 @@ watch(task.value, () => {
   emit('emit-task', task.value);
 });
 
-// const endDateRule = (value: string) => {
-//   console.log(`@@@@ endDateRule: ${value}`);
-//   if (!value) return true;
-//   if (!task.value.startDate) return true;
-//   const isGreater = new Date(value) > new Date(task.value.startDate);
-//   return isGreater;
-// };
-
-// const isSubjectValid = computed(() => {
-//   const condition = task.value.subject.length > 0;
-//   return condition;
-// });
-
-// const isEndDateValid = computed(() => {
-//   if (task.value.dueDate !== '') {
-//     const isEndDateValid = endDateRule(task.value.dueDate) === true;
-//     return isEndDateValid;
-//   } else {
-//     return false;
-//   }
-// });
-
 const ruleDueDateGreaterThanStartDate = (val: string) => {
   console.log(`startDate: ${task.value.startDate}, endDate: ${val}`);
   if (!task.value.startDate || task.value.startDate.length === 0) return true;
@@ -156,10 +134,6 @@ const ruleDueDateGreaterThanStartDate = (val: string) => {
 };
 
 const validateAll = () => {
-  //return;
-  //isSubjectValid.value &&
-  //isEndDateValid.value;
-
   nameRef.value.validate();
   dateRef.value.validate();
   return !(nameRef.value.hasError || dateRef.value.hasError);
@@ -236,9 +210,6 @@ defineExpose({
               </q-popup-proxy>
             </q-icon>
           </template>
-          <!-- <span v-if="!isEndDateValid" style="color: red"
-            >Due date must be later than start date</span
-          > -->
         </q-input>
 
         <q-select

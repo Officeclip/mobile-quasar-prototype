@@ -65,8 +65,6 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
           );
         }
       } catch (error) {
-        // alert(error);
-        // console.log(error);
         Constants.throwError(error);
       }
     },

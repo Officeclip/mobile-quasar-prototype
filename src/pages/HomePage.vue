@@ -93,7 +93,6 @@ function goToApp(url: string) {
 
 function logout() {
   router.push({ path: '/loginPage' });
-  //localStorage.removeItem('userName');
 }
 </script>
 <style>

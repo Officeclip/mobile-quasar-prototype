@@ -24,7 +24,3 @@ export class itemHelper {
     return _sectionEntries;
   }
 }
-
-// export default {
-//   contactHelper,
-// };

@@ -24,23 +24,12 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
         const events = response.data;
 
         this.eventSummary = events;
-
-        // this.eventSummary = events.map((event: any) => ({
-        //   ...event,
-        //   startDateTime: event.isAllDayEvent
-        //     ? dateTimeHelper.removeLastZ(event.startDateTime)
-        //     : event.startDateTime,
-        //   endDateTime: event.isAllDayEvent
-        //     ? dateTimeHelper.removeLastZ(event.endDateTime)
-        //     : event.endDateTime,
-        // }));
       } catch (error) {
         Constants.throwError(error);
       }
     },
 
     getEventSummaryForADay(date: any) {
-      //const formattedDate = date.replace(/\//g, '-');
       console.log(`Date: ${date}`);
       if (this.eventSummary) {
         const eventsForADay = this.eventSummary.filter((t) => {
@@ -85,7 +74,6 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
                 true
               );
               const dateString = dateTimeHelper.formatDateForCalendar(mydate);
-              //console.log(`*******: ${a.startDateTime}, ${dateString}`);
               return dateString;
             } else {
               return null;

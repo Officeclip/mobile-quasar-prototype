@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// TODO: CR: 2024-08-05: Can this be put in the helper as constant?
 const allExpenses = [
   {
     id: 1,

@@ -26,9 +26,6 @@ export function isAllowed({
     delete: del = true,
   } = security;
 
-  // if (security) {
-  //   return { read, write, append, del };
-  // }
   // Check if the admin is true
   if (!isTimeExpense && isSessionAdmin) {
     // if (isSessionAdmin) {

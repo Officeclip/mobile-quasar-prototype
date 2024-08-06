@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref, onMounted } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
-// import { useEventListsStore } from '../../stores/event/eventListsStore';
 import { useReminderDataStore } from 'stores/reminder/reminderData';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
@@ -19,6 +18,7 @@ const reminderDataStore = useReminderDataStore();
 const $q = useQuasar();
 
 const id = route.params.id;
+const appName = route.params.appName;
 
 onMounted(async () => {
   logger.log('*** Event Details:onMounted(async...) ***');
@@ -65,7 +65,6 @@ const selectedTime = computed(() => {
 
 const startDate = computed(() => {
   if (event.value?.startDateTime) {
-    //debugger;
     const formattedDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
       event.value?.startDateTime,
       event.value?.isAllDayEvent
@@ -77,7 +76,6 @@ const startDate = computed(() => {
 
 const endDate = computed(() => {
   if (event.value?.endDateTime) {
-    //debugger;
     const formattedDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
       event.value?.endDateTime,
       event.value?.isAllDayEvent
@@ -170,7 +168,7 @@ const projectServiceItem = computed(() => {
         <div>
           <q-btn
             v-if="isAllowEdit"
-            :to="{ name: 'editEvent', params: { id: id } }"
+            :to="{ name: 'editEvent', params: { id: id, appName: appName } }"
             color="white"
             dense
             flat

@@ -78,17 +78,11 @@ async function onSubmit(e: any) {
     router.go(-2);
   } catch (error) {
     console.log(`*** Edit Task:onSubmit(...):catch: ${error} ***`);
-    // $q.notify({
-    //   message: error as string,
-    //   color: 'red',
-    // });
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
       console.log('*** Edit Task:onSubmit(...):onOK ***');
-      // await router.push({ path: '/homePage' });
-      // router.go(0);
     });
   }
 }
@@ -118,12 +112,6 @@ async function onSubmit(e: any) {
             :task-from-parent="task"
             @emit-task="receiveTask"
           />
-          <!-- <q-btn
-            class="q-ml-md q-mb-md"
-            color="primary"
-            label="Submit"
-            type="submit"
-          /> -->
         </div>
       </q-form>
     </q-page-container>

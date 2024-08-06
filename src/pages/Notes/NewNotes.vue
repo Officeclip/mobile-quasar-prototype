@@ -27,12 +27,6 @@ const note = ref({
 const childComponent = ref(null);
 
 function onSubmit(e: Event) {
-  // e.preventDefault();
-  // if (!note.value.title) {
-  //   alert('Please add text')
-  //   return
-  // }
-  // note.value.isPrivate = (note.value.isPrivate === 'Yes')
   try {
     if (!childComponent.value.validateAll()) return;
     const newNote: Note = {
@@ -93,12 +87,6 @@ function onSubmit(e: Event) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <NotesForm :note="note" ref="childComponent" />
-          <!-- <q-btn
-            class="q-ml-md q-mb-md q-mt-md"
-            label="Submit"
-            type="submit"
-            color="primary"
-          ></q-btn> -->
           <q-btn
             label="Reset"
             type="reset"

@@ -21,8 +21,6 @@ export const useUserSummaryStore = defineStore('userSummaryStore', {
         this.userSummaries = response.data;
       } catch (error) {
         Constants.throwError(error);
-        // alert(error);
-        // console.log(error);
       }
     },
   },

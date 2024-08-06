@@ -18,6 +18,7 @@ const parentObjectId = route.params.objectId ? route.params.objectId : '';
 const parentObjectServiceType = route.params.objectTypeId
   ? route.params.objectTypeId
   : '';
+const appName = route.params.appName ? route.params.appName : '';
 
 const isValid = ref(true);
 
@@ -118,16 +119,6 @@ async function onSubmit(e: any) {
         >
         </q-btn>
         <q-toolbar-title> New Event</q-toolbar-title>
-        <!-- <q-btn
-          class="q-px-md"
-          dense
-          label="Save"
-          no-caps
-          outline
-          rounded
-          type="submit"
-          @click="onSubmit"
-        /> -->
         <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>
@@ -136,6 +127,7 @@ async function onSubmit(e: any) {
         <div>
           <EventForm
             :event="event"
+            :appName="appName"
             ref="childComponent"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"
