@@ -12,6 +12,7 @@ const taskSummaryStore = useTaskSummaryStore();
 const taskSummaries = ref({});
 
 const taskSummariesCount = computed(() => {
+  if (taskSummaryStore.taskSummaries == null) return 0;
   return taskSummaryStore.taskSummaries.length;
 });
 

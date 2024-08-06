@@ -3,12 +3,11 @@ import { eventDetails } from 'src/models/event/eventDetails';
 import { MeetingAttendees } from 'src/models/meetingAttendees';
 import { eventSummary } from 'src/models/event/eventSummary';
 import { Constants } from 'stores/Constants';
-import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 export const useEventDetailsStore = defineStore('eventDetailsStore', {
   state: () => ({
-    eventsCount: [] as eventDetails[],
-    eventDetails: undefined as eventDetails | undefined, // for single event access
+    eventsCount: Number,
+    eventDetails: [] as eventDetails[],
     eventSummary: undefined as eventSummary | undefined, // for single event access
     meetingAttendees: [] as MeetingAttendees[],
   }),
