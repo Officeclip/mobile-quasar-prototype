@@ -127,7 +127,7 @@ const getYearandMonth = (newvalue: any) => {
               v-ripple
               :to="{
                 name: 'eventDetails',
-                params: { id: event.id },
+                params: { id: event.id, appName: 'event' },
               }"
               clickable
             >
@@ -167,6 +167,7 @@ const getYearandMonth = (newvalue: any) => {
                   id: -1,
                   objectTypeId: -1,
                   objectId: -1,
+                  appName: 'event',
                 },
               }"
               color="accent"

@@ -27,7 +27,7 @@ const sessionStore = useSessionStore();
 const session = sessionStore.Session;
 
 // eslint-disable-next-line vue/no-dupe-keys
-const props = defineProps(['event']);
+const props = defineProps(['event', 'appName']);
 const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
@@ -654,7 +654,7 @@ function handleRemove(item: { id: string }) {
           </q-select>
         </q-item-section>
       </q-item>
-      <q-item>
+      <q-item v-if="appName === 'event'">
         <Regarding
           v-model="event.parent"
           :regarding-parents="eventListsStore.RegardingParent"

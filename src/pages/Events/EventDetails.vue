@@ -18,6 +18,7 @@ const reminderDataStore = useReminderDataStore();
 const $q = useQuasar();
 
 const id = route.params.id;
+const appName = route.params.appName;
 
 onMounted(async () => {
   logger.log('*** Event Details:onMounted(async...) ***');
@@ -167,7 +168,7 @@ const projectServiceItem = computed(() => {
         <div>
           <q-btn
             v-if="isAllowEdit"
-            :to="{ name: 'editEvent', params: { id: id } }"
+            :to="{ name: 'editEvent', params: { id: id, appName: appName } }"
             color="white"
             dense
             flat

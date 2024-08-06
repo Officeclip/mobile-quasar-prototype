@@ -30,6 +30,7 @@ onBeforeMount(async () => {
         name: 'eventDetails',
         params: {
           id: eventDetail?.id,
+          appName: params.appName,
         },
       }"
       clickable

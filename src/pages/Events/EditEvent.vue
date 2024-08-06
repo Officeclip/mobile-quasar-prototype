@@ -13,6 +13,7 @@ const router = useRouter();
 const eventDetailsStore = useEventDetailsStore();
 
 const paramsId = route.params.id;
+const appName = route.params.appName;
 eventDetailsStore.getEventDetailsById(paramsId);
 
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
@@ -74,6 +75,7 @@ async function onSubmit(e: any) {
           <EventForm
             v-if="event"
             :event="event"
+            :appName="appName"
             ref="childComponent"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"

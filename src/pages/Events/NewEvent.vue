@@ -18,6 +18,7 @@ const parentObjectId = route.params.objectId ? route.params.objectId : '';
 const parentObjectServiceType = route.params.objectTypeId
   ? route.params.objectTypeId
   : '';
+const appName = route.params.appName ? route.params.appName : '';
 
 const isValid = ref(true);
 
@@ -126,6 +127,7 @@ async function onSubmit(e: any) {
         <div>
           <EventForm
             :event="event"
+            :appName="appName"
             ref="childComponent"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"

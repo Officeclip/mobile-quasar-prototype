@@ -89,6 +89,7 @@ const parent = ref({
 const parent2 = ref({
   parentObjectId: id.value,
   parentObjectServiceType: ObjectType.Contact.toString(),
+  appName: 'contact',
 });
 
 const notesCount = ref<any>('0');
@@ -289,6 +290,7 @@ const confirmDeletion = async () => {
                           id: -1,
                           objectTypeId: ObjectType.Contact,
                           objectId: contactDetails?.id,
+                          appName: 'contact',
                         },
                       }"
                       size="sm"
