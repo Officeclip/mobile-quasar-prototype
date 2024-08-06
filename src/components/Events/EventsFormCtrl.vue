@@ -227,7 +227,8 @@ function isValidURL(url: string) {
   return pattern.test(url);
 }
 
-function changeEndDateWhenStartDateChanged(val: string) {
+function changeEndDateWhenStartDateChanged(val: string | number | null) {
+  if (val == null) return;
   if (!props.event.isAllDayEvent) {
     const date = new Date(val);
     const endDateTime = dateTimeHelper.addHoursToDate(date, 1);
