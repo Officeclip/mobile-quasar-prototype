@@ -73,15 +73,15 @@ export function getEventShowTimeAsColor(name = '') {
   if (name) {
     switch (name) {
       case 'Busy':
-        return 'red';
+        return 'Salmon';
       case 'Free':
         return '#FFFFFF';
       case 'Tentative':
-        return '#EFB505';
+        return 'SkyBlue';
       case 'Out of Office':
         return '#006699';
     }
   } else {
-    return ['#ff6666', '#FFFFFF', '#EFB505', '#006699'];
+    return ['#ff6666', '#FFFFFF', '#EFB505', '#87CEEB'];
   }
 }
