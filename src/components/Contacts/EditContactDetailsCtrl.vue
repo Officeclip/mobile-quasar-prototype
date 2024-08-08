@@ -58,7 +58,7 @@ const lastNameRef = ref(null);
 const emailRef = ref('');
 
 const isLastNameValid = () => {
-  const condition = props.contactDetails.last_name.length > 0;
+  const condition = props.contactDetails.last_name !== '';
   return condition ? true : 'Please enter your last name';
 };
 
