@@ -55,15 +55,22 @@ onBeforeMount(async () => {
 });
 
 const lastNameRef = ref(null);
+const emailRef = ref('');
 
 const isLastNameValid = () => {
   const condition = props.contactDetails.last_name.length > 0;
   return condition ? true : 'Please enter your last name';
 };
 
+const isValidEmail = (val) => {
+  const condition = util.isValidEmail(val, false);
+  return condition ? true : 'Please enter a valid email address';
+};
+
 const validateAll = () => {
   lastNameRef.value.validate();
-  return !lastNameRef.value.hasError;
+  emailRef.value.validate();
+  return !lastNameRef.value.hasError && !emailRef.value.hasError;
 };
 
 defineExpose({
@@ -103,11 +110,8 @@ defineExpose({
           label="Email"
           placeholder="enter email address"
           :dense="dense"
-          :rules="[
-            (val) =>
-              util.isValidEmail(val, false) ||
-              'Please enter a valid email address',
-          ]"
+          :rules="[isValidEmail]"
+          ref="emailRef"
         ></q-input>
         <q-select
           v-model="contactDetails.country_name"
