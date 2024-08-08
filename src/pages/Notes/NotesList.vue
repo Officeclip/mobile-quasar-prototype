@@ -4,7 +4,9 @@ console.log('NotesList: Setup Started');
 import { onBeforeMount, ref, computed } from 'vue';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import { useNotesStore } from '../../stores/NotesStore';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const selectedNoteBook = ref('');
 const notesStore = useNotesStore();
 
@@ -25,6 +27,28 @@ const parent = ref({
   selectedNoteBook: '',
 });
 console.log('NotesList: Setup Ended');
+
+const errorMessageVisible = ref(false);
+
+function navigateToNewNotes() {
+  if (parent.value.selectedNoteBook) {
+    errorMessageVisible.value = false;
+    router.push({
+      name: 'newNotes',
+      params: {
+        id: parent.value.selectedNoteBook,
+        objectTypeId: '-1',
+        objectId: '-1',
+      },
+    });
+  } else {
+    errorMessageVisible.value = true;
+  }
+}
+const isNotebookValid = () => {
+  const condition = parent.value.selectedNoteBook != '';
+  return condition;
+};
 </script>
 
 <template>
@@ -58,6 +82,12 @@ console.log('NotesList: Setup Ended');
             map-options
           />
         </div>
+        <span
+          v-if="errorMessageVisible === true && !parent.selectedNoteBook"
+          class="q-pa-lg text-red"
+        >
+          Please select the notebook
+        </span>
         <!-- See: https://michaelnthiessen.com/force-re-render/#key-changing-to-force-a-component-refresh-->
         <NoteList
           v-if="parent.selectedNoteBook.length > 0"
@@ -80,6 +110,7 @@ console.log('NotesList: Setup Ended');
           icon="add"
           color="accent"
           padding="sm"
+          @click="navigateToNewNotes"
         >
         </q-btn>
       </q-page-sticky>
