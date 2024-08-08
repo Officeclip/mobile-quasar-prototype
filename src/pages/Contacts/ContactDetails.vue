@@ -125,7 +125,7 @@ const isAllowDelete = computed(() => {
 });
 
 const title = ref('Confirm');
-const message = ref('Are you sure you want to delete this task?');
+const message = ref('Are you sure you want to delete this Contact?');
 const showConfirmationDialog = ref(false);
 
 const displayConfirmationDialog = () => {
