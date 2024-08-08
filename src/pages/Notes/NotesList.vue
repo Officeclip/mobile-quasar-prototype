@@ -45,10 +45,6 @@ function navigateToNewNotes() {
     errorMessageVisible.value = true;
   }
 }
-const isNotebookValid = () => {
-  const condition = parent.value.selectedNoteBook != '';
-  return condition;
-};
 </script>
 
 <template>
