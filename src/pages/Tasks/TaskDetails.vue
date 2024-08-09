@@ -167,8 +167,19 @@ const confirmDeletion = async () => {
 const showAddSubtaskDialog = ref(false);
 
 async function addSubtask(subtask: subTask) {
-  await taskDetailsStore.addSubtask(subtask);
-  router.go(0);
+  try {
+    await taskDetailsStore.addSubtask(subtask);
+    showAddSubtaskDialog.value = false;
+    router.go(0);
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      console.log('*** Add subtask:onSubmit(...):onOK ***');
+      showAddSubtaskDialog.value = true;
+    });
+  }
 }
 </script>
 
