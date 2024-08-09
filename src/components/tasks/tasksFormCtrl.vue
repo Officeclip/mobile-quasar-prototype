@@ -10,6 +10,7 @@ import { tag } from 'src/models/task/taskLists';
 import Regarding from 'components/general/regardingComponent.vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 const props = defineProps<{
   taskFromParent: taskDetails;
@@ -30,7 +31,21 @@ const repeatString = ref('Does not repeat');
 const recurrenceDialogOpened = ref(false);
 // const reminderDialogOpened = ref(false);
 
-const dateMask = 'ddd, MMM DD, YYYY';
+const dateMask = 'YYYY-MM-DD';
+
+const startDateModel = computed(() => {
+  return dateTimeHelper.formatDateTimeFromRestAPIForUI(
+    task.value?.startDate,
+    true
+  );
+});
+
+const dueDateModel = computed(() => {
+  return dateTimeHelper.formatDateTimeFromRestAPIForUI(
+    task.value?.dueDate,
+    true
+  );
+});
 
 onBeforeMount(async () => {
   try {
@@ -170,8 +185,7 @@ defineExpose({
           paragraph-tag="div"
           placeholder="type here...."
         />
-
-        <q-input v-model="task.startDate" label="Start Date" readonly>
+        <q-input v-model="startDateModel" label="Start Date" readonly>
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
               <q-popup-proxy
@@ -191,7 +205,7 @@ defineExpose({
 
         <q-input
           ref="dateRef"
-          v-model="task.dueDate"
+          v-model="dueDateModel"
           :rules="[ruleNotEmpty, ruleDueDateGreaterThanStartDate]"
           label="Due Date"
         >

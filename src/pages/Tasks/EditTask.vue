@@ -41,18 +41,20 @@ async function onSubmit(e: any) {
       description: task.value.description,
       actualDuration: task.value.actualDuration,
       completionDate: task.value.completionDate,
-      dueDate: dateTimeHelper.formatDateTimeFromUIForRestAPI(
-        task.value.dueDate,
-        true
-      ),
+      // dueDate: dateTimeHelper.formatDateTimeFromUIForRestAPI(
+      //   task.value.dueDate,
+      //   true
+      // ),
+      dueDate: task.value.dueDate,
       estimatedDuration: task.value.estimatedDuration,
       isLock: task.value.isLock,
       isPrivate: task.value.isPrivate,
       parent: task.value.parent,
-      startDate: dateTimeHelper.formatDateTimeFromUIForRestAPI(
-        task.value.startDate,
-        true
-      ),
+      // startDate: dateTimeHelper.formatDateTimeFromUIForRestAPI(
+      //   task.value.startDate,
+      //   true
+      // ),
+      startDate: task.value.startDate,
       taskOwnerName: task.value.taskOwnerName,
       taskOwnerSid: task.value.taskOwnerSid,
       taskPriorityName: task.value.taskPriorityName,
