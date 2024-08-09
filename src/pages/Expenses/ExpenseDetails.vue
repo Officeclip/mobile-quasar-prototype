@@ -202,7 +202,7 @@ const deleteExpenseDetail = async (id: string) => {
 
               <q-item-section>
                 <q-item-label>
-                  {{ expenseDetail.amount }}
+                  {{ expenseDetail.amount }}.00
                   <span class="text-caption q-pl-xs">{{
                     expenseDetail.currency
                   }}</span>
