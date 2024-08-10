@@ -9,6 +9,7 @@ export interface expenseSummary {
   readOnly: boolean;
   status: string;
   fromDate: string;
+  toDate: string;
   stageId: number;
   mode: string;
   security: security;

@@ -11,7 +11,9 @@ import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
 const $q = useQuasar();
 const router = useRouter();
 const route = useRoute();
-const periodName = route.params.periodName;
+// const periodName = route.params.periodName;
+const fromDate = route.params.fromDate;
+const toDate = route.params.toDate;
 const timesheetStore = useTimesheetsStore();
 const timesheetCommentsStore = useTECommentsStore();
 
@@ -109,11 +111,19 @@ async function onSubmit() {
       <q-page>
         <q-list>
           <q-form @submit="onSubmit" class="q-gutter-md">
-            <TimesheetForm
+            <!-- <TimesheetForm
               v-if="timesheetDetails && timesheetDCAA"
               :timesheet="timesheetDetails"
               :timesheetDCAA="timesheetDCAA"
               :periodName="periodName"
+              ref="childComponent"
+            /> -->
+            <TimesheetForm
+              v-if="timesheetDetails && timesheetDCAA"
+              :timesheet="timesheetDetails"
+              :timesheetDCAA="timesheetDCAA"
+              :fromDate="fromDate"
+              :toDate="toDate"
               ref="childComponent"
             />
             <q-btn

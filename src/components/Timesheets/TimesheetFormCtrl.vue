@@ -7,7 +7,8 @@ import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
-const props = defineProps(['timesheet', 'periodName', 'timesheetDCAA']);
+// const props = defineProps(['timesheet', 'periodName', 'timesheetDCAA']);
+const props = defineProps(['timesheet', 'timesheetDCAA', 'fromDate', 'toDate']);
 const $q = useQuasar();
 const router = useRouter();
 const date = ref('');
@@ -41,15 +42,27 @@ onMounted(async () => {
 let errorMessage = '';
 let isCommentsRequired = false;
 
+// const selectedPeriod = computed(() => {
+//   return timesheetListStore.PeriodList.find((x) => x.name === props.periodName);
+// });
+
 const selectedPeriod = computed(() => {
-  return timesheetListStore.PeriodList.find((x) => x.name === props.periodName);
+  const formattedDt = `${dateTimeHelper.formatDateForTE(
+    props?.fromDate
+  )} - ${dateTimeHelper.formatDateForTE(props?.toDate)}`;
+  return formattedDt;
 });
+
 const dateOptions = computed(() => {
-  return dateTimeHelper.populateDates(
-    selectedPeriod.value?.start,
-    selectedPeriod.value?.end
-  );
+  return dateTimeHelper.populateDates(props?.fromDate, props?.toDate);
 });
+
+// const dateOptions = computed(() => {
+//   return dateTimeHelper.populateDates(
+//     selectedPeriod.value?.start,
+//     selectedPeriod.value?.end
+//   );
+// });
 
 const customerProjectOptions = computed(() => {
   return timesheetListStore.CustomerProjectsList;
@@ -132,9 +145,7 @@ defineExpose({
   <div class="q-ma-lg">
     <div class="q-ml-sm">
       <q-item-label caption>Period</q-item-label>
-      <q-item-label v-if="selectedPeriod">{{
-        selectedPeriod?.name
-      }}</q-item-label>
+      <q-item-label v-if="selectedPeriod">{{ selectedPeriod }}</q-item-label>
       <q-select
         label="Date"
         v-model="date"

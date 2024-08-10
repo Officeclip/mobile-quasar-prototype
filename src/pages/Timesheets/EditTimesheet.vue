@@ -3,7 +3,7 @@
 <script setup lang="ts">
 import { onMounted, computed, ref } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
-import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
+// import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useRouter, useRoute } from 'vue-router';
 import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
@@ -14,15 +14,16 @@ const $q = useQuasar();
 const route = useRoute();
 const router = useRouter();
 const timesheetsStore = useTimesheetsStore();
-const timesheetListStore = useTimesheetListStore();
+// const timesheetListStore = useTimesheetListStore();
 const timesheetCommentsStore = useTECommentsStore();
 
 const timesheetDetailSid = route.params.id;
 const fromDate: any = route.params.fromDate;
+const toDate: any = route.params.toDate;
 
-const periodName = computed(() => {
-  return timesheetListStore.PeriodList.find((x) => x.start === fromDate);
-});
+// const periodName = computed(() => {
+//   return timesheetListStore.PeriodList.find((x) => x.start === fromDate);
+// });
 
 onMounted(async () => {
   try {
@@ -85,12 +86,22 @@ async function onSubmit() {
     </q-header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
-        <div>
+        <!-- <div>
           <TimesheetForm
             v-if="timesheet && timesheetDCAA"
             :timesheet="timesheet"
             :timesheetDCAA="timesheetDCAA"
             :periodName="periodName?.name"
+            ref="childComponent"
+          />
+        </div> -->
+        <div>
+          <TimesheetForm
+            v-if="timesheet && timesheetDCAA"
+            :timesheet="timesheet"
+            :timesheetDCAA="timesheetDCAA"
+            :fromDate="fromDate"
+            :toDate="toDate"
             ref="childComponent"
           />
         </div>

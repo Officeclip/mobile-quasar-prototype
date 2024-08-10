@@ -63,10 +63,11 @@ function emitSubtask() {
     <div class="q-pa-md column">
       <q-input
         v-model="subtask.title"
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        label="Subject"
+        :rules="[(val: any) => (val && val.length > 0) || 'Please type something']"
+        label="* Subject"
         lazy-rules
         placeholder="Enter Subtask Title"
+        label-color="red"
       />
 
       <q-input
@@ -80,6 +81,7 @@ function emitSubtask() {
         <q-select
           v-model="subtask.assignee"
           :options="contactOptions"
+          multiple
           label="Assigned to"
           option-label="name"
           use-chips

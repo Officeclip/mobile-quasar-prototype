@@ -87,7 +87,8 @@ watch([periodModel], ([newPeriodModel]) => {
               :to="{
                 name: 'newTimesheet',
                 params: {
-                  periodName: periodModel?.name,
+                  fromDate: periodModel?.start,
+                  toDate: periodModel?.end,
                   timesheetSid: '0',
                 },
               }"

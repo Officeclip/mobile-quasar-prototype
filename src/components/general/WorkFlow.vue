@@ -109,7 +109,7 @@ const teDCAAupdateWorkflow = async () => {
 
 const setApproveToUserId = computed(() => {
   return workFlow.value.approveToUserId === null
-    ? props.employeeId
+    ? props?.employeeId
     : workFlow.value.approveToUserId;
 });
 
@@ -132,7 +132,7 @@ const approveButtonWorkFlow = () => {
   workFlow.value.stageId = props.stageId;
   workFlow.value.submitToUserId = '';
   workFlow.value.rejectToUserId = '';
-  workFlow.value.approveToUserId = setApproveToUserId.value;
+  workFlow.value.approveToUserId = setApproveToUserId?.value;
   workFlow.value.users = null;
   upDateWorkFlow();
 };

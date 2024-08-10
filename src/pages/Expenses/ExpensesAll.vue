@@ -105,7 +105,7 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
             </q-item-section>
             <q-item-section>
               <q-item-label>
-                {{ expense.totalAmount }}
+                {{ expense.totalAmount }}.00
                 <span class="text-caption q-pl-xs">{{ expense.currency }}</span>
               </q-item-label>
             </q-item-section>

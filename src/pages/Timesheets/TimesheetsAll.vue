@@ -90,6 +90,7 @@ watch([timesheetStatus], ([newModel]) => {
                   id: item.id,
                   employeeId: item.employeeId,
                   fromDate: item.fromDate,
+                  toDate: item.toDate,
                   isWrite: item.security.write,
                   stageId: item.stageId,
                   status: item.status,
