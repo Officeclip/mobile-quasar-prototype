@@ -46,7 +46,8 @@ async function onSubmit(e: any) {
       return;
     }
     await tokenStore.validateLogin(login.value, pin.value);
-    await sessionStore.getSession();
+    // logger.log('-- LoginPage.vue:onSubmit --');
+    // await sessionStore.getSession();
 
     route1.push('/HomePage');
   } catch (error) {
@@ -75,6 +76,7 @@ onMounted(async () => {
   if (pin.value) {
     try {
       await tokenStore.validateLogin(login.value, pin.value);
+      logger.log('-- HomePage.vue:onMounted --');
       await sessionStore.getSession();
       route1.push('/HomePage');
     } catch (error) {
