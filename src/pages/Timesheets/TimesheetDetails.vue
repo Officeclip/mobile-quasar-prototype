@@ -3,7 +3,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
-import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
+// import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useRoute, useRouter } from 'vue-router';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
@@ -11,13 +11,13 @@ import WorkFlow from '../../components/general/WorkFlow.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
-import dateTimeHelper from 'src/helpers/dateTimeHelper';
+// import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 const router = useRouter();
 const route = useRoute();
 const timesheetsStore = useTimesheetsStore();
 const timesheetCommentsStore = useTECommentsStore();
-const timesheetListsStore = useTimesheetListStore();
+// const timesheetListsStore = useTimesheetListStore();
 const $q = useQuasar();
 
 const id = route.params.id;
@@ -40,7 +40,7 @@ onMounted(async () => {
     await timesheetsStore.getTimesheetDetails(id, stageId);
     await timesheetCommentsStore.$reset();
     await timesheetCommentsStore.getTimesheetComments(id);
-    await timesheetListsStore.getTimesheetListAll();
+    // await timesheetListsStore.getTimesheetListAll();
   } catch (error) {
     logger.log(`*** timesheetDetails:error:catch(${error}) ***`, 'error');
     $q.dialog({
@@ -128,19 +128,19 @@ const listLength = computed(() => {
   return commentsList.value.length;
 });
 
-const periodOptions = computed(() => {
-  return timesheetListsStore.PeriodList;
-});
+// const periodOptions = computed(() => {
+//   return timesheetListsStore.PeriodList;
+// });
 
-const timesheetPeriod = computed(() => {
-  return periodOptions.value?.find((x) => x.start.toString() === fromDate);
-});
-const generateTimesheetPeriod = computed(() => {
-  const formattedDt = `${dateTimeHelper.formatDateForTE(
-    fromDate
-  )} - ${dateTimeHelper.formatDateForTE(toDate)}`;
-  return formattedDt;
-});
+// const timesheetPeriod = computed(() => {
+//   return periodOptions.value?.find((x) => x.start.toString() === fromDate);
+// });
+// const generateTimesheetPeriod = computed(() => {
+//   const formattedDt = `${dateTimeHelper.formatDateForTE(
+//     fromDate
+//   )} - ${dateTimeHelper.formatDateForTE(toDate)}`;
+//   return formattedDt;
+// });
 const showWarningMsg = () => {
   alert(
     'Add new timesheet details entry is not available in mobile app for Check-in, Check-out mode,please visit the web app to add the new timesheet details'
@@ -184,8 +184,6 @@ const showWarningMsg = () => {
           :stageId="stageId"
         />
       </div>
-      <pre>{{ generateTimesheetPeriod }}</pre>
-      <pre>{{ timesheetPeriod?.name }}</pre>
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"
@@ -220,6 +218,7 @@ const showWarningMsg = () => {
                   params: {
                     id: timesheetDetail?.id,
                     fromDate: fromDate,
+                    toDate: toDate,
                   },
                 }"
                 size="sm"
@@ -295,8 +294,10 @@ const showWarningMsg = () => {
           :to="{
             name: 'newTimesheet',
             params: {
-              periodName: timesheetPeriod?.name,
+              // periodName: timesheetPeriod?.name,
               timesheetSid: timesheetDetails[0]?.timesheetSid,
+              fromDate: fromDate,
+              toDate: toDate,
             },
           }"
           fab

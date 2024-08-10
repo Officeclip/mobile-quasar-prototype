@@ -158,12 +158,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Timesheets/NewTimesheetPeriod.vue'),
   },
   {
-    path: '/newTimesheet/:periodName/:timesheetSid',
+    path: '/newTimesheet/:timesheetSid/:fromDate/:toDate',
     name: 'newTimesheet',
     component: () => import('../pages/Timesheets/NewTimesheet.vue'),
   },
   {
-    path: '/editTimesheet/:id/:fromDate',
+    path: '/editTimesheet/:id/:fromDate/:toDate',
     name: 'editTimesheet',
     component: () => import('../pages/Timesheets/EditTimesheet.vue'),
   },
