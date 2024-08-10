@@ -7,6 +7,7 @@ const dateTimeMask = 'EEE, MMM dd, yyyy hh:mm a';
 const dateMask = 'EEE, MMM dd, yyyy';
 const genericDateFormat = 'yyyy-MM-dd';
 const calendarDateFormat = 'yyyy/MM/dd';
+const teDatemask = 'MMM dd, yyyy';
 
 const extractDateFromUtc = (utcDateTime: string | undefined) => {
   // See: https://stackoverflow.com/a/5515349/89256
@@ -119,6 +120,11 @@ const convertCalendarDateForUI = (input: string) => {
   return formatDateTimeForUI(date, true);
 };
 
+const formatDateForTE = (input: string) => {
+  const dt = new Date(input);
+  return format(dt, teDatemask);
+};
+
 export default {
   extractDateFromUtc,
   extractTimeFromUtc,
@@ -132,4 +138,5 @@ export default {
   formatDateForCalendar,
   formatDateForGeneric,
   convertCalendarDateForUI,
+  formatDateForTE,
 };

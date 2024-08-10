@@ -11,6 +11,7 @@ import WorkFlow from '../../components/general/WorkFlow.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
+import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 const router = useRouter();
 const route = useRoute();
@@ -24,6 +25,8 @@ const employeeId = route.params.employeeId;
 const entityType = 'timesheet';
 const timesheetDetailSid = ref('');
 const fromDate = route.params.fromDate;
+// const toDate = route.params.toDate;
+const toDate = route.params.toDate;
 const stageId = Number(route.params.stageId);
 const status = route.params.status;
 const mode = route.params.mode;
@@ -132,7 +135,12 @@ const periodOptions = computed(() => {
 const timesheetPeriod = computed(() => {
   return periodOptions.value?.find((x) => x.start.toString() === fromDate);
 });
-
+const generateTimesheetPeriod = computed(() => {
+  const formattedDt = `${dateTimeHelper.formatDateForTE(
+    fromDate
+  )} - ${dateTimeHelper.formatDateForTE(toDate)}`;
+  return formattedDt;
+});
 const showWarningMsg = () => {
   alert(
     'Add new timesheet details entry is not available in mobile app for Check-in, Check-out mode,please visit the web app to add the new timesheet details'
@@ -176,6 +184,8 @@ const showWarningMsg = () => {
           :stageId="stageId"
         />
       </div>
+      <pre>{{ generateTimesheetPeriod }}</pre>
+      <pre>{{ timesheetPeriod?.name }}</pre>
       <q-card
         v-for="timesheetDetail in timesheetDetails"
         :key="timesheetDetail.id"

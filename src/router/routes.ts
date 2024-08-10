@@ -148,7 +148,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Timesheets/TimesheetsAll.vue'),
   },
   {
-    path: '/timesheetDetails/:id/:fromDate/:stageId/:status/:mode/:employeeId',
+    path: '/timesheetDetails/:id/:fromDate/:toDate/:stageId/:status/:mode/:employeeId',
     name: 'timesheetDetails',
     component: () => import('../pages/Timesheets/TimesheetDetails.vue'),
   },
