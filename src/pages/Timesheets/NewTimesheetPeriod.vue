@@ -69,7 +69,6 @@ watch([periodModel], ([newPeriodModel]) => {
             <p v-if="errorMsg" class="text-red">{{ errorMsg }}</p>
             <p v-if="warningMsg" class="text-orange">{{ warningMsg }}</p>
           </q-item>
-          <pre>periodModel::{{ periodModel }}</pre>
           <q-item>
             <q-select
               class="full-width"
