@@ -3,6 +3,7 @@ import { useNotesStore } from '../../stores/NotesStore';
 import { computed, onBeforeMount } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import logger from 'src/helpers/logger';
 
 const props = defineProps(['params']);
 const notesStore = useNotesStore();
@@ -27,7 +28,7 @@ const getNotesCount = computed(() => {
 });
 
 onBeforeMount(async () => {
-  console.log(
+  logger.log(
     `NotesListCtrl: onBeforeMount Started, noteBookId: ${noteBookId.value}, parentObjectServiceType: ${parentObjectServiceType.value}, parentObjectId: ${parentObjectId.value}`
   );
   try {
