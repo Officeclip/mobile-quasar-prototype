@@ -7,6 +7,7 @@ export interface Timesheet {
   status: string;
   totalHours: number;
   fromDate: string;
+  toDate: string;
   readOnly: boolean;
   stageId: number;
   mode: string;

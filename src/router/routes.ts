@@ -148,7 +148,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Timesheets/TimesheetsAll.vue'),
   },
   {
-    path: '/timesheetDetails/:id/:fromDate/:stageId/:status/:mode/:employeeId',
+    path: '/timesheetDetails/:id/:fromDate/:toDate/:stageId/:status/:mode/:employeeId',
     name: 'timesheetDetails',
     component: () => import('../pages/Timesheets/TimesheetDetails.vue'),
   },
@@ -158,12 +158,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Timesheets/NewTimesheetPeriod.vue'),
   },
   {
-    path: '/newTimesheet/:periodName/:timesheetSid',
+    path: '/newTimesheet/:timesheetSid/:fromDate/:toDate',
     name: 'newTimesheet',
     component: () => import('../pages/Timesheets/NewTimesheet.vue'),
   },
   {
-    path: '/editTimesheet/:id/:fromDate',
+    path: '/editTimesheet/:id/:fromDate/:toDate',
     name: 'editTimesheet',
     component: () => import('../pages/Timesheets/EditTimesheet.vue'),
   },
@@ -173,7 +173,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Expenses/ExpensesAll.vue'),
   },
   {
-    path: '/expenseDetails/:id/:fromDate/:stageId/:status',
+    path: '/expenseDetails/:id/:fromDate/:stageId/:status/:employeeId',
     name: 'expenseDetails',
     component: () => import('../pages/Expenses/ExpenseDetails.vue'),
   },
