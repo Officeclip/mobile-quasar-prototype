@@ -12,6 +12,7 @@ import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 const props = defineProps<{
   task: taskSummary;
+  appName: 'appName';
 }>();
 
 const taskSummaryStore = useTaskSummaryStore();
@@ -47,7 +48,7 @@ function toggleTaskStatus() {
 <template>
   <q-item
     v-ripple
-    :to="{ name: 'taskDetails', params: { id: task.id } }"
+    :to="{ name: 'taskDetails', params: { id: task.id, appName: appName } }"
     class="TaskCard"
   >
     <q-item-section class="TaskDetails">

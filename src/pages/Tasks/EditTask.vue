@@ -16,6 +16,7 @@ const route = useRoute();
 const router = useRouter();
 
 const id = ref<string | string[]>(route.params.id);
+const appName = route.params.appName;
 
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
 const task: Ref<taskDetails> = ref(tasksDetailStore.TaskDetail);
@@ -108,8 +109,9 @@ async function onSubmit(e: any) {
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
           <TasksForm
+            :appName="appName"
             ref="childComponent"
-            :task-from-parent="task"
+            :taskFromParent="task"
             @emit-task="receiveTask"
           />
         </div>

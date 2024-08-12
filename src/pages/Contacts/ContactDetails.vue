@@ -333,6 +333,7 @@ const confirmDeletion = async () => {
                           id: -1,
                           objectTypeId: ObjectType.Contact,
                           objectId: contactDetails?.id,
+                          appName: 'contact',
                         },
                       }"
                       size="sm"

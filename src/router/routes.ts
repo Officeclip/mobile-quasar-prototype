@@ -92,17 +92,17 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Tasks/TasksList.vue'),
   },
   {
-    path: '/taskDetails/:id',
+    path: '/taskDetails/:id/:appName',
     name: 'taskDetails',
     component: () => import('../pages/Tasks/TaskDetails.vue'),
   },
   {
-    path: '/editTask/:id',
+    path: '/editTask/:id/:appName',
     name: 'editTask',
     component: () => import('../pages/Tasks/EditTask.vue'),
   },
   {
-    path: '/newTask/:id/:objectTypeId/:objectId',
+    path: '/newTask/:id/:objectTypeId/:objectId/:appName',
     name: 'newTask',
     component: () => import('../pages/Tasks/NewTask.vue'),
   },

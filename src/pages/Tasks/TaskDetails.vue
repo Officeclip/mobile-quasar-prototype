@@ -33,6 +33,7 @@ const route = useRoute();
 const router = useRouter();
 
 id.value = route.params.id;
+const appName = route.params.appName;
 
 onMounted(async () => {
   logger.log('*** taskDetails:onMounted(async...) ***');
@@ -206,7 +207,7 @@ async function addSubtask(subtask: subTask) {
         <q-toolbar-title>Task Details</q-toolbar-title>
         <div v-if="taskDetail.security.write">
           <q-btn
-            :to="{ name: 'editTask', params: { id: id } }"
+            :to="{ name: 'editTask', params: { id: id, appName: appName } }"
             dense
             flat
             icon="edit"

@@ -28,6 +28,7 @@ let filterOptions: Ref<searchFilter> = ref({ ...defaultFilterOptions });
 const parent = {
   parentObjectId: '',
   parentObjectServiceType: '',
+  appName: 'task',
 };
 
 const taskSummaryStore = useTaskSummaryStore();
@@ -198,6 +199,7 @@ onBeforeMount(() => {
               id: -1,
               objectTypeId: -1,
               objectId: -1,
+              appName: 'task',
             },
           }"
           color="accent"

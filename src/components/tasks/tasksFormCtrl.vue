@@ -10,10 +10,17 @@ import { tag } from 'src/models/task/taskLists';
 import Regarding from 'components/general/regardingComponent.vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import OCItem from '../../components/OCcomponents/OC-Item.vue';
 
-const props = defineProps<{
-  taskFromParent: taskDetails;
-}>();
+const props = defineProps({
+  taskFromParent: {
+    type: Object,
+  },
+  appName: {
+    type: String,
+  },
+});
+
 const emit = defineEmits(['emit-task']);
 
 const task: Ref<taskDetails> = ref(props.taskFromParent);
@@ -146,6 +153,10 @@ const ruleNotEmpty = (val: string) => {
 
 defineExpose({
   validateAll,
+});
+
+const regarding = computed(() => {
+  return `${props.taskFromParent?.parent.type.name} : ${props.taskFromParent?.parent.value.name}`;
 });
 </script>
 
@@ -297,12 +308,22 @@ defineExpose({
             </q-item>
           </template>
         </q-select>
-
         <Regarding
+          v-if="appName === 'task'"
           v-model="task.parent"
           :regarding-parents="taskListsStore.RegardingParent"
         />
-
+        <!-- <q-item-label
+          v-if="appName !== 'task' && taskFromParent?.parent?.value?.name"
+          title="Regarding"
+          :value="regarding"
+        /> -->
+        <div v-if="appName !== 'task' && taskFromParent?.parent?.value?.name">
+          <q-item-label caption class="q-pt-md"> Regarding </q-item-label>
+          <q-item-label class="q-mb-sm">
+            {{ regarding }}
+          </q-item-label>
+        </div>
         <q-item
           class="q-pa-none"
           v-ripple
