@@ -135,7 +135,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         }
       );
       if (subtask) subtask.isCompleted = !subtask.isCompleted;
-      await this.editTask(<taskDetails>this.taskDetail);
+      await this.editSubtask(<subTask>subtask);
     },
 
     async deleteSubtask(id: string) {
