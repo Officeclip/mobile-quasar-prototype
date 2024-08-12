@@ -47,7 +47,11 @@ onBeforeMount(() => {
   <!-- <pre>{{ getTaskSummaries }}</pre> -->
   <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
     <q-item v-for="task in getTaskSummaries" :key="task.id" class="q-pa-sm">
-      <taskSummaryItem :task="task" class="full-width" />
+      <taskSummaryItem
+        :task="task"
+        :appName="parent.appName"
+        class="full-width"
+      />
     </q-item>
     <template v-slot:loading>
       <q-spinner-dots color="primary" size="40px" />

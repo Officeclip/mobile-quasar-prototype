@@ -20,6 +20,7 @@ const parentObjectId = route.params.objectId ? route.params.objectId : '';
 const parentObjectServiceType = route.params.objectTypeId
   ? route.params.objectTypeId
   : '';
+const appName = route.params.appName ? route.params.appName : '';
 
 const taskSummaryStore = useTaskSummaryStore();
 const taskDetailsStore = useTaskDetailsStore();
@@ -156,8 +157,9 @@ async function onSubmit(e: any) {
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
           <TasksForm
+            :appName="appName"
             ref="childComponent"
-            :task-from-parent="task"
+            :taskFromParent="task"
             @emit-task="receiveTask"
           />
           <q-btn

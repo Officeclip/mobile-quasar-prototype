@@ -25,6 +25,10 @@ onBeforeMount(async () => {
 
 <template>
   <q-item v-for="task in taskSummaries" :key="task.id" class="q-pa-sm">
-    <TaskSummaryItem :task="task" class="full-width" />
+    <TaskSummaryItem
+      :appName="parent.appName"
+      :task="task"
+      class="full-width"
+    />
   </q-item>
 </template>
