@@ -12,7 +12,7 @@ import telephoneExpenseForm from '../expenses/expenseTypes/telephoneExpenseForm.
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
-const props = defineProps(['expenseDetail', 'period']);
+const props = defineProps(['expenseDetail', 'fromDate', 'toDate']);
 
 const expenseListsStore = useExpenseListsStore();
 const router = useRouter();
@@ -63,11 +63,14 @@ const paymentTypeOptions = computed(() => {
 });
 
 const period = computed(() => {
-  return expenseListsStore.PeriodList.find((x) => x.name === props.period);
+  const formattedDt = `${dateTimeHelper.formatDateForTE(
+    props?.fromDate
+  )} - ${dateTimeHelper.formatDateForTE(props?.toDate)}`;
+  return formattedDt;
 });
 
 const dateOptions = computed(() => {
-  return dateTimeHelper.populateDates(period.value?.start, period.value?.end);
+  return dateTimeHelper.populateDates(props?.fromDate, props?.toDate);
 });
 
 const airTravel = ref({
@@ -274,10 +277,8 @@ defineExpose({
     <div class="q-ml-sm">
       <q-item-label caption class="q-pt-md"> Period </q-item-label>
       <q-item-label class="q-mb-sm">
-        {{ period?.name }}
+        {{ period }}
       </q-item-label>
-      <!-- <pre>{{ expenseDetail }}</pre> -->
-      <!-- <pre>{{ dateOptions }}</pre> -->
       <q-select
         label="Date"
         v-model="date"

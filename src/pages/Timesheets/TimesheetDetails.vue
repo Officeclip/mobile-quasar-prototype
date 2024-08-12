@@ -294,7 +294,6 @@ const showWarningMsg = () => {
           :to="{
             name: 'newTimesheet',
             params: {
-              // periodName: timesheetPeriod?.name,
               timesheetSid: timesheetDetails[0]?.timesheetSid,
               fromDate: fromDate,
               toDate: toDate,

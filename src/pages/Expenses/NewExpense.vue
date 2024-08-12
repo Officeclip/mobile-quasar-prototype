@@ -9,11 +9,9 @@ import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 const $q = useQuasar();
 const router = useRouter();
 const route = useRoute();
+const fromDate = route.params.fromDate;
+const toDate = route.params.toDate;
 const expenseDetailsStore = useExpenseDetailsStore();
-
-const period = computed(() => {
-  return route.params.period;
-});
 
 const expenseSid = computed(() => {
   return route.params.expenseSid;
@@ -122,8 +120,10 @@ async function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <ExpenseForm
+            v-if="expenseDetail"
             :expenseDetail="expenseDetail"
-            :period="period"
+            :fromDate="fromDate"
+            :toDate="toDate"
             ref="childComponent"
           />
           <q-btn

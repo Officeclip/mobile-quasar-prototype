@@ -7,7 +7,6 @@ import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
-// const props = defineProps(['timesheet', 'periodName', 'timesheetDCAA']);
 const props = defineProps(['timesheet', 'timesheetDCAA', 'fromDate', 'toDate']);
 const $q = useQuasar();
 const router = useRouter();

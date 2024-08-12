@@ -85,7 +85,8 @@ watch([periodModel], ([newPeriodModel]) => {
               :to="{
                 name: 'newExpense',
                 params: {
-                  period: periodModel.name,
+                  fromDate: periodModel?.start,
+                  toDate: periodModel?.end,
                   expenseSid: '0',
                 },
               }"

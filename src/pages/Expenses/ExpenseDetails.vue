@@ -2,9 +2,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
-import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
+// import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useRoute, useRouter } from 'vue-router';
-import dateTimeHelper from '../../helpers/dateTimeHelper';
+// import dateTimeHelper from '../../helpers/dateTimeHelper';
 import autoRentalExpense from '../../components/expenses/details/autoRentalExpense.vue';
 import airTravelExpense from '../../components/expenses/details/airTravelExpense.vue';
 import hotelExpense from '../../components/expenses/details/hotelExpense.vue';
@@ -22,13 +22,13 @@ const router = useRouter();
 const $q = useQuasar();
 const expenseDetailsStore = useExpenseDetailsStore();
 const expenseCommentsStore = useTECommentsStore();
-const expenseListsStore = useExpenseListsStore();
 
 const id = route.params.id;
 const employeeId = route.params.employeeId;
 const stageId = Number(route.params.stageId);
 const entityType = 'expense';
 const fromDate = route.params.fromDate;
+const toDate = route.params.toDate;
 const status = route.params.status;
 const isLoaded = ref<boolean>(false);
 
@@ -38,7 +38,6 @@ const isAllowedDelete = ref();
 onMounted(async () => {
   try {
     await expenseDetailsStore.getExpenseDetails(id, stageId);
-    await expenseListsStore.getExpensesList();
     await expenseCommentsStore.$reset();
     await expenseCommentsStore.getExpenseComments(id);
   } catch (error) {
@@ -76,15 +75,6 @@ const commentsList = computed(() => {
 const listLength = computed(() => {
   return commentsList.value.length;
 });
-
-const periodOptions = computed(() => {
-  return expenseListsStore.PeriodList;
-});
-
-const expensePeriod = computed(() => {
-  return periodOptions.value?.find((x) => x.start.toString() === fromDate);
-});
-
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this expense?');
 
@@ -192,9 +182,7 @@ const deleteExpenseDetail = async (id: string) => {
                 <q-item-label caption>
                   {{
                     expenseDetail.expenseDate
-                      ? dateTimeHelper.extractDateFromUtc(
-                          expenseDetail.expenseDate
-                        )
+                      ? expenseDetail.expenseDate
                       : 'No Specific Date'
                   }}
                 </q-item-label>
@@ -217,6 +205,7 @@ const deleteExpenseDetail = async (id: string) => {
                         id: expenseDetail?.id,
                         expenseSid: expenseDetail?.expenseSid,
                         fromDate: fromDate,
+                        toDate: toDate,
                       },
                     }"
                     size="sm"
@@ -291,7 +280,8 @@ const deleteExpenseDetail = async (id: string) => {
             :to="{
               name: 'newExpense',
               params: {
-                period: expensePeriod?.name,
+                fromDate: fromDate,
+                toDate: toDate,
                 expenseSid: expenseDetail.expenseSid,
               },
             }"

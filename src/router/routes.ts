@@ -173,12 +173,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Expenses/ExpensesAll.vue'),
   },
   {
-    path: '/expenseDetails/:id/:fromDate/:stageId/:status/:employeeId',
+    path: '/expenseDetails/:id/:fromDate/:toDate/:stageId/:status/:employeeId',
     name: 'expenseDetails',
     component: () => import('../pages/Expenses/ExpenseDetails.vue'),
   },
   {
-    path: '/newExpense/:period/:expenseSid',
+    path: '/newExpense/:expenseSid/:fromDate/:toDate',
     name: 'newExpense',
     component: () => import('../pages/Expenses/NewExpense.vue'),
   },
@@ -188,7 +188,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Expenses/NewPeriodExpense.vue'),
   },
   {
-    path: '/editExpense/:id/:expenseSid/:fromDate',
+    path: '/editExpense/:id/:expenseSid/:fromDate/:toDate',
     name: 'editExpense',
     component: () => import('../pages/Expenses/EditExpense.vue'),
   },

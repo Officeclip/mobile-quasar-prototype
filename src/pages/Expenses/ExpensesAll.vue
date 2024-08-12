@@ -78,7 +78,6 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
     <q-page-container>
       <q-page>
         <q-list v-for="expense in allExpenses" :key="expense.id">
-          <!-- TODO: CR: 2024-05-17: nk: Fix the type error? -->
           <q-item
             :to="{
               name: 'expenseDetails',
@@ -86,6 +85,7 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
                 id: expense.id,
                 employeeId: expense.employeeId,
                 fromDate: expense.fromDate,
+                toDate: expense.toDate,
                 stageId: expense.stageId,
                 status: expense.status,
               },
