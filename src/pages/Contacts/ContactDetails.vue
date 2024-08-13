@@ -30,7 +30,7 @@ onBeforeMount(async () => {
   try {
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
     await contactDetailsStore.getContactDetails(route.params.id as string);
-    //await contactDetailsStore.getContactLists();
+    await contactDetailsStore.getContactLists();
   } catch (error) {
     //console.error('Error Msg: ', error);
     $q.dialog({
