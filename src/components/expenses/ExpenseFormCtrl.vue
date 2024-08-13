@@ -144,6 +144,7 @@ function getExpenseTypeDetail(expTypeId) {
   const expenseType = expenseTypeOptions.value.find(
     (x) => x.expenseTypeSid === expTypeId
   );
+  if (!expenseType) return;
   if (expenseType != null) {
     isBillableModify.value = expenseType.isBillableModify;
     isDetailRequired.value = expenseType.isDetailsRequired;
