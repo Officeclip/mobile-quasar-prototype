@@ -159,14 +159,16 @@ function logout() {
           </q-btn>
         </q-list>
 
-        <q-item>
-          <q-item-selection>Version: </q-item-selection>
-          <q-item-selection side>{{ packageJson.version }}</q-item-selection>
-        </q-item>
-        <q-item>
-          <q-item-selection>OfficeClip Version: </q-item-selection>
-          <q-item-selection side>12.1.58</q-item-selection>
-        </q-item>
+        <q-list>
+          <q-item>
+            <q-item-section>Version: </q-item-section>
+            <q-item-section side>{{ packageJson.version }}</q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>OfficeClip Version: </q-item-section>
+            <q-item-section side>12.1.58</q-item-section>
+          </q-item>
+        </q-list>
       </q-scroll-area>
       <q-img
         src="https://cdn.quasar.dev/img/material.png"
