@@ -159,12 +159,12 @@ function logout() {
           </q-btn>
         </q-list>
 
-        <q-list>
-          <q-item>
+        <q-list class="absolute-bottom-right text-caption dense">
+          <q-item dense>
             <q-item-section>Version: </q-item-section>
             <q-item-section side>{{ packageJson.version }}</q-item-section>
           </q-item>
-          <q-item>
+          <q-item dense>
             <q-item-section>OfficeClip Version: </q-item-section>
             <q-item-section side>12.1.58</q-item-section>
           </q-item>
