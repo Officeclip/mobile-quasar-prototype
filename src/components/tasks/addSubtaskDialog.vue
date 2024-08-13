@@ -46,7 +46,10 @@ const subtask = ref({
   parentId: props.taskSid,
   title: '',
   description: '',
-  assignee: [],
+  assignee: {
+    id: '',
+    name: '',
+  },
   isCompleted: false,
   completedDate: '',
 });
@@ -81,9 +84,9 @@ function emitSubtask() {
         <q-select
           v-model="subtask.assignee"
           :options="contactOptions"
-          multiple
           label="Assigned to"
           option-label="name"
+          option-value="name"
           use-chips
           use-input
           @filter="filterFn"
