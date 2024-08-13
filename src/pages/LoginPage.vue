@@ -59,13 +59,14 @@ async function onSubmit(e: any) {
 }
 
 onMounted(async () => {
+  logger.log('-- HomePage.vue:onMounted --');
   localStorage.removeItem('X-Token');
   localStorage.removeItem('endPointUrl');
   sessionStorage.removeItem('oc-session');
 
   const addressBarUrl = window.location.href;
   const endPointUrl = util.getEndPointUrlFromUri(addressBarUrl);
-  console.log(`endPointUrl: ${endPointUrl}`);
+  logger.log(`endPointUrl: ${endPointUrl}`);
   Constants.saveEndPointUrlInLocalStorage(endPointUrl);
 
   const uri = addressBarUrl.split('?');
@@ -76,7 +77,6 @@ onMounted(async () => {
   if (pin.value) {
     try {
       await tokenStore.validateLogin(login.value, pin.value);
-      logger.log('-- HomePage.vue:onMounted --');
       await sessionStore.getSession();
       route1.push('/HomePage');
     } catch (error) {
