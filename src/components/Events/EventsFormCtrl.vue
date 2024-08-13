@@ -273,8 +273,11 @@ const ruleEndDateGreaterThanStartDate = (val: string) => {
   console.log(`startDate: ${startDateModelValue.value}, endDate: ${val}`);
   if (!startDateModelValue.value || startDateModelValue.value.length === 0)
     return true;
-  const isGreater = new Date(val) > new Date(startDateModelValue.value);
-  return isGreater ? true : 'End Date should be more than start date';
+  debugger;
+  const isValid = props.event.isAllDayEvent
+    ? new Date(val) >= new Date(startDateModelValue.value)
+    : new Date(val) > new Date(startDateModelValue.value);
+  return isValid ? true : 'End Date should be more than start date';
 };
 
 const validateAll = () => {
