@@ -11,6 +11,7 @@ import { Session } from '../models/session';
 import { useProfileListsStore } from 'stores/profileListsStore';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
+import packageJson from '../../package.json';
 
 const router = useRouter();
 const sessionStore = useSessionStore();
@@ -157,6 +158,15 @@ function logout() {
             <div>Logout</div>
           </q-btn>
         </q-list>
+
+        <q-item>
+          <q-item-selection>Version: </q-item-selection>
+          <q-item-selection side>{{ packageJson.version }}</q-item-selection>
+        </q-item>
+        <q-item>
+          <q-item-selection>OfficeClip Version: </q-item-selection>
+          <q-item-selection side>12.1.58</q-item-selection>
+        </q-item>
       </q-scroll-area>
       <q-img
         src="https://cdn.quasar.dev/img/material.png"
