@@ -11,7 +11,8 @@ import { Session } from '../models/session';
 import { useProfileListsStore } from 'stores/profileListsStore';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
-import packageJson from '../../package.json';
+//import packageJson from '../../package.json';
+import drawer from '../components/drawer.vue';
 
 const router = useRouter();
 const sessionStore = useSessionStore();
@@ -21,6 +22,7 @@ const organization = ref('');
 const $q = useQuasar();
 
 const isLoaded = ref<boolean>(false);
+const myDrawer = ref();
 
 const filteredHomeIcons = computed(() => {
   return sessionStore.getHomeIcons();
@@ -34,9 +36,9 @@ const session: ComputedRef<Session> = computed(() => {
   return sessionStore.session;
 });
 
-const userIcon = computed(() => {
-  return profileListsStore.ProfilesUserGeneral.userIcon;
-});
+// const userIcon = computed(() => {
+//   return profileListsStore.ProfilesUserGeneral.userIcon;
+// });
 
 const organizationItems = computed(() => {
   return profileListsStore.Organizations;
@@ -74,10 +76,11 @@ onBeforeMount(async () => {
   }
 });
 
-const leftDrawerOpen = ref(false);
+//const leftDrawerOpen = ref(false);
 
 function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
 }
 
 function getColor(url: string) {
@@ -94,9 +97,9 @@ function goToApp(url: string) {
   }
 }
 
-function logout() {
-  router.push({ path: '/loginPage' });
-}
+// function logout() {
+//   router.push({ path: '/loginPage' });
+// }
 </script>
 <style>
 .q-dialog__backdrop {
@@ -118,72 +121,8 @@ function logout() {
         <q-toolbar-title> OfficeClip Suite</q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <!-- see: https://forum.quasar-framework.org/topic/2911/width-attribute-on-q-layout-drawer-giving-error-in-browser-console/3 -->
-    <q-drawer
-      v-model="leftDrawerOpen"
-      :width="240"
-      bordered
-      class="bg-grey-2"
-      show-if-above
-    >
-      <q-scroll-area
-        style="
-          height: calc(100% - 150px);
-          margin-top: 150px;
-          border-right: 1px solid #ddd;
-        "
-      >
-        <q-list>
-          <div v-for="item in filteredHomeIcons" :key="item.name">
-            <q-item clickable @click="goToApp(item.url)">
-              <q-item-section avatar>
-                <q-icon
-                  :class="getClass(item.url)"
-                  :color="getColor(item.url)"
-                  :name="item.icon"
-                  size="md"
-                ></q-icon>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>{{ item.name }}</q-item-label>
-              </q-item-section>
-            </q-item>
-          </div>
-          <q-btn
-            color="primary"
-            style="margin-top: 16px; margin-left: 16px"
-            @click="logout"
-          >
-            <q-icon left name="logout"></q-icon>
-            <div>Logout</div>
-          </q-btn>
-        </q-list>
 
-        <q-list class="absolute-bottom-right text-caption dense">
-          <q-item dense>
-            <q-item-section>Version: </q-item-section>
-            <q-item-section side>{{ packageJson.version }}</q-item-section>
-          </q-item>
-          <q-item dense>
-            <q-item-section>OfficeClip Version: </q-item-section>
-            <q-item-section side>12.1.58</q-item-section>
-          </q-item>
-        </q-list>
-      </q-scroll-area>
-      <q-img
-        src="https://cdn.quasar.dev/img/material.png"
-        class="absolute-top"
-        style="height: 150px"
-      >
-        <div class="absolute-bottom bg-transparent">
-          <q-avatar class="q-mb-sm" size="56px">
-            <img :src="userIcon" />
-          </q-avatar>
-          <div class="text-weight-bold">{{ session?.userName }}</div>
-          <div>{{ session?.userEmail }}</div>
-        </div>
-      </q-img>
-    </q-drawer>
+    <drawer ref="myDrawer" />
 
     <q-page-container>
       <q-page>
