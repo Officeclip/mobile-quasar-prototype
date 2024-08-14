@@ -31,12 +31,11 @@ function isValidEmail(email: string, isRequired: boolean) {
   return regex.test(email);
 }
 
-function isProduction() {
-  if (!import.meta.env.VITE_PRODUCTION_ENVIRONMENT) return false;
-  const isProduction =
-    import.meta.env.VITE_PRODUCTION_ENVIRONMENT == 1 &&
-    process.env.NODE_ENV == 'production';
-  return isProduction;
+function isHideLogger() {
+  const isHideLogger =
+    import.meta.env.VITE_HIDE_LOGGER && import.meta.env.VITE_HIDE_LOGGER == 1;
+  // && process.env.NODE_ENV == 'production';
+  return isHideLogger;
 }
 
 export default {
@@ -44,5 +43,5 @@ export default {
   ocSession,
   getEndPointUrlFromUri,
   isValidEmail,
-  isProduction,
+  isHideLogger,
 };
