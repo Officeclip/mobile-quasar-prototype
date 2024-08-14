@@ -16,6 +16,7 @@ import TaskMetaSummary from '../../components/tasks/TaskMetaSummaryItem.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
+import logger from 'src/helpers/logger';
 
 const model = ref('1');
 const contactDetailsStore = useContactDetailsStore();
@@ -147,7 +148,7 @@ const confirmDeletion = async () => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** Delete contact:onSubmit(...):onOK ***');
+      logger.log('*** Delete contact:onSubmit(...):onOK ***');
       showConfirmationDialog.value = false;
       //router.go(0);
     });

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { ContactSummary } from '../../models/Contact/contactSummary';
 import { Constants } from '../Constants';
 import { linkHeader } from 'src/models/general/linkHeader';
+import logger from 'src/helpers/logger';
 
 export const useContactSummaryStore = defineStore('contactSummaryStore', {
   state: () => ({
@@ -65,9 +66,9 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
           `${Constants.endPointUrl}/contact-summary`
         );
         this.contactSummary = response.data;
-      } catch (error) {
+      } catch (error: any) {
         alert(error);
-        console.log(error);
+        logger.log(error);
       }
     },
 

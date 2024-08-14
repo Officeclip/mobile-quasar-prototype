@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import logger from 'src/helpers/logger';
 import { UserProfile } from 'src/models/UserProfile';
 import { Constants } from 'stores/Constants';
 
@@ -19,9 +20,9 @@ export const useUserProfileStore = defineStore('userProfileStore', {
           `${Constants.endPointUrl}/generaluserprofile`
         );
         this.userProfile = data.data;
-      } catch (error) {
+      } catch (error: any) {
         alert(error);
-        console.log(error);
+        logger.log(error);
       }
     },
   },

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { workFlow, users } from '../../models/workFlow';
 // import axios from 'axios';
 import { Constants } from 'stores/Constants';
+import logger from 'src/helpers/logger';
 
 export const useWorkFlowStore = defineStore('workFlowStore', {
   state: () => ({
@@ -18,23 +19,23 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
     async getWorkFlow(entityId: string, entityType: string, stageId: number) {
       try {
         const instance = Constants.getAxiosInstance();
-        console.log(
-          'Work flow response -url',
-          `${Constants.endPointUrl}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=1`
+        logger.log(
+          'Work flow response -url' +
+            `${Constants.endPointUrl}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=1`
         );
         const response = await instance.get(
           `${Constants.endPointUrl}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=${stageId}`
         );
         this.workFlow = response.data[0];
         this.workFlowUsers = response.data[0].users;
-        console.log('Work flow response -data', response.data[0]);
+        logger.log('Work flow response -data', response.data[0]);
       } catch (error) {
         Constants.throwError(error);
       }
     },
 
     async submitWorkFlow(workFlow: workFlow) {
-      console.log('CHECKING THE WORKFLOW POSTING DATA::::', workFlow);
+      logger.log('CHECKING THE WORKFLOW POSTING DATA::::', workFlow);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(

@@ -17,6 +17,7 @@ import { useRouter } from 'vue-router';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import util from 'src/helpers/util';
+import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -271,7 +272,7 @@ const ruleNotEmpty = (val: string) => {
 };
 
 const ruleEndDateGreaterThanStartDate = (val: string) => {
-  console.log(`startDate: ${startDateModelValue.value}, endDate: ${val}`);
+  logger.log(`startDate: ${startDateModelValue.value}, endDate: ${val}`);
   if (!startDateModelValue.value || startDateModelValue.value.length === 0)
     return true;
   debugger;

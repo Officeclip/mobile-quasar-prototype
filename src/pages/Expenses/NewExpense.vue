@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { ref, computed } from 'vue';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
+import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -88,12 +89,12 @@ async function onSubmit(e: any) {
     await expenseDetailsStore.addExpense(newExpense);
     router.go(-2);
   } catch (error) {
-    console.log(`*** NewExpense:onSubmit(...):catch: ${error} ***`);
+    logger.log(`*** NewExpense:onSubmit(...):catch: ${error} ***`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** NewExpnense:onSubmit(...):onOK ***');
+      logger.log('*** NewExpnense:onSubmit(...):onOK ***');
     });
   }
 }

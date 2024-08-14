@@ -16,6 +16,7 @@ import {
 import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
+import logger from 'src/helpers/logger';
 
 const expenseDetailsStore = useExpenseDetailsStore();
 
@@ -90,12 +91,12 @@ async function onSubmit() {
     // await expenseDetailsStore.editExpense(editExpense);
     router.go(-2);
   } catch (error) {
-    console.log(`*** Edit Expense:onSubmit(...):catch: ${error} ***`);
+    logger.log(`*** Edit Expense:onSubmit(...):catch: ${error} ***`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** Edit Expense:onSubmit(...):onOK ***');
+      logger.log('*** Edit Expense:onSubmit(...):onOK ***');
     });
   }
 }

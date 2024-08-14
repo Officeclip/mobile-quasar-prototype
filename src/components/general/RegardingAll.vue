@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { regardingContact } from '../../models/general/regardingAll';
 import { useRegardingAllStore } from '../../stores/regarding/regardingAllStore';
 import { useQuasar } from 'quasar';
+import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const parentServiceType = ref('');
@@ -35,12 +36,12 @@ async function filterContacts(
     try {
       await regardingAllStore.getRegardingContactListThatMatch(val);
     } catch (error) {
-      console.log(`*** Regarding:onSubmit(...):catch: ${error} ***`);
+      logger.log(`*** Regarding:onSubmit(...):catch: ${error} ***`);
       $q.dialog({
         title: 'Alert',
         message: error as string,
       }).onOk(async () => {
-        console.log('*** Regarding:onSubmit(...):onOK ***');
+        logger.log('*** Regarding:onSubmit(...):onOK ***');
       });
     }
     regardingContacts.value = regardingAllStore.regardingContacts;

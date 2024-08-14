@@ -1,23 +1,23 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
-console.log('NotesList: Setup Started');
 import { onBeforeMount, ref, computed } from 'vue';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import { useNotesStore } from '../../stores/NotesStore';
 import { useRouter } from 'vue-router';
+import logger from 'src/helpers/logger';
 
 const router = useRouter();
 const selectedNoteBook = ref('');
 const notesStore = useNotesStore();
 
 onBeforeMount(async () => {
-  console.log('NotesList: onBeforeMount Started');
+  logger.log('NotesList: onBeforeMount Started');
   await notesStore.getNoteBooks();
-  console.log('NotesList: onBeforeMount Ended');
+  logger.log('NotesList: onBeforeMount Ended');
 });
 
 const noteBooks = computed(() => {
-  console.log('NotesList: computed: noteBooks Started');
+  logger.log('NotesList: computed: noteBooks Started');
   return notesStore.NoteBooks;
 });
 
@@ -26,7 +26,7 @@ const parent = ref({
   parentObjectServiceType: '', // FIXME: Use enumerated types
   selectedNoteBook: '',
 });
-console.log('NotesList: Setup Ended');
+logger.log('NotesList: Setup Ended');
 
 const errorMessageVisible = ref(false);
 

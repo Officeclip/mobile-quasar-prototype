@@ -16,6 +16,7 @@ import WorkFlow from '../../components/general/WorkFlow.vue';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
 import { isAllowed } from 'src/helpers/security';
+import logger from 'src/helpers/logger';
 
 const route = useRoute();
 const router = useRouter();
@@ -102,7 +103,7 @@ const deleteExpense = async (id: string) => {
         title: 'Alert',
         message: error as string,
       }).onOk(async () => {
-        console.log('*** Delete expense:onSubmit(...):onOK ***');
+        logger.log('*** Delete expense:onSubmit(...):onOK ***');
         isExpenseDelete.value = false;
       });
     }
@@ -119,7 +120,7 @@ const deleteExpenseDetail = async (id: string) => {
         title: 'Alert',
         message: error as string,
       }).onOk(async () => {
-        console.log('*** Delete expense detail:onSubmit(...):onOK ***');
+        logger.log('*** Delete expense detail:onSubmit(...):onOK ***');
         isExpenseDelete.value = false;
       });
     }

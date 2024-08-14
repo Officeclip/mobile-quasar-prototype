@@ -7,7 +7,7 @@ import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
 
-console.log('noteDetails:setup');
+logger.log('noteDetails:setup');
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
@@ -29,7 +29,7 @@ const note = computed(() => {
 });
 
 onMounted(async () => {
-  console.log(`noteDetails:onMounted:id= ${route.params.id}`);
+  logger.log(`noteDetails:onMounted:id= ${route.params.id}`);
   try {
     id.value = route.params.id;
     await notesStore.getNote(route.params.id as string);
@@ -67,7 +67,7 @@ const deleteNote = async (id: string) => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** Delete task:onSubmit(...):onOK ***');
+      logger.log('*** Delete task:onSubmit(...):onOK ***');
     });
   }
   isNoteDelete.value = false;

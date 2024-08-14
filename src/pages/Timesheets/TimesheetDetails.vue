@@ -100,7 +100,7 @@ const deleteTimesheet = async (id: string) => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** Delete timesheet:onSubmit(...):onOK ***');
+      logger.log('*** Delete timesheet:onSubmit(...):onOK ***');
       showDeleteTimesheet.value = false;
     });
   }
@@ -116,7 +116,7 @@ const deleteTimesheetDetail = async (id: string) => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** Delete timesheetDetail:onSubmit(...):onOK ***');
+      logger.log('*** Delete timesheetDetail:onSubmit(...):onOK ***');
       showDeleteTimesheetDetail.value = false;
     });
   }

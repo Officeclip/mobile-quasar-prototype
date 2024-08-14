@@ -130,7 +130,7 @@ const confirmDeletion = async () => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** Delete event :onSubmit(...):onOK ***');
+      logger.log('*** Delete event :onSubmit(...):onOK ***');
       showConfirmationDialog.value = false;
     });
   }
