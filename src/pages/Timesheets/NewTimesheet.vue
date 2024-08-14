@@ -7,6 +7,7 @@ import { useTimesheetsStore } from 'src/stores/timesheet/TimesheetsStore';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
+import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -37,7 +38,7 @@ const timesheetDCAA = computed(() => {
   return timesheetCommentsStore.timesheetDCAA;
 });
 
-console.log('New timesheet DCAA: ', timesheetDCAA.value);
+logger.log('New timesheet DCAA: ', timesheetDCAA.value);
 
 const timesheetDetails: TimesheetDetails = ref({
   id: '',
@@ -78,12 +79,12 @@ async function onSubmit() {
     await timesheetStore.addTimesheetDetails(newTimesheet.value);
     router.go(-2);
   } catch (error) {
-    console.log(`*** NewTimesheet:onSubmit(...):catch: ${error} ***`);
+    logger.log(`*** NewTimesheet:onSubmit(...):catch: ${error} ***`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** NewTimesheet:onSubmit(...):onOK ***');
+      logger.log('*** NewTimesheet:onSubmit(...):onOK ***');
     });
   }
 }

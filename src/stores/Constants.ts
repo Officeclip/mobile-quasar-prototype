@@ -33,15 +33,15 @@ export class Constants {
     this.setupAxiosAuthorizationHeader(instance, 'X-Token'); //add the token if available
 
     instance.interceptors.request.use((x) => {
-      console.log(`axios request: ${JSON.stringify(x, null, 4)}`);
-      console.log('++++++');
+      logger.log(`axios request: ${JSON.stringify(x, null, 4)}`);
+      logger.log('++++++');
       return x;
     });
 
     instance.interceptors.response.use(
       (x) => {
-        console.log(`axios response: ${JSON.stringify(x, null, 4)}`);
-        console.log('++++++');
+        logger.log(`axios response: ${JSON.stringify(x, null, 4)}`);
+        logger.log('++++++');
         return x;
       },
       (error) => {
@@ -51,18 +51,18 @@ export class Constants {
         if (error.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          console.log('error.response triggred');
+          logger.log('error.response triggred');
           console.error('Response Status:', error.response.status);
           console.error('Response Data:', error.response.data);
         } else if (error.request) {
-          console.log('error.request triggred');
+          logger.log('error.request triggred');
           // The request was made but no response was received
           console.error('No response received. Request:', error.request);
         } else {
           // Something happened in setting up the request that triggered an Error
           console.error('Request Error:', error.message);
         }
-        console.log('++++++');
+        logger.log('++++++');
         // We can choose to rethrow the error or handle it as needed
         return Promise.reject(error);
       }
@@ -111,7 +111,7 @@ export class Constants {
 
   static throwError(error: unknown) {
     //TODO: We need a way to go to the login page if token expires: https://dev.to/darkmavis1980/how-to-use-axios-interceptors-to-handle-api-error-responses-2ij1
-    console.log(`throwError(...): ${JSON.stringify(error, null, 4)}`);
+    logger.log(`throwError(...): ${JSON.stringify(error, null, 4)}`);
     if (axios.isAxiosError(error)) {
       if (error?.response?.data) {
         const responseError: responseError = error.response.data;

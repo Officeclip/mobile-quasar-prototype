@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { MetaDetails } from '../models/Meta/metaDetails';
 import { Constants } from './Constants';
 import { useMetaListsStore } from './MetaListsStore';
+import logger from 'src/helpers/logger';
 
 export const useMetaDetailsStore = defineStore('metaDetailsStore', {
   state: () => ({
@@ -78,9 +79,9 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
           this.metaDetails = response.data[0];
           this.fixValuesForSelect(isReadOnly);
         }
-      } catch (error) {
+      } catch (error: any) {
         alert(error);
-        console.log(error);
+        logger.log(error);
       }
     },
   },

@@ -65,7 +65,7 @@ onBeforeMount(async () => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('onBeforeMount OK button pressed');
+      logger.log('onBeforeMount OK button pressed');
       await router.push({ path: '/LoginPage' });
       router.go(0);
     });

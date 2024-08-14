@@ -3,6 +3,7 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -12,7 +13,7 @@ const warningMsg: any = ref('');
 
 const toDaysDate = new Date().toISOString().split('T')[0];
 
-console.log('startDateOfWeek:::startDateOfWeek', toDaysDate);
+logger.log('startDateOfWeek:::startDateOfWeek', toDaysDate);
 
 const periodsList = computed(() => {
   return timesheetListStore.PeriodList;

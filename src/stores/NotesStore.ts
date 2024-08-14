@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { Note } from '../models/note';
 import { NoteBook } from '../models/noteBook';
 import { Constants } from 'stores/Constants';
+import logger from 'src/helpers/logger';
 
 export const useNotesStore = defineStore('notesStore', {
   state: () => ({
@@ -25,7 +26,7 @@ export const useNotesStore = defineStore('notesStore', {
         const response = await instance.get(
           `${Constants.endPointUrl}/notebook`
         );
-        console.log(`@@@@@: ${this.noteBooks}`);
+        logger.log(`@@@@@: ${this.noteBooks}`);
         this.noteBooks = response.data;
       } catch (error) {
         Constants.throwError(error);

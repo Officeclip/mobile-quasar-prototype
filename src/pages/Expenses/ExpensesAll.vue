@@ -6,6 +6,7 @@ import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import logger from 'src/helpers/logger';
 
 const expensesDetailsStore = useExpenseDetailsStore();
 const router = useRouter();
@@ -30,7 +31,7 @@ const allExpenses = computed(() => {
   return expensesDetailsStore.ExpenseSummary;
 });
 
-console.log(
+logger.log(
   'allExpenses allExpenses allExpenses allExpenses',
   allExpenses.value
 );

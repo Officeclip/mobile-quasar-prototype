@@ -12,6 +12,7 @@ import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
+import logger from 'src/helpers/logger';
 
 const props = defineProps({
   taskFromParent: {
@@ -149,7 +150,7 @@ watch(task.value, () => {
 });
 
 const ruleDueDateGreaterThanStartDate = (val: string) => {
-  console.log(`startDate: ${task.value.startDate}, endDate: ${val}`);
+  logger.log(`startDate: ${task.value.startDate}, endDate: ${val}`);
   if (!task.value.startDate || task.value.startDate.length === 0) return true;
   const isGreater = new Date(val) > new Date(task.value.startDate);
   return isGreater ? true : 'Due Date should be more than start date';

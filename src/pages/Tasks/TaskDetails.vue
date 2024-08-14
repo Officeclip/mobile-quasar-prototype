@@ -159,7 +159,7 @@ const confirmDeletion = async () => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** Delete task:onSubmit(...):onOK ***');
+      logger.log('*** Delete task:onSubmit(...):onOK ***');
       showConfirmationDialog.value = false;
     });
   }
@@ -177,7 +177,7 @@ async function addSubtask(subtask: subTask) {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** Add subtask:onSubmit(...):onOK ***');
+      logger.log('*** Add subtask:onSubmit(...):onOK ***');
       showAddSubtaskDialog.value = true;
     });
   }

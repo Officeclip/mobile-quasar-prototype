@@ -10,6 +10,7 @@ import { useQuasar } from 'quasar';
 import { formatDistanceStrictWithOptions } from 'date-fns/fp';
 import format from 'date-fns/format';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
+import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 
@@ -120,17 +121,17 @@ async function onSubmit(e: any) {
       recurrence: task.value.recurrence,
       taskStatusCategory: task.value.taskStatusCategory,
     };
-    console.log(`***New Task*** ${newTask.startDate}`);
+    logger.log(`***New Task*** ${newTask.startDate}`);
     await taskDetailsStore.addTask(newTask);
     router.go(-1);
   } catch (error) {
-    console.log(`*** NewTask:onSubmit(...):catch: ${error} ***`);
-    console.log(`---------${error}---------`);
+    logger.log(`*** NewTask:onSubmit(...):catch: ${error} ***`);
+    logger.log(`---------${error}---------`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** NewTask:onSubmit(...):onOK ***');
+      logger.log('*** NewTask:onSubmit(...):onOK ***');
     });
   }
 }

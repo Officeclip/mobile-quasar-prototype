@@ -80,12 +80,12 @@ async function onSubmit(e: any) {
     await tasksDetailStore.editTask(newTask);
     router.go(-2);
   } catch (error) {
-    console.log(`*** Edit Task:onSubmit(...):catch: ${error} ***`);
+    logger.log(`*** Edit Task:onSubmit(...):catch: ${error} ***`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** Edit Task:onSubmit(...):onOK ***');
+      logger.log('*** Edit Task:onSubmit(...):onOK ***');
     });
   }
 }

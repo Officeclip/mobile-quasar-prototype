@@ -3,6 +3,7 @@ import dateTimeHelper from '../helpers/dateTimeHelper.js';
 import { Event } from '../models/event';
 import { MeetingAttendees } from '../models/meetingAttendees.js';
 import { Constants } from 'stores/Constants';
+import logger from 'src/helpers/logger.js';
 
 export const useEventsStore = defineStore('eventsStore', {
   state: () => ({
@@ -27,9 +28,9 @@ export const useEventsStore = defineStore('eventsStore', {
         );
 
         this.meetingAttendees = response.data;
-      } catch (error) {
+      } catch (error: any) {
         alert(error);
-        console.log(error);
+        logger.log(error);
       }
     },
 
@@ -38,9 +39,9 @@ export const useEventsStore = defineStore('eventsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(`${Constants.endPointUrl}events`);
         this.events = response.data;
-      } catch (error) {
+      } catch (error: any) {
         alert(error);
-        console.log(error);
+        logger.log(error);
       }
     },
 
@@ -68,9 +69,9 @@ export const useEventsStore = defineStore('eventsStore', {
         if (response.data && response.data.length > 0) {
           this.event = response.data[0];
         }
-      } catch (error) {
+      } catch (error: any) {
         alert(error);
-        console.log(error);
+        logger.log(error);
       }
     },
 

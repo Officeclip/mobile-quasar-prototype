@@ -19,7 +19,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
 
   actions: {
     async addTask(taskDetail: taskDetails) {
-      console.log('*** taskDetailStore:addTask(...) ***');
+      logger.log('*** taskDetailStore:addTask(...) ***');
       try {
         this.taskDetails.push(taskDetail);
         const instance = Constants.getAxiosInstance();
@@ -32,7 +32,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           this.taskDetail = response.data;
         }
       } catch (error) {
-        console.log(`*** taskDetailStore:addTask(...):catch: ${error} ***`);
+        logger.log(`*** taskDetailStore:addTask(...):catch: ${error} ***`);
         Constants.throwError(error);
       }
     },
@@ -62,7 +62,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           this.taskDetail = response.data;
         }
       } catch (error) {
-        console.log(`*** taskDetailStore:editTask(...):catch: ${error} ***`);
+        logger.log(`*** taskDetailStore:editTask(...):catch: ${error} ***`);
         Constants.throwError(error);
       }
     },
@@ -77,7 +77,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         this.taskDetail = response.data;
       } catch (error) {
         logger.log(`*** taskDetailStore:catch(${error}) ***`, 'error');
-        Constants.throwError(error);
+        logger.throwError(error);
       }
     },
 
@@ -107,7 +107,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           this.subTask = response.data;
         }
       } catch (error) {
-        console.log(`*** taskDetailStore:addSubTask(...):catch: ${error} ***`);
+        logger.log(`*** taskDetailStore:addSubTask(...):catch: ${error} ***`);
         Constants.throwError(error);
       }
     },
@@ -123,7 +123,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           this.subTask = response.data;
         }
       } catch (error) {
-        console.log(`*** taskDetailStore:editSubTask(...):catch: ${error} ***`);
+        logger.log(`*** taskDetailStore:editSubTask(...):catch: ${error} ***`);
         Constants.throwError(error);
       }
     },

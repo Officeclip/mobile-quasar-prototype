@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { Timesheet } from '../../models/Timesheet/timesheet';
 import { TimesheetDetails } from '../../models/Timesheet/timesheetDetails';
 import { Constants } from 'stores/Constants';
+import logger from 'src/helpers/logger';
 
 export const useTimesheetsStore = defineStore('timesheetsStore', {
   state: () => ({
@@ -60,7 +61,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
             completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Rejected`;
             break;
         }
-        console.log(`getInOutboxList(): completeUrl - ${completeUrl}`);
+        logger.log(`getInOutboxList(): completeUrl - ${completeUrl}`);
         return completeUrl;
       } catch (error) {
         Constants.throwError(error);
@@ -96,9 +97,8 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
           `${Constants.endPointUrl}/timesheet-detail/${id}`
         );
         this.timesheetDetail = response.data;
-        console.log(
-          'Testing the single timesheet details by Id',
-          this.timesheetDetail
+        logger.log(
+          `Testing the single timesheet details by Id ${this.timesheetDetail}`
         );
       } catch (error) {
         Constants.throwError(error);

@@ -6,6 +6,7 @@ import { useRouter, useRoute } from 'vue-router';
 import NotesForm from '../../components/Notes/NotesFormCtrl.vue';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
+import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const notesStore = useNotesStore();
@@ -35,7 +36,7 @@ async function onSubmit(e: Event) {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      console.log('*** Edit notes:onSubmit(...):onOK ***');
+      logger.log('*** Edit notes:onSubmit(...):onOK ***');
     });
   }
 }

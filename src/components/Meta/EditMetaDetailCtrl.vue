@@ -1,9 +1,10 @@
 <script setup lang="ts">
-console.log('Components/EditContactDetails: Setup');
+logger.log('Components/EditContactDetails: Setup');
 import { onMounted, computed } from 'vue';
 import { useMetaDetailsStore } from '../../stores/MetaDetailsStore';
 import MetaDetailsEditItem from '../../components/Meta/MetaDetailsEditItem.vue';
 import { useRoute } from 'vue-router';
+import logger from 'src/helpers/logger';
 const metaDetailsStore = useMetaDetailsStore();
 const route = useRoute();
 const contactDetails = computed(() => {
@@ -17,8 +18,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <q-card v-for="(section, index) in contactDetails?.sections" :key="index" flat bordered
-    class="relative-position card-example">
+  <q-card
+    v-for="(section, index) in contactDetails?.sections"
+    :key="index"
+    flat
+    bordered
+    class="relative-position card-example"
+  >
     <q-card-section class="q-pb-none">
       <div class="text-h6">{{ section.sectionName }}</div>
     </q-card-section>
