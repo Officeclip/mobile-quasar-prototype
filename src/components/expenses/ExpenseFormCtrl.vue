@@ -63,10 +63,15 @@ const paymentTypeOptions = computed(() => {
 });
 
 const period = computed(() => {
-  const formattedDt = `${dateTimeHelper.formatDateForTE(
-    props?.fromDate
-  )} - ${dateTimeHelper.formatDateForTE(props?.toDate)}`;
-  return formattedDt;
+  const fromDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
+    props?.fromDate,
+    true
+  );
+  const toDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
+    props?.toDate,
+    true
+  );
+  return `${fromDate} - ${toDate}`;
 });
 
 const dateOptions = computed(() => {
