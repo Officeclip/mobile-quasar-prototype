@@ -275,7 +275,7 @@ const ruleEndDateGreaterThanStartDate = (val: string) => {
   logger.log(`startDate: ${startDateModelValue.value}, endDate: ${val}`);
   if (!startDateModelValue.value || startDateModelValue.value.length === 0)
     return true;
-  debugger;
+  //debugger;
   const isValid = props.event.isAllDayEvent
     ? new Date(val) >= new Date(startDateModelValue.value)
     : new Date(val) > new Date(startDateModelValue.value);
