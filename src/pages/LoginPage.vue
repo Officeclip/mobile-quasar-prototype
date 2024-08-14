@@ -99,7 +99,7 @@ function getEndPointUrlFromUri(href: string): string | null {
     <q-page-container>
       <q-page class="flex flex-center bg-grey-2">
         <q-card class="q-pa-md shadow-2 my_card" bordered>
-          <q-form @submit="onSubmit" v-if="pin">
+          <q-form @submit="onSubmit" v-if="!pin">
             <q-card-section class="text-center">
               <div class="text-grey-9 text-h5 text-weight-bold">Sign in</div>
               <div class="text-grey-8">
