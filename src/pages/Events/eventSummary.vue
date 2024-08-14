@@ -9,6 +9,7 @@ import dateTimeHelper from '../../helpers/dateTimeHelper.js';
 import { format } from 'date-fns';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import drawer from '../../components/drawer.vue';
 
 const eventSummaryStore = useEventSummaryStore();
 const router = useRouter();
@@ -18,6 +19,7 @@ const selectedDate = ref('');
 selectedDate.value = format(new Date(), 'yyyy/MM/dd');
 
 const yearAndMonth = ref(null);
+const myDrawer = ref();
 
 onMounted(async () => {
   try {
@@ -81,6 +83,11 @@ const getYearandMonth = (newvalue: any) => {
   yearAndMonth.value = newvalue;
   eventSummaryStore.getAllEventSummary(yearAndMonth.value);
 };
+
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
+}
 </script>
 <style>
 .q-dialog__backdrop {
@@ -101,10 +108,18 @@ const getYearandMonth = (newvalue: any) => {
           @click="$router.go(-1)"
         >
         </q-btn>
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
+        />
         <q-toolbar-title> OfficeClip Calendar</q-toolbar-title>
       </q-toolbar>
     </q-header>
-
+    <drawer ref="myDrawer" />
     <q-page-container>
       <q-page>
         <div class="q-ma-md">
