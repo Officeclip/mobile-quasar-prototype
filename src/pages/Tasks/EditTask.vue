@@ -70,7 +70,7 @@ async function onSubmit(e: any) {
       createdDate: task.value.createdDate,
       modifiedByUserSid: task.value.modifiedByUserSid,
       modifiedDate: task.value.modifiedDate,
-      subTasks: task.value.subTasks,
+      subTasks: [],
       security: task.value.security,
       reminder: task.value.reminder,
       recurrence: task.value.recurrence,
