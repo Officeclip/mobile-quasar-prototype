@@ -59,10 +59,7 @@ const convertedDate = computed(() => {
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-model="date" mask="YYYY-MM-DD">
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
-                  </div>
+                <q-date v-close-popup v-model="date" mask="YYYY-MM-DD">
                 </q-date>
               </q-popup-proxy>
             </q-icon>

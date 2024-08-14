@@ -53,12 +53,10 @@ const onSave = () => {
                 transition-show="scale"
               >
                 <q-date
+                  v-close-popup
                   v-model="startDateModelValue"
                   :mask="mask(isAllDayEvent)"
                 >
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
-                  </div>
                 </q-date>
               </q-popup-proxy>
             </q-icon>

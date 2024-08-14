@@ -205,10 +205,7 @@ const regarding = computed(() => {
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-model="task.startDate" :mask="dateMask">
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
-                  </div>
+                <q-date v-close-popup v-model="task.startDate" :mask="dateMask">
                 </q-date>
               </q-popup-proxy>
             </q-icon>
@@ -228,10 +225,7 @@ const regarding = computed(() => {
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-model="task.dueDate" :mask="dateMask">
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup color="primary" flat label="Close" />
-                  </div>
+                <q-date v-close-popup v-model="task.dueDate" :mask="dateMask">
                 </q-date>
               </q-popup-proxy>
             </q-icon>
