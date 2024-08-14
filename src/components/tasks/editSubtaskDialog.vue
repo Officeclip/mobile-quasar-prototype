@@ -9,7 +9,7 @@ import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
 const props = defineProps<{
-  subtask: subTask
+  subtask: subTask;
 }>();
 
 const { subtask } = toRefs(props);
@@ -52,15 +52,37 @@ async function filterFn(val: string, update: any) {
 <template>
   <q-card>
     <div class="q-pa-md column">
-      <q-input v-model="subtask.title" :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        label="Subject" lazy-rules outlined placeholder="Enter Subtask Title" square />
+      <q-input
+        v-model="subtask.title"
+        :rules="[(val) => (val && val.length > 0) || 'Please type title']"
+        label="Subject"
+        lazy-rules
+        outlined
+        placeholder="Enter Subtask Title"
+        square
+      />
 
-      <q-input v-model="subtask.description" class="q-mt-none" label="Description" outlined placeholder="Type Here...."
-        square type="textarea" />
+      <q-input
+        v-model="subtask.description"
+        class="q-mt-none"
+        label="Description"
+        outlined
+        placeholder="Type Here...."
+        square
+        type="textarea"
+      />
 
       <q-item-section>
-        <q-select v-model="subtask.assignee" :options="contactOptions" label="Assigned to" option-label="name"
-          option-value="name" use-chips use-input @filter="filterFn">
+        <q-select
+          v-model="subtask.assignee"
+          :options="contactOptions"
+          label="Assigned to"
+          option-label="name"
+          option-value="name"
+          use-chips
+          use-input
+          @filter="filterFn"
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">No results</q-item-section>

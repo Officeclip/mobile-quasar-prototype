@@ -16,6 +16,7 @@ import { useQuasar, QInput } from 'quasar';
 import { useRouter } from 'vue-router';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
+import util from 'src/helpers/util';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -266,7 +267,7 @@ const endDateRef = ref<QInput>();
 
 const ruleNotEmpty = (val: string) => {
   const condition = val && val.length > 0;
-  return condition ? true : 'Please enter something';
+  return condition ? true : util.genericValidationMessage();
 };
 
 const ruleEndDateGreaterThanStartDate = (val: string) => {

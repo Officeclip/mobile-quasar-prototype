@@ -66,7 +66,7 @@ function emitSubtask() {
     <div class="q-pa-md column">
       <q-input
         v-model="subtask.title"
-        :rules="[(val: any) => (val && val.length > 0) || 'Please type something']"
+        :rules="[(val: any) => (val && val.length > 0) || 'Please type title']"
         label="* Subject"
         lazy-rules
         placeholder="Enter Subtask Title"

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
+import util from 'src/helpers/util';
 import { ref, watch, computed } from 'vue';
 
 const inputValue = ref('');
@@ -37,7 +38,7 @@ defineExpose({
 
 const ruleNotEmpty = (val: string) => {
   const condition = val && val.length > 0;
-  return condition ? true : 'Please enter something';
+  return condition ? true : util.genericValidationMessage();
 };
 
 const ruleEndDateGreaterThanStartDate = (val: string) => {

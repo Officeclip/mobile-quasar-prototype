@@ -163,7 +163,7 @@ const validateAll = () => {
 
 const ruleNotEmpty = (val: string) => {
   const condition = val && val.length > 0;
-  return condition ? true : 'Please enter something';
+  return condition ? true : 'Please fill in this field';
 };
 
 defineExpose({
@@ -183,7 +183,7 @@ const regarding = computed(() => {
         <q-input
           ref="nameRef"
           v-model="task.subject"
-          error-message="Please type something"
+          error-message="Please type subject"
           label="Subject"
           placeholder="enter task subject"
           :rules="[ruleNotEmpty]"

@@ -21,7 +21,7 @@ const descriptionRef = ref(null);
 
 const ruleNotEmpty = (val: string) => {
   const condition = val && val.length > 0;
-  return condition ? true : 'Please type something';
+  return condition ? true : 'Please enter description';
 };
 
 const validateAll = () => {
