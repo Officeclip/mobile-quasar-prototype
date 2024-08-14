@@ -33,9 +33,9 @@ onMounted(async () => {
   date.value = props.expenseDetail?.expenseDate;
 
   customerProjectModel.value =
-    props.expenseDetail?.accountSid +
-    (props.expenseDetail?.projectSid
-      ? ':' + props.expenseDetail?.projectSid
+    props.expenseDetail?.accountName +
+    (props.expenseDetail?.projectName
+      ? ':' + props.expenseDetail?.projectName
       : '');
 });
 
@@ -294,7 +294,7 @@ defineExpose({
       <!-- <pre>{{ customerProjectModel }}</pre> -->
       <!-- <pre>{{ customerProjectOptions }}</pre> -->
       <q-select
-        label="Customer: Project"
+        label="Customer : Project"
         v-model="customerProjectModel"
         :options="customerProjectOptions"
         option-label="name"
