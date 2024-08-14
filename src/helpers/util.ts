@@ -31,9 +31,18 @@ function isValidEmail(email: string, isRequired: boolean) {
   return regex.test(email);
 }
 
+function isProduction() {
+  if (!import.meta.env.VITE_PRODUCTION_ENVIRONMENT) return false;
+  const isProduction =
+    import.meta.env.VITE_PRODUCTION_ENVIRONMENT == 1 &&
+    process.env.NODE_ENV == 'production';
+  return isProduction;
+}
+
 export default {
   waitInSecs,
   ocSession,
   getEndPointUrlFromUri,
   isValidEmail,
+  isProduction,
 };

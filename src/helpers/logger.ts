@@ -1,10 +1,12 @@
-const isProduction = process.env.NODE_ENV === 'production';
+//const isProduction = process.env.NODE_ENV === 'production';
+
+import util from './util';
 
 function log(message: string, level?: 'info' | 'warn' | 'error') {
   // WHEN RUNNING WEBPACK WITH `PRODUCTION` build,
   // IT WILL REMOVE THE FOLLOWING CODE.
 
-  if (!isProduction) {
+  if (!util.isProduction()) {
     if (level === 'error') {
       console.error(message);
     } else if (level === 'warn') {
