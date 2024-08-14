@@ -176,7 +176,12 @@ const deleteExpenseDetail = async (id: string) => {
           <q-expansion-item expand-separator expand-icon-class="text-primary">
             <template v-slot:header>
               <q-item-section>
-                <q-item-label>
+                <q-item-label
+                  v-if="
+                    expenseDetail.accountName !== '' ||
+                    expenseDetail.projectName !== ''
+                  "
+                >
                   {{ expenseDetail.accountName }} :
                   {{ expenseDetail.projectName }}
                 </q-item-label>
