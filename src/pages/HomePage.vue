@@ -12,6 +12,7 @@ import { useProfileListsStore } from 'stores/profileListsStore';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
 import packageJson from '../../package.json';
+import { Constants } from 'stores/Constants';
 
 const router = useRouter();
 const sessionStore = useSessionStore();
@@ -166,7 +167,9 @@ function logout() {
           </q-item>
           <q-item dense>
             <q-item-section>OfficeClip Version: </q-item-section>
-            <q-item-section side>12.1.58</q-item-section>
+            <q-item-section side>{{
+              Constants.getRestApiVersionFromSession()
+            }}</q-item-section>
           </q-item>
         </q-list>
       </q-scroll-area>

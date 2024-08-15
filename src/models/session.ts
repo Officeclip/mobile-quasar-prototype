@@ -6,6 +6,7 @@ export interface Session {
   orgKey: string;
   applicationIds: Array<number>;
   isAdmin: boolean;
+  restApiVersion: string;
   roleAccess: RoleAccess[];
 }
 
