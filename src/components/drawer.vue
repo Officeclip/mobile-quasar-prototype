@@ -50,6 +50,13 @@ function logout() {
 }
 </script>
 
+<style>
+.q-list--dense > .q-item,
+.q-item--dense {
+  min-height: 12px !important;
+}
+</style>
+
 <!-- see: https://forum.quasar-framework.org/topic/2911/width-attribute-on-q-layout-drawer-giving-error-in-browser-console/3 -->
 
 <template>
