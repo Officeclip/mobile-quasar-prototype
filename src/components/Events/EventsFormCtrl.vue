@@ -268,7 +268,7 @@ const endDateRef = ref<QInput>();
 
 const ruleNotEmpty = (val: string) => {
   const condition = val && val.length > 0;
-  return condition ? true : util.genericValidationMessage();
+  return condition ? true : 'This field is required';
 };
 
 const ruleEndDateGreaterThanStartDate = (val: string) => {

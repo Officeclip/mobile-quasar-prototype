@@ -1,5 +1,5 @@
 <!-- eslint-disable vue/no-mutating-props -->
-<script setup>
+<script lang="ts" setup>
 import { defineProps, ref, onMounted, computed, watch } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
@@ -13,6 +13,8 @@ import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
 const props = defineProps(['expenseDetail', 'fromDate', 'toDate']);
+
+const airTravelExpenseComponent = ref<typeof airTravelExpenseForm>(); // see: https://stackoverflow.com/a/65027995
 
 const expenseListsStore = useExpenseListsStore();
 const router = useRouter();
@@ -63,10 +65,15 @@ const paymentTypeOptions = computed(() => {
 });
 
 const period = computed(() => {
-  const formattedDt = `${dateTimeHelper.formatDateForTE(
-    props?.fromDate
-  )} - ${dateTimeHelper.formatDateForTE(props?.toDate)}`;
-  return formattedDt;
+  const fromDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
+    props?.fromDate,
+    true
+  );
+  const toDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
+    props?.toDate,
+    true
+  );
+  return `${fromDate} - ${toDate}`;
 });
 
 const dateOptions = computed(() => {
@@ -219,6 +226,11 @@ const isExpenseTypeValid = () => {
 };
 
 const validateAll = () => {
+  switch (props.expenseDetail.expenseTypeName) {
+    case 'AIRFARE':
+      if (!airTravelExpenseComponent.value?.validateAll()) return false;
+      break;
+  }
   dateRef.value.validate();
   amountRef.value.validate();
   expenseTypeRef.value.validate();
@@ -319,6 +331,7 @@ defineExpose({
 
       <q-card class="q-my-md">
         <airTravelExpenseForm
+          ref="airTravelExpenseComponent"
           :airTravel="
             props.expenseDetail.airTravelExpense == null
               ? (props.expenseDetail.airTravelExpense = airTravel)

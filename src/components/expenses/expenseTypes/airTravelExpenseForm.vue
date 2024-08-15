@@ -1,24 +1,56 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
-<script setup>
+<script lang="ts" setup>
 import { defineProps, ref } from 'vue';
-import { date } from 'quasar';
+import { date, QInput } from 'quasar';
 
 const props = defineProps(['airTravel', 'isDetailRequired']);
 
 const dense = ref(false);
 const mask = 'YYYY-MM-DD';
 
-const errorMessage = ref('');
+const arrivalAirportRef = ref<QInput>(); // from: https://stackoverflow.com/a/65106524
+const departureAirportRef = ref<QInput>();
+const departureDateRef = ref<QInput>();
+const arrivalDateRef = ref<QInput>();
 
-function dateValidation(dateString) {
-  if (!date.isValid(dateString)) {
-    return (errorMessage.value = 'Please enter a valid date');
+// const errorMessage = ref('');
+
+// function dateValidation(dateString) {
+//   if (!date.isValid(dateString)) {
+//     return (errorMessage.value = 'Please enter a valid date');
+//   }
+//   if (dateString < props.airTravel.departureDate) {
+//     return (errorMessage.value =
+//       'Arrival Date should be after the Departure Date.');
+//   }
+// }
+
+const ruleNotEmpty = (val: string) => {
+  const condition = (val && val.length > 0) || !props.isDetailRequired;
+  return condition ? true : 'This field is required';
+};
+
+const validateAll = () => {
+  arrivalAirportRef.value?.validate();
+  departureAirportRef.value?.validate();
+  departureDateRef.value?.validate();
+  arrivalDateRef.value?.validate();
+
+  if (
+    arrivalAirportRef.value?.hasError ||
+    departureAirportRef.value?.hasError ||
+    departureDateRef.value?.hasError ||
+    arrivalDateRef.value?.hasError
+  ) {
+    return false;
+  } else {
+    return true;
   }
-  if (dateString < props.airTravel.departureDate) {
-    return (errorMessage.value =
-      'Arrival Date should be after the Departure Date.');
-  }
-}
+};
+
+defineExpose({
+  validateAll,
+});
 </script>
 
 <template>
@@ -26,43 +58,32 @@ function dateValidation(dateString) {
   <div class="q-ma-lg">
     <div class="q-ml-sm">
       <q-input
+        ref="departureAirportRef"
         v-model="props.airTravel.departureAirport"
         label="Departure Airport"
-        :label-color="props.isDetailRequired ? 'red' : ''"
         placeholder="enter departure airport name"
         :dense="dense"
-        lazy-rules
-        :rules="[
-          (val) =>
-            (val && val.length > 0) ||
-            !props.isDetailRequired ||
-            'enter departure airport name.',
-        ]"
+        :label-color="props.isDetailRequired ? 'red' : ''"
+        :rules="[ruleNotEmpty]"
       >
       </q-input>
       <q-input
+        ref="arrivalAirportRef"
         v-model="props.airTravel.arrivalAirport"
         label="Arrival Airport"
-        :label-color="props.isDetailRequired ? 'red' : ''"
         placeholder="enter arrival airport name"
         :dense="dense"
-        lazy-rules
-        :rules="[
-          (val) =>
-            (val && val.length > 0) ||
-            !props.isDetailRequired ||
-            'enter arrival airport name',
-        ]"
+        :label-color="props.isDetailRequired ? 'red' : ''"
+        :rules="[ruleNotEmpty]"
       >
       </q-input>
       <q-input
+        ref="departureDateRef"
         name="departureDate"
         v-model="props.airTravel.departureDate"
         label="Departure Date"
         :label-color="props.isDetailRequired ? 'red' : ''"
-        lazy-rules
-        :rules="['date']"
-        error-message="Please enter a valid date"
+        :rules="[ruleNotEmpty]"
       >
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
@@ -82,15 +103,12 @@ function dateValidation(dateString) {
         </template>
       </q-input>
       <q-input
+        ref="arrivalDateRef"
         name="arrivalDate"
         v-model="props.airTravel.arrivalDate"
         label="Arrival Date"
         :label-color="props.isDetailRequired ? 'red' : ''"
-        lazy-rules
-        :rules="[(val) => val && dateValidation(val)]"
-        :error-message="
-          errorMessage ? errorMessage : 'Please enter a valid date'
-        "
+        :rules="[ruleNotEmpty]"
       >
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
