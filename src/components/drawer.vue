@@ -6,6 +6,7 @@ import { useSessionStore } from 'stores/SessionStore';
 import { useRouter } from 'vue-router';
 import packageJson from '../../package.json';
 import { useProfileListsStore } from 'stores/profileListsStore';
+import { Constants } from 'stores/Constants';
 
 const sessionStore = useSessionStore();
 const leftDrawerOpen = ref(false);
@@ -99,7 +100,9 @@ function logout() {
         </q-item>
         <q-item dense>
           <q-item-section>OfficeClip Version: </q-item-section>
-          <q-item-section side>12.1.58</q-item-section>
+          <q-item-section side>{{
+            Constants.getRestApiVersionFromSession()
+          }}</q-item-section>
         </q-item>
       </q-list>
     </q-scroll-area>

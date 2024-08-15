@@ -13,7 +13,6 @@ import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
 //import packageJson from '../../package.json';
 import drawer from '../components/drawer.vue';
-import { Constants } from 'stores/Constants';
 
 const router = useRouter();
 const sessionStore = useSessionStore();
@@ -123,33 +122,7 @@ function goToApp(url: string) {
       </q-toolbar>
     </q-header>
 
-        <q-list class="absolute-bottom-right text-caption dense">
-          <q-item dense>
-            <q-item-section>Version: </q-item-section>
-            <q-item-section side>{{ packageJson.version }}</q-item-section>
-          </q-item>
-          <q-item dense>
-            <q-item-section>OfficeClip Version: </q-item-section>
-            <q-item-section side>{{
-              Constants.getRestApiVersionFromSession()
-            }}</q-item-section>
-          </q-item>
-        </q-list>
-      </q-scroll-area>
-      <q-img
-        src="https://cdn.quasar.dev/img/material.png"
-        class="absolute-top"
-        style="height: 150px"
-      >
-        <div class="absolute-bottom bg-transparent">
-          <q-avatar class="q-mb-sm" size="56px">
-            <img :src="userIcon" />
-          </q-avatar>
-          <div class="text-weight-bold">{{ session?.userName }}</div>
-          <div>{{ session?.userEmail }}</div>
-        </div>
-      </q-img>
-    </q-drawer>
+    <drawer ref="myDrawer" />
 
     <q-page-container>
       <q-page>
