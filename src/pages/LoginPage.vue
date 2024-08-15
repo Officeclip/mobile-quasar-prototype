@@ -114,6 +114,7 @@ function getEndPointUrlFromUri(href: string): string | null {
                 label="Email Address"
                 :rules="['email']"
                 error-message="Please enter a valid email address"
+                type="email"
               ></q-input>
               <q-input
                 dense
