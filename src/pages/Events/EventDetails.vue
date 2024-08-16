@@ -10,6 +10,7 @@ import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
+import drawer from '../../components/drawer.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -19,6 +20,8 @@ const $q = useQuasar();
 
 const id = route.params.id;
 const appName = route.params.appName;
+
+const myDrawer = ref();
 
 onMounted(async () => {
   logger.log('*** Event Details:onMounted(async...) ***');
@@ -142,6 +145,11 @@ const openUrl = () => {
 const projectServiceItem = computed(() => {
   return `${event.value?.parent.type?.name} : ${event.value?.parent.value?.name}`;
 });
+
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
+}
 </script>
 
 <style>
@@ -161,6 +169,14 @@ const projectServiceItem = computed(() => {
           icon="arrow_back"
           round
           @click="$router.go(-1)"
+        />
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
         />
         <q-toolbar-title>
           <OCItem :value="event?.eventType?.name" />
@@ -195,7 +211,7 @@ const projectServiceItem = computed(() => {
         </div>
       </q-toolbar>
     </q-header>
-
+    <drawer ref="myDrawer" />
     <q-page-container>
       <q-list>
         <OCItem :value="event?.eventName" class="text-weight-regular text-h6" />
