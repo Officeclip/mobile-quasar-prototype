@@ -26,6 +26,7 @@ function markTaskAsCompleted() {
   let completedTask: taskSummary = props.task;
   completedTask.taskStatusName = 'Completed';
   completedTask.taskStatusCategory = 'Completed';
+  completedTask.isComplete = true;
   taskSummaryStore.editTask(completedTask);
 }
 
@@ -33,6 +34,7 @@ function markTaskAsOpen() {
   let openTask: taskSummary = props.task;
   openTask.taskStatusName = 'Open';
   openTask.taskStatusCategory = 'Active';
+  openTask.isComplete = false;
   taskSummaryStore.editTask(openTask);
 }
 

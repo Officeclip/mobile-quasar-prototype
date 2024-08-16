@@ -47,7 +47,7 @@ onBeforeMount(() => {
   <!-- <pre>{{ getTaskSummaries }}</pre> -->
   <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
     <q-item v-for="task in getTaskSummaries" :key="task.id" class="q-pa-sm">
-      <taskSummaryItem
+      <TaskSummaryItem
         :task="task"
         :appName="parent.appName"
         class="full-width"
