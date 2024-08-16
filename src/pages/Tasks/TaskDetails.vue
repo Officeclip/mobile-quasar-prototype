@@ -261,7 +261,9 @@ function toggleLeftDrawer() {
         <q-card-section class="text-h5">{{
           taskDetail?.subject
         }}</q-card-section>
-        <q-card-section>{{ taskDetail?.description }}</q-card-section>
+        <q-card-section>
+          <div v-html="taskDetail?.description"></div>
+        </q-card-section>
         <q-separator inset />
         <q-card-section class="row justify-between">
           <q-item>
