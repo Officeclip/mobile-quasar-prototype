@@ -411,37 +411,47 @@ function toggleLeftDrawer() {
             </q-item>
           </div>
         </q-card-section>
-        <q-toolbar class="bg-primary text-white shadow-2">
-          <q-toolbar-title>Subtasks</q-toolbar-title>
+        <div v-if="pendingSubtasks.length > 0">
+          <q-toolbar class="bg-primary text-white shadow-2">
+            <q-toolbar-title>Subtasks</q-toolbar-title>
+            <q-btn
+              dense
+              flat
+              icon="add"
+              round
+              @click="showAddSubtaskDialog = true"
+            />
+          </q-toolbar>
+          <q-list bordered class="rounded-borders">
+            <q-item-label caption class="q-ma-sm">Pending</q-item-label>
+            <div v-for="subtask in pendingSubtasks" :key="subtask.id">
+              <subtask-item :subtask="subtask" />
+            </div>
+            <q-item-label
+              v-if="pendingSubtasks.length === 0"
+              class="text-center text-grey"
+              >No pending tasks</q-item-label
+            >
+            <q-separator spaced />
+            <q-item-label caption class="q-ma-sm">Completed</q-item-label>
+            <div v-for="subtask in completedSubtasks" :key="subtask.id">
+              <subtask-item :subtask="subtask" />
+            </div>
+            <q-item-label
+              v-if="completedSubtasks.length === 0"
+              class="text-center text-grey"
+              >No completed tasks
+            </q-item-label>
+          </q-list>
+        </div>
+        <div v-else>
           <q-btn
-            dense
-            flat
-            icon="add"
-            round
+            color="primary"
+            label="Add subtask"
+            no-caps
             @click="showAddSubtaskDialog = true"
-          />
-        </q-toolbar>
-        <q-list bordered class="rounded-borders">
-          <q-item-label caption class="q-ma-sm">Pending</q-item-label>
-          <div v-for="subtask in pendingSubtasks" :key="subtask.id">
-            <subtask-item :subtask="subtask" />
-          </div>
-          <q-item-label
-            v-if="pendingSubtasks.length === 0"
-            class="text-center text-grey"
-            >No pending tasks</q-item-label
-          >
-          <q-separator spaced />
-          <q-item-label caption class="q-ma-sm">Completed</q-item-label>
-          <div v-for="subtask in completedSubtasks" :key="subtask.id">
-            <subtask-item :subtask="subtask" />
-          </div>
-          <q-item-label
-            v-if="completedSubtasks.length === 0"
-            class="text-center text-grey"
-            >No completed tasks
-          </q-item-label>
-        </q-list>
+          ></q-btn>
+        </div>
       </q-card>
       <q-page-sticky :offset="[18, 18]" position="bottom-right">
         <q-fab
