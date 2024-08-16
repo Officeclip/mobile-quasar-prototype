@@ -8,12 +8,14 @@ import { useRouter } from 'vue-router';
 import { isAllowed } from 'src/helpers/security';
 import { useTECommentsStore } from 'src/stores/TECommentsStore';
 import logger from 'src/helpers/logger';
+import drawer from '../../components/drawer.vue';
 
 const timesheetStatus = ref('inbox');
 const title = ref(capitalize(timesheetStatus.value));
 const $q = useQuasar();
 const router = useRouter();
 const teCommentsStore = useTECommentsStore();
+const myDrawer = ref();
 
 const timesheetsStore = useTimesheetsStore();
 onBeforeMount(async () => {
@@ -50,13 +52,17 @@ watch([timesheetStatus], ([newModel]) => {
   timesheetsStore.getTimesheetsByStatus(String(newModel));
   title.value = capitalize(newModel);
 });
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
+}
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
         <q-btn
-          @click="$router.go(-1)"
+          @click="$router.push({ path: '/homepage' })"
           flat
           round
           dense
@@ -64,9 +70,18 @@ watch([timesheetStatus], ([newModel]) => {
           icon="arrow_back"
         >
         </q-btn>
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
+        />
         <q-toolbar-title>{{ title }} Timesheets </q-toolbar-title>
       </q-toolbar>
     </q-header>
+    <drawer ref="myDrawer" />
     <q-footer elevated>
       <q-tabs
         v-model="timesheetStatus"

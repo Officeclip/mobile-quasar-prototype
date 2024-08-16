@@ -11,14 +11,14 @@ import WorkFlow from '../../components/general/WorkFlow.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
-// import dateTimeHelper from 'src/helpers/dateTimeHelper';
+import drawer from '../../components/drawer.vue';
 
 const router = useRouter();
 const route = useRoute();
 const timesheetsStore = useTimesheetsStore();
 const timesheetCommentsStore = useTECommentsStore();
-// const timesheetListsStore = useTimesheetListStore();
 const $q = useQuasar();
+const myDrawer = ref();
 
 const id = route.params.id;
 const employeeId = route.params.employeeId;
@@ -127,25 +127,15 @@ const commentsList = computed(() => {
 const listLength = computed(() => {
   return commentsList.value.length;
 });
-
-// const periodOptions = computed(() => {
-//   return timesheetListsStore.PeriodList;
-// });
-
-// const timesheetPeriod = computed(() => {
-//   return periodOptions.value?.find((x) => x.start.toString() === fromDate);
-// });
-// const generateTimesheetPeriod = computed(() => {
-//   const formattedDt = `${dateTimeHelper.formatDateForTE(
-//     fromDate
-//   )} - ${dateTimeHelper.formatDateForTE(toDate)}`;
-//   return formattedDt;
-// });
 const showWarningMsg = () => {
   alert(
     'Add new timesheet details entry is not available in mobile app for Check-in, Check-out mode,please visit the web app to add the new timesheet details'
   );
 };
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
+}
 </script>
 
 <template>
@@ -153,7 +143,7 @@ const showWarningMsg = () => {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="$router.go(-1)"
+          @click="$router.push({ path: '/timesheetsAll' })"
           flat
           round
           dense
@@ -161,6 +151,14 @@ const showWarningMsg = () => {
           icon="arrow_back"
         >
         </q-btn>
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
+        />
         <q-toolbar-title> Details </q-toolbar-title>
         <q-btn
           v-if="isAllowedDelete"
@@ -174,6 +172,7 @@ const showWarningMsg = () => {
         </q-btn>
       </q-toolbar>
     </q-header>
+    <drawer ref="myDrawer" />
     <q-page-container>
       <div>
         <WorkFlow
