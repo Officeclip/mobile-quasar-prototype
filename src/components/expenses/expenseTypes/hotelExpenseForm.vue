@@ -1,10 +1,43 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
-<script setup>
+<script lang="ts" setup>
 import { defineProps, ref } from 'vue';
+import { QInput } from 'quasar';
 
 const props = defineProps(['hotel', 'isDetailRequired']);
 
 const dense = ref(false);
+
+const hotelNameRef = ref<QInput>(); // from: https://stackoverflow.com/a/65106524
+const cityRef = ref<QInput>();
+const fromDateRef = ref<QInput>();
+const toDateRef = ref<QInput>();
+
+const ruleNotEmpty = (val: string) => {
+  const condition = (val && val.length > 0) || !props.isDetailRequired;
+  return condition ? true : 'This field is required';
+};
+
+const validateAll = () => {
+  hotelNameRef.value?.validate();
+  cityRef.value?.validate();
+  fromDateRef.value?.validate();
+  toDateRef.value?.validate();
+
+  if (
+    hotelNameRef.value?.hasError ||
+    cityRef.value?.hasError ||
+    fromDateRef.value?.hasError ||
+    toDateRef.value?.hasError
+  ) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+defineExpose({
+  validateAll,
+});
 </script>
 
 <template>
@@ -12,46 +45,34 @@ const dense = ref(false);
   <div class="q-ma-lg">
     <div class="q-ml-sm">
       <q-input
+        ref="hotelNameRef"
         v-model="props.hotel.hotelName"
         label="Hotel Name"
         :label-color="props.isDetailRequired ? 'red' : ''"
         placeholder="enter hotel name"
         :dense="dense"
         lazy-rules
-        :rules="[
-          (val) =>
-            (val && val.length > 0) ||
-            !props.isDetailRequired ||
-            'enter hotel name',
-        ]"
+        :rules="[ruleNotEmpty]"
       >
       </q-input>
       <q-input
+        ref="cityRef"
         v-model="props.hotel.city"
         label="City"
         :label-color="props.isDetailRequired ? 'red' : ''"
         placeholder="enter city name"
         :dense="dense"
         lazy-rules
-        :rules="[
-          (val) =>
-            (val && val.length > 0) ||
-            !props.isDetailRequired ||
-            'enter city name',
-        ]"
+        :rules="[ruleNotEmpty]"
       >
       </q-input>
       <q-input
+        ref="fromDateRef"
         name="fromDate"
         v-model="props.hotel.fromDate"
         label="From Date"
         :label-color="props.isDetailRequired ? 'red' : ''"
-        :rules="[
-          (val) =>
-            (val && val.length > 0) ||
-            !props.isDetailRequired ||
-            'please select From Date',
-        ]"
+        :rules="[ruleNotEmpty]"
       >
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
@@ -71,16 +92,12 @@ const dense = ref(false);
         </template>
       </q-input>
       <q-input
+        ref="toDateRef"
         name="toDate"
         v-model="props.hotel.toDate"
         label="To Date"
         :label-color="props.isDetailRequired ? 'red' : ''"
-        :rules="[
-          (val) =>
-            (val && val.length > 0) ||
-            !props.isDetailRequired ||
-            'please select To Date',
-        ]"
+        :rules="[ruleNotEmpty]"
       >
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
