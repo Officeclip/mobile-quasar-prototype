@@ -40,9 +40,9 @@ onMounted(async () => {
   date.value = props.expenseDetail?.expenseDate;
 
   customerProjectModel.value =
-    props.expenseDetail?.accountName +
-    (props.expenseDetail?.projectName
-      ? ':' + props.expenseDetail?.projectName
+    props.expenseDetail?.accountSid +
+    (props.expenseDetail?.projectSid
+      ? ':' + props.expenseDetail?.projectSid
       : '');
 });
 
