@@ -8,6 +8,7 @@ import { computed, ref } from 'vue';
 import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import drawer from '../../components/drawer.vue';
 
 const router = useRouter();
 const $q = useQuasar();
@@ -23,6 +24,7 @@ const isRoleAccess = () => {
 };
 
 const text = ref('');
+const myDrawer = ref();
 
 let numItems = ref(0); // total number of items in the list
 
@@ -66,6 +68,11 @@ const getData = computed(() => {
   numItems.value = filteredContacts.length;
   return filteredContacts;
 });
+
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
+}
 </script>
 
 <style>
@@ -84,13 +91,22 @@ const getData = computed(() => {
           flat
           icon="arrow_back"
           round
-          @click="$router.go(-1)"
+          @click="$router.push({ path: '/homepage' })"
         >
         </q-btn>
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
+        />
         <q-toolbar-title> Contact List</q-toolbar-title>
         <q-space />
       </q-toolbar>
     </q-header>
+    <drawer ref="myDrawer" />
     <q-page-container>
       <q-page>
         <q-input

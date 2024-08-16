@@ -105,7 +105,7 @@ function toggleLeftDrawer() {
           flat
           icon="arrow_back"
           round
-          @click="$router.go(-1)"
+          @click="$router.push({ path: '/homepage' })"
         >
         </q-btn>
         <q-btn

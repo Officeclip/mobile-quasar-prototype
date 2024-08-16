@@ -17,6 +17,7 @@ import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import logger from 'src/helpers/logger';
+import drawer from '../../components/drawer.vue';
 
 const model = ref('1');
 const contactDetailsStore = useContactDetailsStore();
@@ -26,6 +27,8 @@ const router = useRouter();
 const $q = useQuasar();
 
 const isLoaded = ref<boolean>(false);
+
+const myDrawer = ref();
 
 onBeforeMount(async () => {
   try {
@@ -154,6 +157,11 @@ const confirmDeletion = async () => {
     });
   }
 };
+
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
+}
 </script>
 
 <style>
@@ -167,7 +175,7 @@ const confirmDeletion = async () => {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="$router.go(-1)"
+          @click="$router.push({ path: '/contactSummary' })"
           flat
           round
           dense
@@ -175,6 +183,14 @@ const confirmDeletion = async () => {
           icon="arrow_back"
         >
         </q-btn>
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
+        />
         <q-toolbar-title> Contact details </q-toolbar-title>
         <div>
           <q-btn
@@ -212,6 +228,7 @@ const confirmDeletion = async () => {
         </div>
       </q-toolbar>
     </q-header>
+    <drawer ref="myDrawer" />
     <q-page-container>
       <q-card class="relative-position card-example" flat bordered>
         <q-card-section class="q-pb-none">
