@@ -19,6 +19,7 @@ import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
 import { getCurrentInstance } from 'vue';
+import drawer from '../../components/drawer.vue';
 
 const taskDetailsStore = useTaskDetailsStore();
 const taskSummaryStore = useTaskSummaryStore();
@@ -31,6 +32,7 @@ const isLoaded = ref<boolean>(false);
 
 const route = useRoute();
 const router = useRouter();
+const myDrawer = ref();
 
 id.value = route.params.id;
 const appName = route.params.appName;
@@ -182,6 +184,10 @@ async function addSubtask(subtask: subTask) {
     });
   }
 }
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
+}
 </script>
 
 <style>
@@ -203,7 +209,21 @@ async function addSubtask(subtask: subTask) {
   <q-layout view="hHh Lpr lFf" v-if="isLoaded">
     <q-header bordered class="bg-primary text-white" reveal>
       <q-toolbar>
-        <q-btn dense flat icon="arrow_back" round @click="$router.go(-1)" />
+        <q-btn
+          dense
+          flat
+          icon="arrow_back"
+          round
+          @click="$router.push({ path: '/tasksList' })"
+        />
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
+        />
         <q-toolbar-title>Task Details</q-toolbar-title>
         <div v-if="taskDetail.security.write">
           <q-btn
@@ -235,7 +255,7 @@ async function addSubtask(subtask: subTask) {
         </div>
       </q-toolbar>
     </q-header>
-
+    <drawer ref="myDrawer" />
     <q-page-container>
       <q-card class="q-ma-md" flat>
         <q-card-section class="text-h5">{{

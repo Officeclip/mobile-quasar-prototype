@@ -6,6 +6,9 @@ import TaskAdvancedFilters from 'components/tasks/taskAdvancedFilters.vue';
 import { searchFilter } from 'src/models/task/searchFilter';
 import { useSessionStore } from 'stores/SessionStore';
 import TasksListCtrl from 'components/tasks/tasksListCtrl.vue';
+import drawer from '../../components/drawer.vue';
+
+const myDrawer = ref();
 
 const defaultFilterOptions: searchFilter = {
   filterString: '',
@@ -132,6 +135,10 @@ function showNotif() {
 onBeforeMount(() => {
   showNotif();
 });
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
+}
 </script>
 
 <template>
@@ -144,11 +151,20 @@ onBeforeMount(() => {
           flat
           icon="arrow_back"
           round
-          @click="$router.go(-1)"
+          @click="$router.push({ path: '/homepage' })"
+        />
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
         />
         <q-toolbar-title> Tasks</q-toolbar-title>
       </q-toolbar>
     </q-header>
+    <drawer ref="myDrawer" />
     <q-space class="q-mt-sm" />
     <q-page-container>
       <q-page>
