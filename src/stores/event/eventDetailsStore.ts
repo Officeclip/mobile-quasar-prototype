@@ -7,7 +7,7 @@ import { Constants } from 'stores/Constants';
 export const useEventDetailsStore = defineStore('eventDetailsStore', {
   state: () => ({
     eventsCount: Number,
-    eventDetails: [] as eventDetails[],
+    eventDetails: undefined as eventDetails | undefined,
     eventSummary: undefined as eventSummary | undefined, // for single event access
     meetingAttendees: [] as MeetingAttendees[],
   }),
