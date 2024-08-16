@@ -17,6 +17,7 @@ import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
 import { isAllowed } from 'src/helpers/security';
 import logger from 'src/helpers/logger';
+import drawer from '../../components/drawer.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -35,6 +36,7 @@ const isLoaded = ref<boolean>(false);
 
 const isAllowedWrite = ref();
 const isAllowedDelete = ref();
+const myDrawer = ref();
 
 onMounted(async () => {
   try {
@@ -126,6 +128,11 @@ const deleteExpenseDetail = async (id: string) => {
     }
   }
 };
+
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
+}
 </script>
 
 <style>
@@ -139,7 +146,7 @@ const deleteExpenseDetail = async (id: string) => {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="$router.go(-1)"
+          @click="$router.push({ path: '/expensesAll' })"
           flat
           round
           dense
@@ -147,6 +154,14 @@ const deleteExpenseDetail = async (id: string) => {
           icon="arrow_back"
         >
         </q-btn>
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
+        />
         <q-toolbar-title> Expense Details </q-toolbar-title>
         <q-btn
           v-if="isAllowedDelete"
@@ -160,7 +175,7 @@ const deleteExpenseDetail = async (id: string) => {
         </q-btn>
       </q-toolbar>
     </q-header>
-
+    <drawer ref="myDrawer" />
     <q-page-container class="q-ma-sm">
       <div>
         <WorkFlow

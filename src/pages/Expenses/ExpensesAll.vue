@@ -7,12 +7,15 @@ import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import logger from 'src/helpers/logger';
+import drawer from '../../components/drawer.vue';
 
 const expensesDetailsStore = useExpenseDetailsStore();
 const router = useRouter();
 const $q = useQuasar();
 const expenseStatus = ref('inbox');
 const title = ref(capitalize(expenseStatus.value));
+
+const myDrawer = ref();
 
 onMounted(async () => {
   try {
@@ -41,6 +44,11 @@ watch([expenseStatus], ([newModel]) => {
   title.value = capitalize(newModel);
 });
 const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
+
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
+}
 </script>
 <style>
 .q-dialog__backdrop {
@@ -52,7 +60,7 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
         <q-btn
-          @click="$router.go(-1)"
+          @click="$router.push({ path: '/homepage' })"
           flat
           round
           dense
@@ -60,9 +68,18 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
           icon="arrow_back"
         >
         </q-btn>
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
+        />
         <q-toolbar-title>{{ title }} Expenses </q-toolbar-title>
       </q-toolbar>
     </q-header>
+    <drawer ref="myDrawer" />
     <q-footer elevated>
       <q-tabs
         v-model="expenseStatus"
