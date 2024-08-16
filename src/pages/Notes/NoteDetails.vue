@@ -6,11 +6,13 @@ import { useRoute, useRouter } from 'vue-router';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
+import drawer from '../../components/drawer.vue';
 
 logger.log('noteDetails:setup');
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
+const myDrawer = ref();
 
 const parentObjectId = route.params.objectId ? route.params.objectId : '';
 const parentObjectServiceType = route.params.objectTypeId
@@ -72,6 +74,10 @@ const deleteNote = async (id: string) => {
   }
   isNoteDelete.value = false;
 };
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
+}
 </script>
 
 <style>
@@ -85,7 +91,7 @@ const deleteNote = async (id: string) => {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="$router.go(-1)"
+          @click="$router.push({ path: '/notesList' })"
           flat
           round
           dense
@@ -93,6 +99,14 @@ const deleteNote = async (id: string) => {
           icon="arrow_back"
         >
         </q-btn>
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
+        />
         <q-toolbar-title> Note details </q-toolbar-title>
 
         <q-btn
@@ -120,6 +134,7 @@ const deleteNote = async (id: string) => {
         />
       </q-toolbar>
     </q-header>
+    <drawer ref="myDrawer" />
     <q-page-container>
       <q-card class="relative-position card-example" flat bordered>
         <q-card-section class="q-pb-none">

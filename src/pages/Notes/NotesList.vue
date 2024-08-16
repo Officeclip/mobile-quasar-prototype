@@ -5,10 +5,12 @@ import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import { useNotesStore } from '../../stores/NotesStore';
 import { useRouter } from 'vue-router';
 import logger from 'src/helpers/logger';
+import drawer from '../../components/drawer.vue';
 
 const router = useRouter();
 const selectedNoteBook = ref('');
 const notesStore = useNotesStore();
+const myDrawer = ref();
 
 onBeforeMount(async () => {
   logger.log('NotesList: onBeforeMount Started');
@@ -45,6 +47,10 @@ function navigateToNewNotes() {
     errorMessageVisible.value = true;
   }
 }
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
+}
 </script>
 
 <template>
@@ -52,7 +58,7 @@ function navigateToNewNotes() {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="$router.go(-1)"
+          @click="$router.push({ path: '/homepage' })"
           flat
           round
           dense
@@ -60,9 +66,18 @@ function navigateToNewNotes() {
           icon="arrow_back"
         >
         </q-btn>
+        <q-btn
+          aria-label="Menu"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="toggleLeftDrawer"
+        />
         <q-toolbar-title> All Notes </q-toolbar-title>
       </q-toolbar>
     </q-header>
+    <drawer ref="myDrawer" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
       <q-page>
