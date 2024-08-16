@@ -167,7 +167,7 @@ defineExpose({
         @click="handleServiceItems"
       />
       <q-select
-        label="ServiceItems"
+        label="Service Items"
         v-model="serviceItemModel"
         :options="serviceItemsOptions"
         option-label="name"
