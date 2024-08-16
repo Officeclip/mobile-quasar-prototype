@@ -15,6 +15,11 @@ import { useRouter } from 'vue-router';
 const props = defineProps(['expenseDetail', 'fromDate', 'toDate']);
 
 const airTravelExpenseComponent = ref<typeof airTravelExpenseForm>(); // see: https://stackoverflow.com/a/65027995
+const autoRentalExpenseComponent = ref<typeof autoRentalExpenseForm>();
+const hotelExpenseComponent = ref<typeof hotelExpenseForm>();
+const mileageExpenseComponent = ref<typeof mileageExpenseForm>();
+const taxiExpenseComponent = ref<typeof taxiExpenseForm>();
+const telephoneExpenseComponent = ref<typeof telephoneExpenseForm>();
 
 const expenseListsStore = useExpenseListsStore();
 const router = useRouter();
@@ -230,6 +235,21 @@ const validateAll = () => {
     case 'AIRFARE':
       if (!airTravelExpenseComponent.value?.validateAll()) return false;
       break;
+    case 'AUTORENTAL':
+      if (!autoRentalExpenseComponent.value?.validateAll()) return false;
+      break;
+    case 'HOTEL':
+      if (!hotelExpenseComponent.value?.validateAll()) return false;
+      break;
+    case 'MILEAGE':
+      if (!mileageExpenseComponent.value?.validateAll()) return false;
+      break;
+    case 'TAXI':
+      if (!taxiExpenseComponent.value?.validateAll()) return false;
+      break;
+    case 'TELEPHONE':
+      if (!telephoneExpenseComponent.value?.validateAll()) return false;
+      break;
   }
   dateRef.value.validate();
   amountRef.value.validate();
@@ -294,6 +314,7 @@ defineExpose({
       </q-item-label>
       <q-select
         label="Date"
+        label-color="red"
         v-model="date"
         :options="dateOptions"
         option-value="startDate"
@@ -318,6 +339,7 @@ defineExpose({
       <!-- <pre>{{ expenseTypeOptions }}</pre> -->
       <q-select
         label="Expense Type"
+        label-color="red"
         v-model="expenseDetail.expenseTypeSid"
         :options="expenseTypeOptions"
         :rules="[isExpenseTypeValid]"
@@ -342,6 +364,7 @@ defineExpose({
         />
 
         <autoRentalExpenseForm
+          ref="autoRentalExpenseComponent"
           :autoRental="
             props.expenseDetail.autoRentalExpense == null
               ? (props.expenseDetail.autoRentalExpense = autoRental)
@@ -351,6 +374,7 @@ defineExpose({
           v-if="expenseDetail.expenseTypeName == 'AUTORENTAL'"
         />
         <hotelExpenseForm
+          ref="hotelExpenseComponent"
           :hotel="
             props.expenseDetail.hotelExpense == null
               ? (props.expenseDetail.hotelExpense = hotel)
@@ -361,6 +385,7 @@ defineExpose({
         />
 
         <mileageExpenseForm
+          ref="mileageExpenseComponent"
           :mileage="
             props.expenseDetail.mileageExpense == null
               ? (props.expenseDetail.mileageExpense = mileage)
@@ -371,6 +396,7 @@ defineExpose({
         />
 
         <taxiExpenseForm
+          ref="taxiExpenseComponent"
           :taxi="
             props.expenseDetail.taxiExpense == null
               ? (props.expenseDetail.taxiExpense = taxi)
@@ -381,6 +407,7 @@ defineExpose({
         />
 
         <telephoneExpenseForm
+          ref="telephoneExpenseComponent"
           :telephone="
             props.expenseDetail.telephoneExpense == null
               ? (props.expenseDetail.telephoneExpense = telephone)
@@ -422,6 +449,7 @@ defineExpose({
 
       <q-input
         label="Amount"
+        label-color="red"
         v-model.number="expenseDetail.amount"
         placeholder="enter here..."
         type="number"

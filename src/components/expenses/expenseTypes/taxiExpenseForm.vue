@@ -1,23 +1,60 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
-<script setup>
+<script lang="ts" setup>
 import { defineProps, ref } from 'vue';
+import { QInput } from 'quasar';
 
 const props = defineProps(['taxi', 'isDetailRequired']);
 
 const dense = ref(false);
+const taxiLineNameRef = ref<QInput>();
+const cityRef = ref<QInput>();
+
+const ruleNotEmpty = (val: string) => {
+  const condition = (val && val.length > 0) || !props.isDetailRequired;
+  return condition ? true : 'This field is required';
+};
+
+const validateAll = () => {
+  taxiLineNameRef.value?.validate();
+  cityRef.value?.validate();
+
+  if (taxiLineNameRef.value?.hasError || cityRef.value?.hasError) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+defineExpose({
+  validateAll,
+});
 </script>
 
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
   <div class="q-ma-lg">
     <div class="q-ml-sm">
-      <q-input v-model="props.taxi.taxiLineName" label="Taxi Line Name"
-        :label-color="props.isDetailRequired ? 'red' : ''" placeholder="enter taxi line name" :dense="dense" lazy-rules
-        :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter taxi line name']">
+      <q-input
+        ref="taxiLineNameRef"
+        v-model="props.taxi.taxiLineName"
+        label="Taxi Line Name"
+        :label-color="props.isDetailRequired ? 'red' : ''"
+        placeholder="enter taxi line name"
+        :dense="dense"
+        lazy-rules
+        :rules="[ruleNotEmpty]"
+      >
       </q-input>
-      <q-input v-model="props.taxi.city" label="City" :label-color="props.isDetailRequired ? 'red' : ''"
-        placeholder="enter city name" :dense="dense" lazy-rules
-        :rules="[(val) => (val && val.length > 0 || !props.isDetailRequired) || 'enter city name']">
+      <q-input
+        ref="cityRef"
+        v-model="props.taxi.city"
+        label="City"
+        :label-color="props.isDetailRequired ? 'red' : ''"
+        placeholder="enter city name"
+        :dense="dense"
+        lazy-rules
+        :rules="[ruleNotEmpty]"
+      >
       </q-input>
     </div>
   </div>
