@@ -39,6 +39,29 @@ function isValidNumber(value: string, isEmptyAllowed: boolean): boolean {
     : isValid;
 }
 
+function isDurationValid(input: string): boolean {
+  // Using Google Gemini: https://g.co/gemini/share/535ec7f1b4e9, fixed the regex expression
+  const timeRegex = /^([0-1][0-9]|[1-9]):[0-5][0-9]$/;
+  const durationRegex = /^\d+(\.\d+)?$/;
+
+  if (timeRegex.test(input)) {
+    const [hours, minutes] = input.split(':');
+    return +hours >= 0 && +hours <= 23 && +minutes >= 0 && +minutes <= 59;
+  } else if (durationRegex.test(input)) {
+    const duration = parseFloat(input);
+    return duration >= 0;
+  } else {
+    return false;
+  }
+}
+
+function colonToDecimal(timeString: string): string {
+  // From Google Gemini: https://g.co/gemini/share/f9499846694b
+  const [hours, minutes] = timeString.split(':');
+  const decimalHours = parseFloat(hours) + parseFloat(minutes) / 60;
+  return decimalHours.toFixed(2);
+}
+
 function isHideLogger() {
   const isHideLogger =
     import.meta.env.VITE_HIDE_LOGGER && import.meta.env.VITE_HIDE_LOGGER == 1;
@@ -53,4 +76,6 @@ export default {
   isValidEmail,
   isHideLogger,
   isValidNumber,
+  colonToDecimal,
+  isDurationValid,
 };

@@ -6,6 +6,7 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import util from 'src/helpers/util';
 
 const props = defineProps(['timesheet', 'timesheetDCAA', 'fromDate', 'toDate']);
 const $q = useQuasar();
@@ -118,9 +119,16 @@ const isDateValid = () => {
   return condition ? true : 'Please select date';
 };
 
-const isDurationValid = () => {
-  const condition = props.timesheet.timeDuration > 0;
-  return condition ? true : 'Please enter duration';
+const isDurationEmpty = (val) => {
+  //debugger;
+  const condition = val && val.length > 0;
+  return condition ? true : 'This field is required';
+};
+
+const isDurationValid = (val) => {
+  //debugger;
+  const condition = util.isDurationValid(val);
+  return condition ? true : 'Please enter a valid duration';
 };
 
 const validateAll = () => {
@@ -137,6 +145,18 @@ const validateAll = () => {
 defineExpose({
   validateAll,
 });
+
+function onDurationBlur(event) {
+  // debugger;
+  const val = event.target.value;
+  console.log(
+    `TimesheetFormCtrl:onDurationBlur val=${val}, current.value=${props.timesheet.timeDuration}`
+  );
+  if (val.includes(':')) {
+    console.log(`onDurationBlur - val changed to ${val}`);
+    props.timesheet.timeDuration = util.colonToDecimal(val);
+  }
+}
 </script>
 
 <template>
@@ -185,11 +205,11 @@ defineExpose({
       />
       <q-input
         label="Duration"
-        v-model.number="timesheet.timeDuration"
-        placeholder="enter here..."
-        type="number"
-        :rules="[isDurationValid]"
+        v-model="timesheet.timeDuration"
+        placeholder="enter duration in decimal or colon (hh:mm)"
+        :rules="[isDurationEmpty, isDurationValid]"
         ref="durationRef"
+        @blur="onDurationBlur"
       />
       <q-input
         label="Description"
