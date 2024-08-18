@@ -31,6 +31,14 @@ function isValidEmail(email: string, isRequired: boolean) {
   return regex.test(email);
 }
 
+function isValidNumber(value: string, isEmptyAllowed: boolean): boolean {
+  // From Google Gemini
+  const isValid = value === 'number';
+  return isEmptyAllowed
+    ? isValid || value === null || value === undefined || value === ''
+    : isValid;
+}
+
 function isHideLogger() {
   const isHideLogger =
     import.meta.env.VITE_HIDE_LOGGER && import.meta.env.VITE_HIDE_LOGGER == 1;
@@ -44,4 +52,5 @@ export default {
   getEndPointUrlFromUri,
   isValidEmail,
   isHideLogger,
+  isValidNumber,
 };
