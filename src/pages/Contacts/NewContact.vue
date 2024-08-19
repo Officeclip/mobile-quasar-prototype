@@ -7,6 +7,7 @@ import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 import logger from 'src/helpers/logger';
+import BackButton from '../../components/OCcomponents/Back-Button.vue';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -64,15 +65,7 @@ async function onSubmit(e: any) {
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          @click="$router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
+        <BackButton />
         <q-toolbar-title> New Contact </q-toolbar-title>
         <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>

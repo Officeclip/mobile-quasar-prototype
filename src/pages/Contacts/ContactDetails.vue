@@ -18,6 +18,7 @@ import { useQuasar } from 'quasar';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import logger from 'src/helpers/logger';
 import drawer from '../../components/drawer.vue';
+import BackButton from '../../components/OCcomponents/Back-Button.vue';
 
 const model = ref('1');
 const contactDetailsStore = useContactDetailsStore();
@@ -174,15 +175,7 @@ function toggleLeftDrawer() {
   <q-layout view="lHh Lpr lFf" v-if="isLoaded">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn
-          @click="$router.push({ path: '/contactSummary' })"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
+        <BackButton />
         <q-btn
           aria-label="Menu"
           dense

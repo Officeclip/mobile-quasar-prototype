@@ -9,6 +9,7 @@ import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
+import BackButton from '../../components/OCcomponents/Back-Button.vue';
 
 const router = useRouter();
 const $q = useQuasar();
@@ -85,15 +86,7 @@ function toggleLeftDrawer() {
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="$router.push({ path: '/homepage' })"
-        >
-        </q-btn>
+        <BackButton />
         <q-btn
           aria-label="Menu"
           dense
