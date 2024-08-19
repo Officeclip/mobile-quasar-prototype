@@ -156,6 +156,7 @@ function getExpenseTypeDetail(expTypeId) {
   const expenseType = expenseTypeOptions.value.find(
     (x) => x.expenseTypeSid === expTypeId
   );
+  //debugger;
   if (!expenseType) return;
   if (expenseType != null) {
     isBillableModify.value = expenseType.isBillableModify;
@@ -190,7 +191,7 @@ function getExpenseTypeDetail(expTypeId) {
     case 'MILEAGE':
       props.expenseDetail.airTravelExpense = null;
       props.expenseDetail.autoRentalExpense = null;
-      props.expenseDetail.mileageExpense = null;
+      props.expenseDetail.hotelExpense = null;
       props.expenseDetail.taxiExpense = null;
       props.expenseDetail.telephoneExpense = null;
       break;
