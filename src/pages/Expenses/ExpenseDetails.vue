@@ -211,7 +211,7 @@ function toggleLeftDrawer() {
 
               <q-item-section>
                 <q-item-label>
-                  {{ expenseDetail.amount }}.00
+                  {{ expenseDetail.amount.toFixed(2) }}
                   <span class="text-caption q-pl-xs">{{
                     expenseDetail.currency
                   }}</span>
