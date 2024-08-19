@@ -189,14 +189,24 @@ const regarding = computed(() => {
           placeholder="enter task subject"
           :rules="[ruleNotEmpty]"
         />
-
-        <q-editor
+        <q-field
+          class="q-mt-md"
           v-model="task.description"
-          class="q-mt-none"
-          label="Description"
-          paragraph-tag="div"
-          placeholder="type here...."
-        />
+          label-slot
+          borderless
+        >
+          <template #label>Description</template>
+          <template #control>
+            <q-editor
+              style="color: black"
+              class="q-mt-md full-width"
+              v-model="task.description"
+              paragraph-tag="div"
+              placeholder="enter description"
+            ></q-editor>
+          </template>
+        </q-field>
+
         <q-input v-model="startDateModel" label="Start Date" readonly>
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
