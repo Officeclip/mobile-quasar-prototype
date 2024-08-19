@@ -115,7 +115,7 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Notify', 'SessionStorage', 'Dialog'],
+      plugins: ['Notify', 'SessionStorage', 'Dialog', 'Loading'],
     },
 
     // animations: 'all', // --- includes all animations

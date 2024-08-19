@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, ref, onMounted } from 'vue';
+import { Ref, ref, onMounted, onBeforeUnmount } from 'vue';
 import { Login } from '../models/login';
 import { useSessionStore } from 'stores/SessionStore';
 import { useTokenStore } from '../stores/tokenStore';
@@ -33,6 +33,9 @@ const $q = useQuasar();
 
 async function onSubmit(e: any) {
   e.preventDefault();
+  $q.loading.show({
+    delay: 400, // ms
+  });
   try {
     const isFormCorrect = await v$.value.$validate();
     if (!isFormCorrect) {
@@ -51,12 +54,17 @@ async function onSubmit(e: any) {
 
     route1.push('/HomePage');
   } catch (error) {
+    $q.loading.hide();
     $q.notify({
       message: error as string,
       color: 'red',
     });
   }
 }
+
+onBeforeUnmount(() => {
+  $q.loading.hide();
+});
 
 onMounted(async () => {
   logger.log('-- HomePage.vue:onMounted --');
