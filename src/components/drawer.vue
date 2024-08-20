@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" setup>
-import { computed, ComputedRef, ref } from 'vue';
-import { Session } from '../models/session';
+import { onMounted, ref } from 'vue';
+// import { Session } from '../models/session';
 import { useSessionStore } from 'stores/SessionStore';
 import { useRouter } from 'vue-router';
 import packageJson from '../../package.json';
@@ -12,6 +12,9 @@ const sessionStore = useSessionStore();
 const leftDrawerOpen = ref(false);
 const router = useRouter();
 const profileListsStore = useProfileListsStore();
+const session = ref();
+const userIcon = ref();
+const filteredHomeIcons = ref();
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -19,13 +22,13 @@ function toggleLeftDrawer() {
 
 defineExpose({ toggleLeftDrawer });
 
-const userIcon = computed(() => {
-  return profileListsStore.ProfilesUserGeneral.userIcon;
-});
+// const userIcon = computed(() => {
+//   return profileListsStore.ProfilesUserGeneral.userIcon;
+// });
 
-const filteredHomeIcons = computed(() => {
-  return sessionStore.getHomeIcons();
-});
+// const filteredHomeIcons = computed(() => {
+//   return sessionStore.getHomeIcons();
+// });
 
 function getColor(url: string) {
   return url !== '' ? 'primary' : 'dark';
@@ -35,9 +38,9 @@ function getClass(url: string) {
   return url !== '' ? 'pointer' : '';
 }
 
-const session: ComputedRef<Session> = computed(() => {
-  return sessionStore.session;
-});
+// const session: ComputedRef<Session> = computed(() => {
+//   return sessionStore.session;
+// });
 
 function goToApp(url: string) {
   if (url !== '') {
@@ -48,6 +51,12 @@ function goToApp(url: string) {
 function logout() {
   router.push({ path: '/loginPage' });
 }
+
+onMounted(async () => {
+  session.value = sessionStore.session;
+  userIcon.value = profileListsStore.ProfilesUserGeneral.userIcon;
+  filteredHomeIcons.value = sessionStore.getHomeIcons();
+});
 </script>
 
 <style>
