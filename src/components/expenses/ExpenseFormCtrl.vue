@@ -161,7 +161,10 @@ function getExpenseTypeDetail(expTypeId) {
   if (expenseType != null) {
     isBillableModify.value = expenseType.isBillableModify;
     isDetailRequired.value = expenseType.isDetailsRequired;
-    props.expenseDetail.billable = expenseType.isBillable;
+    if (props.expenseDetail.id === '') {
+      props.expenseDetail.billable = expenseType.isBillable;
+    }
+    //props.expenseDetail.billable = expenseType.isBillable;
     props.expenseDetail.expenseTypeSid = expenseType.expenseTypeSid;
     props.expenseDetail.expenseTypeName = expenseType.expenseTypeName;
   }
