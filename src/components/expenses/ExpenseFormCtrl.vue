@@ -477,10 +477,24 @@ defineExpose({
       </q-input>
 
       <q-input
-        label="Comments"
+        label="Comments (for the entire expense)"
         v-model="expenseDetail.comments"
         placeholder="enter here..."
       >
+        <template v-slot:label>
+          <div class="row items-center all-pointer-events">
+            Comments (for the entire expense)
+            <q-icon class="q-mr-xs" size="20px" name="help" />
+            <q-tooltip
+              class="bg-grey-8"
+              anchor="top left"
+              self="bottom left"
+              :offset="[0, 8]"
+              >Use this field to write a comment when submitting
+              expense</q-tooltip
+            >
+          </div>
+        </template>
       </q-input>
     </div>
   </div>
