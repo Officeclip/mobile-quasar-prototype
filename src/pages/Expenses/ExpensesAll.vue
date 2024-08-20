@@ -163,6 +163,3 @@ function toggleLeftDrawer() {
 <style lang="scss">
 @import '../../css/status.scss';
 </style>
-<style lang="scss">
-@import '../../css/status.scss';
-</style>
