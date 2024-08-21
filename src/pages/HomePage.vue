@@ -48,7 +48,7 @@ onBeforeMount(async () => {
   try {
     logger.log('-- HomePage.vue:onBeforeMount --');
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
-    await sessionStore.getSession();
+    //await sessionStore.getSession(); - session is already loaded during login so we may not need this
     await profileListsStore.getProfileLists();
 
     const organizationItems = computed(() => {
