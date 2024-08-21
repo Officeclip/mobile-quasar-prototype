@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { Comments, DCAA, TimesheetDCAA } from 'src/models/teComments';
 import { Constants } from './Constants';
+import util from 'src/helpers/util';
 
 export const useTECommentsStore = defineStore('teCommentsStore', {
   state: () => ({
@@ -20,7 +21,7 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/te-comments?category=timesheet&id=${timesheetSid}`
+          `${util.endPointUrl()}/te-comments?category=timesheet&id=${timesheetSid}`
         );
         const newData = response.data;
         this.commentsList = newData;
@@ -33,7 +34,7 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/te-comments?category=expense&id=${expenseSid}`
+          `${util.endPointUrl()}/te-comments?category=expense&id=${expenseSid}`
         );
         const newData = response.data;
         this.commentsList = newData;
@@ -47,7 +48,7 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/timesheet-group-profile`
+          `${util.endPointUrl()}/timesheet-group-profile`
         );
         const newData = response.data[0];
         this.timesheetDCAA = newData;
@@ -62,7 +63,7 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
         this.commentsList.push(comment);
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
-          `${Constants.endPointUrl}/timesheet-comments`,
+          `${util.endPointUrl()}/timesheet-comments`,
           comment
         );
         if (response.status === 200) {

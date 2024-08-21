@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { Token } from '../models/token';
 import { Login } from '../models/login';
 import { Constants } from './Constants';
+import util from 'src/helpers/util';
 
 export const useTokenStore = defineStore('loginStore', {
   state: () => ({
@@ -27,7 +28,7 @@ export const useTokenStore = defineStore('loginStore', {
           login.mpin = mpin;
         }
         const response = await instance.post(
-          `${Constants.endPointUrl}/login`,
+          `${util.endPointUrl()}/login`,
           login
         );
         //TODO: 20240306: skd: nk: the token and expiration date is returning as undefined in mockoon we need to fix it

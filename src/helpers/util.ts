@@ -1,6 +1,7 @@
-import { SessionStorage } from 'quasar';
+import { LocalStorage, SessionStorage } from 'quasar';
 import { Session } from 'src/models/session';
 import logger from './logger';
+import { get } from 'http';
 
 // sometimes useful if we get into infinite loop and have to rewind the loop
 const waitInSecs = async (seconds: number) =>
@@ -20,7 +21,7 @@ function getEndPointUrlFromUri(url: string) {
   // Define the pattern to match "/m/#/""
   const pattern = /m\/#\/(.*)$/;
   // Use replace method with a callback function
-  const endPointUrl = `${url.replace(pattern, '')}api/`;
+  const endPointUrl = `${url.replace(pattern, '')}api`;
   return endPointUrl;
 }
 
@@ -69,6 +70,14 @@ function isHideLogger() {
   return isHideLogger;
 }
 
+function endPointUrl() {
+  if (import.meta.env.VITE_API_ENDPOINT) {
+    return import.meta.env.VITE_API_ENDPOINT;
+  } else {
+    return String(LocalStorage.getItem('endPointUrl'));
+  }
+}
+
 export default {
   waitInSecs,
   ocSession,
@@ -78,4 +87,5 @@ export default {
   isValidNumber,
   colonToDecimal,
   isDurationValid,
+  endPointUrl,
 };

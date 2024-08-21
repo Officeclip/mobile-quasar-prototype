@@ -10,6 +10,7 @@ import {
   user,
 } from 'src/models/task/taskLists';
 import { regardingContact } from 'src/models/task/taskLists';
+import util from 'src/helpers/util';
 
 export const useTaskListsStore = defineStore('taskListsStore', {
   state: () => ({
@@ -34,9 +35,7 @@ export const useTaskListsStore = defineStore('taskListsStore', {
     async getTaskLists() {
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(
-          `${Constants.endPointUrl}/task-lists`
-        );
+        const response = await instance.get(`${util.endPointUrl()}/task-lists`);
         const taskLists: taskLists = response.data[0];
         this.tags = taskLists.tags;
         this.taskTypes = taskLists.taskType;
@@ -53,7 +52,7 @@ export const useTaskListsStore = defineStore('taskListsStore', {
         this.users = [];
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/task-lists?users`
+          `${util.endPointUrl()}/task-lists?users`
         );
         const userList = response.data[0].users;
         const filtered = userList.filter((t: regardingContact) => {

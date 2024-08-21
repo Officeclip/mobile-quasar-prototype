@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { HomeIcon } from '../models/homeIcon';
 import { Constants } from './Constants';
 import logger from 'src/helpers/logger';
+import util from 'src/helpers/util';
 
 export const useHomeIconsStore = defineStore('homeIconStore', {
   state: () => ({
@@ -28,7 +29,7 @@ export const useHomeIconsStore = defineStore('homeIconStore', {
     async getHomeIcons() {
       try {
         const instance = Constants.getAxiosInstance();
-        const data = await instance.get(`${Constants.endPointUrl}/homeIcons`);
+        const data = await instance.get(`${util.endPointUrl()}/homeIcons`);
         this.homeIcons = data.data;
       } catch (error: any) {
         alert(error);

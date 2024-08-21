@@ -7,6 +7,7 @@ import {
 } from 'src/models/event/eventLists';
 import { regardingContact } from 'src/models/event/eventLists';
 import { Constants } from '../Constants';
+import util from 'src/helpers/util';
 
 export const useEventListsStore = defineStore('eventListsStore', {
   state: () => ({
@@ -25,7 +26,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
 
   actions: {
     async getEventLists() {
-      const callStr = `${Constants.endPointUrl}/event-lists`;
+      const callStr = `${util.endPointUrl()}/event-lists`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
@@ -44,7 +45,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
         this.users = [];
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/event-lists?user=${searchString}`
+          `${util.endPointUrl()}/event-lists?user=${searchString}`
         );
         const userList = response.data.users;
         const filtered = userList.filter((t: regardingContact) => {

@@ -7,9 +7,9 @@ import { responseError } from 'src/models/responseError';
 import { Session } from 'src/models/session';
 
 export class Constants {
-  static readonly endPointUrl = import.meta.env.VITE_API_ENDPOINT
-    ? import.meta.env.VITE_API_ENDPOINT
-    : String(LocalStorage.getItem('endPointUrl'));
+  // static readonly endPointUrl = import.meta.env.VITE_API_ENDPOINT
+  //   ? import.meta.env.VITE_API_ENDPOINT
+  //   : String(LocalStorage.getItem('endPointUrl'));
 
   static readonly defaultLogin = LocalStorage.has('userName')
     ? String(LocalStorage.getItem('userName'))
@@ -18,7 +18,7 @@ export class Constants {
   static getAxiosInstance() {
     const instance = axios.create({
       //withCredentials: true, //https://stackoverflow.com/a/43178070
-      baseURL: Constants.endPointUrl,
+      baseURL: util.endPointUrl(),
     });
     Constants.setupAxiosInstance(instance);
     return instance;

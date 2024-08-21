@@ -3,6 +3,7 @@ import { workFlow, users } from '../../models/workFlow';
 // import axios from 'axios';
 import { Constants } from 'stores/Constants';
 import logger from 'src/helpers/logger';
+import util from 'src/helpers/util';
 
 export const useWorkFlowStore = defineStore('workFlowStore', {
   state: () => ({
@@ -21,10 +22,10 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
         const instance = Constants.getAxiosInstance();
         logger.log(
           'Work flow response -url' +
-            `${Constants.endPointUrl}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=1`
+            `${util.endPointUrl()}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=1`
         );
         const response = await instance.get(
-          `${Constants.endPointUrl}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=${stageId}`
+          `${util.endPointUrl()}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=${stageId}`
         );
         this.workFlow = response.data[0];
         this.workFlowUsers = response.data[0].users;
@@ -39,7 +40,7 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
-          `${Constants.endPointUrl}/workflow-summary`,
+          `${util.endPointUrl()}/workflow-summary`,
           workFlow
         );
         if (response.status === 200) {

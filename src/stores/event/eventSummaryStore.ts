@@ -3,6 +3,7 @@ import { eventSummary } from '../../models/event/eventSummary.js';
 import dateTimeHelper from 'src/helpers/dateTimeHelper.js';
 import { Constants } from '../Constants';
 import logger from 'src/helpers/logger.js';
+import util from 'src/helpers/util.js';
 
 export const useEventSummaryStore = defineStore('eventSummaryStore', {
   state: () => ({
@@ -17,8 +18,10 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
     // for getting meeting attendees from separate json
     async getAllEventSummary(yearAndMonth: any) {
       const callStr = yearAndMonth
-        ? `${Constants.endPointUrl}/event-summary?year=${yearAndMonth.year}&month=${yearAndMonth.month}`
-        : `${Constants.endPointUrl}/event-summary`;
+        ? `${util.endPointUrl()}/event-summary?year=${
+            yearAndMonth.year
+          }&month=${yearAndMonth.month}`
+        : `${util.endPointUrl()}/event-summary`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
@@ -53,7 +56,7 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       parentObjectId: number,
       parentObjectServiceType: number
     ) {
-      const callStr = `${Constants.endPointUrl}/eventSummary?parentSId=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
+      const callStr = `${util.endPointUrl()}/eventSummary?parentSId=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);

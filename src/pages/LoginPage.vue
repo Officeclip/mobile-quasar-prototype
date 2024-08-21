@@ -74,7 +74,7 @@ onMounted(async () => {
 
   const addressBarUrl = window.location.href;
   const endPointUrl = util.getEndPointUrlFromUri(addressBarUrl);
-  logger.log(`endPointUrl: ${endPointUrl}`);
+  logger.log(`onMounted: endPointUrl: ${endPointUrl}`);
   Constants.saveEndPointUrlInLocalStorage(endPointUrl);
 
   const uri = addressBarUrl.split('?');

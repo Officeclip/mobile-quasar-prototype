@@ -3,6 +3,7 @@ import { MetaDetails } from '../models/Meta/metaDetails';
 import { Constants } from './Constants';
 import { useMetaListsStore } from './MetaListsStore';
 import logger from 'src/helpers/logger';
+import util from 'src/helpers/util';
 
 export const useMetaDetailsStore = defineStore('metaDetailsStore', {
   state: () => ({
@@ -73,7 +74,7 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/meta-details?id=${id}`
+          `${util.endPointUrl()}/meta-details?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.metaDetails = response.data[0];

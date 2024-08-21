@@ -3,6 +3,7 @@ import { taskDetails } from 'src/models/task/taskDetails';
 import { Constants } from 'stores/Constants';
 import { subTask } from 'src/models/task/subtask';
 import logger from 'src/helpers/logger';
+import util from 'src/helpers/util';
 
 export const useTaskDetailsStore = defineStore('taskDetailsStore', {
   state: () => ({
@@ -24,7 +25,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         this.taskDetails.push(taskDetail);
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
-          `${Constants.endPointUrl}/task-detail`,
+          `${util.endPointUrl()}/task-detail`,
           taskDetail
         );
 
@@ -41,7 +42,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${Constants.endPointUrl}/task-detail/${id}`
+          `${util.endPointUrl()}/task-detail/${id}`
         );
         if (response.status === 200) {
           this.taskDetail = response.data;
@@ -55,7 +56,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
-          `${Constants.endPointUrl}/task-detail/${taskDetail.id}`,
+          `${util.endPointUrl()}/task-detail/${taskDetail.id}`,
           taskDetail
         );
         if (response.status === 200) {
@@ -72,7 +73,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/task-detail/${id}`
+          `${util.endPointUrl()}/task-detail/${id}`
         );
         this.taskDetail = response.data;
       } catch (error) {
@@ -84,8 +85,8 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
     async getTasks(parentObjectId: number, parentObjectServiceType: number) {
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/task-detail?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
-          : `${Constants.endPointUrl}/task-detail`;
+          ? `${util.endPointUrl()}/task-detail?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : `${util.endPointUrl()}/task-detail`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
@@ -99,7 +100,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
-          `${Constants.endPointUrl}/subtask`,
+          `${util.endPointUrl()}/subtask`,
           subtask
         );
 
@@ -116,7 +117,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
-          `${Constants.endPointUrl}/subtask/${subtask.id}`,
+          `${util.endPointUrl()}/subtask/${subtask.id}`,
           subtask
         );
         if (response.status === 200) {
@@ -142,7 +143,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${Constants.endPointUrl}/subtask/${id}`
+          `${util.endPointUrl()}/subtask/${id}`
         );
         if (response.status === 200) {
           this.subTask = response.data;

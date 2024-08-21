@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { Constants } from 'stores/Constants';
 import { profileLists } from 'src/models/general/profileLists';
+import util from 'src/helpers/util';
 
 export const useProfileListsStore = defineStore('profileListsStore', {
   state: () => ({
@@ -20,7 +21,7 @@ export const useProfileListsStore = defineStore('profileListsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/profile-lists`
+          `${util.endPointUrl()}/profile-lists`
         );
         if (response.data) {
           this.profileLists = response.data;

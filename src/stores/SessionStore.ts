@@ -4,6 +4,7 @@ import { Constants } from 'stores/Constants';
 import { SessionStorage } from 'quasar';
 import { HomeIcon } from 'src/models/homeIcon';
 import logger from 'src/helpers/logger';
+import util from 'src/helpers/util';
 
 export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
@@ -20,7 +21,7 @@ export const useSessionStore = defineStore('sessionStore', {
         //TODO: user_id and org_id will be sent via the header for every call
         //TODO: *DO Not* load if session already exists
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(`${Constants.endPointUrl}/session`);
+        const response = await instance.get(`${util.endPointUrl()}/session`);
         if (response.data) {
           SessionStorage.set('oc-session', response.data);
           //this.session = response.data;
@@ -84,7 +85,7 @@ export const useSessionStore = defineStore('sessionStore', {
 
     async changeOrganization(id: string) {
       logger.log('-- SessionStore.ts:changeOrganization --');
-      const callStr = `${Constants.endPointUrl}/session/${id}`;
+      const callStr = `${util.endPointUrl()}/session/${id}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(callStr);

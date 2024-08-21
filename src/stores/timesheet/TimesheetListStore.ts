@@ -7,6 +7,7 @@ import {
   CustomField,
 } from '../../models/Timesheet/timesheetList';
 import { Constants } from '../Constants';
+import util from 'src/helpers/util';
 
 export const useTimesheetListStore = defineStore('timesheetListStore', {
   state: () => ({
@@ -30,7 +31,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/timesheet-lists`
+          `${util.endPointUrl()}/timesheet-lists`
         );
         const newData = response.data[0];
         const periods = newData.periods;
@@ -52,7 +53,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/timesheet-lists`
+          `${util.endPointUrl()}/timesheet-lists`
         );
         const timesheetList = response.data;
         this.periodList = timesheetList.periods;

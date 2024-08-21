@@ -3,6 +3,7 @@ import { taskSummary } from 'src/models/task/taskSummary';
 import { Constants } from 'stores/Constants';
 import { searchFilter } from 'src/models/task/searchFilter';
 import { linkHeader } from 'src/models/general/linkHeader';
+import util from 'src/helpers/util';
 
 export const useTaskSummaryStore = defineStore('taskSummaryStore', {
   state: () => ({
@@ -27,7 +28,9 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
 
   actions: {
     constructBaseURL() {
-      let baseUrl = `${Constants.endPointUrl}/task-summary?pagenumber=${this.pageNum}&pagesize=${this.pageSize}`;
+      let baseUrl = `${util.endPointUrl()}/task-summary?pagenumber=${
+        this.pageNum
+      }&pagesize=${this.pageSize}`;
       if (this.IsParentPresent) {
         baseUrl += `?parentObjectId=${this.parentObjectId}&parentObjectServiceType=${this.parentObjectServiceType}`;
       }
@@ -98,8 +101,8 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     async getTasks(parentObjectId: number, parentObjectServiceType: number) {
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${Constants.endPointUrl}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
-          : `${Constants.endPointUrl}/task-summary`;
+          ? `${util.endPointUrl()}/task-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : `${util.endPointUrl()}/task-summary`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
@@ -113,7 +116,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/task-summary?id=${id}`
+          `${util.endPointUrl()}/task-summary?id=${id}`
         );
         this.taskSummary = response.data[0];
       } catch (error) {
@@ -122,7 +125,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     },
 
     async getTasksByParent(parentObjectId: string) {
-      const callStr = `${Constants.endPointUrl}/task-summary?parentSid=${parentObjectId}`;
+      const callStr = `${util.endPointUrl()}/task-summary?parentSid=${parentObjectId}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
@@ -137,7 +140,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         this.taskSummaries.push(taskSummary);
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
-          `${Constants.endPointUrl}/task-summary`,
+          `${util.endPointUrl()}/task-summary`,
           taskSummary
         );
         if (response.status === 200) {
@@ -152,7 +155,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
-          `${Constants.endPointUrl}/task-summary/${taskSummary.id}`,
+          `${util.endPointUrl()}/task-summary/${taskSummary.id}`,
           taskSummary
         );
         if (response.status === 200) {
@@ -167,7 +170,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${Constants.endPointUrl}/task-summary/${id}`
+          `${util.endPointUrl()}/task-summary/${id}`
         );
         if (response.status === 200) {
           this.taskSummary = response.data;

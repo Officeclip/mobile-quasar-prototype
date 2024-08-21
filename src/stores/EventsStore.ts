@@ -4,6 +4,7 @@ import { Event } from '../models/event';
 import { MeetingAttendees } from '../models/meetingAttendees.js';
 import { Constants } from 'stores/Constants';
 import logger from 'src/helpers/logger.js';
+import util from 'src/helpers/util.js';
 
 export const useEventsStore = defineStore('eventsStore', {
   state: () => ({
@@ -24,7 +25,7 @@ export const useEventsStore = defineStore('eventsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/meetingAttendees`
+          `${util.endPointUrl()}/meetingAttendees`
         );
 
         this.meetingAttendees = response.data;
@@ -37,7 +38,7 @@ export const useEventsStore = defineStore('eventsStore', {
     async getAllEvents() {
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(`${Constants.endPointUrl}events`);
+        const response = await instance.get(`${util.endPointUrl()}events`);
         this.events = response.data;
       } catch (error: any) {
         alert(error);
@@ -49,7 +50,7 @@ export const useEventsStore = defineStore('eventsStore', {
       parentObjectId: number,
       parentObjectServiceType: number
     ) {
-      const callStr = `${Constants.endPointUrl}/events?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`;
+      const callStr = `${util.endPointUrl()}/events?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
@@ -64,7 +65,7 @@ export const useEventsStore = defineStore('eventsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/events?id=${id}`
+          `${util.endPointUrl()}/events?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.event = response.data[0];
@@ -106,7 +107,7 @@ export const useEventsStore = defineStore('eventsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
-          `${Constants.endPointUrl}/events/${event.id}`,
+          `${util.endPointUrl()}/events/${event.id}`,
           event
         );
         if (response.status === 200) {
@@ -119,7 +120,7 @@ export const useEventsStore = defineStore('eventsStore', {
 
     async addEvent(event: any) {
       this.events.push(event);
-      const res = await fetch(`${Constants.endPointUrl}/events`, {
+      const res = await fetch(`${util.endPointUrl()}/events`, {
         method: 'POST',
         body: JSON.stringify(event),
         headers: { 'Content-Type': 'application/json' },
@@ -130,7 +131,7 @@ export const useEventsStore = defineStore('eventsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${Constants.endPointUrl}/events/${id}`
+          `${util.endPointUrl()}/events/${id}`
         );
         if (response.status === 200) {
           this.event = response.data;

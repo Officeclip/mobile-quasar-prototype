@@ -3,6 +3,7 @@ import { Timesheet } from '../../models/Timesheet/timesheet';
 import { TimesheetDetails } from '../../models/Timesheet/timesheetDetails';
 import { Constants } from 'stores/Constants';
 import logger from 'src/helpers/logger';
+import util from 'src/helpers/util';
 
 export const useTimesheetsStore = defineStore('timesheetsStore', {
   state: () => ({
@@ -27,7 +28,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/timesheet-summary`
+          `${util.endPointUrl()}/timesheet-summary`
         );
         this.timesheets = response.data;
       } catch (error) {
@@ -52,13 +53,13 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         let completeUrl = '';
         switch (status) {
           case 'Inbox':
-            completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
+            completeUrl = `${util.endPointUrl()}/timesheet-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
             break;
           case 'Outbox':
-            completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=None&status=Pending`;
+            completeUrl = `${util.endPointUrl()}/timesheet-summary?status=None&status=Pending`;
             break;
           case 'Archived':
-            completeUrl = `${Constants.endPointUrl}/timesheet-summary?status=Saved&status=Approved&status=Rejected`;
+            completeUrl = `${util.endPointUrl()}/timesheet-summary?status=Saved&status=Approved&status=Rejected`;
             break;
         }
         logger.log(`getInOutboxList(): completeUrl - ${completeUrl}`);
@@ -69,7 +70,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     },
     // getting the timesheets by status
     async getTimesheetsByStatus(status: string) {
-      const callStr = `${Constants.endPointUrl}/timesheet-summary?category=${status}`;
+      const callStr = `${util.endPointUrl()}/timesheet-summary?category=${status}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr ?? '');
@@ -83,7 +84,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/timesheet-detail?timesheetSid=${id}&stageId=${stageId}`
+          `${util.endPointUrl()}/timesheet-detail?timesheetSid=${id}&stageId=${stageId}`
         );
         this.timesheetDetails = response.data;
       } catch (error) {
@@ -94,7 +95,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/timesheet-detail/${id}`
+          `${util.endPointUrl()}/timesheet-detail/${id}`
         );
         this.timesheetDetail = response.data;
         logger.log(
@@ -108,7 +109,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
-          `${Constants.endPointUrl}/timesheet-detail/${timesheetDetail.id}`,
+          `${util.endPointUrl()}/timesheet-detail/${timesheetDetail.id}`,
           timesheetDetail
         );
         if (response.status === 200) {
@@ -122,7 +123,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${Constants.endPointUrl}/timesheet-detail/${id}`
+          `${util.endPointUrl()}/timesheet-detail/${id}`
         );
         if (response.status === 200) {
           this.timesheet = response.data;
@@ -137,7 +138,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${Constants.endPointUrl}/timesheet-summary/${id}`
+          `${util.endPointUrl()}/timesheet-summary/${id}`
         );
 
         if (response.status === 200) {
@@ -153,7 +154,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
-          `${Constants.endPointUrl}/timesheet-detail`,
+          `${util.endPointUrl()}/timesheet-detail`,
           timesheetDetail
         );
         if (response.status === 200) {

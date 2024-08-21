@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { MetaLists } from '../models/Meta/metaLists';
 import { Constants } from 'stores/Constants';
 import logger from 'src/helpers/logger';
+import util from 'src/helpers/util';
 
 export const useMetaListsStore = defineStore('metaListsStore', {
   state: () => ({
@@ -18,9 +19,7 @@ export const useMetaListsStore = defineStore('metaListsStore', {
     async getMetaLists() {
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(
-          `${Constants.endPointUrl}meta-lists`
-        );
+        const response = await instance.get(`${util.endPointUrl()}meta-lists`);
         this.metaLists = response.data;
       } catch (error: any) {
         alert(error);

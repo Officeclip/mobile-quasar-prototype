@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { State, Country, Children } from '../../models/Contact/contactsList';
 import { Constants } from '../Constants';
+import util from 'src/helpers/util';
 
 export const useContactListsStore = defineStore('contactListsStore', {
   state: () => ({
@@ -20,7 +21,7 @@ export const useContactListsStore = defineStore('contactListsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/contact-lists`
+          `${util.endPointUrl()}/contact-lists`
         );
         const contactList = response.data[0];
         this.states = contactList.states;

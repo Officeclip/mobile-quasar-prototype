@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { expenseSummary } from '../../models/expense/expenseSummary';
 import { Constants } from 'stores/Constants';
+import util from 'src/helpers/util';
 
 export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
   state: () => ({
@@ -18,7 +19,7 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/expense-summary`
+          `${util.endPointUrl()}/expense-summary`
         );
         this.expenseSummary = response.data;
       } catch (error) {
@@ -42,7 +43,7 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/expense-summary?id=${id}`
+          `${util.endPointUrl()}/expense-summary?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.expenseSummaryById = response.data[0];
@@ -55,8 +56,8 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
     async getExpenseSummaryByStatus(status: string) {
       const callStr =
         status != ''
-          ? `${Constants.endPointUrl}/expense-summary?status=${status}`
-          : `${Constants.endPointUrl}/expense-summary`;
+          ? `${util.endPointUrl()}/expense-summary?status=${status}`
+          : `${util.endPointUrl()}/expense-summary`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);

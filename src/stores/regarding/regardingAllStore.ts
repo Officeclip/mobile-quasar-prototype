@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { regardingContact } from '../../models/general/regardingAll';
 import { Constants } from '../Constants';
+import util from 'src/helpers/util';
 
 export const useRegardingAllStore = defineStore('regardingAllStore', {
   state: () => ({
@@ -50,7 +51,7 @@ export const useRegardingAllStore = defineStore('regardingAllStore', {
         this.regardingContacts = [];
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/regardingContact`
+          `${util.endPointUrl()}/regardingContact`
         );
         const regardingContacts = response.data;
         const filtered = regardingContacts.filter((t: regardingContact) => {

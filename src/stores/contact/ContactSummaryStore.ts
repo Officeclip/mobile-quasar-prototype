@@ -3,6 +3,7 @@ import { ContactSummary } from '../../models/Contact/contactSummary';
 import { Constants } from '../Constants';
 import { linkHeader } from 'src/models/general/linkHeader';
 import logger from 'src/helpers/logger';
+import util from 'src/helpers/util';
 
 export const useContactSummaryStore = defineStore('contactSummaryStore', {
   state: () => ({
@@ -30,9 +31,9 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
 
       let callStr = '';
       if (this.links?.next) {
-        callStr = `${Constants.endPointUrl}/${this.links.next}`;
+        callStr = `${util.endPointUrl()}/${this.links.next}`;
       } else {
-        callStr = `${Constants.endPointUrl}/contact-summary?`;
+        callStr = `${util.endPointUrl()}/contact-summary?`;
         const queryParams = this.constructQueryParams();
         const queryString = queryParams.toString();
         callStr += queryString ? `${queryString}` : '';
@@ -63,7 +64,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${Constants.endPointUrl}/contact-summary`
+          `${util.endPointUrl()}/contact-summary`
         );
         this.contactSummary = response.data;
       } catch (error: any) {
@@ -73,7 +74,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
     },
 
     async getContactSummaryByBatch(limit: number, page: number) {
-      const callStr = `${Constants.endPointUrl}/contact-summary?_limit=${limit}&_page=${page}`;
+      const callStr = `${util.endPointUrl()}/contact-summary?_limit=${limit}&_page=${page}`;
       const response = await fetch(callStr);
       const data = await response.json();
       this.contactSummary.push(...data);
@@ -84,7 +85,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
       page: number,
       filter: string
     ) {
-      const callStr = `${Constants.endPointUrl}/contact-summary?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
+      const callStr = `${util.endPointUrl()}/contact-summary?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
       const response = await fetch(callStr);
       const data = await response.json();
       this.contactSummary.push(...data);
