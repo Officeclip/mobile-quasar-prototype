@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 // import { Session } from '../models/session';
 import { useSessionStore } from 'stores/SessionStore';
 import { useRouter } from 'vue-router';
@@ -14,7 +14,6 @@ const router = useRouter();
 const profileListsStore = useProfileListsStore();
 const session = ref();
 const userIcon = ref();
-const filteredHomeIcons = ref();
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -26,9 +25,9 @@ defineExpose({ toggleLeftDrawer });
 //   return profileListsStore.ProfilesUserGeneral.userIcon;
 // });
 
-// const filteredHomeIcons = computed(() => {
-//   return sessionStore.getHomeIcons();
-// });
+const filteredHomeIcons = computed(() => {
+  return sessionStore.getHomeIcons();
+});
 
 function getColor(url: string) {
   return url !== '' ? 'primary' : 'dark';
@@ -54,8 +53,8 @@ function logout() {
 
 onMounted(async () => {
   session.value = sessionStore.Session;
+  await profileListsStore.getProfileLists();
   userIcon.value = profileListsStore.ProfilesUserGeneral.userIcon;
-  filteredHomeIcons.value = sessionStore.getHomeIcons();
 });
 </script>
 
