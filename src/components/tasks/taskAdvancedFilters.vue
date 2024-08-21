@@ -145,7 +145,7 @@ async function filterFn(val: string, update: any, abort: any) {
           map-options
           option-label="label"
           option-value="value"
-          hint="Needed when due date is selected"
+          hint="needed when due date is selected"
         />
       </q-item-section>
       <q-item-section class="q-ma-md q-pa-md shadow-2">
@@ -166,7 +166,7 @@ async function filterFn(val: string, update: any, abort: any) {
           map-options
           option-label="label"
           option-value="value"
-          hint="Needed when modified date is selected"
+          hint="needed when modified date is selected"
         />
       </q-item-section>
     </div>

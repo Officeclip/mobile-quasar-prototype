@@ -53,7 +53,7 @@ function logout() {
 }
 
 onMounted(async () => {
-  session.value = sessionStore.session;
+  session.value = sessionStore.Session;
   userIcon.value = profileListsStore.ProfilesUserGeneral.userIcon;
   filteredHomeIcons.value = sessionStore.getHomeIcons();
 });
