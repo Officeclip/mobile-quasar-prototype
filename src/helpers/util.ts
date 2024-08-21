@@ -78,6 +78,10 @@ function endPointUrl() {
   }
 }
 
+function isObjectNullOrEmpty(obj: object) {
+  return !obj || Object.keys(obj).length == 0; // see: https://stackoverflow.com/a/65028055
+}
+
 export default {
   waitInSecs,
   ocSession,
@@ -88,4 +92,5 @@ export default {
   colonToDecimal,
   isDurationValid,
   endPointUrl,
+  isObjectNullOrEmpty,
 };

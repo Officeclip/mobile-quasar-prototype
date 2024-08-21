@@ -7,6 +7,8 @@ import { useRouter } from 'vue-router';
 import packageJson from '../../package.json';
 import { useProfileListsStore } from 'stores/profileListsStore';
 import { Constants } from 'stores/Constants';
+import logger from 'src/helpers/logger';
+import util from 'src/helpers/util';
 
 const sessionStore = useSessionStore();
 const leftDrawerOpen = ref(false);
@@ -53,7 +55,10 @@ function logout() {
 
 onMounted(async () => {
   session.value = sessionStore.Session;
-  await profileListsStore.getProfileLists();
+  if (util.isObjectNullOrEmpty(profileListsStore.profileLists)) {
+    await profileListsStore.getProfileLists();
+  }
+  //debugger;
   userIcon.value = profileListsStore.ProfilesUserGeneral.userIcon;
 });
 </script>
