@@ -81,19 +81,25 @@ function checkCustomerProject() {
   }
 }
 
-const billableOptions = ref([]);
-billableOptions.value = [
-  {
-    label: 'Yes',
-    value: true,
-  },
-  {
-    label: 'No',
-    value: false,
-  },
-];
+// const billableOptions = ref([]);
+// billableOptions.value = [
+//   {
+//     label: 'Yes',
+//     value: true,
+//   },
+//   {
+//     label: 'No',
+//     value: false,
+//   },
+// ];
 watch(date, (newDate) => {
   props.timesheet.taskDate = newDate;
+});
+
+watch(customerProjectModel, (newCustomerProjectModel) => {
+  if (newCustomerProjectModel) {
+    handleServiceItems();
+  }
 });
 
 watch(
@@ -197,11 +203,11 @@ function onDurationBlur(event) {
         label="Customer: Project"
         v-model="customerProjectModel"
         :options="customerProjectOptions"
+        fill-input
         option-label="name"
         option-value="id"
         map-options
         emit-value
-        @click="handleServiceItems"
       />
       <q-select
         label="Service Items"
@@ -213,13 +219,13 @@ function onDurationBlur(event) {
         emit-value
         @click="checkCustomerProject"
       />
-      <q-select
+      <!-- <q-select
         label="Billable"
         v-model="timesheet.isBillable"
         :options="billableOptions"
         map-options
         emit-value
-      />
+      /> -->
 
       <q-toggle
         label="Billable"
