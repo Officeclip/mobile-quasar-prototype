@@ -33,7 +33,7 @@ async function updateOrganization(newValue: any) {
 }
 
 const session: ComputedRef<Session> = computed(() => {
-  return sessionStore.session;
+  return sessionStore.Session;
 });
 
 // const userIcon = computed(() => {

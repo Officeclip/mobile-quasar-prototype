@@ -7,7 +7,7 @@ import logger from 'src/helpers/logger';
 
 export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
-    session: {} as Session,
+    //session: {} as Session,
   }),
 
   getters: {
@@ -23,7 +23,7 @@ export const useSessionStore = defineStore('sessionStore', {
         const response = await instance.get(`${Constants.endPointUrl}/session`);
         if (response.data) {
           SessionStorage.set('oc-session', response.data);
-          this.session = response.data;
+          //this.session = response.data;
         }
       } catch (error) {
         Constants.throwError(error);
@@ -89,7 +89,7 @@ export const useSessionStore = defineStore('sessionStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(callStr);
         if (response.status === 200) {
-          this.session = response.data;
+          //this.session = response.data;
           await this.getSession();
         }
       } catch (error) {
