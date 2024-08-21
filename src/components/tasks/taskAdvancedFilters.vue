@@ -103,6 +103,25 @@ async function filterFn(val: string, update: any, abort: any) {
     );
   });
 }
+
+// const dueDateOptionNotEmpty = (val: string) => {
+//   //debugger;
+//   const condition =
+//     advancedOptions.value.dueDateValue.length > 0 && val.length == 0;
+//   return condition ? true : 'This field is required';
+// };
+
+// const dueDateOptionEmpty = (val: string) => {
+//   const condition =
+//     advancedOptions.value.dueDateValue.length == 0 && val.length > 0;
+//   return condition ? true : 'This field is not required';
+// };
+
+// const modifiedDateOptionNotEmpty = (val: string) => {
+//   const condition =
+//     advancedOptions.value.modifiedDateValue.length > 0 && val.length == 0;
+//   return condition ? true : 'This field is required';
+// };
 </script>
 
 <template>
@@ -118,7 +137,7 @@ async function filterFn(val: string, update: any, abort: any) {
         />
         <q-select
           filled
-          label="Date Option"
+          label="Due Date Options"
           v-model="advancedOptions.dueDateOption"
           :options="dateOptions"
           clearable
@@ -126,6 +145,7 @@ async function filterFn(val: string, update: any, abort: any) {
           map-options
           option-label="label"
           option-value="value"
+          hint="Needed when due date is selected"
         />
       </q-item-section>
       <q-item-section class="q-ma-md q-pa-md shadow-2">
@@ -138,7 +158,7 @@ async function filterFn(val: string, update: any, abort: any) {
         />
         <q-select
           filled
-          label="Date Option"
+          label="Modified Date Options"
           v-model="advancedOptions.modifiedDateOption"
           :options="dateOptions"
           clearable
@@ -146,6 +166,7 @@ async function filterFn(val: string, update: any, abort: any) {
           map-options
           option-label="label"
           option-value="value"
+          hint="Needed when modified date is selected"
         />
       </q-item-section>
     </div>
