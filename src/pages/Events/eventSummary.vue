@@ -22,16 +22,16 @@ const yearAndMonth = ref(null);
 const myDrawer = ref();
 
 onMounted(async () => {
-  try {
-    await eventSummaryStore.getAllEventSummary(null);
-  } catch (error) {
-    $q.dialog({
-      title: 'Alert',
-      message: error as string,
-    }).onOk(async () => {
-      await router.push({ path: '/HomePage' });
-    });
-  }
+  // try {
+  //   await eventSummaryStore.getAllEventSummary(null);
+  // } catch (error) {
+  //   $q.dialog({
+  //     title: 'Alert',
+  //     message: error as string,
+  //   }).onOk(async () => {
+  //     await router.push({ path: '/HomePage' });
+  //   });
+  // }
 });
 
 const calendarEventDates = computed(() => {
