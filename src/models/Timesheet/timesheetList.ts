@@ -38,5 +38,6 @@ export interface ServiceItem {
   customerProjectId: string;
   id: string;
   isBillable: boolean;
+  isBillableModify: boolean;
   name: string;
 }

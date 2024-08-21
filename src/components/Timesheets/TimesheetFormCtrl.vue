@@ -19,6 +19,8 @@ const serviceItemsOptions = ref('');
 
 const timesheetListStore = useTimesheetListStore();
 
+const isBillableModify = ref(false);
+
 onMounted(async () => {
   try {
     await timesheetListStore.getTimesheetListAll();
@@ -108,6 +110,21 @@ watch(
       timesheetListStore.getServiceItemsBycustomerProjectId(
         newCustomerProjectModel
       );
+
+    const serviceItem = serviceItemsOptions.value.find(
+      (x) => x.id === serviceItemModel.value
+    );
+
+    if (!serviceItem) return;
+    if (serviceItem != null) {
+      isBillableModify.value = serviceItem.isBillableModify;
+      //if (props.timesheet.serviceItemSid === '') {
+      props.timesheet.isBillable = serviceItem.isBillable;
+      //}
+      //props.expenseDetail.billable = expenseType.isBillable;
+      // props.expenseDetail.expenseTypeSid = expenseType.expenseTypeSid;
+      // props.expenseDetail.expenseTypeName = expenseType.expenseTypeName;
+    }
   }
 );
 
@@ -203,6 +220,26 @@ function onDurationBlur(event) {
         map-options
         emit-value
       />
+
+      <q-toggle
+        label="Billable"
+        :false-value="false"
+        :true-value="true"
+        :disable="!isBillableModify"
+        color="primary"
+        keep-color
+        v-model="timesheet.isBillable"
+        option-value="name"
+        map-options
+      ></q-toggle>
+      <div
+        v-if="isBillableModify === false"
+        caption
+        class="q-mb-md text-italic"
+      >
+        <q-icon name="hide_source" /> You do not have permission to edit this
+        item
+      </div>
       <q-input
         label="Duration"
         v-model="timesheet.timeDuration"

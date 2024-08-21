@@ -11,8 +11,8 @@ export const useProfileListsStore = defineStore('profileListsStore', {
     ProfileLists: (state) => state.profileLists,
     Organizations: (state) => state.profileLists.organization,
     ProfilesUserGeneral: (state) => state.profileLists.profiles.user.general,
-    ProfilesGroupTimesheet: (state) =>
-      state.profileLists.profiles.group.timesheet,
+    // ProfilesGroupTimesheet: (state) =>
+    //   state.profileLists.profiles.group.timesheet,
   },
 
   actions: {

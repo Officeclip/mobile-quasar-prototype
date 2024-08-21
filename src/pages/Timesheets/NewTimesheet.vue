@@ -48,7 +48,7 @@ const timesheetDetails: TimesheetDetails = ref({
       : ''
     : '',
   timeDuration: Number(),
-  isBillable: true,
+  isBillable: false,
   accountName: '',
   accountSid: '',
   breakTime: '',
