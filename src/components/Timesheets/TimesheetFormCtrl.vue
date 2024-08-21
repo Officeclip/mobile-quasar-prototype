@@ -138,7 +138,7 @@ const isDateValid = () => {
 
 const isDurationEmpty = (val) => {
   //debugger;
-  const condition = val && val.length > 0;
+  const condition = val && val > 0;
   return condition ? true : 'This field is required';
 };
 
@@ -254,15 +254,29 @@ function onDurationBlur(event) {
         placeholder="enter here..."
       />
       <q-input
-        label="Comments"
+        label=""
         v-model="timesheet.comments"
-        placeholder="enter here..."
         :label-color="isCommentsRequired ? 'red' : ''"
         :rules="[
           (val) =>
             (val && val.length > 0) || !isCommentsRequired || errorMessage,
         ]"
-      />
+      >
+        <template v-slot:label>
+          <div class="row items-center all-pointer-events">
+            Comments (for the entire timesheet)
+            <q-icon class="q-mr-xs" size="20px" name="help" />
+            <q-tooltip
+              class="bg-grey-8"
+              anchor="top left"
+              self="bottom left"
+              :offset="[0, 8]"
+              >Use this field to write a comment when submitting
+              timesheet</q-tooltip
+            >
+          </div>
+        </template>
+      </q-input>
     </div>
   </div>
 </template>
