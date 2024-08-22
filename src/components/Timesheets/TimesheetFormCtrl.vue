@@ -71,7 +71,12 @@ const customerProjectOptions = computed(() => {
 });
 
 function handleServiceItems() {
-  return (serviceItemModel.value = '');
+  watch(customerProjectModel, (newCustomerProjectModel) => {
+    if (newCustomerProjectModel) {
+      serviceItemModel.value = '';
+    }
+  });
+  return null;
 }
 
 //make sure to select the customer project first then only select service items
