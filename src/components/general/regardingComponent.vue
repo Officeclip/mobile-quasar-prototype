@@ -69,6 +69,11 @@ async function filterItems(val: string, update: (arg0: () => void) => void) {
     );
   });
 }
+watch(regardingType, (newValue) => {
+  if (newValue) {
+    selectedRegItem.value = '';
+  }
+});
 </script>
 
 <template>
