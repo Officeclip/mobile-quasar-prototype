@@ -387,12 +387,28 @@ const parseRRule = () => {
         <q-radio v-model="dateOrCount" val="date">
           <q-item class="flex-center q-gutter-md row">
             <q-item-section>End by</q-item-section>
-            <q-input
-              v-model="selectedEndDate"
-              clearable
-              type="date"
-              @click.stop
-            />
+            <q-input v-model="selectedEndDate" clearable>
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    cover
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="selectedEndDate" mask="YYYY-MM-DD">
+                      <div class="row items-center justify-end">
+                        <q-btn
+                          v-close-popup
+                          label="Close"
+                          color="primary"
+                          flat
+                        />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
           </q-item>
         </q-radio>
       </div>
