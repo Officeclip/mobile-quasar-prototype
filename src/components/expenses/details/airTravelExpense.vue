@@ -7,6 +7,7 @@ const props = defineProps(['expense']);
 const airTravel: Ref<airTravelExpense | undefined> = ref();
 // eslint-disable-next-line vue/no-setup-props-destructure
 airTravel.value = props.expense;
+debugger;
 </script>
 
 <template>
@@ -20,10 +21,20 @@ airTravel.value = props.expense;
   </q-item-label>
   <q-item-label caption> Departure Date </q-item-label>
   <q-item-label class="q-mb-sm">
-    {{ dateTimeHelper.extractDateFromUtc(airTravel?.departureDate) }}
+    {{
+      dateTimeHelper.formatDateTimeFromRestAPIForUI(
+        airTravel?.departureDate,
+        true
+      )
+    }}
   </q-item-label>
   <q-item-label caption> Arrival Date </q-item-label>
   <q-item-label class="q-mb-sm">
-    {{ dateTimeHelper.extractDateFromUtc(airTravel?.arrivalDate) }}
+    {{
+      dateTimeHelper.formatDateTimeFromRestAPIForUI(
+        airTravel?.arrivalDate,
+        true
+      )
+    }}
   </q-item-label>
 </template>
