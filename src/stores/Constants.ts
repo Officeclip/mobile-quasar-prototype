@@ -33,14 +33,16 @@ export class Constants {
     this.setupAxiosAuthorizationHeader(instance, 'X-Token'); //add the token if available
 
     instance.interceptors.request.use((x) => {
-      logger.log(`axios request: ${JSON.stringify(x, null, 4)}`);
+      logger.log(`axios request: ${JSON.stringify(util.decycle(x), null, 4)}`);
       logger.log('++++++');
       return x;
     });
 
     instance.interceptors.response.use(
       (x) => {
-        logger.log(`axios response: ${JSON.stringify(x, null, 4)}`);
+        logger.log(
+          `axios response: ${JSON.stringify(util.decycle(x), null, 4)}`
+        );
         logger.log('++++++');
         return x;
       },
@@ -122,7 +124,9 @@ export class Constants {
 
   static throwError(error: unknown) {
     //TODO: We need a way to go to the login page if token expires: https://dev.to/darkmavis1980/how-to-use-axios-interceptors-to-handle-api-error-responses-2ij1
-    logger.log(`throwError(...): ${JSON.stringify(error, null, 4)}`);
+    logger.log(
+      `throwError(...): ${JSON.stringify(util.decycle(error), null, 4)}`
+    );
     if (axios.isAxiosError(error)) {
       if (error?.response?.data) {
         const responseError: responseError = error.response.data;

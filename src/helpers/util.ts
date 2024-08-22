@@ -82,6 +82,27 @@ function isObjectNullOrEmpty(obj: object) {
   return !obj || Object.keys(obj).length == 0; // see: https://stackoverflow.com/a/65028055
 }
 
+// This is used because iphone is giving error like: json.stringify cannot serialize cyclic structures
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function decycle(obj: any, stack: any[] = []): any {
+  // see: https://stackoverflow.com/a/9382383
+  if (!obj || typeof obj !== 'object') {
+    return obj;
+  }
+
+  if (stack.includes(obj)) {
+    return null;
+  }
+
+  const s = stack.concat([obj]);
+
+  return Array.isArray(obj)
+    ? obj.map((x) => decycle(x, s))
+    : Object.fromEntries(
+        Object.entries(obj).map(([k, v]) => [k, decycle(v, s)])
+      );
+}
+
 export default {
   waitInSecs,
   ocSession,
@@ -93,4 +114,5 @@ export default {
   isDurationValid,
   endPointUrl,
   isObjectNullOrEmpty,
+  decycle,
 };
