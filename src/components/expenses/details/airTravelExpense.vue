@@ -7,7 +7,7 @@ const props = defineProps(['expense']);
 const airTravel: Ref<airTravelExpense | undefined> = ref();
 // eslint-disable-next-line vue/no-setup-props-destructure
 airTravel.value = props.expense;
-debugger;
+//debugger;
 </script>
 
 <template>
