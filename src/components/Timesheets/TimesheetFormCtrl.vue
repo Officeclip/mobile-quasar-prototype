@@ -96,11 +96,9 @@ watch(date, (newDate) => {
   props.timesheet.taskDate = newDate;
 });
 
-watch(customerProjectModel, (newCustomerProjectModel) => {
-  if (newCustomerProjectModel) {
-    handleServiceItems();
-  }
-});
+// watch(customerProjectModel, (newCustomerProjectModel) => {
+//   handleServiceItems();
+// });
 
 watch(
   [customerProjectModel, serviceItemModel],
@@ -208,7 +206,17 @@ function onDurationBlur(event) {
         option-value="id"
         map-options
         emit-value
-      />
+        hide-dropdown-icon
+        @click="handleServiceItems()"
+      >
+        <template v-slot:append>
+          <q-icon
+            name="arrow_drop_down"
+            class="cursor-pointer"
+            @click="handleServiceItems()"
+          />
+        </template>
+      </q-select>
       <q-select
         label="Service Items"
         v-model="serviceItemModel"
@@ -286,4 +294,8 @@ function onDurationBlur(event) {
     </div>
   </div>
 </template>
-<style></style>
+<style scoped>
+/* .q-icon {
+  display: none;
+} */
+</style>
