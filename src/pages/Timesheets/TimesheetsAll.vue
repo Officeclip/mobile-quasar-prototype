@@ -107,7 +107,6 @@ function toggleLeftDrawer() {
                   employeeId: item.employeeId,
                   fromDate: item.fromDate,
                   toDate: item.toDate,
-                  isWrite: item.security.write,
                   stageId: item.stageId,
                   status: item.status,
                   mode: item.mode,
