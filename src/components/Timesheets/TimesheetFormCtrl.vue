@@ -7,6 +7,7 @@ import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import util from 'src/helpers/util';
+import logger from 'src/helpers/logger';
 
 const props = defineProps(['timesheet', 'timesheetDCAA', 'fromDate', 'toDate']);
 const $q = useQuasar();
@@ -49,9 +50,16 @@ let isCommentsRequired = false;
 // });
 
 const selectedPeriod = computed(() => {
-  const formattedDt = `${dateTimeHelper.formatDateForTE(
-    props?.fromDate
-  )} - ${dateTimeHelper.formatDateForTE(props?.toDate)}`;
+  const fromDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
+    props?.fromDate,
+    true
+  );
+  const toDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
+    props?.toDate,
+    true
+  );
+  //logger.log(`TimesheetFormCtrl: selectedPeriod: fromDate: ${fromDate}`);
+  const formattedDt = `${fromDate} - ${toDate}`;
   return formattedDt;
 });
 
