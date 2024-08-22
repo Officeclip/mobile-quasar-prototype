@@ -173,7 +173,8 @@ async function addSubtask(subtask: subTask) {
   try {
     await taskDetailsStore.addSubtask(subtask);
     showAddSubtaskDialog.value = false;
-    router.go(0);
+    //router.go(0);
+    window.location.reload();
   } catch (error) {
     $q.dialog({
       title: 'Alert',
