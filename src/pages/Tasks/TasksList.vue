@@ -118,7 +118,7 @@ function showNotif() {
   $q.notify({
     type: 'info',
     message: 'COMPLETED TASKS ARE HIDDEN',
-    timeout: 10000,
+    timeout: 2000,
     actions: [
       {
         icon: 'close',
