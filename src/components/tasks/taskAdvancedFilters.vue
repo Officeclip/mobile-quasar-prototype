@@ -127,7 +127,7 @@ async function filterFn(val: string, update: any, abort: any) {
 <template>
   <q-card style="width: 700px; max-width: 80vw">
     <div class="row">
-      <q-item-section class="q-ma-md q-pa-md shadow-2">
+      <q-item-section class="q-ma-sm q-pa-md shadow-2">
         <q-input
           v-model="advancedOptions.dueDateValue"
           clearable
@@ -148,7 +148,9 @@ async function filterFn(val: string, update: any, abort: any) {
           hint="needed when due date is selected"
         />
       </q-item-section>
-      <q-item-section class="q-ma-md q-pa-md shadow-2">
+    </div>
+    <div class="row">
+      <q-item-section class="q-ma-sm q-pa-md shadow-2">
         <q-input
           v-model="advancedOptions.modifiedDateValue"
           clearable
@@ -172,7 +174,6 @@ async function filterFn(val: string, update: any, abort: any) {
     </div>
     <div class="q-pa-md row">
       <q-item-section>
-        <!-- <q-item-label>Status</q-item-label> -->
         <q-select
           outlined
           label="Status"
@@ -184,9 +185,9 @@ async function filterFn(val: string, update: any, abort: any) {
           option-value="id"
         />
       </q-item-section>
-
+    </div>
+    <div class="q-pa-md row">
       <q-item-section>
-        <!-- <q-item-label>Priority</q-item-label> -->
         <q-select
           outlined
           label="Priority"
@@ -198,9 +199,9 @@ async function filterFn(val: string, update: any, abort: any) {
           option-value="id"
         />
       </q-item-section>
-
+    </div>
+    <div class="q-pa-md row">
       <q-item-section>
-        <!-- <q-item-label>Task Type</q-item-label> -->
         <q-select
           outlined
           label="Task Type"
@@ -216,7 +217,6 @@ async function filterFn(val: string, update: any, abort: any) {
 
     <div class="q-pa-md row">
       <q-item-section>
-        <!-- <q-item-label>Assigned To</q-item-label> -->
         <q-select
           outlined
           label="Assigned To"
@@ -231,9 +231,9 @@ async function filterFn(val: string, update: any, abort: any) {
           @filter="filterFn"
         />
       </q-item-section>
-
+    </div>
+    <div class="q-pa-md row">
       <q-item-section>
-        <!-- <q-item-label>Owned By</q-item-label> -->
         <q-select
           outlined
           label="Owned By"
