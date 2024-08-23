@@ -93,7 +93,7 @@ watch(regardingType, (newValue) => {
       <q-item-section class="q-mr-sm">
         <q-select
           v-model="selectedRegItem"
-          :disable="regardingType.id == ''"
+          :disable="regardingType.id == '-1'"
           :options="regardingItems"
           dense
           option-label="name"
