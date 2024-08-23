@@ -346,8 +346,8 @@ function toggleLeftDrawer() {
               </q-item-section>
               <q-item-section>
                 <q-item-label caption>Repeating</q-item-label>
-                <q-item-label description
-                  >{{ taskDetail?.recurrence?.text || 'Not Available' }}
+                <q-item-label description>
+                  <div v-html="taskDetail?.recurrence?.text"></div>
                 </q-item-label>
               </q-item-section>
             </q-item>
