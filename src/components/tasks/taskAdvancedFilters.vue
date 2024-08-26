@@ -87,14 +87,14 @@ const dateOptions = [
 const userList: Ref<user[]> = ref([]);
 
 async function filterFn(val: string, update: any, abort: any) {
-  if (val.length < 2) {
-    abort();
-    return;
-  } else if (val.length >= 2) {
-    userList.value = [];
-    await taskListsStore.getFilteredUsers(val);
-    userList.value = taskListsStore.users;
-  }
+  // if (val.length < 2) {
+  //   abort();
+  //   return;
+  // } else if (val.length >= 2) {
+  userList.value = [];
+  await taskListsStore.getFilteredUsers(val);
+  userList.value = taskListsStore.users;
+  //}
 
   update(() => {
     const needle = val.toLowerCase();
