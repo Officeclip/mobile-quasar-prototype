@@ -62,11 +62,10 @@ watch(isAllDayEvent, () => {
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date
-                  v-close-popup
-                  v-model="startsModelValue"
-                  :mask="mask(isAllDayEvent)"
-                >
+                <q-date v-model="startsModelValue" :mask="mask(isAllDayEvent)"
+                  ><div class="row items-center justify-end">
+                    <q-btn v-close-popup color="primary" flat label="Close" />
+                  </div>
                 </q-date>
               </q-popup-proxy>
             </q-icon>

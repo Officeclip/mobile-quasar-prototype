@@ -56,7 +56,10 @@ const startDateParsed = computed(() => {
                 transition-hide="scale"
                 transition-show="scale"
               >
-                <q-date v-close-popup v-model="testData.startDate" :mask="mask">
+                <q-date v-model="testData.startDate" :mask="mask">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup color="primary" flat label="Close" />
+                  </div>
                 </q-date>
               </q-popup-proxy>
             </q-icon>

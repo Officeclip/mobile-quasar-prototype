@@ -73,7 +73,11 @@ const formattedDateTime = computed(() => {
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-date v-close-popup v-model="newValue"> </q-date>
+            <q-date v-model="newValue"
+              ><div class="row items-center justify-end">
+                <q-btn v-close-popup color="primary" flat label="Close" />
+              </div>
+            </q-date>
           </q-popup-proxy>
         </q-icon>
       </template>
@@ -88,7 +92,10 @@ const formattedDateTime = computed(() => {
       <template v-slot:prepend>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-date v-close-popup v-model="newValue" mask="YYYY-MM-DD HH:mm">
+            <q-date v-model="newValue" mask="YYYY-MM-DD HH:mm"
+              ><div class="row items-center justify-end">
+                <q-btn v-close-popup color="primary" flat label="Close" />
+              </div>
             </q-date>
           </q-popup-proxy>
         </q-icon>

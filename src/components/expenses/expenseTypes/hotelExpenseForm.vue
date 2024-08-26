@@ -81,11 +81,10 @@ defineExpose({
               transition-show="scale"
               transition-hide="scale"
             >
-              <q-date
-                v-close-popup
-                v-model="props.hotel.fromDate"
-                mask="YYYY-MM-DD"
-              >
+              <q-date v-model="props.hotel.fromDate" mask="YYYY-MM-DD">
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup color="primary" flat label="Close" />
+                </div>
               </q-date>
             </q-popup-proxy>
           </q-icon>
@@ -106,11 +105,10 @@ defineExpose({
               transition-show="scale"
               transition-hide="scale"
             >
-              <q-date
-                v-close-popup
-                v-model="props.hotel.toDate"
-                mask="YYYY-MM-DD"
-              >
+              <q-date v-model="props.hotel.toDate" mask="YYYY-MM-DD">
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup color="primary" flat label="Close" />
+                </div>
               </q-date>
             </q-popup-proxy>
           </q-icon>

@@ -80,11 +80,10 @@ const mask = (x: boolean) => {
       <template v-slot:prepend>
         <q-icon class="cursor-pointer" name="event">
           <q-popup-proxy cover transition-hide="scale" transition-show="scale">
-            <q-date
-              v-close-popup
-              v-model="endDateModelValue"
-              :mask="mask(isAllDay)"
-            >
+            <q-date v-model="endDateModelValue" :mask="mask(isAllDay)"
+              ><div class="row items-center justify-end">
+                <q-btn v-close-popup color="primary" flat label="Close" />
+              </div>
             </q-date>
           </q-popup-proxy>
         </q-icon>

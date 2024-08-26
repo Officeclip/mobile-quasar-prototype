@@ -413,11 +413,13 @@ const regarding = computed(() => {
                 transition-show="scale"
               >
                 <q-date
-                  v-close-popup
                   v-model="startDateModelValue"
                   :mask="mask(event.isAllDayEvent)"
                   @update:model-value="changeEndDateWhenStartDateChanged"
                 >
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup color="primary" flat label="Close" />
+                  </div>
                 </q-date>
               </q-popup-proxy>
             </q-icon>
@@ -460,10 +462,12 @@ const regarding = computed(() => {
                 transition-show="scale"
               >
                 <q-date
-                  v-close-popup
                   v-model="endDateModelValue"
                   :mask="mask(event.isAllDayEvent)"
                 >
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup color="primary" flat label="Close" />
+                  </div>
                 </q-date>
               </q-popup-proxy>
             </q-icon>

@@ -92,11 +92,10 @@ defineExpose({
               transition-show="scale"
               transition-hide="scale"
             >
-              <q-date
-                v-close-popup
-                v-model="props.airTravel.departureDate"
-                :mask="mask"
-              >
+              <q-date v-model="props.airTravel.departureDate" :mask="mask">
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup color="primary" flat label="Close" />
+                </div>
               </q-date>
             </q-popup-proxy>
           </q-icon>
@@ -117,11 +116,10 @@ defineExpose({
               transition-show="scale"
               transition-hide="scale"
             >
-              <q-date
-                v-close-popup
-                v-model="props.airTravel.arrivalDate"
-                :mask="mask"
-              >
+              <q-date v-model="props.airTravel.arrivalDate" :mask="mask">
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup color="primary" flat label="Close" />
+                </div>
               </q-date>
             </q-popup-proxy>
           </q-icon>
