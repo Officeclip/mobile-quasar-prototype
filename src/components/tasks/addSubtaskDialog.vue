@@ -3,7 +3,7 @@ import { onBeforeMount, ref, Ref, computed } from 'vue';
 import { useTaskListsStore } from 'stores/task/taskListsStore';
 import { useUserSummaryStore } from 'stores/userSummaryStore';
 import { userSummary } from 'src/models/userSummary';
-import { useQuasar } from 'quasar';
+import { useQuasar, QInput } from 'quasar';
 import { useRouter } from 'vue-router';
 
 const props = defineProps(['taskSid']);
@@ -57,8 +57,29 @@ const subtask = ref({
 const emit = defineEmits(['saveSubtask']);
 
 function emitSubtask() {
-  emit('saveSubtask', subtask.value);
+  validateAll();
 }
+
+const eventNameRef = ref<QInput>(); // from: https://stackoverflow.com/a/65106524
+
+const errorMsg = ref('');
+
+const ruleNotEmpty = (val: string) => {
+  const condition = val && val.length > 0;
+  return condition;
+};
+
+const validateAll = () => {
+  if (eventNameRef.value?.validate()) {
+    emit('saveSubtask', subtask.value);
+  } else {
+    errorMsg.value = 'Please type subject';
+  }
+};
+
+defineExpose({
+  emitSubtask,
+});
 </script>
 
 <template>
@@ -66,7 +87,9 @@ function emitSubtask() {
     <div class="q-pa-md column">
       <q-input
         v-model="subtask.title"
-        :rules="[(val: any) => (val && val.length > 0) || 'Please type title']"
+        ref="eventNameRef"
+        :rules="[ruleNotEmpty]"
+        :error-message="errorMsg"
         label="* Subject"
         lazy-rules
         placeholder="Enter Subtask Title"
@@ -101,7 +124,7 @@ function emitSubtask() {
     </div>
 
     <q-card-actions>
-      <q-btn v-close-popup color="primary" label="Apply" @click="emitSubtask" />
+      <q-btn color="primary" label="Apply" @click="emitSubtask" />
     </q-card-actions>
   </q-card>
 </template>
