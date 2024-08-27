@@ -200,7 +200,6 @@ const regarding = computed(() => {
               class="q-mt-md full-width"
               v-model="task.description"
               paragraph-tag="div"
-              placeholder="enter description"
             ></q-editor>
           </template> </q-field
       ></q-item>
