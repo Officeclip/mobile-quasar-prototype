@@ -122,7 +122,10 @@ function toggleLeftDrawer() {
                 <q-item-label caption class="text-grey-8">
                   {{
                     item.fromDate
-                      ? dateTimeHelper.extractDateFromUtc(item.fromDate)
+                      ? dateTimeHelper.formatDateTimeFromRestAPIForUI(
+                          item.fromDate,
+                          true
+                        )
                       : 'No Specific Date'
                   }}
                 </q-item-label>
