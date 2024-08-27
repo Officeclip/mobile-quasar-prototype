@@ -179,8 +179,10 @@ const regarding = computed(() => {
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
   <div>
-    <div class="q-pa-md">
-      <div class="q-gutter-y-md column">
+    <!-- <div class="q-pa-md">
+      <div class="q-gutter-y-md column"> -->
+    <q-list>
+      <q-item class="column">
         <q-input
           ref="nameRef"
           v-model="task.subject"
@@ -188,13 +190,9 @@ const regarding = computed(() => {
           label="Subject"
           placeholder="enter task subject"
           :rules="[ruleNotEmpty]"
-        />
-        <q-field
-          class="q-mt-md"
-          v-model="task.description"
-          label-slot
-          borderless
-        >
+      /></q-item>
+      <q-item class="column">
+        <q-field v-model="task.description" label-slot borderless>
           <template #label>Description</template>
           <template #control>
             <q-editor
@@ -204,9 +202,9 @@ const regarding = computed(() => {
               paragraph-tag="div"
               placeholder="enter description"
             ></q-editor>
-          </template>
-        </q-field>
-
+          </template> </q-field
+      ></q-item>
+      <q-item class="column">
         <q-input v-model="startDateModel" label="Start Date" readonly>
           <template v-slot:prepend>
             <q-icon class="cursor-pointer" name="event">
@@ -222,9 +220,9 @@ const regarding = computed(() => {
                 </q-date>
               </q-popup-proxy>
             </q-icon>
-          </template>
-        </q-input>
-
+          </template> </q-input
+      ></q-item>
+      <q-item class="column">
         <q-input
           ref="dateRef"
           v-model="dueDateModel"
@@ -245,9 +243,9 @@ const regarding = computed(() => {
                 </q-date>
               </q-popup-proxy>
             </q-icon>
-          </template>
-        </q-input>
-
+          </template> </q-input
+      ></q-item>
+      <q-item class="column">
         <q-select
           v-model="taskType"
           :options="taskListsStore.TaskTypes"
@@ -256,7 +254,8 @@ const regarding = computed(() => {
           option-label="name"
           option-value="id"
         />
-
+      </q-item>
+      <q-item class="column">
         <q-select
           v-model="taskPriority"
           :options="taskListsStore.TaskPriorities"
@@ -264,8 +263,8 @@ const regarding = computed(() => {
           map-options
           option-label="name"
           option-value="id"
-        />
-
+      /></q-item>
+      <q-item class="column">
         <q-select
           v-model="taskStatus"
           :options="taskListsStore.TaskStatuses"
@@ -274,9 +273,11 @@ const regarding = computed(() => {
           option-label="name"
           option-value="id"
         />
-
+      </q-item>
+      <q-item class="column">
         <q-checkbox v-model="task.isPrivate" label="Private?" />
-
+      </q-item>
+      <q-item class="column">
         <q-select
           v-model="taskOwner"
           :options="shownOptions"
@@ -293,8 +294,9 @@ const regarding = computed(() => {
               <q-item-section class="text-grey"> No results</q-item-section>
             </q-item>
           </template>
-        </q-select>
-
+        </q-select></q-item
+      >
+      <q-item class="column">
         <q-select
           v-model="task.assignees"
           :options="shownOptions"
@@ -314,7 +316,8 @@ const regarding = computed(() => {
             </q-item>
           </template>
         </q-select>
-
+      </q-item>
+      <q-item class="column">
         <q-select
           v-model="task.tags"
           :options="shownTagOptions"
@@ -333,38 +336,41 @@ const regarding = computed(() => {
             </q-item>
           </template>
         </q-select>
+      </q-item>
+      <q-item>
         <Regarding
           v-if="appName === 'task'"
           v-model="task.parent"
           :regarding-parents="taskListsStore.RegardingParent"
-        />
-        <!-- <q-item-label
+      /></q-item>
+      <!-- <q-item-label
           v-if="appName !== 'task' && taskFromParent?.parent?.value?.name"
           title="Regarding"
           :value="regarding"
         /> -->
-        <div v-if="appName !== 'task' && taskFromParent?.parent?.value?.name">
-          <q-item-label caption class="q-pt-md"> Regarding </q-item-label>
-          <q-item-label class="q-mb-sm">
-            {{ regarding }}
-          </q-item-label>
-        </div>
-        <q-item
-          class="q-pa-none"
-          v-ripple
-          clickable
-          @click="recurrenceDialogOpened = true"
-        >
-          <q-item-section avatar>
-            <q-icon color="primary" name="repeat" size="sm" />
-          </q-item-section>
-          <q-item-section> {{ repeatString }}</q-item-section>
-          <q-item-section side>
-            <q-icon color="primary" name="chevron_right" />
-          </q-item-section>
-        </q-item>
 
-        <!-- <q-item
+      <OCItem
+        v-if="appName !== 'task' && taskFromParent?.parent?.value?.name"
+        title="Regarding"
+        :value="regarding"
+      />
+      <!-- <div v-if="appName !== 'task' && taskFromParent?.parent?.value?.name">
+        <q-item-label caption class="q-pt-md"> Regarding </q-item-label>
+        <q-item-label class="q-mb-sm">
+          {{ regarding }}
+        </q-item-label>
+      </div> -->
+      <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
+        <q-item-section avatar>
+          <q-icon color="primary" name="repeat" size="sm" />
+        </q-item-section>
+        <q-item-section> {{ repeatString }}</q-item-section>
+        <q-item-section side>
+          <q-icon color="primary" name="chevron_right" />
+        </q-item-section>
+      </q-item>
+
+      <!-- <q-item
           class="q-pa-none"
           v-ripple
           clickable
@@ -378,8 +384,9 @@ const regarding = computed(() => {
             <q-icon color="primary" name="chevron_right" />
           </q-item-section>
         </q-item> -->
-      </div>
-    </div>
+    </q-list>
+    <!-- </div>
+    </div> -->
   </div>
 
   <q-dialog v-model="recurrenceDialogOpened">
