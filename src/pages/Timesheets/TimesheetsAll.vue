@@ -122,7 +122,10 @@ function toggleLeftDrawer() {
                 <q-item-label caption class="text-grey-8">
                   {{
                     item.fromDate
-                      ? dateTimeHelper.extractDateFromUtc(item.fromDate)
+                      ? dateTimeHelper.formatDateTimeFromRestAPIForUI(
+                          item.fromDate,
+                          true
+                        )
                       : 'No Specific Date'
                   }}
                 </q-item-label>
@@ -151,19 +154,21 @@ function toggleLeftDrawer() {
           </q-list>
         </div>
         <div v-else>
-          <q-list class="flex flex-center">
-            <q-item>
-              <q-item-section>
-                <q-item-label class="text-h6 q-py-md">
-                  Create your first Timesheet
-                </q-item-label>
-                <q-item-label>
-                  A timesheet is used to track employee's time spent on projects
-                  and tasks.
-                </q-item-label>
-              </q-item-section>
-            </q-item></q-list
-          >
+          <div v-if="title === 'Inbox'">
+            <q-list class="flex flex-center">
+              <q-item>
+                <q-item-section>
+                  <q-item-label class="text-h6 q-py-md">
+                    Create your first Timesheet
+                  </q-item-label>
+                  <q-item-label>
+                    A timesheet is used to track employee's time spent on
+                    projects and tasks.
+                  </q-item-label>
+                </q-item-section>
+              </q-item></q-list
+            >
+          </div>
         </div>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn

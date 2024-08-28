@@ -64,10 +64,13 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
       }
     },
     getServiceItemsBycustomerProjectId(customerProjectId: string) {
+      const [customerId] = customerProjectId.split(':');
       const newItems = this.ServiceItemsList.filter((t) => {
         return (
           t.customerProjectId === '' ||
-          t.customerProjectId === customerProjectId
+          t.customerProjectId === customerProjectId ||
+          (customerProjectId.includes(':') &&
+            t.customerProjectId === customerId)
         );
       });
       return newItems;

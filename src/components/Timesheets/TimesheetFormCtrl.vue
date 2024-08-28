@@ -35,11 +35,23 @@ onMounted(async () => {
   }
   date.value = props.timesheet?.taskDate;
 
-  customerProjectModel.value =
+  const custProjId =
     props.timesheet?.accountSid +
     (props.timesheet?.projectSid ? ':' + props.timesheet?.projectSid : '');
 
-  serviceItemModel.value = props.timesheet?.serviceItemSid;
+  customerProjectModel.value = customerProjectOptions.value.find(
+    (x) => x.id === custProjId
+  )
+    ? custProjId
+    : '';
+
+  // customerProjectModel.value =
+  //   props.timesheet?.accountSid +
+  //   (props.timesheet?.projectSid ? ':' + props.timesheet?.projectSid : '');
+
+  serviceItemModel.value = customerProjectModel.value
+    ? props.timesheet?.serviceItemSid
+    : '';
 });
 
 let errorMessage = '';
@@ -67,13 +79,6 @@ const dateOptions = computed(() => {
   return dateTimeHelper.populateDates(props?.fromDate, props?.toDate);
 });
 
-// const dateOptions = computed(() => {
-//   return dateTimeHelper.populateDates(
-//     selectedPeriod.value?.start,
-//     selectedPeriod.value?.end
-//   );
-// });
-
 const customerProjectOptions = computed(() => {
   return timesheetListStore.CustomerProjectsList;
 });
@@ -94,24 +99,9 @@ function checkCustomerProject() {
   }
 }
 
-// const billableOptions = ref([]);
-// billableOptions.value = [
-//   {
-//     label: 'Yes',
-//     value: true,
-//   },
-//   {
-//     label: 'No',
-//     value: false,
-//   },
-// ];
 watch(date, (newDate) => {
   props.timesheet.taskDate = newDate;
 });
-
-// watch(customerProjectModel, (newCustomerProjectModel) => {
-//   handleServiceItems();
-// });
 
 watch(
   [customerProjectModel, serviceItemModel],
@@ -135,12 +125,7 @@ watch(
     if (!serviceItem) return;
     if (serviceItem != null) {
       isBillableModify.value = serviceItem.isBillableModify;
-      //if (props.timesheet.serviceItemSid === '') {
       props.timesheet.isBillable = serviceItem.isBillable;
-      //}
-      //props.expenseDetail.billable = expenseType.isBillable;
-      // props.expenseDetail.expenseTypeSid = expenseType.expenseTypeSid;
-      // props.expenseDetail.expenseTypeName = expenseType.expenseTypeName;
     }
   }
 );
