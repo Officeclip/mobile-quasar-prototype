@@ -65,14 +65,15 @@ function colonToDecimal(timeString: string): string {
 
 function isHideLogger() {
   const isHideLogger =
-    import.meta.env.VITE_HIDE_LOGGER && import.meta.env.VITE_HIDE_LOGGER == 1;
+    import.meta.env.VITE_HIDE_LOGGER != null &&
+    import.meta.env.VITE_HIDE_LOGGER == 1;
   // && process.env.NODE_ENV == 'production';
   return isHideLogger;
 }
 
 function isHideTestPage() {
   const isHideTestPage =
-    import.meta.env.VITE_HIDE_TESTPAGE &&
+    import.meta.env.VITE_HIDE_TESTPAGE != null &&
     import.meta.env.VITE_HIDE_TESTPAGE == 1;
   return isHideTestPage;
 }
