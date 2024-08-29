@@ -110,19 +110,28 @@ async function filterTagFn(val: string, update: any) {
   });
 }
 
-const taskType = ref({
-  id: task.value.taskTypeId,
-  name: task.value.taskTypeName,
-});
-const taskStatus = ref({
-  id: task.value.taskStatusId,
-  name: task.value.taskStatusName,
-  category: task.value.taskStatusCategory,
-});
-const taskPriority = ref({
-  id: task.value.taskPriorityId,
-  name: task.value.taskPriorityName,
-});
+const taskType =
+  task.value.id === ''
+    ? ref()
+    : ref({ id: task.value.taskTypeId, name: task.value.taskTypeName });
+
+const taskStatus =
+  task.value.id === ''
+    ? ref()
+    : ref({
+        id: task.value.taskStatusId,
+        name: task.value.taskStatusName,
+        category: task.value.taskStatusCategory,
+      });
+
+const taskPriority =
+  task.value.id === ''
+    ? ref()
+    : ref({
+        id: task.value.taskPriorityId,
+        name: task.value.taskPriorityName,
+      });
+
 const taskOwner = ref({
   id: task.value.taskOwnerSid,
   name: task.value.taskOwnerName,
