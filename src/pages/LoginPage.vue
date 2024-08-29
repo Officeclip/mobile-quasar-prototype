@@ -21,6 +21,8 @@ const login: Ref<Login> = ref({
   mpin: '',
 });
 
+const isHideTestPage = ref(false);
+
 const pin = ref('');
 
 const rules = {
@@ -74,7 +76,8 @@ onMounted(async () => {
 
   const addressBarUrl = window.location.href;
   const endPointUrl = util.getEndPointUrlFromUri(addressBarUrl);
-  logger.log(`onMounted: endPointUrl: ${endPointUrl}`);
+  isHideTestPage.value = util.isHideTestPage();
+  logger.log(`onMounted: isHideTestPage: ${isHideTestPage.value}`);
   Constants.saveEndPointUrlInLocalStorage(endPointUrl);
 
   const uri = addressBarUrl.split('?');
@@ -158,7 +161,7 @@ function getEndPointUrlFromUri(href: string): string | null {
                   >Sign up.</a
                 >
               </div>
-              <div>
+              <div v-if="isHideTestPage">
                 <q-btn
                   :to="{
                     name: 'loginPage2',

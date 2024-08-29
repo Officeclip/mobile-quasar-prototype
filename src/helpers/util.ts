@@ -70,6 +70,13 @@ function isHideLogger() {
   return isHideLogger;
 }
 
+function isHideTestPage() {
+  const isHideTestPage =
+    import.meta.env.VITE_HIDE_TESTPAGE &&
+    import.meta.env.VITE_HIDE_TESTPAGE == 1;
+  return isHideTestPage;
+}
+
 function endPointUrl() {
   if (import.meta.env.VITE_API_ENDPOINT) {
     return import.meta.env.VITE_API_ENDPOINT;
@@ -109,6 +116,7 @@ export default {
   getEndPointUrlFromUri,
   isValidEmail,
   isHideLogger,
+  isHideTestPage,
   isValidNumber,
   colonToDecimal,
   isDurationValid,
