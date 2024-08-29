@@ -248,7 +248,7 @@ function toggleLeftDrawer() {
                 <template v-slot:header>
                   <q-item-section side>
                     <div class="row items-center">
-                      <q-icon name="subject"></q-icon>
+                      <q-icon name="subject" size="sm"></q-icon>
                     </div>
                   </q-item-section>
                   <q-item-section>
@@ -289,7 +289,7 @@ function toggleLeftDrawer() {
                 <template v-slot:header>
                   <q-item-section side>
                     <div class="row items-center">
-                      <q-icon name="calendar_month"></q-icon>
+                      <q-icon name="calendar_month" size="sm"></q-icon>
                     </div>
                   </q-item-section>
                   <q-item-section> Events ({{ eventsCount }})</q-item-section>
@@ -331,7 +331,7 @@ function toggleLeftDrawer() {
                 <template v-slot:header>
                   <q-item-section side>
                     <div class="row items-center">
-                      <q-icon name="checklist"></q-icon>
+                      <q-icon name="checklist" size="sm"></q-icon>
                     </div>
                   </q-item-section>
                   <q-item-section>Tasks ({{ tasksCount }})</q-item-section>
