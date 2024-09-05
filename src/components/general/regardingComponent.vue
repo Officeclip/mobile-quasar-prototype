@@ -90,7 +90,7 @@ watch(regardingType, (newValue) => {
       option-value="id"
     />
   </q-item-section>
-  <q-item-section class="q-mr-sm">
+  <q-item-section class="q-mr-sm ellipsis">
     <q-select
       v-model="selectedRegItem"
       :disable="regardingType.id == '-1'"

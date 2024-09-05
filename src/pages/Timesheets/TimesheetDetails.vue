@@ -192,6 +192,7 @@ function toggleLeftDrawer() {
           default-opened
           expand-separator
           expand-icon-class="text-primary"
+          class="bg-white"
         >
           <template v-slot:header>
             <q-item-section>
