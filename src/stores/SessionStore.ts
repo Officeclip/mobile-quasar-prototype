@@ -79,6 +79,12 @@ export const useSessionStore = defineStore('sessionStore', {
           name: 'Notes',
           url: '/notesList',
         },
+        {
+          id: 22,
+          icon: 'bug_report',
+          name: 'IssueTracker',
+          url: '/issuetracker',
+        },
       ];
       return defaultHomeIcons;
     },

@@ -192,6 +192,11 @@ const routes: RouteRecordRaw[] = [
     name: 'editExpense',
     component: () => import('../pages/Expenses/EditExpense.vue'),
   },
+  {
+    path: '/issueTracker',
+    name: 'issueTracker',
+    component: () => import('../pages/IssueTracker/IssueTracker.vue'),
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
