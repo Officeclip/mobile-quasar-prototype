@@ -56,7 +56,7 @@ const binderList = computed(() => {
               {{ title }}</q-item-section
             >
           </q-item>
-          <q-separator size=".15rem" color="red-3"></q-separator>
+          <q-separator spaced inset color="yellow-6"></q-separator>
         </q-list>
         <q-list v-for="binder in binderList" :key="binder.id">
           <q-item
@@ -78,7 +78,8 @@ const binderList = computed(() => {
               <q-icon color="primary" name="chevron_right" />
             </q-item-section>
           </q-item>
-          <q-separator color="yellow-6"></q-separator>
+          <q-separator spaced inset></q-separator>
+          <!-- <q-separator color="yellow-6"></q-separator> -->
         </q-list>
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
