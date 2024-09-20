@@ -1,0 +1,26 @@
+[
+  {
+    "id": "SG123",
+    "name": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+    "status": "Open",
+    "createdDate": "2024-10-01"
+  },
+  {
+    "id": "SK232",
+    "name": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    "status": "Closed",
+    "createdDate": "2024-10-02"
+  },
+  {
+    "id": "NK222",
+    "name": "Contrary to popular belief, Lorem Ipsum is not simply random text",
+    "status": "Resolved",
+    "createdDate": "2024-10-03"
+  },
+  {
+    "id": "SG131",
+    "name": "Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words",
+    "status": "Open",
+    "createdDate": "2024-10-04"
+  }
+]

@@ -193,9 +193,14 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Expenses/EditExpense.vue'),
   },
   {
-    path: '/issueTracker',
-    name: 'issueTracker',
-    component: () => import('../pages/IssueTracker/IssueTracker.vue'),
+    path: '/binders',
+    name: 'binders',
+    component: () => import('../pages/IssueTracker/BindersList.vue'),
+  },
+  {
+    path: '/issuesList/:binder',
+    name: 'issuesList',
+    component: () => import('../pages/IssueTracker/IssuesList.vue'),
   },
   // Always leave this as last one,
   // but you can also remove it

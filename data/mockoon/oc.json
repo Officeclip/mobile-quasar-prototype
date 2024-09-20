@@ -180,6 +180,10 @@
         {
           "type": "route",
           "uuid": "8ed3c28e-26e1-4794-969f-3fa7bf4700af"
+        },
+        {
+          "type": "route",
+          "uuid": "bdae4e1e-5b56-4750-807d-4e6bbb77bc55"
         }
       ]
     }
@@ -1330,6 +1334,35 @@
           "headers": [],
           "bodyType": "FILE",
           "filePath": "oc\\issueTracker\\binder-list.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "bdae4e1e-5b56-4750-807d-4e6bbb77bc55",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "issues",
+      "responses": [
+        {
+          "uuid": "fe3a9c72-5600-4bd9-8e4c-2a7e4b97e076",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\issueTracker\\issues-list.json",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [],

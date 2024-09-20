@@ -3,8 +3,12 @@
 import { computed, onMounted, ref } from 'vue';
 import drawer from '../../components/drawer.vue';
 import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore';
+import { useRoute } from 'vue-router';
 
-const title = ref('Binders');
+// const title = ref('Binders');
+
+const route = useRoute();
+const title = route.params.binder;
 const myDrawer = ref();
 
 function toggleLeftDrawer() {
@@ -14,11 +18,11 @@ function toggleLeftDrawer() {
 const issueTrackerStore = useIssueTrackerStore();
 
 onMounted(() => {
-  issueTrackerStore.getbindersList();
+  issueTrackerStore.getIssuesList();
   // binderList.value = issueTrackerStore.BindersList;
 });
-const binderList = computed(() => {
-  return issueTrackerStore.BindersList;
+const issuesList = computed(() => {
+  return issueTrackerStore.IssuesList;
 });
 </script>
 
@@ -27,7 +31,7 @@ const binderList = computed(() => {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="$router.push({ path: '/homepage' })"
+          @click="$router.push({ path: '/binders' })"
           flat
           round
           dense
@@ -43,28 +47,45 @@ const binderList = computed(() => {
           round
           @click="toggleLeftDrawer"
         />
-        <q-toolbar-title> Issue Tracker </q-toolbar-title>
+        <q-toolbar-title> {{ title }} </q-toolbar-title>
       </q-toolbar>
     </q-header>
     <drawer ref="myDrawer" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
       <q-page>
-        <q-list>
+        <!-- <q-list>
           <q-item>
             <q-item-section class="text-h6 items-center">
               {{ title }}</q-item-section
             >
           </q-item>
           <q-separator size=".15rem" color="red-3"></q-separator>
-        </q-list>
-        <q-list v-for="binder in binderList" :key="binder.id">
+        </q-list> -->
+        <q-list v-for="issue in issuesList" :key="issue.id">
           <q-item clickable v-ripple>
             <q-item-section>
+              <q-item-label class="ellipsis"
+                ><span class="text-subtitle1 text-weight-medium inline"
+                  >{{ issue.id }}:</span
+                >
+                {{ issue.name }}</q-item-label
+              >
               <q-item-label
-                >{{ binder.name }} ({{ binder.count }})</q-item-label
+                ><span class="text-caption">Created On:</span>
+                <span class="q-mx-sm">{{
+                  issue.createdDate
+                }}</span></q-item-label
               >
             </q-item-section>
+            <q-item-section side>
+              <q-chip dense outline>
+                <q-item-label caption class="q-px-xs">{{
+                  issue.status
+                }}</q-item-label>
+              </q-chip>
+            </q-item-section>
+
             <q-item-section side>
               <q-icon color="primary" name="chevron_right" />
             </q-item-section>
@@ -79,4 +100,6 @@ const binderList = computed(() => {
   </q-layout>
 </template>
 
-<style></style>
+<style lang="scss">
+@import '../../css/status.scss';
+</style>
