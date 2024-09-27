@@ -2,16 +2,19 @@ import { defineStore } from 'pinia';
 import { binder } from '../../models/issueTracker/bindersList';
 import { issueSummary } from '../../models/issueTracker/issuesList';
 import axios from 'axios';
+import { issueDetails } from 'src/models/issueTracker/issueDetails';
 
 export const useIssueTrackerStore = defineStore('issueTrackerStore', {
   state: () => ({
     bindersList: {} as binder[],
     issuesList: {} as issueSummary[],
+    issueDetails: {} as issueDetails,
   }),
 
   getters: {
     BindersList: (state) => state.bindersList,
     IssuesList: (state) => state.issuesList,
+    IssueDetails: (state) => state.issueDetails,
   },
 
   actions: {
@@ -27,6 +30,12 @@ export const useIssueTrackerStore = defineStore('issueTrackerStore', {
 
       const response = await axios.get(baseURL);
       this.issuesList = response.data;
+    },
+
+    async getIssueDetails() {
+      const baseURL = 'http://localhost:3000/issue-details';
+      const response = await axios.get(baseURL);
+      this.issueDetails = response.data[0];
     },
   },
 });

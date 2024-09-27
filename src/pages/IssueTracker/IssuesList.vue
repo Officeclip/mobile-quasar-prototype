@@ -11,6 +11,8 @@ const route = useRoute();
 const title = route.params.binder;
 const myDrawer = ref();
 
+const searchText = ref('');
+
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
@@ -24,6 +26,28 @@ onMounted(() => {
 const issuesList = computed(() => {
   return issueTrackerStore.IssuesList;
 });
+
+const getData = computed(() => {
+  if (issuesList.value.length === 0) {
+    return null;
+  }
+  const filteredIssues =
+    searchText.value === ''
+      ? issuesList.value
+      : issuesList.value.filter((t: any) => {
+          return t.name.toLowerCase().includes(searchText.value.toLowerCase());
+        });
+  return filteredIssues;
+});
+
+const showAdvOptions = ref(false);
+const filterCount = ref(1);
+const position = ref('right');
+
+function open(pos: string) {
+  position.value = pos;
+  showAdvOptions.value = true;
+}
 </script>
 
 <template>
@@ -54,16 +78,40 @@ const issuesList = computed(() => {
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
       <q-page>
-        <!-- <q-list>
-          <q-item>
-            <q-item-section class="text-h6 items-center">
-              {{ title }}</q-item-section
-            >
-          </q-item>
-          <q-separator size=".15rem" color="red-3"></q-separator>
-        </q-list> -->
-        <q-list v-for="issue in issuesList" :key="issue.id">
-          <q-item clickable v-ripple>
+        <q-input
+          v-model="searchText"
+          class="GNL__toolbar-input q-ma-md"
+          color="bg-grey-7 shadow-1"
+          dense
+          outlined
+          label="Search"
+        >
+          <template v-slot:prepend>
+            <q-icon v-if="searchText === ''" name="search" />
+            <q-icon
+              v-else
+              class="cursor-pointer"
+              name="clear"
+              @click="searchText = ''"
+            />
+          </template>
+          <q-btn flat icon="filter_list" @click="open('right')">
+            <q-badge v-if="filterCount" color="red" floating>{{
+              filterCount
+            }}</q-badge>
+          </q-btn>
+        </q-input>
+        <q-list v-for="issue in getData" :key="issue.id">
+          <q-item
+            clickable
+            v-ripple
+            :to="{
+              name: 'issueDetails',
+              params: {
+                binderName: title,
+              },
+            }"
+          >
             <q-item-section>
               <q-item-label class="ellipsis"
                 ><span class="text-subtitle1 text-weight-medium inline"
@@ -72,7 +120,7 @@ const issuesList = computed(() => {
                 {{ issue.name }}</q-item-label
               >
               <q-item-label
-                ><span class="text-caption">Created On:</span>
+                ><span class="text-caption">created on</span>
                 <span class="q-mx-sm">{{
                   issue.createdDate
                 }}</span></q-item-label
@@ -93,6 +141,26 @@ const issuesList = computed(() => {
           <!-- <q-separator color="yellow-6"></q-separator> -->
           <q-separator spaced inset></q-separator>
         </q-list>
+
+        <!-- demo filter options interface need to implement -->
+        <q-dialog v-model="showAdvOptions" :position="position">
+          <q-card style="width: 350px">
+            <q-card>
+              <q-card-section class="row items-center q-pb-none">
+                <div class="text-h6">Close icon</div>
+                <q-space></q-space>
+                <q-btn icon="close" flat round dense v-close-popup></q-btn>
+              </q-card-section>
+
+              <q-card-section>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
+                repellendus sit voluptate voluptas eveniet porro. Rerum
+                blanditiis perferendis totam, ea at omnis vel numquam
+                exercitationem aut, natus minima, porro labore.
+              </q-card-section>
+            </q-card>
+          </q-card>
+        </q-dialog>
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn fab icon="add" color="accent" padding="sm"> </q-btn>

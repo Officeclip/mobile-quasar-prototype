@@ -184,6 +184,10 @@
         {
           "type": "route",
           "uuid": "bdae4e1e-5b56-4750-807d-4e6bbb77bc55"
+        },
+        {
+          "type": "route",
+          "uuid": "382ae2c6-84b2-4857-af4b-996a21cf39ec"
         }
       ]
     }
@@ -1375,6 +1379,35 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "382ae2c6-84b2-4857-af4b-996a21cf39ec",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "issue-details",
+      "responses": [
+        {
+          "uuid": "32be5242-72ae-4b4b-bf52-e636843dd352",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "a925",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -1528,6 +1561,13 @@
       "name": "expense-summary",
       "documentation": "",
       "value": "[\n  {\n        \"createdByUserName\": \"Nagesh Kulkarni\",\n        \"employeeId\": \"OCHYD-008\",\n        \"id\": \"T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ1\",\n        \"status\": \"Submitted\",\n        \"totalAmount\": \"255.00\",\n        \"fromDate\": \"2023-11-20T00:00:00+05:30\"\n      },\n      {\n        \"createdByUserName\": \"Nagesh Kulkarni\",\n        \"employeeId\": \"OCHYD-005\",\n        \"id\": \"T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ2\",\n        \"status\": \"Saved\",\n        \"totalAmount\": \"255.00\",\n        \"fromDate\": \"2023-11-20T00:00:00+05:30\"\n      },\n      {\n        \"createdByUserName\": \"Nagesh Kulkarni\",\n        \"employeeId\": \"OCHYD-005\",\n        \"id\": \"T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ3\",\n        \"status\": \"Approved\",\n        \"totalAmount\": \"10000.00\",\n        \"fromDate\": \"2023-10-23T00:00:00+05:30\"\n      },\n      {\n        \"createdByUserName\": \"Nagesh Kulkarni\",\n        \"employeeId\": \"OCHYD-005\",\n        \"id\": \"T8KY3SJCGDKZW6GCC4YV7KQFGCFZ6KKFT89M6LQ4\",\n        \"status\": \"Rejected\",\n        \"totalAmount\": \"12000.00\",\n        \"fromDate\": \"2023-10-09T00:00:00+05:30\"\n      }\n]"
+    },
+    {
+      "uuid": "120c837d-c7ce-441a-9f6e-d50e1edd9b1a",
+      "id": "a925",
+      "name": "issue-details",
+      "documentation": "",
+      "value": "\r\n  [\r\n    {\r\n      \"id\": \"1\",\r\n      \"issueId\": \"SG001\",\r\n      \"name\": \"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book\",\r\n      \"status\": \"Open\",\r\n      \"assignedTo\": \"Rao, Narsimha(_narsimha@officeclip.com)\",\r\n      \"criticality\": \"High\",\r\n      \"kind\": \"issue\",\r\n      \"createdDate\": \"2020-03-05T15:01:17Z\",\r\n      \"createdUserName\": \"Sudhakar Gundu\",\r\n      \"modifiedDate\": \"2020-03-05T15:01:17Z\",\r\n      \"modifiedUserName\": \"Dutta Sk\",\r\n      \"description\": \"Non ipsa provident qui laborum quas enim unde ea qui.\",\r\n      \"security\": {\r\n      \"read\": true,\r\n      \"write\": true,\r\n      \"append\": false,\r\n      \"delete\": false\r\n    }\r\n    }\r\n    ]"
     }
   ],
   "callbacks": []
