@@ -4,6 +4,7 @@ import { computed, onMounted, ref } from 'vue';
 import drawer from '../../components/drawer.vue';
 import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore';
 import { useRoute } from 'vue-router';
+import AdvancedFilters from '../../components/IssueTracker/IssueTrackerAdvancedFilters.vue';
 
 // const title = ref('Binders');
 
@@ -48,6 +49,8 @@ function open(pos: string) {
   position.value = pos;
   showAdvOptions.value = true;
 }
+
+const assignedToMe = ref(false);
 </script>
 
 <template>
@@ -78,29 +81,50 @@ function open(pos: string) {
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
       <q-page>
-        <q-input
-          v-model="searchText"
-          class="GNL__toolbar-input q-ma-md"
-          color="bg-grey-7 shadow-1"
-          dense
-          outlined
-          label="Search"
-        >
-          <template v-slot:prepend>
-            <q-icon v-if="searchText === ''" name="search" />
-            <q-icon
-              v-else
-              class="cursor-pointer"
-              name="clear"
-              @click="searchText = ''"
-            />
-          </template>
-          <q-btn flat icon="filter_list" @click="open('right')">
-            <q-badge v-if="filterCount" color="red" floating>{{
-              filterCount
-            }}</q-badge>
-          </q-btn>
-        </q-input>
+        <q-item>
+          <q-item-section>
+            <q-item-label>
+              <q-input
+                v-model="searchText"
+                class="GNL__toolbar-input"
+                color="bg-grey-7 shadow-1"
+                dense
+                outlined
+                label="Search"
+              >
+                <template v-slot:prepend>
+                  <q-icon v-if="searchText === ''" name="search" />
+                  <q-icon
+                    v-else
+                    class="cursor-pointer"
+                    name="clear"
+                    @click="searchText = ''"
+                  />
+                </template>
+              </q-input> </q-item-label
+          ></q-item-section>
+          <q-item-section side>
+            <q-item-label>
+              <q-btn
+                flat
+                icon="filter_list"
+                @click="open('right')"
+                class="q-px-xs"
+              >
+                <q-badge v-if="filterCount" color="red" floating rounded>{{
+                  filterCount
+                }}</q-badge>
+              </q-btn>
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item class="q-my-sm">
+          <q-item-section>
+            <q-item-label>
+              <q-checkbox dense v-model="assignedToMe" label="Assigned to me" />
+            </q-item-label>
+          </q-item-section>
+        </q-item>
         <q-list v-for="issue in getData" :key="issue.id">
           <q-item
             clickable
@@ -119,12 +143,6 @@ function open(pos: string) {
                 >
                 {{ issue.name }}</q-item-label
               >
-              <q-item-label
-                ><span class="text-caption">created on</span>
-                <span class="q-mx-sm">{{
-                  issue.createdDate
-                }}</span></q-item-label
-              >
             </q-item-section>
             <q-item-section side top>
               <q-chip dense outline>
@@ -138,28 +156,27 @@ function open(pos: string) {
               <q-icon color="primary" name="chevron_right" />
             </q-item-section>
           </q-item>
-          <!-- <q-separator color="yellow-6"></q-separator> -->
+          <q-item>
+            <q-item-section>
+              <div class="flex items-end justify-around ellipsis">
+                <q-item-label>
+                  <span class="text-caption">created on</span>
+                  <span class="q-mx-sm">{{ issue.createdDate }}</span>
+                </q-item-label>
+                <!-- <space></space> -->
+                <q-item-label>
+                  <span class="text-caption">assigned to:</span>
+                  <span class="q-mx-sm">Rao Narsimha</span>
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
           <q-separator spaced inset></q-separator>
         </q-list>
 
         <!-- demo filter options interface need to implement -->
         <q-dialog v-model="showAdvOptions" :position="position">
-          <q-card style="width: 350px">
-            <q-card>
-              <q-card-section class="row items-center q-pb-none">
-                <div class="text-h6">Close icon</div>
-                <q-space></q-space>
-                <q-btn icon="close" flat round dense v-close-popup></q-btn>
-              </q-card-section>
-
-              <q-card-section>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
-                repellendus sit voluptate voluptas eveniet porro. Rerum
-                blanditiis perferendis totam, ea at omnis vel numquam
-                exercitationem aut, natus minima, porro labore.
-              </q-card-section>
-            </q-card>
-          </q-card>
+          <AdvancedFilters />
         </q-dialog>
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -168,3 +185,10 @@ function open(pos: string) {
     </q-page-container>
   </q-layout>
 </template>
+
+<style scopped>
+.q-item {
+  min-height: 24px;
+  padding: 4px 16px;
+}
+</style>
