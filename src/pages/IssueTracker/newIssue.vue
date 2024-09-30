@@ -2,16 +2,9 @@
 import { ref } from 'vue';
 import issueTrackerForm from '../../components/IssueTracker/IssueTrackerFormCtrl.vue';
 
-const newIssue = ref({
-  id: '',
-  title: '',
-  description: '',
-  status: '',
-  category: '',
-  assignedTo: '',
-  Severity: '',
-});
+const newIssue = ref({});
 </script>
 <template>
+  <pre>{{ newIssue }}</pre>
   <issueTrackerForm :newIssue="newIssue" />
 </template>

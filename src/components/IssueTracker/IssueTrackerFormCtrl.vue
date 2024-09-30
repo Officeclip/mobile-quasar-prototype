@@ -3,45 +3,44 @@ import { ref, defineProps } from 'vue';
 
 const props = defineProps(['newIssue']);
 
-const issueStatus = ref(null);
-const title2 = ref('');
+const issueModel = ref(props.newIssue);
+
 const statusOptions = ['Opne', 'Closed', 'Reopened', 'Resolved'];
 </script>
 <template>
-  <pre>{{ props.newIssue }}</pre>
   <q-item>
     <q-item-section>
       <q-item-label>
-        <q-input label="Title" v-model="title2" />
+        <q-input label="Title" v-model="issueModel.title" />
       </q-item-label>
       <q-item-label>
-        <q-input label="Description" v-model="title2" />
+        <q-input label="Description" v-model="issueModel.description" />
       </q-item-label>
       <q-item-label>
         <q-select
           label="Status"
-          v-model="issueStatus"
+          v-model="issueModel.status"
           :options="statusOptions"
         />
       </q-item-label>
       <q-item-label>
         <q-select
           label="Category"
-          v-model="issueStatus"
+          v-model="issueModel.category"
           :options="statusOptions"
         />
       </q-item-label>
       <q-item-label>
         <q-select
           label="Assigned To"
-          v-model="issueStatus"
+          v-model="issueModel.assignedTo"
           :options="statusOptions"
         />
       </q-item-label>
       <q-item-label>
         <q-select
           label="Severity"
-          v-model="issueStatus"
+          v-model="issueModel.severity"
           :options="statusOptions"
         />
       </q-item-label> </q-item-section
