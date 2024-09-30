@@ -1,17 +1,93 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref } from 'vue';
+
+const filterModel = ref(null);
+const filterOptions = ['Open', 'Closed', 'Resolved', 'Reopened'];
+</script>
 
 <template>
-  <q-card>
+  <q-card style="width: 700px; max-width: 80vw">
     <q-card-section class="row items-center q-pb-none">
-      <div class="text-h6">Close icon</div>
+      <div class="text-h6">Filter Options</div>
       <q-space></q-space>
       <q-btn icon="close" flat round dense v-close-popup></q-btn>
     </q-card-section>
 
     <q-card-section>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus
-      sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam,
-      ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+      <q-item>
+        <q-item-section>
+          <q-item-label caption> Status: </q-item-label>
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>
+            <q-select
+              filled
+              v-model="filterModel"
+              :options="filterOptions"
+            ></q-select>
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item>
+        <q-item-section>
+          <q-item-label caption> Severity: </q-item-label>
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>
+            <q-select
+              filled
+              v-model="filterModel"
+              :options="filterOptions"
+            ></q-select
+          ></q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item>
+        <q-item-section>
+          <q-item-label caption> Category: </q-item-label>
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>
+            <q-select
+              filled
+              v-model="filterModel"
+              :options="filterOptions"
+            ></q-select>
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item>
+        <q-item-section>
+          <q-item-label caption> Created by: </q-item-label>
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>
+            <q-select
+              filled
+              v-model="filterModel"
+              :options="filterOptions"
+            ></q-select>
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item>
+        <q-item-section>
+          <q-item-label caption> Modified by: </q-item-label>
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>
+            <q-select
+              filled
+              v-model="filterModel"
+              :options="filterOptions"
+            ></q-select>
+          </q-item-label>
+        </q-item-section>
+      </q-item>
     </q-card-section>
   </q-card>
 </template>

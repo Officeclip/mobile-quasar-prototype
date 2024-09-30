@@ -43,7 +43,7 @@ const getData = computed(() => {
 
 const showAdvOptions = ref(false);
 const filterCount = ref(1);
-const position = ref('right');
+const position = ref('top');
 
 function open(pos: string) {
   position.value = pos;
@@ -108,7 +108,7 @@ const assignedToMe = ref(false);
               <q-btn
                 flat
                 icon="filter_list"
-                @click="open('right')"
+                @click="open('top')"
                 class="q-px-xs"
               >
                 <q-badge v-if="filterCount" color="red" floating rounded>{{
@@ -180,7 +180,16 @@ const assignedToMe = ref(false);
         </q-dialog>
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn fab icon="add" color="accent" padding="sm"> </q-btn>
+        <q-btn
+          fab
+          icon="add"
+          color="accent"
+          padding="sm"
+          :to="{
+            name: 'newIssue',
+          }"
+        >
+        </q-btn>
       </q-page-sticky>
     </q-page-container>
   </q-layout>
