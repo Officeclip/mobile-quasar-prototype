@@ -1,46 +1,46 @@
 <script setup>
 import { ref, defineProps } from 'vue';
 
-const props = defineProps(['newIssue']);
+const props = defineProps(['issueObject']);
 
-const issueModel = ref(props.newIssue);
+const issueObjectModel = ref(props.issueObject);
 
-const statusOptions = ['Opne', 'Closed', 'Reopened', 'Resolved'];
+const statusOptions = ['Open', 'Closed', 'Reopened', 'Resolved'];
 </script>
 <template>
   <q-item>
     <q-item-section>
       <q-item-label>
-        <q-input label="Title" v-model="issueModel.title" />
+        <q-input label="Title" v-model="issueObjectModel.title" />
       </q-item-label>
       <q-item-label>
-        <q-input label="Description" v-model="issueModel.description" />
+        <q-input label="Description" v-model="issueObjectModel.description" />
       </q-item-label>
       <q-item-label>
         <q-select
           label="Status"
-          v-model="issueModel.status"
+          v-model="issueObjectModel.status"
           :options="statusOptions"
         />
       </q-item-label>
       <q-item-label>
         <q-select
           label="Category"
-          v-model="issueModel.category"
+          v-model="issueObjectModel.category"
           :options="statusOptions"
         />
       </q-item-label>
       <q-item-label>
         <q-select
           label="Assigned To"
-          v-model="issueModel.assignedTo"
+          v-model="issueObjectModel.assignedTo"
           :options="statusOptions"
         />
       </q-item-label>
       <q-item-label>
         <q-select
           label="Severity"
-          v-model="issueModel.severity"
+          v-model="issueObjectModel.severity"
           :options="statusOptions"
         />
       </q-item-label> </q-item-section

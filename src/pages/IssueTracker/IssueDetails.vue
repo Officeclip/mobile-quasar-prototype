@@ -45,7 +45,16 @@ const issueDetails = computed(() => {
           @click="toggleLeftDrawer"
         />
         <q-toolbar-title> Binder: {{ title }} </q-toolbar-title>
-        <q-btn flat round dense color="white" icon="edit"></q-btn>
+        <q-btn
+          flat
+          round
+          dense
+          color="white"
+          icon="edit"
+          :to="{
+            name: 'editIssue',
+          }"
+        ></q-btn>
         <q-btn flat round dense color="white" icon="delete"></q-btn>
       </q-toolbar>
     </q-header>

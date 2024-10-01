@@ -37,5 +37,29 @@ export const useIssueTrackerStore = defineStore('issueTrackerStore', {
       const response = await axios.get(baseURL);
       this.issueDetails = response.data[0];
     },
+
+    async addNewIssue(issueFormCtrlValues: issueDetails) {
+      try {
+        const baseURL = 'http://localhost:3000/issue-details';
+        const response = await axios.post(baseURL, issueFormCtrlValues);
+        if (response.status === 200) {
+          this.issueDetails = response.data;
+        }
+      } catch (error) {
+        console.log('Axios error', error);
+      }
+    },
+
+    async editIssue(issueFormCtrlValues: issueDetails) {
+      try {
+        const baseURL = 'http://localhost:3000/issue-details';
+        const response = await axios.put(baseURL, issueFormCtrlValues);
+        if (response.status === 200) {
+          this.issueDetails = response.data;
+        }
+      } catch (error) {
+        console.log('Axios error', error);
+      }
+    },
   },
 });

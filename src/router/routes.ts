@@ -212,6 +212,11 @@ const routes: RouteRecordRaw[] = [
     name: 'newIssue',
     component: () => import('../pages/IssueTracker/NewIssue.vue'),
   },
+  {
+    path: '/editIssue',
+    name: 'editIssue',
+    component: () => import('../pages/IssueTracker/EditIssue.vue'),
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

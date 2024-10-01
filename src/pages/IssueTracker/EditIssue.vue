@@ -2,19 +2,28 @@
 import { ref } from 'vue';
 import issueTrackerForm from '../../components/IssueTracker/IssueTrackerFormCtrl.vue';
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
-import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore';
 import { useRouter } from 'vue-router';
+import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore';
 import { issueDetails } from 'src/models/issueTracker/issueDetails';
 
 const router = useRouter();
-const newIssue: issueDetails = ref({});
-
 const issueTrackerStore = useIssueTrackerStore();
 
+const editIssue: issueDetails = ref({
+  id: '1',
+  title: 'This is the issue title from edit screen',
+  description:
+    'Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.',
+  status: 'Reopened',
+  category: 'Issue Testing',
+  assignedTo: 'Rao Narsimha',
+  severity: 'High',
+});
+
 function onSubmit() {
-  const issueFormCtrlValues = ref(newIssue);
-  // console.log('Get the Issue From tracker form::', issueFormCtrlValues.value);
-  issueTrackerStore.addNewIssue(issueFormCtrlValues.value);
+  const issueFormCtrlValues = ref(editIssue);
+  // console.log('Get the Edit Issue From tracker form::', getNewIssue.value);
+  issueTrackerStore.editIssue(issueFormCtrlValues.value);
   router.go(-2);
 }
 </script>
@@ -31,7 +40,7 @@ function onSubmit() {
           icon="arrow_back"
         >
         </q-btn>
-        <q-toolbar-title> New Issue</q-toolbar-title>
+        <q-toolbar-title> Edit Issue</q-toolbar-title>
         <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
       </q-toolbar>
     </q-header>
@@ -39,7 +48,7 @@ function onSubmit() {
       <q-page>
         <q-list>
           <q-form @submit="onSubmit" class="q-gutter-md">
-            <issueTrackerForm :issueObject="newIssue" />
+            <issueTrackerForm :issueObject="editIssue" />
             <q-btn
               label="Reset"
               type="reset"
