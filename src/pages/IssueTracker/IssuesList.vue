@@ -3,12 +3,14 @@
 import { computed, onMounted, ref } from 'vue';
 import drawer from '../../components/drawer.vue';
 import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import AdvancedFilters from '../../components/IssueTracker/IssueTrackerAdvancedFilters.vue';
+import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 // const title = ref('Binders');
 
 const route = useRoute();
+const router = useRouter();
 const title = route.params.binder;
 const myDrawer = ref();
 
@@ -51,6 +53,17 @@ function open(pos: string) {
 }
 
 const assignedToMe = ref(false);
+const sortByModel = ref('Status');
+const sortByOptions = [
+  'Status',
+  'Title',
+  'Created Date',
+  'Criticality',
+  'Issue Id',
+  'Kind',
+  'Modified By',
+  'Modified Date',
+];
 </script>
 
 <template>
@@ -58,7 +71,7 @@ const assignedToMe = ref(false);
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="$router.push({ path: '/binders' })"
+          @click="router.push({ path: '/binders' })"
           flat
           round
           dense
@@ -118,13 +131,29 @@ const assignedToMe = ref(false);
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="q-my-sm">
+        <q-item class="q-mt-sm q-mb-md">
           <q-item-section>
             <q-item-label>
-              <q-checkbox dense v-model="assignedToMe" label="Assigned to me" />
+              <q-checkbox dense v-model="assignedToMe" label="assigned to me" />
+            </q-item-label>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>
+              <q-checkbox dense v-model="assignedToMe" label="starred issues" />
+            </q-item-label>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>
+              <q-select
+                dense
+                label="Sort By"
+                v-model="sortByModel"
+                :options="sortByOptions"
+              />
             </q-item-label>
           </q-item-section>
         </q-item>
+        <!-- <pre>{{ getData }}</pre> -->
         <q-list v-for="issue in getData" :key="issue.id">
           <q-item
             clickable
@@ -161,7 +190,12 @@ const assignedToMe = ref(false);
               <div class="flex items-end justify-around ellipsis">
                 <q-item-label>
                   <span class="text-caption">created on</span>
-                  <span class="q-mx-sm">{{ issue.createdDate }}</span>
+                  <span class="q-mx-sm">{{
+                    dateTimeHelper.formatDateTimeFromRestAPIForUI(
+                      issue.createdDate,
+                      false
+                    )
+                  }}</span>
                 </q-item-label>
                 <!-- <space></space> -->
                 <q-item-label>

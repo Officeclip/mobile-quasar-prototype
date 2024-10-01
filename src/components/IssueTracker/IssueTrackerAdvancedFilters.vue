@@ -21,6 +21,7 @@ const filterOptions = ['Open', 'Closed', 'Resolved', 'Reopened'];
         <q-item-section>
           <q-item-label>
             <q-select
+              dense
               filled
               v-model="filterModel"
               :options="filterOptions"
@@ -36,6 +37,7 @@ const filterOptions = ['Open', 'Closed', 'Resolved', 'Reopened'];
         <q-item-section>
           <q-item-label>
             <q-select
+              dense
               filled
               v-model="filterModel"
               :options="filterOptions"
@@ -51,6 +53,7 @@ const filterOptions = ['Open', 'Closed', 'Resolved', 'Reopened'];
         <q-item-section>
           <q-item-label>
             <q-select
+              dense
               filled
               v-model="filterModel"
               :options="filterOptions"
@@ -66,6 +69,7 @@ const filterOptions = ['Open', 'Closed', 'Resolved', 'Reopened'];
         <q-item-section>
           <q-item-label>
             <q-select
+              dense
               filled
               v-model="filterModel"
               :options="filterOptions"
@@ -81,6 +85,7 @@ const filterOptions = ['Open', 'Closed', 'Resolved', 'Reopened'];
         <q-item-section>
           <q-item-label>
             <q-select
+              dense
               filled
               v-model="filterModel"
               :options="filterOptions"
