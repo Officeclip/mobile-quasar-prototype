@@ -210,7 +210,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/newIssue',
     name: 'newIssue',
-    component: () => import('../pages/IssueTracker/newIssue.vue'),
+    component: () => import('../pages/IssueTracker/NewIssue.vue'),
   },
   // Always leave this as last one,
   // but you can also remove it
