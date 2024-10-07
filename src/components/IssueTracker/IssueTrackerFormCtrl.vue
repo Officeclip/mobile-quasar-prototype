@@ -14,7 +14,24 @@ const statusOptions = ['Open', 'Closed', 'Reopened', 'Resolved'];
         <q-input label="Title" v-model="issueObjectModel.title" />
       </q-item-label>
       <q-item-label>
-        <q-input label="Description" v-model="issueObjectModel.description" />
+        <q-field
+          class="q-mt-md"
+          v-model="issueObjectModel.description"
+          label-slot
+          borderless
+          ref="descriptionRef"
+        >
+          <template #label>Description</template>
+          <template #control>
+            <q-editor
+              style="color: black"
+              class="q-mt-md full-width"
+              v-model="issueObjectModel.description"
+              paragraph-tag="div"
+              placeholder="enter description"
+            ></q-editor>
+          </template>
+        </q-field>
       </q-item-label>
       <q-item-label>
         <q-select

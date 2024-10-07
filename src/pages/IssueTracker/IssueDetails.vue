@@ -3,9 +3,11 @@
 import { computed, onMounted, ref } from 'vue';
 import drawer from '../../components/drawer.vue';
 import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore';
-import { useRoute } from 'vue-router';
+import dateTimeHelper from 'src/helpers/dateTimeHelper';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
+const router = useRouter();
 const title = route.params.binderName;
 const myDrawer = ref();
 
@@ -28,7 +30,7 @@ const issueDetails = computed(() => {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="$router.push({ path: '/binders' })"
+          @click="router.push({ path: '/binders' })"
           flat
           round
           dense
@@ -67,8 +69,12 @@ const issueDetails = computed(() => {
             <q-item>
               <q-item-section>
                 <q-item-label
-                  >{{ issueDetails?.issueId }}:
-                  {{ issueDetails?.name }}</q-item-label
+                  ><span class="text-subtitle1 text-weight-medium"
+                    >{{ issueDetails?.issueId }}:</span
+                  >
+                  <span class="xyz"
+                    >{{ issueDetails?.name }}
+                  </span></q-item-label
                 >
               </q-item-section>
               <q-item-section side>
@@ -99,7 +105,12 @@ const issueDetails = computed(() => {
                 <q-item-label caption>Created By: </q-item-label>
                 <q-item-label
                   >{{ issueDetails?.createdUserName }} on
-                  {{ issueDetails?.createdDate }}
+                  {{
+                    dateTimeHelper.formatDateTimeFromRestAPIForUI(
+                      issueDetails?.createdDate,
+                      false
+                    )
+                  }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -109,7 +120,12 @@ const issueDetails = computed(() => {
                 <q-item-label caption>Modified By: </q-item-label>
                 <q-item-label
                   >{{ issueDetails?.modifiedUserName }} on
-                  {{ issueDetails?.modifiedDate }}
+                  {{
+                    dateTimeHelper.formatDateTimeFromRestAPIForUI(
+                      issueDetails?.modifiedDate,
+                      false
+                    )
+                  }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -143,3 +159,9 @@ const issueDetails = computed(() => {
     </q-page-container>
   </q-layout>
 </template>
+<style scopped>
+.xyz {
+  line-height: 1.75rem;
+  letter-spacing: 0.00937em;
+}
+</style>
