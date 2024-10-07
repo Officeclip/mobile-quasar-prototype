@@ -52,7 +52,8 @@ function open(pos: string) {
   showAdvOptions.value = true;
 }
 
-const assignedToMe = ref(false);
+const assignedToMe = ref('');
+const starredIssues = ref('');
 const sortByModel = ref('Status');
 const sortByOptions = [
   'Status',
@@ -64,6 +65,12 @@ const sortByOptions = [
   'Modified By',
   'Modified Date',
 ];
+
+function handleAssignedToMeClick() {
+  if (!assignedToMe.value) {
+    window.location.reload();
+  }
+}
 </script>
 
 <template>
@@ -134,12 +141,27 @@ const sortByOptions = [
         <q-item class="q-mt-sm q-mb-md">
           <q-item-section>
             <q-item-label>
-              <q-checkbox dense v-model="assignedToMe" label="assigned to me" />
+              <!-- <pre>{{ assignedToMe }}</pre> -->
+              <q-checkbox
+                dense
+                v-model="assignedToMe"
+                true-value="Rao Narsimha"
+                false-value=""
+                label="assigned to me"
+                @click="handleAssignedToMeClick"
+              />
             </q-item-label>
           </q-item-section>
           <q-item-section>
             <q-item-label>
-              <q-checkbox dense v-model="assignedToMe" label="starred issues" />
+              <!-- <pre>{{ starredIssues }}</pre> -->
+              <q-checkbox
+                dense
+                v-model="starredIssues"
+                true-value="star"
+                false-value=""
+                label="starred issues"
+              />
             </q-item-label>
           </q-item-section>
           <q-item-section>
