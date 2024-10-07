@@ -15,7 +15,6 @@ const statusOptions = ['Open', 'Closed', 'Reopened', 'Resolved'];
       </q-item-label>
       <q-item-label>
         <q-field
-          class="q-mt-md"
           v-model="issueObjectModel.description"
           label-slot
           borderless
@@ -24,8 +23,8 @@ const statusOptions = ['Open', 'Closed', 'Reopened', 'Resolved'];
           <template #label>Description</template>
           <template #control>
             <q-editor
-              style="color: black"
-              class="q-mt-md full-width"
+              min-height="5rem"
+              class="q-mt-sm full-width"
               v-model="issueObjectModel.description"
               paragraph-tag="div"
               placeholder="enter description"

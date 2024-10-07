@@ -7,7 +7,9 @@ import { useRouter } from 'vue-router';
 import { issueDetails } from 'src/models/issueTracker/issueDetails';
 
 const router = useRouter();
-const newIssue: issueDetails = ref({});
+const newIssue: issueDetails = ref({
+  description: '',
+});
 
 const issueTrackerStore = useIssueTrackerStore();
 
