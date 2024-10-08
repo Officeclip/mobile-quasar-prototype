@@ -222,7 +222,7 @@ function handleAssignedToMeClick() {
                 <!-- <space></space> -->
                 <q-item-label>
                   <span class="text-caption">assigned to:</span>
-                  <span class="q-mx-sm">Rao Narsimha</span>
+                  <span class="q-mx-sm">{{ issue.assignedTo }}</span>
                 </q-item-label>
               </div>
             </q-item-section>

@@ -3,4 +3,5 @@ export interface issueSummary {
   name: string;
   status: string;
   createdDate: string;
+  assignedTo: string;
 }
