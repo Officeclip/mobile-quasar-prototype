@@ -1,28 +1,75 @@
 .status-open {
-  color: white;
   background-color: $grey-9;
+  .q-item__label {
+    color: white !important;
+  }
 }
+
 .status-saved {
-  color: white;
   background-color: $grey-9;
+  .q-item__label {
+    color: white !important;
+  }
 }
 
 .status-closed {
-  color: white;
   background-color: $lime-9;
+  .q-item__label {
+    color: white !important;
+  }
 }
 
 .status-approved {
-  color: white;
   background-color: $green-9;
+  .q-item__label {
+    color: white !important;
+  }
 }
 
 .status-pending {
-  color: white;
   background-color: $yellow-9;
+  .q-item__label {
+    color: white !important;
+  }
 }
 
 .status-rejected {
-  color: white;
   background-color: $red-8;
+  .q-item__label {
+    color: white !important;
+  }
+}
+
+.status-resolved {
+  background-color: $red-8;
+  .q-item__label {
+    color: white !important;
+  }
+}
+
+.status-reopened {
+  background-color: $red-8;
+  .q-item__label {
+    color: white !important;
+  }
+}
+
+.criticality-high {
+  background-color: $red-8;
+  .q-item__label {
+    color: white !important;
+  }
+}
+.criticality-medium {
+  background-color: $yellow-8;
+  .q-item__label {
+    color: white !important;
+  }
+}
+
+.criticality-low {
+  background-color: $grey-8;
+  .q-item__label {
+    color: white !important;
+  }
 }

@@ -88,7 +88,7 @@ export function getEventShowTimeAsColor(name = '') {
   }
 }
 
-export function getIssueTrackerStatusColor(status: string) {
+export function getIssueTrackerLabelColor(status: string) {
   switch (status) {
     case 'Open':
       return 'status-open';
@@ -98,6 +98,12 @@ export function getIssueTrackerStatusColor(status: string) {
       return 'status-resolved';
     case 'Reopened':
       return 'status-reopened';
+    case 'High':
+      return 'criticality-high';
+    case 'Low':
+      return 'criticality-low';
+    case 'Medium':
+      return 'criticality-medium';
     default:
       return '';
   }

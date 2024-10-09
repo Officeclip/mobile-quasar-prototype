@@ -5,6 +5,7 @@ import drawer from '../../components/drawer.vue';
 import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { useRoute, useRouter } from 'vue-router';
+import { getIssueTrackerLabelColor } from 'src/helpers/colorIconHelper';
 
 const route = useRoute();
 const router = useRouter();
@@ -72,20 +73,74 @@ const issueDetails = computed(() => {
                   ><span class="text-subtitle1 text-weight-medium"
                     >{{ issueDetails?.issueId }}:</span
                   >
-                  <span class="xyz"
+                  <span class="description"
                     >{{ issueDetails?.name }}
                   </span></q-item-label
                 >
               </q-item-section>
+            </q-item>
+            <q-separator spaced inset></q-separator>
+            <q-item>
               <q-item-section side>
-                <q-chip dense outline>
-                  <q-item-label caption class="q-px-xs">{{
+                <q-item-label caption>Status: </q-item-label>
+                <q-chip
+                  dense
+                  :class="getIssueTrackerLabelColor(issueDetails.status)"
+                >
+                  <q-item-label class="q-px-xs">{{
                     issueDetails.status
                   }}</q-item-label>
                 </q-chip>
               </q-item-section>
+              <!-- <q-item-section side>
+                <q-item-label caption>Criticality: </q-item-label>
+                <q-chip
+                  dense
+                  :class="getIssueTrackerLabelColor(issueDetails.criticality)"
+                >
+                  <q-item-label class="q-px-xs">{{
+                    issueDetails.criticality
+                  }}</q-item-label>
+                </q-chip>
+              </q-item-section>
+              <q-item-section side>
+                <q-item-label caption>Kind: </q-item-label>
+                <q-chip
+                  dense
+                  :class="getIssueTrackerLabelColor(issueDetails.kind)"
+                >
+                  <q-item-label class="q-px-xs">{{
+                    issueDetails.kind
+                  }}</q-item-label>
+                </q-chip>
+              </q-item-section> -->
             </q-item>
-            <q-separator spaced inset></q-separator>
+            <q-item>
+              <q-item-section side>
+                <q-item-label caption>Criticality: </q-item-label>
+                <q-chip
+                  dense
+                  :class="getIssueTrackerLabelColor(issueDetails.criticality)"
+                >
+                  <q-item-label class="q-px-xs">{{
+                    issueDetails.criticality
+                  }}</q-item-label>
+                </q-chip>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section side>
+                <q-item-label caption>Kind: </q-item-label>
+                <q-chip
+                  dense
+                  :class="getIssueTrackerLabelColor(issueDetails.kind)"
+                >
+                  <q-item-label class="q-px-xs">{{
+                    issueDetails.kind
+                  }}</q-item-label>
+                </q-chip>
+              </q-item-section>
+            </q-item>
             <q-item>
               <q-item-section>
                 <q-item-label caption>Assigned To: </q-item-label>
@@ -159,8 +214,9 @@ const issueDetails = computed(() => {
     </q-page-container>
   </q-layout>
 </template>
-<style scopped>
-.xyz {
+<style scopped lang="scss">
+@import '../../css/status.scss';
+.description {
   line-height: 1.75rem;
   letter-spacing: 0.00937em;
 }
