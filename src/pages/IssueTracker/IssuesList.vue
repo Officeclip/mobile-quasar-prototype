@@ -6,6 +6,7 @@ import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore'
 import { useRoute, useRouter } from 'vue-router';
 import AdvancedFilters from '../../components/IssueTracker/IssueTrackerAdvancedFilters.vue';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
+import { getIssueTrackerStatusColor } from 'src/helpers/colorIconHelper';
 
 // const title = ref('Binders');
 
@@ -196,10 +197,11 @@ function handleAssignedToMeClick() {
               >
             </q-item-section>
             <q-item-section side top>
-              <q-chip dense outline>
-                <q-item-label caption class="q-px-xs">{{
+              <q-chip dense :class="getIssueTrackerStatusColor(issue.status)">
+                {{ issue.status }}
+                <!-- <q-item-label caption class="q-px-xs testClass">{{
                   issue.status
-                }}</q-item-label>
+                }}</q-item-label> -->
               </q-chip>
             </q-item-section>
 
@@ -251,9 +253,14 @@ function handleAssignedToMeClick() {
   </q-layout>
 </template>
 
-<style scopped>
+<style scopped lang="scss">
+@import '../../css/status.scss';
 .q-item {
   min-height: 24px;
   padding: 4px 16px;
 }
+/* .testClass {
+  background-color: green;
+  color: white;
+} */
 </style>

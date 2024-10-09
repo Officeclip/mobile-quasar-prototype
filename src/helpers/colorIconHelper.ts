@@ -56,6 +56,8 @@ export function getPriorityColor(priority: string) {
 
 export function getExpenseOrTimesheetStatusColor(status: string) {
   switch (status) {
+    case 'Saved':
+      return 'status-saved';
     case 'Approved':
       return 'status-approved';
     case 'Pending':
@@ -83,5 +85,20 @@ export function getEventShowTimeAsColor(name = '') {
     }
   } else {
     return ['#ff6666', '#FFFFFF', '#EFB505', '#87CEEB'];
+  }
+}
+
+export function getIssueTrackerStatusColor(status: string) {
+  switch (status) {
+    case 'Open':
+      return 'status-open';
+    case 'Closed':
+      return 'status-closed';
+    case 'Resolved':
+      return 'status-resolved';
+    case 'Reopened':
+      return 'status-reopened';
+    default:
+      return '';
   }
 }

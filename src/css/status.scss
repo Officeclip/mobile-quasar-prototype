@@ -1,24 +1,28 @@
 .status-open {
-  color: $red-1;
-  background-color: $grey-5;
+  color: white;
+  background-color: $grey-9;
+}
+.status-saved {
+  color: white;
+  background-color: $grey-9;
 }
 
 .status-closed {
-  color: $blue-1;
-  background-color: $lime-4;
+  color: white;
+  background-color: $lime-9;
 }
 
 .status-approved {
-  color: black;
-  background-color: $green-2;
+  color: white;
+  background-color: $green-9;
 }
 
 .status-pending {
-  color: black;
-  background-color: $yellow-3;
+  color: white;
+  background-color: $yellow-9;
 }
 
 .status-rejected {
-  color: black;
-  background-color: $red-2;
+  color: white;
+  background-color: $red-8;
 }

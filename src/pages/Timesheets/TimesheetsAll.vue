@@ -140,10 +140,10 @@ function toggleLeftDrawer() {
                 <q-chip
                   dense
                   :class="getExpenseOrTimesheetStatusColor(item.status)"
-                >
-                  <q-item-label caption class="q-px-sm">{{
+                  >{{ item.status }}
+                  <!-- <q-item-label caption class="q-px-sm">{{
                     item.status
-                  }}</q-item-label>
+                  }}</q-item-label> -->
                 </q-chip>
               </q-item-section>
               <q-item-section side>
