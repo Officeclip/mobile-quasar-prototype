@@ -1363,8 +1363,13 @@
           "body": "{}",
           "latency": 0,
           "statusCode": 200,
-          "label": "",
-          "headers": [],
+          "label": "Page 1",
+          "headers": [
+            {
+              "key": "links",
+              "value": "{         \"first\": \"/issues?pagesize=15&pagenumber=1\",         \"next\": \"/issues?pagesize=15&pagenumber=2\",         \"prev\": \"\",         \"last\": \"/issues?pagesize=5&pagenumber=4\",         \"total\": 50  }"
+            }
+          ],
           "bodyType": "FILE",
           "filePath": "oc\\issueTracker\\issues-list.json",
           "databucketID": "",
@@ -1374,6 +1379,78 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "f4bac8d8-cef1-44cc-a196-5d35b9376dd5",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Page 2",
+          "headers": [
+            {
+              "key": "links",
+              "value": "{         \"first\": \"/issues?pagesize=15&pagenumber=1\",         \"next\": \"/issues?pagesize=15&pagenumber=3\",         \"prev\": \"/issues?pagesize=15&pagenumber=1\",         \"last\": \"/issues?pagesize=5&pagenumber=4\",         \"total\": 50  }"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "2c6643d3-9ab0-4dc3-966c-adf8a2012b0a",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Page 3",
+          "headers": [
+            {
+              "key": "links",
+              "value": "{         \"first\": \"issues?pagesize=15&pagenumber=1\",         \"next\": \"/issues?pagesize=5&pagenumber=4\",         \"prev\": \"/issues?pagesize=15&pagenumber=2\",         \"last\": \"/issues?pagesize=5&pagenumber=4\",         \"total\": 50  }"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "0b296f91-f651-47ea-8a75-c07cdab6063b",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Page 4",
+          "headers": [
+            {
+              "key": "links",
+              "value": "{         \"first\": \"issues?pagesize=15&pagenumber=1\",         \"next\": \"\",         \"prev\": \"/issues?pagesize=15&pagenumber=3\",         \"last\": \"/issues?pagesize=5&pagenumber=4\",         \"total\": 50  }"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         }

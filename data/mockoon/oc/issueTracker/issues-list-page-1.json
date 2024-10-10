@@ -1,0 +1,107 @@
+[
+  {
+    "id": "SG001",
+    "name": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+    "status": "Open",
+    "createdDate": "2024-01-05T15:01:17Z",
+    "assignedTo": "Rao Narsimha"
+  },
+  {
+    "id": "SK002",
+    "name": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    "status": "Closed",
+    "createdDate": "2024-02-05T16:01:17Z",
+    "assignedTo": "SK Dutta"
+  },
+  {
+    "id": "NK003",
+    "name": "Contrary to popular belief, Lorem Ipsum is not simply random text",
+    "status": "Resolved",
+    "createdDate": "2024-03-05T17:01:17Z",
+    "assignedTo": "Sudhakar G"
+  },
+  {
+    "id": "SG004",
+    "name": "Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words",
+    "status": "Reopened",
+    "createdDate": "2024-04-05T15:01:17Z",
+    "assignedTo": "Rao Narsimha"
+  },
+  {
+    "id": "SG005",
+    "name": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+    "status": "Open",
+    "createdDate": "2024-01-05T15:01:17Z",
+    "assignedTo": "Rao Narsimha"
+  },
+  {
+    "id": "SK006",
+    "name": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    "status": "Closed",
+    "createdDate": "2024-02-05T16:01:17Z",
+    "assignedTo": "SK Dutta"
+  },
+  {
+    "id": "NK007",
+    "name": "Contrary to popular belief, Lorem Ipsum is not simply random text",
+    "status": "Resolved",
+    "createdDate": "2024-03-05T17:01:17Z",
+    "assignedTo": "Sudhakar G"
+  },
+  {
+    "id": "SG008",
+    "name": "Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words",
+    "status": "Reopened",
+    "createdDate": "2024-04-05T15:01:17Z",
+    "assignedTo": "Rao Narsimha"
+  },
+  {
+    "id": "SG009",
+    "name": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+    "status": "Open",
+    "createdDate": "2024-01-05T15:01:17Z",
+    "assignedTo": "Rao Narsimha"
+  },
+  {
+    "id": "SK010",
+    "name": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    "status": "Closed",
+    "createdDate": "2024-02-05T16:01:17Z",
+    "assignedTo": "SK Dutta"
+  },
+  {
+    "id": "NK011",
+    "name": "Contrary to popular belief, Lorem Ipsum is not simply random text",
+    "status": "Resolved",
+    "createdDate": "2024-03-05T17:01:17Z",
+    "assignedTo": "Sudhakar G"
+  },
+  {
+    "id": "SG012",
+    "name": "Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words",
+    "status": "Reopened",
+    "createdDate": "2024-04-05T15:01:17Z",
+    "assignedTo": "Rao Narsimha"
+  },
+  {
+    "id": "SG013",
+    "name": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+    "status": "Open",
+    "createdDate": "2024-01-05T15:01:17Z",
+    "assignedTo": "Rao Narsimha"
+  },
+  {
+    "id": "SK014",
+    "name": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    "status": "Closed",
+    "createdDate": "2024-02-05T16:01:17Z",
+    "assignedTo": "SK Dutta"
+  },
+  {
+    "id": "NK015",
+    "name": "Contrary to popular belief, Lorem Ipsum is not simply random text",
+    "status": "Resolved",
+    "createdDate": "2024-03-05T17:01:17Z",
+    "assignedTo": "Sudhakar G"
+  }
+]

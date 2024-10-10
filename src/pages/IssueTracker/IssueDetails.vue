@@ -63,7 +63,7 @@ const issueDetails = computed(() => {
     </q-header>
     <drawer ref="myDrawer" />
     <q-space class="q-mt-sm"></q-space>
-    <q-page-container>
+    <q-page-container class="q-mb-md">
       <q-page>
         <q-card>
           <q-list>

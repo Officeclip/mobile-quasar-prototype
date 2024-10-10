@@ -3,12 +3,17 @@ import { binder } from '../../models/issueTracker/bindersList';
 import { issueSummary } from '../../models/issueTracker/issuesList';
 import axios from 'axios';
 import { issueDetails } from 'src/models/issueTracker/issueDetails';
+import { linkHeader } from 'src/models/general/linkHeader';
 
 export const useIssueTrackerStore = defineStore('issueTrackerStore', {
   state: () => ({
     bindersList: {} as binder[],
     issuesList: {} as issueSummary[],
     issueDetails: {} as issueDetails,
+    url: '' as string,
+    pageSize: 10,
+    pageNum: 1,
+    links: {} as linkHeader,
   }),
 
   getters: {
@@ -18,6 +23,13 @@ export const useIssueTrackerStore = defineStore('issueTrackerStore', {
   },
 
   actions: {
+    constructQueryParams() {
+      const queryParams = new URLSearchParams();
+      queryParams.append('pagesize', String(this.pageSize));
+      queryParams.append('pagenumber', String(this.pageNum));
+      return queryParams;
+    },
+
     async getBindersList() {
       const baseURL = 'http://localhost:3000/binders';
 
