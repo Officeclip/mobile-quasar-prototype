@@ -2,28 +2,63 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import drawer from '../../components/drawer.vue';
-import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore';
+import { useIssueDetailsStore } from 'src/stores/issueTracker/issueDetailsStore';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { useRoute, useRouter } from 'vue-router';
 import { getIssueTrackerLabelColor } from 'src/helpers/colorIconHelper';
+import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
+import logger from 'src/helpers/logger';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 const route = useRoute();
 const router = useRouter();
-const title = route.params.binderName;
+const binderName = route.params.binderName;
 const myDrawer = ref();
 
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
 }
-const issueTrackerStore = useIssueTrackerStore();
+const issueDetailsStore = useIssueDetailsStore();
 
 onMounted(() => {
-  issueTrackerStore.getIssueDetails();
+  issueDetailsStore.getIssueDetails();
 });
 const issueDetails = computed(() => {
-  return issueTrackerStore?.IssueDetails;
+  return issueDetailsStore?.IssueDetails;
 });
+
+const title = ref('Confirm');
+const message = ref('Are you sure you want to delete this timesheet?');
+
+const issueDetailSid = ref('');
+const showDeleteIssueDetail = ref(false);
+
+const cancelConfirmation = () => {
+  showDeleteIssueDetail.value = false;
+};
+
+const displayShowDeleteIssueDetail = (id: string) => {
+  issueDetailSid.value = id;
+  showDeleteIssueDetail.value = true;
+};
+
+const deleteIssueDetail = async (id: string) => {
+  try {
+    await issueDetailsStore.deleteIssueDetails(id);
+    showDeleteIssueDetail.value = false;
+    router.go(-1);
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      logger.log('*** Delete timesheetDetail:onSubmit(...):onOK ***');
+      showDeleteIssueDetail.value = false;
+    });
+  }
+};
 </script>
 
 <template>
@@ -47,7 +82,7 @@ const issueDetails = computed(() => {
           round
           @click="toggleLeftDrawer"
         />
-        <q-toolbar-title> Binder: {{ title }} </q-toolbar-title>
+        <q-toolbar-title> Binder: {{ binderName }} </q-toolbar-title>
         <q-btn
           flat
           round
@@ -58,7 +93,14 @@ const issueDetails = computed(() => {
             name: 'editIssue',
           }"
         ></q-btn>
-        <q-btn flat round dense color="white" icon="delete"></q-btn>
+        <q-btn
+          flat
+          round
+          dense
+          color="white"
+          icon="delete"
+          @click="displayShowDeleteIssueDetail(issueDetails?.id)"
+        ></q-btn>
       </q-toolbar>
     </q-header>
     <drawer ref="myDrawer" />
@@ -213,6 +255,15 @@ const issueDetails = computed(() => {
       </q-page>
     </q-page-container>
   </q-layout>
+  <ConfirmDelete
+    v-if="showDeleteIssueDetail"
+    :showConfirmationDialog="showDeleteIssueDetail"
+    :id="issueDetailSid"
+    :title="title"
+    :message="message"
+    @cancel="cancelConfirmation"
+    @confirm="deleteIssueDetail"
+  />
 </template>
 <style scopped lang="scss">
 @import '../../css/status.scss';
