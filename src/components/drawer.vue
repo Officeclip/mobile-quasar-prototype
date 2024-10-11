@@ -135,10 +135,10 @@ onMounted(async () => {
       </div>
     </q-img>
 
-    <q-footer bordered class="bg-white text-primary q-mb-xs">
+    <q-footer bordered class="bg-white text-primary">
       <q-separator color="red-6"></q-separator>
       <q-list>
-        <q-item>
+        <q-item class="q-mb-xs">
           <q-item-section>
             <q-item-label
               ><q-btn
