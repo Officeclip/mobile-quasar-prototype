@@ -80,13 +80,7 @@ onMounted(async () => {
     class="bg-grey-2"
     show-if-above
   >
-    <q-scroll-area
-      style="
-        height: calc(100% - 150px);
-        margin-top: 150px;
-        border-right: 1px solid #ddd;
-      "
-    >
+    <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px">
       <q-list>
         <div v-for="item in filteredHomeIcons" :key="item.name">
           <q-item clickable @click="goToApp(item.url)">
@@ -103,17 +97,18 @@ onMounted(async () => {
             </q-item-section>
           </q-item>
         </div>
-        <q-btn
+        <!-- <div class="q-mt-lg q-mt-md"></div> -->
+        <!-- <q-btn
           color="primary"
           style="margin-top: 16px; margin-left: 16px"
           @click="logout"
         >
           <q-icon left name="logout"></q-icon>
           <div>Logout</div>
-        </q-btn>
+        </q-btn> -->
       </q-list>
-
-      <q-list class="absolute-bottom-right text-caption dense">
+      <div style="height: 50px"></div>
+      <!-- <q-list class="absolute-bottom-right text-caption dense">
         <q-item dense>
           <q-item-section>Version: </q-item-section>
           <q-item-section side>{{ packageJson.version }}</q-item-section>
@@ -124,7 +119,7 @@ onMounted(async () => {
             Constants.getRestApiVersionFromSession()
           }}</q-item-section>
         </q-item>
-      </q-list>
+      </q-list> -->
     </q-scroll-area>
     <q-img
       src="https://cdn.quasar.dev/img/material.png"
@@ -139,5 +134,56 @@ onMounted(async () => {
         <div>{{ session?.userEmail }}</div>
       </div>
     </q-img>
+
+    <q-footer bordered class="bg-white text-primary q-mb-xs">
+      <q-separator color="red-6"></q-separator>
+      <q-list>
+        <q-item>
+          <q-item-section>
+            <q-item-label
+              ><q-btn
+                class="q-px-sm q-py-none"
+                outline
+                rounded
+                dense
+                no-caps
+                @click="logout"
+                label="Logout"
+              ></q-btn>
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-list class="absolute-bottom-right text-caption dense">
+              <q-item dense>
+                <q-item-section>Version: </q-item-section>
+                <q-item-section side>{{ packageJson.version }}</q-item-section>
+              </q-item>
+              <q-item dense>
+                <q-item-section>OC Version: </q-item-section>
+                <q-item-section side>{{
+                  Constants.getRestApiVersionFromSession()
+                }}</q-item-section>
+              </q-item>
+            </q-list>
+            <!-- <q-item-label>
+              <q-item dense>
+                <q-item-section
+                  ><q-item-label caption>Version:</q-item-label>
+                </q-item-section>
+                <q-item-section side>{{ packageJson.version }}</q-item-section>
+              </q-item>
+              <q-item dense>
+                <q-item-section>
+                  <q-item-label caption>OC Version: </q-item-label>
+                </q-item-section>
+                <q-item-section side>{{
+                  Constants.getRestApiVersionFromSession()
+                }}</q-item-section>
+              </q-item>
+            </q-item-label> -->
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-footer>
   </q-drawer>
 </template>
