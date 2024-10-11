@@ -24,7 +24,7 @@ const statusOptions = ['Open', 'Closed', 'Reopened', 'Resolved'];
           <template #control>
             <q-editor
               min-height="5rem"
-              class="q-mt-sm full-width"
+              class="q-mt-md full-width"
               v-model="issueObjectModel.description"
               paragraph-tag="div"
               placeholder="enter description"
