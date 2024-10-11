@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import issueTrackerForm from '../../components/IssueTracker/IssueTrackerFormCtrl.vue';
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
-import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore';
+import { useIssueDetailsStore } from 'src/stores/issueTracker/issueDetailsStore';
 import { useRouter } from 'vue-router';
 import { issueDetails } from 'src/models/issueTracker/issueDetails';
 
@@ -11,12 +11,12 @@ const newIssue: issueDetails = ref({
   description: '',
 });
 
-const issueTrackerStore = useIssueTrackerStore();
+const issueDetailsStore = useIssueDetailsStore();
 
 function onSubmit() {
   const issueFormCtrlValues = ref(newIssue);
   // console.log('Get the Issue From tracker form::', issueFormCtrlValues.value);
-  issueTrackerStore.addNewIssue(issueFormCtrlValues.value);
+  issueDetailsStore.addNewIssue(issueFormCtrlValues.value);
   router.go(-2);
 }
 </script>

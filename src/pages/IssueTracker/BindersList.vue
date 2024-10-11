@@ -2,8 +2,10 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import drawer from '../../components/drawer.vue';
-import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore';
+import { useIssueSummaryStore } from 'src/stores/issueTracker/issueSummaryStore';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const title = ref('Binders');
 const myDrawer = ref();
 
@@ -11,14 +13,14 @@ function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
 }
-const issueTrackerStore = useIssueTrackerStore();
+const issueSummaryStore = useIssueSummaryStore();
 
 onMounted(() => {
-  issueTrackerStore.getBindersList();
+  issueSummaryStore.getBindersList();
   // binderList.value = issueTrackerStore.BindersList;
 });
 const binderList = computed(() => {
-  return issueTrackerStore.BindersList;
+  return issueSummaryStore.BindersList;
 });
 </script>
 
@@ -27,7 +29,7 @@ const binderList = computed(() => {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="$router.push({ path: '/homepage' })"
+          @click="router.push({ path: '/homepage' })"
           flat
           round
           dense

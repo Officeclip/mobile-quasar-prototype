@@ -18,10 +18,10 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
       this.issueDetails = response.data[0];
     },
 
-    async editIssue(issueFormCtrlValues: issueDetails) {
+    async addNewIssue(issueFormCtrlValues: issueDetails) {
       try {
         const baseURL = 'http://localhost:3000/issue-details';
-        const response = await axios.put(baseURL, issueFormCtrlValues);
+        const response = await axios.post(baseURL, issueFormCtrlValues);
         if (response.status === 200) {
           this.issueDetails = response.data;
         }
@@ -35,6 +35,18 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
       const response = await axios.delete(`${baseURL}/${id}`);
       if (response.status === 200) {
         this.issueDetails = response.data;
+      }
+    },
+
+    async editIssue(issueFormCtrlValues: issueDetails) {
+      try {
+        const baseURL = 'http://localhost:3000/issue-details';
+        const response = await axios.put(baseURL, issueFormCtrlValues);
+        if (response.status === 200) {
+          this.issueDetails = response.data;
+        }
+      } catch (error) {
+        console.log('Axios error', error);
       }
     },
   },

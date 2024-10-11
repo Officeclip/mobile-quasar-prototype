@@ -3,11 +3,11 @@ import { ref } from 'vue';
 import issueTrackerForm from '../../components/IssueTracker/IssueTrackerFormCtrl.vue';
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
 import { useRouter } from 'vue-router';
-import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore';
+import { useIssueDetailsStore } from 'src/stores/issueTracker/issueDetailsStore';
 import { issueDetails } from 'src/models/issueTracker/issueDetails';
 
 const router = useRouter();
-const issueTrackerStore = useIssueTrackerStore();
+const issueDetailsStore = useIssueDetailsStore();
 
 const editIssue: issueDetails = ref({
   id: '1',
@@ -23,7 +23,7 @@ const editIssue: issueDetails = ref({
 function onSubmit() {
   const issueFormCtrlValues = ref(editIssue);
   // console.log('Get the Edit Issue From tracker form::', getNewIssue.value);
-  issueTrackerStore.editIssue(issueFormCtrlValues.value);
+  issueDetailsStore.editIssue(issueFormCtrlValues.value);
   router.go(-2);
 }
 </script>

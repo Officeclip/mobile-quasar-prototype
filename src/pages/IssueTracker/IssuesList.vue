@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import drawer from '../../components/drawer.vue';
-import { useIssueTrackerStore } from 'src/stores/issueTracker/issueTrackerStore';
+import { useIssueSummaryStore } from 'src/stores/issueTracker/issueSummaryStore';
 import { useRoute, useRouter } from 'vue-router';
 import AdvancedFilters from '../../components/IssueTracker/IssueTrackerAdvancedFilters.vue';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
@@ -21,14 +21,14 @@ function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
 }
-const issueTrackerStore = useIssueTrackerStore();
+const issueSummaryStore = useIssueSummaryStore();
 
 onMounted(() => {
-  issueTrackerStore.getIssuesList();
+  issueSummaryStore.getIssuesList();
   // binderList.value = issueTrackerStore.BindersList;
 });
 const issuesList = computed(() => {
-  return issueTrackerStore.IssuesList;
+  return issueSummaryStore.IssuesList;
 });
 
 const getData = computed(() => {
