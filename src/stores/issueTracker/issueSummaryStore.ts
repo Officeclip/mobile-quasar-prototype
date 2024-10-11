@@ -7,7 +7,7 @@ import { linkHeader } from 'src/models/general/linkHeader';
 export const useIssueSummaryStore = defineStore('issueSummaryStore', {
   state: () => ({
     bindersList: {} as binder[],
-    issuesList: {} as issueSummary[],
+    issuesList: [] as issueSummary[],
     url: '' as string,
     pageSize: 10,
     pageNum: 1,
@@ -34,11 +34,34 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
       this.bindersList = response.data;
     },
 
-    async getIssuesList() {
+    async getIssuesList(): Promise<boolean> {
       const baseURL = 'http://localhost:3000/issues';
+      try {
+        const response = await axios.get(baseURL);
+        // if (response.status === 200) {
+        //   const issues = response.data;
+        //   this.issuesList.push(...issues);
+        //   const obj = JSON.parse(response.headers.links);
+        //   console.log('obj:', obj.next);
+        //   this.links = obj.next || '{}';
+        //   this.url = this.links ? `${this.links}` : '';
+        // } else {
+        //   return true;
+        // }
+        //this.issuesList = response.data;
 
-      const response = await axios.get(baseURL);
-      this.issuesList = response.data;
+        const issues = response.data;
+        this.issuesList.push(...issues);
+
+        this.links = JSON.parse(response.headers.links || '{}');
+        this.url = this.links.next
+          ? `${'http://localhost:3000'}${this.links.next}`
+          : '';
+      } catch (error) {
+        console.error(error);
+      }
+
+      return this.url === '';
     },
   },
 });

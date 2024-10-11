@@ -7,11 +7,13 @@ import { useRoute, useRouter } from 'vue-router';
 import AdvancedFilters from '../../components/IssueTracker/IssueTrackerAdvancedFilters.vue';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { getIssueTrackerLabelColor } from 'src/helpers/colorIconHelper';
+import { useQuasar } from 'quasar';
 
 // const title = ref('Binders');
 
 const route = useRoute();
 const router = useRouter();
+const $q = useQuasar();
 const title = route.params.binder;
 const myDrawer = ref();
 
@@ -23,13 +25,29 @@ function toggleLeftDrawer() {
 }
 const issueSummaryStore = useIssueSummaryStore();
 
-onMounted(() => {
-  issueSummaryStore.getIssuesList();
-  // binderList.value = issueTrackerStore.BindersList;
-});
+// onMounted(() => {
+//   issueSummaryStore.getIssuesList();
+//   // binderList.value = issueTrackerStore.BindersList;
+// });
 const issuesList = computed(() => {
   return issueSummaryStore.IssuesList;
 });
+
+let reachedEnd = ref(false); // indicate if all contacts have been loaded
+const loadMore = async (index: any, done: () => void) => {
+  try {
+    reachedEnd.value = await issueSummaryStore.getIssuesList();
+    //https://quasar.dev/vue-components/infinite-scroll/#usage
+    done();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/HomePage' });
+    });
+  }
+};
 
 const getData = computed(() => {
   if (issuesList.value.length === 0) {
@@ -176,61 +194,61 @@ function handleAssignedToMeClick() {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <!-- <pre>{{ getData }}</pre> -->
-        <q-list v-for="issue in getData" :key="issue.id">
-          <q-item
-            clickable
-            v-ripple
-            :to="{
-              name: 'issueDetails',
-              params: {
-                binderName: title,
-              },
-            }"
-          >
-            <q-item-section>
-              <q-item-label class="ellipsis"
-                ><span class="text-subtitle1 text-weight-medium inline"
-                  >{{ issue.id }}:</span
+        <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
+          <q-list v-for="issue in getData" :key="issue.id">
+            <q-item
+              clickable
+              v-ripple
+              :to="{
+                name: 'issueDetails',
+                params: {
+                  binderName: title,
+                },
+              }"
+            >
+              <q-item-section>
+                <q-item-label class="ellipsis"
+                  ><span class="text-subtitle1 text-weight-medium inline"
+                    >{{ issue.id }}:</span
+                  >
+                  {{ issue.name }}</q-item-label
                 >
-                {{ issue.name }}</q-item-label
-              >
-            </q-item-section>
-            <q-item-section side top>
-              <q-chip dense :class="getIssueTrackerLabelColor(issue.status)">
-                <q-item-label caption class="q-px-xs testClass">{{
-                  issue.status
-                }}</q-item-label>
-              </q-chip>
-            </q-item-section>
+              </q-item-section>
+              <q-item-section side top>
+                <q-chip dense :class="getIssueTrackerLabelColor(issue.status)">
+                  <q-item-label caption class="q-px-xs testClass">{{
+                    issue.status
+                  }}</q-item-label>
+                </q-chip>
+              </q-item-section>
 
-            <q-item-section side>
-              <q-icon color="primary" name="chevron_right" />
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <div class="flex items-end justify-around ellipsis">
-                <q-item-label>
-                  <span class="text-caption">created on</span>
-                  <span class="q-mx-sm">{{
-                    dateTimeHelper.formatDateTimeFromRestAPIForUI(
-                      issue.createdDate,
-                      false
-                    )
-                  }}</span>
-                </q-item-label>
-                <!-- <space></space> -->
-                <q-item-label>
-                  <span class="text-caption">assigned to:</span>
-                  <span class="q-mx-sm">{{ issue.assignedTo }}</span>
-                </q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-          <q-separator spaced inset></q-separator>
-        </q-list>
-
+              <q-item-section side>
+                <q-icon color="primary" name="chevron_right" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <div class="flex items-end justify-around ellipsis">
+                  <q-item-label>
+                    <span class="text-caption">created on</span>
+                    <span class="q-mx-sm">{{
+                      dateTimeHelper.formatDateTimeFromRestAPIForUI(
+                        issue.createdDate,
+                        false
+                      )
+                    }}</span>
+                  </q-item-label>
+                  <!-- <space></space> -->
+                  <q-item-label>
+                    <span class="text-caption">assigned to:</span>
+                    <span class="q-mx-sm">{{ issue.assignedTo }}</span>
+                  </q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator spaced inset></q-separator>
+          </q-list>
+        </q-infinite-scroll>
         <!-- demo filter options interface need to implement -->
         <q-dialog v-model="showAdvOptions" :position="position">
           <AdvancedFilters />

@@ -1371,7 +1371,7 @@
             }
           ],
           "bodyType": "FILE",
-          "filePath": "oc\\issueTracker\\issues-list.json",
+          "filePath": "oc\\issueTracker\\issues-list-page-1.json",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [],
@@ -1394,10 +1394,10 @@
               "value": "{         \"first\": \"/issues?pagesize=15&pagenumber=1\",         \"next\": \"/issues?pagesize=15&pagenumber=3\",         \"prev\": \"/issues?pagesize=15&pagenumber=1\",         \"last\": \"/issues?pagesize=5&pagenumber=4\",         \"total\": 50  }"
             }
           ],
-          "bodyType": "INLINE",
-          "filePath": "",
+          "bodyType": "FILE",
+          "filePath": "oc\\issueTracker\\issues-list-page-2.json",
           "databucketID": "",
-          "sendFileAsBody": false,
+          "sendFileAsBody": true,
           "rules": [],
           "rulesOperator": "OR",
           "disableTemplating": false,
@@ -1418,10 +1418,10 @@
               "value": "{         \"first\": \"issues?pagesize=15&pagenumber=1\",         \"next\": \"/issues?pagesize=5&pagenumber=4\",         \"prev\": \"/issues?pagesize=15&pagenumber=2\",         \"last\": \"/issues?pagesize=5&pagenumber=4\",         \"total\": 50  }"
             }
           ],
-          "bodyType": "INLINE",
-          "filePath": "",
+          "bodyType": "FILE",
+          "filePath": "oc\\issueTracker\\issues-list-page-3.json",
           "databucketID": "",
-          "sendFileAsBody": false,
+          "sendFileAsBody": true,
           "rules": [],
           "rulesOperator": "OR",
           "disableTemplating": false,
@@ -1442,10 +1442,10 @@
               "value": "{         \"first\": \"issues?pagesize=15&pagenumber=1\",         \"next\": \"\",         \"prev\": \"/issues?pagesize=15&pagenumber=3\",         \"last\": \"/issues?pagesize=5&pagenumber=4\",         \"total\": 50  }"
             }
           ],
-          "bodyType": "INLINE",
-          "filePath": "",
+          "bodyType": "FILE",
+          "filePath": "oc\\issueTracker\\issues-list-page-4.json",
           "databucketID": "",
-          "sendFileAsBody": false,
+          "sendFileAsBody": true,
           "rules": [],
           "rulesOperator": "OR",
           "disableTemplating": false,
@@ -1455,7 +1455,7 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": "SEQUENTIAL"
     },
     {
       "uuid": "382ae2c6-84b2-4857-af4b-996a21cf39ec",
