@@ -27,6 +27,33 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
       return queryParams;
     },
 
+    // resetPageNumber() {
+    //   this.pageNum = 1;
+    //   this.links = {} as linkHeader; // https://stackoverflow.com/a/45339463
+    // },
+
+    // async getTasksUpdated(isFilter: boolean): Promise<boolean> {
+    //   this.getUrl();
+    //   try {
+    //     const instance = Constants.getAxiosInstance();
+    //     const response = await instance.get(this.url);
+    //     if (response.status === 200) {
+    //       const summaries = response.data.data;
+    //       if (isFilter) {
+    //         await this.resetTaskSummaryList();
+    //       }
+    //       this.taskSummaries.push(...summaries);
+    //       this.links = response.data.pagination.next || '{}';
+    //       this.url = this.links ? `${this.links}` : '';
+    //     } else {
+    //       return true;
+    //     }
+    //   } catch (error) {
+    //     Constants.throwError(error);
+    //   }
+    //   return this.url === 'null';
+    // },
+
     async getBindersList() {
       const baseURL = 'http://localhost:3000/binders';
 
