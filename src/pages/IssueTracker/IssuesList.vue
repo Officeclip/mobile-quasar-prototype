@@ -1,25 +1,17 @@
-<!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
-import { computed, onMounted, Ref, ref } from 'vue';
+import { Ref, ref } from 'vue';
 import drawer from '../../components/drawer.vue';
 import { useIssueSummaryStore } from 'src/stores/issueTracker/issueSummaryStore';
 import { useRoute, useRouter } from 'vue-router';
 import AdvancedFilters from '../../components/IssueTracker/IssueTrackerAdvancedFilters.vue';
-import dateTimeHelper from 'src/helpers/dateTimeHelper';
-import { getIssueTrackerLabelColor } from 'src/helpers/colorIconHelper';
-import { useQuasar } from 'quasar';
 import { searchFilter } from 'src/models/issueTracker/searchFilter';
 import { useSessionStore } from 'src/stores/SessionStore';
-
-// const title = ref('Binders');
+import IssuesListCtrl from 'src/components/IssueTracker/IssuesListCtrl.vue';
 
 const route = useRoute();
 const router = useRouter();
-const $q = useQuasar();
 const title = route.params.binder;
 const myDrawer = ref();
-
-// const searchText = ref('');
 
 const defaultFilterOptions: searchFilter = {
   searchString: '',
@@ -36,7 +28,7 @@ const defaultFilterOptions: searchFilter = {
 let filterOptions: Ref<searchFilter> = ref({ ...defaultFilterOptions });
 
 const sessionStore = useSessionStore();
-const issueSummaryStore = useIssueSummaryStore();
+// const issueSummaryStore = useIssueSummaryStore();
 
 const assignedToMe = ref(
   filterOptions.value.assignedToId === sessionStore.Session.userId
@@ -62,63 +54,10 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
     advancedOptions.assignedToId === sessionStore.Session.userId;
 }
 
-// async function filterFn(val: string) {
-//   if (val === null || val.length === 0) {
-//     issueSummaryStore.resetPageNumber();
-//     return await issueSummaryStore.getTasksUpdated(false);
-//   } else {
-//     if (val.length > 2) {
-//       filterOptions.value.filterString = val.toLowerCase();
-//       issueSummaryStore.resetPageNumber();
-//       issueSummaryStore.setFilter(filterOptions.value);
-//       await issueSummaryStore.getTasksUpdated(true);
-//     }
-//   }
-// }
-
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
 }
-
-// onMounted(() => {
-//   issueSummaryStore.getIssuesList();
-//   // binderList.value = issueTrackerStore.BindersList;
-// });
-const issuesList = computed(() => {
-  return issueSummaryStore.IssuesList;
-});
-
-let reachedEnd = ref(false); // indicate if all contacts have been loaded
-const loadMore = async (index: any, done: () => void) => {
-  try {
-    reachedEnd.value = await issueSummaryStore.getIssuesList();
-    //https://quasar.dev/vue-components/infinite-scroll/#usage
-    done();
-  } catch (error) {
-    $q.dialog({
-      title: 'Alert',
-      message: error as string,
-    }).onOk(async () => {
-      await router.push({ path: '/HomePage' });
-    });
-  }
-};
-
-const getData = computed(() => {
-  if (issuesList.value.length === 0) {
-    return null;
-  }
-  const filteredIssues =
-    defaultFilterOptions.searchString === ''
-      ? issuesList.value
-      : issuesList.value.filter((t: any) => {
-          return t.name
-            .toLowerCase()
-            .includes(defaultFilterOptions.searchString.toLowerCase());
-        });
-  return filteredIssues;
-});
 
 const showAdvOptions = ref(false);
 const filterCount = ref(1);
@@ -127,26 +66,6 @@ const position = ref('top');
 function open(pos: string) {
   position.value = pos;
   showAdvOptions.value = true;
-}
-
-// const assignedToMe = ref('');
-// const starredIssues = ref('');
-const sortByModel = ref('Status');
-const sortByOptions = [
-  'Status',
-  'Title',
-  'Created Date',
-  'Criticality',
-  'Issue Id',
-  'Kind',
-  'Modified By',
-  'Modified Date',
-];
-
-function handleAssignedToMeClick() {
-  if (!assignedToMe.value) {
-    window.location.reload();
-  }
 }
 </script>
 
@@ -221,18 +140,11 @@ function handleAssignedToMeClick() {
         <q-item class="q-mt-sm q-mb-md">
           <q-item-section>
             <q-item-label>
-              <!-- <pre>{{ assignedToMe }}</pre> -->
-              <q-checkbox
-                dense
-                v-model="assignedToMe"
-                label="assigned to me"
-                @click="handleAssignedToMeClick"
-              />
+              <q-checkbox dense v-model="assignedToMe" label="assigned to me" />
             </q-item-label>
           </q-item-section>
           <q-item-section>
             <q-item-label>
-              <!-- <pre>{{ starredIssues }}</pre> -->
               <q-checkbox
                 dense
                 v-model="starredIssues"
@@ -242,7 +154,7 @@ function handleAssignedToMeClick() {
               />
             </q-item-label>
           </q-item-section>
-          <q-item-section>
+          <!-- <q-item-section>
             <q-item-label>
               <q-select
                 dense
@@ -251,64 +163,9 @@ function handleAssignedToMeClick() {
                 :options="sortByOptions"
               />
             </q-item-label>
-          </q-item-section>
+          </q-item-section> -->
         </q-item>
-        <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
-          <q-list v-for="issue in getData" :key="issue.id">
-            <q-item
-              clickable
-              v-ripple
-              :to="{
-                name: 'issueDetails',
-                params: {
-                  binderName: title,
-                },
-              }"
-            >
-              <q-item-section>
-                <q-item-label class="ellipsis"
-                  ><span class="text-subtitle1 text-weight-medium inline"
-                    >{{ issue.id }}:</span
-                  >
-                  {{ issue.name }}</q-item-label
-                >
-              </q-item-section>
-              <q-item-section side top>
-                <q-chip dense :class="getIssueTrackerLabelColor(issue.status)">
-                  <q-item-label caption class="q-px-xs testClass">{{
-                    issue.status
-                  }}</q-item-label>
-                </q-chip>
-              </q-item-section>
-
-              <q-item-section side>
-                <q-icon color="primary" name="chevron_right" />
-              </q-item-section>
-            </q-item>
-            <q-item>
-              <q-item-section>
-                <div class="flex items-end justify-around ellipsis">
-                  <q-item-label>
-                    <span class="text-caption">created on</span>
-                    <span class="q-mx-sm">{{
-                      dateTimeHelper.formatDateTimeFromRestAPIForUI(
-                        issue.createdDate,
-                        false
-                      )
-                    }}</span>
-                  </q-item-label>
-                  <!-- <space></space> -->
-                  <q-item-label>
-                    <span class="text-caption">assigned to:</span>
-                    <span class="q-mx-sm">{{ issue.assignedTo }}</span>
-                  </q-item-label>
-                </div>
-              </q-item-section>
-            </q-item>
-            <q-separator spaced inset></q-separator>
-          </q-list>
-        </q-infinite-scroll>
-        <!-- demo filter options interface need to implement -->
+        <IssuesListCtrl />
         <q-dialog v-model="showAdvOptions" :position="position">
           <AdvancedFilters />
         </q-dialog>
@@ -335,8 +192,4 @@ function handleAssignedToMeClick() {
   min-height: 24px;
   padding: 4px 16px;
 }
-/* .testClass {
-  background-color: green;
-  color: white;
-} */
 </style>
