@@ -1,0 +1,84 @@
+{
+  "category": [
+    {
+      "id": "1",
+      "name": "GUI Screens"
+    },
+    {
+      "id": "2",
+      "name": "Backend"
+    }
+  ],
+  "status": [
+    {
+      "id": "17",
+      "name": "Open",
+      "category": "Active"
+    },
+    {
+      "id": "18",
+      "name": "Closed",
+      "category": "Completed"
+    },
+    {
+      "id": "19",
+      "name": "Pending",
+      "category": "Pending"
+    },
+    {
+      "id": "20",
+      "name": "Completed",
+      "category": "Completed"
+    }
+  ],
+  "criticality": [
+    {
+      "id": "0",
+      "name": ""
+    },
+    {
+      "id": "1",
+      "name": "High"
+    },
+    {
+      "id": "2",
+      "name": "Medium"
+    },
+    {
+      "id": "3",
+      "name": "Low"
+    },
+    {
+      "id": "4",
+      "name": "Other"
+    }
+  ],
+  "kind": [
+    {
+      "id": "1",
+      "name": "Bugs"
+    },
+    {
+      "id": "2",
+      "name": "Enhancement"
+    }
+  ],
+  "users": [
+    {
+      "id": "AM9W6C9FAZMY3URS545Q",
+      "name": "Dutta, SK (skd@officeclip.com)"
+    },
+    {
+      "id": "U8GZ3NJE58YWHCAVSC5Q",
+      "name": "Gundu, Sudhakar (sudhakar@officeclip.com)"
+    },
+    {
+      "id": "4AHBWMUE7CVZSKGXUD5Q",
+      "name": "Kapoor, Deepa (deepa@officeclip.com)"
+    },
+    {
+      "id": "ZC9R6XDRNMGC3FSEFC5Q",
+      "name": "Kulkarni, Nagesh (nagesh@officeclip.com)"
+    }
+  ]
+}

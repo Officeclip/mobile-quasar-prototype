@@ -188,6 +188,10 @@
         {
           "type": "route",
           "uuid": "382ae2c6-84b2-4857-af4b-996a21cf39ec"
+        },
+        {
+          "type": "route",
+          "uuid": "477eb7d9-0fde-4ad8-97e3-5c777b408416"
         }
       ]
     }
@@ -1475,6 +1479,35 @@
           "filePath": "",
           "databucketID": "a925",
           "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "477eb7d9-0fde-4ad8-97e3-5c777b408416",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "issue-lists",
+      "responses": [
+        {
+          "uuid": "41d5bd05-8c83-44b8-8e0a-3fca17764e4c",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "oc\\issueTracker\\issue-lists.json",
+          "databucketID": "",
+          "sendFileAsBody": true,
           "rules": [],
           "rulesOperator": "OR",
           "disableTemplating": false,

@@ -1,7 +1,24 @@
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, onBeforeMount } from 'vue';
+import { useIssueListsStore } from 'stores/issueTracker/issueListsStore';
 
 const props = defineProps(['issueObject']);
+
+const issueListsStore = useIssueListsStore();
+
+onBeforeMount(async () => {
+  await issueListsStore.getIssueLists();
+  // try {
+  //   await issueListsStore.getIssueLists();
+  // } catch (error) {
+  //   $q.dialog({
+  //     title: 'Alert',
+  //     message: error as string,
+  //   }).onOk(async () => {
+  //     await router.push({ path: '/issuesList' });
+  //   });
+  // }
+});
 
 const issueObjectModel = ref(props.issueObject);
 
@@ -36,28 +53,40 @@ const statusOptions = ['Open', 'Closed', 'Reopened', 'Resolved'];
         <q-select
           label="Status"
           v-model="issueObjectModel.status"
-          :options="statusOptions"
+          :options="issueListsStore.status"
+          map-options
+          option-label="name"
+          option-value="id"
         />
       </q-item-label>
       <q-item-label>
         <q-select
           label="Category"
           v-model="issueObjectModel.category"
-          :options="statusOptions"
+          :options="issueListsStore.category"
+          map-options
+          option-label="name"
+          option-value="id"
         />
       </q-item-label>
       <q-item-label>
         <q-select
           label="Assigned To"
           v-model="issueObjectModel.assignedTo"
-          :options="statusOptions"
+          :options="issueListsStore.users"
+          map-options
+          option-label="name"
+          option-value="id"
         />
       </q-item-label>
       <q-item-label>
         <q-select
-          label="Severity"
+          label="Criticality"
           v-model="issueObjectModel.severity"
-          :options="statusOptions"
+          :options="issueListsStore.criticality"
+          map-options
+          option-label="name"
+          option-value="id"
         />
       </q-item-label> </q-item-section
   ></q-item>
