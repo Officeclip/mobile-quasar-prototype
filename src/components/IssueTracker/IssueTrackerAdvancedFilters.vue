@@ -1,8 +1,15 @@
 <script lang="ts" setup>
+import { searchFilter } from 'src/models/issueTracker/searchFilter';
 import { ref } from 'vue';
 
+const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
+const props = defineProps<{
+  // parent: any;
+  filterOptions: searchFilter;
+}>();
+
 const filterModel = ref(null);
-const filterOptions = ['Open', 'Closed', 'Resolved', 'Reopened'];
+// const filterOptions = ['Open', 'Closed', 'Resolved', 'Reopened'];
 </script>
 
 <template>

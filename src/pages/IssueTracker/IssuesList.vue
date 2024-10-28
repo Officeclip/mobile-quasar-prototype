@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
+import { Ref, ref, watch } from 'vue';
 import drawer from '../../components/drawer.vue';
 import { useIssueSummaryStore } from 'src/stores/issueTracker/issueSummaryStore';
 import { useRoute, useRouter } from 'vue-router';
@@ -28,7 +28,7 @@ const defaultFilterOptions: searchFilter = {
 let filterOptions: Ref<searchFilter> = ref({ ...defaultFilterOptions });
 
 const sessionStore = useSessionStore();
-// const issueSummaryStore = useIssueSummaryStore();
+const issueSummaryStore = useIssueSummaryStore();
 
 const assignedToMe = ref(
   filterOptions.value.assignedToId === sessionStore.Session.userId
@@ -54,18 +54,65 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
     advancedOptions.assignedToId === sessionStore.Session.userId;
 }
 
-function toggleLeftDrawer() {
-  if (myDrawer.value == null) return;
-  myDrawer.value.toggleLeftDrawer();
+async function filterFn(val: string) {
+  if (val === null || val.length === 0) {
+    issueSummaryStore.resetPageNumber();
+    return await issueSummaryStore.getIssuesUpdated(false);
+  } else {
+    if (val.length > 2) {
+      filterOptions.value.searchString = val.toLowerCase();
+      issueSummaryStore.resetPageNumber();
+      issueSummaryStore.setFilter(filterOptions.value);
+      await issueSummaryStore.getIssuesUpdated(true);
+    }
+  }
 }
 
+async function handleClear() {
+  await issueSummaryStore.resetIssuesSummaryList();
+  issueSummaryStore.resetPageNumber();
+}
+
+watch(
+  () => filterOptions.value.searchString,
+  async (newValue) => {
+    await filterFn(newValue);
+  }
+);
+
+watch(assignedToMe, async () => {
+  if (!assignedToMe.value) {
+    window.location.reload();
+  }
+  filterOptions.value.assignedToId = sessionStore.Session.userId;
+  await issueSummaryStore.resetIssuesSummaryList();
+  issueSummaryStore.setFilter(filterOptions.value);
+  await issueSummaryStore.getIssuesUpdated(true);
+});
+
+watch(
+  () => filterOptions.value,
+  () => {
+    issueSummaryStore.setFilter(filterOptions.value);
+  },
+  { deep: true } // This option is necessary to watch for nested changes
+);
+
 const showAdvOptions = ref(false);
-const filterCount = ref(1);
+const filterCount = ref(0);
+function updateFilterCount(val: number) {
+  filterCount.value = val;
+}
 const position = ref('top');
 
 function open(pos: string) {
   position.value = pos;
   showAdvOptions.value = true;
+}
+
+function toggleLeftDrawer() {
+  if (myDrawer.value == null) return;
+  myDrawer.value.toggleLeftDrawer();
 }
 </script>
 
@@ -167,7 +214,11 @@ function open(pos: string) {
         </q-item>
         <IssuesListCtrl />
         <q-dialog v-model="showAdvOptions" :position="position">
-          <AdvancedFilters />
+          <AdvancedFilters
+            :filter-options="filterOptions"
+            @advancedOptionsGenerated="receiveAdvFilters"
+            @filterCount="updateFilterCount"
+          />
         </q-dialog>
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
