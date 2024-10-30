@@ -121,7 +121,7 @@ function toggleLeftDrawer() {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="router.push({ path: '/binders' })"
+          @click="router.push({ path: '/trackerBinders' })"
           flat
           round
           dense
