@@ -9,6 +9,7 @@ import {
   issueLists,
   user,
 } from 'src/models/issueTracker/issueLists';
+import { regardingContact } from 'src/models/issueTracker/issueLists';
 
 export const useIssueListsStore = defineStore('issueListsStore', {
   state: () => ({
@@ -43,21 +44,21 @@ export const useIssueListsStore = defineStore('issueListsStore', {
       }
     },
 
-    // async getFilteredUsers(searchString: string) {
-    //   try {
-    //     this.users = [];
-    //     const response = await axios.get(
-    //       'http://localhost:3000/issue-lists?users'
-    //     );
-    //     const userList = response.data[0].users;
-    //     const filtered = userList.filter((t: regardingContact) => {
-    //       return t.name.toLowerCase().includes(searchString.toLowerCase());
-    //     });
-    //     await new Promise((r) => setTimeout(r, 500));
-    //     this.users = filtered;
-    //   } catch (error) {
-    //     Constants.throwError(error);
-    //   }
-    // },
+    async getFilteredUsers(searchString: string) {
+      try {
+        this.users = [];
+        const response = await axios.get(
+          'http://localhost:3000/issue-lists?users'
+        );
+        const userList = response.data.users;
+        const filtered = userList.filter((t: regardingContact) => {
+          return t.name.toLowerCase().includes(searchString.toLowerCase());
+        });
+        await new Promise((r) => setTimeout(r, 500));
+        this.users = filtered;
+      } catch (error) {
+        Constants.throwError(error);
+      }
+    },
   },
 });

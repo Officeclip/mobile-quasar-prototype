@@ -31,3 +31,8 @@ export interface user {
   id: string;
   name: string;
 }
+
+export interface regardingContact {
+  id: string;
+  name: string;
+}
