@@ -169,20 +169,6 @@ function toggleLeftDrawer() {
                 </template>
               </q-input> </q-item-label
           ></q-item-section>
-          <q-item-section side>
-            <q-item-label>
-              <q-btn
-                flat
-                icon="filter_list"
-                @click="open('top')"
-                class="q-px-xs"
-              >
-                <q-badge v-if="filterCount" color="red" floating rounded>{{
-                  filterCount
-                }}</q-badge>
-              </q-btn>
-            </q-item-label>
-          </q-item-section>
         </q-item>
         <q-item class="q-mt-sm q-mb-md">
           <q-item-section>
@@ -211,6 +197,25 @@ function toggleLeftDrawer() {
               />
             </q-item-label>
           </q-item-section> -->
+          <q-item-section side>
+            <q-item-label>
+              <q-btn
+                flat
+                icon="filter_list"
+                @click="open('top')"
+                class="q-px-xs"
+              >
+                <q-badge v-if="filterCount" color="red" floating rounded>{{
+                  filterCount
+                }}</q-badge>
+              </q-btn>
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-item-label>
+              <q-btn flat icon="clear" @click="clearFilterValues" />
+            </q-item-label>
+          </q-item-section>
         </q-item>
         <IssuesListCtrl />
         <q-dialog v-model="showAdvOptions" :position="position">

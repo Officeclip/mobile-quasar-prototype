@@ -46,6 +46,7 @@ function filterNumber(filter: searchFilter) {
 
 function emitOptions() {
   issueSummaryStore.setFilter(advancedOptions.value);
+  issueSummaryStore.resetPageNumber();
   issueSummaryStore.getIssuesUpdated(true);
 
   emit('advancedOptionsGenerated', advancedOptions.value);
@@ -173,5 +174,8 @@ async function filterFn(val: string, update: any, abort: any) {
         </q-item-section>
       </div>
     </q-card-section>
+    <q-card-actions>
+      <q-btn v-close-popup color="primary" label="Apply" @click="emitOptions" />
+    </q-card-actions>
   </q-card>
 </template>
