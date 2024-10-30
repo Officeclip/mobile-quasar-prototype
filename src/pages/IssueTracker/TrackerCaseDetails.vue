@@ -66,7 +66,7 @@ const deleteIssueDetail = async (id: string) => {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="router.push({ path: '/trackerBinders' })"
+          @click="router.push({ path: '/binders' })"
           flat
           round
           dense
