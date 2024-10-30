@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { binder } from '../../models/issueTracker/bindersList';
+// import { binder } from '../../models/issueTracker/trackerBinderSummary';
 import { issueSummary } from '../../models/issueTracker/issueSummary';
 import axios from 'axios';
 import { linkHeader } from 'src/models/general/linkHeader';
@@ -7,7 +7,7 @@ import { searchFilter } from 'src/models/issueTracker/searchFilter';
 
 export const useIssueSummaryStore = defineStore('issueSummaryStore', {
   state: () => ({
-    bindersList: {} as binder[],
+    // bindersList: {} as binder[],
     issuesList: [] as issueSummary[],
     url: '' as string,
     pageSize: 10,
@@ -17,7 +17,7 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
   }),
 
   getters: {
-    BindersList: (state) => state.bindersList,
+    // BindersList: (state) => state.bindersList,
     IssuesList: (state) => state.issuesList,
     IsEmptyLinkHeader: (state) => Object.keys(state.links).length == 0,
   },
@@ -84,12 +84,12 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
       return this.url === 'null';
     },
 
-    async getBindersList() {
-      const baseURL = 'http://localhost:3000/binders';
+    // async getBindersList() {
+    //   const baseURL = 'http://localhost:3000/binders';
 
-      const response = await axios.get(baseURL);
-      this.bindersList = response.data;
-    },
+    //   const response = await axios.get(baseURL);
+    //   this.bindersList = response.data;
+    // },
 
     async getIssuesList(): Promise<boolean> {
       const baseURL = 'http://localhost:3000/issues';
