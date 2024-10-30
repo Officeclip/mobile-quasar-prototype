@@ -1,6 +1,6 @@
 import { security } from '../security';
 
-export interface issueDetails {
+export interface trackerCaseDetails {
   id: string;
   issueId: string;
   name: string;

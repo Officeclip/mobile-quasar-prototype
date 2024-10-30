@@ -4,10 +4,10 @@ import issueTrackerForm from '../../components/IssueTracker/IssueTrackerFormCtrl
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
 import { useIssueDetailsStore } from 'src/stores/issueTracker/issueDetailsStore';
 import { useRouter } from 'vue-router';
-import { issueDetails } from 'src/models/issueTracker/issueDetails';
+import { trackerCaseDetails } from 'src/models/issueTracker/trackerCaseDetails';
 
 const router = useRouter();
-const newIssue: issueDetails = ref({
+const newIssue: trackerCaseDetails = ref({
   description: '',
 });
 
