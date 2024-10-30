@@ -1,4 +1,4 @@
-export interface issueSummary {
+export interface trackerCaseSummary {
   id: string;
   name: string;
   status: string;

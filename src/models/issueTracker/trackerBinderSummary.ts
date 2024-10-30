@@ -1,4 +1,4 @@
-export interface binder {
+export interface trackerBinderSummary {
   id: string;
   name: string;
   count: string;

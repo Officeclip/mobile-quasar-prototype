@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { issueDetails } from 'src/models/issueTracker/issueDetails';
+import { trackerCaseDetails } from 'src/models/issueTracker/trackerCaseDetails';
 
 export const useIssueDetailsStore = defineStore('issueDetailsStore', {
   state: () => ({
-    issueDetails: {} as issueDetails,
+    issueDetails: {} as trackerCaseDetails,
   }),
 
   getters: {
@@ -18,7 +18,7 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
       this.issueDetails = response.data[0];
     },
 
-    async addNewIssue(issueFormCtrlValues: issueDetails) {
+    async addNewIssue(issueFormCtrlValues: trackerCaseDetails) {
       try {
         const baseURL = 'http://localhost:3000/issue-details';
         const response = await axios.post(baseURL, issueFormCtrlValues);
@@ -38,7 +38,7 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
       }
     },
 
-    async editIssue(issueFormCtrlValues: issueDetails) {
+    async editIssue(issueFormCtrlValues: trackerCaseDetails) {
       try {
         const baseURL = 'http://localhost:3000/issue-details';
         const response = await axios.put(baseURL, issueFormCtrlValues);
