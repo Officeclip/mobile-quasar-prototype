@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 // import { binder } from '../../models/issueTracker/trackerBinderSummary';
-import { issueSummary } from '../../models/issueTracker/issueSummary';
+import { trackerCaseSummary } from '../../models/issueTracker/trackerCaseSumary';
 import axios from 'axios';
 import { linkHeader } from 'src/models/general/linkHeader';
 import { searchFilter } from 'src/models/issueTracker/searchFilter';
@@ -8,7 +8,7 @@ import { searchFilter } from 'src/models/issueTracker/searchFilter';
 export const useIssueSummaryStore = defineStore('issueSummaryStore', {
   state: () => ({
     // bindersList: {} as binder[],
-    issuesList: [] as issueSummary[],
+    issuesList: [] as trackerCaseSummary[],
     url: '' as string,
     pageSize: 10,
     pageNum: 1,
