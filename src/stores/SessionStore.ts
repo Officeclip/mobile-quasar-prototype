@@ -83,7 +83,7 @@ export const useSessionStore = defineStore('sessionStore', {
           id: 22,
           icon: 'bug_report',
           name: 'IssueTracker',
-          url: '/trackerBinders',
+          url: '/binders',
         },
       ];
       return defaultHomeIcons;
