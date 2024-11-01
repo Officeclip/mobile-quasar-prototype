@@ -24,7 +24,7 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
 
   actions: {
     constructBaseURL() {
-      const baseUrl = `$'http://localhost:3000/binders'?pagenumber=${this.pageNum}&pagesize=${this.pageSize}`;
+      const baseUrl = `http://localhost:3000/issues?pagenumber=${this.pageNum}&pagesize=${this.pageSize}`;
       return baseUrl;
     },
 
@@ -68,9 +68,10 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
       this.getUrl();
       try {
         // const instance = Constants.getAxiosInstance();
+        console.log('Get call using filters', this.url);
         const response = await axios.get(this.url);
         if (response.status === 200) {
-          const summaries = response.data.data;
+          const summaries = response.data;
           if (isFilter) {
             await this.resetIssuesSummaryList();
           }

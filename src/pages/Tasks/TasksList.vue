@@ -175,7 +175,7 @@ function toggleLeftDrawer() {
             @clear="handleClear"
             label="Search"
             outlined
-            placeholder="Start typing to search"
+            placeholder="Start typing with min 3 characters to search"
           >
           </q-input>
         </div>
