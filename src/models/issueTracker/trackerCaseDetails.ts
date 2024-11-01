@@ -1,17 +1,28 @@
 import { security } from '../security';
+import {
+  assignedTo,
+  issueCategory,
+  issueCriticality,
+  issueKind,
+  issueStatus,
+} from './issueLists';
 
 export interface trackerCaseDetails {
   id: string;
-  issueId: string;
+  binderId: string;
+  caseId: string;
   name: string;
-  status: string;
-  assignedTo: string;
-  criticality: string;
-  kind: string;
+  status: issueStatus;
+  criticality: issueCriticality;
+  category: issueCategory;
+  kind: issueKind;
+  assignedTo: assignedTo;
   createdDate: string;
   createdUserName: string;
   modifiedDate: string;
   modifiedUserName: string;
   description: string;
+  resolution: string;
+  comments: string;
   security: security;
 }

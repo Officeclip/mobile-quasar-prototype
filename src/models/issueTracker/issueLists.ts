@@ -19,7 +19,6 @@ export interface issueCriticality {
 export interface issueStatus {
   id: string;
   name: string;
-  category: string;
 }
 
 export interface issueKind {
@@ -35,4 +34,10 @@ export interface user {
 export interface regardingContact {
   id: string;
   name: string;
+}
+
+export interface assignedTo {
+  id: string;
+  name: string;
+  email: string;
 }

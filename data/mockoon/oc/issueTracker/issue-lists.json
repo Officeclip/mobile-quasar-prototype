@@ -12,23 +12,19 @@
   "status": [
     {
       "id": "17",
-      "name": "Open",
-      "category": "Active"
+      "name": "Open"
     },
     {
       "id": "18",
-      "name": "Closed",
-      "category": "Completed"
+      "name": "Closed"
     },
     {
       "id": "19",
-      "name": "Pending",
-      "category": "Pending"
+      "name": "Pending"
     },
     {
       "id": "20",
-      "name": "Completed",
-      "category": "Completed"
+      "name": "Completed"
     }
   ],
   "criticality": [
@@ -61,6 +57,28 @@
     {
       "id": "2",
       "name": "Enhancement"
+    }
+  ],
+  "assignedTo": [
+    {
+      "id": "AM9W6C9FAZMY3URS545Q",
+      "name": "Dutta, SK",
+      "email": "skd@officeclip.com"
+    },
+    {
+      "id": "U8GZ3NJE58YWHCAVSC5Q",
+      "name": "Gundu, Sudhakar",
+      "email": "sudhakar@officeclip.com"
+    },
+    {
+      "id": "4AHBWMUE7CVZSKGXUD5Q",
+      "name": "Kapoor, Deepa",
+      "email": "deepa@officeclip.com"
+    },
+    {
+      "id": "ZC9R6XDRNMGC3FSEFC5Q",
+      "name": "Kulkarni, Nagesh",
+      "email": "nagesh@officeclip.com"
     }
   ],
   "users": [
