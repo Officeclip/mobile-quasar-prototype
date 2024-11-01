@@ -1,104 +1,119 @@
 [
   {
-    "id": "SG016",
+    "id": "1",
+    "caseId": "SG001",
     "name": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
     "status": "Open",
     "createdDate": "2024-01-05T15:01:17Z",
     "assignedTo": "Rao Narsimha"
   },
   {
-    "id": "SK017",
+    "id": "2",
+    "caseId": "SK002",
     "name": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
     "status": "Closed",
     "createdDate": "2024-02-05T16:01:17Z",
     "assignedTo": "SK Dutta"
   },
   {
-    "id": "NK018",
+    "id": "3",
+    "caseId": "NK003",
     "name": "Contrary to popular belief, Lorem Ipsum is not simply random text",
     "status": "Resolved",
     "createdDate": "2024-03-05T17:01:17Z",
     "assignedTo": "Sudhakar G"
   },
   {
-    "id": "SG019",
+    "id": "4",
+    "caseId": "SG004",
     "name": "Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words",
     "status": "Reopened",
     "createdDate": "2024-04-05T15:01:17Z",
     "assignedTo": "Rao Narsimha"
   },
   {
-    "id": "SG020",
+    "id": "5",
+    "caseId": "SG005",
     "name": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
     "status": "Open",
     "createdDate": "2024-01-05T15:01:17Z",
     "assignedTo": "Rao Narsimha"
   },
   {
-    "id": "SK021",
+    "id": "6",
+    "caseId": "SK006",
     "name": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
     "status": "Closed",
     "createdDate": "2024-02-05T16:01:17Z",
     "assignedTo": "SK Dutta"
   },
   {
-    "id": "NK022",
+    "id": "7",
+    "caseId": "NK007",
     "name": "Contrary to popular belief, Lorem Ipsum is not simply random text",
     "status": "Resolved",
     "createdDate": "2024-03-05T17:01:17Z",
     "assignedTo": "Sudhakar G"
   },
   {
-    "id": "SG023",
+    "id": "8",
+    "caseId": "SG008",
     "name": "Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words",
     "status": "Reopened",
     "createdDate": "2024-04-05T15:01:17Z",
     "assignedTo": "Rao Narsimha"
   },
   {
-    "id": "SG024",
+    "id": "9",
+    "caseId": "SG009",
     "name": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
     "status": "Open",
     "createdDate": "2024-01-05T15:01:17Z",
     "assignedTo": "Rao Narsimha"
   },
   {
-    "id": "SK025",
+    "id": "10",
+    "caseId": "SK010",
     "name": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
     "status": "Closed",
     "createdDate": "2024-02-05T16:01:17Z",
     "assignedTo": "SK Dutta"
   },
   {
-    "id": "NK026",
+    "id": "11",
+    "caseId": "NK011",
     "name": "Contrary to popular belief, Lorem Ipsum is not simply random text",
     "status": "Resolved",
     "createdDate": "2024-03-05T17:01:17Z",
     "assignedTo": "Sudhakar G"
   },
   {
-    "id": "SG027",
+    "id": "12",
+    "caseId": "SG012",
     "name": "Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words",
     "status": "Reopened",
     "createdDate": "2024-04-05T15:01:17Z",
     "assignedTo": "Rao Narsimha"
   },
   {
-    "id": "SG028",
+    "id": "13",
+    "caseId": "SG013",
     "name": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
     "status": "Open",
     "createdDate": "2024-01-05T15:01:17Z",
     "assignedTo": "Rao Narsimha"
   },
   {
-    "id": "SK029",
+    "id": "14",
+    "caseId": "SK014",
     "name": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
     "status": "Closed",
     "createdDate": "2024-02-05T16:01:17Z",
     "assignedTo": "SK Dutta"
   },
   {
-    "id": "NK030",
+    "id": "15",
+    "caseId": "NK015",
     "name": "Contrary to popular belief, Lorem Ipsum is not simply random text",
     "status": "Resolved",
     "createdDate": "2024-03-05T17:01:17Z",

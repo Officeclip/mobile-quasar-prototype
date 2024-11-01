@@ -1,34 +1,39 @@
 [
   {
-    "id": "SG0046",
+    "id": "1231",
+    "caseId": "SG0046",
     "name": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
     "status": "Open",
     "createdDate": "2024-01-05T15:01:17Z",
     "assignedTo": "Rao Narsimha"
   },
   {
-    "id": "SK047",
+    "id": "1232",
+    "caseId": "SK047",
     "name": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
     "status": "Closed",
     "createdDate": "2024-02-05T16:01:17Z",
     "assignedTo": "SK Dutta"
   },
   {
-    "id": "NK048",
+    "id": "1233",
+    "caseId": "NK048",
     "name": "Contrary to popular belief, Lorem Ipsum is not simply random text",
     "status": "Resolved",
     "createdDate": "2024-03-05T17:01:17Z",
     "assignedTo": "Sudhakar G"
   },
   {
-    "id": "SG049",
+    "id": "1234",
+    "caseId": "SG049",
     "name": "Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words",
     "status": "Reopened",
     "createdDate": "2024-04-05T15:01:17Z",
     "assignedTo": "Rao Narsimha"
   },
   {
-    "id": "SG050",
+    "id": "1235",
+    "caseId": "SG050",
     "name": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
     "status": "Open",
     "createdDate": "2024-01-05T15:01:17Z",

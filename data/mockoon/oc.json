@@ -1375,7 +1375,7 @@
             }
           ],
           "bodyType": "FILE",
-          "filePath": "oc\\issueTracker\\issues-list-page-1.json",
+          "filePath": "oc\\issueTracker\\caseSummary-list-page-1.json",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [],
@@ -1399,7 +1399,7 @@
             }
           ],
           "bodyType": "FILE",
-          "filePath": "oc\\issueTracker\\issues-list-page-2.json",
+          "filePath": "oc\\issueTracker\\caseSummary-list-page-2.json",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [],
@@ -1423,7 +1423,7 @@
             }
           ],
           "bodyType": "FILE",
-          "filePath": "oc\\issueTracker\\issues-list-page-3.json",
+          "filePath": "oc\\issueTracker\\caseSummary-list-page-3.json",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [],
@@ -1447,7 +1447,7 @@
             }
           ],
           "bodyType": "FILE",
-          "filePath": "oc\\issueTracker\\issues-list-page-4.json",
+          "filePath": "oc\\issueTracker\\caseSummary-list-page-4.json",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [],
