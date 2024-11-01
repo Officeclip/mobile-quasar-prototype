@@ -145,7 +145,7 @@ function toggleLeftDrawer() {
     <q-page-container>
       <q-page>
         <q-item>
-          <q-item-section>
+          <!-- <q-item-section>
             <q-item-label>
               <q-input
                 v-model="filterOptions.searchString"
@@ -168,7 +168,18 @@ function toggleLeftDrawer() {
                   />
                 </template>
               </q-input> </q-item-label
-          ></q-item-section>
+          ></q-item-section> -->
+          <q-item-section>
+            <q-input
+              v-model="filterOptions.searchString"
+              clearable
+              @clear="handleClear"
+              label="Search"
+              outlined
+              placeholder="Start typing with min 3 characters to search"
+            >
+            </q-input>
+          </q-item-section>
         </q-item>
         <q-item class="q-mt-sm q-mb-md">
           <q-item-section>
