@@ -64,7 +64,8 @@ const binderList = computed(() => {
             :to="{
               name: 'issuesList',
               params: {
-                binder: binder.name,
+                binderId: binder.id,
+                binderName: binder.name,
               },
             }"
             clickable
