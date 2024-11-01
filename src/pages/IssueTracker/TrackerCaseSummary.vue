@@ -10,9 +10,9 @@ import IssuesListCtrl from 'src/components/IssueTracker/IssuesListCtrl.vue';
 
 const route = useRoute();
 const router = useRouter();
-const title = route.params.binder;
+const binderId = route.params.binderId;
+const binderName = route.params.binderName;
 const myDrawer = ref();
-
 const defaultFilterOptions: searchFilter = {
   searchString: '',
   starredIssues: '',
@@ -137,7 +137,7 @@ function toggleLeftDrawer() {
           round
           @click="toggleLeftDrawer"
         />
-        <q-toolbar-title> {{ title }} </q-toolbar-title>
+        <q-toolbar-title> {{ binderName }} </q-toolbar-title>
       </q-toolbar>
     </q-header>
     <drawer ref="myDrawer" />
