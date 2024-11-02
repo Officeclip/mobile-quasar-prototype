@@ -51,7 +51,7 @@ const loadMore = async (index: any, done: () => void) => {
         <q-item-section>
           <q-item-label class="ellipsis"
             ><span class="text-subtitle1 text-weight-medium inline"
-              >{{ issue.id }}:</span
+              >{{ issue.caseId }}:</span
             >
             {{ issue.name }}</q-item-label
           >
