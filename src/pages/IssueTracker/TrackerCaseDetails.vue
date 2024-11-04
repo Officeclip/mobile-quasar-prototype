@@ -113,7 +113,7 @@ const deleteIssueDetail = async (id: string) => {
               <q-item-section>
                 <q-item-label
                   ><span class="text-subtitle1 text-weight-medium"
-                    >{{ issueDetails?.issueId }}:</span
+                    >{{ issueDetails?.caseId }}:</span
                   >
                   <span class="description"
                     >{{ issueDetails?.name }}
@@ -127,10 +127,10 @@ const deleteIssueDetail = async (id: string) => {
                 <q-item-label caption>Status: </q-item-label>
                 <q-chip
                   dense
-                  :class="getIssueTrackerLabelColor(issueDetails.status)"
+                  :class="getIssueTrackerLabelColor(issueDetails?.status.name)"
                 >
                   <q-item-label class="q-px-xs">{{
-                    issueDetails.status
+                    issueDetails?.status.name
                   }}</q-item-label>
                 </q-chip>
               </q-item-section>
@@ -162,10 +162,12 @@ const deleteIssueDetail = async (id: string) => {
                 <q-item-label caption>Criticality: </q-item-label>
                 <q-chip
                   dense
-                  :class="getIssueTrackerLabelColor(issueDetails.criticality)"
+                  :class="
+                    getIssueTrackerLabelColor(issueDetails.criticality.name)
+                  "
                 >
                   <q-item-label class="q-px-xs">{{
-                    issueDetails.criticality
+                    issueDetails.criticality.name
                   }}</q-item-label>
                 </q-chip>
               </q-item-section>
@@ -175,10 +177,10 @@ const deleteIssueDetail = async (id: string) => {
                 <q-item-label caption>Kind: </q-item-label>
                 <q-chip
                   dense
-                  :class="getIssueTrackerLabelColor(issueDetails.kind)"
+                  :class="getIssueTrackerLabelColor(issueDetails.kind.name)"
                 >
                   <q-item-label class="q-px-xs">{{
-                    issueDetails.kind
+                    issueDetails.kind.name
                   }}</q-item-label>
                 </q-chip>
               </q-item-section>
@@ -186,7 +188,9 @@ const deleteIssueDetail = async (id: string) => {
             <q-item>
               <q-item-section>
                 <q-item-label caption>Assigned To: </q-item-label>
-                <q-item-label>{{ issueDetails?.assignedTo }} </q-item-label>
+                <q-item-label
+                  >{{ issueDetails?.assignedTo.name }}
+                </q-item-label>
               </q-item-section>
             </q-item>
             <q-separator spaced inset></q-separator>

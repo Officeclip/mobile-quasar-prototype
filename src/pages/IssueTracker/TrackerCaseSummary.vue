@@ -228,7 +228,7 @@ function toggleLeftDrawer() {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <IssuesListCtrl />
+        <IssuesListCtrl :binderName="binderName" />
         <q-dialog v-model="showAdvOptions" :position="position">
           <AdvancedFilters
             :filter-options="filterOptions"
