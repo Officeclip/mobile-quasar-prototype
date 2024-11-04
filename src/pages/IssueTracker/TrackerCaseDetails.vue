@@ -127,10 +127,10 @@ const deleteIssueDetail = async (id: string) => {
                 <q-item-label caption>Status: </q-item-label>
                 <q-chip
                   dense
-                  :class="getIssueTrackerLabelColor(issueDetails?.status.name)"
+                  :class="getIssueTrackerLabelColor(issueDetails.status?.name)"
                 >
                   <q-item-label class="q-px-xs">{{
-                    issueDetails?.status.name
+                    issueDetails.status?.name
                   }}</q-item-label>
                 </q-chip>
               </q-item-section>
@@ -163,11 +163,11 @@ const deleteIssueDetail = async (id: string) => {
                 <q-chip
                   dense
                   :class="
-                    getIssueTrackerLabelColor(issueDetails.criticality.name)
+                    getIssueTrackerLabelColor(issueDetails.criticality?.name)
                   "
                 >
                   <q-item-label class="q-px-xs">{{
-                    issueDetails.criticality.name
+                    issueDetails.criticality?.name
                   }}</q-item-label>
                 </q-chip>
               </q-item-section>
@@ -177,10 +177,10 @@ const deleteIssueDetail = async (id: string) => {
                 <q-item-label caption>Kind: </q-item-label>
                 <q-chip
                   dense
-                  :class="getIssueTrackerLabelColor(issueDetails.kind.name)"
+                  :class="getIssueTrackerLabelColor(issueDetails.kind?.name)"
                 >
                   <q-item-label class="q-px-xs">{{
-                    issueDetails.kind.name
+                    issueDetails.kind?.name
                   }}</q-item-label>
                 </q-chip>
               </q-item-section>
@@ -189,7 +189,7 @@ const deleteIssueDetail = async (id: string) => {
               <q-item-section>
                 <q-item-label caption>Assigned To: </q-item-label>
                 <q-item-label
-                  >{{ issueDetails?.assignedTo.name }}
+                  >{{ issueDetails.assignedTo?.name }}
                 </q-item-label>
               </q-item-section>
             </q-item>
