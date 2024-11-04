@@ -193,18 +193,18 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Expenses/EditExpense.vue'),
   },
   {
-    path: '/binders',
-    name: 'binders',
+    path: '/trackerBinderSummary',
+    name: 'trackerBinderSummary',
     component: () => import('../pages/IssueTracker/TrackerBinderSummary.vue'),
   },
   {
-    path: '/issuesList/:binderId/:binderName',
-    name: 'issuesList',
+    path: '/trackerCaseSummary/:binderId/:binderName',
+    name: 'trackerCaseSummary',
     component: () => import('../pages/IssueTracker/TrackerCaseSummary.vue'),
   },
   {
-    path: '/issueDetails/:binderName',
-    name: 'issueDetails',
+    path: '/trackerCaseDetails/:binderName',
+    name: 'trackerCaseDetails',
     component: () => import('../pages/IssueTracker/TrackerCaseDetails.vue'),
   },
   {

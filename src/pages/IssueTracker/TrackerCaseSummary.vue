@@ -57,13 +57,13 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
 async function filterFn(val: string) {
   if (val === null || val.length === 0) {
     issueSummaryStore.resetPageNumber();
-    return await issueSummaryStore.getIssuesUpdated(false);
+    return await issueSummaryStore.getIssuesUpdated(false, binderId.toString());
   } else {
     if (val.length > 2) {
       filterOptions.value.searchString = val.toLowerCase();
       issueSummaryStore.resetPageNumber();
       issueSummaryStore.setFilter(filterOptions.value);
-      await issueSummaryStore.getIssuesUpdated(true);
+      await issueSummaryStore.getIssuesUpdated(true, binderId.toString());
     }
   }
 }
@@ -121,7 +121,7 @@ function toggleLeftDrawer() {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="router.push({ path: '/binders' })"
+          @click="router.push({ path: '/trackerBinderSummary' })"
           flat
           round
           dense
@@ -228,7 +228,7 @@ function toggleLeftDrawer() {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <IssuesListCtrl :binderName="binderName" />
+        <IssuesListCtrl :binderName="binderName" :binderId="binderId" />
         <q-dialog v-model="showAdvOptions" :position="position">
           <AdvancedFilters
             :filter-options="filterOptions"

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { trackerBinderSummary } from '../../models/issueTracker/trackerBinderSummary';
-import axios from 'axios';
+import { Constants } from '../Constants';
+import util from 'src/helpers/util';
 
 export const useTrackerBinderSummaryStore = defineStore(
   'trackerBinderSummaryStore',
@@ -15,10 +16,15 @@ export const useTrackerBinderSummaryStore = defineStore(
 
     actions: {
       async getTrackerBindersList() {
-        const baseURL = 'http://localhost:3000/binders';
-
-        const response = await axios.get(baseURL);
-        this.trackerBindersList = response.data;
+        try {
+          const instance = Constants.getAxiosInstance();
+          const response = await instance.get(
+            `${util.endPointUrl()}/tracker-binder-summary`
+          );
+          this.trackerBindersList = response.data;
+        } catch (error) {
+          Constants.throwError(error);
+        }
       },
     },
   }

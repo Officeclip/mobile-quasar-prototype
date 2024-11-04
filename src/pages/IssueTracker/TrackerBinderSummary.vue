@@ -62,7 +62,7 @@ const binderList = computed(() => {
         <q-list v-for="binder in binderList" :key="binder.id">
           <q-item
             :to="{
-              name: 'issuesList',
+              name: 'trackerCaseSummary',
               params: {
                 binderId: binder.id,
                 binderName: binder.name,

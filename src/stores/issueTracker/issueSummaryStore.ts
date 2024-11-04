@@ -4,6 +4,8 @@ import { trackerCaseSummary } from '../../models/issueTracker/trackerCaseSumary'
 import axios from 'axios';
 import { linkHeader } from 'src/models/general/linkHeader';
 import { searchFilter } from 'src/models/issueTracker/searchFilter';
+import util from 'src/helpers/util';
+import { Constants } from 'stores/Constants';
 
 export const useIssueSummaryStore = defineStore('issueSummaryStore', {
   state: () => ({
@@ -23,8 +25,10 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
   },
 
   actions: {
-    constructBaseURL() {
-      const baseUrl = `http://localhost:3000/issues?pagenumber=${this.pageNum}&pagesize=${this.pageSize}`;
+    constructBaseURL(binderId: string) {
+      const baseUrl = `${util.endPointUrl()}/tracker-case-summary?binderSid=${binderId}&pagenumber=${
+        this.pageNum
+      }&pagesize=${this.pageSize}`;
       return baseUrl;
     },
 
@@ -42,12 +46,12 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
       return queryParams;
     },
 
-    getUrl() {
+    getUrl(binderId: string) {
       let callStr = '';
       if (!this.IsEmptyLinkHeader) {
         callStr = `${this.links}`;
       } else {
-        callStr = this.constructBaseURL();
+        callStr = this.constructBaseURL(binderId);
         const queryParams = this.constructQueryParams();
         const queryString = queryParams.toString();
         callStr += queryString ? `&${queryString}` : '';
@@ -64,12 +68,14 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
       this.links = {} as linkHeader; // https://stackoverflow.com/a/45339463
     },
 
-    async getIssuesUpdated(isFilter: boolean): Promise<boolean> {
-      this.getUrl();
+    async getIssuesUpdated(
+      isFilter: boolean,
+      binderId: string
+    ): Promise<boolean> {
+      this.getUrl(binderId);
       try {
-        // const instance = Constants.getAxiosInstance();
-        console.log('Get call using filters', this.url);
-        const response = await axios.get(this.url);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(this.url);
         if (response.status === 200) {
           const summaries = response.data;
           if (isFilter) {
@@ -92,29 +98,32 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
     //   this.bindersList = response.data;
     // },
 
-    async getIssuesList(): Promise<boolean> {
-      const baseURL = 'http://localhost:3000/issues';
+    async getIssuesList(binderId: string): Promise<boolean> {
+      //this.getUrl(binderId);
       try {
-        const response = await axios.get(baseURL);
-        // if (response.status === 200) {
-        //   const issues = response.data;
-        //   this.issuesList.push(...issues);
-        //   const obj = JSON.parse(response.headers.links);
-        //   console.log('obj:', obj.next);
-        //   this.links = obj.next || '{}';
-        //   this.url = this.links ? `${this.links}` : '';
-        // } else {
-        //   return true;
-        // }
-        //this.issuesList = response.data;
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${util.endPointUrl()}/tracker-case-summary?binderSid=${binderId}`
+        );
+        if (response.status === 200) {
+          const issues = response.data;
+          this.issuesList.push(...issues);
+          const obj = JSON.parse(response.headers.links);
+          console.log('obj:', obj.next);
+          this.links = obj.next || '{}';
+          this.url = this.links ? `${this.links}` : '';
+        } else {
+          return true;
+        }
+        this.issuesList = response.data;
 
-        const issues = response.data;
-        this.issuesList.push(...issues);
+        // const issues = response.data;
+        // this.issuesList.push(...issues);
 
-        this.links = JSON.parse(response.headers.links || '{}');
-        this.url = this.links.next
-          ? `${'http://localhost:3000'}${this.links.next}`
-          : '';
+        // this.links = JSON.parse(response.headers.links || '{}');
+        // this.url = this.links.next
+        //   ? `${'http://localhost:3000'}${this.links.next}`
+        //   : '';
       } catch (error) {
         console.error(error);
       }
