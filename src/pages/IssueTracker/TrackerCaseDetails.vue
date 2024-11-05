@@ -198,7 +198,9 @@ const deleteIssueDetail = async (id: string) => {
             <q-item>
               <q-item-section>
                 <q-item-label caption>Description: </q-item-label>
-                <q-item-label>{{ issueDetails?.description }} </q-item-label>
+                <q-item-label
+                  ><div v-html="issueDetails?.description"></div>
+                </q-item-label>
               </q-item-section>
             </q-item>
             <q-separator spaced inset></q-separator>
