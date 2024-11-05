@@ -76,7 +76,7 @@ const loadMore = async (index: any, done: () => void) => {
         <q-item-section>
           <div class="flex items-end justify-around ellipsis">
             <q-item-label>
-              <span class="text-caption">created on</span>
+              <span class="text-caption">created:</span>
               <span class="q-mx-sm">{{
                 dateTimeHelper.formatDateTimeFromRestAPIForUI(
                   issue.createdDate,
@@ -85,7 +85,7 @@ const loadMore = async (index: any, done: () => void) => {
               }}</span>
             </q-item-label>
             <q-item-label>
-              <span class="text-caption">assigned to:</span>
+              <span class="text-caption">assigned:</span>
               <span class="q-mx-sm">{{ issue.assignedTo }}</span>
             </q-item-label>
           </div>

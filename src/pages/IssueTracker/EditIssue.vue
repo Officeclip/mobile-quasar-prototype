@@ -38,7 +38,7 @@ function onSubmit() {
     <q-page-container>
       <q-page>
         <q-list>
-          <pre>{{ editIssue }}</pre>
+          <!-- <pre>{{ editIssue }}</pre> -->
           <q-form @submit="onSubmit" class="q-gutter-md">
             <issueTrackerForm :issueObject="editIssue" />
             <q-btn
