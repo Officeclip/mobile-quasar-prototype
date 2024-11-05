@@ -31,7 +31,7 @@ const issueDetails = computed(() => {
 });
 
 const title = ref('Confirm');
-const message = ref('Are you sure you want to delete this timesheet?');
+const message = ref('Are you sure you want to delete this item..?');
 
 const issueDetailSid = ref('');
 const showDeleteIssueDetail = ref(false);
@@ -47,7 +47,7 @@ const displayShowDeleteIssueDetail = (id: string) => {
 
 const deleteIssueDetail = async (id: string) => {
   try {
-    await issueDetailsStore.deleteIssueDetails(id);
+    await issueDetailsStore.deleteTrackerCaseDetails(id);
     showDeleteIssueDetail.value = false;
     router.go(-1);
   } catch (error) {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { Ref, ref } from 'vue';
 import issueTrackerForm from '../../components/IssueTracker/IssueTrackerFormCtrl.vue';
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
 import { useRouter } from 'vue-router';
@@ -9,21 +9,12 @@ import { trackerCaseDetails } from 'src/models/issueTracker/trackerCaseDetails';
 const router = useRouter();
 const issueDetailsStore = useIssueDetailsStore();
 
-const editIssue: trackerCaseDetails = ref({
-  id: '1',
-  title: 'This is the issue title from edit screen',
-  description:
-    'Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.',
-  status: 'Reopened',
-  category: 'Issue Testing',
-  assignedTo: 'Rao Narsimha',
-  severity: 'High',
-});
+const editIssue: Ref<trackerCaseDetails> = issueDetailsStore.IssueDetails;
 
 function onSubmit() {
-  const issueFormCtrlValues = ref(editIssue);
+  const trackerCaseDetails = ref(editIssue);
   // console.log('Get the Edit Issue From tracker form::', getNewIssue.value);
-  issueDetailsStore.editIssue(issueFormCtrlValues.value);
+  issueDetailsStore.editTrackerCaseDetails(trackerCaseDetails.value);
   router.go(-2);
 }
 </script>
@@ -47,6 +38,7 @@ function onSubmit() {
     <q-page-container>
       <q-page>
         <q-list>
+          <pre>{{ editIssue }}</pre>
           <q-form @submit="onSubmit" class="q-gutter-md">
             <issueTrackerForm :issueObject="editIssue" />
             <q-btn

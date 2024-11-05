@@ -22,13 +22,13 @@ onBeforeMount(async () => {
 
 const issueObjectModel = ref(props.issueObject);
 
-const statusOptions = ['Open', 'Closed', 'Reopened', 'Resolved'];
+// const statusOptions = ['Open', 'Closed', 'Reopened', 'Resolved'];
 </script>
 <template>
   <q-item>
     <q-item-section>
       <q-item-label>
-        <q-input label="Title" v-model="issueObjectModel.title" />
+        <q-input label="Title" v-model="issueObjectModel.name" />
       </q-item-label>
       <q-item-label>
         <q-field

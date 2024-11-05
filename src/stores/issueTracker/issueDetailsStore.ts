@@ -47,23 +47,50 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
       }
     },
 
-    async deleteIssueDetails(id: string) {
-      const baseURL = 'http://localhost:3000/issue-details';
-      const response = await axios.delete(`${baseURL}/${id}`);
-      if (response.status === 200) {
-        this.issueDetails = response.data;
-      }
-    },
-
-    async editIssue(issueFormCtrlValues: trackerCaseDetails) {
+    // async deleteIssueDetails(id: string) {
+    //   const baseURL = 'http://localhost:3000/issue-details';
+    //   const response = await axios.delete(`${baseURL}/${id}`);
+    //   if (response.status === 200) {
+    //     this.issueDetails = response.data;
+    //   }
+    // },
+    async deleteTrackerCaseDetails(id: string) {
+      const callStr = `${util.endPointUrl()}/tracker-case-detail/${id}`;
       try {
-        const baseURL = 'http://localhost:3000/issue-details';
-        const response = await axios.put(baseURL, issueFormCtrlValues);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(callStr);
         if (response.status === 200) {
           this.issueDetails = response.data;
         }
       } catch (error) {
-        console.log('Axios error', error);
+        Constants.throwError(error);
+      }
+    },
+
+    // async editIssue(issueFormCtrlValues: trackerCaseDetails) {
+    //   try {
+    //     const baseURL = 'http://localhost:3000/issue-details';
+    //     const response = await axios.put(baseURL, issueFormCtrlValues);
+    //     if (response.status === 200) {
+    //       this.issueDetails = response.data;
+    //     }
+    //   } catch (error) {
+    //     console.log('Axios error', error);
+    //   }
+    // },
+    async editTrackerCaseDetails(trackerCaseDetails: trackerCaseDetails) {
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.put(
+          `${util.endPointUrl()}/tracker-case-detail/${trackerCaseDetails.id}`,
+          trackerCaseDetails
+        );
+        if (response.status === 200) {
+          this.issueDetails = response.data;
+        }
+      } catch (error) {
+        logger.log(`*** taskDetailStore:editTask(...):catch: ${error} ***`);
+        Constants.throwError(error);
       }
     },
   },
