@@ -9,7 +9,7 @@ import { useQuasar } from 'quasar';
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
-const title = route.params.binderName;
+const binderName = route.params.binderName;
 const binderId = route.params.binderId;
 
 const issueSummaryStore = useIssueSummaryStore();
@@ -45,9 +45,10 @@ const loadMore = async (index: any, done: () => void) => {
         clickable
         v-ripple
         :to="{
-          name: 'issueDetails',
+          name: 'trackerCaseDetails',
           params: {
-            binderName: title,
+            id: issue.id,
+            binderId: binderId,
           },
         }"
       >

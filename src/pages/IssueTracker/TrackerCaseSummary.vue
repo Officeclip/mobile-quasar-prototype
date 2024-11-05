@@ -87,7 +87,7 @@ watch(assignedToMe, async () => {
   filterOptions.value.assignedToId = sessionStore.Session.userId;
   await issueSummaryStore.resetIssuesSummaryList();
   issueSummaryStore.setFilter(filterOptions.value);
-  await issueSummaryStore.getIssuesUpdated(true);
+  await issueSummaryStore.getIssuesUpdated(true, binderId.toString());
 });
 
 watch(

@@ -13,6 +13,7 @@ import { useQuasar } from 'quasar';
 const $q = useQuasar();
 const route = useRoute();
 const router = useRouter();
+const id = route.params.id;
 const binderName = route.params.binderName;
 const myDrawer = ref();
 
@@ -23,7 +24,7 @@ function toggleLeftDrawer() {
 const issueDetailsStore = useIssueDetailsStore();
 
 onMounted(() => {
-  issueDetailsStore.getIssueDetails();
+  issueDetailsStore.getTrackerCaseDetails(id);
 });
 const issueDetails = computed(() => {
   return issueDetailsStore?.IssueDetails;
@@ -66,7 +67,7 @@ const deleteIssueDetail = async (id: string) => {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="router.push({ path: '/trackerBinderSummary' })"
+          @click="router.go(-1)"
           flat
           round
           dense

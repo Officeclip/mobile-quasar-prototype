@@ -203,7 +203,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/IssueTracker/TrackerCaseSummary.vue'),
   },
   {
-    path: '/trackerCaseDetails/:binderName',
+    path: '/trackerCaseDetails/:id/:binderName',
     name: 'trackerCaseDetails',
     component: () => import('../pages/IssueTracker/TrackerCaseDetails.vue'),
   },
