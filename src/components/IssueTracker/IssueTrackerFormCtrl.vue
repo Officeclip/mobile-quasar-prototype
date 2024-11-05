@@ -4,10 +4,12 @@ import { useIssueListsStore } from 'stores/issueTracker/issueListsStore';
 
 const props = defineProps(['issueObject']);
 
+const issueObjectModel = ref(props.issueObject);
+
 const issueListsStore = useIssueListsStore();
 
 onBeforeMount(async () => {
-  await issueListsStore.getIssueLists();
+  await issueListsStore.getTrackerLists(props.issueObject.binderId);
   // try {
   //   await issueListsStore.getIssueLists();
   // } catch (error) {
@@ -19,8 +21,6 @@ onBeforeMount(async () => {
   //   });
   // }
 });
-
-const issueObjectModel = ref(props.issueObject);
 
 // const statusOptions = ['Open', 'Closed', 'Reopened', 'Resolved'];
 </script>
@@ -53,7 +53,7 @@ const issueObjectModel = ref(props.issueObject);
         <q-select
           label="Status"
           v-model="issueObjectModel.status"
-          :options="issueListsStore.status"
+          :options="issueListsStore.Status"
           map-options
           option-label="name"
           option-value="id"
@@ -63,7 +63,7 @@ const issueObjectModel = ref(props.issueObject);
         <q-select
           label="Category"
           v-model="issueObjectModel.category"
-          :options="issueListsStore.category"
+          :options="issueListsStore.Category"
           map-options
           option-label="name"
           option-value="id"
@@ -73,7 +73,7 @@ const issueObjectModel = ref(props.issueObject);
         <q-select
           label="Assigned To"
           v-model="issueObjectModel.assignedTo"
-          :options="issueListsStore.users"
+          :options="issueListsStore.Users"
           map-options
           option-label="name"
           option-value="id"
@@ -82,8 +82,18 @@ const issueObjectModel = ref(props.issueObject);
       <q-item-label>
         <q-select
           label="Criticality"
-          v-model="issueObjectModel.severity"
-          :options="issueListsStore.criticality"
+          v-model="issueObjectModel.criticality"
+          :options="issueListsStore.Criticality"
+          map-options
+          option-label="name"
+          option-value="id"
+        />
+      </q-item-label>
+      <q-item-label>
+        <q-select
+          label="Kind"
+          v-model="issueObjectModel.kind"
+          :options="issueListsStore.Kind"
           map-options
           option-label="name"
           option-value="id"

@@ -208,7 +208,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/IssueTracker/TrackerCaseDetails.vue'),
   },
   {
-    path: '/newIssue',
+    path: '/newIssue/:binderId',
     name: 'newIssue',
     component: () => import('../pages/IssueTracker/NewIssue.vue'),
   },

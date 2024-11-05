@@ -1,9 +1,10 @@
-export interface issueLists {
+export interface trackerLists {
   category: issueCategory[];
   criticality: issueCriticality[];
   status: issueStatus[];
   kind: issueKind[];
   users: user[];
+  regardingContact: regardingContact[];
 }
 
 export interface issueCategory {

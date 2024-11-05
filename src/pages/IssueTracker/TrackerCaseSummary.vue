@@ -245,6 +245,9 @@ function toggleLeftDrawer() {
           padding="sm"
           :to="{
             name: 'newIssue',
+            params: {
+              binderId: binderId,
+            },
           }"
         >
         </q-btn>

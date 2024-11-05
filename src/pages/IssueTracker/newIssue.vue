@@ -3,20 +3,53 @@ import { ref } from 'vue';
 import issueTrackerForm from '../../components/IssueTracker/IssueTrackerFormCtrl.vue';
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
 import { useIssueDetailsStore } from 'src/stores/issueTracker/issueDetailsStore';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { trackerCaseDetails } from 'src/models/issueTracker/trackerCaseDetails';
 
 const router = useRouter();
+const route = useRoute();
+const binderId = route.params.binderId;
+
 const newIssue: trackerCaseDetails = ref({
+  id: '',
+  binderId: binderId,
+  caseId: '',
+  name: '',
+  status: {
+    id: '-1',
+    name: '--select--',
+  },
+  criticality: {
+    id: '-1',
+    name: '--select--',
+  },
+  category: {
+    id: '-1',
+    name: '--select--',
+  },
+  kind: {
+    id: '-1',
+    name: '--select--',
+  },
+  assignedTo: {
+    id: '-1',
+    name: '--select--',
+  },
+  createdDate: '',
+  createdUserName: '',
+  modifiedDate: '',
+  modifiedUserName: '',
   description: '',
+  resolution: '',
+  comments: '',
+  security: {},
 });
 
 const issueDetailsStore = useIssueDetailsStore();
 
 function onSubmit() {
   const issueFormCtrlValues = ref(newIssue);
-  // console.log('Get the Issue From tracker form::', issueFormCtrlValues.value);
-  issueDetailsStore.addNewIssue(issueFormCtrlValues.value);
+  issueDetailsStore.addNewTrackerCaseDetails(issueFormCtrlValues.value);
   router.go(-2);
 }
 </script>
@@ -40,6 +73,7 @@ function onSubmit() {
     <q-page-container>
       <q-page>
         <q-list>
+          <!-- <pre>{{ newIssue }}</pre> -->
           <q-form @submit="onSubmit" class="q-gutter-md">
             <issueTrackerForm :issueObject="newIssue" />
             <q-btn

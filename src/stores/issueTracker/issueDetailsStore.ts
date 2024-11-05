@@ -15,12 +15,6 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
   },
 
   actions: {
-    // async getIssueDetails() {
-    //   const baseURL = 'http://localhost:3000/issue-details';
-    //   const response = await axios.get(baseURL);
-    //   this.issueDetails = response.data[0];
-    // },
-
     async getTrackerCaseDetails(id: string | string[]) {
       logger.log(`*** taskDetailStore:getTask(${id}) ***`);
       try {
@@ -35,25 +29,18 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
       }
     },
 
-    async addNewIssue(issueFormCtrlValues: trackerCaseDetails) {
+    async addNewTrackerCaseDetails(trackerCaseDetails: trackerCaseDetails) {
+      const callStr = `${util.endPointUrl()}/tracker-case-detail`;
       try {
-        const baseURL = 'http://localhost:3000/issue-details';
-        const response = await axios.post(baseURL, issueFormCtrlValues);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.post(callStr, trackerCaseDetails);
         if (response.status === 200) {
           this.issueDetails = response.data;
         }
       } catch (error) {
-        console.log('Axios error', error);
+        Constants.throwError(error);
       }
     },
-
-    // async deleteIssueDetails(id: string) {
-    //   const baseURL = 'http://localhost:3000/issue-details';
-    //   const response = await axios.delete(`${baseURL}/${id}`);
-    //   if (response.status === 200) {
-    //     this.issueDetails = response.data;
-    //   }
-    // },
     async deleteTrackerCaseDetails(id: string) {
       const callStr = `${util.endPointUrl()}/tracker-case-detail/${id}`;
       try {
@@ -66,18 +53,6 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
         Constants.throwError(error);
       }
     },
-
-    // async editIssue(issueFormCtrlValues: trackerCaseDetails) {
-    //   try {
-    //     const baseURL = 'http://localhost:3000/issue-details';
-    //     const response = await axios.put(baseURL, issueFormCtrlValues);
-    //     if (response.status === 200) {
-    //       this.issueDetails = response.data;
-    //     }
-    //   } catch (error) {
-    //     console.log('Axios error', error);
-    //   }
-    // },
     async editTrackerCaseDetails(trackerCaseDetails: trackerCaseDetails) {
       try {
         const instance = Constants.getAxiosInstance();

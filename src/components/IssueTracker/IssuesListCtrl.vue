@@ -54,11 +54,11 @@ const loadMore = async (index: any, done: () => void) => {
       >
         <q-item-section>
           <q-item-label class="ellipsis"
-            ><span class="text-subtitle1 text-weight-medium inline"
+            ><span class="text-subtitle1 text-weight-medium inline q-mr-xs"
               >{{ issue.caseId }}:</span
             >
-            {{ issue.name }}</q-item-label
-          >
+            <span v-html="issue?.name"></span
+          ></q-item-label>
         </q-item-section>
         <q-item-section side top>
           <q-chip dense :class="getIssueTrackerLabelColor(issue.status)">
@@ -101,5 +101,8 @@ const loadMore = async (index: any, done: () => void) => {
 .q-item {
   min-height: 24px;
   padding: 4px 16px;
+}
+.required {
+  color: red;
 }
 </style>
