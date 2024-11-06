@@ -214,11 +214,6 @@ function toggleLeftDrawer() {
     <drawer ref="myDrawer" />
     <q-page-container>
       <q-list>
-        <q-item>
-          <q-item-section>
-            <q-item-label>YYYY:::{{ event?.eventName }}</q-item-label>
-          </q-item-section>
-        </q-item>
         <OCItem :value="event?.eventName" class="text-weight-regular text-h6" />
         <OCItem
           v-if="event?.eventDescription !== ''"
