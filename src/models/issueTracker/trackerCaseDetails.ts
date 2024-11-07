@@ -21,6 +21,16 @@ export interface trackerCaseDetails {
   createdUserName: string;
   modifiedDate: string;
   modifiedUserName: string;
+  parent: {
+    type: {
+      id: string;
+      name: string;
+    };
+    value: {
+      id: string;
+      name: string;
+    };
+  };
   description: string;
   resolution: string;
   comments: string;

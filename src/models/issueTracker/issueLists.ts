@@ -4,7 +4,7 @@ export interface trackerLists {
   status: issueStatus[];
   kind: issueKind[];
   users: user[];
-  regardingContact: regardingContact[];
+  regardingParentTypes: regardingParent[];
 }
 
 export interface issueCategory {
@@ -33,6 +33,11 @@ export interface user {
 }
 
 export interface regardingContact {
+  id: string;
+  name: string;
+}
+
+export interface regardingParent {
   id: string;
   name: string;
 }

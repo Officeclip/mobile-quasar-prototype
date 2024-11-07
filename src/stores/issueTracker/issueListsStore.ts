@@ -7,6 +7,7 @@ import {
   issueCategory,
   issueKind,
   trackerLists,
+  regardingParent,
   user,
 } from 'src/models/issueTracker/issueLists';
 import { regardingContact } from 'src/models/issueTracker/issueLists';
@@ -19,7 +20,7 @@ export const useIssueListsStore = defineStore('issueListsStore', {
     category: [] as issueCategory[],
     kind: [] as issueKind[],
     users: [] as user[],
-    regardingContact: [] as regardingContact[],
+    regardingParent: [] as regardingParent[],
   }),
 
   getters: {
@@ -28,7 +29,7 @@ export const useIssueListsStore = defineStore('issueListsStore', {
     Category: (state) => state.category,
     Kind: (state) => state.kind,
     Users: (state) => state.users,
-    RegardingContact: (state) => state.regardingContact,
+    RegardingParent: (state) => state.regardingParent,
   },
 
   actions: {
@@ -55,7 +56,7 @@ export const useIssueListsStore = defineStore('issueListsStore', {
         this.criticality = trackerLists.criticality;
         this.kind = trackerLists.kind;
         this.users = trackerLists.users;
-        this.regardingContact = trackerLists.regardingContact;
+        this.regardingParent = trackerLists.regardingParentTypes;
       } catch (error) {
         Constants.throwError(error);
       }

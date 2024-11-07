@@ -9,6 +9,7 @@ import { getIssueTrackerLabelColor } from 'src/helpers/colorIconHelper';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import logger from 'src/helpers/logger';
 import { useQuasar } from 'quasar';
+import OCItem from '../../components/OCcomponents/OC-Item.vue';
 
 const $q = useQuasar();
 const route = useRoute();
@@ -16,6 +17,8 @@ const router = useRouter();
 const id = route.params.id;
 const binderName = route.params.binderName;
 const myDrawer = ref();
+const appName = route.params.appName;
+console.log(appName, id);
 
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
@@ -44,6 +47,10 @@ const displayShowDeleteIssueDetail = (id: string) => {
   issueDetailSid.value = id;
   showDeleteIssueDetail.value = true;
 };
+
+const projectServiceItem = computed(() => {
+  return `${issueDetails.value?.parent.type?.name} : ${issueDetails.value?.parent.value?.name}`;
+});
 
 const deleteIssueDetail = async (id: string) => {
   try {
@@ -92,6 +99,7 @@ const deleteIssueDetail = async (id: string) => {
           icon="edit"
           :to="{
             name: 'editIssue',
+            params: { id: id, appName: appName },
           }"
         ></q-btn>
         <q-btn
@@ -195,6 +203,16 @@ const deleteIssueDetail = async (id: string) => {
               </q-item-section>
             </q-item>
             <q-separator spaced inset></q-separator>
+            <OCItem
+              v-if="issueDetails?.parent?.value?.id"
+              title="Regarding"
+              :value="projectServiceItem"
+            >
+            </OCItem>
+            <q-separator
+              spaced
+              v-if="issueDetails?.parent?.value?.id"
+            ></q-separator>
             <q-item>
               <q-item-section>
                 <q-item-label caption>Description: </q-item-label>

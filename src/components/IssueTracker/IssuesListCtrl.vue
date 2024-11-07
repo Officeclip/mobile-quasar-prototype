@@ -9,6 +9,7 @@ import { useQuasar } from 'quasar';
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
+const props = defineProps(['parent']);
 const binderName = route.params.binderName;
 const binderId = route.params.binderId;
 
@@ -22,7 +23,8 @@ const issuesList = computed(() => {
 let reachedEnd = ref(false); // indicate if all contacts have been loaded
 const loadMore = async (index: any, done: () => void) => {
   try {
-    reachedEnd.value = await issueSummaryStore.getIssuesList(
+    reachedEnd.value = await issueSummaryStore.getIssuesUpdated(
+      false,
       binderId.toString()
     );
     //https://quasar.dev/vue-components/infinite-scroll/#usage
@@ -49,6 +51,7 @@ const loadMore = async (index: any, done: () => void) => {
           params: {
             id: issue.id,
             binderId: binderId,
+            appName: parent.appName,
           },
         }"
       >

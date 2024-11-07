@@ -1,15 +1,31 @@
-<script setup>
-import { ref, defineProps, onBeforeMount } from 'vue';
+<script lang="ts" setup>
+import { ref, Ref, defineProps, onBeforeMount, computed } from 'vue';
 import { useIssueListsStore } from 'stores/issueTracker/issueListsStore';
+import { trackerCaseDetails } from 'src/models/issueTracker/trackerCaseDetails';
+import OCItem from '../../components/OCcomponents/OC-Item.vue';
+import Regarding from 'components/general/regardingComponent.vue';
 
-const props = defineProps(['issueObject']);
+const props = defineProps({
+  issueFromParent: {
+    type: Object,
+  },
+  appName: {
+    type: String,
+  },
+});
 
-const issueObjectModel = ref(props.issueObject);
+const trackerCaseDetail: Ref<trackerCaseDetails> = ref(props.issueFromParent);
+
+console.log('App name:', props.appName, trackerCaseDetail);
+
+//const issueObjectModel = ref(props.issueFromParent);
 
 const issueListsStore = useIssueListsStore();
 
 onBeforeMount(async () => {
-  await issueListsStore.getTrackerLists(props.issueObject.binderId);
+  await issueListsStore.getTrackerLists(
+    props.issueFromParent?.binderId.toString()
+  );
   // try {
   //   await issueListsStore.getIssueLists();
   // } catch (error) {
@@ -22,17 +38,19 @@ onBeforeMount(async () => {
   // }
 });
 
-// const statusOptions = ['Open', 'Closed', 'Reopened', 'Resolved'];
+const regarding = computed(() => {
+  return `${props.issueFromParent?.parent.type.name} : ${props.issueFromParent?.parent.value.name}`;
+});
 </script>
 <template>
   <q-item>
     <q-item-section>
       <q-item-label>
-        <q-input label="Title" v-model="issueObjectModel.name" />
+        <q-input label="Title" v-model="trackerCaseDetail.name" />
       </q-item-label>
       <q-item-label>
         <q-field
-          v-model="issueObjectModel.description"
+          v-model="trackerCaseDetail.description"
           label-slot
           borderless
           ref="descriptionRef"
@@ -42,7 +60,7 @@ onBeforeMount(async () => {
             <q-editor
               min-height="5rem"
               class="q-mt-md full-width"
-              v-model="issueObjectModel.description"
+              v-model="trackerCaseDetail.description"
               paragraph-tag="div"
               placeholder="enter description"
             ></q-editor>
@@ -52,7 +70,7 @@ onBeforeMount(async () => {
       <q-item-label>
         <q-select
           label="Status"
-          v-model="issueObjectModel.status"
+          v-model="trackerCaseDetail.status"
           :options="issueListsStore.Status"
           map-options
           option-label="name"
@@ -62,7 +80,7 @@ onBeforeMount(async () => {
       <q-item-label>
         <q-select
           label="Category"
-          v-model="issueObjectModel.category"
+          v-model="trackerCaseDetail.category"
           :options="issueListsStore.Category"
           map-options
           option-label="name"
@@ -72,7 +90,7 @@ onBeforeMount(async () => {
       <q-item-label>
         <q-select
           label="Assigned To"
-          v-model="issueObjectModel.assignedTo"
+          v-model="trackerCaseDetail.assignedTo"
           :options="issueListsStore.Users"
           map-options
           option-label="name"
@@ -82,7 +100,7 @@ onBeforeMount(async () => {
       <q-item-label>
         <q-select
           label="Criticality"
-          v-model="issueObjectModel.criticality"
+          v-model="trackerCaseDetail.criticality"
           :options="issueListsStore.Criticality"
           map-options
           option-label="name"
@@ -92,12 +110,30 @@ onBeforeMount(async () => {
       <q-item-label>
         <q-select
           label="Kind"
-          v-model="issueObjectModel.kind"
+          v-model="trackerCaseDetail.kind"
           :options="issueListsStore.Kind"
           map-options
           option-label="name"
           option-value="id"
         />
+      </q-item-label>
+      <q-item-label>
+        <q-item>
+          <Regarding
+            v-if="appName === 'issueTracker'"
+            v-model="trackerCaseDetail.parent"
+            :regarding-parents="issueListsStore.RegardingParent"
+        /></q-item>
+        <OCItem
+          v-if="
+            appName !== 'issueTracker' && issueFromParent?.parent?.value?.name
+          "
+          title="Regarding"
+          :value="regarding"
+        />
+      </q-item-label>
+      <q-item-label>
+        <q-input label="Comments" v-model="trackerCaseDetail.comments" />
       </q-item-label> </q-item-section
   ></q-item>
 </template>

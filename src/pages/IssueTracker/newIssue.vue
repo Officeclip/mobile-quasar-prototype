@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, Ref } from 'vue';
 import issueTrackerForm from '../../components/IssueTracker/IssueTrackerFormCtrl.vue';
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
 import { useIssueDetailsStore } from 'src/stores/issueTracker/issueDetailsStore';
@@ -10,7 +10,16 @@ const router = useRouter();
 const route = useRoute();
 const binderId = route.params.binderId;
 
-const newIssue: trackerCaseDetails = ref({
+const parentObjectId = route.params.objectId ? route.params.objectId : '';
+const parentObjectServiceType = route.params.objectTypeId
+  ? route.params.objectTypeId
+  : '';
+
+const appName = route.params.appName.toString()
+  ? route.params.appName.toString()
+  : '';
+
+const newIssue: Ref<trackerCaseDetails> = ref({
   id: '',
   binderId: binderId,
   caseId: '',
@@ -34,6 +43,16 @@ const newIssue: trackerCaseDetails = ref({
   assignedTo: {
     id: '-1',
     name: '--select--',
+  },
+  parent: {
+    type: {
+      id: parentObjectServiceType as string,
+      name: '',
+    },
+    value: {
+      id: parentObjectId as string,
+      name: '',
+    },
   },
   createdDate: '',
   createdUserName: '',
@@ -75,7 +94,7 @@ function onSubmit() {
         <q-list>
           <!-- <pre>{{ newIssue }}</pre> -->
           <q-form @submit="onSubmit" class="q-gutter-md">
-            <issueTrackerForm :issueObject="newIssue" />
+            <issueTrackerForm :issueFromParent="newIssue" :appName="appName" />
             <q-btn
               label="Reset"
               type="reset"

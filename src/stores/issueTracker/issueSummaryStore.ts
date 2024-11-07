@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 // import { binder } from '../../models/issueTracker/trackerBinderSummary';
 import { trackerCaseSummary } from '../../models/issueTracker/trackerCaseSumary';
-import axios from 'axios';
+// import axios from 'axios';
 import { linkHeader } from 'src/models/general/linkHeader';
 import { searchFilter } from 'src/models/issueTracker/searchFilter';
 import util from 'src/helpers/util';
@@ -77,7 +77,7 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(this.url);
         if (response.status === 200) {
-          const summaries = response.data;
+          const summaries = response.data.data;
           if (isFilter) {
             await this.resetIssuesSummaryList();
           }
@@ -98,37 +98,52 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
     //   this.bindersList = response.data;
     // },
 
-    async getIssuesList(binderId: string): Promise<boolean> {
-      //this.getUrl(binderId);
+    // async getIssuesList(binderId: string): Promise<boolean> {
+    //   //this.getUrl(binderId);
+    //   try {
+    //     const instance = Constants.getAxiosInstance();
+    //     const response = await instance.get(
+    //       `${util.endPointUrl()}/tracker-case-summary?binderSid=${binderId}`
+    //     );
+    //     if (response.status === 200) {
+    //       const issues = response.data.data;
+    //       this.issuesList.push(...issues);
+    //       this.links = response.data.pagination.next || '{}';
+    //       this.url = this.links ? `${this.links}` : '';
+    //     } else {
+    //       return true;
+    //     }
+    //     this.issuesList = response.data;
+
+    //     // const issues = response.data;
+    //     // this.issuesList.push(...issues);
+
+    //     // this.links = JSON.parse(response.headers.links || '{}');
+    //     // this.url = this.links.next
+    //     //   ? `${'http://localhost:3000'}${this.links.next}`
+    //     //   : '';
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+
+    //   return this.url === '';
+    // },
+
+    async getIssuesByParent(
+      parentObjectId: number,
+      parentObjectServiceType: number
+    ) {
+      const callStr =
+        parentObjectId > 0 && parentObjectServiceType > 0
+          ? `${util.endPointUrl()}/tracker-case-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : `${util.endPointUrl()}/tracker-case-summary`;
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(
-          `${util.endPointUrl()}/tracker-case-summary?binderSid=${binderId}`
-        );
-        if (response.status === 200) {
-          const issues = response.data;
-          this.issuesList.push(...issues);
-          const obj = JSON.parse(response.headers.links);
-          console.log('obj:', obj.next);
-          this.links = obj.next || '{}';
-          this.url = this.links ? `${this.links}` : '';
-        } else {
-          return true;
-        }
+        const response = await instance.get(callStr);
         this.issuesList = response.data;
-
-        // const issues = response.data;
-        // this.issuesList.push(...issues);
-
-        // this.links = JSON.parse(response.headers.links || '{}');
-        // this.url = this.links.next
-        //   ? `${'http://localhost:3000'}${this.links.next}`
-        //   : '';
       } catch (error) {
-        console.error(error);
+        Constants.throwError(error);
       }
-
-      return this.url === '';
     },
 
     async resetIssuesSummaryList() {

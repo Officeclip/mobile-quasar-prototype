@@ -25,6 +25,12 @@ const defaultFilterOptions: searchFilter = {
   modifiedById: '',
 };
 
+const parent = {
+  parentObjectId: '',
+  parentObjectServiceType: '',
+  appName: 'issueTracker',
+};
+
 let filterOptions: Ref<searchFilter> = ref({ ...defaultFilterOptions });
 
 const sessionStore = useSessionStore();
@@ -228,10 +234,15 @@ function toggleLeftDrawer() {
             </q-item-label>
           </q-item-section>
         </q-item>
-        <IssuesListCtrl :binderName="binderName" :binderId="binderId" />
+        <IssuesListCtrl
+          :binderName="binderName"
+          :binderId="binderId"
+          :parent="parent"
+        />
         <q-dialog v-model="showAdvOptions" :position="position">
           <AdvancedFilters
             :filter-options="filterOptions"
+            :parent="parent"
             @advancedOptionsGenerated="receiveAdvFilters"
             @filterCount="updateFilterCount"
           />
@@ -247,6 +258,9 @@ function toggleLeftDrawer() {
             name: 'newIssue',
             params: {
               binderId: binderId,
+              objectTypeId: -1,
+              objectId: -1,
+              appName: 'issueTracker',
             },
           }"
         >

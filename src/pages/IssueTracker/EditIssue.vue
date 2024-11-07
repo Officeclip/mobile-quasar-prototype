@@ -2,12 +2,16 @@
 import { Ref, ref } from 'vue';
 import issueTrackerForm from '../../components/IssueTracker/IssueTrackerFormCtrl.vue';
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useIssueDetailsStore } from 'src/stores/issueTracker/issueDetailsStore';
 import { trackerCaseDetails } from 'src/models/issueTracker/trackerCaseDetails';
 
 const router = useRouter();
+const route = useRoute();
 const issueDetailsStore = useIssueDetailsStore();
+
+const id = ref<string | string[]>(route.params.id);
+const appName = route.params.appName.toString();
 
 const editIssue: Ref<trackerCaseDetails> = issueDetailsStore.IssueDetails;
 
@@ -40,7 +44,7 @@ function onSubmit() {
         <q-list>
           <!-- <pre>{{ editIssue }}</pre> -->
           <q-form @submit="onSubmit" class="q-gutter-md">
-            <issueTrackerForm :issueObject="editIssue" />
+            <issueTrackerForm :issueFromParent="editIssue" :appName="appName" />
             <q-btn
               label="Reset"
               type="reset"
