@@ -10,6 +10,7 @@ import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import logger from 'src/helpers/logger';
 import { useQuasar } from 'quasar';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
+import { isAllowed } from 'src/helpers/security';
 
 const $q = useQuasar();
 const route = useRoute();
@@ -67,6 +68,18 @@ const deleteIssueDetail = async (id: string) => {
     });
   }
 };
+
+const isAllowEdit = computed(() => {
+  return isAllowed({
+    security: { write: issueDetails.value?.security?.write },
+  });
+});
+
+const isAllowDelete = computed(() => {
+  return isAllowed({
+    security: { delete: issueDetails.value?.security?.delete },
+  });
+});
 </script>
 
 <template>
@@ -92,6 +105,7 @@ const deleteIssueDetail = async (id: string) => {
         />
         <q-toolbar-title> Binder: {{ binderName }} </q-toolbar-title>
         <q-btn
+          v-if="isAllowEdit"
           flat
           round
           dense
@@ -103,6 +117,7 @@ const deleteIssueDetail = async (id: string) => {
           }"
         ></q-btn>
         <q-btn
+          v-if="isAllowDelete"
           flat
           round
           dense
