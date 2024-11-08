@@ -15,6 +15,7 @@ export enum ObjectType {
   Event = 4,
   Note = 20,
   ActivityTabForCrm = 35,
+  Issues = 10,
 }
 
 function getEndPointUrlFromUri(url: string) {

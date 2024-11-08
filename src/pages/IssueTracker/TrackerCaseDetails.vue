@@ -11,15 +11,30 @@ import logger from 'src/helpers/logger';
 import { useQuasar } from 'quasar';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import { isAllowed } from 'src/helpers/security';
+import NoteList from '../../components/Notes/NotesListCtrl.vue';
+import { ObjectType } from '../../helpers/util';
 
 const $q = useQuasar();
 const route = useRoute();
 const router = useRouter();
-const id = route.params.id;
+//const id = route.params.id;
+const id = ref<string | string[]>('0');
+id.value = route.params.id;
 const binderName = route.params.binderName;
 const myDrawer = ref();
 const appName = route.params.appName;
-console.log(appName, id);
+
+const notesCount = ref<any>('0');
+
+const parent = ref({
+  parentObjectId: id,
+  parentObjectServiceType: ObjectType.Contact.toString(),
+  selectedNoteBook: '',
+});
+
+const handleNoteCount = (value: string) => {
+  notesCount.value = value;
+};
 
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
@@ -28,7 +43,7 @@ function toggleLeftDrawer() {
 const issueDetailsStore = useIssueDetailsStore();
 
 onMounted(() => {
-  issueDetailsStore.getTrackerCaseDetails(id);
+  issueDetailsStore.getTrackerCaseDetails(id.value);
 });
 const issueDetails = computed(() => {
   return issueDetailsStore?.IssueDetails;
@@ -270,25 +285,41 @@ const isAllowDelete = computed(() => {
           </q-list>
         </q-card>
         <q-card>
-          <q-list>
+          <q-list bordered class="rounded-borders">
             <q-expansion-item
               expand-separator
               expand-icon-class="text-primary"
-              class="bg-white"
+              dense
             >
               <template v-slot:header>
-                <q-item-section>
-                  <q-item-label>Notes (1) </q-item-label>
-                </q-item-section>
                 <q-item-section side>
-                  <q-btn size="sm" flat round dense icon="add"> </q-btn>
+                  <div class="row items-center">
+                    <q-icon name="subject" size="sm"></q-icon>
+                  </div>
+                </q-item-section>
+                <q-item-section> Notes ({{ notesCount.value }})</q-item-section>
+
+                <q-item-section side>
+                  <q-btn
+                    :to="{
+                      name: 'newNotes',
+                      params: {
+                        id: -1,
+                        objectTypeId: ObjectType.Issues,
+                        objectId: issueDetails?.id,
+                      },
+                    }"
+                    size="sm"
+                    flat
+                    round
+                    dense
+                    icon="add"
+                  >
+                  </q-btn>
                 </q-item-section>
               </template>
-              <q-item>
-                <q-item-section>
-                  <q-item-label> Sample test notes here </q-item-label>
-                </q-item-section>
-              </q-item>
+              <q-separator></q-separator>
+              <NoteList @numberOfNotes="handleNoteCount" :params="parent" />
             </q-expansion-item>
           </q-list>
         </q-card>

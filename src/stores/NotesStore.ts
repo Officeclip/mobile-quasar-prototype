@@ -38,7 +38,11 @@ export const useNotesStore = defineStore('notesStore', {
       noteBookId: string
     ) {
       // if all three are empty then ignore
-      if (parentObjectId === '' && parentObjectId === '' && noteBookId === '') {
+      if (
+        parentObjectServiceType === '' &&
+        parentObjectId === '' &&
+        noteBookId === ''
+      ) {
         return;
       }
       const callStr =
