@@ -54,6 +54,7 @@ export const useIssueListsStore = defineStore('issueListsStore', {
         const trackerLists: trackerLists = response.data[0];
         this.status = trackerLists.status;
         this.criticality = trackerLists.criticality;
+        this.category = trackerLists.category;
         this.kind = trackerLists.kind;
         this.users = trackerLists.users;
         this.regardingParent = trackerLists.regardingParentTypes;
@@ -62,13 +63,14 @@ export const useIssueListsStore = defineStore('issueListsStore', {
       }
     },
 
-    async getFilteredUsers(searchString: string) {
+    async getFilteredUsers(binderId: string, searchString: string) {
       try {
         this.users = [];
-        const response = await axios.get(
-          'http://localhost:3000/issue-lists?users'
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${util.endPointUrl()}/tracker-lists?binderSid=${binderId}`
         );
-        const userList = response.data.users;
+        const userList = response.data[0].users;
         const filtered = userList.filter((t: regardingContact) => {
           return t.name.toLowerCase().includes(searchString.toLowerCase());
         });

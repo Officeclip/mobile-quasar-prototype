@@ -90,7 +90,7 @@ export const useNotesStore = defineStore('notesStore', {
           note
         );
         if (response.status === 200) {
-          this.getNote(note.id);
+          this.getNote(response.data);
         }
       } catch (error) {
         Constants.throwError(error);

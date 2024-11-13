@@ -63,7 +63,7 @@ const loadMore = async (index: any, done: () => void) => {
             <span v-html="issue?.name"></span
           ></q-item-label>
         </q-item-section>
-        <q-item-section side top>
+        <q-item-section v-if="issue.status" side top>
           <q-chip dense :class="getIssueTrackerLabelColor(issue.status)">
             <q-item-label caption class="q-px-xs testClass">{{
               issue.status
@@ -77,8 +77,8 @@ const loadMore = async (index: any, done: () => void) => {
       </q-item>
       <q-item>
         <q-item-section>
-          <div class="flex items-end justify-around ellipsis">
-            <q-item-label>
+          <div class="flex items-end justify-between ellipsis">
+            <q-item-label v-if="issue.createdDate">
               <span class="text-caption">created:</span>
               <span class="q-mx-sm">{{
                 dateTimeHelper.formatDateTimeFromRestAPIForUI(
@@ -87,7 +87,7 @@ const loadMore = async (index: any, done: () => void) => {
                 )
               }}</span>
             </q-item-label>
-            <q-item-label>
+            <q-item-label v-if="issue.assignedTo">
               <span class="text-caption">assigned:</span>
               <span class="q-mx-sm">{{ issue.assignedTo }}</span>
             </q-item-label>

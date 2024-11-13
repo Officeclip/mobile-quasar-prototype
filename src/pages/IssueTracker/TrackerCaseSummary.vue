@@ -193,7 +193,7 @@ function toggleLeftDrawer() {
               <q-checkbox dense v-model="assignedToMe" label="assigned to me" />
             </q-item-label>
           </q-item-section>
-          <q-item-section>
+          <!-- <q-item-section>
             <q-item-label>
               <q-checkbox
                 dense
@@ -203,7 +203,7 @@ function toggleLeftDrawer() {
                 label="starred issues"
               />
             </q-item-label>
-          </q-item-section>
+          </q-item-section> -->
           <!-- <q-item-section>
             <q-item-label>
               <q-select
@@ -243,6 +243,7 @@ function toggleLeftDrawer() {
           <AdvancedFilters
             :filter-options="filterOptions"
             :parent="parent"
+            :binderId="binderId"
             @advancedOptionsGenerated="receiveAdvFilters"
             @filterCount="updateFilterCount"
           />

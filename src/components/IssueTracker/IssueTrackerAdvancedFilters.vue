@@ -2,19 +2,21 @@
 import { onBeforeMount, ref, Ref } from 'vue';
 import { searchFilter } from 'src/models/issueTracker/searchFilter';
 import { useQuasar } from 'quasar';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useIssueListsStore } from 'stores/issueTracker/issueListsStore';
 import { useIssueSummaryStore } from 'stores/issueTracker/issueSummaryStore';
 import { user } from '../../models/issueTracker/issueLists';
 
 const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
 const $q = useQuasar();
+const route = useRoute();
 const router = useRouter();
 const issueListsStore = useIssueListsStore();
 const issueSummaryStore = useIssueSummaryStore();
+const binderId = route.params.binderId;
 
 const props = defineProps<{
-  // parent: any;
+  //parent: any;
   filterOptions: searchFilter;
 }>();
 
@@ -47,7 +49,7 @@ function filterNumber(filter: searchFilter) {
 function emitOptions() {
   issueSummaryStore.setFilter(advancedOptions.value);
   issueSummaryStore.resetPageNumber();
-  issueSummaryStore.getIssuesUpdated(true);
+  issueSummaryStore.getIssuesUpdated(true, binderId.toString());
 
   emit('advancedOptionsGenerated', advancedOptions.value);
   emit('filterCount', filterNumber(advancedOptions.value));
@@ -55,7 +57,7 @@ function emitOptions() {
 
 onBeforeMount(async () => {
   try {
-    await issueListsStore.getIssueLists();
+    await issueListsStore.getTrackerLists(binderId.toString());
     Object.assign(advancedOptions.value, props.filterOptions);
   } catch (error) {
     $q.dialog({
@@ -75,7 +77,7 @@ async function filterFn(val: string, update: any, abort: any) {
   //   return;
   // } else if (val.length >= 2) {
   userList.value = [];
-  await issueListsStore.getFilteredUsers(val);
+  await issueListsStore.getFilteredUsers(binderId.toString(), val);
   userList.value = issueListsStore.users;
   //}
 
