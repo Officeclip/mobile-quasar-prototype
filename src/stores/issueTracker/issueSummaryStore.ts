@@ -16,6 +16,7 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
     pageNum: 1,
     filter: {} as searchFilter,
     links: {} as linkHeader,
+    errorMsg: '' as string,
   }),
 
   getters: {
@@ -84,6 +85,10 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
           this.issuesList.push(...summaries);
           this.links = response.data.pagination.next || '{}';
           this.url = this.links ? `${this.links}` : '';
+        } else if (response.status === 204) {
+          await this.resetIssuesSummaryList();
+          this.errorMsg = response.statusText;
+          return true;
         } else {
           return true;
         }

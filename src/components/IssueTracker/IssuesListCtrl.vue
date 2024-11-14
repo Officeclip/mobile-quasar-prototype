@@ -20,6 +20,10 @@ const issuesList = computed(() => {
   return issueSummaryStore.IssuesList;
 });
 
+const errorMsg = computed(() => {
+  return issueSummaryStore.errorMsg;
+});
+
 let reachedEnd = ref(false); // indicate if all contacts have been loaded
 const loadMore = async (index: any, done: () => void) => {
   try {
@@ -41,6 +45,13 @@ const loadMore = async (index: any, done: () => void) => {
 </script>
 
 <template>
+  <q-item-section v-if="errorMsg !== ''">
+    <div class="flex justify-center">
+      <span class="text-subtitle1 text-weight-medium inline q-mr-xs">{{
+        errorMsg
+      }}</span>
+    </div>
+  </q-item-section>
   <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
     <q-list v-for="issue in issuesList" :key="issue.id">
       <q-item

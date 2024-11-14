@@ -61,17 +61,17 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
 }
 
 async function filterFn(val: string) {
-  if (val === null || val.length === 0) {
-    issueSummaryStore.resetPageNumber();
-    return await issueSummaryStore.getIssuesUpdated(false, binderId.toString());
-  } else {
-    if (val.length > 2) {
-      filterOptions.value.searchString = val.toLowerCase();
-      issueSummaryStore.resetPageNumber();
-      issueSummaryStore.setFilter(filterOptions.value);
-      await issueSummaryStore.getIssuesUpdated(true, binderId.toString());
-    }
-  }
+  // if (val === null || val.length === 0) {
+  //   issueSummaryStore.resetPageNumber();
+  //   return await issueSummaryStore.getIssuesUpdated(false, binderId.toString());
+  // } else {
+  //   if (val.length > 2) {
+  filterOptions.value.searchString = val.toLowerCase();
+  issueSummaryStore.resetPageNumber();
+  issueSummaryStore.setFilter(filterOptions.value);
+  await issueSummaryStore.getIssuesUpdated(true, binderId.toString());
+  //}
+  //}
 }
 
 async function handleClear() {
@@ -182,7 +182,7 @@ function toggleLeftDrawer() {
               @clear="handleClear"
               label="Search"
               outlined
-              placeholder="Start typing with min 3 characters to search"
+              placeholder="Start typing to search"
             >
             </q-input>
           </q-item-section>
