@@ -16,6 +16,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
     parentObjectId: 0,
     parentObjectServiceType: 0,
     links: {} as linkHeader,
+    errorMsg: '' as string,
   }),
 
   getters: {
@@ -89,6 +90,10 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
           this.taskSummaries.push(...summaries);
           this.links = response.data.pagination.next || '{}';
           this.url = this.links ? `${this.links}` : '';
+        } else if (response.status === 204) {
+          await this.resetTaskSummaryList();
+          this.errorMsg = response.statusText;
+          return true;
         } else {
           return true;
         }

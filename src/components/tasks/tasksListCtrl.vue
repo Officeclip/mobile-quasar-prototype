@@ -11,6 +11,10 @@ const taskSummaryStore = useTaskSummaryStore();
 const router = useRouter();
 const $q = useQuasar();
 
+const errorMsg = computed(() => {
+  return taskSummaryStore.errorMsg;
+});
+
 const getTaskSummaries = computed(() => {
   taskSummaryStore.$reset();
   return taskSummaryStore.taskSummaries;
@@ -44,7 +48,13 @@ onBeforeMount(() => {
 }
 </style>
 <template>
-  <!-- <pre>{{ getTaskSummaries }}</pre> -->
+  <q-item-section v-if="errorMsg !== ''">
+    <div class="flex justify-center">
+      <span class="text-subtitle1 text-weight-medium inline q-mr-xs">{{
+        errorMsg
+      }}</span>
+    </div>
+  </q-item-section>
   <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
     <q-item v-for="task in getTaskSummaries" :key="task.id" class="q-pa-sm">
       <TaskSummaryItem
