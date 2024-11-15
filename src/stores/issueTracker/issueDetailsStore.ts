@@ -25,7 +25,7 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
         this.issueDetails = response.data;
       } catch (error) {
         logger.log(`*** taskDetailStore:catch(${error}) ***`, 'error');
-        logger.throwError(error);
+        Constants.throwError(error);
       }
     },
 
@@ -55,11 +55,11 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
     },
     async editTrackerCaseDetails(trackerCaseDetails: trackerCaseDetails) {
       try {
+        const callStr = `${util.endPointUrl()}/tracker-case-detail/${
+          trackerCaseDetails.id
+        }`;
         const instance = Constants.getAxiosInstance();
-        const response = await instance.put(
-          `${util.endPointUrl()}/tracker-case-detail/${trackerCaseDetails.id}`,
-          trackerCaseDetails
-        );
+        const response = await instance.put(callStr, trackerCaseDetails);
         if (response.status === 200) {
           this.issueDetails = response.data;
         }
