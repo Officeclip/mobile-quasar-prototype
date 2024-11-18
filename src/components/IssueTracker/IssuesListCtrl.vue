@@ -42,6 +42,17 @@ const loadMore = async (index: any, done: () => void) => {
     });
   }
 };
+
+const infiniteScroll = ref(null);
+
+function infinteScrollReset() {
+  console.log('******** infinteScrollReset **********');
+  loadMore(0, () => {
+    console.log('Data loaded and reachedEnd reset!');
+  });
+}
+
+defineExpose({ infinteScrollReset });
 </script>
 
 <template>
@@ -52,7 +63,11 @@ const loadMore = async (index: any, done: () => void) => {
       }}</span>
     </div>
   </q-item-section>
-  <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
+  <q-infinite-scroll
+    ref="infiniteScroll"
+    :disable="reachedEnd"
+    @load="loadMore"
+  >
     <q-list v-for="issue in issuesList" :key="issue.id">
       <q-item
         clickable

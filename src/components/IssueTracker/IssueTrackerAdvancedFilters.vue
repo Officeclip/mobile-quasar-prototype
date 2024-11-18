@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onBeforeMount, ref, Ref } from 'vue';
+import { onBeforeMount, ref, Ref, watch } from 'vue';
 import { searchFilter } from 'src/models/issueTracker/searchFilter';
 import { useQuasar } from 'quasar';
 import { useRouter, useRoute } from 'vue-router';
@@ -14,6 +14,7 @@ const router = useRouter();
 const issueListsStore = useIssueListsStore();
 const issueSummaryStore = useIssueSummaryStore();
 const binderId = route.params.binderId;
+const infinteScroll = ref(null);
 
 const props = defineProps<{
   //parent: any;
@@ -88,6 +89,11 @@ async function filterFn(val: string, update: any, abort: any) {
     );
   });
 }
+
+watch(advancedOptions.value, async () => {
+  emitOptions();
+  infinteScroll.value.infinteScrollReset();
+});
 </script>
 
 <template>
@@ -110,6 +116,7 @@ async function filterFn(val: string, update: any, abort: any) {
             map-options
             option-label="name"
             option-value="id"
+            ref="infinteScroll"
           />
         </q-item-section>
       </div>

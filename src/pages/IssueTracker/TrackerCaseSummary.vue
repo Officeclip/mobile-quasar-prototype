@@ -13,6 +13,7 @@ const router = useRouter();
 const binderId = route.params.binderId;
 const binderName = route.params.binderName;
 const myDrawer = ref();
+const infinteScroll = ref(null);
 const defaultFilterOptions: searchFilter = {
   searchString: '',
   starredIssues: '',
@@ -94,6 +95,7 @@ watch(assignedToMe, async () => {
   await issueSummaryStore.resetIssuesSummaryList();
   issueSummaryStore.setFilter(filterOptions.value);
   await issueSummaryStore.getIssuesUpdated(true, binderId.toString());
+  infinteScroll.value.infinteScrollReset();
 });
 
 watch(
@@ -238,6 +240,7 @@ function toggleLeftDrawer() {
           :binderName="binderName"
           :binderId="binderId"
           :parent="parent"
+          ref="infinteScroll"
         />
         <q-dialog v-model="showAdvOptions" :position="position">
           <AdvancedFilters
@@ -246,6 +249,7 @@ function toggleLeftDrawer() {
             :binderId="binderId"
             @advancedOptionsGenerated="receiveAdvFilters"
             @filterCount="updateFilterCount"
+            ref="infinteScroll"
           />
         </q-dialog>
       </q-page>
