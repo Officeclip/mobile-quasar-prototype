@@ -225,6 +225,21 @@ const isAllowDelete = computed(() => {
               </q-item-section>
             </q-item>
             <q-item>
+              <q-item-section side>
+                <q-item-label caption>Category: </q-item-label>
+                <q-chip
+                  dense
+                  :class="
+                    getIssueTrackerLabelColor(issueDetails.category?.name)
+                  "
+                >
+                  <q-item-label class="q-px-xs">{{
+                    issueDetails.category?.name
+                  }}</q-item-label>
+                </q-chip>
+              </q-item-section>
+            </q-item>
+            <q-item>
               <q-item-section>
                 <q-item-label caption>Assigned To: </q-item-label>
                 <q-item-label
