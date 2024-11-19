@@ -79,11 +79,19 @@ function isHideTestPage() {
   return isHideTestPage;
 }
 
+// function endPointUrl() {
+//   if (import.meta.env.VITE_API_ENDPOINT) {
+//     return import.meta.env.VITE_API_ENDPOINT;
+//   } else {
+//     return String(LocalStorage.getItem('endPointUrl'));
+//   }
+// }
 function endPointUrl() {
-  if (import.meta.env.VITE_API_ENDPOINT) {
-    return import.meta.env.VITE_API_ENDPOINT;
+  const endPointUrl = String(LocalStorage.getItem('endPointUrl'));
+  if (endPointUrl) {
+    return endPointUrl;
   } else {
-    return String(LocalStorage.getItem('endPointUrl'));
+    return null;
   }
 }
 

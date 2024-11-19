@@ -139,4 +139,11 @@ export class Constants {
     }
     throw 'Error: ' + (error as string);
   }
+
+  static getEndPointUrl() {
+    if (LocalStorage.has('endPointUrl')) {
+      return String(LocalStorage.getItem('endPointUrl'));
+    }
+    return '';
+  }
 }
