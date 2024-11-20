@@ -16,7 +16,7 @@ const props = defineProps({
 
 const trackerCaseDetail: Ref<trackerCaseDetails> = ref(props.issueFromParent);
 
-console.log('App name:', props.appName, trackerCaseDetail);
+console.log('App name:', props.appName, trackerCaseDetail.value);
 
 //const issueObjectModel = ref(props.issueFromParent);
 
@@ -58,11 +58,21 @@ const regarding = computed(() => {
           <template #label>Description</template>
           <template #control>
             <q-editor
+              paragraph-tag="div"
+              placeholder="enter description"
               min-height="5rem"
               class="q-mt-md full-width"
               v-model="trackerCaseDetail.description"
-              paragraph-tag="div"
-              placeholder="enter description"
+              :toolbar="[
+                [
+                  'link',
+                  'bold',
+                  'italic',
+                  'unordered',
+                  'ordered',
+                  'fullscreen',
+                ],
+              ]"
             ></q-editor>
           </template>
         </q-field>

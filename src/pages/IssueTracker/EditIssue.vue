@@ -44,7 +44,11 @@ function onSubmit() {
         <q-list>
           <!-- <pre>{{ editIssue }}</pre> -->
           <q-form @submit="onSubmit" class="q-gutter-md">
-            <issueTrackerForm :issueFromParent="editIssue" :appName="appName" />
+            <issueTrackerForm
+              v-if="editIssue"
+              :issueFromParent="editIssue"
+              :appName="appName"
+            />
             <q-btn
               label="Reset"
               type="reset"
