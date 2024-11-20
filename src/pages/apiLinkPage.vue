@@ -1,56 +1,47 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import { Constants } from 'src/stores/Constants';
+import { useSessionStore } from 'stores/SessionStore';
+
+const sessionStore = useSessionStore();
 
 const dotComUserApi = ref('https://app.officeclip.com/api');
-const boxVersionUserApi = ref('http://192.168.29.207/officeclip/api');
+
+const boxVersionUserApi = ref('http://localhost/officeclip/api');
+
 const selectedOption = ref('2');
-const inputValue = ref('https://app.officeclip.com/api');
+
+const inputValue = ref('');
 
 watch(selectedOption, (newVal) => {
   inputValue.value =
     newVal === '1' ? boxVersionUserApi.value : dotComUserApi.value;
 });
 
-// onMounted(() => {
-//   localStorageValue.value = localStorage.getItem('endPointUrl');
-// });
-
 const saveApiLinkInLocalStorage = () => {
   Constants.saveEndPointUrlInLocalStorage(inputValue.value);
   window.location.reload();
-  // localStorageValue.value = inputValue.value; // Update the displayed value
 };
 
-const howToGetApi = ref(false);
+// const howToGetApi = ref(false);
+const submitting = ref(false);
 
-// function isValidUrl(url) {
-//   const regex =
-//     /^(https?:\/\/)(www\.)?([a-zA-Z0-9][a-zA-Z0-9-]+)(\.[a-zA-Z]{2,})+(\/[^\s]*)?$/;
-//   return regex.test(url);
-// }
-async function isValidUrlWithPartialCheck(urlString) {
-  try {
-    const response = await fetch(urlString, { method: 'HEAD' }); // Use HEAD for efficiency
-    return response.ok; // true if status code is 200-299
-  } catch (error) {
-    console.error('Error checking URL:', error);
-    return false;
-  }
+function simulateSubmit() {
+  submitting.value = true;
+  setTimeout(() => {
+    submitting.value = false;
+  }, 3000);
 }
 
-const testUrl = 'https://www.officeclip.com';
-
-onMounted(async () => {
-  const xyz = await isValidUrlWithPartialCheck(testUrl);
-  if (xyz) {
-    console.log('API URL is valid and reachable.', xyz);
-    // Proceed to login screen
+async function isValidRestApiUrl(testUrl) {
+  simulateSubmit();
+  const res = await sessionStore.isValidUrl(testUrl);
+  if (res) {
+    saveApiLinkInLocalStorage();
   } else {
-    console.log('API URL is invalid or unreachable.', xyz);
-    // Display an error message to the user
+    alert('Please enter valid Rest Api Url');
   }
-});
+}
 </script>
 
 <template>
@@ -58,25 +49,37 @@ onMounted(async () => {
     <q-page class="flex flex-center">
       <q-list>
         <q-item-label class="q-ml-md">Set the API Link</q-item-label>
-        <q-item>
-          <q-input
-            style="min-width: 250px"
-            v-model="inputValue"
-            placeholder="enter valid API Link"
-            type="url"
-            outlined
-            dense
-          />
-          <q-btn
-            outline
-            color="primary"
-            no-caps
-            class="q-ml-sm"
-            rounded
-            @click="saveApiLinkInLocalStorage"
-            >Save</q-btn
-          >
-        </q-item>
+        <div class="row">
+          <q-item>
+            <div class="col-11">
+              <q-item-section>
+                <q-input
+                  v-model="inputValue"
+                  placeholder="enter valid rest api url"
+                  hint="Ex: https or http://localhost/officeclip/api"
+                  type="url"
+                  outlined
+                  dense
+                />
+              </q-item-section>
+            </div>
+            <div class="col-1">
+              <q-item-section side top>
+                <q-btn
+                  outline
+                  color="primary"
+                  no-caps
+                  class="q-ml-sm"
+                  rounded
+                  @click="isValidRestApiUrl(inputValue)"
+                  :disable="inputValue"
+                  :loading="submitting"
+                  >Save</q-btn
+                ></q-item-section
+              >
+            </div>
+          </q-item>
+        </div>
         <q-item>
           <q-item-section>
             <q-radio
@@ -99,7 +102,7 @@ onMounted(async () => {
             />
           </q-item-section>
         </q-item>
-        <q-separator inset></q-separator>
+        <!-- <q-separator inset></q-separator>
         <div>
           <q-item>
             <q-btn
@@ -113,10 +116,10 @@ onMounted(async () => {
               dense
             ></q-btn
           ></q-item>
-        </div>
+        </div> -->
       </q-list>
 
-      <q-dialog v-model="howToGetApi">
+      <!-- <q-dialog v-model="howToGetApi">
         <q-card>
           <q-card-section>
             Web app > Settings > Rest API screen
@@ -132,7 +135,7 @@ onMounted(async () => {
             ></q-btn>
           </q-card-actions>
         </q-card>
-      </q-dialog>
+      </q-dialog> -->
     </q-page>
   </q-page-container>
   <!-- <input type="text" v-model="inputValue" placeholder="Enter text" />
