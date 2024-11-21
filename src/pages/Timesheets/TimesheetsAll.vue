@@ -56,6 +56,10 @@ function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
 }
+
+const errorMsg = computed(() => {
+  return timesheetsStore.errorMsg;
+});
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -157,6 +161,14 @@ function toggleLeftDrawer() {
           <div v-if="title === 'Inbox'">
             <q-list class="flex flex-center">
               <q-item>
+                <q-item-section v-if="errorMsg !== ''">
+                  <div class="flex justify-center">
+                    <span
+                      class="text-subtitle1 text-weight-medium inline q-mr-xs"
+                      >{{ errorMsg }}</span
+                    >
+                  </div>
+                </q-item-section>
                 <q-item-section>
                   <q-item-label class="text-h6 q-py-md">
                     Create your first Timesheet
