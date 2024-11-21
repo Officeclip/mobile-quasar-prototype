@@ -34,10 +34,9 @@ const allExpenses = computed(() => {
   return expensesDetailsStore.ExpenseSummary;
 });
 
-logger.log(
-  'allExpenses allExpenses allExpenses allExpenses',
-  allExpenses.value
-);
+const errorMsg = computed(() => {
+  return expensesDetailsStore.errorMsg;
+});
 
 watch([expenseStatus], ([newModel]) => {
   expensesDetailsStore.getExpensesByStatus(String(newModel));
@@ -60,7 +59,7 @@ function toggleLeftDrawer() {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
         <q-btn
-          @click="$router.push({ path: '/homepage' })"
+          @click="router.push({ path: '/homepage' })"
           flat
           round
           dense
@@ -95,53 +94,82 @@ function toggleLeftDrawer() {
     </q-footer>
     <q-page-container>
       <q-page>
-        <q-list v-for="expense in allExpenses" :key="expense.id">
-          <q-item
-            :to="{
-              name: 'expenseDetails',
-              params: {
-                id: expense.id,
-                employeeId: expense.employeeId,
-                fromDate: expense.fromDate,
-                toDate: expense.toDate,
-                stageId: expense.stageId,
-                status: expense.status,
-              },
-            }"
-            clickable
-            v-ripple
-          >
-            <q-item-section>
-              <q-item-label>
-                {{ expense.createdByUserName }}
-              </q-item-label>
-              <q-item-label caption>{{
-                expense.fromDate
-                  ? dateTimeHelper.extractDateFromUtc(expense.fromDate)
-                  : 'No Specific Date'
-              }}</q-item-label>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>
-                {{ expense.totalAmount.toFixed(2) }}
-                <span class="text-caption q-pl-xs">{{ expense.currency }}</span>
-              </q-item-label>
-            </q-item-section>
-            <q-item-section style="align-items: end">
-              <q-chip
-                dense
-                :class="getExpenseOrTimesheetStatusColor(expense.status)"
-                ><q-item-label caption class="q-px-sm">{{
-                  expense.status
-                }}</q-item-label></q-chip
-              >
-            </q-item-section>
-            <q-item-section side>
-              <q-icon color="primary" name="chevron_right" />
-            </q-item-section>
-          </q-item>
-          <q-separator></q-separator>
-        </q-list>
+        <div v-if="allExpenses">
+          <q-list v-for="expense in allExpenses" :key="expense.id">
+            <q-item
+              :to="{
+                name: 'expenseDetails',
+                params: {
+                  id: expense.id,
+                  employeeId: expense.employeeId,
+                  fromDate: expense.fromDate,
+                  toDate: expense.toDate,
+                  stageId: expense.stageId,
+                  status: expense.status,
+                },
+              }"
+              clickable
+              v-ripple
+            >
+              <q-item-section>
+                <q-item-label>
+                  {{ expense.createdByUserName }}
+                </q-item-label>
+                <q-item-label caption>{{
+                  expense.fromDate
+                    ? dateTimeHelper.extractDateFromUtc(expense.fromDate)
+                    : 'No Specific Date'
+                }}</q-item-label>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>
+                  {{ expense.totalAmount.toFixed(2) }}
+                  <span class="text-caption q-pl-xs">{{
+                    expense.currency
+                  }}</span>
+                </q-item-label>
+              </q-item-section>
+              <q-item-section style="align-items: end">
+                <q-chip
+                  dense
+                  :class="getExpenseOrTimesheetStatusColor(expense.status)"
+                  ><q-item-label caption class="q-px-sm">{{
+                    expense.status
+                  }}</q-item-label></q-chip
+                >
+              </q-item-section>
+              <q-item-section side>
+                <q-icon color="primary" name="chevron_right" />
+              </q-item-section>
+            </q-item>
+            <q-separator></q-separator>
+          </q-list>
+        </div>
+        <div v-else>
+          <div v-if="title === 'Inbox'">
+            <q-list class="flex flex-center">
+              <q-item>
+                <q-item-section v-if="errorMsg !== ''">
+                  <div class="flex justify-center">
+                    <span
+                      class="text-subtitle1 text-weight-medium inline q-mr-xs"
+                      >{{ errorMsg }}</span
+                    >
+                  </div>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label class="text-h6 q-py-md">
+                    Create your first expense
+                  </q-item-label>
+                  <q-item-label>
+                    A expense is used to track cost incurred by an individual or
+                    organization in order to achieve a specific goal or benefit.
+                  </q-item-label>
+                </q-item-section>
+              </q-item></q-list
+            >
+          </div>
+        </div>
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn

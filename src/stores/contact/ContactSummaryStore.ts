@@ -12,6 +12,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
     pageSize: 10,
     pageNum: 1,
     links: {} as linkHeader,
+    errorMsg: '' as string,
   }),
 
   getters: {
@@ -51,6 +52,9 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
           this.contactSummary.push(...summaries);
           this.links = response.data.pagination.next || '{}';
           this.url = this.links ? `${this.links}` : '';
+        } else if (response.status === 204) {
+          this.errorMsg = response.statusText;
+          return true;
         } else {
           return true;
         }
