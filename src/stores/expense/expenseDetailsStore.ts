@@ -24,6 +24,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     mileageExpense: undefined as mileageExpense | undefined,
     taxiExpense: undefined as taxiExpense | undefined,
     telephoneExpense: undefined as telephoneExpense | undefined,
+    errorMsg: '' as string,
   }),
 
   getters: {
@@ -97,6 +98,10 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr ?? '');
         this.expenseSummary = response.data.data;
+        if (response.status === 204) {
+          this.errorMsg = response.statusText;
+          return true;
+        }
       } catch (error) {
         Constants.throwError(error);
       }

@@ -16,6 +16,21 @@ export const useSessionStore = defineStore('sessionStore', {
   },
 
   actions: {
+    async isValidUrl(urlString: string) {
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(`${urlString}/isValid`);
+        if ((response.status = 200)) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (error) {
+        // Constants.throwError(error);
+        return false;
+      }
+    },
+
     async getSession() {
       try {
         //TODO: user_id and org_id will be sent via the header for every call

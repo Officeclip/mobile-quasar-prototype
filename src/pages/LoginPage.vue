@@ -133,7 +133,6 @@ const isEndPointUrlInLocalStorage = Constants.getEndPointUrl();
                 <q-input
                   dense
                   outlined
-                  class="q-mt-md"
                   v-model="login.password"
                   type="password"
                   label="Password"
@@ -144,16 +143,31 @@ const isEndPointUrlInLocalStorage = Constants.getEndPointUrl();
               </q-card-section>
               <q-card-section>
                 <q-btn
-                  style="border-radius: 8px"
                   color="dark"
-                  rounded
-                  size="md"
                   label="Sign in"
                   no-caps
                   class="full-width"
                   type="submit"
                 ></q-btn>
               </q-card-section>
+              <q-item>
+                <div class="row items-center">
+                  <div>
+                    <q-item-section
+                      ><q-item-label caption
+                        >Your linked Api Url is:</q-item-label
+                      ></q-item-section
+                    >
+                  </div>
+                  <div>
+                    <q-item-section>
+                      <q-item-label class="q-ml-sm">{{
+                        isEndPointUrlInLocalStorage
+                      }}</q-item-label></q-item-section
+                    >
+                  </div>
+                </div></q-item
+              >
               <q-card-section class="text-center q-pt-none">
                 <div class="text-grey-8">
                   Don't have an account yet?
@@ -169,9 +183,7 @@ const isEndPointUrlInLocalStorage = Constants.getEndPointUrl();
                     :to="{
                       name: 'loginPage2',
                     }"
-                    style="border-radius: 8px"
                     color="dark"
-                    rounded
                     size="md"
                     label="Test page"
                     no-caps

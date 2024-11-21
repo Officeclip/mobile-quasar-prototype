@@ -12,6 +12,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
 
     timesheetDetails: [] as TimesheetDetails[],
     timesheetDetail: undefined as TimesheetDetails | undefined,
+    errorMsg: '' as string,
   }),
 
   getters: {
@@ -74,6 +75,10 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr ?? '');
+        if (response.status === 204) {
+          this.errorMsg = response.statusText;
+          return true;
+        }
         this.timesheets = response.data.data;
       } catch (error) {
         Constants.throwError(error);

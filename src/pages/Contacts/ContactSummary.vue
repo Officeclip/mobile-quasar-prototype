@@ -33,6 +33,11 @@ const contacts = computed(() => {
   contactSummaryStore.$reset();
   return contactSummaryStore.ContactSummary;
 });
+
+const errorMsg = computed(() => {
+  return contactSummaryStore.errorMsg;
+});
+
 let reachedEnd = ref(false); // indicate if all contacts have been loaded
 const loadMore = async (index: any, done: () => void) => {
   try {
@@ -120,6 +125,13 @@ function toggleLeftDrawer() {
             />
           </template>
         </q-input>
+        <q-item-section v-if="errorMsg !== ''">
+          <div class="flex justify-center">
+            <span class="text-subtitle1 text-weight-medium inline q-mr-xs">{{
+              errorMsg
+            }}</span>
+          </div>
+        </q-item-section>
         <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
           <q-item
             v-for="contact in getData"
