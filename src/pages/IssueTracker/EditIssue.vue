@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
+import { onMounted, Ref, ref } from 'vue';
 import issueTrackerForm from '../../components/IssueTracker/IssueTrackerFormCtrl.vue';
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
 import { useRouter, useRoute } from 'vue-router';
@@ -10,10 +10,15 @@ const router = useRouter();
 const route = useRoute();
 const issueDetailsStore = useIssueDetailsStore();
 
-const id = ref<string | string[]>(route.params.id);
+const id = route.params.id;
 const appName = route.params.appName.toString();
+const editIssue: Ref<trackerCaseDetails> = ref();
 
-const editIssue: Ref<trackerCaseDetails> = issueDetailsStore.IssueDetails;
+onMounted(async () => {
+  await issueDetailsStore.getTrackerCaseDetails(id);
+  const respone = issueDetailsStore.IssueDetails;
+  editIssue.value = respone;
+});
 
 function onSubmit() {
   const trackerCaseDetails = ref(editIssue);
@@ -42,7 +47,6 @@ function onSubmit() {
     <q-page-container>
       <q-page>
         <q-list>
-          <!-- <pre>{{ editIssue }}</pre> -->
           <q-form @submit="onSubmit" class="q-gutter-md">
             <issueTrackerForm
               v-if="editIssue"

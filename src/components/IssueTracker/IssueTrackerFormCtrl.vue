@@ -16,10 +16,6 @@ const props = defineProps({
 
 const trackerCaseDetail: Ref<trackerCaseDetails> = ref(props.issueFromParent);
 
-console.log('App name:', props.appName, trackerCaseDetail.value);
-
-//const issueObjectModel = ref(props.issueFromParent);
-
 const issueListsStore = useIssueListsStore();
 
 onBeforeMount(async () => {
