@@ -12,7 +12,7 @@ const issueDetailsStore = useIssueDetailsStore();
 
 const id = route.params.id;
 const appName = route.params.appName.toString();
-const editIssue: Ref<trackerCaseDetails> = ref();
+const editIssue: Ref<trackerCaseDetails> = ref(null);
 
 onMounted(async () => {
   await issueDetailsStore.getTrackerCaseDetails(id);

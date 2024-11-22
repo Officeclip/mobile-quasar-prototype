@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, Ref, ref } from 'vue';
+import { onMounted, Ref, ref } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
@@ -15,20 +15,13 @@ const eventDetailsStore = useEventDetailsStore();
 
 const paramsId = route.params.id;
 const appName = route.params.appName;
-eventDetailsStore.getEventDetailsById(paramsId);
+const event: Ref<eventDetails> = ref(null);
 
-// onMounted(() => {
-//   eventDetailsStore.getEventDetailsById(paramsId);
-// });
-
-//TODO: CR: 2024-05-17: nk: Fix the below type error?
-
-// const event: Ref<eventDetails> = eventDetailsStore.EventDetails;
-
-const event: Ref<eventDetails> = computed(() => {
-  return eventDetailsStore.EventDetails;
+onMounted(async () => {
+  await eventDetailsStore.getEventDetailsById(paramsId);
+  const respone = eventDetailsStore.EventDetails;
+  event.value = respone;
 });
-
 function handleRRule(rrule: string) {
   event.value.recurrence.rule = rrule;
 }

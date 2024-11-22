@@ -8,7 +8,7 @@ import util from 'src/helpers/util';
 export const useEventDetailsStore = defineStore('eventDetailsStore', {
   state: () => ({
     eventsCount: Number,
-    eventDetails: undefined as eventDetails | undefined,
+    eventDetails: {} as eventDetails,
     eventSummary: undefined as eventSummary | undefined, // for single event access
     meetingAttendees: [] as MeetingAttendees[],
   }),
