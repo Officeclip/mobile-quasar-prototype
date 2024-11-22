@@ -2,9 +2,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
-// import { useExpenseListsStore } from '../../stores/expense/expenseListsStore';
 import { useRoute, useRouter } from 'vue-router';
-// import dateTimeHelper from '../../helpers/dateTimeHelper';
 import autoRentalExpense from '../../components/expenses/details/autoRentalExpense.vue';
 import airTravelExpense from '../../components/expenses/details/airTravelExpense.vue';
 import hotelExpense from '../../components/expenses/details/hotelExpense.vue';

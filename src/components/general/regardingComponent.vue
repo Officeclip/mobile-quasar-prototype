@@ -77,8 +77,6 @@ watch(regardingType, (newValue) => {
 </script>
 
 <template>
-  <!-- <q-list>
-    <q-item class="q-pa-none"> -->
   <q-item-section class="q-mr-sm">
     <q-select
       v-model="regardingType"
@@ -108,6 +106,4 @@ watch(regardingType, (newValue) => {
       </template>
     </q-select>
   </q-item-section>
-  <!-- </q-item>
-  </q-list> -->
 </template>

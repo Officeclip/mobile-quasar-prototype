@@ -11,7 +11,6 @@ import { Session } from '../models/session';
 import { useProfileListsStore } from 'stores/profileListsStore';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
-//import packageJson from '../../package.json';
 import drawer from '../components/drawer.vue';
 
 const router = useRouter();
@@ -35,10 +34,6 @@ async function updateOrganization(newValue: any) {
 const session: ComputedRef<Session> = computed(() => {
   return sessionStore.Session;
 });
-
-// const userIcon = computed(() => {
-//   return profileListsStore.ProfilesUserGeneral.userIcon;
-// });
 
 const organizationItems = computed(() => {
   return profileListsStore.Organizations;
@@ -76,8 +71,6 @@ onBeforeMount(async () => {
   }
 });
 
-//const leftDrawerOpen = ref(false);
-
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
@@ -96,10 +89,6 @@ function goToApp(url: string) {
     router.push({ path: url });
   }
 }
-
-// function logout() {
-//   router.push({ path: '/loginPage' });
-// }
 </script>
 <style>
 .q-dialog__backdrop {

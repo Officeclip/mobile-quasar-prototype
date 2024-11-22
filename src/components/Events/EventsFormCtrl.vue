@@ -37,9 +37,6 @@ const emit = defineEmits([
   'rrule-text-generated',
 ]);
 
-//const startDateTime = props.event.startDateTime;
-//const endDateTime = props.event.endDateTime;
-
 const startDateModelValue = ref();
 startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
   props.event.startDateTime,
@@ -51,22 +48,6 @@ endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
   props.event.endDateTime,
   props.event.isAllDayEvent
 );
-
-// let isAllDay = props.event.isAllDayEvent;
-
-// watch(props.event, () => {
-//   if (isAllDay !== props.event.isAllDayEvent) {
-//     startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
-//       props.event.startDateTime,
-//       props.event.isAllDayEvent
-//     );
-//     endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
-//       props.event.endDateTime,
-//       props.event.isAllDayEvent
-//     );
-//     isAllDay = props.event.isAllDayEvent;
-//   }
-// });
 
 watch(
   [startDateModelValue, endDateModelValue],
@@ -113,15 +94,6 @@ const ShowMyTimeAsOptions = computed(() => {
   return eventListsStore.ShowMyTimeAs;
 });
 
-// Find the selected reminder option and time based on refs
-// const selectedOption = computed(() => {
-//   const reminderOptions = reminderDataStore.ReminderOptions;
-//   const obj = reminderOptions.find(
-//     (option: any) => option.value === props.event.reminder.to
-//   );
-//   return obj ? obj : 'null';
-// });
-
 const selectedTime = computed(() => {
   const reminderTimes = reminderDataStore.ReminderTimes;
   const obj = reminderTimes.find(
@@ -129,14 +101,6 @@ const selectedTime = computed(() => {
   );
   return obj ? obj : 'null';
 });
-
-// const reminderTextInfo = props.event?.reminder.to
-//   ? ref(
-//       computed(() => {
-//         return `${selectedOption.value.label} ${selectedTime.value.label} before`;
-//       })
-//     )
-//   : ref('Reminder');
 const reminderTextInfo = props.event?.reminder.to
   ? ref(
       computed(() => {
@@ -235,7 +199,6 @@ function changeEndDateWhenStartDateChanged(val: string | number | null) {
   if (!props.event.isAllDayEvent) {
     const date = new Date(val);
     const endDateTime = dateTimeHelper.addHoursToDate(date, 1);
-    // endDateModelValue.value = dateTimeHelper.formatFullDateTime(endDateTime);
     endDateModelValue.value = dateTimeHelper.formatDateTimeForUI(
       endDateTime,
       false
@@ -243,13 +206,6 @@ function changeEndDateWhenStartDateChanged(val: string | number | null) {
   }
 }
 const showTimeAsBackColor = getEventShowTimeAsColor();
-
-// const endDateRule = (value: string) => {
-//   if (!value) return false;
-//   if (!props.event.startDateTime) return true;
-//   const isGreater = new Date(value) > new Date(props.event.startDateTime);
-//   return isGreater;
-// };
 
 function toggleAllDay(evt: boolean) {
   startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
@@ -275,7 +231,6 @@ const ruleEndDateGreaterThanStartDate = (val: string) => {
   logger.log(`startDate: ${startDateModelValue.value}, endDate: ${val}`);
   if (!startDateModelValue.value || startDateModelValue.value.length === 0)
     return true;
-  //debugger;
   const isValid = props.event.isAllDayEvent
     ? new Date(val) >= new Date(startDateModelValue.value)
     : new Date(val) > new Date(startDateModelValue.value);
@@ -563,19 +518,6 @@ const regarding = computed(() => {
           </template>
         </q-select>
       </q-item>
-
-      <!-- temporarly hiding this remider section
-       because we have issue in localhost itself once we fix there then show this section  -->
-
-      <!-- <q-item v-ripple clickable @click="reminderDialogOpened = true">
-        <q-item-section avatar>
-          <q-icon color="primary" name="alarm" size="sm" />
-        </q-item-section>
-        <q-item-section>{{ reminderTextInfo }}</q-item-section>
-        <q-item-section side>
-          <q-icon color="primary" name="chevron_right" />
-        </q-item-section>
-      </q-item> -->
       <q-item>
         <q-input
           v-model="event.url"

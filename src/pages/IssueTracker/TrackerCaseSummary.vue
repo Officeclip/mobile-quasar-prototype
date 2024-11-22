@@ -62,17 +62,10 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
 }
 
 async function filterFn(val: string) {
-  // if (val === null || val.length === 0) {
-  //   issueSummaryStore.resetPageNumber();
-  //   return await issueSummaryStore.getIssuesUpdated(false, binderId.toString());
-  // } else {
-  //   if (val.length > 2) {
   filterOptions.value.searchString = val.toLowerCase();
   issueSummaryStore.resetPageNumber();
   issueSummaryStore.setFilter(filterOptions.value);
   await issueSummaryStore.getIssuesUpdated(true, binderId.toString());
-  //}
-  //}
 }
 
 async function handleClear() {
@@ -153,30 +146,6 @@ function toggleLeftDrawer() {
     <q-page-container>
       <q-page>
         <q-item>
-          <!-- <q-item-section>
-            <q-item-label>
-              <q-input
-                v-model="filterOptions.searchString"
-                class="GNL__toolbar-input"
-                color="bg-grey-7 shadow-1"
-                dense
-                outlined
-                label="Search"
-              >
-                <template v-slot:prepend>
-                  <q-icon
-                    v-if="filterOptions.searchString === ''"
-                    name="search"
-                  />
-                  <q-icon
-                    v-else
-                    class="cursor-pointer"
-                    name="clear"
-                    @click="filterOptions.searchString = ''"
-                  />
-                </template>
-              </q-input> </q-item-label
-          ></q-item-section> -->
           <q-item-section>
             <q-input
               v-model="filterOptions.searchString"
@@ -195,27 +164,6 @@ function toggleLeftDrawer() {
               <q-checkbox dense v-model="assignedToMe" label="assigned to me" />
             </q-item-label>
           </q-item-section>
-          <!-- <q-item-section>
-            <q-item-label>
-              <q-checkbox
-                dense
-                v-model="starredIssues"
-                true-value="star"
-                false-value=""
-                label="starred issues"
-              />
-            </q-item-label>
-          </q-item-section> -->
-          <!-- <q-item-section>
-            <q-item-label>
-              <q-select
-                dense
-                label="Sort By"
-                v-model="sortByModel"
-                :options="sortByOptions"
-              />
-            </q-item-label>
-          </q-item-section> -->
           <q-item-section side>
             <q-item-label>
               <q-btn

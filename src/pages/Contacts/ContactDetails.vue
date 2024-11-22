@@ -37,7 +37,6 @@ onBeforeMount(async () => {
     await contactDetailsStore.getContactDetails(route.params.id as string);
     await contactDetailsStore.getContactLists();
   } catch (error) {
-    //console.error('Error Msg: ', error);
     $q.dialog({
       title: 'Alert',
       message: error as string,
@@ -154,7 +153,6 @@ const confirmDeletion = async () => {
     }).onOk(async () => {
       logger.log('*** Delete contact:onSubmit(...):onOK ***');
       showConfirmationDialog.value = false;
-      //router.go(0);
     });
   }
 };
@@ -190,11 +188,11 @@ function toggleLeftDrawer() {
             v-if="isAllowEdit"
             @click="
               model === '1'
-                ? $router.push({
+                ? router.push({
                     name: 'editContactDetails',
                     params: { id: id },
                   })
-                : $router.push({ name: 'editMetaDetail', params: { id: id } })
+                : router.push({ name: 'editMetaDetail', params: { id: id } })
             "
             flat
             round

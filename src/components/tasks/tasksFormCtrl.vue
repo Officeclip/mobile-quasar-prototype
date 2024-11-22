@@ -3,7 +3,6 @@ import { defineProps, onBeforeMount, ref, Ref, watch, computed } from 'vue';
 import { useTaskListsStore } from 'stores/task/taskListsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
-// import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
 import { userSummary } from 'src/models/userSummary';
 import { useUserSummaryStore } from 'stores/userSummaryStore';
 import { tag } from 'src/models/task/taskLists';
@@ -35,9 +34,7 @@ const nameRef = ref();
 const dateRef = ref();
 
 const repeatString = ref('Does not repeat');
-// const reminderTextInfo = ref('Reminder');
 const recurrenceDialogOpened = ref(false);
-// const reminderDialogOpened = ref(false);
 
 const dateMask = 'YYYY-MM-DD';
 
@@ -78,16 +75,6 @@ function handleRRuleText(rruleText: string) {
   repeatString.value = repeatText;
   task.value.recurrence.text = repeatText;
 }
-
-// function handleReminderData(reminderString: [string, number]) {
-//   task.value.reminder.to = reminderString[0];
-//   task.value.reminder.beforeMinutes = reminderString[1];
-// }
-
-// function handleReminderText(reminderText: string) {
-//   reminderTextInfo.value = reminderText;
-//   reminderTextInfo.value = reminderText;
-// }
 
 const shownOptions: Ref<userSummary[]> = ref([]);
 const shownTagOptions: Ref<tag[]> = ref([]);
@@ -188,8 +175,6 @@ const regarding = computed(() => {
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
   <div>
-    <!-- <div class="q-pa-md">
-      <div class="q-gutter-y-md column"> -->
     <q-list>
       <q-item class="column">
         <q-input
@@ -351,23 +336,11 @@ const regarding = computed(() => {
           v-model="task.parent"
           :regarding-parents="taskListsStore.RegardingParent"
       /></q-item>
-      <!-- <q-item-label
-          v-if="appName !== 'task' && taskFromParent?.parent?.value?.name"
-          title="Regarding"
-          :value="regarding"
-        /> -->
-
       <OCItem
         v-if="appName !== 'task' && taskFromParent?.parent?.value?.name"
         title="Regarding"
         :value="regarding"
       />
-      <!-- <div v-if="appName !== 'task' && taskFromParent?.parent?.value?.name">
-        <q-item-label caption class="q-pt-md"> Regarding </q-item-label>
-        <q-item-label class="q-mb-sm">
-          {{ regarding }}
-        </q-item-label>
-      </div> -->
       <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
         <q-item-section avatar>
           <q-icon color="primary" name="repeat" size="sm" />
@@ -377,24 +350,7 @@ const regarding = computed(() => {
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>
-
-      <!-- <q-item
-          class="q-pa-none"
-          v-ripple
-          clickable
-          @click="reminderDialogOpened = true"
-        >
-          <q-item-section avatar>
-            <q-icon color="primary" name="alarm" size="sm" />
-          </q-item-section>
-          <q-item-section>{{ reminderTextInfo }}</q-item-section>
-          <q-item-section side>
-            <q-icon color="primary" name="chevron_right" />
-          </q-item-section>
-        </q-item> -->
     </q-list>
-    <!-- </div>
-    </div> -->
   </div>
 
   <q-dialog v-model="recurrenceDialogOpened">
@@ -403,10 +359,4 @@ const regarding = computed(() => {
       @rrule-text-generated="handleRRuleText"
     />
   </q-dialog>
-  <!-- <q-dialog v-model="reminderDialogOpened">
-    <EventsReminderDialog
-      @reminder-text-generated="handleReminderText"
-      @reminder-data-generated="handleReminderData"
-    />
-  </q-dialog> -->
 </template>

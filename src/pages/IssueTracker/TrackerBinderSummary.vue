@@ -81,12 +81,8 @@ const binderList = computed(() => {
             </q-item-section>
           </q-item>
           <q-separator spaced inset></q-separator>
-          <!-- <q-separator color="yellow-6"></q-separator> -->
         </q-list>
       </q-page>
-      <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn fab icon="add" color="accent" padding="sm"> </q-btn>
-      </q-page-sticky> -->
     </q-page-container>
   </q-layout>
 </template>

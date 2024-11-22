@@ -41,7 +41,7 @@ const newIssue: Ref<trackerCaseDetails> = ref({
     name: '--select--',
   },
   assignedTo: {
-    id: '-1',
+    id: '',
     name: '--select--',
   },
   parent: {
@@ -69,7 +69,7 @@ const issueDetailsStore = useIssueDetailsStore();
 function onSubmit() {
   const issueFormCtrlValues = ref(newIssue);
   issueDetailsStore.addNewTrackerCaseDetails(issueFormCtrlValues.value);
-  router.go(-2);
+  router.go(0);
 }
 </script>
 <template>
@@ -92,7 +92,6 @@ function onSubmit() {
     <q-page-container>
       <q-page>
         <q-list>
-          <!-- <pre>{{ newIssue }}</pre> -->
           <q-form @submit="onSubmit" class="q-gutter-md">
             <issueTrackerForm :issueFromParent="newIssue" :appName="appName" />
             <q-btn

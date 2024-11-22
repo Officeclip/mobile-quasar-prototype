@@ -7,7 +7,6 @@ import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
-import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
@@ -22,8 +21,7 @@ const appName = route.params.appName;
 const task: Ref<taskDetails> = ref(tasksDetailStore.TaskDetail);
 
 onMounted(() => {
-  //TODO: CR: 2024-05-17: nk: Fix the below type error?
-  tasksDetailStore.getTask(id.value);
+  tasksDetailStore.getTask(id.value.toString());
 });
 
 function receiveTask(receivedTask: taskDetails) {
@@ -32,9 +30,7 @@ function receiveTask(receivedTask: taskDetails) {
 const childComponent = ref(null);
 
 async function onSubmit(e: any) {
-  // e.preventDefault();
   try {
-    //debugger;
     if (!childComponent.value.validateAll()) return;
     const newTask: taskDetails = {
       id: task.value.id,
@@ -42,19 +38,11 @@ async function onSubmit(e: any) {
       description: task.value.description,
       actualDuration: task.value.actualDuration,
       completionDate: task.value.completionDate,
-      // dueDate: dateTimeHelper.formatDateTimeFromUIForRestAPI(
-      //   task.value.dueDate,
-      //   true
-      // ),
       dueDate: task.value.dueDate,
       estimatedDuration: task.value.estimatedDuration,
       isLock: task.value.isLock,
       isPrivate: task.value.isPrivate,
       parent: task.value.parent,
-      // startDate: dateTimeHelper.formatDateTimeFromUIForRestAPI(
-      //   task.value.startDate,
-      //   true
-      // ),
       startDate: task.value.startDate,
       taskOwnerName: task.value.taskOwnerName,
       taskOwnerSid: task.value.taskOwnerSid,
@@ -101,7 +89,7 @@ async function onSubmit(e: any) {
           flat
           icon="arrow_back"
           round
-          @click="$router.go(-1)"
+          @click="router.go(-1)"
         />
         <q-toolbar-title>Edit Task</q-toolbar-title>
         <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
@@ -111,7 +99,7 @@ async function onSubmit(e: any) {
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
           <TasksForm
-            :appName="appName"
+            :appName="appName.toString()"
             ref="childComponent"
             :taskFromParent="task"
             @emit-task="receiveTask"

@@ -17,7 +17,6 @@ import { ObjectType } from '../../helpers/util';
 const $q = useQuasar();
 const route = useRoute();
 const router = useRouter();
-//const id = route.params.id;
 const id = ref<string | string[]>('0');
 id.value = route.params.id;
 const binderName = route.params.binderName;
@@ -173,28 +172,6 @@ const isAllowDelete = computed(() => {
                   }}</q-item-label>
                 </q-chip>
               </q-item-section>
-              <!-- <q-item-section side>
-                <q-item-label caption>Criticality: </q-item-label>
-                <q-chip
-                  dense
-                  :class="getIssueTrackerLabelColor(issueDetails.criticality)"
-                >
-                  <q-item-label class="q-px-xs">{{
-                    issueDetails.criticality
-                  }}</q-item-label>
-                </q-chip>
-              </q-item-section>
-              <q-item-section side>
-                <q-item-label caption>Kind: </q-item-label>
-                <q-chip
-                  dense
-                  :class="getIssueTrackerLabelColor(issueDetails.kind)"
-                >
-                  <q-item-label class="q-px-xs">{{
-                    issueDetails.kind
-                  }}</q-item-label>
-                </q-chip>
-              </q-item-section> -->
             </q-item>
             <q-item>
               <q-item-section side>

@@ -67,7 +67,7 @@ async function onSubmit() {
     <q-header>
       <q-toolbar>
         <q-btn
-          @click="$router.go(-1)"
+          @click="router.go(-1)"
           flat
           round
           dense

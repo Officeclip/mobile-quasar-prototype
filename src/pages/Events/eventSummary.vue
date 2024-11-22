@@ -4,35 +4,20 @@ TODO: sg: Show the details of multi day event in the text(Event timing) [45]
 <script lang="ts" setup>
 import { eventSummary } from '../../models/event/eventSummary';
 import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper.js';
 import { format } from 'date-fns';
-import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
 
 const eventSummaryStore = useEventSummaryStore();
 const router = useRouter();
-const $q = useQuasar();
 
 const selectedDate = ref('');
 selectedDate.value = format(new Date(), 'yyyy/MM/dd');
 
 const yearAndMonth = ref(null);
 const myDrawer = ref();
-
-onMounted(async () => {
-  // try {
-  //   await eventSummaryStore.getAllEventSummary(null);
-  // } catch (error) {
-  //   $q.dialog({
-  //     title: 'Alert',
-  //     message: error as string,
-  //   }).onOk(async () => {
-  //     await router.push({ path: '/HomePage' });
-  //   });
-  // }
-});
 
 const calendarEventDates = computed(() => {
   return eventSummaryStore.getEventSummaryDates();
@@ -105,7 +90,7 @@ function toggleLeftDrawer() {
           flat
           icon="arrow_back"
           round
-          @click="$router.push({ path: '/homepage' })"
+          @click="router.push({ path: '/homepage' })"
         >
         </q-btn>
         <q-btn

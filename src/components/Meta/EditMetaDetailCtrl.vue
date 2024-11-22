@@ -12,7 +12,6 @@ const contactDetails = computed(() => {
 });
 
 onMounted(() => {
-  //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
   metaDetailsStore.getMetaDetail(Number(route.params.id), false);
 });
 </script>

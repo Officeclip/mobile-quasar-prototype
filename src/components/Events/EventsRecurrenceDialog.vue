@@ -244,14 +244,6 @@ const parseRRule = () => {
             <q-item-label>day(s)</q-item-label>
           </q-item>
         </q-radio>
-
-        <!-- in officeclip we don't have this option so we are removing -->
-
-        <!-- <q-radio v-model="dailyChoice" val="daily-option2">
-          <q-item class="flex-center q-gutter-md row">
-            <q-item-label>Repeat every weekday</q-item-label>
-          </q-item>
-        </q-radio> -->
       </div>
 
       <div v-else-if="selectedOption === 'weekly'">

@@ -50,17 +50,6 @@ const customerProjectOptions = computed(() => {
   return expenseListsStore.CustomerProjectsList;
 });
 
-// function handleServiceItems() {
-//   return (serviceItemModel.value = '');
-// }
-
-//make sure to select the customer project first then only select service items
-// function checkCustomerProject() {
-//   if (!customerProjectModel.value) {
-//     alert('Select the Customer:Project first');
-//   }
-// }
-
 const expenseTypeOptions = computed(() => {
   return expenseListsStore.ExpenseTypes;
 });
@@ -143,20 +132,12 @@ watch([customerProjectModel], ([newCustomerProjectModel]) => {
   props.expenseDetail.accountSid = customerProjectArray[0];
   props.expenseDetail.projectSid =
     customerProjectArray.length > 1 ? customerProjectArray[1] : '';
-  // props.timesheet.serviceItemSid = newServiceItemModel;
-
-  //update the service item options each time when customer project get changed
-  // serviceItemsOptions.value =
-  //   timesheetListStore.getServiceItemsBycustomerProjectId(
-  //     newCustomerProjectModel
-  //   );
 });
 
 function getExpenseTypeDetail(expTypeId) {
   const expenseType = expenseTypeOptions.value.find(
     (x) => x.expenseTypeSid === expTypeId
   );
-  //debugger;
   if (!expenseType) return;
   if (expenseType != null) {
     isBillableModify.value = expenseType.isBillableModify;
@@ -164,7 +145,6 @@ function getExpenseTypeDetail(expTypeId) {
     if (props.expenseDetail.id === '') {
       props.expenseDetail.billable = expenseType.isBillable;
     }
-    //props.expenseDetail.billable = expenseType.isBillable;
     props.expenseDetail.expenseTypeSid = expenseType.expenseTypeSid;
     props.expenseDetail.expenseTypeName = expenseType.expenseTypeName;
   }
@@ -273,39 +253,6 @@ const validateAll = () => {
 defineExpose({
   validateAll,
 });
-
-// const formattedExpenseDate = ref('');
-// const expenseDateValue = computed({
-//   get() {
-//     if (props.expenseDetail.expenseDate == '') {
-//       return;
-//     }
-//     const newExpenseDate = new Date(props.expenseDetail.expenseDate);
-//     return `${newExpenseDate.toLocaleString('en-US', {
-//       month: 'short',
-//       day: 'numeric',
-//     })}(${newExpenseDate.toLocaleString('en-US', { weekday: 'short' })})`;
-//   },
-//   set(newValue) {
-//     props.expenseDetail.expenseDate = newValue;
-//   },
-// });
-// formattedExpenseDate.value = expenseDateValue.value;
-
-// const customerProjectValue = ref(
-//   props.expenseDetail.accountName
-//     ? `${props.expenseDetail.accountName}:${props.expenseDetail.projectName}`
-//     : ''
-// );
-
-// const updateCustomerProject = (newValue) => {
-//   const names = newValue.name.split(':');
-//   const ids = newValue.id.split(':');
-//   props.expenseDetail.accountName = names[0];
-//   props.expenseDetail.projectName = names[1];
-//   props.expenseDetail.accountSid = ids[0];
-//   props.expenseDetail.projectSid = ids[1];
-// };
 </script>
 
 <template>
@@ -328,8 +275,6 @@ defineExpose({
         :rules="[isDateValid]"
         ref="dateRef"
       />
-      <!-- <pre>{{ customerProjectModel }}</pre> -->
-      <!-- <pre>{{ customerProjectOptions }}</pre> -->
       <q-select
         label="Customer : Project"
         v-model="customerProjectModel"
@@ -339,8 +284,6 @@ defineExpose({
         map-options
         emit-value
       />
-      <!-- <pre>{{ expenseDetail.expenseTypeSid }}</pre> -->
-      <!-- <pre>{{ expenseTypeOptions }}</pre> -->
       <q-select
         label="Expense Type"
         label-color="red"

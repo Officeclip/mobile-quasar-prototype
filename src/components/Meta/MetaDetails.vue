@@ -13,7 +13,6 @@ const contactDetails = computed(() => {
   return metaDetailsStore.MetaDetails;
 });
 onMounted(() => {
-  //contactsStore.$reset(); // FIXME: This is a safeguard and can be removed
   metaDetailsStore.getMetaDetail(Number(contactId.value), true);
   logger.log(`onMounted: Contacts - ${metaDetailsStore.MetaDetails}`);
 });
@@ -52,11 +51,7 @@ onMounted(() => {
       </q-list>
     </q-card-section>
   </q-card>
-  <q-card>
-    <div>
-      <!-- <pre>{{ contactDetails }}</pre> -->
-    </div>
-  </q-card>
+  <q-card> </q-card>
 </template>
 <style scoped>
 .rowItems {

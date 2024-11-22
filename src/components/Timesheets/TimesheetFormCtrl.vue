@@ -7,7 +7,6 @@ import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import util from 'src/helpers/util';
-import logger from 'src/helpers/logger';
 
 const props = defineProps(['timesheet', 'timesheetDCAA', 'fromDate', 'toDate']);
 const $q = useQuasar();
@@ -45,10 +44,6 @@ onMounted(async () => {
     ? custProjId
     : '';
 
-  // customerProjectModel.value =
-  //   props.timesheet?.accountSid +
-  //   (props.timesheet?.projectSid ? ':' + props.timesheet?.projectSid : '');
-
   serviceItemModel.value = customerProjectModel.value
     ? props.timesheet?.serviceItemSid
     : '';
@@ -56,10 +51,6 @@ onMounted(async () => {
 
 let errorMessage = '';
 let isCommentsRequired = false;
-
-// const selectedPeriod = computed(() => {
-//   return timesheetListStore.PeriodList.find((x) => x.name === props.periodName);
-// });
 
 const selectedPeriod = computed(() => {
   const fromDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
@@ -70,7 +61,7 @@ const selectedPeriod = computed(() => {
     props?.toDate,
     true
   );
-  //logger.log(`TimesheetFormCtrl: selectedPeriod: fromDate: ${fromDate}`);
+
   const formattedDt = `${fromDate} - ${toDate}`;
   return formattedDt;
 });
@@ -139,13 +130,11 @@ const isDateValid = () => {
 };
 
 const isDurationEmpty = (val) => {
-  //debugger;
   const condition = val && val > 0;
   return condition ? true : 'This field is required';
 };
 
 const isDurationValid = (val) => {
-  //debugger;
   const condition = util.isDurationValid(val);
   return condition ? true : 'Please enter a valid duration';
 };
@@ -166,7 +155,6 @@ defineExpose({
 });
 
 function onDurationBlur(event) {
-  // debugger;
   const val = event.target.value;
   console.log(
     `TimesheetFormCtrl:onDurationBlur val=${val}, current.value=${props.timesheet.timeDuration}`
@@ -225,14 +213,6 @@ function onDurationBlur(event) {
         emit-value
         @click="checkCustomerProject"
       />
-      <!-- <q-select
-        label="Billable"
-        v-model="timesheet.isBillable"
-        :options="billableOptions"
-        map-options
-        emit-value
-      /> -->
-
       <q-toggle
         label="Billable"
         :false-value="false"
@@ -292,8 +272,3 @@ function onDurationBlur(event) {
     </div>
   </div>
 </template>
-<style scoped>
-/* .q-icon {
-  display: none;
-} */
-</style>

@@ -3,7 +3,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
-// import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useRoute, useRouter } from 'vue-router';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
@@ -25,7 +24,6 @@ const employeeId = route.params.employeeId;
 const entityType = 'timesheet';
 const timesheetDetailSid = ref('');
 const fromDate = route.params.fromDate;
-// const toDate = route.params.toDate;
 const toDate = route.params.toDate;
 const stageId = Number(route.params.stageId);
 const status = route.params.status;
@@ -40,7 +38,6 @@ onMounted(async () => {
     await timesheetsStore.getTimesheetDetails(id, stageId);
     await timesheetCommentsStore.$reset();
     await timesheetCommentsStore.getTimesheetComments(id);
-    // await timesheetListsStore.getTimesheetListAll();
   } catch (error) {
     logger.log(`*** timesheetDetails:error:catch(${error}) ***`, 'error');
     $q.dialog({
@@ -143,7 +140,7 @@ function toggleLeftDrawer() {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
-          @click="$router.push({ path: '/timesheetsAll' })"
+          @click="router.push({ path: '/timesheetsAll' })"
           flat
           round
           dense

@@ -4,7 +4,6 @@ import { computed, ComputedRef, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
-import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
 import AddSubtaskDialog from 'components/tasks/addSubtaskDialog.vue';
 import { subTask } from 'src/models/task/subtask';
 import SubtaskItem from 'components/tasks/SubtaskItem.vue';
@@ -18,13 +17,10 @@ import {
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import { useQuasar } from 'quasar';
 import logger from 'src/helpers/logger';
-import { getCurrentInstance } from 'vue';
 import drawer from '../../components/drawer.vue';
 
 const taskDetailsStore = useTaskDetailsStore();
-const taskSummaryStore = useTaskSummaryStore();
 const $q = useQuasar();
-const instance = getCurrentInstance();
 
 const id = ref<string | string[]>('0');
 
@@ -173,7 +169,6 @@ async function addSubtask(subtask: subTask) {
   try {
     await taskDetailsStore.addSubtask(subtask);
     showAddSubtaskDialog.value = false;
-    //router.go(0);
     window.location.reload();
   } catch (error) {
     $q.dialog({
@@ -215,7 +210,7 @@ function toggleLeftDrawer() {
           flat
           icon="arrow_back"
           round
-          @click="$router.push({ path: '/tasksList' })"
+          @click="router.push({ path: '/tasksList' })"
         />
         <q-btn
           aria-label="Menu"
@@ -384,7 +379,6 @@ function toggleLeftDrawer() {
               <q-item-section>
                 <q-item-label caption>Tags</q-item-label>
                 <div>
-                  <!-- TODO: CR: 2024-05-17: nk: Fix the below type error? -->
                   <q-chip
                     v-for="tag in taskDetail?.tags"
                     :key="tag"

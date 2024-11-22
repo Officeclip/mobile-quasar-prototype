@@ -1,13 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
-// import { Session } from '../models/session';
 import { useSessionStore } from 'stores/SessionStore';
 import { useRouter } from 'vue-router';
 import packageJson from '../../package.json';
 import { useProfileListsStore } from 'stores/profileListsStore';
 import { Constants } from 'stores/Constants';
-import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
 
 const sessionStore = useSessionStore();
@@ -23,10 +21,6 @@ function toggleLeftDrawer() {
 
 defineExpose({ toggleLeftDrawer });
 
-// const userIcon = computed(() => {
-//   return profileListsStore.ProfilesUserGeneral.userIcon;
-// });
-
 const filteredHomeIcons = computed(() => {
   return sessionStore.getHomeIcons();
 });
@@ -38,10 +32,6 @@ function getColor(url: string) {
 function getClass(url: string) {
   return url !== '' ? 'pointer' : '';
 }
-
-// const session: ComputedRef<Session> = computed(() => {
-//   return sessionStore.session;
-// });
 
 function goToApp(url: string) {
   if (url !== '') {
@@ -58,7 +48,6 @@ onMounted(async () => {
   if (util.isObjectNullOrEmpty(profileListsStore.profileLists)) {
     await profileListsStore.getProfileLists();
   }
-  //debugger;
   userIcon.value = profileListsStore.ProfilesUserGeneral.userIcon;
 });
 </script>
@@ -97,29 +86,8 @@ onMounted(async () => {
             </q-item-section>
           </q-item>
         </div>
-        <!-- <div class="q-mt-lg q-mt-md"></div> -->
-        <!-- <q-btn
-          color="primary"
-          style="margin-top: 16px; margin-left: 16px"
-          @click="logout"
-        >
-          <q-icon left name="logout"></q-icon>
-          <div>Logout</div>
-        </q-btn> -->
       </q-list>
       <div style="height: 50px"></div>
-      <!-- <q-list class="absolute-bottom-right text-caption dense">
-        <q-item dense>
-          <q-item-section>Version: </q-item-section>
-          <q-item-section side>{{ packageJson.version }}</q-item-section>
-        </q-item>
-        <q-item dense>
-          <q-item-section>OfficeClip Version: </q-item-section>
-          <q-item-section side>{{
-            Constants.getRestApiVersionFromSession()
-          }}</q-item-section>
-        </q-item>
-      </q-list> -->
     </q-scroll-area>
     <q-img
       src="https://cdn.quasar.dev/img/material.png"
@@ -165,22 +133,6 @@ onMounted(async () => {
                 }}</q-item-section>
               </q-item>
             </q-list>
-            <!-- <q-item-label>
-              <q-item dense>
-                <q-item-section
-                  ><q-item-label caption>Version:</q-item-label>
-                </q-item-section>
-                <q-item-section side>{{ packageJson.version }}</q-item-section>
-              </q-item>
-              <q-item dense>
-                <q-item-section>
-                  <q-item-label caption>OC Version: </q-item-label>
-                </q-item-section>
-                <q-item-section side>{{
-                  Constants.getRestApiVersionFromSession()
-                }}</q-item-section>
-              </q-item>
-            </q-item-label> -->
           </q-item-section>
         </q-item>
       </q-list>
