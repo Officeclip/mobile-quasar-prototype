@@ -10,6 +10,7 @@ export const useNotesStore = defineStore('notesStore', {
     notes: [] as Note[],
     note: undefined as Note | undefined,
     noteBooks: [] as NoteBook[],
+    errorMsg: '' as string,
   }),
 
   getters: {
@@ -53,7 +54,15 @@ export const useNotesStore = defineStore('notesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
-        this.notes = response.data;
+        if (response.status === 200) {
+          this.notes = response.data;
+          this.errorMsg = '';
+        }
+        if (response.status === 204) {
+          await this.resetNotesList();
+          this.errorMsg = response.statusText;
+          return true;
+        }
       } catch (error) {
         Constants.throwError(error);
       }
@@ -124,6 +133,10 @@ export const useNotesStore = defineStore('notesStore', {
       } catch (error) {
         Constants.throwError(error);
       }
+    },
+
+    async resetNotesList() {
+      this.notes = [];
     },
   },
 });

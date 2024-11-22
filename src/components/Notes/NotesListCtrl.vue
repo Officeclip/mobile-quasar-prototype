@@ -47,8 +47,20 @@ onBeforeMount(async () => {
     });
   }
 });
+
+const errorMsg = computed(() => {
+  return notesStore.errorMsg;
+});
+console.log('error message', errorMsg);
 </script>
 <template>
+  <q-item-section v-if="errorMsg">
+    <div class="flex justify-center">
+      <span class="text-subtitle1 text-weight-medium inline q-mr-xs">{{
+        errorMsg
+      }}</span>
+    </div>
+  </q-item-section>
   <q-list v-for="note in getNotes" :key="note.id">
     <q-item
       :to="{
