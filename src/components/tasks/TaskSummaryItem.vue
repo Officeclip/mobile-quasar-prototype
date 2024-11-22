@@ -60,7 +60,6 @@ function toggleTaskStatus() {
       >
         {{ task.subject }}
       </q-item-label>
-      <!-- <pre>task.dueDate::{{ task.dueDate }}</pre> -->
       <div class="DueDate">
         <q-icon class="DueIcon" name="event" />
         <q-item-label>
