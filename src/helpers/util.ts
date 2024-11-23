@@ -87,12 +87,13 @@ function isHideTestPage() {
 //   }
 // }
 function endPointUrl() {
-  const endPointUrl = String(LocalStorage.getItem('endPointUrl'));
-  if (endPointUrl) {
-    return endPointUrl;
-  } else {
-    return null;
-  }
+  // const endPointUrl = String(LocalStorage.getItem('endPointUrl'));
+  // if (endPointUrl) {
+  //   return endPointUrl;
+  // } else {
+  //   return null;
+  // }
+  return 'https://app.officeclip.com/api';
 }
 
 function isObjectNullOrEmpty(obj: object) {

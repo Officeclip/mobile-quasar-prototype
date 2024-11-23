@@ -107,11 +107,12 @@ const isEndPointUrlInLocalStorage = Constants.getEndPointUrl();
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="flex flex-center bg-grey-2">
-        <div v-if="!isEndPointUrlInLocalStorage">
+        <!-- <div v-if="!isEndPointUrlInLocalStorage">
           <apiLinkPage />
-        </div>
+        </div> -->
 
-        <div v-else>
+        <!-- <div v-else> -->
+        <div>
           <q-card class="q-pa-md shadow-2 my_card" bordered>
             <q-form @submit="onSubmit" v-if="!pin">
               <q-card-section class="text-center">

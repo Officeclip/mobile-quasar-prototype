@@ -141,9 +141,10 @@ export class Constants {
   }
 
   static getEndPointUrl() {
-    if (LocalStorage.has('endPointUrl')) {
-      return String(LocalStorage.getItem('endPointUrl'));
-    }
-    return '';
+    // if (LocalStorage.has('endPointUrl')) {
+    //   return String(LocalStorage.getItem('endPointUrl'));
+    // }
+    // return '';
+    return 'https://app.officeclip.com/api';
   }
 }
