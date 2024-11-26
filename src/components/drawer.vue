@@ -57,6 +57,9 @@ onMounted(async () => {
 .q-item--dense {
   min-height: 12px !important;
 }
+.left-zero {
+  left: 0px !important;
+}
 </style>
 
 <!-- see: https://forum.quasar-framework.org/topic/2911/width-attribute-on-q-layout-drawer-giving-error-in-browser-console/3 -->
@@ -103,7 +106,7 @@ onMounted(async () => {
       </div>
     </q-img>
 
-    <q-footer bordered class="bg-white text-primary">
+    <q-footer bordered class="bg-white text-primary left-zero">
       <q-separator color="red-6"></q-separator>
       <q-list>
         <q-item class="q-mb-xs">
