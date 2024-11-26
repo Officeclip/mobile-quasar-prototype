@@ -22,7 +22,6 @@ onMounted(async () => {
 
 function onSubmit() {
   const trackerCaseDetails = ref(editIssue);
-  // console.log('Get the Edit Issue From tracker form::', getNewIssue.value);
   issueDetailsStore.editTrackerCaseDetails(trackerCaseDetails.value);
   router.go(-2);
 }

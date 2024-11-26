@@ -51,7 +51,6 @@ onBeforeMount(async () => {
 const errorMsg = computed(() => {
   return notesStore.errorMsg;
 });
-console.log('error message', errorMsg);
 </script>
 <template>
   <q-item-section v-if="errorMsg">

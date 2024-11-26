@@ -156,11 +156,7 @@ defineExpose({
 
 function onDurationBlur(event) {
   const val = event.target.value;
-  console.log(
-    `TimesheetFormCtrl:onDurationBlur val=${val}, current.value=${props.timesheet.timeDuration}`
-  );
   if (val.includes(':')) {
-    console.log(`onDurationBlur - val changed to ${val}`);
     props.timesheet.timeDuration = util.colonToDecimal(val);
   }
 }
