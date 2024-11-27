@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onBeforeMount, ref, Ref, watch } from 'vue';
+import { onBeforeMount, ref, Ref } from 'vue';
 import { searchFilter } from 'src/models/issueTracker/searchFilter';
 import { useQuasar } from 'quasar';
 import { useRouter, useRoute } from 'vue-router';
@@ -7,7 +7,11 @@ import { useIssueListsStore } from 'stores/issueTracker/issueListsStore';
 import { useIssueSummaryStore } from 'stores/issueTracker/issueSummaryStore';
 import { user } from '../../models/issueTracker/issueLists';
 
-const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
+const emit = defineEmits([
+  'advancedOptionsGenerated',
+  'filterCount',
+  'scrollLoadMore',
+]);
 const $q = useQuasar();
 const route = useRoute();
 const router = useRouter();
@@ -17,7 +21,6 @@ const binderId = route.params.binderId;
 const infinteScroll = ref(null);
 
 const props = defineProps<{
-  //parent: any;
   filterOptions: searchFilter;
 }>();
 
@@ -44,8 +47,6 @@ function filterNumber(filter: searchFilter) {
   val += filter.modifiedById ? 1 : 0;
   return val;
 }
-//const filterModel = ref(null);
-// const filterOptions = ['Open', 'Closed', 'Resolved', 'Reopened'];
 
 function emitOptions() {
   issueSummaryStore.setFilter(advancedOptions.value);
@@ -54,6 +55,7 @@ function emitOptions() {
 
   emit('advancedOptionsGenerated', advancedOptions.value);
   emit('filterCount', filterNumber(advancedOptions.value));
+  emit('scrollLoadMore');
 }
 
 onBeforeMount(async () => {
@@ -89,11 +91,6 @@ async function filterFn(val: string, update: any, abort: any) {
     );
   });
 }
-
-watch(advancedOptions.value, async () => {
-  emitOptions();
-  infinteScroll.value.infinteScrollReset();
-});
 </script>
 
 <template>

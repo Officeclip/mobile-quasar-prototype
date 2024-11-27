@@ -68,11 +68,6 @@ async function filterFn(val: string) {
   await issueSummaryStore.getIssuesUpdated(true, binderId.toString());
 }
 
-async function handleClear() {
-  await issueSummaryStore.resetIssuesSummaryList();
-  issueSummaryStore.resetPageNumber();
-}
-
 watch(
   () => filterOptions.value.searchString,
   async (newValue) => {
@@ -91,14 +86,6 @@ watch(assignedToMe, async () => {
   infinteScroll.value.infinteScrollReset();
 });
 
-watch(
-  () => filterOptions.value,
-  () => {
-    issueSummaryStore.setFilter(filterOptions.value);
-  },
-  { deep: true } // This option is necessary to watch for nested changes
-);
-
 const showAdvOptions = ref(false);
 const filterCount = ref(0);
 function updateFilterCount(val: number) {
@@ -115,6 +102,13 @@ function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
 }
+
+const advanceFilters = async () => {
+  await issueSummaryStore.resetIssuesSummaryList();
+  issueSummaryStore.setFilter(filterOptions.value);
+  await issueSummaryStore.getIssuesUpdated(true, binderId.toString());
+  infinteScroll.value.infinteScrollReset();
+};
 </script>
 
 <template>
@@ -150,7 +144,7 @@ function toggleLeftDrawer() {
             <q-input
               v-model="filterOptions.searchString"
               clearable
-              @clear="handleClear"
+              @clear="clearFilterValues"
               label="Search"
               outlined
               placeholder="Start typing to search"
@@ -198,6 +192,7 @@ function toggleLeftDrawer() {
             @advancedOptionsGenerated="receiveAdvFilters"
             @filterCount="updateFilterCount"
             ref="infinteScroll"
+            @scrollLoadMore="advanceFilters"
           />
         </q-dialog>
       </q-page>
