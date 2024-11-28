@@ -66,6 +66,7 @@ async function filterFn(val: string) {
   issueSummaryStore.resetPageNumber();
   issueSummaryStore.setFilter(filterOptions.value);
   await issueSummaryStore.getIssuesUpdated(true, binderId.toString());
+  infinteScroll.value.infinteScrollReset();
 }
 
 watch(
@@ -143,6 +144,7 @@ const advanceFilters = async () => {
           <q-item-section>
             <q-input
               v-model="filterOptions.searchString"
+              debounce="1000"
               clearable
               @clear="clearFilterValues"
               label="Search"
