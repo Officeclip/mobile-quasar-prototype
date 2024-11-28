@@ -41,6 +41,17 @@ onBeforeMount(() => {
   taskSummaryStore.parentObjectServiceType =
     props.parent.parentObjectServiceType;
 });
+
+const infiniteScroll = ref(null);
+
+function infinteScrollReset() {
+  console.log('******** infinteScrollReset **********');
+  loadMore(0, () => {
+    console.log('Data loaded and reachedEnd reset!');
+  });
+}
+
+defineExpose({ infinteScrollReset });
 </script>
 <style>
 .q-dialog__backdrop {
@@ -55,7 +66,11 @@ onBeforeMount(() => {
       }}</span>
     </div>
   </q-item-section>
-  <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
+  <q-infinite-scroll
+    ref="infiniteScroll"
+    :disable="reachedEnd"
+    @load="loadMore"
+  >
     <q-item v-for="task in getTaskSummaries" :key="task.id" class="q-pa-sm">
       <TaskSummaryItem
         :task="task"

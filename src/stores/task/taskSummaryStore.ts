@@ -97,9 +97,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         } else {
           return true;
         }
-      } catch (error) {
-        Constants.throwError(error);
-      }
+      } catch (error) {}
       return this.url === 'null';
     },
 

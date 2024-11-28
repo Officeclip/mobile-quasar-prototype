@@ -7,7 +7,11 @@ import { searchFilter } from 'src/models/task/searchFilter';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
-const emit = defineEmits(['advancedOptionsGenerated', 'filterCount']);
+const emit = defineEmits([
+  'advancedOptionsGenerated',
+  'filterCount',
+  'scrollLoadMore',
+]);
 const $q = useQuasar();
 const router = useRouter();
 
@@ -57,6 +61,7 @@ function emitOptions() {
 
   emit('advancedOptionsGenerated', advancedOptions.value);
   emit('filterCount', filterNumber(advancedOptions.value));
+  emit('scrollLoadMore');
 }
 
 onBeforeMount(async () => {
@@ -103,25 +108,6 @@ async function filterFn(val: string, update: any, abort: any) {
     );
   });
 }
-
-// const dueDateOptionNotEmpty = (val: string) => {
-//   //debugger;
-//   const condition =
-//     advancedOptions.value.dueDateValue.length > 0 && val.length == 0;
-//   return condition ? true : 'This field is required';
-// };
-
-// const dueDateOptionEmpty = (val: string) => {
-//   const condition =
-//     advancedOptions.value.dueDateValue.length == 0 && val.length > 0;
-//   return condition ? true : 'This field is not required';
-// };
-
-// const modifiedDateOptionNotEmpty = (val: string) => {
-//   const condition =
-//     advancedOptions.value.modifiedDateValue.length > 0 && val.length == 0;
-//   return condition ? true : 'This field is required';
-// };
 </script>
 
 <template>

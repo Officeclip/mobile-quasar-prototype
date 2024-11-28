@@ -7,8 +7,11 @@ import { searchFilter } from 'src/models/task/searchFilter';
 import { useSessionStore } from 'stores/SessionStore';
 import TasksListCtrl from 'components/tasks/tasksListCtrl.vue';
 import drawer from '../../components/drawer.vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const myDrawer = ref();
+const infinteScroll = ref(null);
 
 const defaultFilterOptions: searchFilter = {
   filterString: '',
@@ -64,21 +67,11 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
 }
 
 async function filterFn(val: string) {
-  if (val === null || val.length === 0) {
-    taskSummaryStore.resetPageNumber();
-    return await taskSummaryStore.getTasksUpdated(false);
-  } else {
-    if (val.length > 2) {
-      filterOptions.value.filterString = val.toLowerCase();
-      taskSummaryStore.resetPageNumber();
-      taskSummaryStore.setFilter(filterOptions.value);
-      await taskSummaryStore.getTasksUpdated(true);
-    }
-  }
-}
-async function handleClear() {
-  await taskSummaryStore.resetTaskSummaryList();
+  filterOptions.value.filterString = val.toLowerCase();
   taskSummaryStore.resetPageNumber();
+  taskSummaryStore.setFilter(filterOptions.value);
+  await taskSummaryStore.getTasksUpdated(true);
+  infinteScroll.value.infinteScrollReset();
 }
 
 watch(
@@ -96,15 +89,15 @@ watch(assignedToMe, async () => {
   await taskSummaryStore.resetTaskSummaryList();
   taskSummaryStore.setFilter(filterOptions.value);
   await taskSummaryStore.getTasksUpdated(true);
+  infinteScroll.value.infinteScrollReset();
 });
 
-watch(
-  () => filterOptions.value,
-  () => {
-    taskSummaryStore.setFilter(filterOptions.value);
-  },
-  { deep: true } // This option is necessary to watch for nested changes
-);
+const advanceFilters = async () => {
+  await taskSummaryStore.resetTaskSummaryList();
+  taskSummaryStore.setFilter(filterOptions.value);
+  await taskSummaryStore.getTasksUpdated(true);
+  infinteScroll.value.infinteScrollReset();
+};
 
 const filterCount = ref(0);
 
@@ -151,7 +144,7 @@ function toggleLeftDrawer() {
           flat
           icon="arrow_back"
           round
-          @click="$router.push({ path: '/homepage' })"
+          @click="router.push({ path: '/homepage' })"
         />
         <q-btn
           aria-label="Menu"
@@ -171,11 +164,12 @@ function toggleLeftDrawer() {
         <div class="q-pa-sm">
           <q-input
             v-model="filterOptions.filterString"
+            debounce="1000"
             clearable
-            @clear="handleClear"
+            @clear="clearFilterValues"
             label="Search"
             outlined
-            placeholder="Start typing with min 3 characters to search"
+            placeholder="Start typing to search"
           >
           </q-input>
         </div>
@@ -197,13 +191,14 @@ function toggleLeftDrawer() {
             </div>
           </div>
         </div>
-        <tasks-list-ctrl :parent="parent" />
+        <tasks-list-ctrl :parent="parent" ref="infinteScroll" />
         <q-dialog v-model="showAdvOptions">
           <task-advanced-filters
             :filter-options="filterOptions"
             :parent="parent"
             @advancedOptionsGenerated="receiveAdvFilters"
             @filterCount="updateFilterCount"
+            @scrollLoadMore="advanceFilters"
           />
         </q-dialog>
       </q-page>
