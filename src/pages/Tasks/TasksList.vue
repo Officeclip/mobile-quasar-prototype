@@ -67,11 +67,13 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
 }
 
 async function filterFn(val: string) {
-  filterOptions.value.filterString = val.toLowerCase();
-  taskSummaryStore.resetPageNumber();
-  taskSummaryStore.setFilter(filterOptions.value);
-  await taskSummaryStore.getTasksUpdated(true);
-  infinteScroll.value.infinteScrollReset();
+  if (val.length > 2) {
+    filterOptions.value.filterString = val.toLowerCase();
+    taskSummaryStore.resetPageNumber();
+    taskSummaryStore.setFilter(filterOptions.value);
+    await taskSummaryStore.getTasksUpdated(true);
+    infinteScroll.value.infinteScrollReset();
+  }
 }
 
 watch(
@@ -169,7 +171,7 @@ function toggleLeftDrawer() {
             @clear="clearFilterValues"
             label="Search"
             outlined
-            placeholder="Start typing to search"
+            placeholder="Start typing with min 3 characters to search"
           >
           </q-input>
         </div>

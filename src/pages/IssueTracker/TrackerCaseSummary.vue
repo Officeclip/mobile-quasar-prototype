@@ -62,11 +62,13 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
 }
 
 async function filterFn(val: string) {
-  filterOptions.value.searchString = val.toLowerCase();
-  issueSummaryStore.resetPageNumber();
-  issueSummaryStore.setFilter(filterOptions.value);
-  await issueSummaryStore.getIssuesUpdated(true, binderId.toString());
-  infinteScroll.value.infinteScrollReset();
+  if (val.length > 2) {
+    filterOptions.value.searchString = val.toLowerCase();
+    issueSummaryStore.resetPageNumber();
+    issueSummaryStore.setFilter(filterOptions.value);
+    await issueSummaryStore.getIssuesUpdated(true, binderId.toString());
+    infinteScroll.value.infinteScrollReset();
+  }
 }
 
 watch(
@@ -149,7 +151,7 @@ const advanceFilters = async () => {
               @clear="clearFilterValues"
               label="Search"
               outlined
-              placeholder="Start typing to search"
+              placeholder="Start typing with min 3 characters to search"
             >
             </q-input>
           </q-item-section>
