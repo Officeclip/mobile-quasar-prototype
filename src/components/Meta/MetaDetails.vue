@@ -2,7 +2,6 @@
 import { onMounted, computed } from 'vue';
 import { useMetaDetailsStore } from '../../stores/MetaDetailsStore';
 import MetaDetailsViewItem from '../../components/Meta/MetaDetailsViewItem.vue';
-import logger from 'src/helpers/logger';
 
 const metaDetailsStore = useMetaDetailsStore();
 const props = defineProps(['params']);
@@ -14,7 +13,6 @@ const contactDetails = computed(() => {
 });
 onMounted(() => {
   metaDetailsStore.getMetaDetail(Number(contactId.value), true);
-  logger.log(`onMounted: Contacts - ${metaDetailsStore.MetaDetails}`);
 });
 </script>
 

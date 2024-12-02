@@ -8,7 +8,6 @@ import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
-import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const route = useRoute();
@@ -52,12 +51,9 @@ async function onSubmit() {
     await timesheetsStore.editTimesheet(editTimesheet.value);
     router.go(-1);
   } catch (error) {
-    logger.log(`*** Edit Timesheet:onSubmit(...):catch: ${error} ***`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      logger.log('*** Edit Timesheet:onSubmit(...):onOK ***');
     });
   }
 }

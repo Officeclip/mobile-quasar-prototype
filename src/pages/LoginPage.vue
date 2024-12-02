@@ -50,9 +50,6 @@ async function onSubmit(e: any) {
       return;
     }
     await tokenStore.validateLogin(login.value, pin.value);
-    // logger.log('-- LoginPage.vue:onSubmit --');
-    // await sessionStore.getSession();
-
     route1.push('/HomePage');
   } catch (error) {
     $q.loading.hide();
@@ -68,7 +65,6 @@ onBeforeUnmount(() => {
 });
 
 onMounted(async () => {
-  logger.log('-- HomePage.vue:onMounted --');
   localStorage.removeItem('X-Token');
   // localStorage.removeItem('endPointUrl');
   sessionStorage.removeItem('oc-session');

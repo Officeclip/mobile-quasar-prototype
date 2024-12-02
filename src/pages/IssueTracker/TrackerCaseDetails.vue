@@ -7,7 +7,6 @@ import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { useRoute, useRouter } from 'vue-router';
 import { getIssueTrackerLabelColor } from 'src/helpers/colorIconHelper';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
-import logger from 'src/helpers/logger';
 import { useQuasar } from 'quasar';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import { isAllowed } from 'src/helpers/security';
@@ -77,7 +76,6 @@ const deleteIssueDetail = async (id: string) => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('*** Delete timesheetDetail:onSubmit(...):onOK ***');
       showDeleteIssueDetail.value = false;
     });
   }

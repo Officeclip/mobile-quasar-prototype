@@ -7,7 +7,6 @@ import { eventDetails } from 'src/models/event/eventDetails';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useQuasar } from 'quasar';
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
-import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 
@@ -84,23 +83,15 @@ function handleReminder(reminder: [string, number]) {
 const childComponent = ref<typeof EventForm>(); // see: https://stackoverflow.com/a/65027995
 
 async function onSubmit(e: any) {
-  //e.preventDefault();
   try {
-    logger.log(
-      `onSubmit::childComponent validateAll: ${childComponent.value?.validateAll()}`
-    );
     if (!childComponent.value?.validateAll()) return;
     const newEventDetails = ref(event);
     await eventDetailsStore.addEventDetails(newEventDetails.value);
     router.go(-1);
   } catch (error) {
-    logger.log(`*** New Event:onSubmit(...):catch: ${error} ***`);
-    logger.log(`---------${error}---------`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      logger.log('*** New Event:onSubmit(...):onOK ***');
     });
   }
 }

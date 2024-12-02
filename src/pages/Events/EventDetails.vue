@@ -8,7 +8,6 @@ import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
-import logger from 'src/helpers/logger';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 import drawer from '../../components/drawer.vue';
 
@@ -24,17 +23,14 @@ const appName = route.params.appName;
 const myDrawer = ref();
 
 onMounted(async () => {
-  logger.log('*** Event Details:onMounted(async...) ***');
   try {
     await eventDetailsStore.getEventDetailsById(id);
     await reminderDataStore.getReminderObject();
   } catch (error) {
-    logger.log(`*** Event Details:error:catch(${error}) ***`, 'error');
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('*** Event Details:onMounted:onOk ***');
       await router.push({ path: '/eventSummary' });
       await router.go(0);
     });
@@ -133,7 +129,6 @@ const confirmDeletion = async () => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('*** Delete event :onSubmit(...):onOK ***');
       showConfirmationDialog.value = false;
     });
   }

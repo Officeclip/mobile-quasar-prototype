@@ -6,7 +6,6 @@ import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { eventDetails } from 'src/models/event/eventDetails';
 import { useQuasar } from 'quasar';
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
-import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const route = useRoute();
@@ -44,12 +43,9 @@ async function onSubmit(e: any) {
     await eventDetailsStore.editEventDetails(editEventDetails.value);
     router.go(-2);
   } catch (error) {
-    logger.log(`*** Edit Event:onSubmit(...):catch: ${error} ***`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      logger.log('*** Edit Event:onSubmit(...):onOK ***');
     });
   }
 }

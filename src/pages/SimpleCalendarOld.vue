@@ -10,7 +10,6 @@ import dateTimeHelper from '../helpers/dateTimeHelper.js';
 import { format } from 'date-fns';
 import { eventSummary } from '../models/event/eventSummary';
 import { useEventSummaryStore } from '../stores/event/eventSummaryStore';
-import logger from 'src/helpers/logger';
 
 const eventsStore = useEventSummaryStore();
 const date = ref('');
@@ -46,7 +45,6 @@ const eventsForADay = computed(() => {
 function getFromToDate(event: eventSummary) {
   const from = dateTimeHelper.extractTimeFromUtc(event.startDateTime);
   const to = dateTimeHelper.extractTimeFromUtc(event.endDateTime);
-  logger.log('TTTTTTTTTTT', from);
   return `${from} - ${to}`;
 }
 

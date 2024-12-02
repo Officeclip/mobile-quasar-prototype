@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { Constants } from 'stores/Constants';
 import { subTask } from 'src/models/task/subtask';
-import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
 
 export const useTaskDetailsStore = defineStore('taskDetailsStore', {
@@ -20,7 +19,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
 
   actions: {
     async addTask(taskDetail: taskDetails) {
-      logger.log('*** taskDetailStore:addTask(...) ***');
       try {
         this.taskDetails.push(taskDetail);
         const instance = Constants.getAxiosInstance();
@@ -33,7 +31,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           this.taskDetail = response.data;
         }
       } catch (error) {
-        logger.log(`*** taskDetailStore:addTask(...):catch: ${error} ***`);
         Constants.throwError(error);
       }
     },
@@ -63,13 +60,11 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           this.taskDetail = response.data;
         }
       } catch (error) {
-        logger.log(`*** taskDetailStore:editTask(...):catch: ${error} ***`);
         Constants.throwError(error);
       }
     },
 
     async getTask(id: string) {
-      logger.log(`*** taskDetailStore:getTask(${id}) ***`);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
@@ -77,8 +72,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         );
         this.taskDetail = response.data;
       } catch (error) {
-        logger.log(`*** taskDetailStore:catch(${error}) ***`, 'error');
-        logger.throwError(error);
+        Constants.throwError(error);
       }
     },
 
@@ -108,7 +102,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           this.subTask = response.data;
         }
       } catch (error) {
-        logger.log(`*** taskDetailStore:addSubTask(...):catch: ${error} ***`);
         Constants.throwError(error);
       }
     },
@@ -124,7 +117,6 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
           this.subTask = response.data;
         }
       } catch (error) {
-        logger.log(`*** taskDetailStore:editSubTask(...):catch: ${error} ***`);
         Constants.throwError(error);
       }
     },

@@ -4,7 +4,6 @@ import { useRouter } from 'vue-router';
 import { useWorkFlowStore } from 'src/stores/workFlow/WorkFlow';
 import { useTECommentsStore } from 'src/stores/TECommentsStore';
 import { useQuasar } from 'quasar';
-import logger from 'src/helpers/logger';
 
 const props = defineProps(['entityId', 'entityType', 'stageId', 'employeeId']);
 const $q = useQuasar();
@@ -86,8 +85,6 @@ const upDateWorkFlow = async () => {
       $q.dialog({
         title: 'Alert',
         message: error as string,
-      }).onOk(async () => {
-        logger.log('*** Work Flow:onSubmit(...):onOK ***');
       });
     }
   }
@@ -102,8 +99,6 @@ const teDCAAupdateWorkflow = async () => {
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      logger.log('*** Work Flow:onSubmit(...):onOK ***');
     });
   }
 };

@@ -77,7 +77,6 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
         this.contactSummary = response.data;
       } catch (error: any) {
         alert(error);
-        logger.log(error);
       }
     },
 

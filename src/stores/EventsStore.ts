@@ -3,7 +3,6 @@ import dateTimeHelper from '../helpers/dateTimeHelper.js';
 import { Event } from '../models/event';
 import { MeetingAttendees } from '../models/meetingAttendees.js';
 import { Constants } from 'stores/Constants';
-import logger from 'src/helpers/logger.js';
 import util from 'src/helpers/util.js';
 
 export const useEventsStore = defineStore('eventsStore', {
@@ -31,7 +30,6 @@ export const useEventsStore = defineStore('eventsStore', {
         this.meetingAttendees = response.data;
       } catch (error: any) {
         alert(error);
-        logger.log(error);
       }
     },
 
@@ -42,7 +40,6 @@ export const useEventsStore = defineStore('eventsStore', {
         this.events = response.data;
       } catch (error: any) {
         alert(error);
-        logger.log(error);
       }
     },
 
@@ -56,7 +53,7 @@ export const useEventsStore = defineStore('eventsStore', {
         const response = await instance.get(callStr);
         this.events = response.data;
       } catch (error) {
-        console.error(error);
+        alert(error);
       }
     },
 
@@ -72,7 +69,7 @@ export const useEventsStore = defineStore('eventsStore', {
         }
       } catch (error: any) {
         alert(error);
-        logger.log(error);
+        alert(error);
       }
     },
 
@@ -114,7 +111,7 @@ export const useEventsStore = defineStore('eventsStore', {
           this.event = response.data;
         }
       } catch (error) {
-        console.error(`editEvent Error: ${error}`);
+        alert(error);
       }
     },
 
@@ -137,7 +134,7 @@ export const useEventsStore = defineStore('eventsStore', {
           this.event = response.data;
         }
       } catch (error) {
-        console.error(`deleteEvent Error: ${error}`);
+        alert(error);
       }
     },
   },

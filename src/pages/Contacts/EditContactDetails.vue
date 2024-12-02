@@ -9,7 +9,6 @@ import { useRouter, useRoute } from 'vue-router';
 import EditContactDetailsCtrl from '../../components/Contacts/EditContactDetailsCtrl.vue';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
-import logger from 'src/helpers/logger';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
 
 const $q = useQuasar();
@@ -40,7 +39,6 @@ async function onSubmit(e: any) {
     // router.push('/contactSummary');
     router.go(-1);
   } catch (error) {
-    logger.log(`*** Edit Contact:onSubmit(...):catch: ${error} ***`);
     // $q.notify({
     //   message: error as string,
     //   color: 'red',
@@ -48,10 +46,6 @@ async function onSubmit(e: any) {
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      logger.log('*** Edit Contact:onSubmit(...):onOK ***');
-      // await router.push({ path: '/homePage' });
-      // router.go(0);
     });
   }
 }

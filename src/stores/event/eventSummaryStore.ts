@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import { eventSummary } from '../../models/event/eventSummary.js';
 import dateTimeHelper from 'src/helpers/dateTimeHelper.js';
 import { Constants } from '../Constants';
-import logger from 'src/helpers/logger.js';
 import util from 'src/helpers/util.js';
 
 export const useEventSummaryStore = defineStore('eventSummaryStore', {
@@ -34,7 +33,6 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
     },
 
     getEventSummaryForADay(date: any) {
-      logger.log(`Date: ${date}`);
       if (this.eventSummary) {
         const eventsForADay = this.eventSummary.filter((t) => {
           if (t.startDateTime) {

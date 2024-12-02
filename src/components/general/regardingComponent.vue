@@ -3,7 +3,6 @@ import { computed, ref, watch } from 'vue';
 import { useRegardingStore } from 'stores/regarding/regardingStore';
 import { regardingItem } from 'src/models/general/regardingItem';
 import { useQuasar } from 'quasar';
-import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const props = defineProps<{
@@ -50,19 +49,15 @@ async function filterItems(val: string, update: (arg0: () => void) => void) {
   try {
     await regardingStore.getRegardingItemsThatMatch(val, regardingType.value);
   } catch (error) {
-    logger.log(`*** Regarding:onSubmit(...):catch: ${error} ***`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      logger.log('*** Regarding:onSubmit(...):onOK ***');
     });
   }
   regardingItems.value = regardingStore.regardingItems;
   //}
 
   update(() => {
-    logger.log('update');
     const needle = val.toLowerCase();
     regardingItems.value = regardingStore.regardingItems.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1

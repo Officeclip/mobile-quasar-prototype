@@ -6,7 +6,6 @@ import { ContactDetails } from 'src/models/Contact/contactDetails';
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
-import logger from 'src/helpers/logger';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
 
 const $q = useQuasar();
@@ -49,13 +48,9 @@ async function onSubmit(e: any) {
     await usecontactDetailsStore.addContactDetails(newContactDetails.value);
     router.push('/contactSummary');
   } catch (error) {
-    logger.log(`*** NewContact:onSubmit(...):catch: ${error} ***`);
-    logger.log(`---------${error}---------`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      logger.log('*** NewContact:onSubmit(...):onOK ***');
     });
   }
 }

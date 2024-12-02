@@ -7,7 +7,6 @@ import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
-import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const tasksDetailStore = useTaskDetailsStore();
@@ -64,16 +63,12 @@ async function onSubmit(e: any) {
       recurrence: task.value.recurrence,
       taskStatusCategory: task.value.taskStatusCategory,
     };
-    logger.log(`xxxxxx task Details: ${newTask.dueDate}, ${newTask.startDate}`);
     await tasksDetailStore.editTask(newTask);
     router.go(-2);
   } catch (error) {
-    logger.log(`*** Edit Task:onSubmit(...):catch: ${error} ***`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      logger.log('*** Edit Task:onSubmit(...):onOK ***');
     });
   }
 }
