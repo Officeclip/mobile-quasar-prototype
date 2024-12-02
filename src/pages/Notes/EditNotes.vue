@@ -6,7 +6,7 @@ import { useRouter, useRoute } from 'vue-router';
 import NotesForm from '../../components/Notes/NotesFormCtrl.vue';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
-import { Note } from 'src/models/note';
+import { Note } from 'src/models/Notes/note';
 
 const $q = useQuasar();
 const notesStore = useNotesStore();

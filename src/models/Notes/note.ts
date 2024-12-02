@@ -1,4 +1,4 @@
-import { security } from '../models/security';
+import { security } from '../security';
 export interface Note {
   id: string;
   noteBookId: string;

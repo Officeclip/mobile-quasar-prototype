@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { Note } from '../models/note';
-import { NoteBook } from '../models/noteBook';
+import { Note } from '../models/Notes/note';
+import { NoteBook } from '../models/Notes/noteBook';
 import { Constants } from 'stores/Constants';
 import util from 'src/helpers/util';
 

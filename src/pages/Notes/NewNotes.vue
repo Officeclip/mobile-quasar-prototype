@@ -3,7 +3,7 @@ import NotesForm from '../../components/Notes/NotesFormCtrl.vue';
 import { useNotesStore } from '../../stores/NotesStore';
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { Note } from '../../models/note';
+import { Note } from '../../models/Notes/note';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 
