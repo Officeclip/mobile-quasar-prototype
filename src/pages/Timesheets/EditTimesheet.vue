@@ -1,7 +1,7 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed, ref, Ref } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import { useRouter, useRoute } from 'vue-router';
 import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
@@ -9,6 +9,7 @@ import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 import logger from 'src/helpers/logger';
+import { TimesheetDetails } from 'src/models/Timesheet/timesheetDetails';
 
 const $q = useQuasar();
 const route = useRoute();
@@ -20,10 +21,14 @@ const timesheetDetailSid = route.params.id;
 const fromDate: any = route.params.fromDate;
 const toDate: any = route.params.toDate;
 
+const timesheet: Ref<TimesheetDetails> = ref(null);
+
 onMounted(async () => {
   try {
     await timesheetsStore.getSingleTimesheetDetail(timesheetDetailSid);
     await timesheetCommentsStore.getTimesheetGroupProfile();
+    const response = timesheetsStore.TimesheetDetail;
+    timesheet.value = response;
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -38,9 +43,9 @@ const timesheetDCAA = computed(() => {
   return timesheetCommentsStore.timesheetDCAA;
 });
 
-const timesheet = computed(() => {
-  return timesheetsStore.TimesheetDetail;
-});
+// const timesheet = computed(() => {
+//   return timesheetsStore.TimesheetDetail;
+// });
 
 const childComponent = ref(null);
 

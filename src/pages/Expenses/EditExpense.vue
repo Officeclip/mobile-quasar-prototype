@@ -1,13 +1,14 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed, ref, Ref } from 'vue';
 import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
 import { useRouter, useRoute } from 'vue-router';
 import ExpenseForm from '../../components/expenses/ExpenseFormCtrl.vue';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 import logger from 'src/helpers/logger';
+import { ExpenseDetails } from 'src/models/expenseDetails';
 
 const expenseDetailsStore = useExpenseDetailsStore();
 
@@ -22,9 +23,13 @@ const id = computed(() => {
 const fromDate: any = route.params.fromDate;
 const toDate: any = route.params.toDate;
 
+const expenseDetail: Ref<ExpenseDetails> = ref(null);
+
 onMounted(async () => {
   try {
     await expenseDetailsStore.getExpenseDetailById(id.value);
+    const response = expenseDetailsStore.ExpenseDetails;
+    expenseDetail.value = response;
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -35,9 +40,9 @@ onMounted(async () => {
   }
 });
 
-const expenseDetail = computed(() => {
-  return expenseDetailsStore.ExpenseDetails;
-});
+// const expenseDetail = computed(() => {
+//   return expenseDetailsStore.ExpenseDetails;
+// });
 
 const childComponent = ref(null);
 

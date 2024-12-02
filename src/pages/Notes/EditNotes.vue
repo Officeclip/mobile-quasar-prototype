@@ -1,12 +1,13 @@
 <!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, Ref } from 'vue';
 import { useNotesStore } from '../../stores/NotesStore';
 import { useRouter, useRoute } from 'vue-router';
 import NotesForm from '../../components/Notes/NotesFormCtrl.vue';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 import logger from 'src/helpers/logger';
+import { Note } from 'src/models/note';
 
 const $q = useQuasar();
 const notesStore = useNotesStore();
@@ -15,21 +16,30 @@ const router = useRouter();
 
 const id = ref<string | string[]>(route.params.id);
 
-const note = computed(() => {
-  return notesStore.Note;
-});
+const note: Ref<Note> = ref(null);
 
-onMounted(() => {
-  notesStore.getNote(id.value as string);
+onMounted(async () => {
+  try {
+    await notesStore.getNote(id.value as string);
+    const response = notesStore.Note;
+    note.value = response;
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/notesList' });
+    });
+  }
 });
 
 const childComponent = ref(null);
 
 async function onSubmit(e: Event) {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     if (!childComponent.value.validateAll()) return;
-    await notesStore.editNote(note.value!);
+    const editNotes = ref(note);
+    await notesStore.editNote(editNotes.value);
     router.go(-2);
   } catch (error) {
     $q.dialog({
@@ -60,7 +70,7 @@ async function onSubmit(e: Event) {
     </q-header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
-        <div>
+        <div v-if="note">
           <NotesForm :note="note" ref="childComponent" />
         </div>
       </q-form>

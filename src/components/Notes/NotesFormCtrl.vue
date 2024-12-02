@@ -1,8 +1,20 @@
 <script lang="ts" setup>
 import { defineProps, ref } from 'vue';
 
-const options = ref([]);
-options.value = [
+const props = defineProps(['note']);
+
+const notesDetail = ref(props.note);
+
+const isPrivate = ref('');
+isPrivate.value = notesDetail.value?.isPrivate ? 'Yes' : 'No';
+
+const descriptionRef = ref(null);
+
+const ruleNotEmpty = (val: string) => {
+  const condition = val && val.length > 0;
+  return condition ? true : 'Please enter description';
+};
+const options = ref([
   {
     label: 'Yes',
     value: true,
@@ -11,18 +23,7 @@ options.value = [
     label: 'No',
     value: false,
   },
-];
-
-const props = defineProps(['note']);
-const isPrivate = ref('');
-isPrivate.value = props.note.isPrivate ? 'Yes' : 'No';
-
-const descriptionRef = ref(null);
-
-const ruleNotEmpty = (val: string) => {
-  const condition = val && val.length > 0;
-  return condition ? true : 'Please enter description';
-};
+]);
 
 const validateAll = () => {
   descriptionRef.value.validate();
@@ -35,20 +36,18 @@ defineExpose({
 </script>
 
 <template>
-  <!-- FIXME: remove the warning -->
-  <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">
         <q-input
-          v-model="note.title"
+          v-model="notesDetail.title"
           label="Title"
           placeholder="enter note title"
         >
         </q-input>
         <q-field
           class="q-mt-md"
-          v-model="note.description"
+          v-model="notesDetail.description"
           label-slot
           borderless
           :rules="[ruleNotEmpty]"
@@ -59,14 +58,14 @@ defineExpose({
             <q-editor
               style="color: black"
               class="q-mt-md full-width"
-              v-model="note.description"
+              v-model="notesDetail.description"
               paragraph-tag="div"
               placeholder="enter description"
             ></q-editor>
           </template>
         </q-field>
         <q-select
-          v-model="note.isPrivate"
+          v-model="notesDetail.isPrivate"
           :options="options"
           map-options
           emit-value
