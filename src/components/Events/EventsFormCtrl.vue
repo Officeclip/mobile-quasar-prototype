@@ -16,8 +16,6 @@ import { useQuasar, QInput } from 'quasar';
 import { useRouter } from 'vue-router';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
-import util from 'src/helpers/util';
-import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -134,7 +132,6 @@ function handleReminderData(reminderString: []) {
 }
 
 function handleReminderText(reminderText: string) {
-  //TODO: CR: 2024-05-17: nk: Fix the below error?
   reminderTextInfo.value = reminderText;
 }
 
@@ -228,7 +225,6 @@ const ruleNotEmpty = (val: string) => {
 };
 
 const ruleEndDateGreaterThanStartDate = (val: string) => {
-  logger.log(`startDate: ${startDateModelValue.value}, endDate: ${val}`);
   if (!startDateModelValue.value || startDateModelValue.value.length === 0)
     return true;
   const isValid = props.event.isAllDayEvent
