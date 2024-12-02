@@ -21,7 +21,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['emit-task']);
+// const emit = defineEmits(['emit-task']);
 
 const task: Ref<taskDetails> = ref(props.taskFromParent);
 const userSummaryStore = useUserSummaryStore();
@@ -140,9 +140,9 @@ watch(taskOwner, () => {
   task.value.taskOwnerSid = taskOwner.value?.id;
   task.value.taskOwnerName = taskOwner.value?.name;
 });
-watch(task.value, () => {
-  emit('emit-task', task.value);
-});
+// watch(task.value, () => {
+//   emit('emit-task', task.value);
+// });
 
 const ruleDueDateGreaterThanStartDate = (val: string) => {
   if (!task.value.startDate || task.value.startDate.length === 0) return true;
@@ -171,7 +171,6 @@ const regarding = computed(() => {
 </script>
 
 <template>
-  <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <q-list>
       <q-item class="column">
