@@ -8,7 +8,6 @@ import TimesheetForm from '../../components/Timesheets/TimesheetFormCtrl.vue';
 import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
-import logger from 'src/helpers/logger';
 import { TimesheetDetails } from 'src/models/Timesheet/timesheetDetails';
 
 const $q = useQuasar();
@@ -43,26 +42,18 @@ const timesheetDCAA = computed(() => {
   return timesheetCommentsStore.timesheetDCAA;
 });
 
-// const timesheet = computed(() => {
-//   return timesheetsStore.TimesheetDetail;
-// });
-
 const childComponent = ref(null);
 
 async function onSubmit() {
-  // e.preventDefault();
   try {
     if (!childComponent.value.validateAll()) return;
     const editTimesheet = ref(timesheet);
     await timesheetsStore.editTimesheet(editTimesheet.value);
     router.go(-1);
   } catch (error) {
-    logger.log(`*** Edit Timesheet:onSubmit(...):catch: ${error} ***`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      logger.log('*** Edit Timesheet:onSubmit(...):onOK ***');
     });
   }
 }
