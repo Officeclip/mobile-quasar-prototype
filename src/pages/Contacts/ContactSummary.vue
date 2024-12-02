@@ -27,8 +27,6 @@ const isRoleAccess = () => {
 const text = ref('');
 const myDrawer = ref();
 
-let numItems = ref(0); // total number of items in the list
-
 const contacts = computed(() => {
   contactSummaryStore.$reset();
   return contactSummaryStore.ContactSummary;
@@ -41,7 +39,7 @@ const errorMsg = computed(() => {
 let reachedEnd = ref(false); // indicate if all contacts have been loaded
 const loadMore = async (index: any, done: () => void) => {
   try {
-    reachedEnd.value = await contactSummaryStore.getUpdatedContacts();
+    reachedEnd.value = await contactSummaryStore.getUpdatedContacts(false);
     //https://quasar.dev/vue-components/infinite-scroll/#usage
     done();
   } catch (error) {
@@ -55,10 +53,6 @@ const loadMore = async (index: any, done: () => void) => {
 };
 
 const getData = computed(() => {
-  if (contacts?.value.length === 0) {
-    return null;
-  }
-  // First we need to filter the contact with any strings
   const filteredContacts =
     text.value.length === 0
       ? contacts.value
@@ -68,12 +62,12 @@ const getData = computed(() => {
             t.last_name.toLowerCase().includes(text.value.toLowerCase())
           );
         });
-
-  //FIXME: Remove the lint suppress line from here. See: https://stackoverflow.com/a/54535439
-  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-  numItems.value = filteredContacts.length;
   return filteredContacts;
 });
+
+function clearSearch() {
+  window.location.reload();
+}
 
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
@@ -110,20 +104,13 @@ function toggleLeftDrawer() {
         <q-input
           v-model="text"
           class="GNL__toolbar-input q-ma-md"
-          color="bg-grey-7 shadow-1"
-          dense
+          debounce="1000"
+          clearable
+          @clear="clearSearch"
+          label="Search"
           outlined
-          placeholder="Search for a contact"
+          placeholder="Start typing with min 3 characters to search"
         >
-          <template v-slot:prepend>
-            <q-icon v-if="text === ''" name="search" />
-            <q-icon
-              v-else
-              class="cursor-pointer"
-              name="clear"
-              @click="text = ''"
-            />
-          </template>
         </q-input>
         <q-item-section v-if="errorMsg !== ''">
           <div class="flex justify-center">
