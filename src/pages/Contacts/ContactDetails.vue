@@ -16,7 +16,6 @@ import TaskMetaSummary from '../../components/tasks/TaskMetaSummaryItem.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
-import logger from 'src/helpers/logger';
 import drawer from '../../components/drawer.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
 
@@ -151,7 +150,6 @@ const confirmDeletion = async () => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('*** Delete contact:onSubmit(...):onOK ***');
       showConfirmationDialog.value = false;
     });
   }

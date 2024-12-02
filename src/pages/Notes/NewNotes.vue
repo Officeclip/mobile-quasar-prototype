@@ -6,7 +6,6 @@ import { useRouter, useRoute } from 'vue-router';
 import { Note } from '../../models/note';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
-import logger from 'src/helpers/logger';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -52,16 +51,12 @@ function onSubmit(e: Event) {
       createdDateTime: '',
       security: [],
     };
-    logger.log(`NewNotes:Submit():newNote: ${newNote}`);
     notesStore.addNotes(newNote);
     router.go(-1);
   } catch (error) {
-    logger.log(`*** NewNote:onSubmit(...):catch: ${error} ***`);
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      logger.log('*** NewNote:onSubmit(...):onOK ***');
     });
   }
 }

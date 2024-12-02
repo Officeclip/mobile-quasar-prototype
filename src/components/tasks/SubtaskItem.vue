@@ -5,7 +5,6 @@ import { ref } from 'vue';
 import EditSubtaskDialog from 'components/tasks/editSubtaskDialog.vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
-import logger from 'src/helpers/logger';
 
 const props = defineProps<{
   subtask: subTask;
@@ -28,9 +27,6 @@ const deleteSubtask = async (id: string) => {
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      logger.log('*** Delete task:onSubmit(...):onOK ***');
-      showConfirmationDialog.value = false;
     });
   }
 };

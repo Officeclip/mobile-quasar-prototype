@@ -10,7 +10,6 @@ import {
 } from '../../models/expense/expenseDetails';
 import { expenseSummary } from 'src/models/expense/expenseSummary';
 import { Constants } from 'stores/Constants';
-import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
 
 export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
@@ -46,9 +45,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         const response = await instance.get(
           `${util.endPointUrl()}/expense-detail?expenseSid=${expenseSid}&stageId=${stageId}`
         );
-        logger.log(`Getting Id ${expenseSid}`);
         this.expenseDetailsList = response.data;
-        //logger.log(this.expenseDetailsList);
       } catch (error) {
         Constants.throwError(error);
       }
@@ -63,9 +60,6 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         if (response.data) {
           // see: https://stackoverflow.com/a/69204006/89256
           this.expenseDetails = response.data;
-          logger.log(
-            `expenseDetailStore - getExpenseDetailById - expenseDetails: ${this.expenseDetails}`
-          );
         }
       } catch (error) {
         Constants.throwError(error);

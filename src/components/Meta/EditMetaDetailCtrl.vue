@@ -1,10 +1,8 @@
 <script setup lang="ts">
-logger.log('Components/EditContactDetails: Setup');
 import { onMounted, computed } from 'vue';
 import { useMetaDetailsStore } from '../../stores/MetaDetailsStore';
 import MetaDetailsEditItem from '../../components/Meta/MetaDetailsEditItem.vue';
 import { useRoute } from 'vue-router';
-import logger from 'src/helpers/logger';
 const metaDetailsStore = useMetaDetailsStore();
 const route = useRoute();
 const contactDetails = computed(() => {

@@ -3,7 +3,6 @@ import { Session } from 'src/models/session';
 import { Constants } from 'stores/Constants';
 import { SessionStorage } from 'quasar';
 import { HomeIcon } from 'src/models/homeIcon';
-import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
 
 export const useSessionStore = defineStore('sessionStore', {
@@ -105,7 +104,6 @@ export const useSessionStore = defineStore('sessionStore', {
     },
 
     async changeOrganization(id: string) {
-      logger.log('-- SessionStore.ts:changeOrganization --');
       const callStr = `${util.endPointUrl()}/session/${id}`;
       try {
         const instance = Constants.getAxiosInstance();

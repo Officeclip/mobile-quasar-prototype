@@ -9,7 +9,6 @@ import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import WorkFlow from '../../components/general/WorkFlow.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
-import logger from 'src/helpers/logger';
 import drawer from '../../components/drawer.vue';
 
 const router = useRouter();
@@ -39,12 +38,10 @@ onMounted(async () => {
     await timesheetCommentsStore.$reset();
     await timesheetCommentsStore.getTimesheetComments(id);
   } catch (error) {
-    logger.log(`*** timesheetDetails:error:catch(${error}) ***`, 'error');
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('*** timesheetDetails:onMounted:onOk ***');
       await router.push({ path: '/timesheetsAll' });
     });
   } finally {
@@ -97,7 +94,6 @@ const deleteTimesheet = async (id: string) => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('*** Delete timesheet:onSubmit(...):onOK ***');
       showDeleteTimesheet.value = false;
     });
   }
@@ -113,7 +109,6 @@ const deleteTimesheetDetail = async (id: string) => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('*** Delete timesheetDetail:onSubmit(...):onOK ***');
       showDeleteTimesheetDetail.value = false;
     });
   }

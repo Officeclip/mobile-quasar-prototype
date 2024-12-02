@@ -10,7 +10,6 @@ import { useSessionStore } from 'stores/SessionStore';
 import { Session } from '../models/session';
 import { useProfileListsStore } from 'stores/profileListsStore';
 import { useQuasar } from 'quasar';
-import logger from 'src/helpers/logger';
 import drawer from '../components/drawer.vue';
 
 const router = useRouter();
@@ -41,7 +40,6 @@ const organizationItems = computed(() => {
 
 onBeforeMount(async () => {
   try {
-    logger.log('-- HomePage.vue:onBeforeMount --');
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
     await sessionStore.getSession();
     await profileListsStore.getProfileLists();
@@ -62,7 +60,6 @@ onBeforeMount(async () => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('onBeforeMount OK button pressed');
       await router.push({ path: '/LoginPage' });
       router.go(0);
     });

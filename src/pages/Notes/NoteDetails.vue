@@ -5,10 +5,8 @@ import { useNotesStore } from '../../stores/NotesStore';
 import { useRoute, useRouter } from 'vue-router';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import { useQuasar } from 'quasar';
-import logger from 'src/helpers/logger';
 import drawer from '../../components/drawer.vue';
 
-logger.log('noteDetails:setup');
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
@@ -31,18 +29,15 @@ const note = computed(() => {
 });
 
 onMounted(async () => {
-  logger.log(`noteDetails:onMounted:id= ${route.params.id}`);
   try {
     id.value = route.params.id;
     await notesStore.getNote(route.params.id as string);
     isPrivate.value = note.value?.isPrivate ? 'Yes' : 'No';
   } catch (error) {
-    logger.log(`*** noteDetails:error:catch(${error}) ***`, 'error');
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('*** noteDetails:onMounted:onOk ***');
       await router.push({ path: `/contactDetails/${parentObjectId}` });
     });
   } finally {
@@ -68,8 +63,6 @@ const deleteNote = async (id: string) => {
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      logger.log('*** Delete task:onSubmit(...):onOK ***');
     });
   }
   isNoteDelete.value = false;

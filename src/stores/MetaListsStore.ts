@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { MetaLists } from '../models/Meta/metaLists';
 import { Constants } from 'stores/Constants';
-import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
 
 export const useMetaListsStore = defineStore('metaListsStore', {
@@ -23,7 +22,6 @@ export const useMetaListsStore = defineStore('metaListsStore', {
         this.metaLists = response.data;
       } catch (error: any) {
         alert(error);
-        logger.log(error);
       }
     },
   },

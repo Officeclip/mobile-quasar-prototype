@@ -7,7 +7,6 @@ import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import { isAllowed } from 'src/helpers/security';
 import { useTECommentsStore } from 'src/stores/TECommentsStore';
-import logger from 'src/helpers/logger';
 import drawer from '../../components/drawer.vue';
 
 const timesheetStatus = ref('inbox');
@@ -27,7 +26,6 @@ onBeforeMount(async () => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('onBeforeMount OK button pressed');
       await router.push({ path: '/homePage' });
       router.go(0);
     });

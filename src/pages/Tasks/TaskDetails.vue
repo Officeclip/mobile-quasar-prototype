@@ -34,7 +34,6 @@ id.value = route.params.id;
 const appName = route.params.appName;
 
 onMounted(async () => {
-  logger.log('*** taskDetails:onMounted(async...) ***');
   const route = useRoute();
   id.value = route.params.id;
   try {
@@ -42,12 +41,10 @@ onMounted(async () => {
       await taskDetailsStore.getTask(route.params.id.toString());
     }
   } catch (error) {
-    logger.log(`*** taskDetails:error:catch(${error}) ***`, 'error');
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('*** taskDetails:onMounted:onOk ***');
       await router.push({ path: '/tasksList' });
       await router.go(0);
     });
@@ -157,7 +154,6 @@ const confirmDeletion = async () => {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('*** Delete task:onSubmit(...):onOK ***');
       showConfirmationDialog.value = false;
     });
   }
@@ -175,7 +171,6 @@ async function addSubtask(subtask: subTask) {
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      logger.log('*** Add subtask:onSubmit(...):onOK ***');
       showAddSubtaskDialog.value = true;
     });
   }

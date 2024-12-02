@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
 import { trackerCaseDetails } from 'src/models/issueTracker/trackerCaseDetails';
-import logger from 'src/helpers/logger';
 import { Constants } from '../Constants';
 import util from 'src/helpers/util';
 
@@ -16,7 +14,6 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
 
   actions: {
     async getTrackerCaseDetails(id: string | string[]) {
-      logger.log(`*** taskDetailStore:getTask(${id}) ***`);
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
@@ -24,7 +21,6 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
         );
         this.issueDetails = response.data;
       } catch (error) {
-        logger.log(`*** taskDetailStore:catch(${error}) ***`, 'error');
         Constants.throwError(error);
       }
     },
@@ -64,7 +60,6 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
           this.issueDetails = response.data;
         }
       } catch (error) {
-        logger.log(`*** taskDetailStore:editTask(...):catch: ${error} ***`);
         Constants.throwError(error);
       }
     },

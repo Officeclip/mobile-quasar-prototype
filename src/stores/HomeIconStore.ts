@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { HomeIcon } from '../models/homeIcon';
 import { Constants } from './Constants';
-import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
 
 export const useHomeIconsStore = defineStore('homeIconStore', {
@@ -23,7 +22,6 @@ export const useHomeIconsStore = defineStore('homeIconStore', {
         this.orgItems = data.data;
       } catch (error: any) {
         alert(error);
-        logger.log(error);
       }
     },
     async getHomeIcons() {
@@ -33,7 +31,6 @@ export const useHomeIconsStore = defineStore('homeIconStore', {
         this.homeIcons = data.data;
       } catch (error: any) {
         alert(error);
-        logger.log(error);
       }
     },
   },

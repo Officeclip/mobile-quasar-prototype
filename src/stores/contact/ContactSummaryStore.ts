@@ -42,17 +42,21 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
       this.url = callStr;
     },
 
-    async getUpdatedContacts(): Promise<boolean> {
+    async getUpdatedContacts(isFilter: boolean): Promise<boolean> {
       this.getUrl();
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(this.url);
         if (response.status === 200) {
           const summaries = response.data.data;
+          if (isFilter) {
+            await this.resetContactSummaryList();
+          }
           this.contactSummary.push(...summaries);
           this.links = response.data.pagination.next || '{}';
           this.url = this.links ? `${this.links}` : '';
         } else if (response.status === 204) {
+          await this.resetContactSummaryList();
           this.errorMsg = response.statusText;
           return true;
         } else {
@@ -73,7 +77,6 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
         this.contactSummary = response.data;
       } catch (error: any) {
         alert(error);
-        logger.log(error);
       }
     },
 
@@ -93,6 +96,10 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
       const response = await fetch(callStr);
       const data = await response.json();
       this.contactSummary.push(...data);
+    },
+
+    async resetContactSummaryList() {
+      this.contactSummary = [];
     },
   },
 });
