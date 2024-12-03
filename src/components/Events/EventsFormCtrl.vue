@@ -325,12 +325,11 @@ const regarding = computed(() => {
           size="xs"
         />
       </q-item>
-      <q-item>
+      <q-item class="column">
         <q-input
           ref="eventNameRef"
           v-model="event.eventName"
           :rules="[ruleNotEmpty]"
-          class="full-width"
           label="Event Name*"
           placeholder="enter event name"
         />

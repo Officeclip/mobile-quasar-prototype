@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineProps, onBeforeMount, ref, Ref, watch, computed } from 'vue';
+import { defineProps, onBeforeMount, ref, Ref, computed } from 'vue';
 import { useTaskListsStore } from 'stores/task/taskListsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
@@ -51,10 +51,15 @@ const dueDateModel = computed(() => {
   );
 });
 
+const shownOptions: Ref<userSummary[]> = ref([]);
+const shownTagOptions: Ref<tag[]> = ref([]);
+
 onBeforeMount(async () => {
   try {
     await taskListsStore.getTaskLists();
     await userSummaryStore.getUserSummaries();
+    shownOptions.value = userSummaryStore.UserSummaries;
+    shownTagOptions.value = taskListsStore.Tags;
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -75,26 +80,23 @@ function handleRRuleText(rruleText: string) {
   task.value.recurrence.text = repeatText;
 }
 
-const shownOptions: Ref<userSummary[]> = ref([]);
-const shownTagOptions: Ref<tag[]> = ref([]);
+// async function filterFn(val: string, update: any) {
+//   update(() => {
+//     const needle = val.toLowerCase();
+//     shownOptions.value = userSummaryStore.userSummaries.filter(
+//       (v) => v.name.toLowerCase().indexOf(needle) > -1
+//     );
+//   });
+// }
 
-async function filterFn(val: string, update: any) {
-  update(() => {
-    const needle = val.toLowerCase();
-    shownOptions.value = userSummaryStore.userSummaries.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
-    );
-  });
-}
-
-async function filterTagFn(val: string, update: any) {
-  update(() => {
-    const needle = val.toLowerCase();
-    shownTagOptions.value = taskListsStore.tags.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
-    );
-  });
-}
+// async function filterTagFn(val: string, update: any) {
+//   update(() => {
+//     const needle = val.toLowerCase();
+//     shownTagOptions.value = taskListsStore.tags.filter(
+//       (v) => v.name.toLowerCase().indexOf(needle) > -1
+//     );
+//   });
+// }
 
 // const taskType =
 //   task.value.id === ''
@@ -270,7 +272,7 @@ const regarding = computed(() => {
       <q-item class="column">
         <q-checkbox v-model="task.isPrivate" label="Private?" />
       </q-item>
-      <q-item class="column">
+      <!-- <q-item class="column">
         <q-select
           v-model="task.taskOwnerSid"
           :options="taskListsStore.users"
@@ -289,18 +291,19 @@ const regarding = computed(() => {
             </q-item>
           </template>
         </q-select></q-item
-      >
-      <!-- <q-item class="column">
+      > -->
+      <q-item class="column">
         <q-select
-          v-model="taskOwner"
+          v-model="task.taskOwnerSid"
           :options="shownOptions"
-          hint="Start typing"
           input-debounce="0"
           label="Owned by"
           option-label="name"
+          option-value="id"
+          emit-value
+          map-options
           use-chips
           use-input
-          @filter="filterFn"
         >
           <template v-slot:no-option>
             <q-item>
@@ -308,20 +311,18 @@ const regarding = computed(() => {
             </q-item>
           </template>
         </q-select></q-item
-      > -->
-      <!-- <q-item class="column">
+      >
+      <q-item class="column">
         <q-select
           v-model="task.assignees"
           :options="shownOptions"
-          hint="Start typing"
           input-debounce="0"
           label="Assigned to"
           multiple
           option-label="name"
-          option-value="name"
+          option-value="id"
           use-chips
           use-input
-          @filter="filterFn"
         >
           <template v-slot:no-option>
             <q-item>
@@ -329,8 +330,8 @@ const regarding = computed(() => {
             </q-item>
           </template>
         </q-select>
-      </q-item> -->
-      <q-item class="column">
+      </q-item>
+      <!-- <q-item class="column">
         <q-select
           v-model="task.assignees"
           :options="taskListsStore.users"
@@ -348,7 +349,7 @@ const regarding = computed(() => {
             </q-item>
           </template>
         </q-select>
-      </q-item>
+      </q-item> -->
       <q-item class="column">
         <q-select
           v-model="task.tags"
@@ -359,7 +360,6 @@ const regarding = computed(() => {
           option-label="name"
           use-chips
           use-input
-          @filter="filterTagFn"
         >
           <template v-slot:no-option>
             <q-item>
