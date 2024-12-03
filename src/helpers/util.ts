@@ -79,22 +79,22 @@ function isHideTestPage() {
   return isHideTestPage;
 }
 
-// function endPointUrl() {
-//   if (import.meta.env.VITE_API_ENDPOINT) {
-//     return import.meta.env.VITE_API_ENDPOINT;
-//   } else {
-//     return String(LocalStorage.getItem('endPointUrl'));
-//   }
-// }
 function endPointUrl() {
-  // const endPointUrl = String(LocalStorage.getItem('endPointUrl'));
-  // if (endPointUrl) {
-  //   return endPointUrl;
-  // } else {
-  //   return null;
-  // }
-  return 'https://app.officeclip.com/api';
+  if (import.meta.env.VITE_API_ENDPOINT) {
+    return import.meta.env.VITE_API_ENDPOINT;
+  } else {
+    return 'http://localhost/officeclip/api';
+  }
 }
+// function endPointUrl() {
+//   // const endPointUrl = String(LocalStorage.getItem('endPointUrl'));
+//   // if (endPointUrl) {
+//   //   return endPointUrl;
+//   // } else {
+//   //   return null;
+//   // }
+//   return 'http://localhost/officeclip/api';
+// }
 
 function isObjectNullOrEmpty(obj: object) {
   return !obj || Object.keys(obj).length == 0; // see: https://stackoverflow.com/a/65028055
