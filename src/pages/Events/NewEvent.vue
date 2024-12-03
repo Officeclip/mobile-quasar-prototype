@@ -118,8 +118,8 @@ async function onSubmit(e: any) {
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
           <EventForm
-            :event="event"
-            :appName="appName"
+            :eventFromParent="event"
+            :appNameFromParent="appName"
             ref="childComponent"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"

@@ -73,8 +73,8 @@ async function onSubmit(e: any) {
         <div>
           <EventForm
             v-if="event"
-            :event="event"
-            :appName="appName"
+            :eventFromParent="event"
+            :appNameFromParent="appName"
             ref="childComponent"
             @rrule-generated="handleRRule"
             @rrule-text-generated="handleRRuleText"

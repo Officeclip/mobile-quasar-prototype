@@ -27,36 +27,38 @@ const sessionStore = useSessionStore();
 
 const session = sessionStore.Session;
 
-// eslint-disable-next-line vue/no-dupe-keys
-const props = defineProps(['event', 'appName']);
+const props = defineProps(['eventFromParent', 'appNameFromParent']);
 const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
   'rrule-text-generated',
 ]);
 
+const event = ref(props.eventFromParent);
+const appName = props.appNameFromParent;
+
 const startDateModelValue = ref();
 startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
-  props.event.startDateTime,
-  props.event.isAllDayEvent
+  event.value.startDateTime,
+  event.value.isAllDayEvent
 );
 
 const endDateModelValue = ref();
 endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
-  props.event.endDateTime,
-  props.event.isAllDayEvent
+  event.value.endDateTime,
+  event.value.isAllDayEvent
 );
 
 watch(
   [startDateModelValue, endDateModelValue],
   ([newStartDateModelValue, newEndtDateModelValue]) => {
-    props.event.startDateTime = dateTimeHelper.formatDateTimeFromUIForRestAPI(
+    event.value.startDateTime = dateTimeHelper.formatDateTimeFromUIForRestAPI(
       newStartDateModelValue,
-      props.event.isAllDayEvent
+      event.value.isAllDayEvent
     );
-    props.event.endDateTime = dateTimeHelper.formatDateTimeFromUIForRestAPI(
+    event.value.endDateTime = dateTimeHelper.formatDateTimeFromUIForRestAPI(
       newEndtDateModelValue,
-      props.event.isAllDayEvent
+      event.value.isAllDayEvent
     );
   }
 );
@@ -95,14 +97,14 @@ const ShowMyTimeAsOptions = computed(() => {
 const selectedTime = computed(() => {
   const reminderTimes = reminderDataStore.ReminderTimes;
   const obj = reminderTimes.find(
-    (time: any) => time.value === props.event.reminder.beforeMinutes
+    (time: any) => time.value === event.value.reminder.beforeMinutes
   );
   return obj ? obj : 'null';
 });
-const reminderTextInfo = props.event?.reminder.to
+const reminderTextInfo = event.value?.reminder.to
   ? ref(
       computed(() => {
-        return `${props.event.reminder.to} ${selectedTime.value.label} before`;
+        return `${event.value.reminder.to} ${selectedTime.value.label} before`;
       })
     )
   : ref('Reminder');
@@ -110,9 +112,9 @@ const reminderTextInfo = props.event?.reminder.to
 const reminderDialogOpened = ref(false);
 const recurrenceDialogOpened = ref(false);
 const repeatString =
-  !props.event?.recurrence.text.startsWith('None') &&
-  props.event?.recurrence.text !== ''
-    ? ref(props.event?.recurrence.text)
+  !event.value?.recurrence.text.startsWith('None') &&
+  event.value?.recurrence.text !== ''
+    ? ref(event.value?.recurrence.text)
     : ref('Does not repeat');
 
 function handleRRuleString(rruleString: string) {
@@ -165,8 +167,8 @@ function createValue(val: string, done: any) {
   }
 }
 
-if (props.event?.id == '' && props.event?.eventType?.id == '2') {
-  props.event.meetingAttendees = [
+if (event.value?.id == '' && event.value?.eventType?.id == '2') {
+  event.value.meetingAttendees = [
     {
       id: session.userId,
       name: session.userName,
@@ -176,7 +178,7 @@ if (props.event?.id == '' && props.event?.eventType?.id == '2') {
 }
 
 const testUrl = () => {
-  const url = props.event.url;
+  const url = event.value.url;
   if (!url) {
     alert('URL cannot be empty');
   } else if (isValidURL(url)) {
@@ -193,7 +195,7 @@ function isValidURL(url: string) {
 
 function changeEndDateWhenStartDateChanged(val: string | number | null) {
   if (val == null) return;
-  if (!props.event.isAllDayEvent) {
+  if (!event.value.isAllDayEvent) {
     const date = new Date(val);
     const endDateTime = dateTimeHelper.addHoursToDate(date, 1);
     endDateModelValue.value = dateTimeHelper.formatDateTimeForUI(
@@ -206,11 +208,11 @@ const showTimeAsBackColor = getEventShowTimeAsColor();
 
 function toggleAllDay(evt: boolean) {
   startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
-    props.event.startDateTime,
+    event.value.startDateTime,
     evt
   );
   endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
-    props.event.endDateTime,
+    event.value.endDateTime,
     evt
   );
 }
@@ -227,7 +229,7 @@ const ruleNotEmpty = (val: string) => {
 const ruleEndDateGreaterThanStartDate = (val: string) => {
   if (!startDateModelValue.value || startDateModelValue.value.length === 0)
     return true;
-  const isValid = props.event.isAllDayEvent
+  const isValid = event.value.isAllDayEvent
     ? new Date(val) >= new Date(startDateModelValue.value)
     : new Date(val) > new Date(startDateModelValue.value);
   return isValid ? true : 'End Date should be more than start date';
@@ -259,22 +261,21 @@ const canBeRemoved = computed(
 
 function handleRemove(item: { id: string }) {
   if (canBeRemoved.value(item)) {
-    const index = props.event?.meetingAttendees.findIndex(
+    const index = event.value?.meetingAttendees.findIndex(
       (option: { id: string }) => option.id === item.id
     );
     if (index !== -1) {
-      props.event?.meetingAttendees.splice(index, 1);
+      event.value?.meetingAttendees.splice(index, 1);
     }
   }
 }
 
 const regarding = computed(() => {
-  return `${props.event?.parent.type.name} : ${props.event?.parent.value.name}`;
+  return `${event.value?.parent.type.name} : ${event.value?.parent.value.name}`;
 });
 </script>
 
 <template>
-  <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <q-list>
       <q-item>
