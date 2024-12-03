@@ -96,50 +96,50 @@ async function filterTagFn(val: string, update: any) {
   });
 }
 
-const taskType =
-  task.value.id === ''
-    ? ref()
-    : ref({ id: task.value.taskTypeId, name: task.value.taskTypeName });
+// const taskType =
+//   task.value.id === ''
+//     ? ref()
+//     : ref({ id: task.value.taskTypeId, name: task.value.taskTypeName });
 
-const taskStatus =
-  task.value.id === ''
-    ? ref()
-    : ref({
-        id: task.value.taskStatusId,
-        name: task.value.taskStatusName,
-        category: task.value.taskStatusCategory,
-      });
+// const taskStatus =
+//   task.value.id === ''
+//     ? ref()
+//     : ref({
+//         id: task.value.taskStatusId,
+//         name: task.value.taskStatusName,
+//         category: task.value.taskStatusCategory,
+//       });
 
-const taskPriority =
-  task.value.id === ''
-    ? ref()
-    : ref({
-        id: task.value.taskPriorityId,
-        name: task.value.taskPriorityName,
-      });
+// const taskPriority =
+//   task.value.id === ''
+//     ? ref()
+//     : ref({
+//         id: task.value.taskPriorityId,
+//         name: task.value.taskPriorityName,
+//       });
 
-const taskOwner = ref({
-  id: task.value.taskOwnerSid,
-  name: task.value.taskOwnerName,
-});
+// const taskOwner = ref({
+//   id: task.value.taskOwnerSid,
+//   name: task.value.taskOwnerName,
+// });
 
-watch(taskType, () => {
-  task.value.taskTypeId = taskType.value?.id;
-  task.value.taskTypeName = taskType.value?.name;
-});
-watch(taskStatus, () => {
-  task.value.taskStatusId = taskStatus.value?.id;
-  task.value.taskStatusName = taskStatus.value?.name;
-  task.value.taskStatusCategory = taskStatus.value?.category;
-});
-watch(taskPriority, () => {
-  task.value.taskPriorityId = taskPriority.value?.id;
-  task.value.taskPriorityName = taskPriority.value?.name;
-});
-watch(taskOwner, () => {
-  task.value.taskOwnerSid = taskOwner.value?.id;
-  task.value.taskOwnerName = taskOwner.value?.name;
-});
+// watch(taskType, () => {
+//   task.value.taskTypeId = taskType.value?.id;
+//   task.value.taskTypeName = taskType.value?.name;
+// });
+// watch(taskStatus, () => {
+//   task.value.taskStatusId = taskStatus.value?.id;
+//   task.value.taskStatusName = taskStatus.value?.name;
+//   task.value.taskStatusCategory = taskStatus.value?.category;
+// });
+// watch(taskPriority, () => {
+//   task.value.taskPriorityId = taskPriority.value?.id;
+//   task.value.taskPriorityName = taskPriority.value?.name;
+// });
+// watch(taskOwner, () => {
+//   task.value.taskOwnerSid = taskOwner.value?.id;
+//   task.value.taskOwnerName = taskOwner.value?.name;
+// });
 // watch(task.value, () => {
 //   emit('emit-task', task.value);
 // });
@@ -237,37 +237,60 @@ const regarding = computed(() => {
       ></q-item>
       <q-item class="column">
         <q-select
-          v-model="taskType"
+          v-model="task.taskTypeId"
           :options="taskListsStore.TaskTypes"
           label="Task Type"
           map-options
           option-label="name"
           option-value="id"
+          emit-value
         />
       </q-item>
       <q-item class="column">
         <q-select
-          v-model="taskPriority"
+          v-model="task.taskPriorityId"
           :options="taskListsStore.TaskPriorities"
           label="Priority"
           map-options
           option-label="name"
           option-value="id"
+          emit-value
       /></q-item>
       <q-item class="column">
         <q-select
-          v-model="taskStatus"
+          v-model="task.taskStatusId"
           :options="taskListsStore.TaskStatuses"
           label="Status"
           map-options
           option-label="name"
           option-value="id"
+          emit-value
         />
       </q-item>
       <q-item class="column">
         <q-checkbox v-model="task.isPrivate" label="Private?" />
       </q-item>
       <q-item class="column">
+        <q-select
+          v-model="task.taskOwnerSid"
+          :options="taskListsStore.users"
+          input-debounce="0"
+          label="Owned by"
+          option-label="name"
+          option-value="id"
+          use-chips
+          use-input
+          map-options
+          emit-value
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> No results</q-item-section>
+            </q-item>
+          </template>
+        </q-select></q-item
+      >
+      <!-- <q-item class="column">
         <q-select
           v-model="taskOwner"
           :options="shownOptions"
@@ -285,8 +308,8 @@ const regarding = computed(() => {
             </q-item>
           </template>
         </q-select></q-item
-      >
-      <q-item class="column">
+      > -->
+      <!-- <q-item class="column">
         <q-select
           v-model="task.assignees"
           :options="shownOptions"
@@ -306,12 +329,30 @@ const regarding = computed(() => {
             </q-item>
           </template>
         </q-select>
+      </q-item> -->
+      <q-item class="column">
+        <q-select
+          v-model="task.assignees"
+          :options="taskListsStore.users"
+          input-debounce="0"
+          label="Assigned to"
+          multiple
+          option-label="name"
+          option-value="name"
+          use-chips
+          use-input
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> No results</q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </q-item>
       <q-item class="column">
         <q-select
           v-model="task.tags"
           :options="shownTagOptions"
-          hint="Start typing"
           input-debounce="0"
           label="Tags"
           multiple

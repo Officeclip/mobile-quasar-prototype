@@ -17,7 +17,7 @@ const id = ref<string | string[]>(route.params.id);
 const appName = route.params.appName;
 
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
-const task: Ref<taskDetails> = ref(tasksDetailStore.TaskDetail);
+const task: Ref<taskDetails> = ref(null);
 
 // onMounted(async () => {
 //   await tasksDetailStore.getTask(id.value.toString());
@@ -110,6 +110,7 @@ async function onSubmit(e: any) {
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
+          <!-- <pre>{{ task }}</pre> -->
           <TasksForm
             v-if="task"
             :appName="appName.toString()"

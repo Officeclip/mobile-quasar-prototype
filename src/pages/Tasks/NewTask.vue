@@ -3,12 +3,12 @@ import TasksForm from 'components/tasks/tasksFormCtrl.vue';
 import { ref, Ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { taskDetails } from 'src/models/task/taskDetails';
-import { taskSummary } from 'src/models/task/taskSummary';
-import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
+// import { taskSummary } from 'src/models/task/taskSummary';
+// import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
 import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 import { useQuasar } from 'quasar';
-import { formatDistanceStrictWithOptions } from 'date-fns/fp';
-import format from 'date-fns/format';
+// import { formatDistanceStrictWithOptions } from 'date-fns/fp';
+// import format from 'date-fns/format';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 
 const $q = useQuasar();
@@ -22,10 +22,9 @@ const parentObjectServiceType = route.params.objectTypeId
   : '';
 const appName = route.params.appName ? route.params.appName : '';
 
-const taskSummaryStore = useTaskSummaryStore();
+// const taskSummaryStore = useTaskSummaryStore();
 const taskDetailsStore = useTaskDetailsStore();
 
-//TODO: CR: 2024-05-17: nk: Fix the below type error?
 const task: Ref<taskDetails> = ref({
   actualDuration: 0.0,
   completionDate: '',
@@ -47,15 +46,15 @@ const task: Ref<taskDetails> = ref({
   id: '',
   startDate: '',
   subject: '',
-  taskOwnerName: '',
-  taskOwnerSid: '0',
-  taskPriorityName: '',
-  taskPriorityId: 0,
-  taskStatusName: '',
-  taskStatusCategory: '',
-  taskStatusId: 0,
-  taskTypeName: '',
-  taskTypeId: 0,
+  // taskOwnerName: '',
+  taskOwnerSid: '',
+  // taskPriorityName: '',
+  taskPriorityId: '0',
+  // taskStatusName: '',
+  // taskStatusCategory: '',
+  taskStatusId: '781',
+  // taskTypeName: '',
+  taskTypeId: '783',
   assignees: [],
   tags: [],
   createdByUserSid: '0',
@@ -79,48 +78,49 @@ const task: Ref<taskDetails> = ref({
   },
 });
 
-function receiveTask(receivedTask: taskDetails) {
-  task.value = receivedTask;
-}
+// function receiveTask(receivedTask: taskDetails) {
+//   task.value = receivedTask;
+// }
 
 const childComponent = ref();
 
 async function onSubmit(e: any) {
   try {
     if (!childComponent.value.validateAll()) return;
-    const newTask: taskDetails = {
-      id: task.value.id,
-      subject: task.value.subject,
-      description: task.value.description,
-      actualDuration: task.value.actualDuration,
-      completionDate: task.value.completionDate,
-      dueDate: task.value.dueDate,
-      estimatedDuration: task.value.estimatedDuration,
-      isLock: task.value.isLock,
-      isPrivate: task.value.isPrivate,
-      parent: task.value.parent,
-      startDate: task.value.startDate,
-      taskOwnerName: task.value.taskOwnerName,
-      taskOwnerSid: task.value.taskOwnerSid,
-      taskPriorityName: task.value.taskPriorityName,
-      taskPriorityId: task.value.taskPriorityId,
-      taskStatusName: task.value.taskStatusName,
-      taskStatusId: task.value.taskStatusId,
-      taskTypeName: task.value.taskTypeName,
-      taskTypeId: task.value.taskTypeId,
-      assignees: task.value.assignees,
-      tags: task.value.tags,
-      createdByUserSid: task.value.createdByUserSid,
-      createdDate: task.value.createdDate,
-      modifiedByUserSid: task.value.modifiedByUserSid,
-      modifiedDate: task.value.modifiedDate,
-      subTasks: task.value.subTasks,
-      security: task.value.security,
-      reminder: task.value.reminder,
-      recurrence: task.value.recurrence,
-      taskStatusCategory: task.value.taskStatusCategory,
-    };
-    await taskDetailsStore.addTask(newTask);
+    // const newTask: taskDetails = {
+    //   id: task.value.id,
+    //   subject: task.value.subject,
+    //   description: task.value.description,
+    //   actualDuration: task.value.actualDuration,
+    //   completionDate: task.value.completionDate,
+    //   dueDate: task.value.dueDate,
+    //   estimatedDuration: task.value.estimatedDuration,
+    //   isLock: task.value.isLock,
+    //   isPrivate: task.value.isPrivate,
+    //   parent: task.value.parent,
+    //   startDate: task.value.startDate,
+    //   taskOwnerName: task.value.taskOwnerName,
+    //   taskOwnerSid: task.value.taskOwnerSid,
+    //   taskPriorityName: task.value.taskPriorityName,
+    //   taskPriorityId: task.value.taskPriorityId,
+    //   taskStatusName: task.value.taskStatusName,
+    //   taskStatusId: task.value.taskStatusId,
+    //   taskTypeName: task.value.taskTypeName,
+    //   taskTypeId: task.value.taskTypeId,
+    //   assignees: task.value.assignees,
+    //   tags: task.value.tags,
+    //   createdByUserSid: task.value.createdByUserSid,
+    //   createdDate: task.value.createdDate,
+    //   modifiedByUserSid: task.value.modifiedByUserSid,
+    //   modifiedDate: task.value.modifiedDate,
+    //   subTasks: task.value.subTasks,
+    //   security: task.value.security,
+    //   reminder: task.value.reminder,
+    //   recurrence: task.value.recurrence,
+    //   taskStatusCategory: task.value.taskStatusCategory,
+    // };
+    const newTask = ref(task);
+    await taskDetailsStore.addTask(newTask.value);
     router.go(-1);
   } catch (error) {
     $q.dialog({
@@ -152,10 +152,10 @@ async function onSubmit(e: any) {
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
           <TasksForm
-            :appName="appName"
+            v-if="task"
+            :appName="appName.toString()"
             ref="childComponent"
             :taskFromParent="task"
-            @emit-task="receiveTask"
           />
           <q-btn
             class="q-ml-sm"
