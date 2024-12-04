@@ -149,25 +149,20 @@ function toggleLeftDrawer() {
           <div v-if="title === 'Inbox'">
             <q-list class="flex flex-center">
               <q-item>
-                <q-item-section v-if="errorMsg !== ''">
-                  <div class="flex justify-center">
-                    <span
-                      class="text-subtitle1 text-weight-medium inline q-mr-xs"
-                      >{{ errorMsg }}</span
-                    >
-                  </div>
-                </q-item-section>
                 <q-item-section>
-                  <q-item-label class="text-h6 q-py-md">
-                    Create your first expense
+                  <q-item-label v-if="errorMsg !== ''" class="text-h6 q-py-md">
+                    {{ errorMsg }}
+                  </q-item-label>
+                  <q-item-label class="text-h6 q-py-sm">
+                    Create your first Expense
                   </q-item-label>
                   <q-item-label>
                     A expense is used to track cost incurred by an individual or
                     organization in order to achieve a specific goal or benefit.
                   </q-item-label>
                 </q-item-section>
-              </q-item></q-list
-            >
+              </q-item>
+            </q-list>
           </div>
         </div>
       </q-page>

@@ -64,7 +64,7 @@ const errorMsg = computed(() => {
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
         <q-btn
-          @click="$router.push({ path: '/homepage' })"
+          @click="router.push({ path: '/homepage' })"
           flat
           round
           dense
@@ -99,7 +99,7 @@ const errorMsg = computed(() => {
     </q-footer>
     <q-page-container>
       <q-page>
-        <div v-if="timesheetsAll">
+        <div v-if="timesheetsAll.length > 0">
           <q-list v-for="item in timesheetsAll" :key="item.id">
             <q-item
               :to="{
@@ -159,16 +159,11 @@ const errorMsg = computed(() => {
           <div v-if="title === 'Inbox'">
             <q-list class="flex flex-center">
               <q-item>
-                <q-item-section v-if="errorMsg !== ''">
-                  <div class="flex justify-center">
-                    <span
-                      class="text-subtitle1 text-weight-medium inline q-mr-xs"
-                      >{{ errorMsg }}</span
-                    >
-                  </div>
-                </q-item-section>
                 <q-item-section>
-                  <q-item-label class="text-h6 q-py-md">
+                  <q-item-label v-if="errorMsg !== ''" class="text-h6 q-py-md">
+                    {{ errorMsg }}
+                  </q-item-label>
+                  <q-item-label class="text-h6 q-py-sm">
                     Create your first Timesheet
                   </q-item-label>
                   <q-item-label>
@@ -176,8 +171,8 @@ const errorMsg = computed(() => {
                     projects and tasks.
                   </q-item-label>
                 </q-item-section>
-              </q-item></q-list
-            >
+              </q-item>
+            </q-list>
           </div>
         </div>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
