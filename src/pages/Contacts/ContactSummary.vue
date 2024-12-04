@@ -4,12 +4,13 @@
  -->
 <script lang="ts" setup>
 import { useContactSummaryStore } from '../../stores/contact/ContactSummaryStore';
-import { computed, ref } from 'vue';
+import { computed, ref, Ref, watch } from 'vue';
 import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
+import { searchFilter } from 'src/models/Contact/searchFilter';
 
 const router = useRouter();
 const $q = useQuasar();
@@ -24,8 +25,14 @@ const isRoleAccess = () => {
   return data?.access;
 };
 
-const text = ref('');
 const myDrawer = ref();
+//const infinteScroll = ref(null);
+
+const defaultSearchOptions: searchFilter = {
+  searchString: '',
+};
+
+let searchOptions: Ref<searchFilter> = ref({ ...defaultSearchOptions });
 
 const contacts = computed(() => {
   contactSummaryStore.$reset();
@@ -52,18 +59,35 @@ const loadMore = async (index: any, done: () => void) => {
   }
 };
 
-const getData = computed(() => {
-  const filteredContacts =
-    text.value.length === 0
-      ? contacts.value
-      : contacts.value.filter((t: any) => {
-          return (
-            t.first_name.toLowerCase().includes(text.value.toLowerCase()) ||
-            t.last_name.toLowerCase().includes(text.value.toLowerCase())
-          );
-        });
-  return filteredContacts;
-});
+async function filterFn(val: string) {
+  if (val.length > 2) {
+    searchOptions.value.searchString = val.toLowerCase();
+    contactSummaryStore.resetPageNumber();
+    contactSummaryStore.setFilter(searchOptions.value);
+    await contactSummaryStore.getUpdatedContacts(true);
+    // infinteScroll.value.infinteScrollReset();
+  }
+}
+
+watch(
+  () => searchOptions.value.searchString,
+  async (newValue) => {
+    await filterFn(newValue);
+  }
+);
+
+// const getData = computed(() => {
+//   const filteredContacts =
+//     text.value.length === 0
+//       ? contacts.value
+//       : contacts.value.filter((t: any) => {
+//           return (
+//             t.first_name.toLowerCase().includes(text.value.toLowerCase()) ||
+//             t.last_name.toLowerCase().includes(text.value.toLowerCase())
+//           );
+//         });
+//   return filteredContacts;
+// });
 
 function clearSearch() {
   window.location.reload();
@@ -102,7 +126,7 @@ function toggleLeftDrawer() {
     <q-page-container>
       <q-page>
         <q-input
-          v-model="text"
+          v-model="searchOptions.searchString"
           class="GNL__toolbar-input q-ma-md"
           debounce="1000"
           clearable
@@ -121,7 +145,7 @@ function toggleLeftDrawer() {
         </q-item-section>
         <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
           <q-item
-            v-for="contact in getData"
+            v-for="contact in contacts"
             :key="contact.id"
             v-ripple
             :to="{
@@ -141,11 +165,16 @@ function toggleLeftDrawer() {
                 <q-icon name="image" v-else />
               </q-avatar>
             </q-item-section>
-            <q-item-section>{{
-              contact.first_name.length > 0
-                ? contact.first_name + ' ' + contact.last_name
-                : contact.last_name
-            }}</q-item-section>
+            <q-item-section>
+              <span
+                v-if="
+                  contact.first_name.length > 0 || contact.last_name.length > 0
+                "
+              >
+                {{ contact.first_name + ' ' + contact.last_name }}
+              </span>
+              <span v-else style="font-style: italic">None</span>
+            </q-item-section>
             <q-item-section side>
               <q-icon color="primary" name="chevron_right" />
             </q-item-section>

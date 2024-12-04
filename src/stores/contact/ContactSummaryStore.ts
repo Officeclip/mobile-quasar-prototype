@@ -2,8 +2,8 @@ import { defineStore } from 'pinia';
 import { ContactSummary } from '../../models/Contact/contactSummary';
 import { Constants } from '../Constants';
 import { linkHeader } from 'src/models/general/linkHeader';
-import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
+import { searchFilter } from 'src/models/Contact/searchFilter';
 
 export const useContactSummaryStore = defineStore('contactSummaryStore', {
   state: () => ({
@@ -13,33 +13,54 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
     pageNum: 1,
     links: {} as linkHeader,
     errorMsg: '' as string,
+    filter: {} as searchFilter,
   }),
 
   getters: {
     ContactSummary: (state) => state.contactSummary,
+    IsEmptyLinkHeader: (state) => Object.keys(state.links).length == 0,
   },
 
   actions: {
+    constructBaseURL() {
+      const baseUrl = `${util.endPointUrl()}/contact-summary?pagenumber=${
+        this.pageNum
+      }&pagesize=${this.pageSize}`;
+      return baseUrl;
+    },
+
     constructQueryParams() {
       const queryParams = new URLSearchParams();
-      queryParams.append('pagesize', String(this.pageSize));
-      queryParams.append('pagenumber', String(this.pageNum));
+      const params: searchFilter = this.filter;
+      const filterKeys = Object.keys(params);
+      filterKeys.forEach((key) => {
+        if (this.filter[key]) {
+          queryParams.append(key, String(this.filter[key]));
+        }
+      });
       return queryParams;
     },
 
     getUrl() {
-      if (this.url) return;
-
       let callStr = '';
-      if (this.links?.next) {
-        callStr = `${util.endPointUrl()}/${this.links.next}`;
+      if (!this.IsEmptyLinkHeader) {
+        callStr = `${this.links}`;
       } else {
-        callStr = `${util.endPointUrl()}/contact-summary?`;
+        callStr = this.constructBaseURL();
         const queryParams = this.constructQueryParams();
         const queryString = queryParams.toString();
-        callStr += queryString ? `${queryString}` : '';
+        callStr += queryString ? `&${queryString}` : '';
       }
       this.url = callStr;
+    },
+
+    setFilter(searchFilter: searchFilter) {
+      this.filter = searchFilter;
+    },
+
+    resetPageNumber() {
+      this.pageNum = 1;
+      this.links = {} as linkHeader; // https://stackoverflow.com/a/45339463
     },
 
     async getUpdatedContacts(isFilter: boolean): Promise<boolean> {
@@ -62,9 +83,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
         } else {
           return true;
         }
-      } catch (error) {
-        Constants.throwError(error);
-      }
+      } catch (error) {}
       return this.url === 'null';
     },
 
