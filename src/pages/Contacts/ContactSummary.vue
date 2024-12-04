@@ -24,6 +24,7 @@ const isRoleAccess = () => {
   );
   return data?.access;
 };
+const noContactName = '- None -';
 
 const myDrawer = ref();
 //const infinteScroll = ref(null);
@@ -173,7 +174,9 @@ function toggleLeftDrawer() {
               >
                 {{ contact.first_name + ' ' + contact.last_name }}
               </span>
-              <span v-else style="font-style: italic">None</span>
+              <span v-else style="font-style: italic; opacity: 0.6">{{
+                noContactName
+              }}</span>
             </q-item-section>
             <q-item-section side>
               <q-icon color="primary" name="chevron_right" />
