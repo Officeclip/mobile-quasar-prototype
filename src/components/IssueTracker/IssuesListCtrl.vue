@@ -9,9 +9,7 @@ import { useQuasar } from 'quasar';
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
-const props = defineProps(['parent']);
-const binderName = route.params.binderName;
-const binderId = route.params.binderId;
+const props = defineProps(['parent', 'binderId']);
 
 const issueSummaryStore = useIssueSummaryStore();
 
@@ -29,7 +27,7 @@ const loadMore = async (index: any, done: () => void) => {
   try {
     reachedEnd.value = await issueSummaryStore.getIssuesUpdated(
       false,
-      binderId.toString()
+      props.binderId
     );
     //https://quasar.dev/vue-components/infinite-scroll/#usage
     done();

@@ -183,7 +183,6 @@ const advanceFilters = async () => {
           </q-item-section>
         </q-item>
         <IssuesListCtrl
-          :binderName="binderName"
           :binderId="binderId"
           :parent="parent"
           ref="infinteScroll"
