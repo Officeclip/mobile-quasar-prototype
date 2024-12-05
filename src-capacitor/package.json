@@ -1,0 +1,13 @@
+{
+  "name": "mobile",
+  "version": "0.6.2",
+  "description": "Quasar Prototype of OfficeClip Mobile",
+  "author": "SK Dutta <skd@officeclip.com>",
+  "private": true,
+  "dependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/app": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0"
+  }
+}
