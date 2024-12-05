@@ -639,4 +639,3 @@ const regarding = computed(() => {
   justify-content: center;
 }
 </style>
-: { id: any; }: { id: any; }
