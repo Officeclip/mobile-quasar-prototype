@@ -68,6 +68,7 @@ defineExpose({
       </q-input>
       <q-input
         ref="fromDateRef"
+        type="date"
         name="fromDate"
         v-model="props.hotel.fromDate"
         label="From Date"
@@ -92,6 +93,7 @@ defineExpose({
       </q-input>
       <q-input
         ref="toDateRef"
+        type="date"
         name="toDate"
         v-model="props.hotel.toDate"
         label="To Date"

@@ -33,6 +33,7 @@ defineExpose({
     <div class="q-ml-sm">
       <q-input
         ref="mileageRef"
+        type="number"
         v-model="props.mileage.mileage"
         label="Mileage"
         :label-color="props.isDetailRequired ? 'red' : ''"

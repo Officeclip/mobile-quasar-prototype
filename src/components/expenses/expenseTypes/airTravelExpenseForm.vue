@@ -79,6 +79,7 @@ defineExpose({
       </q-input>
       <q-input
         ref="departureDateRef"
+        type="date"
         name="departureDate"
         v-model="props.airTravel.departureDate"
         label="Departure Date"
@@ -103,6 +104,7 @@ defineExpose({
       </q-input>
       <q-input
         ref="arrivalDateRef"
+        type="date"
         name="arrivalDate"
         v-model="props.airTravel.arrivalDate"
         label="Arrival Date"

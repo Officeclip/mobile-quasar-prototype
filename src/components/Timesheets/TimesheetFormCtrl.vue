@@ -230,8 +230,9 @@ function onDurationBlur(event) {
       </div>
       <q-input
         label="Duration"
+        type="number"
         v-model="timesheet.timeDuration"
-        placeholder="enter duration in decimal or colon (hh:mm)"
+        placeholder="enter duration in decimal (hh.mm)"
         :rules="[isDurationEmpty, isDurationValid]"
         ref="durationRef"
         @blur="onDurationBlur"
