@@ -16,30 +16,22 @@ import {
 } from 'src/helpers/colorIconHelper';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import { useQuasar } from 'quasar';
-import logger from 'src/helpers/logger';
 import drawer from '../../components/drawer.vue';
 
 const taskDetailsStore = useTaskDetailsStore();
 const $q = useQuasar();
-
-const id = ref<string | string[]>('0');
-
-const isLoaded = ref<boolean>(false);
-
 const route = useRoute();
 const router = useRouter();
 const myDrawer = ref();
 
-id.value = route.params.id;
+// const id = ref<string | string[]>('0');
+const id = route.params.id;
+const isLoaded = ref<boolean>(false);
 const appName = route.params.appName;
 
 onMounted(async () => {
-  const route = useRoute();
-  id.value = route.params.id;
   try {
-    if (id.value != '') {
-      await taskDetailsStore.getTask(route.params.id.toString());
-    }
+    await taskDetailsStore.getTask(id as string);
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -53,64 +45,68 @@ onMounted(async () => {
   }
 });
 
-const taskDetail: ComputedRef<taskDetails> = computed(() => {
-  if (taskDetailsStore.TaskDetail) return taskDetailsStore.TaskDetail;
-  else {
-    const emptyTaskDetail: taskDetails = {
-      actualDuration: 0.0,
-      completionDate: '',
-      description: 'No Description',
-      dueDate: 'Not Available',
-      estimatedDuration: 0.0,
-      isLock: false,
-      isPrivate: false,
-      parent: {
-        type: {
-          id: '',
-          name: '',
-        },
-        value: {
-          id: '',
-          name: '',
-        },
-      },
-      id: '-1',
-      startDate: 'Not Available',
-      subject: 'No Subject',
-      taskOwnerName: 'Not Available',
-      taskOwnerSid: '0',
-      taskPriorityName: 'Not Available',
-      taskPriorityId: '0',
-      taskStatusName: '-1',
-      taskStatusId: '0',
-      taskTypeName: 'Not Available',
-      taskTypeId: '0',
-      assignees: [],
-      tags: [],
-      createdByUserSid: '0',
-      createdDate: 'Not Available',
-      modifiedByUserSid: '0',
-      modifiedDate: 'Not Available',
-      subTasks: [],
-      security: {
-        read: false,
-        write: false,
-        append: false,
-        delete: false,
-      },
-      reminder: {
-        to: 'Not Available',
-        beforeMinutes: 0,
-      },
-      recurrence: {
-        text: 'Not Available',
-        rule: 'Not Available',
-      },
-      taskStatusCategory: '',
-    };
-    return emptyTaskDetail;
-  }
+const taskDetail = computed(() => {
+  return taskDetailsStore?.taskDetail;
 });
+
+// const taskDetail: ComputedRef<taskDetails> = computed(() => {
+//   if (taskDetailsStore.TaskDetail) return taskDetailsStore.TaskDetail;
+//   else {
+//     const emptyTaskDetail: taskDetails = {
+//       actualDuration: 0.0,
+//       completionDate: '',
+//       description: 'No Description',
+//       dueDate: 'Not Available',
+//       estimatedDuration: 0.0,
+//       isLock: false,
+//       isPrivate: false,
+//       parent: {
+//         type: {
+//           id: '',
+//           name: '',
+//         },
+//         value: {
+//           id: '',
+//           name: '',
+//         },
+//       },
+//       id: '-1',
+//       startDate: 'Not Available',
+//       subject: 'No Subject',
+//       taskOwnerName: 'Not Available',
+//       taskOwnerSid: '0',
+//       taskPriorityName: 'Not Available',
+//       taskPriorityId: '0',
+//       taskStatusName: '-1',
+//       taskStatusId: '0',
+//       taskTypeName: 'Not Available',
+//       taskTypeId: '0',
+//       assignees: [],
+//       tags: [],
+//       createdByUserSid: '0',
+//       createdDate: 'Not Available',
+//       modifiedByUserSid: '0',
+//       modifiedDate: 'Not Available',
+//       subTasks: [],
+//       security: {
+//         read: false,
+//         write: false,
+//         append: false,
+//         delete: false,
+//       },
+//       reminder: {
+//         to: 'Not Available',
+//         beforeMinutes: 0,
+//       },
+//       recurrence: {
+//         text: 'Not Available',
+//         rule: 'Not Available',
+//       },
+//       taskStatusCategory: '',
+//     };
+//     return emptyTaskDetail;
+//   }
+// });
 
 const pendingSubtasks = computed(() => {
   return taskDetail.value?.subTasks.filter((subtask) => !subtask.isCompleted);
@@ -122,14 +118,14 @@ const completedSubtasks = computed(() => {
 
 const formattedStartDate = computed(() => {
   return dateTimeHelper.formatDateTimeFromRestAPIForUI(
-    taskDetail.value?.startDate,
+    taskDetail.value?.startDate as string,
     true
   );
 });
 
 const formattedEndDate = computed(() => {
   return dateTimeHelper.formatDateTimeFromRestAPIForUI(
-    taskDetail.value?.dueDate,
+    taskDetail.value?.dueDate as string,
     true
   );
 });
@@ -146,7 +142,7 @@ const cancelConfirmation = () => {
 
 const confirmDeletion = async () => {
   try {
-    await taskDetailsStore.deleteTask(id.value);
+    await taskDetailsStore.deleteTask(id as string);
     showConfirmationDialog.value = false;
     router.go(-1);
   } catch (error) {
@@ -216,7 +212,7 @@ function toggleLeftDrawer() {
           @click="toggleLeftDrawer"
         />
         <q-toolbar-title>Task Details</q-toolbar-title>
-        <div v-if="taskDetail.security.write">
+        <div v-if="taskDetail?.security?.write">
           <q-btn
             :to="{ name: 'editTask', params: { id: id, appName: appName } }"
             dense
@@ -232,7 +228,7 @@ function toggleLeftDrawer() {
         </div>
         <div>
           <q-btn
-            v-if="taskDetail?.security.delete"
+            v-if="taskDetail?.security?.delete"
             color="white"
             dense
             flat
@@ -286,23 +282,23 @@ function toggleLeftDrawer() {
             <div class="relative-position">
               <span class="chip-caption">Priority</span>
               <q-chip
-                :color="getPriorityColor(taskDetail.taskPriorityName)"
-                :icon-right="getPriorityIcon(taskDetail.taskPriorityName)"
+                :color="getPriorityColor(taskDetail?.taskPriorityName as string)"
+                :icon-right="getPriorityIcon(taskDetail?.taskPriorityName as string)"
                 square
                 text-color="white"
               >
-                {{ taskDetail.taskPriorityName }}
+                {{ taskDetail?.taskPriorityName }}
               </q-chip>
             </div>
             <div class="relative-position">
               <span class="chip-caption">Status</span>
               <q-chip
-                :color="getTaskStatusColor(taskDetail.taskStatusCategory)"
-                :icon-right="getTaskStatusIcon(taskDetail.taskStatusCategory)"
+                :color="getTaskStatusColor(taskDetail?.taskStatusCategory as string)"
+                :icon-right="getTaskStatusIcon(taskDetail?.taskStatusCategory as string)"
                 square
                 text-color="white"
               >
-                {{ taskDetail.taskStatusName }}
+                {{ taskDetail?.taskStatusName }}
               </q-chip>
             </div>
           </div>
@@ -358,11 +354,11 @@ function toggleLeftDrawer() {
               <q-item-section>
                 <q-item-label caption>Privacy</q-item-label>
                 <q-item-label description>{{
-                  taskDetail.isPrivate ? 'Private' : 'Public'
+                  taskDetail?.isPrivate ? 'Private' : 'Public'
                 }}</q-item-label>
               </q-item-section>
               <q-item-section center side>
-                <q-icon :name="taskDetail.isPrivate ? 'lock' : 'lock_open'" />
+                <q-icon :name="taskDetail?.isPrivate ? 'lock' : 'lock_open'" />
               </q-item-section>
             </q-item>
           </div>
@@ -403,7 +399,7 @@ function toggleLeftDrawer() {
             </q-item>
           </div>
         </q-card-section>
-        <div v-if="pendingSubtasks.length > 0">
+        <div v-if="pendingSubtasks?.length as number > 0">
           <q-toolbar class="bg-primary text-white shadow-2">
             <q-toolbar-title>Subtasks</q-toolbar-title>
             <q-btn
@@ -420,7 +416,7 @@ function toggleLeftDrawer() {
               <subtask-item :subtask="subtask" />
             </div>
             <q-item-label
-              v-if="pendingSubtasks.length === 0"
+              v-if="pendingSubtasks?.length === 0"
               class="text-center text-grey"
               >No pending tasks</q-item-label
             >
@@ -430,7 +426,7 @@ function toggleLeftDrawer() {
               <subtask-item :subtask="subtask" />
             </div>
             <q-item-label
-              v-if="completedSubtasks.length === 0"
+              v-if="completedSubtasks?.length === 0"
               class="text-center text-grey"
               >No completed tasks
             </q-item-label>
