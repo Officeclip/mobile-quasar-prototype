@@ -159,11 +159,11 @@ function createValue(val: string, done: any) {
       meetingAttendee.value.push({
         id: id,
         eventId: -1,
-        email: val,
-        name: '',
+        email: '',
+        name: val,
       }); // push the new item as an object into the list
     }
-    done({ id: id, email: val }, 'toggle'); // added the new input as an new item into the dropdown
+    done({ id: id, name: val }, 'toggle'); // added the new input as an new item into the dropdown
   }
 }
 
@@ -485,6 +485,7 @@ const regarding = computed(() => {
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>
+      <pre>{{ event.meetingAttendees }}</pre>
       <q-item v-if="event.eventType.id == '2'">
         <q-select
           v-model="event.meetingAttendees"
@@ -493,7 +494,7 @@ const regarding = computed(() => {
           input-debounce="0"
           label="Attendees"
           multiple
-          option-label="email"
+          option-label="name"
           option-value="id"
           style="min-width: 250px"
           use-input

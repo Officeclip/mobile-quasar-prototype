@@ -21,8 +21,6 @@ const props = defineProps({
   },
 });
 
-// const emit = defineEmits(['emit-task']);
-
 const task: Ref<taskDetails> = ref(props.taskFromParent);
 const userSummaryStore = useUserSummaryStore();
 const taskListsStore = useTaskListsStore();
@@ -51,15 +49,16 @@ const dueDateModel = computed(() => {
   );
 });
 
-const shownOptions: Ref<userSummary[]> = ref([]);
-const shownTagOptions: Ref<tag[]> = ref([]);
+const usersList: Ref<userSummary[]> = ref([]);
+const tagOptions: Ref<tag[]> = ref([]);
+const filterUsersList: Ref<userSummary[]> = ref([]);
 
 onBeforeMount(async () => {
   try {
     await taskListsStore.getTaskLists();
     await userSummaryStore.getUserSummaries();
-    shownOptions.value = userSummaryStore.UserSummaries;
-    shownTagOptions.value = taskListsStore.Tags;
+    usersList.value = filterUsersList.value = userSummaryStore.UserSummaries;
+    tagOptions.value = taskListsStore.Tags;
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -80,71 +79,35 @@ function handleRRuleText(rruleText: string) {
   task.value.recurrence.text = repeatText;
 }
 
-// async function filterFn(val: string, update: any) {
-//   update(() => {
-//     const needle = val.toLowerCase();
-//     shownOptions.value = userSummaryStore.userSummaries.filter(
-//       (v) => v.name.toLowerCase().indexOf(needle) > -1
-//     );
-//   });
-// }
+// const filterUsersList: Ref<userSummary[]> = ref([]);
+async function filterUsersFn(val: string, update: any) {
+  if (val === '') {
+    update(() => {
+      filterUsersList.value = usersList.value;
+    });
+  }
+  update(() => {
+    const needle = val.toLowerCase();
+    filterUsersList.value = usersList.value.filter(
+      (v) => v.name.toLowerCase().indexOf(needle) > -1
+    );
+  });
+}
 
-// async function filterTagFn(val: string, update: any) {
-//   update(() => {
-//     const needle = val.toLowerCase();
-//     shownTagOptions.value = taskListsStore.tags.filter(
-//       (v) => v.name.toLowerCase().indexOf(needle) > -1
-//     );
-//   });
-// }
-
-// const taskType =
-//   task.value.id === ''
-//     ? ref()
-//     : ref({ id: task.value.taskTypeId, name: task.value.taskTypeName });
-
-// const taskStatus =
-//   task.value.id === ''
-//     ? ref()
-//     : ref({
-//         id: task.value.taskStatusId,
-//         name: task.value.taskStatusName,
-//         category: task.value.taskStatusCategory,
-//       });
-
-// const taskPriority =
-//   task.value.id === ''
-//     ? ref()
-//     : ref({
-//         id: task.value.taskPriorityId,
-//         name: task.value.taskPriorityName,
-//       });
-
-// const taskOwner = ref({
-//   id: task.value.taskOwnerSid,
-//   name: task.value.taskOwnerName,
-// });
-
-// watch(taskType, () => {
-//   task.value.taskTypeId = taskType.value?.id;
-//   task.value.taskTypeName = taskType.value?.name;
-// });
-// watch(taskStatus, () => {
-//   task.value.taskStatusId = taskStatus.value?.id;
-//   task.value.taskStatusName = taskStatus.value?.name;
-//   task.value.taskStatusCategory = taskStatus.value?.category;
-// });
-// watch(taskPriority, () => {
-//   task.value.taskPriorityId = taskPriority.value?.id;
-//   task.value.taskPriorityName = taskPriority.value?.name;
-// });
-// watch(taskOwner, () => {
-//   task.value.taskOwnerSid = taskOwner.value?.id;
-//   task.value.taskOwnerName = taskOwner.value?.name;
-// });
-// watch(task.value, () => {
-//   emit('emit-task', task.value);
-// });
+const filterTagOptions: Ref<tag[]> = ref([]);
+async function filterTagFn(val: string, update: any) {
+  if (val === '') {
+    update(() => {
+      filterTagOptions.value = tagOptions.value;
+    });
+  }
+  update(() => {
+    const needle = val.toLowerCase();
+    filterTagOptions.value = tagOptions.value.filter(
+      (v) => v.name.toLowerCase().indexOf(needle) > -1
+    );
+  });
+}
 
 const ruleDueDateGreaterThanStartDate = (val: string) => {
   if (!task.value.startDate || task.value.startDate.length === 0) return true;
@@ -170,6 +133,15 @@ defineExpose({
 const regarding = computed(() => {
   return `${props.taskFromParent?.parent.type.name} : ${props.taskFromParent?.parent.value.name}`;
 });
+
+function createValue(newValue: string, done: any) {
+  const id: number = Math.round(Math.random() * 1000);
+  if (newValue === '') {
+    done();
+    return;
+  }
+  done({ id: id, name: newValue }, 'toggle');
+}
 </script>
 
 <template>
@@ -272,30 +244,11 @@ const regarding = computed(() => {
       <q-item class="column">
         <q-checkbox v-model="task.isPrivate" label="Private?" />
       </q-item>
-      <!-- <q-item class="column">
-        <q-select
-          v-model="task.taskOwnerSid"
-          :options="taskListsStore.users"
-          input-debounce="0"
-          label="Owned by"
-          option-label="name"
-          option-value="id"
-          use-chips
-          use-input
-          map-options
-          emit-value
-        >
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> No results</q-item-section>
-            </q-item>
-          </template>
-        </q-select></q-item
-      > -->
       <q-item class="column">
         <q-select
           v-model="task.taskOwnerSid"
-          :options="shownOptions"
+          :options="filterUsersList"
+          @filter="filterUsersFn"
           input-debounce="0"
           label="Owned by"
           option-label="name"
@@ -315,7 +268,8 @@ const regarding = computed(() => {
       <q-item class="column">
         <q-select
           v-model="task.assignees"
-          :options="shownOptions"
+          :options="filterUsersList"
+          @filter="filterUsersFn"
           input-debounce="0"
           label="Assigned to"
           multiple
@@ -331,39 +285,24 @@ const regarding = computed(() => {
           </template>
         </q-select>
       </q-item>
-      <!-- <q-item class="column">
-        <q-select
-          v-model="task.assignees"
-          :options="taskListsStore.users"
-          input-debounce="0"
-          label="Assigned to"
-          multiple
-          option-label="name"
-          option-value="name"
-          use-chips
-          use-input
-        >
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> No results</q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-      </q-item> -->
       <q-item class="column">
         <q-select
           v-model="task.tags"
-          :options="shownTagOptions"
+          :options="filterTagOptions"
           input-debounce="0"
           label="Tags"
           multiple
           option-label="name"
           use-chips
           use-input
+          @filter="filterTagFn"
+          @new-value="createValue"
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey"> No results</q-item-section>
+              <q-item-section class="text-grey">
+                not in the list press enter to add as new tag</q-item-section
+              >
             </q-item>
           </template>
         </q-select>
