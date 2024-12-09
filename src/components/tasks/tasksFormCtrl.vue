@@ -135,7 +135,7 @@ const regarding = computed(() => {
 });
 
 function createValue(newValue: string, done: any) {
-  const id: number = Math.round(Math.random() * 1000);
+  const id = Math.round(Math.random() * -1000).toString();
   if (newValue === '') {
     done();
     return;

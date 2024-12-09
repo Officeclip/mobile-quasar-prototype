@@ -145,6 +145,7 @@ export class Constants {
     //   return String(LocalStorage.getItem('endPointUrl'));
     // }
     // return '';
-    return 'https://app.officeclip.com/api';
+    // return 'https://app.officeclip.com/api';
+    return util.endPointUrl();
   }
 }
