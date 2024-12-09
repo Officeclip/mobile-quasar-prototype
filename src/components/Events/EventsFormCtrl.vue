@@ -485,7 +485,6 @@ const regarding = computed(() => {
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>
-      <pre>{{ event.meetingAttendees }}</pre>
       <q-item v-if="event.eventType.id == '2'">
         <q-select
           v-model="event.meetingAttendees"
