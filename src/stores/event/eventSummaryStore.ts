@@ -86,5 +86,9 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       }
       return [];
     },
+
+    async resetEventSummaryList() {
+      this.eventSummary = [];
+    },
   },
 });

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
+import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import { ref, Ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { eventDetails } from 'src/models/event/eventDetails';
@@ -11,6 +12,7 @@ import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
 const $q = useQuasar();
 
 const eventDetailsStore = useEventDetailsStore();
+const eventSummaryStore = useEventSummaryStore();
 const router = useRouter();
 const route = useRoute();
 
@@ -87,6 +89,7 @@ async function onSubmit(e: any) {
     if (!childComponent.value?.validateAll()) return;
     const newEventDetails = ref(event);
     await eventDetailsStore.addEventDetails(newEventDetails.value);
+    await eventSummaryStore.resetEventSummaryList();
     router.go(-1);
   } catch (error) {
     $q.dialog({
@@ -107,7 +110,7 @@ async function onSubmit(e: any) {
           flat
           icon="arrow_back"
           round
-          @click="$router.go(-1)"
+          @click="router.go(-1)"
         >
         </q-btn>
         <q-toolbar-title> New Event</q-toolbar-title>

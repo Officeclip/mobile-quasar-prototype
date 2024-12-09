@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, Ref, ref } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
+import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { eventDetails } from 'src/models/event/eventDetails';
@@ -11,6 +12,7 @@ const $q = useQuasar();
 const route = useRoute();
 const router = useRouter();
 const eventDetailsStore = useEventDetailsStore();
+const eventSummaryStore = useEventSummaryStore();
 
 const paramsId = route.params.id;
 const appName = route.params.appName;
@@ -41,6 +43,7 @@ async function onSubmit(e: any) {
     if (!childComponent.value.validateAll()) return;
     const editEventDetails = ref(event);
     await eventDetailsStore.editEventDetails(editEventDetails.value);
+    await eventSummaryStore.resetEventSummaryList();
     router.go(-2);
   } catch (error) {
     $q.dialog({
