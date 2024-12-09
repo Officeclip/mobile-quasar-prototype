@@ -178,7 +178,7 @@ function toggleLeftDrawer() {
         </q-toolbar-title>
         <div>
           <q-btn
-            v-if="isAllowEdit"
+            v-if="isAllowEdit && event.eventType?.id !== '4'"
             :to="{ name: 'editEvent', params: { id: id, appName: appName } }"
             color="white"
             dense
@@ -192,7 +192,7 @@ function toggleLeftDrawer() {
         </div>
         <div>
           <q-btn
-            v-if="isAllowDelete"
+            v-if="isAllowDelete && event.eventType?.id !== '4'"
             color="white"
             dense
             flat
