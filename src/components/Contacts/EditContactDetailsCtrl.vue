@@ -4,7 +4,8 @@ import { defineProps, ref, onBeforeMount, computed } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import util from '../../helpers/util';
 
-const props = defineProps(['contactDetails']);
+const props = defineProps(['fromParentData']);
+const contactDetails = ref(props?.fromParentData);
 
 const dense = ref(false);
 
@@ -19,8 +20,8 @@ const defaultState = computed(() => {
 });
 
 const updateState = (newValue) => {
-  props.contactDetails.state_id = newValue.id;
-  props.contactDetails.state_name = newValue.name;
+  contactDetails.value.state_id = newValue.id;
+  contactDetails.value.state_name = newValue.name;
 };
 
 const getCountries = computed(() => {
@@ -28,8 +29,8 @@ const getCountries = computed(() => {
 });
 
 const updateCountry = (newValue) => {
-  props.contactDetails.country_id = newValue.id;
-  props.contactDetails.country_name = newValue.name;
+  contactDetails.value.country_id = newValue.id;
+  contactDetails.value.country_name = newValue.name;
 };
 
 const defaultCountry = computed(() => {
@@ -39,18 +40,18 @@ const defaultCountry = computed(() => {
 onBeforeMount(async () => {
   await usecontactDetailsStore.getContactLists();
   if (
-    props.contactDetails?.id == '' &&
+    contactDetails.value?.id == '' &&
     defaultState.value?.is_default == true
   ) {
-    props.contactDetails.state_name = defaultState.value.name;
-    props.contactDetails.state_id = defaultState.value.id;
+    contactDetails.value.state_name = defaultState.value.name;
+    contactDetails.value.state_id = defaultState.value.id;
   }
   if (
-    props.contactDetails?.id == '' &&
+    contactDetails.value?.id == '' &&
     defaultCountry.value?.is_default == true
   ) {
-    props.contactDetails.country_id = defaultCountry.value?.id;
-    props.contactDetails.country_name = defaultCountry.value?.name;
+    contactDetails.value.country_id = defaultCountry.value?.id;
+    contactDetails.value.country_name = defaultCountry.value?.name;
   }
 });
 
@@ -58,7 +59,7 @@ const lastNameRef = ref(null);
 const emailRef = ref('');
 
 const isLastNameValid = () => {
-  const condition = props.contactDetails.last_name !== '';
+  const condition = contactDetails.value.last_name !== '';
   return condition ? true : 'Please enter your last name';
 };
 
@@ -79,8 +80,6 @@ defineExpose({
 </script>
 
 <template>
-  <!-- FIXME: remove the warning -->
-  <!-- eslint-disable vue/no-mutating-props -->
   <div>
     <div class="q-pa-md">
       <div class="q-gutter-y-md column">

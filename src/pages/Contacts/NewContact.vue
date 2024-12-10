@@ -69,7 +69,8 @@ async function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <EditContactDetailsCtrl
-            :contactDetails="contactDetails"
+            v-if="contactDetails"
+            :fromParentData="contactDetails"
             ref="childComponent"
           />
         </div>
