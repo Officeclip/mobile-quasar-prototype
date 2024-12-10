@@ -17,5 +17,5 @@ export interface ContactDetails {
   home_phone?: string;
   thumbnail?: string;
   picture?: string;
-  security: security[]; //CR this should not be an array, should be object only
+  security: security;
 }
