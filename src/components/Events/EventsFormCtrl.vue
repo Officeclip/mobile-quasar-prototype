@@ -149,22 +149,28 @@ function filterFn(val: string, update: any) {
   });
 }
 
+// function createValue(val: string, done: any) {
+//   // create a new id value to add the id property for the new input string from user
+//   const id: number = Math.round(Math.random() * 100);
+//   // Add the new item to the meetingAttendee array.
+//   //TODO: CR: 2024-05-17: nk: Fix the below error?
+//   if (val.length > 0) {
+//     if (!meetingAttendee.value.includes(val)) {
+//       meetingAttendee.value.push({
+//         id: id,
+//         eventId: -1,
+//         email: '',
+//         name: val,
+//       }); // push the new item as an object into the list
+//     }
+//     done({ id: id, name: val }, 'toggle'); // added the new input as an new item into the dropdown
+//   }
+// }
 function createValue(val: string, done: any) {
-  // create a new id value to add the id property for the new input string from user
-  const id: number = Math.round(Math.random() * 100);
-  // Add the new item to the meetingAttendee array.
-  //TODO: CR: 2024-05-17: nk: Fix the below error?
-  if (val.length > 0) {
-    if (!meetingAttendee.value.includes(val)) {
-      meetingAttendee.value.push({
-        id: id,
-        eventId: -1,
-        email: '',
-        name: val,
-      }); // push the new item as an object into the list
-    }
-    done({ id: id, name: val }, 'toggle'); // added the new input as an new item into the dropdown
+  if (val) {
+    done({ id: '', name: val }, 'toggle');
   }
+  return;
 }
 
 if (event.value?.id == '' && event.value?.eventType?.id == '2') {
