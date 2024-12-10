@@ -4,7 +4,7 @@ import { computed, ComputedRef, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
-import AddSubtaskDialog from 'components/tasks/addSubtaskDialog.vue';
+import addEditSubtaskDialog from 'components/tasks/addEditSubtaskDialog.vue';
 import { subTask } from 'src/models/task/subtask';
 import SubtaskItem from 'components/tasks/SubtaskItem.vue';
 import { taskDetails } from 'src/models/task/taskDetails';
@@ -175,6 +175,19 @@ function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
 }
+
+const newSubtask = ref({
+  id: '',
+  parentId: id,
+  title: '',
+  description: '',
+  assignee: {
+    id: '',
+    name: '',
+  },
+  isCompleted: false,
+  completedDate: '',
+});
 </script>
 
 <style>
@@ -413,7 +426,10 @@ function toggleLeftDrawer() {
           <q-list bordered class="rounded-borders">
             <q-item-label caption class="q-ma-sm">Pending</q-item-label>
             <div v-for="subtask in pendingSubtasks" :key="subtask.id">
-              <subtask-item :subtask="subtask" />
+              <subtask-item
+                :subtask="subtask"
+                :taskSid="taskDetail?.id as string"
+              />
             </div>
             <q-item-label
               v-if="pendingSubtasks?.length === 0"
@@ -423,7 +439,10 @@ function toggleLeftDrawer() {
             <q-separator spaced />
             <q-item-label caption class="q-ma-sm">Completed</q-item-label>
             <div v-for="subtask in completedSubtasks" :key="subtask.id">
-              <subtask-item :subtask="subtask" />
+              <subtask-item
+                :subtask="subtask"
+                :taskSid="taskDetail?.id as string"
+              />
             </div>
             <q-item-label
               v-if="completedSubtasks?.length === 0"
@@ -470,8 +489,9 @@ function toggleLeftDrawer() {
         </q-fab>
       </q-page-sticky>
       <q-dialog v-model="showAddSubtaskDialog">
-        <add-subtask-dialog
-          :taskSid="taskDetail?.id"
+        <add-edit-subtask-dialog
+          :subtask="newSubtask"
+          :taskSid="taskDetail?.id as string"
           @save-subtask="addSubtask"
         />
       </q-dialog>

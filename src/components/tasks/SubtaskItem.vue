@@ -1,14 +1,17 @@
 <script lang="ts" setup>
-import { subTask } from 'src/models/task/subtask';
 import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
-import { ref } from 'vue';
-import EditSubtaskDialog from 'components/tasks/editSubtaskDialog.vue';
+import { ref, toRefs } from 'vue';
+import addEditSubtaskDialog from 'components/tasks/addEditSubtaskDialog.vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
+import { subTask } from 'src/models/task/subtask';
 
 const props = defineProps<{
   subtask: subTask;
+  taskSid: string;
 }>();
+
+const { subtask } = toRefs(props);
 const taskDetailsStore = useTaskDetailsStore();
 const router = useRouter();
 const $q = useQuasar();
@@ -30,6 +33,37 @@ const deleteSubtask = async (id: string) => {
     });
   }
 };
+async function editSubtask(subtask: subTask) {
+  try {
+    taskDetailsStore.editSubtask(subtask);
+    showEditSubtaskDialog.value = false;
+    window.location.reload();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      showEditSubtaskDialog.value = true;
+    });
+  }
+}
+
+const newSubtask = ref({
+  id: '',
+  parentId: props.taskSid,
+  title: '',
+  description: '',
+  assignee: {
+    id: '',
+    name: '',
+  },
+  isCompleted: false,
+  completedDate: '',
+});
+
+if (!subtask.value.id) {
+  subtask.value = newSubtask.value;
+}
 
 const showEditSubtaskDialog = ref(false);
 const showConfirmationDialog = ref(false);
@@ -55,7 +89,7 @@ const showConfirmationDialog = ref(false);
     <q-item-section top>
       <q-item-label lines="1" :class="subtask.isCompleted ? 'text-strike' : ''">
         <span class="text-weight-medium">{{ subtask.title }}</span>
-        <span class="text-grey-8"> - {{ subtask.assignee.name }} </span>
+        <span class="text-grey-8"> - {{ subtask.assignee?.name }} </span>
       </q-item-label>
       <q-item-label
         caption
@@ -129,6 +163,10 @@ const showConfirmationDialog = ref(false);
   </q-dialog>
 
   <q-dialog v-model="showEditSubtaskDialog">
-    <edit-subtask-dialog :subtask="subtask" />
+    <add-edit-subtask-dialog
+      :subtask="subtask"
+      :taskSid="taskSid"
+      @save-subtask="editSubtask"
+    />
   </q-dialog>
 </template>

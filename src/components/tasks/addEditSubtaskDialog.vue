@@ -1,12 +1,18 @@
 <script lang="ts" setup>
-import { onBeforeMount, ref, Ref, computed } from 'vue';
+import { onBeforeMount, ref, Ref, computed, toRefs } from 'vue';
 import { useTaskListsStore } from 'stores/task/taskListsStore';
 import { useUserSummaryStore } from 'stores/userSummaryStore';
 import { userSummary } from 'src/models/userSummary';
 import { useQuasar, QInput } from 'quasar';
 import { useRouter } from 'vue-router';
+import { subTask } from 'src/models/task/subtask';
 
-const props = defineProps(['taskSid']);
+const props = defineProps<{
+  subtask: subTask;
+  taskSid: string;
+}>();
+
+const { subtask } = toRefs(props);
 const taskListsStore = useTaskListsStore();
 const userSummaryStore = useUserSummaryStore();
 const $q = useQuasar();
@@ -41,7 +47,7 @@ async function filterFn(val: string, update: any) {
   });
 }
 
-const subtask = ref({
+const newSubtask = ref({
   id: '',
   parentId: props.taskSid,
   title: '',
@@ -53,6 +59,10 @@ const subtask = ref({
   isCompleted: false,
   completedDate: '',
 });
+
+if (!subtask.value.id) {
+  subtask.value = newSubtask.value;
+}
 
 const emit = defineEmits(['saveSubtask']);
 
