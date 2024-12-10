@@ -3,13 +3,14 @@ TODO: skd: Edit the address also with state as a dropdown. It should be done wit
 code and not the name [1.5h]
 -->
 <script setup lang="ts">
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, ref, Ref } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import { useRouter, useRoute } from 'vue-router';
 import EditContactDetailsCtrl from '../../components/Contacts/EditContactDetailsCtrl.vue';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
+import { ContactDetails } from 'src/models/Contact/contactDetails';
 
 const $q = useQuasar();
 
@@ -17,12 +18,12 @@ const contactDetailsStore = useContactDetailsStore();
 const router = useRouter();
 const route = useRoute();
 
-const contactDetails = computed(() => {
-  return contactDetailsStore.ContactDetails;
-});
+const contactDetails: Ref<ContactDetails> = ref(null);
 
-onMounted(() => {
-  contactDetailsStore.getContactDetails(route.params.id as string);
+onMounted(async () => {
+  await contactDetailsStore.getContactDetails(route.params.id as string);
+  const respone = contactDetailsStore.ContactDetails;
+  contactDetails.value = respone;
 });
 
 const childComponent = ref(null);
@@ -30,9 +31,6 @@ const childComponent = ref(null);
 async function onSubmit(e: any) {
   // e.preventDefault();
   try {
-    //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-
     if (!childComponent.value.validateAll()) return;
 
     await contactDetailsStore.editContactDetails(contactDetails.value!);
@@ -64,7 +62,8 @@ async function onSubmit(e: any) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <EditContactDetailsCtrl
-            :contactDetails="contactDetails"
+            v-if="contactDetails"
+            :fromParentData="contactDetails"
             ref="childComponent"
           />
         </div>

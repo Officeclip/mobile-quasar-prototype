@@ -134,13 +134,20 @@ const regarding = computed(() => {
   return `${props.taskFromParent?.parent.type.name} : ${props.taskFromParent?.parent.value.name}`;
 });
 
-function createValue(newValue: string, done: any) {
-  const id = Math.round(Math.random() * -1000).toString();
-  if (newValue === '') {
-    done();
-    return;
+// function createValue(newValue: string, done: any) {
+//   const id = Math.round(Math.random() * -1000).toString();
+//   if (newValue === '') {
+//     done();
+//     return;
+//   }
+//   done({ id: id, name: newValue }, 'toggle');
+// }
+
+function createValue(val: string, done: any) {
+  if (val) {
+    done({ id: '', name: val }, 'toggle');
   }
-  done({ id: id, name: newValue }, 'toggle');
+  return;
 }
 </script>
 
