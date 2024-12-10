@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-mutating-props -->
 <script setup>
 import { defineProps, ref, onBeforeMount, computed } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
@@ -7,7 +6,8 @@ import util from '../../helpers/util';
 const props = defineProps(['fromParentData']);
 const contactDetails = ref(props?.fromParentData);
 
-const dense = ref(false);
+const filterCountries = ref(null);
+const filterStates = ref(null);
 
 const usecontactDetailsStore = useContactDetailsStore();
 
@@ -19,19 +19,9 @@ const defaultState = computed(() => {
   return getStates.value.find((state) => state.is_default);
 });
 
-const updateState = (newValue) => {
-  contactDetails.value.state_id = newValue.id;
-  contactDetails.value.state_name = newValue.name;
-};
-
 const getCountries = computed(() => {
   return usecontactDetailsStore.countries;
 });
-
-const updateCountry = (newValue) => {
-  contactDetails.value.country_id = newValue.id;
-  contactDetails.value.country_name = newValue.name;
-};
 
 const defaultCountry = computed(() => {
   return getCountries.value.find((country) => country.is_default);
@@ -43,7 +33,6 @@ onBeforeMount(async () => {
     contactDetails.value?.id == '' &&
     defaultState.value?.is_default == true
   ) {
-    contactDetails.value.state_name = defaultState.value.name;
     contactDetails.value.state_id = defaultState.value.id;
   }
   if (
@@ -51,8 +40,9 @@ onBeforeMount(async () => {
     defaultCountry.value?.is_default == true
   ) {
     contactDetails.value.country_id = defaultCountry.value?.id;
-    contactDetails.value.country_name = defaultCountry.value?.name;
   }
+  filterCountries.value = getCountries.value;
+  filterStates.value = getStates.value;
 });
 
 const lastNameRef = ref(null);
@@ -74,6 +64,34 @@ const validateAll = () => {
   return !lastNameRef.value.hasError && !emailRef.value.hasError;
 };
 
+function filterCountriesFn(val, update) {
+  if (val === '') {
+    update(() => {
+      contactDetails.value.country_id = ''; // making empty the existing value while filtering
+    });
+  }
+  update(() => {
+    const needle = val.toLowerCase();
+    filterCountries.value = getCountries.value.filter(
+      (v) => v.name.toLowerCase().indexOf(needle) > -1
+    );
+  });
+}
+
+function filterStatesFn(val, update) {
+  if (val === '') {
+    update(() => {
+      contactDetails.value.state_id = ''; // making empty the existing value while filtering
+    });
+  }
+  update(() => {
+    const needle = val.toLowerCase();
+    filterStates.value = getStates.value.filter(
+      (v) => v.name.toLowerCase().indexOf(needle) > -1
+    );
+  });
+}
+
 defineExpose({
   validateAll,
 });
@@ -87,13 +105,13 @@ defineExpose({
           v-model="contactDetails.first_name"
           label="First Name"
           placeholder="enter first name"
-          :dense="dense"
+          dense
         ></q-input>
         <q-input
           v-model="contactDetails.last_name"
           label="Last Name"
           placeholder="enter last name"
-          :dense="dense"
+          dense
           :rules="[isLastNameValid]"
           ref="lastNameRef"
         >
@@ -102,65 +120,83 @@ defineExpose({
           v-model="contactDetails.title"
           label="Title"
           placeholder="enter title"
-          :dense="dense"
+          dense
         ></q-input>
         <q-input
           v-model="contactDetails.email"
           label="Email"
           placeholder="enter email address"
-          :dense="dense"
+          dense
           :rules="[isValidEmail]"
           ref="emailRef"
         ></q-input>
         <q-select
-          v-model="contactDetails.country_name"
-          @update:model-value="updateCountry"
+          v-model="contactDetails.country_id"
+          :options="filterCountries"
+          label="Country"
+          dense
           option-value="id"
           option-label="name"
-          :options="getCountries"
-          label="Country"
-          placeholder="enter country name"
-          :dense="dense"
-        ></q-select>
+          map-options
+          emit-value
+          use-input
+          input-debounce="0"
+          @filter="filterCountriesFn"
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> not found</q-item-section>
+            </q-item>
+          </template>
+        </q-select>
         <q-input
           v-model="contactDetails.work_phone"
           label="Work Phone"
           placeholder="work phone"
-          :dense="dense"
+          dense
         ></q-input>
         <q-input
           v-model="contactDetails.home_phone"
           label="Home Phone"
           placeholder="home phone"
-          :dense="dense"
+          dense
         ></q-input>
         <q-input
           v-model="contactDetails.street_address"
           label="Address"
           placeholder="street address"
-          :dense="dense"
+          dense
         ></q-input>
         <q-input
           v-model="contactDetails.city"
           label="City"
           placeholder="City"
-          :dense="dense"
+          dense
         ></q-input>
         <q-select
-          v-model="contactDetails.state_name"
-          @update:model-value="updateState"
+          v-model="contactDetails.state_id"
+          :options="filterStates"
+          label="State"
+          dense
           option-value="id"
           option-label="name"
-          :options="getStates"
-          label="State"
-          placeholder="enter state name"
-          :dense="dense"
-        />
+          map-options
+          emit-value
+          use-input
+          input-debounce="0"
+          @filter="filterStatesFn"
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> not found</q-item-section>
+            </q-item>
+          </template>
+        </q-select>
         <q-input
           v-model="contactDetails.postal_code"
           label="Postal Code"
           placeholder="postal code"
-          :dense="dense"
+          dense
         ></q-input>
       </div>
     </div>
