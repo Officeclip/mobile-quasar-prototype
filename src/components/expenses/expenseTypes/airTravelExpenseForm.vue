@@ -5,7 +5,6 @@ import { date, QInput } from 'quasar';
 
 const props = defineProps(['airTravel', 'isDetailRequired']);
 
-const dense = ref(false);
 const mask = 'YYYY-MM-DD';
 
 const arrivalAirportRef = ref<QInput>(); // from: https://stackoverflow.com/a/65106524
@@ -62,7 +61,7 @@ defineExpose({
         v-model="props.airTravel.departureAirport"
         label="Departure Airport"
         placeholder="enter departure airport name"
-        :dense="dense"
+        dense
         :label-color="props.isDetailRequired ? 'red' : ''"
         :rules="[ruleNotEmpty]"
         hide-bottom-space
@@ -73,7 +72,7 @@ defineExpose({
         v-model="props.airTravel.arrivalAirport"
         label="Arrival Airport"
         placeholder="enter arrival airport name"
-        :dense="dense"
+        dense
         :label-color="props.isDetailRequired ? 'red' : ''"
         :rules="[ruleNotEmpty]"
         hide-bottom-space

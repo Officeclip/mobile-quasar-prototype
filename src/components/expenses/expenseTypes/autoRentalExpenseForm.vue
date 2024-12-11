@@ -5,8 +5,6 @@ import { defineProps, ref } from 'vue';
 const props = defineProps(['autoRental', 'isDetailRequired']);
 import { QInput } from 'quasar';
 
-const dense = ref(false);
-
 const rentalAgencyRef = ref<QInput>(); // from: https://stackoverflow.com/a/65106524
 const cityRef = ref<QInput>();
 const fromDateeRef = ref<QInput>();
@@ -49,7 +47,7 @@ defineExpose({
         label="Rental Agency"
         :label-color="props.isDetailRequired ? 'red' : ''"
         placeholder="enter rental agency name"
-        :dense="dense"
+        dense
         lazy-rules
         :rules="[ruleNotEmpty]"
         hide-bottom-space
@@ -61,7 +59,7 @@ defineExpose({
         label="City"
         :label-color="props.isDetailRequired ? 'red' : ''"
         placeholder="enter city name"
-        :dense="dense"
+        dense
         lazy-rules
         :rules="[ruleNotEmpty]"
         hide-bottom-space

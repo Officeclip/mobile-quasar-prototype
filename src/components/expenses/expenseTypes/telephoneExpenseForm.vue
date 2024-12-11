@@ -5,7 +5,6 @@ import { QInput } from 'quasar';
 
 const props = defineProps(['telephone', 'isDetailRequired']);
 
-const dense = ref(false);
 const phoneNumberRef = ref<QInput>();
 const cityRef = ref<QInput>();
 
@@ -40,7 +39,7 @@ defineExpose({
         label="Phone Number"
         :label-color="props.isDetailRequired ? 'red' : ''"
         placeholder="enter phone number"
-        :dense="dense"
+        dense
         lazy-rules
         :rules="[ruleNotEmpty]"
         hide-bottom-space
@@ -52,7 +51,7 @@ defineExpose({
         label="City"
         :label-color="props.isDetailRequired ? 'red' : ''"
         placeholder="enter city name"
-        :dense="dense"
+        dense
         lazy-rules
         :rules="[ruleNotEmpty]"
         hide-bottom-space

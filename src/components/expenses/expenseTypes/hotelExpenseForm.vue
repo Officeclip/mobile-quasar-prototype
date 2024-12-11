@@ -5,8 +5,6 @@ import { QInput } from 'quasar';
 
 const props = defineProps(['hotel', 'isDetailRequired']);
 
-const dense = ref(false);
-
 const hotelNameRef = ref<QInput>(); // from: https://stackoverflow.com/a/65106524
 const cityRef = ref<QInput>();
 const fromDateRef = ref<QInput>();
@@ -50,7 +48,7 @@ defineExpose({
         label="Hotel Name"
         :label-color="props.isDetailRequired ? 'red' : ''"
         placeholder="enter hotel name"
-        :dense="dense"
+        dense
         lazy-rules
         :rules="[ruleNotEmpty]"
         hide-bottom-space
@@ -62,7 +60,7 @@ defineExpose({
         label="City"
         :label-color="props.isDetailRequired ? 'red' : ''"
         placeholder="enter city name"
-        :dense="dense"
+        dense
         lazy-rules
         :rules="[ruleNotEmpty]"
         hide-bottom-space

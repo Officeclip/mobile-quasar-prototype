@@ -5,7 +5,6 @@ import { QInput } from 'quasar';
 
 const props = defineProps(['mileage', 'isDetailRequired']);
 
-const dense = ref(false);
 const mileageRef = ref<QInput>();
 const ruleNotEmpty = (val: string) => {
   const condition = (val && val.length > 0) || !props.isDetailRequired;
@@ -38,7 +37,7 @@ defineExpose({
         label="Mileage"
         :label-color="props.isDetailRequired ? 'red' : ''"
         placeholder="enter mileage"
-        :dense="dense"
+        dense
         lazy-rules
         :rules="[ruleNotEmpty]"
         hide-bottom-space
