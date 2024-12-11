@@ -118,36 +118,46 @@ const isEndPointUrlInLocalStorage = Constants.getEndPointUrl();
                 </div>
               </q-card-section>
               <q-card-section>
-                <q-input
-                  dense
-                  outlined
-                  v-model="login.userName"
-                  label="Email Address"
-                  :rules="['email']"
-                  hide-bottom-space
-                  error-message="Please enter a valid email address"
-                  type="email"
-                ></q-input>
-                <q-input
-                  dense
-                  outlined
-                  v-model="login.password"
-                  type="password"
-                  label="Password"
-                  :rules="[
-                    (val) => (val && val.length > 0) || 'Please enter password',
-                  ]"
-                  hide-bottom-space
-                ></q-input>
+                <q-item
+                  ><q-input
+                    class="col"
+                    maxlength="450px"
+                    dense
+                    outlined
+                    v-model="login.userName"
+                    label="Email Address"
+                    :rules="['email']"
+                    hide-bottom-space
+                    error-message="Please enter a valid email address"
+                    type="email"
+                  ></q-input
+                ></q-item>
+                <q-item
+                  ><q-input
+                    class="col"
+                    dense
+                    outlined
+                    v-model="login.password"
+                    type="password"
+                    label="Password"
+                    :rules="[
+                      (val) =>
+                        (val && val.length > 0) || 'Please enter password',
+                    ]"
+                    hide-bottom-space
+                  ></q-input
+                ></q-item>
               </q-card-section>
               <q-card-section>
-                <q-btn
-                  color="dark"
-                  label="Sign in"
-                  no-caps
-                  class="full-width"
-                  type="submit"
-                ></q-btn>
+                <q-item>
+                  <q-btn
+                    color="dark"
+                    label="Sign in"
+                    no-caps
+                    class="full-width"
+                    type="submit"
+                  ></q-btn>
+                </q-item>
               </q-card-section>
               <q-item>
                 <div class="row items-center">
