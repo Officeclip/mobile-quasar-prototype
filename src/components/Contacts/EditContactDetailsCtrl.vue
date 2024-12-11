@@ -1,34 +1,50 @@
 <script setup>
-import { defineProps, ref, onBeforeMount, computed } from 'vue';
+import { defineProps, ref, onBeforeMount, watch } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import util from '../../helpers/util';
 
 const props = defineProps(['fromParentData']);
 const contactDetails = ref(props?.fromParentData);
 
+const getStates = ref(null);
+const defaultState = ref(null);
+
+const getCountries = ref(null);
+const defaultCountry = ref(null);
+
 const filterCountries = ref(null);
 const filterStates = ref(null);
 
 const usecontactDetailsStore = useContactDetailsStore();
 
-const getStates = computed(() => {
-  return usecontactDetailsStore.states;
-});
+// const getStates = computed(() => {
+//   return usecontactDetailsStore.states;
+// });
 
-const defaultState = computed(() => {
-  return getStates.value.find((state) => state.is_default);
-});
+// const defaultState = computed(() => {
+//   return getStates.value.find((state) => state.is_default);
+// });
 
-const getCountries = computed(() => {
-  return usecontactDetailsStore.countries;
-});
+// const getCountries = computed(() => {
+//   return usecontactDetailsStore.countries;
+// });
 
-const defaultCountry = computed(() => {
-  return getCountries.value.find((country) => country.is_default);
-});
+// const defaultCountry = computed(() => {
+//   return getCountries.value.find((country) => country.is_default);
+// });
 
 onBeforeMount(async () => {
   await usecontactDetailsStore.getContactLists();
+  getCountries.value = usecontactDetailsStore.countries;
+  defaultCountry.value = getCountries.value.find(
+    (country) => country.is_default
+  );
+  getStates.value = usecontactDetailsStore.states;
+  defaultState.value = getStates.value.find((state) => state.is_default);
+
+  filterCountries.value = getCountries.value;
+  filterStates.value = getStates.value;
+
   if (
     contactDetails.value?.id == '' &&
     defaultState.value?.is_default == true
@@ -41,8 +57,6 @@ onBeforeMount(async () => {
   ) {
     contactDetails.value.country_id = defaultCountry.value?.id;
   }
-  filterCountries.value = getCountries.value;
-  filterStates.value = getStates.value;
 });
 
 const lastNameRef = ref(null);
@@ -65,11 +79,6 @@ const validateAll = () => {
 };
 
 function filterCountriesFn(val, update) {
-  if (val === '') {
-    update(() => {
-      contactDetails.value.country_id = ''; // making empty the existing value while filtering
-    });
-  }
   update(() => {
     const needle = val.toLowerCase();
     filterCountries.value = getCountries.value.filter(
@@ -79,11 +88,6 @@ function filterCountriesFn(val, update) {
 }
 
 function filterStatesFn(val, update) {
-  if (val === '') {
-    update(() => {
-      contactDetails.value.state_id = ''; // making empty the existing value while filtering
-    });
-  }
   update(() => {
     const needle = val.toLowerCase();
     filterStates.value = getStates.value.filter(
@@ -113,6 +117,7 @@ defineExpose({
           placeholder="enter last name"
           dense
           :rules="[isLastNameValid]"
+          hide-bottom-space
           ref="lastNameRef"
         >
         </q-input>
@@ -128,6 +133,7 @@ defineExpose({
           placeholder="enter email address"
           dense
           :rules="[isValidEmail]"
+          hide-bottom-space
           ref="emailRef"
         ></q-input>
         <q-select
@@ -140,6 +146,8 @@ defineExpose({
           map-options
           emit-value
           use-input
+          fill-input
+          hide-selected
           input-debounce="0"
           @filter="filterCountriesFn"
         >
@@ -183,6 +191,8 @@ defineExpose({
           map-options
           emit-value
           use-input
+          fill-input
+          hide-selected
           input-debounce="0"
           @filter="filterStatesFn"
         >

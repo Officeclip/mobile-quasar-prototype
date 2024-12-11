@@ -3,7 +3,7 @@ TODO: skd: Provide a way to edit the image also [1.5h]
 TODO: skd: Implement child events the same way as implemented in OfficeClip. Do at least the UI [2h]
 -->
 <script setup lang="ts">
-import { ref, onBeforeMount, computed, onMounted } from 'vue';
+import { ref, onBeforeMount, computed } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import { useContactListsStore } from '../../stores/contact/ContactListsStore';
 import { useRoute, useRouter } from 'vue-router';
