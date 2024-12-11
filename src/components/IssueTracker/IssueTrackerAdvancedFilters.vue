@@ -95,15 +95,15 @@ async function filterFn(val: string, update: any, abort: any) {
 
 <template>
   <q-card style="width: 700px; max-width: 80vw">
-    <q-card-section class="row items-center q-pb-none">
+    <q-card-section class="row items-center">
       <div class="text-h6">Filter Options</div>
       <q-space></q-space>
       <q-btn icon="close" flat round dense v-close-popup></q-btn>
     </q-card-section>
 
     <q-card-section>
-      <div class="q-pa-md row">
-        <q-item-section>
+      <q-item
+        ><q-item-section>
           <q-select
             outlined
             label="Status"
@@ -114,11 +114,11 @@ async function filterFn(val: string, update: any, abort: any) {
             option-label="name"
             option-value="id"
             ref="infinteScroll"
-          />
-        </q-item-section>
-      </div>
-      <div class="q-pa-md row">
-        <q-item-section>
+            dense
+          /> </q-item-section
+      ></q-item>
+      <q-item
+        ><q-item-section>
           <q-select
             outlined
             label="Criticality"
@@ -128,11 +128,11 @@ async function filterFn(val: string, update: any, abort: any) {
             map-options
             option-label="name"
             option-value="id"
-          />
-        </q-item-section>
-      </div>
-      <div class="q-pa-md row">
-        <q-item-section>
+            dense
+          /> </q-item-section
+      ></q-item>
+      <q-item
+        ><q-item-section>
           <q-select
             outlined
             label="Category"
@@ -142,11 +142,11 @@ async function filterFn(val: string, update: any, abort: any) {
             map-options
             option-label="name"
             option-value="id"
-          />
-        </q-item-section>
-      </div>
-      <div class="q-pa-md row">
-        <q-item-section>
+            dense
+          /> </q-item-section
+      ></q-item>
+      <q-item
+        ><q-item-section>
           <q-select
             outlined
             label="Created by"
@@ -159,11 +159,11 @@ async function filterFn(val: string, update: any, abort: any) {
             option-value="id"
             use-input
             @filter="filterFn"
-          />
-        </q-item-section>
-      </div>
-      <div class="q-pa-md row">
-        <q-item-section>
+            dense
+          /> </q-item-section
+      ></q-item>
+      <q-item
+        ><q-item-section>
           <q-select
             outlined
             label="Modified by"
@@ -176,9 +176,9 @@ async function filterFn(val: string, update: any, abort: any) {
             option-value="id"
             use-input
             @filter="filterFn"
-          />
-        </q-item-section>
-      </div>
+            dense
+          /> </q-item-section
+      ></q-item>
     </q-card-section>
     <q-card-actions>
       <q-btn v-close-popup color="primary" label="Apply" @click="emitOptions" />
