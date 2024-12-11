@@ -53,6 +53,7 @@ defineExpose({
         :dense="dense"
         lazy-rules
         :rules="[ruleNotEmpty]"
+        hide-bottom-space
       >
       </q-input>
       <q-input
@@ -64,6 +65,7 @@ defineExpose({
         :dense="dense"
         lazy-rules
         :rules="[ruleNotEmpty]"
+        hide-bottom-space
       >
       </q-input>
       <q-input
@@ -74,6 +76,7 @@ defineExpose({
         label="From Date"
         :label-color="props.isDetailRequired ? 'red' : ''"
         :rules="[ruleNotEmpty]"
+        hide-bottom-space
       >
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
@@ -99,6 +102,7 @@ defineExpose({
         label="To Date"
         :label-color="props.isDetailRequired ? 'red' : ''"
         :rules="[ruleNotEmpty]"
+        hide-bottom-space
       >
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">

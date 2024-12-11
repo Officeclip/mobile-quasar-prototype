@@ -45,6 +45,7 @@ const startDateParsed = computed(() => {
           v-if="startDateParsed"
           v-model="testData.startDate"
           :rules="[(val) => !!val || 'Start Date is required']"
+          hide-bottom-space
           label="Starts*"
           name="startDate"
           :model-value="startDateParsed"

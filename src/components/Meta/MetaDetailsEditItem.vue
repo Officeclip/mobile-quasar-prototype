@@ -68,6 +68,7 @@ const formattedDateTime = computed(() => {
       v-model="newValue"
       mask="date"
       :rules="['date']"
+      hide-bottom-space
       :label="labelName"
     >
       <template v-slot:append>

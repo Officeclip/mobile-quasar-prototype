@@ -63,6 +63,7 @@ const mask = (x: boolean) => {
       label="Event Name*"
       placeholder="enter event name"
       :rules="[ruleNotEmpty]"
+      hide-bottom-space
     />
   </div>
   <div>
@@ -76,6 +77,7 @@ const mask = (x: boolean) => {
       v-model="endDateModelValue"
       label="Ends*"
       :rules="[ruleNotEmpty, ruleEndDateGreaterThanStartDate]"
+      hide-bottom-space
     >
       <template v-slot:prepend>
         <q-icon class="cursor-pointer" name="event">

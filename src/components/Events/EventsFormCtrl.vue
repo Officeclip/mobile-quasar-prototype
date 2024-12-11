@@ -336,6 +336,7 @@ const regarding = computed(() => {
           ref="eventNameRef"
           v-model="event.eventName"
           :rules="[ruleNotEmpty]"
+          hide-bottom-space
           label="Event Name*"
           placeholder="enter event name"
         />
@@ -360,6 +361,7 @@ const regarding = computed(() => {
           label="Starts*"
           @update:model-value="changeEndDateWhenStartDateChanged"
           :rules="[ruleNotEmpty]"
+          hide-bottom-space
           ref="startDateRef"
         >
           <template v-slot:prepend>
@@ -409,6 +411,7 @@ const regarding = computed(() => {
           v-model="endDateModelValue"
           label="Ends*"
           :rules="[ruleNotEmpty, ruleEndDateGreaterThanStartDate]"
+          hide-bottom-space
           ref="endDateRef"
         >
           <template v-slot:prepend>

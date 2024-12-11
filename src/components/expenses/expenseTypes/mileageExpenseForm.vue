@@ -41,6 +41,7 @@ defineExpose({
         :dense="dense"
         lazy-rules
         :rules="[ruleNotEmpty]"
+        hide-bottom-space
       >
       </q-input>
     </div>

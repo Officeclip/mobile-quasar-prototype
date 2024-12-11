@@ -124,6 +124,7 @@ const isEndPointUrlInLocalStorage = Constants.getEndPointUrl();
                   v-model="login.userName"
                   label="Email Address"
                   :rules="['email']"
+                  hide-bottom-space
                   error-message="Please enter a valid email address"
                   type="email"
                 ></q-input>
@@ -136,6 +137,7 @@ const isEndPointUrlInLocalStorage = Constants.getEndPointUrl();
                   :rules="[
                     (val) => (val && val.length > 0) || 'Please enter password',
                   ]"
+                  hide-bottom-space
                 ></q-input>
               </q-card-section>
               <q-card-section>

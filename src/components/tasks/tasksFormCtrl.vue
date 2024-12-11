@@ -162,6 +162,7 @@ function createValue(val: string, done: any) {
           label="Subject"
           placeholder="enter task subject"
           :rules="[ruleNotEmpty]"
+          hide-bottom-space
       /></q-item>
       <q-item class="column">
         <q-field v-model="task.description" label-slot borderless>
@@ -198,6 +199,7 @@ function createValue(val: string, done: any) {
           ref="dateRef"
           v-model="dueDateModel"
           :rules="[ruleNotEmpty, ruleDueDateGreaterThanStartDate]"
+          hide-bottom-space
           label="Due Date"
         >
           <template v-slot:prepend>

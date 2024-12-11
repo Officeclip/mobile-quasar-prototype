@@ -48,6 +48,7 @@ const convertedDate = computed(() => {
         <q-input
           v-model="date"
           :rules="[(val) => !!val || 'Start Date is required']"
+          hide-bottom-space
           label="Starts*"
           name="startDate"
           :model-value="convertedDate"

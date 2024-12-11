@@ -51,6 +51,7 @@ defineExpose({
           label-slot
           borderless
           :rules="[ruleNotEmpty]"
+          hide-bottom-space
           ref="descriptionRef"
         >
           <template #label>Description</template>

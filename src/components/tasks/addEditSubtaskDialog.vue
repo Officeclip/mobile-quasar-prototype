@@ -99,6 +99,7 @@ defineExpose({
         v-model="subtask.title"
         ref="eventNameRef"
         :rules="[ruleNotEmpty]"
+        hide-bottom-space
         :error-message="errorMsg"
         label="* Subject"
         lazy-rules

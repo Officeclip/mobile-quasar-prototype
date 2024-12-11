@@ -273,6 +273,7 @@ defineExpose({
         emit-value
         map-options
         :rules="[isDateValid]"
+        hide-bottom-space
         ref="dateRef"
       />
       <q-select
@@ -290,6 +291,7 @@ defineExpose({
         v-model="expenseDetail.expenseTypeSid"
         :options="expenseTypeOptions"
         :rules="[isExpenseTypeValid]"
+        hide-bottom-space
         ref="expenseTypeRef"
         @update:model-value="getExpenseTypeDetail"
         option-label="expenseName"
@@ -401,6 +403,7 @@ defineExpose({
         placeholder="enter here..."
         type="number"
         :rules="[isAmountValid]"
+        hide-bottom-space
         ref="amountRef"
       >
       </q-input>

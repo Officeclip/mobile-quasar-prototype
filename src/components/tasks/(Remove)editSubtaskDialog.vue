@@ -55,6 +55,7 @@ async function filterFn(val: string, update: any) {
       <q-input
         v-model="subtask.title"
         :rules="[(val) => (val && val.length > 0) || 'Please type title']"
+        hide-bottom-space
         label="Subject"
         lazy-rules
         outlined

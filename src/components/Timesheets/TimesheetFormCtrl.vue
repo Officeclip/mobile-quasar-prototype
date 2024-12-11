@@ -173,6 +173,7 @@ function onDurationBlur(event) {
         v-model="date"
         :options="dateOptions"
         :rules="[isDateValid]"
+        hide-bottom-space
         ref="dateRef"
         option-label="name"
         option-value="startDate"
@@ -234,6 +235,7 @@ function onDurationBlur(event) {
         v-model="timesheet.timeDuration"
         placeholder="enter duration in decimal (hh.mm)"
         :rules="[isDurationEmpty, isDurationValid]"
+        hide-bottom-space
         ref="durationRef"
         @blur="onDurationBlur"
       />
@@ -250,6 +252,7 @@ function onDurationBlur(event) {
           (val) =>
             (val && val.length > 0) || !isCommentsRequired || errorMessage,
         ]"
+        hide-bottom-space
       >
         <template v-slot:label>
           <div class="row items-center all-pointer-events">

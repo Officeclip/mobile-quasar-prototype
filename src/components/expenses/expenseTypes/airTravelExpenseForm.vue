@@ -65,6 +65,7 @@ defineExpose({
         :dense="dense"
         :label-color="props.isDetailRequired ? 'red' : ''"
         :rules="[ruleNotEmpty]"
+        hide-bottom-space
       >
       </q-input>
       <q-input
@@ -75,6 +76,7 @@ defineExpose({
         :dense="dense"
         :label-color="props.isDetailRequired ? 'red' : ''"
         :rules="[ruleNotEmpty]"
+        hide-bottom-space
       >
       </q-input>
       <q-input
@@ -85,6 +87,7 @@ defineExpose({
         label="Departure Date"
         :label-color="props.isDetailRequired ? 'red' : ''"
         :rules="[ruleNotEmpty]"
+        hide-bottom-space
       >
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
@@ -110,6 +113,7 @@ defineExpose({
         label="Arrival Date"
         :label-color="props.isDetailRequired ? 'red' : ''"
         :rules="[ruleNotEmpty]"
+        hide-bottom-space
       >
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
