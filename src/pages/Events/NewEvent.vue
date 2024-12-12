@@ -128,14 +128,14 @@ async function onSubmit(e: any) {
             @rrule-text-generated="handleRRuleText"
             @reminder-generated="handleReminder"
           />
-          <q-btn
+          <!-- <q-btn
             class="q-ml-sm"
             color="primary"
             flat
             label="Reset"
             no-caps
             type="reset"
-          />
+          /> -->
         </div>
       </q-form>
     </q-page-container>

@@ -94,13 +94,13 @@ function onSubmit() {
         <q-list>
           <q-form @submit="onSubmit" class="q-gutter-md">
             <issueTrackerForm :issueFromParent="newIssue" :appName="appName" />
-            <q-btn
+            <!-- <q-btn
               label="Reset"
               type="reset"
               color="primary"
               flat
               class="q-ml-sm"
-            ></q-btn>
+            ></q-btn> -->
           </q-form>
         </q-list>
       </q-page>

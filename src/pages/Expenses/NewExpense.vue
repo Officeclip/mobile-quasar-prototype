@@ -122,13 +122,13 @@ async function onSubmit(e: any) {
             :toDate="toDate"
             ref="childComponent"
           />
-          <q-btn
+          <!-- <q-btn
             label="Reset"
             type="reset"
             color="primary"
             flat
             class="q-ml-sm"
-          ></q-btn>
+          ></q-btn> -->
         </div>
       </q-form>
     </q-page-container>

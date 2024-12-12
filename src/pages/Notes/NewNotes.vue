@@ -83,13 +83,13 @@ function onSubmit(e: Event) {
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>
           <NotesForm :note="note" ref="childComponent" />
-          <q-btn
+          <!-- <q-btn
             label="Reset"
             type="reset"
             color="primary"
             flat
             class="q-ml-sm"
-          ></q-btn>
+          ></q-btn> -->
         </div>
       </q-form>
     </q-page-container>

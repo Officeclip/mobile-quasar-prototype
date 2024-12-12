@@ -157,13 +157,13 @@ async function onSubmit(e: any) {
             ref="childComponent"
             :taskFromParent="task"
           />
-          <q-btn
+          <!-- <q-btn
             class="q-ml-sm"
             color="primary"
             flat
             label="Reset"
             type="reset"
-          />
+          /> -->
         </div>
       </q-form>
     </q-page-container>
