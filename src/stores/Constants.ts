@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import { error } from 'console';
 import { LocalStorage, SessionStorage } from 'quasar';
 import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
@@ -7,17 +6,12 @@ import { responseError } from 'src/models/responseError';
 import { Session } from 'src/models/session';
 
 export class Constants {
-  // static readonly endPointUrl = import.meta.env.VITE_API_ENDPOINT
-  //   ? import.meta.env.VITE_API_ENDPOINT
-  //   : String(LocalStorage.getItem('endPointUrl'));
-
   static readonly defaultLogin = LocalStorage.has('userName')
     ? String(LocalStorage.getItem('userName'))
     : '';
 
   static getAxiosInstance() {
     const instance = axios.create({
-      //withCredentials: true, //https://stackoverflow.com/a/43178070
       baseURL: util.endPointUrl(),
     });
     Constants.setupAxiosInstance(instance);
@@ -73,7 +67,6 @@ export class Constants {
   }
 
   static setupAxiosAuthorizationHeader(instance: AxiosInstance, token: string) {
-    //debugger;
     let tokenValue = '';
     if (LocalStorage.has(token)) {
       tokenValue = String(LocalStorage.getItem(token)).split(',', 2)[0];
@@ -101,7 +94,6 @@ export class Constants {
   }
 
   static getOrgKeyFromSession() {
-    //debugger;
     if (SessionStorage.has('oc-session')) {
       const session = SessionStorage.getItem('oc-session');
       if (session) {
@@ -112,7 +104,6 @@ export class Constants {
   }
 
   static getRestApiVersionFromSession() {
-    //debugger;
     if (SessionStorage.has('oc-session')) {
       const session = SessionStorage.getItem('oc-session');
       if (session) {
@@ -141,11 +132,6 @@ export class Constants {
   }
 
   static getEndPointUrl() {
-    // if (LocalStorage.has('endPointUrl')) {
-    //   return String(LocalStorage.getItem('endPointUrl'));
-    // }
-    // return '';
-    // return 'https://app.officeclip.com/api';
     return util.endPointUrl();
   }
 }

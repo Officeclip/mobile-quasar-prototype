@@ -43,7 +43,6 @@ export const useEventDetailsStore = defineStore('eventDetailsStore', {
           this.eventDetails = response.data;
         }
       } catch (error) {
-        //alert(error);
         Constants.throwError(error);
       }
     },

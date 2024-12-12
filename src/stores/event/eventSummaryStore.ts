@@ -40,7 +40,6 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
               t.startDateTime,
               true
             );
-            //const newDate = dateTimeHelper.extractDateFromUtc(t.startDateTime);
             return dateTimeHelper.formatDateForCalendar(newDate) === date;
           }
         });

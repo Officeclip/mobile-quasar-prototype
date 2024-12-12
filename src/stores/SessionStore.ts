@@ -6,9 +6,7 @@ import { HomeIcon } from 'src/models/homeIcon';
 import util from 'src/helpers/util';
 
 export const useSessionStore = defineStore('sessionStore', {
-  state: () => ({
-    //session: {} as Session,
-  }),
+  state: () => ({}),
 
   getters: {
     Session: () => SessionStorage.getItem('oc-session') as Session,
@@ -25,7 +23,6 @@ export const useSessionStore = defineStore('sessionStore', {
           return false;
         }
       } catch (error) {
-        // Constants.throwError(error);
         return false;
       }
     },
@@ -38,7 +35,6 @@ export const useSessionStore = defineStore('sessionStore', {
         const response = await instance.get(`${util.endPointUrl()}/session`);
         if (response.data) {
           SessionStorage.set('oc-session', response.data);
-          //this.session = response.data;
         }
       } catch (error) {
         Constants.throwError(error);
@@ -109,7 +105,6 @@ export const useSessionStore = defineStore('sessionStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(callStr);
         if (response.status === 200) {
-          //this.session = response.data;
           await this.getSession();
         }
       } catch (error) {

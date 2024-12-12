@@ -31,7 +31,6 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
         );
         this.contactDetailsList = response.data;
       } catch (error) {
-        //alert(error);
         Constants.throwError(error);
       }
     },

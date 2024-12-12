@@ -36,7 +36,6 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
           workFlow
         );
         if (response.status === 200) {
-          //debugger;
           this.workFlow = response.data;
         }
       } catch (error) {

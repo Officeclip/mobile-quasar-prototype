@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { Constants } from '../Constants';
-import axios from 'axios';
 import {
   issueStatus,
   issueCriticality,
@@ -34,18 +33,6 @@ export const useIssueListsStore = defineStore('issueListsStore', {
 
   actions: {
     async getTrackerLists(binderId: string) {
-      // try {
-      //   const baseURL = 'http://localhost:3000/issue-lists';
-      //   const response = await axios.get(baseURL);
-      //   const issueLists: issueLists = response.data;
-      //   this.category = issueLists.category;
-      //   this.criticality = issueLists.criticality;
-      //   this.status = issueLists.status;
-      //   this.kind = issueLists.kind;
-      //   this.users = issueLists.users;
-      // } catch (error) {
-      //   Constants.throwError(error);
-      // }
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
