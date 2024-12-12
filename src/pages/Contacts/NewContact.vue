@@ -37,7 +37,6 @@ const contactDetails: ContactDetails = ref({
 const childComponent = ref(null);
 
 async function onSubmit(e: any) {
-  // e.preventDefault();
   try {
     //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

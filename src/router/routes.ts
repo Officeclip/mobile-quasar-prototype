@@ -1,11 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
-  // {
-  //   path: '/',
-  //   component: () => import('layouts/MainLayout.vue'),
-  //   children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
-  // },
   {
     path: '/',
     name: 'loginPage',
@@ -210,7 +205,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/newIssue/:binderId/:objectTypeId/:objectId/:appName',
     name: 'newIssue',
-    component: () => import('../pages/IssueTracker/NewIssue.vue'),
+    component: () => import('../pages/IssueTracker/newIssue.vue'),
   },
   {
     path: '/editIssue/:id/:appName',

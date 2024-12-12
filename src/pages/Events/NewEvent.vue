@@ -66,12 +66,10 @@ const event: Ref<eventDetails> = ref({
   security: {},
 });
 
-//TODO: CR: 2024-05-17: nk: Fix the below type error?
 function handleRRule(rrule: string) {
   event.value.recurrence.rule = rrule;
 }
 
-//TODO: CR: 2024-05-17: nk: Fix the below type error?
 function handleRRuleText(rruleText: string) {
   event.value.recurrence.text = rruleText;
 }
@@ -128,14 +126,6 @@ async function onSubmit(e: any) {
             @rrule-text-generated="handleRRuleText"
             @reminder-generated="handleReminder"
           />
-          <!-- <q-btn
-            class="q-ml-sm"
-            color="primary"
-            flat
-            label="Reset"
-            no-caps
-            type="reset"
-          /> -->
         </div>
       </q-form>
     </q-page-container>

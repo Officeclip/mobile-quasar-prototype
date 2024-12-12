@@ -55,8 +55,6 @@ async function filterItems(val: string, update: (arg0: () => void) => void) {
     });
   }
   regardingItems.value = regardingStore.regardingItems;
-  //}
-
   update(() => {
     const needle = val.toLowerCase();
     regardingItems.value = regardingStore.regardingItems.filter(

@@ -68,7 +68,6 @@ const timesheetDCAA = computed(() => {
   return teCommentsStore.DCAA;
 });
 
-//TODO: CR: 2024-05-17: nk: Fix the below type error?
 const upDateWorkFlow = async () => {
   if (
     props?.entityType == 'timesheet' &&
@@ -208,7 +207,7 @@ const closePopUp = () => {
         option-value="id"
         map-options
         emit-value
-        @update:model-value="(newValue) => manualWorkflow(newValue)"
+        @update:model-value="(newValue: any) => manualWorkflow(newValue)"
       />
       <q-btn
         v-if="workFlowModel"

@@ -113,14 +113,12 @@ const handleTaskCount = (value: string) => {
   tasksCount.value = value;
 };
 
-//TODO: CR: 2024-05-17: nk: Fix the below type error?
 const isAllowEdit = computed(() => {
   return isAllowed({
     security: { write: contactDetails.value?.security.write },
   });
 });
 
-//TODO: CR: 2024-05-17: nk: Fix the below type error?
 const isAllowDelete = computed(() => {
   return isAllowed({
     security: { delete: contactDetails.value?.security.delete },

@@ -1,13 +1,12 @@
 <!-- cleaned up with google bard with minor correction -->
 <script lang="ts" setup>
-import { computed, ComputedRef, onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
 import addEditSubtaskDialog from 'components/tasks/addEditSubtaskDialog.vue';
 import { subTask } from 'src/models/task/subtask';
 import SubtaskItem from 'components/tasks/SubtaskItem.vue';
-import { taskDetails } from 'src/models/task/taskDetails';
 import {
   getPriorityColor,
   getPriorityIcon,
@@ -24,7 +23,6 @@ const route = useRoute();
 const router = useRouter();
 const myDrawer = ref();
 
-// const id = ref<string | string[]>('0');
 const id = route.params.id;
 const isLoaded = ref<boolean>(false);
 const appName = route.params.appName;
@@ -48,65 +46,6 @@ onMounted(async () => {
 const taskDetail = computed(() => {
   return taskDetailsStore?.taskDetail;
 });
-
-// const taskDetail: ComputedRef<taskDetails> = computed(() => {
-//   if (taskDetailsStore.TaskDetail) return taskDetailsStore.TaskDetail;
-//   else {
-//     const emptyTaskDetail: taskDetails = {
-//       actualDuration: 0.0,
-//       completionDate: '',
-//       description: 'No Description',
-//       dueDate: 'Not Available',
-//       estimatedDuration: 0.0,
-//       isLock: false,
-//       isPrivate: false,
-//       parent: {
-//         type: {
-//           id: '',
-//           name: '',
-//         },
-//         value: {
-//           id: '',
-//           name: '',
-//         },
-//       },
-//       id: '-1',
-//       startDate: 'Not Available',
-//       subject: 'No Subject',
-//       taskOwnerName: 'Not Available',
-//       taskOwnerSid: '0',
-//       taskPriorityName: 'Not Available',
-//       taskPriorityId: '0',
-//       taskStatusName: '-1',
-//       taskStatusId: '0',
-//       taskTypeName: 'Not Available',
-//       taskTypeId: '0',
-//       assignees: [],
-//       tags: [],
-//       createdByUserSid: '0',
-//       createdDate: 'Not Available',
-//       modifiedByUserSid: '0',
-//       modifiedDate: 'Not Available',
-//       subTasks: [],
-//       security: {
-//         read: false,
-//         write: false,
-//         append: false,
-//         delete: false,
-//       },
-//       reminder: {
-//         to: 'Not Available',
-//         beforeMinutes: 0,
-//       },
-//       recurrence: {
-//         text: 'Not Available',
-//         rule: 'Not Available',
-//       },
-//       taskStatusCategory: '',
-//     };
-//     return emptyTaskDetail;
-//   }
-// });
 
 const pendingSubtasks = computed(() => {
   return taskDetail.value?.subTasks.filter((subtask) => !subtask.isCompleted);

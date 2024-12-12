@@ -25,7 +25,6 @@ const deleteSubtask = async (id: string) => {
     await taskDetailsStore.deleteSubtask(id);
     showConfirmationDialog.value = false;
     window.location.reload();
-    //router.go(0);
   } catch (error) {
     $q.dialog({
       title: 'Alert',

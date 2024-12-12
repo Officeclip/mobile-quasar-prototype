@@ -66,18 +66,7 @@ onBeforeUnmount(() => {
 
 onMounted(async () => {
   localStorage.removeItem('X-Token');
-  // localStorage.removeItem('endPointUrl');
   sessionStorage.removeItem('oc-session');
-
-  // const addressBarUrl = window.location.href;
-  // const endPointUrl = util.getEndPointUrlFromUri(addressBarUrl);
-  // Constants.saveEndPointUrlInLocalStorage(endPointUrl);
-
-  // const uri = addressBarUrl.split('?');
-  // if (uri.length >= 2) {
-  //   pin.value = uri[1];
-  // }
-  //debugger;
   if (pin.value) {
     try {
       await tokenStore.validateLogin(login.value, pin.value);
@@ -103,11 +92,6 @@ const isEndPointUrlInLocalStorage = Constants.getEndPointUrl();
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="flex flex-center bg-grey-2">
-        <!-- <div v-if="!isEndPointUrlInLocalStorage">
-          <apiLinkPage />
-        </div> -->
-
-        <!-- <div v-else> -->
         <div>
           <q-card class="q-pa-md shadow-2 my_card" bordered>
             <q-form @submit="onSubmit" v-if="!pin">
@@ -141,7 +125,7 @@ const isEndPointUrlInLocalStorage = Constants.getEndPointUrl();
                     type="password"
                     label="Password"
                     :rules="[
-                      (val) =>
+                      (val: any) =>
                         (val && val.length > 0) || 'Please enter password',
                     ]"
                     hide-bottom-space

@@ -70,7 +70,6 @@ async function onSubmit(e: any) {
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>
-          <!-- <pre>{{ task }}</pre> -->
           <TasksForm
             v-if="task"
             :appName="appName.toString()"

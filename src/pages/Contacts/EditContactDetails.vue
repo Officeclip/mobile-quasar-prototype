@@ -22,14 +22,13 @@ const contactDetails: Ref<ContactDetails> = ref(null);
 
 onMounted(async () => {
   await contactDetailsStore.getContactDetails(route.params.id as string);
-  const respone = contactDetailsStore.ContactDetails;
-  contactDetails.value = respone;
+  const response = contactDetailsStore.ContactDetails;
+  contactDetails.value = response;
 });
 
 const childComponent = ref(null);
 
 async function onSubmit(e: any) {
-  // e.preventDefault();
   try {
     if (!childComponent.value.validateAll()) return;
 
