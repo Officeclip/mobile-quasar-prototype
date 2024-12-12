@@ -38,7 +38,6 @@ function handleReminder(reminder: [string, number]) {
 const childComponent = ref(null);
 
 async function onSubmit(e: any) {
-  //e.preventDefault();
   try {
     if (!childComponent.value.validateAll()) return;
     const editEventDetails = ref(event);
@@ -59,7 +58,7 @@ async function onSubmit(e: any) {
     <q-header>
       <q-toolbar>
         <q-btn
-          @click="$router.go(-1)"
+          @click="router.go(-1)"
           flat
           round
           dense

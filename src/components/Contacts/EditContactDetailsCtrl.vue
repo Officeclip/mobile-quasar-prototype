@@ -17,22 +17,6 @@ const filterStates = ref(null);
 
 const usecontactDetailsStore = useContactDetailsStore();
 
-// const getStates = computed(() => {
-//   return usecontactDetailsStore.states;
-// });
-
-// const defaultState = computed(() => {
-//   return getStates.value.find((state) => state.is_default);
-// });
-
-// const getCountries = computed(() => {
-//   return usecontactDetailsStore.countries;
-// });
-
-// const defaultCountry = computed(() => {
-//   return getCountries.value.find((country) => country.is_default);
-// });
-
 onBeforeMount(async () => {
   await usecontactDetailsStore.getContactLists();
   getCountries.value = usecontactDetailsStore.countries;

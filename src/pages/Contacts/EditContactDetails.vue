@@ -34,13 +34,8 @@ async function onSubmit(e: any) {
     if (!childComponent.value.validateAll()) return;
 
     await contactDetailsStore.editContactDetails(contactDetails.value!);
-    // router.push('/contactSummary');
     router.go(-1);
   } catch (error) {
-    // $q.notify({
-    //   message: error as string,
-    //   color: 'red',
-    // });
     $q.dialog({
       title: 'Alert',
       message: error as string,

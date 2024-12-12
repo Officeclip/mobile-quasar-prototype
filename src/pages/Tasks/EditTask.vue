@@ -19,10 +19,6 @@ const appName = route.params.appName;
 //TODO: CR: 2024-05-17: nk: Fix the below type error?
 const task: Ref<taskDetails> = ref(null);
 
-// onMounted(async () => {
-//   await tasksDetailStore.getTask(id.value.toString());
-// });
-
 onMounted(async () => {
   try {
     await tasksDetailStore.getTask(id.value.toString());
@@ -38,47 +34,11 @@ onMounted(async () => {
   }
 });
 
-// function receiveTask(receivedTask: taskDetails) {
-//   task.value = receivedTask;
-// }
 const childComponent = ref(null);
 
 async function onSubmit(e: any) {
   try {
     if (!childComponent.value.validateAll()) return;
-    // const newTask: taskDetails = {
-    //   id: task.value.id,
-    //   subject: task.value.subject,
-    //   description: task.value.description,
-    //   actualDuration: task.value.actualDuration,
-    //   completionDate: task.value.completionDate,
-    //   dueDate: task.value.dueDate,
-    //   estimatedDuration: task.value.estimatedDuration,
-    //   isLock: task.value.isLock,
-    //   isPrivate: task.value.isPrivate,
-    //   parent: task.value.parent,
-    //   startDate: task.value.startDate,
-    //   taskOwnerName: task.value.taskOwnerName,
-    //   taskOwnerSid: task.value.taskOwnerSid,
-    //   taskPriorityName: task.value.taskPriorityName,
-    //   taskPriorityId: task.value.taskPriorityId,
-    //   taskStatusName: task.value.taskStatusName,
-    //   taskStatusId: task.value.taskStatusId,
-    //   taskTypeName: task.value.taskTypeName,
-    //   taskTypeId: task.value.taskTypeId,
-    //   assignees: task.value.assignees,
-    //   tags: task.value.tags,
-    //   createdByUserSid: task.value.createdByUserSid,
-    //   createdDate: task.value.createdDate,
-    //   modifiedByUserSid: task.value.modifiedByUserSid,
-    //   modifiedDate: task.value.modifiedDate,
-    //   subTasks: [],
-    //   security: task.value.security,
-    //   reminder: task.value.reminder,
-    //   recurrence: task.value.recurrence,
-    //   taskStatusCategory: task.value.taskStatusCategory,
-    // };
-
     const newTask = ref(task);
     await tasksDetailStore.editTask(newTask.value);
     router.go(-2);

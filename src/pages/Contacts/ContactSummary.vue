@@ -27,7 +27,6 @@ const isRoleAccess = () => {
 const noContactName = '- None -';
 
 const myDrawer = ref();
-//const infinteScroll = ref(null);
 
 const defaultSearchOptions: searchFilter = {
   searchString: '',
@@ -66,7 +65,6 @@ async function filterFn(val: string) {
     contactSummaryStore.resetPageNumber();
     contactSummaryStore.setFilter(searchOptions.value);
     await contactSummaryStore.getUpdatedContacts(true);
-    // infinteScroll.value.infinteScrollReset();
   }
 }
 
@@ -76,19 +74,6 @@ watch(
     await filterFn(newValue);
   }
 );
-
-// const getData = computed(() => {
-//   const filteredContacts =
-//     text.value.length === 0
-//       ? contacts.value
-//       : contacts.value.filter((t: any) => {
-//           return (
-//             t.first_name.toLowerCase().includes(text.value.toLowerCase()) ||
-//             t.last_name.toLowerCase().includes(text.value.toLowerCase())
-//           );
-//         });
-//   return filteredContacts;
-// });
 
 function clearSearch() {
   window.location.reload();

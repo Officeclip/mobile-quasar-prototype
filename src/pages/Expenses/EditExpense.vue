@@ -39,10 +39,6 @@ onMounted(async () => {
   }
 });
 
-// const expenseDetail = computed(() => {
-//   return expenseDetailsStore.ExpenseDetails;
-// });
-
 const childComponent = ref(null);
 
 async function onSubmit() {

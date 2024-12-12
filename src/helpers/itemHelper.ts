@@ -8,7 +8,6 @@ export class itemHelper {
 
   getSectionEntries(sectionId: number, isOdd: boolean): SectionEntry[] {
     const _sectionEntries: SectionEntry[] = [];
-    //debugger;
     for (const section of this.itemDetail.sections) {
       if (section.sectionId != sectionId) continue;
       const indexStart = isOdd ? 1 : 0;

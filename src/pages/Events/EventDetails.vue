@@ -53,7 +53,6 @@ const event = computed(() => {
   return eventDetailsStore?.eventDetails;
 });
 
-//TODO: CR: 2024-05-17: nk: Fix the below type error?
 const selectedTime = computed(() => {
   const reminderTimes = reminderDataStore.ReminderTimes;
   const obj = reminderTimes.find(

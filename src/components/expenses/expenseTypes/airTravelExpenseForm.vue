@@ -12,18 +12,6 @@ const departureAirportRef = ref<QInput>();
 const departureDateRef = ref<QInput>();
 const arrivalDateRef = ref<QInput>();
 
-// const errorMessage = ref('');
-
-// function dateValidation(dateString) {
-//   if (!date.isValid(dateString)) {
-//     return (errorMessage.value = 'Please enter a valid date');
-//   }
-//   if (dateString < props.airTravel.departureDate) {
-//     return (errorMessage.value =
-//       'Arrival Date should be after the Departure Date.');
-//   }
-// }
-
 const ruleNotEmpty = (val: string) => {
   const condition = (val && val.length > 0) || !props.isDetailRequired;
   return condition ? true : 'This field is required';

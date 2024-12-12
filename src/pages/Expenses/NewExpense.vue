@@ -48,7 +48,6 @@ const expenseDetail = ref({
 const childComponent = ref(null);
 
 async function onSubmit(e: any) {
-  //e.preventDefault();
   try {
     if (!childComponent.value.validateAll()) return;
     const newExpense: any = {

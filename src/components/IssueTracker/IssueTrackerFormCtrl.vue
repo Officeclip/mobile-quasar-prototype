@@ -22,16 +22,6 @@ onBeforeMount(async () => {
   await issueListsStore.getTrackerLists(
     props.issueFromParent?.binderId.toString()
   );
-  // try {
-  //   await issueListsStore.getIssueLists();
-  // } catch (error) {
-  //   $q.dialog({
-  //     title: 'Alert',
-  //     message: error as string,
-  //   }).onOk(async () => {
-  //     await router.push({ path: '/issuesList' });
-  //   });
-  // }
 });
 
 const regarding = computed(() => {
