@@ -69,7 +69,7 @@ const issueDetailsStore = useIssueDetailsStore();
 function onSubmit() {
   const issueFormCtrlValues = ref(newIssue);
   issueDetailsStore.addNewTrackerCaseDetails(issueFormCtrlValues.value);
-  router.go(0);
+  router.go(-1);
 }
 </script>
 <template>
