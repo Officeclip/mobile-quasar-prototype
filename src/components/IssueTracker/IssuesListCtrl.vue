@@ -120,6 +120,9 @@ defineExpose({ infinteScrollReset });
       </q-item>
       <q-separator spaced inset></q-separator>
     </q-list>
+    <template v-slot:loading>
+      <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
+    </template>
   </q-infinite-scroll>
 </template>
 
