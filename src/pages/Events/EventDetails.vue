@@ -10,11 +10,13 @@ import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 import drawer from '../../components/drawer.vue';
+import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 
 const route = useRoute();
 const router = useRouter();
 const eventDetailsStore = useEventDetailsStore();
 const reminderDataStore = useReminderDataStore();
+const eventSummaryStore = useEventSummaryStore();
 const $q = useQuasar();
 
 const id = route.params.id;
@@ -121,6 +123,7 @@ const cancelConfirmation = () => {
 const confirmDeletion = async () => {
   try {
     await eventDetailsStore.deleteEventDetails(event.value?.id);
+    await eventSummaryStore.resetEventSummaryList();
     showConfirmationDialog.value = false;
     router.go(-1);
   } catch (error) {
