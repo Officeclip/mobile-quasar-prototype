@@ -16,6 +16,8 @@ const sessionStore = useSessionStore();
 const tokenStore = useTokenStore();
 const route1 = useRouter();
 
+const endPointUrlsObj = util.endPointUrlsObj;
+
 const login: Ref<Login> = ref({
   userName: Constants.defaultLogin,
   password: '',
@@ -67,6 +69,12 @@ onBeforeUnmount(() => {
 onMounted(async () => {
   localStorage.removeItem('X-Token');
   sessionStorage.removeItem('oc-session');
+
+  // we need to verify and put it back this code
+  // if (!endPointUrlsObj?.testUrl) {
+  //   localStorage.removeItem('endPointUrl');
+  // }
+
   if (pin.value) {
     try {
       await tokenStore.validateLogin(login.value, pin.value);
@@ -85,14 +93,18 @@ onMounted(async () => {
 function getEndPointUrlFromUri(href: string): string | null {
   throw new Error('Function not implemented.');
 }
-const isEndPointUrlInLocalStorage = Constants.getEndPointUrl();
+const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
 </script>
 
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="flex flex-center bg-grey-2">
-        <div>
+        <div v-if="!isEndPointUrlInLocalStorage && endPointUrlsObj?.testUrl">
+          <apiLinkPage :endPointUrls="endPointUrlsObj" />
+        </div>
+
+        <div v-else>
           <q-card class="q-pa-md shadow-2 my_card" bordered>
             <q-form @submit="onSubmit" v-if="!pin">
               <q-card-section class="text-center">
@@ -143,7 +155,7 @@ const isEndPointUrlInLocalStorage = Constants.getEndPointUrl();
                   ></q-btn>
                 </q-item>
               </q-card-section>
-              <q-item>
+              <q-item v-if="endPointUrlsObj?.testUrl">
                 <div class="row items-center">
                   <div>
                     <q-item-section

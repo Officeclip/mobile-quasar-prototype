@@ -5,9 +5,11 @@ import { useSessionStore } from 'stores/SessionStore';
 
 const sessionStore = useSessionStore();
 
-const dotComUserApi = ref('https://app.officeclip.com/api');
+// const dotComUserApi = ref('https://app.officeclip.com/api');
+const dotComUserApi = ref('https://api.officeclip.workers.dev');
 
-const boxVersionUserApi = ref('http://localhost/officeclip/api');
+// const boxVersionUserApi = ref('http://localhost/officeclip/api');
+const boxVersionUserApi = ref('http://officeclip.xyz/officeclip/api');
 
 const selectedOption = ref('2');
 
