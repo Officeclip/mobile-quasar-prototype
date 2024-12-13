@@ -155,25 +155,23 @@ const errorMsg = computed(() => {
             <q-separator></q-separator>
           </q-list>
         </div>
-        <div v-else>
-          <div v-if="title === 'Inbox'">
-            <q-list class="flex flex-center">
-              <q-item>
-                <q-item-section>
-                  <q-item-label v-if="errorMsg !== ''" class="text-h6 q-py-md">
-                    {{ errorMsg }}
-                  </q-item-label>
-                  <q-item-label class="text-h6 q-py-sm">
-                    Create your first Timesheet
-                  </q-item-label>
-                  <q-item-label>
-                    A timesheet is used to track employee's time spent on
-                    projects and tasks.
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </div>
+        <div v-if="timesheetsAll.length === 0 && title === 'Inbox'">
+          <q-list v-if="errorMsg !== ''" class="flex flex-center">
+            <q-item>
+              <q-item-section>
+                <q-item-label class="text-h6 q-py-md">
+                  {{ errorMsg }}
+                </q-item-label>
+                <q-item-label class="text-h6 q-py-sm">
+                  Create your first Timesheet
+                </q-item-label>
+                <q-item-label>
+                  A timesheet is used to track employee's time spent on projects
+                  and tasks.
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
         </div>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
