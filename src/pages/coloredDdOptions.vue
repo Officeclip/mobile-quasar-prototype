@@ -1,74 +1,24 @@
 <script setup>
-import { ref, computed } from 'vue';
-// TODO: CR: 2024-08-05: Are these hardcoding really needed any more?
-const options = ref([
-  {
-    id: '684EHRFDNJ8CHAGVJC5Q',
-    name: 'Sample One',
-    email: 'testmail1@gmail.com',
-  },
-  {
-    id: 'NJ9MYHSFZB9RHHHFFC5Q',
-    name: 'Sample Two',
-    email: 'testmail2@gmail.com',
-  },
-  {
-    id: 'U6BCWDSF266ESD9R545Q',
-    name: 'Sample Three',
-    email: 'testmail3@gmail.com',
-  },
-]);
-
-const createdUser = { createdUserSid: '684EHRFDNJ8CHAGVJC5Q' };
-
-const initialValue = ref({
-  id: '684EHRFDNJ8CHAGVJC5Q',
-  name: 'Sample One',
-  email: 'testmail1@gmail.com',
-});
-
-const selectedOptions = ref([initialValue.value]);
-
-const canBeRemoved = computed(
-  () => (item) => item.id !== createdUser.createdUserSid
-);
-
-function handleRemove(item) {
-  if (canBeRemoved.value(item)) {
-    const index = selectedOptions.value.findIndex(
-      (option) => option.id === item.id
-    );
-    if (index !== -1) {
-      selectedOptions.value.splice(index, 1);
-    }
-  }
-}
+const items = [
+  { id: '1', name: 'Contacts', icon: 'person' },
+  { id: '2', name: 'Calendar', icon: 'calendar_month' },
+  { id: '3', name: 'Accounts', icon: 'person' },
+  { id: '4', name: 'Timesheet', icon: 'schedule' },
+  { id: '5', name: 'Expenses', icon: 'card_travel' },
+  { id: '6', name: 'Notes', icon: 'subject' },
+  { id: '7', name: 'Tasks', icon: 'checklist' },
+  { id: '8', name: 'IssueTracker', icon: 'bug_report' },
+];
 </script>
 
 <template>
-  <q-select
-    v-model="selectedOptions"
-    :options="options"
-    class="full-width"
-    input-debounce="0"
-    label="Attendees"
-    multiple
-    option-label="email"
-    option-value="id"
-    style="min-width: 250px"
-    use-input
-  >
-    <template v-slot:selected-item="scope">
-      <q-chip
-        removable
-        dense
-        @remove="handleRemove(scope.opt)"
-        :tabindex="scope.tabindex"
-        text-color="secondary"
-        class="q-ma-none"
-      >
-        {{ scope.opt.name }}
-      </q-chip>
-    </template>
-  </q-select>
+  <q-layout view="lHh Lpr lFf">
+    <q-page-container>
+      <q-page>
+        <div class="row">
+          <div v-for="item in items" :key="item.name">item.name</div>
+        </div>
+      </q-page>
+    </q-page-container>
+  </q-layout>
 </template>

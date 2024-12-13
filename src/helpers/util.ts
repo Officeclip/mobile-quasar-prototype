@@ -9,6 +9,14 @@ const waitInSecs = async (seconds: number) =>
 
 const ocSession = () => SessionStorage.getItem('oc-session') as Session;
 
+// const testUrl = import.meta.env.VITE_API_ENDPOINT_TEST;
+// const onlineUrl = import.meta.env.VITE_API_ENDPOINT_ONLINE;
+
+const endPointUrlsObj = {
+  testUrl: import.meta.env.VITE_API_ENDPOINT_TEST,
+  onlineUrl: import.meta.env.VITE_API_ENDPOINT_ONLINE,
+};
+
 export enum ObjectType {
   Task = 1,
   Contact = 14,
@@ -78,14 +86,21 @@ function isHideTestPage() {
     import.meta.env.VITE_HIDE_TESTPAGE == 1;
   return isHideTestPage;
 }
-
 function endPointUrl() {
-  if (import.meta.env.VITE_API_ENDPOINT) {
-    return import.meta.env.VITE_API_ENDPOINT;
+  if (endPointUrlsObj.testUrl) {
+    return endPointUrlsObj.testUrl;
   } else {
-    return 'http://localhost/officeclip/api';
+    return endPointUrlsObj.onlineUrl;
   }
 }
+
+// function endPointUrl() {
+//   if (import.meta.env.VITE_API_ENDPOINT) {
+//     return import.meta.env.VITE_API_ENDPOINT;
+//   } else {
+//     return 'http://localhost/officeclip/api';
+//   }
+// }
 // function endPointUrl() {
 //   // const endPointUrl = String(LocalStorage.getItem('endPointUrl'));
 //   // if (endPointUrl) {
@@ -134,4 +149,5 @@ export default {
   endPointUrl,
   isObjectNullOrEmpty,
   decycle,
+  endPointUrlsObj,
 };
