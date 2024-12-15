@@ -100,7 +100,7 @@ const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="flex flex-center bg-grey-2">
-        <div v-if="!isEndPointUrlInLocalStorage && endPointUrlsObj?.testUrl">
+        <div v-if="!isEndPointUrlInLocalStorage && endPointUrlsObj?.onlineUrl">
           <apiLinkPage :endPointUrls="endPointUrlsObj" />
         </div>
 
@@ -167,7 +167,7 @@ const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
                   <div>
                     <q-item-section>
                       <q-item-label class="q-ml-sm">{{
-                        isEndPointUrlInLocalStorage
+                        util.endPointUrl()
                       }}</q-item-label></q-item-section
                     >
                   </div>

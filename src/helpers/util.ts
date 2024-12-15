@@ -86,11 +86,16 @@ function isHideTestPage() {
     import.meta.env.VITE_HIDE_TESTPAGE == 1;
   return isHideTestPage;
 }
+
 function endPointUrl() {
   if (endPointUrlsObj.testUrl) {
     return endPointUrlsObj.testUrl;
   } else {
-    return endPointUrlsObj.onlineUrl;
+    const endPointUrl = String(LocalStorage.getItem('endPointUrl'));
+    if (endPointUrl) {
+      return endPointUrl;
+    }
+    return endPointUrlsObj.testUrl;
   }
 }
 
