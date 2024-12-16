@@ -6,7 +6,9 @@ import { HomeIcon } from 'src/models/homeIcon';
 import util from 'src/helpers/util';
 
 export const useSessionStore = defineStore('sessionStore', {
-  state: () => ({}),
+  state: () => ({
+    session: {} as Session,
+  }),
 
   getters: {
     Session: () => SessionStorage.getItem('oc-session') as Session,
@@ -35,6 +37,7 @@ export const useSessionStore = defineStore('sessionStore', {
         const response = await instance.get(`${util.endPointUrl()}/session`);
         if (response.data) {
           SessionStorage.set('oc-session', response.data);
+          this.session = response.data;
         }
       } catch (error) {
         Constants.throwError(error);
@@ -90,7 +93,7 @@ export const useSessionStore = defineStore('sessionStore', {
           url: '/notesList',
         },
         {
-          id: 22,
+          id: 5,
           icon: 'bug_report',
           name: 'IssueTracker',
           url: '/trackerBinderSummary',

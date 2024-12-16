@@ -12,8 +12,13 @@ const sessionStore = useSessionStore();
 const leftDrawerOpen = ref(false);
 const router = useRouter();
 const profileListsStore = useProfileListsStore();
-const session = ref();
 const userIcon = ref();
+
+const session = computed(() => {
+  return sessionStore.session;
+});
+
+console.log('Session info: ', session.value);
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -22,7 +27,15 @@ function toggleLeftDrawer() {
 defineExpose({ toggleLeftDrawer });
 
 const filteredHomeIcons = computed(() => {
-  return sessionStore.getHomeIcons();
+  const homeIcons = sessionStore.getHomeIcons();
+  const newIcon = {
+    id: 14,
+    icon: 'home',
+    name: 'Home Page',
+    url: '/homePage',
+  };
+  homeIcons.unshift(newIcon);
+  return homeIcons;
 });
 
 function getColor(url: string) {
@@ -44,7 +57,6 @@ function logout() {
 }
 
 onMounted(async () => {
-  session.value = sessionStore.Session;
   if (util.isObjectNullOrEmpty(profileListsStore.profileLists)) {
     await profileListsStore.getProfileLists();
   }
@@ -99,7 +111,8 @@ onMounted(async () => {
     >
       <div class="absolute-bottom bg-transparent">
         <q-avatar class="q-mb-sm" size="56px">
-          <img :src="userIcon" />
+          <q-icon v-if="userIcon === ''" name="person" size="xl"></q-icon>
+          <img v-if="userIcon !== ''" :src="userIcon" />
         </q-avatar>
         <div class="text-weight-bold">{{ session?.userName }}</div>
         <div>{{ session?.userEmail }}</div>
