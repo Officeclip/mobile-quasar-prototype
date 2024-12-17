@@ -217,7 +217,7 @@ function toggleLeftDrawer() {
     </q-header>
     <drawer ref="myDrawer" />
     <q-page-container>
-      <q-card class="relative-position card-example" flat bordered>
+      <q-card class="relative-position card-example" flat>
         <q-card-section class="q-pb-none">
           <div class="center">
             <q-avatar color="grey-3" size="200px" class="q-mb-sm">
@@ -225,7 +225,7 @@ function toggleLeftDrawer() {
                 v-if="contactDetails?.picture"
                 v-bind:src="contactDetails?.picture"
               />
-              <q-icon name="image" v-else />
+              <q-icon name="person" v-else />
             </q-avatar>
           </div>
         </q-card-section>

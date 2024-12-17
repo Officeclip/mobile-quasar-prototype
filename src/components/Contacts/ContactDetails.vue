@@ -12,43 +12,90 @@ const countryName = computed(() => props.params.countryName);
       <q-item class="q-mt-md">
         <q-item-section class="rowItems">
           <q-item-label caption>First Name</q-item-label>
-          <q-item-label class="q-mb-sm">{{
-            contactDetails?.first_name
-          }}</q-item-label>
+          <q-item-label class="q-mb-sm">
+            <span v-if="contactDetails?.first_name">{{
+              contactDetails?.first_name
+            }}</span>
+            <span v-else style="opacity: 0.3; font-style: italic"
+              >-- none --</span
+            ></q-item-label
+          >
           <q-item-label caption>Title</q-item-label>
-          <q-item-label class="q-mb-sm">{{
+          <q-item-label class="q-mb-sm">
+            <span v-if="contactDetails?.title">{{
               contactDetails?.title
-            }}</q-item-label>
+            }}</span>
+            <span v-else style="opacity: 0.3; font-style: italic"
+              >-- none --</span
+            ></q-item-label
+          >
           <q-item-label caption>Country</q-item-label>
-          <q-item-label class="q-mb-sm">{{
-              countryName
-            }}</q-item-label>
+          <q-item-label class="q-mb-sm">{{ countryName }}</q-item-label>
 
           <q-item-label caption>Address</q-item-label>
-          <q-item-label>{{ contactDetails?.street_address }}</q-item-label>
-          <q-item-label>{{ contactDetails?.city }}, {{ stateName }}</q-item-label>
-          <q-item-label>{{ countryName }},
-            {{ contactDetails?.postal_code }}</q-item-label>
+          <q-item-label>
+            <span v-if="contactDetails?.street_address">{{
+              contactDetails?.street_address
+            }}</span>
+            <span v-else style="opacity: 0.3; font-style: italic"
+              >-- none --</span
+            ></q-item-label
+          >
+          <q-item-label>
+            <span v-if="contactDetails?.city">{{ contactDetails?.city }}</span>
+            <span v-else style="opacity: 0.3; font-style: italic"
+              >-- none --</span
+            >, {{ stateName }}</q-item-label
+          >
+          <q-item-label
+            >{{ countryName }},
+            <span v-if="contactDetails?.postal_code">{{
+              contactDetails?.postal_code
+            }}</span>
+            <span v-else style="opacity: 0.3; font-style: italic"
+              >-- none --</span
+            ></q-item-label
+          >
         </q-item-section>
         <q-item-section class="rowItems">
           <q-item-label caption>Last Name</q-item-label>
-          <q-item-label class="q-mb-sm">{{
-            contactDetails?.last_name
-          }}</q-item-label>
+          <q-item-label class="q-mb-sm">
+            <span v-if="contactDetails?.last_name">{{
+              contactDetails?.last_name
+            }}</span>
+            <span v-else style="opacity: 0.3; font-style: italic"
+              >-- none --</span
+            ></q-item-label
+          >
 
           <q-item-label caption>Email</q-item-label>
-          <q-item-label class="q-mb-sm">{{
+          <q-item-label class="q-mb-sm">
+            <span v-if="contactDetails?.email">{{
               contactDetails?.email
-            }}</q-item-label>
+            }}</span>
+            <span v-else style="opacity: 0.3; font-style: italic"
+              >-- none --</span
+            ></q-item-label
+          >
 
           <q-item-label caption>Work Phone</q-item-label>
-          <q-item-label class="q-mb-sm">{{
+          <q-item-label class="q-mb-sm">
+            <span v-if="contactDetails?.work_phone">{{
               contactDetails?.work_phone
-            }}</q-item-label>
+            }}</span>
+            <span v-else style="opacity: 0.3; font-style: italic"
+              >-- none --</span
+            ></q-item-label
+          >
           <q-item-label caption>Home Phone</q-item-label>
-          <q-item-label class="q-mb-sm">{{
+          <q-item-label class="q-mb-sm">
+            <span v-if="contactDetails?.home_phone">{{
               contactDetails?.home_phone
-            }}</q-item-label>
+            }}</span>
+            <span v-else style="opacity: 0.3; font-style: italic"
+              >-- none --</span
+            ></q-item-label
+          >
         </q-item-section>
       </q-item>
     </q-list>

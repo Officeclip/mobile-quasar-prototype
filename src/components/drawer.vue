@@ -79,7 +79,7 @@ onMounted(async () => {
 <template>
   <q-drawer
     v-model="leftDrawerOpen"
-    :width="240"
+    :width="250"
     bordered
     class="bg-grey-2"
     show-if-above
@@ -127,8 +127,7 @@ onMounted(async () => {
             <q-item-label
               ><q-btn
                 class="q-px-sm q-py-none"
-                outline
-                rounded
+                icon="logout"
                 dense
                 no-caps
                 @click="logout"
@@ -136,14 +135,14 @@ onMounted(async () => {
               ></q-btn>
             </q-item-label>
           </q-item-section>
-          <q-item-section side>
+          <q-item-section>
             <q-list class="absolute-bottom-right text-caption dense">
               <q-item dense>
-                <q-item-section>Version: </q-item-section>
+                <q-item-section>Version:</q-item-section>
                 <q-item-section side>{{ packageJson.version }}</q-item-section>
               </q-item>
               <q-item dense>
-                <q-item-section>OC Version: </q-item-section>
+                <q-item-section>OC Version:</q-item-section>
                 <q-item-section side>{{
                   Constants.getRestApiVersionFromSession()
                 }}</q-item-section>
