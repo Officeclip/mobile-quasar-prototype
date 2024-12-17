@@ -88,14 +88,7 @@ defineExpose({
                   },
                   'removeFormat',
                 ],
-                [
-                  'link',
-                  'bold',
-                  'italic',
-                  'fullscreen',
-                  'unordered',
-                  'ordered',
-                ],
+                ['link', 'bold', 'italic', 'underline', 'unordered', 'ordered'],
                 [
                   {
                     label: $q.lang.editor.align,
@@ -104,6 +97,7 @@ defineExpose({
                     list: 'only-icons',
                     options: ['left', 'center', 'right', 'justify'],
                   },
+                  'fullscreen',
                 ],
               ]"
             ></q-editor>
