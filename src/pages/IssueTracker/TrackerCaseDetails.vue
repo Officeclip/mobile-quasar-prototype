@@ -162,6 +162,7 @@ const isAllowDelete = computed(() => {
               <q-item-section side>
                 <q-item-label caption>Status: </q-item-label>
                 <q-chip
+                  v-if="issueDetails.status?.id !== '-1'"
                   dense
                   :class="getIssueTrackerLabelColor(issueDetails.status?.name)"
                 >
@@ -169,12 +170,16 @@ const isAllowDelete = computed(() => {
                     issueDetails.status?.name
                   }}</q-item-label>
                 </q-chip>
+                <span v-else style="opacity: 0.6; font-style: italic"
+                  >-- none --</span
+                >
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section side>
                 <q-item-label caption>Criticality: </q-item-label>
                 <q-chip
+                  v-if="issueDetails.criticality?.id !== '-1'"
                   dense
                   :class="
                     getIssueTrackerLabelColor(issueDetails.criticality?.name)
@@ -184,12 +189,16 @@ const isAllowDelete = computed(() => {
                     issueDetails.criticality?.name
                   }}</q-item-label>
                 </q-chip>
+                <span v-else style="opacity: 0.6; font-style: italic"
+                  >-- none --</span
+                >
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section side>
                 <q-item-label caption>Kind: </q-item-label>
                 <q-chip
+                  v-if="issueDetails.kind?.id !== '-1'"
                   dense
                   :class="getIssueTrackerLabelColor(issueDetails.kind?.name)"
                 >
@@ -197,12 +206,16 @@ const isAllowDelete = computed(() => {
                     issueDetails.kind?.name
                   }}</q-item-label>
                 </q-chip>
+                <span v-else style="opacity: 0.6; font-style: italic"
+                  >-- none --</span
+                >
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section side>
                 <q-item-label caption>Category: </q-item-label>
                 <q-chip
+                  v-if="issueDetails.category?.id !== '-1'"
                   dense
                   :class="
                     getIssueTrackerLabelColor(issueDetails.category?.name)
@@ -212,17 +225,27 @@ const isAllowDelete = computed(() => {
                     issueDetails.category?.name
                   }}</q-item-label>
                 </q-chip>
+                <span v-else style="opacity: 0.6; font-style: italic"
+                  >-- none --</span
+                >
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section>
                 <q-item-label caption>Assigned To: </q-item-label>
-                <q-item-label
+                <q-item-label v-if="issueDetails.assignedTo?.name"
                   >{{ issueDetails.assignedTo?.name }}
                 </q-item-label>
+                <span v-else style="opacity: 0.4; font-style: italic"
+                  >-- none --</span
+                >
               </q-item-section>
             </q-item>
-            <q-separator spaced inset></q-separator>
+            <q-separator
+              spaced
+              inset
+              v-if="issueDetails.assignedTo?.name"
+            ></q-separator>
             <OCItem
               v-if="issueDetails?.parent?.value?.id"
               title="Regarding"
@@ -236,12 +259,19 @@ const isAllowDelete = computed(() => {
             <q-item>
               <q-item-section>
                 <q-item-label caption>Description: </q-item-label>
-                <q-item-label
+                <q-item-label v-if="issueDetails?.description"
                   ><div v-html="issueDetails?.description"></div>
                 </q-item-label>
+                <span v-else style="opacity: 0.4; font-style: italic"
+                  >-- none --</span
+                >
               </q-item-section>
             </q-item>
-            <q-separator spaced inset></q-separator>
+            <q-separator
+              spaced
+              inset
+              v-if="issueDetails?.description"
+            ></q-separator>
             <q-item>
               <q-item-section>
                 <q-item-label caption>Created By: </q-item-label>
