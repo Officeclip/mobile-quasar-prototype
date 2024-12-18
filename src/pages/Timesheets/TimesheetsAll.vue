@@ -80,7 +80,7 @@ const errorMsg = computed(() => {
           round
           @click="toggleLeftDrawer"
         />
-        <q-toolbar-title>{{ title }} Timesheets </q-toolbar-title>
+        <q-toolbar-title>Timesheets ({{ title }})</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <drawer ref="myDrawer" />
@@ -91,6 +91,7 @@ const errorMsg = computed(() => {
         inline-label
         class="bg-primary text-white shadow-2"
         align="justify"
+        indicator-color="Red"
       >
         <q-tab name="inbox" label="Inbox" icon="inbox"> </q-tab>
         <q-tab name="outbox" label="Outbox" icon="outbox" />
@@ -182,7 +183,7 @@ const errorMsg = computed(() => {
             fab
             icon="add"
             color="accent"
-            padding="sm"
+            padding="md"
           >
           </q-btn>
           <q-btn
@@ -190,7 +191,7 @@ const errorMsg = computed(() => {
             fab
             icon="add"
             color="accent"
-            padding="sm"
+            padding="md"
             @click="showWarningMsg"
           >
           </q-btn>
@@ -201,4 +202,7 @@ const errorMsg = computed(() => {
 </template>
 <style lang="scss">
 @import '../../css/status.scss';
+.q-tab__indicator {
+  height: 6px !important;
+}
 </style>

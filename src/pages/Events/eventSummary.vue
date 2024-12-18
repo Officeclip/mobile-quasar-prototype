@@ -173,7 +173,7 @@ function toggleLeftDrawer() {
               color="accent"
               fab
               icon="add"
-              padding="sm"
+              padding="md"
             >
             </q-btn>
           </q-page-sticky>

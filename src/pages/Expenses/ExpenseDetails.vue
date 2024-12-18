@@ -308,7 +308,7 @@ function toggleLeftDrawer() {
             fab
             icon="add"
             color="accent"
-            padding="sm"
+            padding="md"
           >
           </q-btn>
         </q-page-sticky>

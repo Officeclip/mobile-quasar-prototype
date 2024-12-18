@@ -115,7 +115,7 @@ function toggleLeftDrawer() {
           fab
           icon="add"
           color="accent"
-          padding="sm"
+          padding="md"
           @click="navigateToNewNotes"
         >
         </q-btn>

@@ -294,7 +294,7 @@ function toggleLeftDrawer() {
           fab
           icon="add"
           color="accent"
-          padding="sm"
+          padding="md"
         >
         </q-btn>
         <q-btn
@@ -302,7 +302,7 @@ function toggleLeftDrawer() {
           fab
           icon="add"
           color="accent"
-          padding="sm"
+          padding="md"
           @click="showWarningMsg"
         >
         </q-btn>

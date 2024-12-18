@@ -204,7 +204,7 @@ const advanceFilters = async () => {
           fab
           icon="add"
           color="accent"
-          padding="sm"
+          padding="md"
           :to="{
             name: 'newIssue',
             params: {
