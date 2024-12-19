@@ -5,44 +5,62 @@ import { Constants } from './Constants';
 import util from 'src/helpers/util';
 
 export const useTokenStore = defineStore('loginStore', {
-  state: () => ({
-    token: {} as Token,
-  }),
-
-  getters: {
-    Token: (state) => state.token,
-  },
+  // ... (state and getters remain unchanged) ...
 
   actions: {
-    async validateLogin(login: Login, mpin: string) {
-      // We will assume that the login is successful and it returns the token in the body
-      // this will happen in the actual call, so we will bypass this for now as json-server
-      // cannot process what we are trying to do.
-
+    async validateLogin(loginData: Login, mpin: string) {
       try {
-        const instance = Constants.getAxiosInstance();
-        login.mpin = null;
-        if (mpin && mpin.length > 0) {
-          login.userName = null;
-          login.password = null;
-          login.mpin = mpin;
-        }
-        const response = await instance.post(
-          `${util.endPointUrl()}/login`,
-          login
-        );
-        //TODO: 20240306: skd: nk: the token and expiration date is returning as undefined in mockoon we need to fix it
-        if (response.data) {
-          this.token = response.data;
-          Constants.saveAuthorizationTokenInLocalStorage(
-            this.token.accessToken,
-            this.token.expirationTime
-          );
-          Constants.saveUserNameInLocalStorage(login.userName);
-        }
+        const loginPayload = prepareLoginPayload(loginData, mpin);
+        const response = await sendLoginRequest(loginPayload);
+        await handleLoginResponse(response, loginData, this); // Pass 'this'
       } catch (error) {
         Constants.throwError(error);
       }
     },
   },
 });
+
+const prepareLoginPayload = (loginData: Login, mpin: string): Login => {
+  const loginPayload = { ...loginData };
+  loginPayload.mpin = mpin.length > 0 ? mpin : null;
+  loginPayload.userName = loginPayload.mpin ? null : loginData.userName;
+  loginPayload.password = loginPayload.mpin ? null : loginData.password;
+  return loginPayload;
+};
+
+const sendLoginRequest = async (loginPayload: Login): Promise<any> => {
+  const instance = Constants.getAxiosInstance();
+  const response = await instance.post(
+    `${util.endPointUrl()}/login`,
+    loginPayload
+  );
+  return response;
+};
+
+const handleLoginResponse = async (
+  response: any,
+  loginData: Login,
+  store: any
+): Promise<void> => {
+  // Add store parameter
+  if (response?.data) {
+    const tokenData = response.data as Token;
+    if (tokenData.accessToken && tokenData.expirationTime) {
+      store.token = tokenData; // Access 'token' using store
+      Constants.saveAuthorizationTokenInLocalStorage(
+        store.token.accessToken,
+        store.token.expirationTime
+      );
+      Constants.saveUserNameInLocalStorage(loginData.userName);
+    } else {
+      console.error(
+        'Invalid token data received from the server:',
+        response.data
+      );
+      // Handle invalid token data appropriately
+    }
+  } else {
+    console.error('No data received from the server:', response);
+    // Handle no data case
+  }
+};

@@ -14,18 +14,25 @@ export class Constants {
     const instance = axios.create({
       baseURL: util.endPointUrl(),
     });
-    Constants.setupAxiosInstance(instance);
+    this.setupAxiosInstance(instance);
     return instance;
   }
 
   static setupAxiosInstance(instance: AxiosInstance) {
+    this.setCommonHeaders(instance);
+    this.setupAxiosAuthorizationHeader(instance, 'X-Token');
+    this.setupInterceptors(instance);
+    return instance;
+  }
+
+  static setCommonHeaders(instance: AxiosInstance) {
     instance.defaults.headers.common['X-OrgKey'] = this.getOrgKeyFromSession();
     instance.defaults.headers.common['Cache-Control'] = 'no-cache';
     instance.defaults.headers.common['Pragma'] = 'no-cache';
     instance.defaults.headers.common['Expires'] = '0';
+  }
 
-    this.setupAxiosAuthorizationHeader(instance, 'X-Token'); //add the token if available
-
+  static setupInterceptors(instance: AxiosInstance) {
     instance.interceptors.request.use((x) => {
       logger.log(`axios request: ${JSON.stringify(util.decycle(x), null, 4)}`);
       logger.log('++++++');
@@ -40,30 +47,24 @@ export class Constants {
         logger.log('++++++');
         return x;
       },
-      (error) => {
-        // Handle errors globally
-        console.error('axios response error::', error);
-        // Optionally, we can perform specific actions based on the error status
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          logger.log('error.response triggred');
-          console.error('Response Status:', error.response.status);
-          console.error('Response Data:', error.response.data);
-        } else if (error.request) {
-          logger.log('error.request triggred');
-          // The request was made but no response was received
-          console.error('No response received. Request:', error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error('Request Error:', error.message);
-        }
-        logger.log('++++++');
-        // We can choose to rethrow the error or handle it as needed
-        return Promise.reject(error);
-      }
+      (error) => this.handleResponseError(error)
     );
-    return instance;
+  }
+
+  static handleResponseError(error: any) {
+    console.error('axios response error::', error);
+    if (error.response) {
+      logger.log('error.response triggered');
+      console.error('Response Status:', error.response.status);
+      console.error('Response Data:', error.response.data);
+    } else if (error.request) {
+      logger.log('error.request triggered');
+      console.error('No response received. Request:', error.request);
+    } else {
+      console.error('Request Error:', error.message);
+    }
+    logger.log('++++++');
+    return Promise.reject(error);
   }
 
   static setupAxiosAuthorizationHeader(instance: AxiosInstance, token: string) {
@@ -114,7 +115,6 @@ export class Constants {
   }
 
   static throwError(error: unknown) {
-    //TODO: We need a way to go to the login page if token expires: https://dev.to/darkmavis1980/how-to-use-axios-interceptors-to-handle-api-error-responses-2ij1
     logger.log(
       `throwError(...): ${JSON.stringify(util.decycle(error), null, 4)}`
     );
@@ -136,6 +136,5 @@ export class Constants {
       return String(LocalStorage.getItem('endPointUrl'));
     }
     return '';
-    // return 'https://app.officeclip.com/api';
   }
 }

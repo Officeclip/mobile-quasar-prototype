@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { Ref, ref, onMounted, onBeforeUnmount } from 'vue';
-import { Login } from '../models/login';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useSessionStore } from 'stores/SessionStore';
 import { useTokenStore } from '../stores/tokenStore';
 import { useVuelidate } from '@vuelidate/core';
 import { email, required } from '@vuelidate/validators';
-import { useQuasar } from 'quasar';
+import { useQuasar, LocalStorage } from 'quasar';
 import { useRouter } from 'vue-router';
 import { Constants } from 'src/stores/Constants';
 import logger from 'src/helpers/logger';
@@ -14,11 +13,10 @@ import apiLinkPage from 'src/pages/apiLinkPage.vue';
 
 const sessionStore = useSessionStore();
 const tokenStore = useTokenStore();
-const route1 = useRouter();
+const router = useRouter();
+const $q = useQuasar();
 
-const endPointUrlsObj = util.endPointUrlsObj;
-
-const login: Ref<Login> = ref({
+const login = ref({
   userName: Constants.defaultLogin,
   password: '',
   mpin: '',
@@ -32,33 +30,33 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, login);
-const $q = useQuasar();
 
-async function onSubmit(e: any) {
-  e.preventDefault();
-  $q.loading.show({
-    delay: 400, // ms
-  });
-  try {
-    const isFormCorrect = await v$.value.$validate();
-    if (!isFormCorrect) {
-      for (var key in v$.value.$errors) {
-        const error = v$.value.$errors[key];
-        $q.notify({
-          message: `${error.$property}: ${error.$message}`,
-          color: 'red',
-        });
-      }
-      return;
-    }
-    await tokenStore.validateLogin(login.value, pin.value);
-    route1.push('/HomePage');
-  } catch (error) {
-    $q.loading.hide();
-    $q.notify({
-      message: error as string,
-      color: 'red',
+async function handleLogin() {
+  const isFormCorrect = await v$.value.$validate();
+  if (!isFormCorrect) {
+    v$.value.$errors.forEach((error) => {
+      $q.notify({
+        message: `${error.$property}: ${error.$message}`,
+        color: 'red',
+      });
     });
+    return false;
+  }
+  return true;
+}
+
+async function onSubmit(e: Event) {
+  e.preventDefault();
+  $q.loading.show({ delay: 400 });
+  try {
+    if (await handleLogin()) {
+      await tokenStore.validateLogin(login.value, pin.value);
+      router.push('/HomePage');
+    }
+  } catch (error) {
+    $q.notify({ message: error as string, color: 'red' });
+  } finally {
+    $q.loading.hide();
   }
 }
 
@@ -70,40 +68,30 @@ onMounted(async () => {
   localStorage.removeItem('X-Token');
   sessionStorage.removeItem('oc-session');
 
-  // we need to verify and put it back this code
-  // if (!endPointUrlsObj?.testUrl) {
-  //   localStorage.removeItem('endPointUrl');
-  // }
-
   if (pin.value) {
     try {
       await tokenStore.validateLogin(login.value, pin.value);
       await sessionStore.getSession();
-      route1.push('/HomePage');
+      router.push('/HomePage');
     } catch (error) {
-      $q.notify({
-        message: error as string,
-        color: 'red',
-      });
+      $q.notify({ message: error as string, color: 'red' });
     }
   }
   logger.log(`PIN is: ${pin.value}`, 'warn');
 });
-
-function getEndPointUrlFromUri(href: string): string | null {
-  throw new Error('Function not implemented.');
-}
-const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
 </script>
 
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="flex flex-center bg-grey-2">
-        <div v-if="!isEndPointUrlInLocalStorage && endPointUrlsObj?.onlineUrl">
-          <apiLinkPage :endPointUrls="endPointUrlsObj" />
+        <div
+          v-if="
+            !LocalStorage.has('endPointUrl') && util.endPointUrlsObj?.onlineUrl
+          "
+        >
+          <apiLinkPage :endPointUrls="util.endPointUrlsObj" />
         </div>
-
         <div v-else>
           <q-card class="q-pa-md shadow-2 my_card" bordered>
             <q-form @submit="onSubmit" v-if="!pin">
@@ -114,8 +102,8 @@ const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
                 </div>
               </q-card-section>
               <q-card-section>
-                <q-item
-                  ><q-input
+                <q-item>
+                  <q-input
                     class="col"
                     maxlength="450px"
                     dense
@@ -126,10 +114,10 @@ const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
                     hide-bottom-space
                     error-message="Please enter a valid email address"
                     type="email"
-                  ></q-input
-                ></q-item>
-                <q-item
-                  ><q-input
+                  />
+                </q-item>
+                <q-item>
+                  <q-input
                     class="col"
                     dense
                     outlined
@@ -137,12 +125,12 @@ const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
                     type="password"
                     label="Password"
                     :rules="[
-                      (val: any) =>
+                      (val: string | any[]) =>
                         (val && val.length > 0) || 'Please enter password',
                     ]"
                     hide-bottom-space
-                  ></q-input
-                ></q-item>
+                  />
+                </q-item>
               </q-card-section>
               <q-card-section>
                 <q-item>
@@ -152,27 +140,27 @@ const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
                     no-caps
                     class="full-width"
                     type="submit"
-                  ></q-btn>
+                  />
                 </q-item>
               </q-card-section>
-              <q-item v-if="endPointUrlsObj?.testUrl">
+              <q-item v-if="util.endPointUrlsObj?.testUrl">
                 <div class="row items-center">
                   <div>
-                    <q-item-section
-                      ><q-item-label caption
+                    <q-item-section>
+                      <q-item-label caption
                         >Your linked Api Url is:</q-item-label
-                      ></q-item-section
-                    >
+                      >
+                    </q-item-section>
                   </div>
                   <div>
                     <q-item-section>
                       <q-item-label class="q-ml-sm">{{
                         util.endPointUrl()
-                      }}</q-item-label></q-item-section
-                    >
+                      }}</q-item-label>
+                    </q-item-section>
                   </div>
-                </div></q-item
-              >
+                </div>
+              </q-item>
               <q-card-section class="text-center q-pt-none">
                 <div class="text-grey-8">
                   Don't have an account yet?
@@ -185,16 +173,14 @@ const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
                 </div>
                 <div v-if="!util.isHideTestPage()">
                   <q-btn
-                    :to="{
-                      name: 'loginPage2',
-                    }"
+                    :to="{ name: 'loginPage2' }"
                     color="dark"
                     size="md"
                     label="Test page"
                     no-caps
                     class="full-width"
                     type="submit"
-                  ></q-btn>
+                  />
                 </div>
               </q-card-section>
             </q-form>
@@ -204,6 +190,7 @@ const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
     </q-page-container>
   </q-layout>
 </template>
+
 <style>
 .my_card {
   width: 25rem;

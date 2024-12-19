@@ -1,22 +1,84 @@
 import { LocalStorage, SessionStorage } from 'quasar';
 import { Session } from 'src/models/session';
+import validator from 'validator'; // Import validator.js
 import logger from './logger';
-import { get } from 'http';
 
-// sometimes useful if we get into infinite loop and have to rewind the loop
-const waitInSecs = async (seconds: number) =>
-  await new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+// Helper functions
+const waitInSecs = (seconds: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 
-const ocSession = () => SessionStorage.getItem('oc-session') as Session;
+const ocSession = (): Session | null =>
+  SessionStorage.getItem('oc-session') as Session | null; // Handle potential null
 
-// const testUrl = import.meta.env.VITE_API_ENDPOINT_TEST;
-// const onlineUrl = import.meta.env.VITE_API_ENDPOINT_ONLINE;
+const isValidEmail = (email: string, isRequired = false) => {
+  if (!isRequired && email === '') return true;
+  return validator.isEmail(email); // Use validator.js's isEmail function
+};
 
+const isValidNumber = (
+  value: string | null | undefined,
+  isEmptyAllowed = false
+): boolean =>
+  isEmptyAllowed
+    ? value === null ||
+      value === undefined ||
+      value === '' ||
+      typeof value === 'number'
+    : typeof value === 'number';
+
+const isDurationValid = (input: string): boolean => {
+  const timeRegex = /^([0-1][0-9]|[1-9]):[0-5][0-9]$/;
+  const durationRegex = /^\d+(\.\d+)?$/;
+
+  if (timeRegex.test(input)) {
+    const [hours, minutes] = input.split(':');
+    return (
+      parseInt(hours, 10) >= 0 &&
+      parseInt(hours, 10) <= 23 &&
+      parseInt(minutes, 10) >= 0 &&
+      parseInt(minutes, 10) <= 59
+    );
+  }
+  return durationRegex.test(input) && parseFloat(input) >= 0;
+};
+
+const colonToDecimal = (timeString: string): string => {
+  const [hours, minutes] = timeString.split(':');
+  return (parseFloat(hours) + parseFloat(minutes) / 60).toFixed(2);
+};
+
+const isObjectNullOrEmpty = (obj: object | null | undefined): boolean =>
+  !obj || Object.keys(obj).length === 0;
+
+const decycle = (obj: any, stack: any[] = []): any => {
+  if (!obj || typeof obj !== 'object') return obj;
+  if (stack.includes(obj)) return null;
+  const s = stack.concat([obj]);
+  return Array.isArray(obj)
+    ? obj.map((x) => decycle(x, s))
+    : Object.fromEntries(
+        Object.entries(obj).map(([k, v]) => [k, decycle(v, s)])
+      );
+};
+
+// Configuration and environment related functions
 const endPointUrlsObj = {
   testUrl: import.meta.env.VITE_API_ENDPOINT_TEST,
   onlineUrl: import.meta.env.VITE_API_ENDPOINT_ONLINE,
 };
 
+const getEndPointUrlFromUri = (url: string): string =>
+  `${url.replace(/m\/#\/(.*)$/, '')}api`;
+
+const endPointUrl = (): string | undefined =>
+  endPointUrlsObj.testUrl || LocalStorage.getItem('endPointUrl') || undefined;
+
+const isHideLogger = (): boolean => import.meta.env.VITE_HIDE_LOGGER === '1';
+
+const isHideTestPage = (): boolean =>
+  import.meta.env.VITE_HIDE_TESTPAGE === '1';
+
+// Enums
 export enum ObjectType {
   Task = 1,
   Contact = 14,
@@ -24,121 +86,6 @@ export enum ObjectType {
   Note = 20,
   ActivityTabForCrm = 35,
   Issues = 10,
-}
-
-function getEndPointUrlFromUri(url: string) {
-  // Define the pattern to match "/m/#/""
-  const pattern = /m\/#\/(.*)$/;
-  // Use replace method with a callback function
-  const endPointUrl = `${url.replace(pattern, '')}api`;
-  return endPointUrl;
-}
-
-function isValidEmail(email: string, isRequired: boolean) {
-  if (email === '' && isRequired === false) return true;
-  const regex =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/;
-  return regex.test(email);
-}
-
-function isValidNumber(value: string, isEmptyAllowed: boolean): boolean {
-  // From Google Gemini
-  const isValid = value === 'number';
-  return isEmptyAllowed
-    ? isValid || value === null || value === undefined || value === ''
-    : isValid;
-}
-
-function isDurationValid(input: string): boolean {
-  // Using Google Gemini: https://g.co/gemini/share/535ec7f1b4e9, fixed the regex expression
-  const timeRegex = /^([0-1][0-9]|[1-9]):[0-5][0-9]$/;
-  const durationRegex = /^\d+(\.\d+)?$/;
-
-  if (timeRegex.test(input)) {
-    const [hours, minutes] = input.split(':');
-    return +hours >= 0 && +hours <= 23 && +minutes >= 0 && +minutes <= 59;
-  } else if (durationRegex.test(input)) {
-    const duration = parseFloat(input);
-    return duration >= 0;
-  } else {
-    return false;
-  }
-}
-
-function colonToDecimal(timeString: string): string {
-  // From Google Gemini: https://g.co/gemini/share/f9499846694b
-  const [hours, minutes] = timeString.split(':');
-  const decimalHours = parseFloat(hours) + parseFloat(minutes) / 60;
-  return decimalHours.toFixed(2);
-}
-
-function isHideLogger() {
-  const isHideLogger =
-    import.meta.env.VITE_HIDE_LOGGER != null &&
-    import.meta.env.VITE_HIDE_LOGGER == 1;
-  // && process.env.NODE_ENV == 'production';
-  return isHideLogger;
-}
-
-function isHideTestPage() {
-  const isHideTestPage =
-    import.meta.env.VITE_HIDE_TESTPAGE != null &&
-    import.meta.env.VITE_HIDE_TESTPAGE == 1;
-  return isHideTestPage;
-}
-
-function endPointUrl() {
-  if (endPointUrlsObj.testUrl) {
-    return endPointUrlsObj.testUrl;
-  } else {
-    const endPointUrl = String(LocalStorage.getItem('endPointUrl'));
-    if (endPointUrl) {
-      return endPointUrl;
-    }
-    return endPointUrlsObj.testUrl;
-  }
-}
-
-// function endPointUrl() {
-//   if (import.meta.env.VITE_API_ENDPOINT) {
-//     return import.meta.env.VITE_API_ENDPOINT;
-//   } else {
-//     return 'http://localhost/officeclip/api';
-//   }
-// }
-// function endPointUrl() {
-//   // const endPointUrl = String(LocalStorage.getItem('endPointUrl'));
-//   // if (endPointUrl) {
-//   //   return endPointUrl;
-//   // } else {
-//   //   return null;
-//   // }
-//   return 'http://localhost/officeclip/api';
-// }
-
-function isObjectNullOrEmpty(obj: object) {
-  return !obj || Object.keys(obj).length == 0; // see: https://stackoverflow.com/a/65028055
-}
-
-// This is used because iphone is giving error like: json.stringify cannot serialize cyclic structures
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function decycle(obj: any, stack: any[] = []): any {
-  // see: https://stackoverflow.com/a/9382383
-  if (!obj || typeof obj !== 'object') {
-    return obj;
-  }
-
-  if (stack.includes(obj)) {
-    return null;
-  }
-
-  const s = stack.concat([obj]);
-
-  return Array.isArray(obj)
-    ? obj.map((x) => decycle(x, s))
-    : Object.fromEntries(
-        Object.entries(obj).map(([k, v]) => [k, decycle(v, s)])
-      );
 }
 
 export default {
@@ -155,4 +102,5 @@ export default {
   isObjectNullOrEmpty,
   decycle,
   endPointUrlsObj,
+  ObjectType,
 };

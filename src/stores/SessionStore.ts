@@ -6,22 +6,66 @@ import { HomeIcon } from 'src/models/homeIcon';
 import util from 'src/helpers/util';
 
 export const useSessionStore = defineStore('sessionStore', {
-  state: () => ({}),
+  state: () => ({
+    session: null as Session | null,
+    defaultHomeIcons: [
+      //defaultHomeIcons data remains in the store
+      {
+        id: 1,
+        name: 'Calendar',
+        icon: 'calendar_month',
+        url: '/eventSummary',
+      },
+      {
+        id: 22,
+        name: 'Contacts',
+        icon: 'person',
+        url: '/contactSummary',
+      },
+      {
+        id: 8,
+        icon: 'schedule',
+        name: 'Timesheet',
+        url: '/timesheetsAll',
+      },
+      {
+        id: 7,
+        icon: 'card_travel',
+        name: 'Expenses',
+        url: '/expensesAll',
+      },
+      {
+        id: 20,
+        icon: 'checklist',
+        name: 'Tasks',
+        url: '/tasksList',
+      },
+      {
+        id: 21,
+        icon: 'subject',
+        name: 'Notes',
+        url: '/notesList',
+      },
+      {
+        id: 22,
+        icon: 'bug_report',
+        name: 'IssueTracker',
+        url: '/trackerBinderSummary',
+      },
+    ] as HomeIcon[],
+  }),
 
   getters: {
-    Session: () => SessionStorage.getItem('oc-session') as Session,
+    Session: (state) =>
+      state.session || (SessionStorage.getItem('oc-session') as Session),
   },
 
   actions: {
-    async isValidUrl(urlString: string) {
+    async isValidUrl(urlString: string): Promise<boolean> {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(`${urlString}/isValid`);
-        if ((response.status = 200)) {
-          return true;
-        } else {
-          return false;
-        }
+        return response.status === 200;
       } catch (error) {
         return false;
       }
@@ -30,10 +74,13 @@ export const useSessionStore = defineStore('sessionStore', {
     async getSession() {
       try {
         //TODO: user_id and org_id will be sent via the header for every call
-        //TODO: *DO Not* load if session already exists
+        //TODO: *DO Not* load if session already exists (add check here)
+        if (this.session) return;
+
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(`${util.endPointUrl()}/session`);
         if (response.data) {
+          this.session = response.data;
           SessionStorage.set('oc-session', response.data);
         }
       } catch (error) {
@@ -42,61 +89,10 @@ export const useSessionStore = defineStore('sessionStore', {
     },
 
     getHomeIcons(): HomeIcon[] {
-      const defaultHomeIcons = this.getDefaultHomeIcons();
-      const result = defaultHomeIcons.filter((item) => {
-        return this.Session.applicationIds.includes(item.id);
-      });
-      return result;
-    },
-
-    //TODO: CR: 2023-12-03: skd: Can this be put in a file? see: https://stackoverflow.com/q/67841588/89256
-    // put the file in the data folder
-    getDefaultHomeIcons(): HomeIcon[] {
-      const defaultHomeIcons: HomeIcon[] = [
-        {
-          id: 1,
-          name: 'Calendar',
-          icon: 'calendar_month',
-          url: '/eventSummary',
-        },
-        {
-          id: 22,
-          name: 'Contacts',
-          icon: 'person',
-          url: '/contactSummary',
-        },
-        {
-          id: 8,
-          icon: 'schedule',
-          name: 'Timesheet',
-          url: '/timesheetsAll',
-        },
-        {
-          id: 7,
-          icon: 'card_travel',
-          name: 'Expenses',
-          url: '/expensesAll',
-        },
-        {
-          id: 20,
-          icon: 'checklist',
-          name: 'Tasks',
-          url: '/tasksList',
-        },
-        {
-          id: 21,
-          icon: 'subject',
-          name: 'Notes',
-          url: '/notesList',
-        },
-        {
-          id: 22,
-          icon: 'bug_report',
-          name: 'IssueTracker',
-          url: '/trackerBinderSummary',
-        },
-      ];
-      return defaultHomeIcons;
+      const session = this.Session;
+      return this.defaultHomeIcons.filter((item) =>
+        session.applicationIds.includes(item.id)
+      );
     },
 
     async changeOrganization(id: string) {
@@ -108,7 +104,7 @@ export const useSessionStore = defineStore('sessionStore', {
           await this.getSession();
         }
       } catch (error) {
-        console.error(`addEventDetail Error: ${error}`);
+        console.error(`changeOrganization Error: ${error}`);
       }
     },
   },
