@@ -26,7 +26,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
 
   actions: {
     async getEventLists() {
-      const callStr = `${util.endPointUrl()}/event-lists`;
+      const callStr = `${util.getEndPointUrl()}/event-lists`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
@@ -45,7 +45,7 @@ export const useEventListsStore = defineStore('eventListsStore', {
         this.users = [];
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/event-lists?user=${searchString}`
+          `${util.getEndPointUrl()}/event-lists?user=${searchString}`
         );
         const userList = response.data.users;
         const filtered = userList.filter((t: regardingContact) => {

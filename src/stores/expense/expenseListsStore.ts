@@ -28,7 +28,7 @@ export const useExpenseListsStore = defineStore('expenseListsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/expense-lists`
+          `${util.getEndPointUrl()}/expense-lists`
         );
         const expenseList = response.data[0];
         this.periods = expenseList.periods;

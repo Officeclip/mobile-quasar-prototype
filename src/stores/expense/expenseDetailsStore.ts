@@ -43,7 +43,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/expense-detail?expenseSid=${expenseSid}&stageId=${stageId}`
+          `${util.getEndPointUrl()}/expense-detail?expenseSid=${expenseSid}&stageId=${stageId}`
         );
         this.expenseDetailsList = response.data;
       } catch (error) {
@@ -55,7 +55,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/expense-detail/${id}`
+          `${util.getEndPointUrl()}/expense-detail/${id}`
         );
         if (response.data) {
           // see: https://stackoverflow.com/a/69204006/89256
@@ -71,13 +71,13 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         let completeUrl = '';
         switch (status) {
           case 'Inbox':
-            completeUrl = `${util.endPointUrl()}/expense-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
+            completeUrl = `${util.getEndPointUrl()}/expense-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
             break;
           case 'Outbox':
-            completeUrl = `${util.endPointUrl()}/expense-summary?status=None&status=Pending`;
+            completeUrl = `${util.getEndPointUrl()}/expense-summary?status=None&status=Pending`;
             break;
           case 'Archived':
-            completeUrl = `${util.endPointUrl()}/expense-summary?status=Saved&status=Approved&status=Rejected`;
+            completeUrl = `${util.getEndPointUrl()}/expense-summary?status=Saved&status=Approved&status=Rejected`;
             break;
         }
         return completeUrl;
@@ -87,7 +87,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     },
 
     async getExpensesByStatus(status: string) {
-      const callStr = `${util.endPointUrl()}/expense-summary?category=${status}`;
+      const callStr = `${util.getEndPointUrl()}/expense-summary?category=${status}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr ?? '');
@@ -105,7 +105,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
-          `${util.endPointUrl()}/expense-detail`,
+          `${util.getEndPointUrl()}/expense-detail`,
           expenseDetails
         );
         if (response.status === 200) {
@@ -120,7 +120,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
-          `${util.endPointUrl()}/expense-detail/${expenseDetails.id}`,
+          `${util.getEndPointUrl()}/expense-detail/${expenseDetails.id}`,
           expenseDetails
         );
         if (response.status === 200) {
@@ -135,7 +135,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.endPointUrl()}/expense-detail/${id}`
+          `${util.getEndPointUrl()}/expense-detail/${id}`
         );
         if (response.status === 200) {
           this.expenseDetails = response.data;
@@ -149,7 +149,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.endPointUrl()}/expense-summary/${id}`
+          `${util.getEndPointUrl()}/expense-summary/${id}`
         );
         if (response.status === 200) {
           this.expenseDetails = response.data;

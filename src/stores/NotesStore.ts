@@ -24,7 +24,9 @@ export const useNotesStore = defineStore('notesStore', {
     async getNoteBooks() {
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(`${util.endPointUrl()}/notebook`);
+        const response = await instance.get(
+          `${util.getEndPointUrl()}/notebook`
+        );
         this.noteBooks = response.data;
       } catch (error) {
         Constants.throwError(error);
@@ -46,8 +48,8 @@ export const useNotesStore = defineStore('notesStore', {
       }
       const callStr =
         parentObjectId != '' && parentObjectServiceType != ''
-          ? `${util.endPointUrl()}/note-summary?parentSid=${parentObjectId}`
-          : `${util.endPointUrl()}/note-summary?noteBookSId=${noteBookId}`;
+          ? `${util.getEndPointUrl()}/note-summary?parentSid=${parentObjectId}`
+          : `${util.getEndPointUrl()}/note-summary?noteBookSId=${noteBookId}`;
 
       try {
         const instance = Constants.getAxiosInstance();
@@ -81,7 +83,7 @@ export const useNotesStore = defineStore('notesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/note-detail/${id}`
+          `${util.getEndPointUrl()}/note-detail/${id}`
         );
         this.note = response.data;
       } catch (error) {
@@ -93,7 +95,7 @@ export const useNotesStore = defineStore('notesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
-          `${util.endPointUrl()}/note-detail`,
+          `${util.getEndPointUrl()}/note-detail`,
           note
         );
         if (response.status === 200) {
@@ -108,7 +110,7 @@ export const useNotesStore = defineStore('notesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
-          `${util.endPointUrl()}/note-detail/${note.id}`,
+          `${util.getEndPointUrl()}/note-detail/${note.id}`,
           note
         );
         if (response.status === 200) {
@@ -123,7 +125,7 @@ export const useNotesStore = defineStore('notesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.endPointUrl()}/note-detail/${id}`
+          `${util.getEndPointUrl()}/note-detail/${id}`
         );
         if (response.status === 200) {
           this.note = response.data;

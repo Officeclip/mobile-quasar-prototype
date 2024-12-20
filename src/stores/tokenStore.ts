@@ -28,7 +28,7 @@ export const useTokenStore = defineStore('loginStore', {
           login.mpin = mpin;
         }
         const response = await instance.post(
-          `${util.endPointUrl()}/login`,
+          `${util.getEndPointUrl()}/login`,
           login
         );
         //TODO: 20240306: skd: nk: the token and expiration date is returning as undefined in mockoon we need to fix it

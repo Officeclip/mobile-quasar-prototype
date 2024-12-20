@@ -17,7 +17,7 @@ export const useUserSummaryStore = defineStore('userSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/user-summary`
+          `${util.getEndPointUrl()}/user-summary`
         );
         this.userSummaries = response.data;
       } catch (error) {

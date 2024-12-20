@@ -17,7 +17,7 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/tracker-case-detail/${id}`
+          `${util.getEndPointUrl()}/tracker-case-detail/${id}`
         );
         this.issueDetails = response.data;
       } catch (error) {
@@ -26,7 +26,7 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
     },
 
     async addNewTrackerCaseDetails(trackerCaseDetails: trackerCaseDetails) {
-      const callStr = `${util.endPointUrl()}/tracker-case-detail`;
+      const callStr = `${util.getEndPointUrl()}/tracker-case-detail`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(callStr, trackerCaseDetails);
@@ -38,7 +38,7 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
       }
     },
     async deleteTrackerCaseDetails(id: string) {
-      const callStr = `${util.endPointUrl()}/tracker-case-detail/${id}`;
+      const callStr = `${util.getEndPointUrl()}/tracker-case-detail/${id}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(callStr);
@@ -51,7 +51,7 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
     },
     async editTrackerCaseDetails(trackerCaseDetails: trackerCaseDetails) {
       try {
-        const callStr = `${util.endPointUrl()}/tracker-case-detail/${
+        const callStr = `${util.getEndPointUrl()}/tracker-case-detail/${
           trackerCaseDetails.id
         }`;
         const instance = Constants.getAxiosInstance();

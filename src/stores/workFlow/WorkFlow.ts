@@ -19,7 +19,7 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=${stageId}`
+          `${util.getEndPointUrl()}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=${stageId}`
         );
         this.workFlow = response.data[0];
         this.workFlowUsers = response.data[0].users;
@@ -32,7 +32,7 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
-          `${util.endPointUrl()}/workflow-summary`,
+          `${util.getEndPointUrl()}/workflow-summary`,
           workFlow
         );
         if (response.status === 200) {

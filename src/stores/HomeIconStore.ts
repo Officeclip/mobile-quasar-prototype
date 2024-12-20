@@ -27,7 +27,7 @@ export const useHomeIconsStore = defineStore('homeIconStore', {
     async getHomeIcons() {
       try {
         const instance = Constants.getAxiosInstance();
-        const data = await instance.get(`${util.endPointUrl()}/homeIcons`);
+        const data = await instance.get(`${util.getEndPointUrl()}/homeIcons`);
         this.homeIcons = data.data;
       } catch (error: any) {
         alert(error);

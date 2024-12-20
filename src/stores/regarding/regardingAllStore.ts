@@ -51,7 +51,7 @@ export const useRegardingAllStore = defineStore('regardingAllStore', {
         this.regardingContacts = [];
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/regardingContact`
+          `${util.getEndPointUrl()}/regardingContact`
         );
         const regardingContacts = response.data;
         const filtered = regardingContacts.filter((t: regardingContact) => {

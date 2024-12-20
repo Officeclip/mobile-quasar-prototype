@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import { Constants } from 'src/stores/Constants';
 import { useSessionStore } from 'stores/SessionStore';
+import util from 'src/helpers/util';
 
 const sessionStore = useSessionStore();
 
@@ -21,7 +22,7 @@ watch(selectedOption, (newVal) => {
 });
 
 const saveApiLinkInLocalStorage = () => {
-  Constants.saveEndPointUrlInLocalStorage(inputValue.value);
+  util.setEndPointUrlInLocalStorage(inputValue.value);
   window.location.reload();
 };
 

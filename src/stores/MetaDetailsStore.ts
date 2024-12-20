@@ -73,7 +73,7 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/meta-details?id=${id}`
+          `${util.getEndPointUrl()}/meta-details?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.metaDetails = response.data[0];

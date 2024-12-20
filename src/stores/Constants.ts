@@ -12,7 +12,7 @@ export class Constants {
 
   static getAxiosInstance() {
     const instance = axios.create({
-      baseURL: util.endPointUrl(),
+      baseURL: util.getEndPointUrl(),
     });
     Constants.setupAxiosInstance(instance);
     return instance;

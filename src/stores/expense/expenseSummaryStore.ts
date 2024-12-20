@@ -19,7 +19,7 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/expense-summary`
+          `${util.getEndPointUrl()}/expense-summary`
         );
         this.expenseSummary = response.data;
       } catch (error) {
@@ -43,7 +43,7 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/expense-summary?id=${id}`
+          `${util.getEndPointUrl()}/expense-summary?id=${id}`
         );
         if (response.data && response.data.length > 0) {
           this.expenseSummaryById = response.data[0];
@@ -56,8 +56,8 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
     async getExpenseSummaryByStatus(status: string) {
       const callStr =
         status != ''
-          ? `${util.endPointUrl()}/expense-summary?status=${status}`
-          : `${util.endPointUrl()}/expense-summary`;
+          ? `${util.getEndPointUrl()}/expense-summary?status=${status}`
+          : `${util.getEndPointUrl()}/expense-summary`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);

@@ -26,14 +26,6 @@ export enum ObjectType {
   Issues = 10,
 }
 
-function getEndPointUrlFromUri(url: string) {
-  // Define the pattern to match "/m/#/""
-  const pattern = /m\/#\/(.*)$/;
-  // Use replace method with a callback function
-  const endPointUrl = `${url.replace(pattern, '')}api`;
-  return endPointUrl;
-}
-
 function isValidEmail(email: string, isRequired: boolean) {
   if (email === '' && isRequired === false) return true;
   const regex =
@@ -86,30 +78,39 @@ function isHideTestPage() {
     import.meta.env.VITE_HIDE_TESTPAGE == 1;
   return isHideTestPage;
 }
-function endPointUrl() {
+
+function getEndPointUrlFromUri(url: string) {
+  // Define the pattern to match "/m/#/""
+  const pattern = /m\/#\/(.*)$/;
+  // Use replace method with a callback function
+  const endPointUrl = `${url.replace(pattern, '')}api`;
+  return endPointUrl;
+}
+
+// Put the endpoint url in the local storage
+function setEndPointUrlInLocalStorageFromPageUri(pageUri: string) {
+  // if testUrl is present in env.local then we do not check anything and move to test url directly.
+  // this represents that we are in development environment.
   if (endPointUrlsObj.testUrl) {
-    return endPointUrlsObj.testUrl;
-  } else {
-    return endPointUrlsObj.onlineUrl;
+    LocalStorage.set('endPointUrl', endPointUrlsObj.testUrl);
+    return;
+  }
+  // if onlineUrl is present in env.local then we do not check anything and move to online url directly.
+  // this represents that we are in production environment.
+  if (!endPointUrlsObj.onlineUrl) {
+    LocalStorage.set('endPointUrl', getEndPointUrlFromUri(pageUri));
+    return;
   }
 }
 
-// function endPointUrl() {
-//   if (import.meta.env.VITE_API_ENDPOINT) {
-//     return import.meta.env.VITE_API_ENDPOINT;
-//   } else {
-//     return 'http://localhost/officeclip/api';
-//   }
-// }
-// function endPointUrl() {
-//   // const endPointUrl = String(LocalStorage.getItem('endPointUrl'));
-//   // if (endPointUrl) {
-//   //   return endPointUrl;
-//   // } else {
-//   //   return null;
-//   // }
-//   return 'http://localhost/officeclip/api';
-// }
+function setEndPointUrlInLocalStorage(url: string) {
+  LocalStorage.set('endPointUrl', url);
+}
+
+function getEndPointUrl() {
+  const endPointUrl = LocalStorage.getItem('endPointUrl') as string;
+  return endPointUrl;
+}
 
 function isObjectNullOrEmpty(obj: object) {
   return !obj || Object.keys(obj).length == 0; // see: https://stackoverflow.com/a/65028055
@@ -139,14 +140,15 @@ function decycle(obj: any, stack: any[] = []): any {
 export default {
   waitInSecs,
   ocSession,
-  getEndPointUrlFromUri,
   isValidEmail,
   isHideLogger,
   isHideTestPage,
   isValidNumber,
   colonToDecimal,
   isDurationValid,
-  endPointUrl,
+  setEndPointUrlInLocalStorageFromPageUri,
+  setEndPointUrlInLocalStorage,
+  getEndPointUrl,
   isObjectNullOrEmpty,
   decycle,
   endPointUrlsObj,

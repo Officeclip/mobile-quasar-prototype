@@ -23,7 +23,7 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
 
   actions: {
     constructBaseURL(binderId: string) {
-      const baseUrl = `${util.endPointUrl()}/tracker-case-summary?binderSid=${binderId}&pagenumber=${
+      const baseUrl = `${util.getEndPointUrl()}/tracker-case-summary?binderSid=${binderId}&pagenumber=${
         this.pageNum
       }&pagesize=${this.pageSize}`;
       return baseUrl;
@@ -96,8 +96,8 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
     ) {
       const callStr =
         parentObjectId > 0 && parentObjectServiceType > 0
-          ? `${util.endPointUrl()}/tracker-case-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
-          : `${util.endPointUrl()}/tracker-case-summary`;
+          ? `${util.getEndPointUrl()}/tracker-case-summary?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`
+          : `${util.getEndPointUrl()}/tracker-case-summary`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);

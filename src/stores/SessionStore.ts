@@ -34,7 +34,7 @@ export const useSessionStore = defineStore('sessionStore', {
         //TODO: user_id and org_id will be sent via the header for every call
         //TODO: *DO Not* load if session already exists
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(`${util.endPointUrl()}/session`);
+        const response = await instance.get(`${util.getEndPointUrl()}/session`);
         if (response.data) {
           SessionStorage.set('oc-session', response.data);
           this.session = response.data;
@@ -103,7 +103,7 @@ export const useSessionStore = defineStore('sessionStore', {
     },
 
     async changeOrganization(id: string) {
-      const callStr = `${util.endPointUrl()}/session/${id}`;
+      const callStr = `${util.getEndPointUrl()}/session/${id}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(callStr);

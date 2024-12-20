@@ -23,7 +23,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
 
   actions: {
     constructBaseURL() {
-      const baseUrl = `${util.endPointUrl()}/contact-summary?pagenumber=${
+      const baseUrl = `${util.getEndPointUrl()}/contact-summary?pagenumber=${
         this.pageNum
       }&pagesize=${this.pageSize}`;
       return baseUrl;
@@ -91,7 +91,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/contact-summary`
+          `${util.getEndPointUrl()}/contact-summary`
         );
         this.contactSummary = response.data;
       } catch (error: any) {
@@ -100,7 +100,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
     },
 
     async getContactSummaryByBatch(limit: number, page: number) {
-      const callStr = `${util.endPointUrl()}/contact-summary?_limit=${limit}&_page=${page}`;
+      const callStr = `${util.getEndPointUrl()}/contact-summary?_limit=${limit}&_page=${page}`;
       const response = await fetch(callStr);
       const data = await response.json();
       this.contactSummary.push(...data);
@@ -111,7 +111,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
       page: number,
       filter: string
     ) {
-      const callStr = `${util.endPointUrl()}/contact-summary?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
+      const callStr = `${util.getEndPointUrl()}/contact-summary?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
       const response = await fetch(callStr);
       const data = await response.json();
       this.contactSummary.push(...data);

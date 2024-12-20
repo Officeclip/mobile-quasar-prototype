@@ -19,7 +19,7 @@ export const useProfileListsStore = defineStore('profileListsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/profile-lists`
+          `${util.getEndPointUrl()}/profile-lists`
         );
         if (response.data) {
           this.profileLists = response.data;

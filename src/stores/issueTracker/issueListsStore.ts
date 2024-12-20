@@ -36,7 +36,7 @@ export const useIssueListsStore = defineStore('issueListsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/tracker-lists?binderSid=${binderId}`
+          `${util.getEndPointUrl()}/tracker-lists?binderSid=${binderId}`
         );
         const trackerLists: trackerLists = response.data[0];
         this.status = trackerLists.status;
@@ -55,7 +55,7 @@ export const useIssueListsStore = defineStore('issueListsStore', {
         this.users = [];
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/tracker-lists?binderSid=${binderId}`
+          `${util.getEndPointUrl()}/tracker-lists?binderSid=${binderId}`
         );
         const userList = response.data[0].users;
         const filtered = userList.filter((t: regardingContact) => {

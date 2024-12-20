@@ -17,10 +17,10 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
     // for getting meeting attendees from separate json
     async getAllEventSummary(yearAndMonth: any) {
       const callStr = yearAndMonth
-        ? `${util.endPointUrl()}/event-summary?year=${
+        ? `${util.getEndPointUrl()}/event-summary?year=${
             yearAndMonth.year
           }&month=${yearAndMonth.month}`
-        : `${util.endPointUrl()}/event-summary`;
+        : `${util.getEndPointUrl()}/event-summary`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);
@@ -53,7 +53,7 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
       parentObjectId: number,
       parentObjectServiceType: number
     ) {
-      const callStr = `${util.endPointUrl()}/eventSummary?parentSId=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
+      const callStr = `${util.getEndPointUrl()}/eventSummary?parentSId=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr);

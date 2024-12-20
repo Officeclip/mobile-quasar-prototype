@@ -28,7 +28,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/timesheet-summary`
+          `${util.getEndPointUrl()}/timesheet-summary`
         );
         this.timesheets = response.data;
       } catch (error) {
@@ -53,13 +53,13 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         let completeUrl = '';
         switch (status) {
           case 'Inbox':
-            completeUrl = `${util.endPointUrl()}/timesheet-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
+            completeUrl = `${util.getEndPointUrl()}/timesheet-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
             break;
           case 'Outbox':
-            completeUrl = `${util.endPointUrl()}/timesheet-summary?status=None&status=Pending`;
+            completeUrl = `${util.getEndPointUrl()}/timesheet-summary?status=None&status=Pending`;
             break;
           case 'Archived':
-            completeUrl = `${util.endPointUrl()}/timesheet-summary?status=Saved&status=Approved&status=Rejected`;
+            completeUrl = `${util.getEndPointUrl()}/timesheet-summary?status=Saved&status=Approved&status=Rejected`;
             break;
         }
         return completeUrl;
@@ -69,7 +69,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     },
     // getting the timesheets by status
     async getTimesheetsByStatus(status: string) {
-      const callStr = `${util.endPointUrl()}/timesheet-summary?category=${status}`;
+      const callStr = `${util.getEndPointUrl()}/timesheet-summary?category=${status}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr ?? '');
@@ -87,7 +87,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/timesheet-detail?timesheetSid=${id}&stageId=${stageId}`
+          `${util.getEndPointUrl()}/timesheet-detail?timesheetSid=${id}&stageId=${stageId}`
         );
         this.timesheetDetails = response.data;
       } catch (error) {
@@ -98,7 +98,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/timesheet-detail/${id}`
+          `${util.getEndPointUrl()}/timesheet-detail/${id}`
         );
         this.timesheetDetail = response.data;
       } catch (error) {
@@ -109,7 +109,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
-          `${util.endPointUrl()}/timesheet-detail/${timesheetDetail.id}`,
+          `${util.getEndPointUrl()}/timesheet-detail/${timesheetDetail.id}`,
           timesheetDetail
         );
         if (response.status === 200) {
@@ -123,7 +123,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.endPointUrl()}/timesheet-detail/${id}`
+          `${util.getEndPointUrl()}/timesheet-detail/${id}`
         );
         if (response.status === 200) {
           this.timesheet = response.data;
@@ -138,7 +138,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.endPointUrl()}/timesheet-summary/${id}`
+          `${util.getEndPointUrl()}/timesheet-summary/${id}`
         );
 
         if (response.status === 200) {
@@ -154,7 +154,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
-          `${util.endPointUrl()}/timesheet-detail`,
+          `${util.getEndPointUrl()}/timesheet-detail`,
           timesheetDetail
         );
         if (response.status === 200) {

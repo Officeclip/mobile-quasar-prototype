@@ -31,7 +31,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/timesheet-lists`
+          `${util.getEndPointUrl()}/timesheet-lists`
         );
         const newData = response.data[0];
         const periods = newData.periods;
@@ -53,7 +53,7 @@ export const useTimesheetListStore = defineStore('timesheetListStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.endPointUrl()}/timesheet-lists`
+          `${util.getEndPointUrl()}/timesheet-lists`
         );
         const timesheetList = response.data;
         this.periodList = timesheetList.periods;

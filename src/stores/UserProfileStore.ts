@@ -17,7 +17,7 @@ export const useUserProfileStore = defineStore('userProfileStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const data = await instance.get(
-          `${util.endPointUrl()}/generaluserprofile`
+          `${util.getEndPointUrl()}/generaluserprofile`
         );
         this.userProfile = data.data;
       } catch (error: any) {

@@ -18,7 +18,9 @@ export const useMetaListsStore = defineStore('metaListsStore', {
     async getMetaLists() {
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(`${util.endPointUrl()}meta-lists`);
+        const response = await instance.get(
+          `${util.getEndPointUrl()}meta-lists`
+        );
         this.metaLists = response.data;
       } catch (error: any) {
         alert(error);
