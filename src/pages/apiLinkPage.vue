@@ -13,12 +13,13 @@ const dotComUserApi = ref('https://api.officeclip.workers.dev');
 const boxVersionUserApi = ref('http://officeclip.xyz/officeclip/api');
 
 const selectedOption = ref('2');
-
 const inputValue = ref('');
+const readOnly = ref(false);
 
 watch(selectedOption, (newVal) => {
   inputValue.value =
     newVal === '1' ? boxVersionUserApi.value : dotComUserApi.value;
+  readOnly.value = newVal === '2' ? true : false;
 });
 
 const saveApiLinkInLocalStorage = () => {
@@ -45,6 +46,7 @@ async function isValidRestApiUrl(testUrl) {
     alert('Please enter valid Rest Api Url');
   }
 }
+
 const isIndex = ref(true);
 const isSetUp = ref(false);
 function getApiScreen() {
@@ -95,6 +97,7 @@ function getApiScreen() {
                 hide-bottom-space
                 dense
                 autogrow
+                :readonly="readOnly"
             /></q-item-section>
             <q-item-section side top>
               <q-btn
