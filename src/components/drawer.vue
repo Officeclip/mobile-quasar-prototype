@@ -39,7 +39,7 @@ const filteredHomeIcons = computed(() => {
       id: 34,
       icon: 'settings',
       name: 'Settings',
-      url: '/settingsPage',
+      url: '/settings',
     },
   ];
   const newHomeIcons = [newIcons[0], ...homeIcons];
