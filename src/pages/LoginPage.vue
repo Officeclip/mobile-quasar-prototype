@@ -84,10 +84,6 @@ onMounted(async () => {
   logger.log(`PIN is: ${pin.value}`, 'warn');
 });
 
-function getEndPointUrlFromUri(href: string): string | null {
-  throw new Error('Function not implemented.');
-}
-// const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
 util.setEndPointUrlInLocalStorageFromPageUri(window.location.href);
 </script>
 

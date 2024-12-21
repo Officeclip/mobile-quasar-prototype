@@ -130,12 +130,4 @@ export class Constants {
     }
     throw 'Error: ' + (error as string);
   }
-
-  static getLocalStorageEndPointUrl() {
-    if (LocalStorage.has('endPointUrl')) {
-      return String(LocalStorage.getItem('endPointUrl'));
-    }
-    return '';
-    // return 'https://app.officeclip.com/api';
-  }
 }
