@@ -80,12 +80,13 @@ function getApiScreen() {
         </q-card-actions>
       </q-card>
 
-      <q-card>
+      <q-card v-if="isSetUp">
         <q-card-section>
           <p class="text-subtitle2">Set the API Link:</p>
           <div class="row">
             <q-item-section>
               <q-input
+                style="min-width: 250px"
                 v-model="inputValue"
                 placeholder="enter valid rest api url"
                 hint="Ex: https or http://localhost/officeclip/api"
@@ -93,6 +94,7 @@ function getApiScreen() {
                 outlined
                 hide-bottom-space
                 dense
+                autogrow
             /></q-item-section>
             <q-item-section side top>
               <q-btn
