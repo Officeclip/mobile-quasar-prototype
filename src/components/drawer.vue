@@ -28,14 +28,23 @@ defineExpose({ toggleLeftDrawer });
 
 const filteredHomeIcons = computed(() => {
   const homeIcons = sessionStore.getHomeIcons();
-  const newIcon = {
-    id: 14,
-    icon: 'home',
-    name: 'Home Page',
-    url: '/homePage',
-  };
-  homeIcons.unshift(newIcon);
-  return homeIcons;
+  const newIcons = [
+    {
+      id: 14,
+      icon: 'home',
+      name: 'Home Page',
+      url: '/homePage',
+    },
+    {
+      id: 34,
+      icon: 'settings',
+      name: 'Settings',
+      url: '/settingsPage',
+    },
+  ];
+  const newHomeIcons = [newIcons[0], ...homeIcons];
+  newHomeIcons.push(newIcons[1]);
+  return newHomeIcons;
 });
 
 function getColor(url: string) {
