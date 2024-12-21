@@ -16,8 +16,6 @@ const sessionStore = useSessionStore();
 const tokenStore = useTokenStore();
 const route1 = useRouter();
 
-const endPointUrlsObj = util.endPointUrlsObj;
-
 const login: Ref<Login> = ref({
   userName: Constants.defaultLogin,
   password: '',
@@ -69,6 +67,7 @@ onBeforeUnmount(() => {
 onMounted(async () => {
   localStorage.removeItem('X-Token');
   sessionStorage.removeItem('oc-session');
+
   // set the local storage endpoint url
   if (pin.value) {
     try {
@@ -88,7 +87,7 @@ onMounted(async () => {
 function getEndPointUrlFromUri(href: string): string | null {
   throw new Error('Function not implemented.');
 }
-const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
+// const isEndPointUrlInLocalStorage = Constants.getLocalStorageEndPointUrl();
 util.setEndPointUrlInLocalStorageFromPageUri(window.location.href);
 </script>
 
@@ -151,7 +150,7 @@ util.setEndPointUrlInLocalStorageFromPageUri(window.location.href);
                   ></q-btn>
                 </q-item>
               </q-card-section>
-              <q-item v-if="endPointUrlsObj?.testUrl">
+              <q-item>
                 <div class="row items-center">
                   <div>
                     <q-item-section
@@ -163,7 +162,7 @@ util.setEndPointUrlInLocalStorageFromPageUri(window.location.href);
                   <div>
                     <q-item-section>
                       <q-item-label class="q-ml-sm">{{
-                        isEndPointUrlInLocalStorage
+                        util.getEndPointUrl()
                       }}</q-item-label></q-item-section
                     >
                   </div>

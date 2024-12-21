@@ -45,12 +45,89 @@ async function isValidRestApiUrl(testUrl) {
     alert('Please enter valid Rest Api Url');
   }
 }
+const isIndex = ref(true);
+const isSetUp = ref(false);
+function getApiScreen() {
+  isSetUp.value = true;
+  isIndex.value = false;
+}
 </script>
 
 <template>
   <q-page-container>
     <q-page class="flex flex-center">
-      <q-list>
+      <q-card v-if="isIndex" flat bordered class="q-mx-sm">
+        <q-card-section>
+          Provides smartphone access to OfficeClip suite of business software.
+          Allows managing contacts, customers, projects, timesheets, expenses,
+          support issues and invoices. Integrates with Google Contacts, Google
+          Calendar, Outlook, QuickBooks, Sage 50, ADP and other systems.
+        </q-card-section>
+        <q-card-section>
+          <p class="text-subtitle2">Available in two editions:</p>
+          <ol>
+            <li>Basic - Free for 10 users</li>
+            <li>
+              Enterprise - Has all the advanced features. See the feature page
+              for details
+            </li>
+          </ol>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn outline dense no-caps class="q-ml-sm" @click="getApiScreen()"
+            >Next</q-btn
+          >
+        </q-card-actions>
+      </q-card>
+
+      <q-card>
+        <q-card-section>
+          <p class="text-subtitle2">Set the API Link:</p>
+          <div class="row">
+            <q-item-section>
+              <q-input
+                v-model="inputValue"
+                placeholder="enter valid rest api url"
+                hint="Ex: https or http://localhost/officeclip/api"
+                type="url"
+                outlined
+                hide-bottom-space
+                dense
+            /></q-item-section>
+            <q-item-section side top>
+              <q-btn
+                outline
+                color="primary"
+                no-caps
+                rounded
+                @click="isValidRestApiUrl(inputValue)"
+                :disable="inputValue"
+                :loading="submitting"
+                >Save</q-btn
+              ></q-item-section
+            >
+          </div>
+        </q-card-section>
+        <q-card-section class="flex justify-between">
+          <q-radio
+            v-model="selectedOption"
+            color="red"
+            keep-color
+            label="Box version"
+            val="1"
+            size="sm"
+          />
+          <q-radio
+            v-model="selectedOption"
+            color="teal"
+            keep-color
+            label="Officeclip.com"
+            val="2"
+            size="sm"
+          />
+        </q-card-section>
+      </q-card>
+      <!-- <q-list v-if="isSetUp">
         <q-item-label class="q-ml-md">Set the API Link</q-item-label>
         <div class="row">
           <q-item>
@@ -105,22 +182,7 @@ async function isValidRestApiUrl(testUrl) {
             />
           </q-item-section>
         </q-item>
-        <!-- <q-separator inset></q-separator>
-        <div>
-          <q-item>
-            <q-btn
-              flat
-              no-caps
-              size="sm"
-              rounded
-              color="primary"
-              label="how to get the API Link"
-              @click="howToGetApi = true"
-              dense
-            ></q-btn
-          ></q-item>
-        </div> -->
-      </q-list>
+      </q-list> -->
 
       <!-- <q-dialog v-model="howToGetApi">
         <q-card>
