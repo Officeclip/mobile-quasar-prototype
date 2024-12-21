@@ -37,8 +37,8 @@ const filteredHomeIcons = computed(() => {
     },
     {
       id: 34,
-      icon: 'settings',
-      name: 'Settings',
+      icon: 'do_disturb',
+      name: 'Reset',
       url: '/settings',
     },
   ];
@@ -135,10 +135,12 @@ onMounted(async () => {
           <q-item-section>
             <q-item-label
               ><q-btn
-                class="q-px-sm q-py-none"
-                icon="logout"
-                dense
+                class="q-px-md"
+                outline
+                color="primary"
                 no-caps
+                rounded
+                dense
                 @click="logout"
                 label="Logout"
               ></q-btn>

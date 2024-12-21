@@ -215,7 +215,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/settings',
     name: 'settings',
-    component: () => import('../pages/apiLinkPage.vue'),
+    component: () => import('../pages/removeLocalData.vue'),
   },
   // Always leave this as last one,
   // but you can also remove it
