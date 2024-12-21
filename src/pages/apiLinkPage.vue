@@ -15,11 +15,13 @@ const boxVersionUserApi = ref('http://officeclip.xyz/officeclip/api');
 const selectedOption = ref('2');
 const inputValue = ref('');
 const readOnly = ref(false);
+const bgColor = ref('');
 
 watch(selectedOption, (newVal) => {
   inputValue.value =
     newVal === '1' ? boxVersionUserApi.value : dotComUserApi.value;
   readOnly.value = newVal === '2' ? true : false;
+  bgColor.value = newVal === '2' ? 'grey-4' : '';
 });
 
 const saveApiLinkInLocalStorage = () => {
@@ -75,6 +77,13 @@ function getApiScreen() {
             </li>
           </ol>
         </q-card-section>
+        <q-card-section>
+          <p>
+            <span class="text-negative text-subtitle2"> Note:</span> OfficeClip
+            Account is Required. If You Do Not Have it, Please Visit
+            OfficeClip.com Using a Desktop Browser to Create a Free Account.
+          </p>
+        </q-card-section>
         <q-card-actions align="right">
           <q-btn outline dense no-caps class="q-ml-sm" @click="getApiScreen()"
             >Next</q-btn
@@ -98,6 +107,7 @@ function getApiScreen() {
                 dense
                 autogrow
                 :readonly="readOnly"
+                :bg-color="bgColor"
             /></q-item-section>
             <q-item-section side top>
               <q-btn
@@ -130,6 +140,15 @@ function getApiScreen() {
             val="2"
             size="sm"
           />
+        </q-card-section>
+
+        <q-card-section>
+          <p>To find your customized url:</p>
+          <ol>
+            <li>Login to OfficeClip on a desktop browser</li>
+            <li>Click on the picture at top right</li>
+            <li>Click the Mobile button</li>
+          </ol>
         </q-card-section>
       </q-card>
       <!-- <q-list v-if="isSetUp">
