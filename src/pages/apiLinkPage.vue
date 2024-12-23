@@ -1,22 +1,18 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import { useSessionStore } from 'stores/SessionStore';
 import util from 'src/helpers/util';
 
 const sessionStore = useSessionStore();
 
-const dotComUserApi = ref('');
+const dotComUserApi = ref('https://api.officeclip.workers.dev');
 
 const boxVersionUserApi = ref('');
 
-const selectedOption = ref('2');
+const selectedOption = ref('1');
 const inputValue = ref('');
 const readOnly = ref(false);
 const bgColor = ref('');
-// onMounted(() => {
-inputValue.value = util.getEndPointUrl();
-console.log('test the get api url', util.getEndPointUrl());
-// });
 
 watch(selectedOption, (newVal) => {
   inputValue.value =
