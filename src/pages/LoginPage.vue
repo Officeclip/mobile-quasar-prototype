@@ -85,6 +85,11 @@ onMounted(async () => {
 });
 
 util.setEndPointUrlInLocalStorageFromPageUri(window.location.href);
+
+const redirectToRegistration = () => {
+  window.location.href =
+    'https://www.officeclip.com/web/selectversion.html?app=all';
+};
 </script>
 
 <template>
@@ -167,11 +172,19 @@ util.setEndPointUrlInLocalStorageFromPageUri(window.location.href);
               <q-card-section class="text-center q-pt-none">
                 <div class="text-grey-8">
                   Don't have an account yet?
-                  <a
+                  <!-- <a
                     href="#"
                     class="text-dark text-weight-bold"
                     style="text-decoration: none"
                     >Sign up.</a
+                  > -->
+                  <q-btn
+                    class="text-bold q-pa-none"
+                    no-caps
+                    flat
+                    dense
+                    @click="redirectToRegistration"
+                    >Sign up</q-btn
                   >
                 </div>
                 <div v-if="!util.isHideTestPage()">
