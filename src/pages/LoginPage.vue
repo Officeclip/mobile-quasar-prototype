@@ -16,13 +16,22 @@ const sessionStore = useSessionStore();
 const tokenStore = useTokenStore();
 const route1 = useRouter();
 
+const addressBarUrl = window.location.href;
+
 const login: Ref<Login> = ref({
   userName: Constants.defaultLogin,
   password: '',
   mpin: '',
 });
 
-const pin = ref('');
+const mPin = ref<string | null>(null);
+function getMpin() {
+  const uri = addressBarUrl.split('?');
+  if (uri.length >= 2) {
+    return uri[1];
+  }
+  return null;
+}
 
 const rules = {
   userName: { required, email },
@@ -49,7 +58,7 @@ async function onSubmit(e: any) {
       }
       return;
     }
-    await tokenStore.validateLogin(login.value, pin.value);
+    await tokenStore.validateLogin(login.value, mPin.value);
     route1.push('/HomePage');
   } catch (error) {
     $q.loading.hide();
@@ -69,9 +78,25 @@ onMounted(async () => {
   sessionStorage.removeItem('oc-session');
 
   // set the local storage endpoint url
-  if (pin.value) {
+  // if (pin.value) {
+  //   try {
+  //     await tokenStore.validateLogin(login.value, pin.value);
+  //     await sessionStore.getSession();
+  //     route1.push('/HomePage');
+  //   } catch (error) {
+  //     $q.notify({
+  //       message: error as string,
+  //       color: 'red',
+  //     });
+  //   }
+  // }
+  mPin.value = getMpin();
+  if (mPin.value) {
+    localStorage.removeItem('endPointUrl');
+    const endPointUrl = util.getEndPointUrlFromUri(addressBarUrl);
+    Constants.saveEndPointUrlInLocalStorage(endPointUrl);
     try {
-      await tokenStore.validateLogin(login.value, pin.value);
+      await tokenStore.validateLogin(login.value, mPin.value);
       await sessionStore.getSession();
       route1.push('/HomePage');
     } catch (error) {
@@ -81,7 +106,7 @@ onMounted(async () => {
       });
     }
   }
-  logger.log(`PIN is: ${pin.value}`, 'warn');
+  logger.log(`PIN is: ${mPin.value}`, 'warn');
 });
 
 util.setEndPointUrlInLocalStorageFromPageUri(window.location.href);
@@ -101,7 +126,7 @@ const redirectToSetUpAccount = () => {
 
         <div v-else>
           <q-card class="q-pa-md shadow-2 my_card" bordered>
-            <q-form @submit="onSubmit" v-if="!pin">
+            <q-form @submit="onSubmit" v-if="!mPin">
               <q-card-section class="text-center">
                 <div class="text-grey-9 text-h5 text-weight-bold">Sign in</div>
                 <div class="text-grey-8">

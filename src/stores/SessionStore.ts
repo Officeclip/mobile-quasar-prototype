@@ -95,7 +95,7 @@ export const useSessionStore = defineStore('sessionStore', {
         {
           id: 5,
           icon: 'bug_report',
-          name: 'IssueTracker',
+          name: 'Issue Tracker',
           url: '/trackerBinderSummary',
         },
       ];

@@ -9,8 +9,8 @@ const dotComUserApi = ref('https://api.officeclip.workers.dev');
 
 const boxVersionUserApi = ref('');
 
-const selectedOption = ref('1');
-const inputValue = ref('');
+const selectedOption = ref('2');
+const inputValue = ref(dotComUserApi.value);
 const readOnly = ref(false);
 const bgColor = ref('');
 
@@ -52,6 +52,10 @@ function getApiScreen() {
   isSetUp.value = true;
   isIndex.value = false;
 }
+
+const redirectToSetUpAccount = () => {
+  window.location.href = 'https://app.officeclip.com';
+};
 </script>
 
 <template>
@@ -60,28 +64,28 @@ function getApiScreen() {
       <q-page class="flex flex-center">
         <q-card v-if="isIndex" flat bordered class="q-mx-sm">
           <q-card-section>
-            Provides smartphone access to OfficeClip suite of business software.
-            Allows managing contacts, customers, projects, timesheets, expenses,
-            support issues and invoices. Integrates with Google Contacts, Google
-            Calendar, Outlook, QuickBooks, Sage 50, ADP and other systems.
+            Manage your business on the go with OfficeClip Mobile access
+            contacts, projects, timesheets, and more. <br />
+            Integrations with Google, Outlook, and other systems.
           </q-card-section>
           <q-card-section>
             <p class="text-subtitle2">Available in two editions:</p>
             <ol>
-              <li>Basic - Free for 10 users</li>
-              <li>
-                Enterprise - Has all the advanced features. See the feature page
-                for details
-              </li>
+              <li>Free Basic edition</li>
+              <li>Enterprise edition</li>
             </ol>
           </q-card-section>
           <q-card-section>
-            <p>
-              <span class="text-negative text-subtitle2"> Note:</span>
-              OfficeClip Account is Required. If You Do Not Have it, Please
-              Visit OfficeClip.com Using a Desktop Browser to Create a Free
-              Account.
-            </p>
+            Learn more and sign up at
+            <q-btn
+              color="primary"
+              class="q-pa-none"
+              no-caps
+              flat
+              dense
+              @click="redirectToSetUpAccount"
+              >officeclip.com</q-btn
+            >
           </q-card-section>
           <q-card-actions align="right">
             <q-btn outline dense no-caps class="q-ml-sm" @click="getApiScreen()"
@@ -99,7 +103,7 @@ function getApiScreen() {
                   style="min-width: 250px"
                   v-model="inputValue"
                   placeholder="enter valid rest api url"
-                  hint="Ex: https or http://localhost/officeclip/api"
+                  hint="Ex: https/your-site/officeclip/api"
                   type="url"
                   outlined
                   hide-bottom-space
@@ -127,7 +131,7 @@ function getApiScreen() {
               v-model="selectedOption"
               color="red"
               keep-color
-              label="Box version"
+              label="Installed on our machine"
               val="1"
               size="sm"
             />
@@ -135,14 +139,14 @@ function getApiScreen() {
               v-model="selectedOption"
               color="teal"
               keep-color
-              label="Officeclip.com"
+              label="Using from Officeclip.com"
               val="2"
               size="sm"
             />
           </q-card-section>
 
-          <q-card-section>
-            <p>To find your customized url:</p>
+          <q-card-section v-if="selectedOption === '1'">
+            <p>To find your customized url(password-less login):</p>
             <ol>
               <li>Login to OfficeClip on a desktop browser</li>
               <li>Click on the picture at top right</li>
