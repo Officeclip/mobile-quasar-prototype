@@ -93,8 +93,9 @@ onMounted(async () => {
   mPin.value = getMpin();
   if (mPin.value) {
     localStorage.removeItem('endPointUrl');
-    const endPointUrl = util.getEndPointUrlFromUri(addressBarUrl);
-    Constants.saveEndPointUrlInLocalStorage(endPointUrl);
+    // const endPointUrl = util.getEndPointUrlFromUri(addressBarUrl);
+    // Constants.saveEndPointUrlInLocalStorage(endPointUrl);
+    util.setEndPointUrlInLocalStorageFromPageUri(addressBarUrl);
     try {
       await tokenStore.validateLogin(login.value, mPin.value);
       await sessionStore.getSession();
@@ -109,7 +110,8 @@ onMounted(async () => {
   logger.log(`PIN is: ${mPin.value}`, 'warn');
 });
 
-util.setEndPointUrlInLocalStorageFromPageUri(window.location.href);
+// util.setEndPointUrlInLocalStorageFromPageUri(window.location.href);
+util.setEndPointUrlInLocalStorageFromPageUri(addressBarUrl);
 
 const redirectToSetUpAccount = () => {
   window.location.href = 'https://app.officeclip.com/setupsite.aspx';

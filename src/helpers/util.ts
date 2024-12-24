@@ -151,5 +151,6 @@ export default {
   getEndPointUrl,
   isObjectNullOrEmpty,
   decycle,
+  getEndPointUrlFromUri,
   endPointUrlsObj,
 };
