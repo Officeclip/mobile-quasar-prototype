@@ -11,7 +11,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
     states: [] as State[],
     countries: [] as Country[],
     children: [] as Children[],
-    contactDetails: undefined as ContactDetails | undefined, // we kept it separate because we will make a
+    contactDetails: {} as ContactDetails,
   }),
 
   getters: {

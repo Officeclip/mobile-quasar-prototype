@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 // TODO: CR: 2024-08-05: Can this be put in the helper as constant?
 const allExpenses = [
   {
@@ -44,7 +47,7 @@ const allExpenses = [
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar class="glossy">
         <q-btn
-          @click="$router.go(-1)"
+          @click="router.go(-1)"
           flat
           round
           dense

@@ -7,7 +7,7 @@ import util from 'src/helpers/util';
 export const useNotesStore = defineStore('notesStore', {
   state: () => ({
     notes: [] as Note[],
-    note: undefined as Note | undefined,
+    note: {} as Note,
     noteBooks: [] as NoteBook[],
     errorMsg: '' as string,
   }),

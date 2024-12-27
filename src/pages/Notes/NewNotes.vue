@@ -49,7 +49,7 @@ function onSubmit(e: Event) {
       isPrivate: note.value.isPrivate as boolean,
       createdByUserSid: '',
       createdDateTime: '',
-      security: [],
+      security: {},
     };
     notesStore.addNotes(newNote);
     router.go(-1);

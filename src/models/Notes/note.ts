@@ -17,5 +17,5 @@ export interface Note {
   isPrivate: boolean;
   createdByUserSid: string;
   createdDateTime: string;
-  security: security[];
+  security: security;
 }

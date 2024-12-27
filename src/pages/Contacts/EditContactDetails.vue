@@ -31,8 +31,8 @@ const childComponent = ref(null);
 async function onSubmit(e: any) {
   try {
     if (!childComponent.value.validateAll()) return;
-
-    await contactDetailsStore.editContactDetails(contactDetails.value!);
+    const editContactDetails = ref(contactDetails);
+    await contactDetailsStore.editContactDetails(editContactDetails.value!);
     router.go(-1);
   } catch (error) {
     $q.dialog({

@@ -42,7 +42,7 @@ const expenseDetail = ref({
   mileageExpense: null,
   telephoneExpense: null,
   taxiExpense: null,
-  security: [],
+  security: {},
 });
 
 const childComponent = ref(null);
@@ -100,7 +100,7 @@ async function onSubmit(e: any) {
     <q-header>
       <q-toolbar>
         <q-btn
-          @click="$router.go(-1)"
+          @click="router.go(-1)"
           flat
           round
           dense

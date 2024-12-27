@@ -52,12 +52,7 @@ const task: Ref<taskDetails> = ref({
   modifiedByUserSid: '0',
   modifiedDate: '',
   subTasks: [],
-  security: {
-    read: true,
-    write: true,
-    append: false,
-    delete: true,
-  },
+  security: {},
   reminder: {
     to: '',
     beforeMinutes: 0,

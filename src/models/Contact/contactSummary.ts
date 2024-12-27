@@ -6,5 +6,5 @@ export interface ContactSummary {
   email?: string;
   phone?: string;
   thumbnail?: string;
-  security: security[];
+  security: security;
 }

@@ -31,7 +31,7 @@ const contactDetails: ContactDetails = ref({
   home_phone: '',
   thumbnail: '',
   picture: '',
-  security: [],
+  security: {},
 });
 
 const childComponent = ref(null);

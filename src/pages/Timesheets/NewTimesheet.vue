@@ -63,7 +63,7 @@ const timesheetDetails: TimesheetDetails = ref({
   serviceItemName: '',
   serviceItemSid: '',
   taskDate: '',
-  security: [],
+  security: {},
   comments: '',
 });
 

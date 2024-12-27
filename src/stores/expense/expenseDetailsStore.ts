@@ -16,7 +16,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   state: () => ({
     expenseSummary: [] as expenseSummary[],
     expenseDetailsList: [] as expenseDetails[],
-    expenseDetails: undefined as expenseDetails | undefined,
+    expenseDetails: {} as expenseDetails,
     airTravelExpense: undefined as airTravelExpense | undefined,
     autoRentalExpense: undefined as autoRentalExpense | undefined,
     hotelExpense: undefined as hotelExpense | undefined,

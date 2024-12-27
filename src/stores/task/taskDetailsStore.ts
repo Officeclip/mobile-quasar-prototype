@@ -7,7 +7,7 @@ import util from 'src/helpers/util';
 export const useTaskDetailsStore = defineStore('taskDetailsStore', {
   state: () => ({
     taskDetails: [] as taskDetails[],
-    taskDetail: undefined as taskDetails | undefined,
+    taskDetail: {} as taskDetails,
     subTask: undefined as subTask | undefined,
   }),
 
