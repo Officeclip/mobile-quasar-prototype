@@ -6,7 +6,6 @@ import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
-import logger from 'src/helpers/logger';
 import drawer from '../../components/drawer.vue';
 
 const expensesDetailsStore = useExpenseDetailsStore();
@@ -147,7 +146,7 @@ function toggleLeftDrawer() {
         </div>
         <div v-else>
           <div v-if="title === 'Inbox'">
-            <q-list class="flex flex-center">
+            <q-list>
               <q-item>
                 <q-item-section>
                   <q-item-label v-if="errorMsg !== ''" class="text-h6 q-py-md">
@@ -160,6 +159,15 @@ function toggleLeftDrawer() {
                     A expense is used to track cost incurred by an individual or
                     organization in order to achieve a specific goal or benefit.
                   </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </div>
+          <div v-else>
+            <q-list>
+              <q-item>
+                <q-item-section class="text-h6 q-py-sm">
+                  <q-item-label> No Items Found </q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>

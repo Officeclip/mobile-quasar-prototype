@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onBeforeMount, watch, capitalize } from 'vue';
+import { ref, computed, watch, capitalize, onMounted } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
@@ -17,7 +17,7 @@ const teCommentsStore = useTECommentsStore();
 const myDrawer = ref();
 
 const timesheetsStore = useTimesheetsStore();
-onBeforeMount(async () => {
+onMounted(async () => {
   try {
     await teCommentsStore.getTimesheetGroupProfile();
     await timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
@@ -39,6 +39,15 @@ const timesheetDCAA = computed(() => {
   return teCommentsStore.TimesheetDCAA;
 });
 
+const errorMsg = computed(() => {
+  return timesheetsStore.errorMsg;
+});
+
+watch([timesheetStatus], ([newModel]) => {
+  timesheetsStore.getTimesheetsByStatus(String(newModel));
+  title.value = capitalize(newModel);
+});
+
 const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
 const showWarningMsg = () => {
   alert(
@@ -46,18 +55,10 @@ const showWarningMsg = () => {
   );
 };
 
-watch([timesheetStatus], ([newModel]) => {
-  timesheetsStore.getTimesheetsByStatus(String(newModel));
-  title.value = capitalize(newModel);
-});
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
 }
-
-const errorMsg = computed(() => {
-  return timesheetsStore.errorMsg;
-});
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -100,7 +101,7 @@ const errorMsg = computed(() => {
     </q-footer>
     <q-page-container>
       <q-page>
-        <div v-if="timesheetsAll.length > 0">
+        <div v-if="timesheetsAll">
           <q-list v-for="item in timesheetsAll" :key="item.id">
             <q-item
               :to="{
@@ -156,23 +157,34 @@ const errorMsg = computed(() => {
             <q-separator></q-separator>
           </q-list>
         </div>
-        <div v-if="timesheetsAll.length === 0 && title === 'Inbox'">
-          <q-list v-if="errorMsg !== ''" class="flex flex-center">
-            <q-item>
-              <q-item-section>
-                <q-item-label class="text-h6 q-py-md">
-                  {{ errorMsg }}
-                </q-item-label>
-                <q-item-label class="text-h6 q-py-sm">
-                  Create your first Timesheet
-                </q-item-label>
-                <q-item-label>
-                  A timesheet is used to track employee's time spent on projects
-                  and tasks.
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
+        <div v-else>
+          <div v-if="title === 'Inbox'">
+            <q-list>
+              <q-item>
+                <q-item-section>
+                  <q-item-label v-if="errorMsg !== ''" class="text-h6 q-py-md">
+                    {{ errorMsg }}
+                  </q-item-label>
+                  <q-item-label class="text-h6 q-py-sm">
+                    Create your first Timesheet
+                  </q-item-label>
+                  <q-item-label>
+                    A timesheet is used to track employee's time spent on
+                    projects and tasks.
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </div>
+          <div v-else>
+            <q-list>
+              <q-item>
+                <q-item-section class="text-h6 q-py-sm">
+                  <q-item-label> No Items Found </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </div>
         </div>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn

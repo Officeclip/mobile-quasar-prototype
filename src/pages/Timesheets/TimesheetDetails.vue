@@ -280,7 +280,11 @@ function toggleLeftDrawer() {
           </q-list>
         </q-expansion-item>
       </q-card>
-      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-page-sticky
+        position="bottom-right"
+        :offset="[18, 18]"
+        style="z-index: 1000"
+      >
         <q-btn
           v-if="isAllowedWrite && mode === 'PERIODIC'"
           :to="{
