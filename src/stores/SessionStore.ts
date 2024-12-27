@@ -109,6 +109,7 @@ export const useSessionStore = defineStore('sessionStore', {
         const response = await instance.post(callStr);
         if (response.status === 200) {
           await this.getSession();
+          window.location.reload();
         }
       } catch (error) {
         console.error(`addEventDetail Error: ${error}`);
