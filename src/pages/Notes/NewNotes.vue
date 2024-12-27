@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import NotesForm from '../../components/Notes/NotesFormCtrl.vue';
 import { useNotesStore } from '../../stores/NotesStore';
-import { ref } from 'vue';
+import { Ref, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { Note } from '../../models/Notes/note';
 import { useQuasar } from 'quasar';
@@ -18,7 +18,18 @@ const parentObjectServiceType = route.params.objectTypeId
 const notebookId = route.params.id !== '-1' ? route.params.id : '';
 
 const notesStore = useNotesStore();
-const note = ref({
+const note: Ref<Note> = ref({
+  noteBookId: notebookId as string,
+  parent: {
+    type: {
+      id: parentObjectServiceType as string,
+      name: '',
+    },
+    value: {
+      id: parentObjectId as string,
+      name: '',
+    },
+  },
   title: '',
   description: '',
   isPrivate: false,
@@ -26,31 +37,38 @@ const note = ref({
 
 const childComponent = ref(null);
 
-function onSubmit(e: Event) {
+function onSubmit(e: Note) {
   try {
     if (!childComponent.value.validateAll()) return;
-    const newNote: Note = {
-      id: '',
-      noteBookId: notebookId as string,
-      parent: {
-        type: {
-          id: parentObjectServiceType as string,
-          name: '',
-        },
-        value: {
-          id: parentObjectId as string,
-          name: '',
-        },
-      },
+    const newNote = {
+      ...note.value,
       title: note.value.title
         ? note.value.title
         : note.value.description.substring(0, 25),
-      description: note.value.description,
-      isPrivate: note.value.isPrivate as boolean,
-      createdByUserSid: '',
-      createdDateTime: '',
-      security: {},
     };
+
+    // const newNote: Note = {
+    //   id: '',
+    //   noteBookId: notebookId as string,
+    //   parent: {
+    //     type: {
+    //       id: parentObjectServiceType as string,
+    //       name: '',
+    //     },
+    //     value: {
+    //       id: parentObjectId as string,
+    //       name: '',
+    //     },
+    //   },
+    //   title: note.value.title
+    //     ? note.value.title
+    //     : note.value.description.substring(0, 25),
+    //   description: note.value.description,
+    //   isPrivate: note.value.isPrivate as boolean,
+    //   createdByUserSid: '',
+    //   createdDateTime: '',
+    //   security: {},
+    // };
     notesStore.addNotes(newNote);
     router.go(-1);
   } catch (error) {
