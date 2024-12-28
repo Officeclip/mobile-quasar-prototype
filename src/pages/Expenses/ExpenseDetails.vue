@@ -294,7 +294,11 @@ function toggleLeftDrawer() {
             </q-item-section>
           </q-expansion-item>
         </q-list>
-        <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-page-sticky
+          position="bottom-right"
+          :offset="[18, 18]"
+          style="z-index: 1000"
+        >
           <q-btn
             v-if="isAllowedWrite"
             :to="{
@@ -308,7 +312,6 @@ function toggleLeftDrawer() {
             fab
             icon="add"
             color="accent"
-            padding="md"
           >
           </q-btn>
         </q-page-sticky>

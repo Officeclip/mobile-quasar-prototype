@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineProps, onBeforeMount, ref, Ref, computed } from 'vue';
+import { defineProps, ref, Ref, computed, onMounted, watch } from 'vue';
 import { useTaskListsStore } from 'stores/task/taskListsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
@@ -22,10 +22,14 @@ const props = defineProps({
 });
 
 const task: Ref<taskDetails> = ref(props.taskFromParent);
+
 const userSummaryStore = useUserSummaryStore();
 const taskListsStore = useTaskListsStore();
 const $q = useQuasar();
 const router = useRouter();
+
+const selectedTaskStatusId = ref(task.value.taskStatusId);
+const selectedTaskTypeId = ref(task.value.taskTypeId);
 
 const nameRef = ref();
 const dateRef = ref();
@@ -53,12 +57,18 @@ const usersList: Ref<userSummary[]> = ref([]);
 const tagOptions: Ref<tag[]> = ref([]);
 const filterUsersList: Ref<userSummary[]> = ref([]);
 
-onBeforeMount(async () => {
+onMounted(async () => {
   try {
     await taskListsStore.getTaskLists();
     await userSummaryStore.getUserSummaries();
     usersList.value = filterUsersList.value = userSummaryStore.UserSummaries;
     tagOptions.value = taskListsStore.Tags;
+    if (!selectedTaskStatusId.value) {
+      selectedTaskStatusId.value = taskListsStore.TaskStatuses[0]?.id;
+    }
+    if (!selectedTaskTypeId.value) {
+      selectedTaskTypeId.value = taskListsStore.TaskTypes[0]?.id;
+    }
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -67,6 +77,16 @@ onBeforeMount(async () => {
       await router.push({ path: '/tasksList' });
     });
   }
+});
+
+// Watch for changes in selectedTaskStatusId
+watch(selectedTaskStatusId, (newStatusId) => {
+  task.value.taskStatusId = newStatusId;
+});
+
+// Watch for changes in selectedTaskTypeId
+watch(selectedTaskTypeId, (newTypeId) => {
+  task.value.taskTypeId = newTypeId;
 });
 
 function handleRRuleString(rruleString: string) {
@@ -248,7 +268,7 @@ function createValue(val: string, done: any) {
       ></q-item>
       <q-item class="column">
         <q-select
-          v-model="task.taskTypeId"
+          v-model="selectedTaskTypeId"
           :options="taskListsStore.TaskTypes"
           label="Task Type"
           map-options
@@ -269,7 +289,7 @@ function createValue(val: string, done: any) {
       /></q-item>
       <q-item class="column">
         <q-select
-          v-model="task.taskStatusId"
+          v-model="selectedTaskStatusId"
           :options="taskListsStore.TaskStatuses"
           label="Status"
           map-options
