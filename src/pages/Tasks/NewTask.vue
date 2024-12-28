@@ -42,7 +42,7 @@ const task: Ref<taskDetails> = ref({
   startDate: '',
   subject: '',
   taskOwnerSid: null,
-  taskPriorityId: '0',
+  taskPriorityId: '-1',
   taskStatusId: '',
   taskTypeId: '',
   assignees: [],
