@@ -44,31 +44,8 @@ function onSubmit(e: Note) {
       ...note.value,
       title: note.value.title
         ? note.value.title
-        : note.value.description.substring(0, 25),
+        : note.value.description.substring(0, 40) + '...',
     };
-
-    // const newNote: Note = {
-    //   id: '',
-    //   noteBookId: notebookId as string,
-    //   parent: {
-    //     type: {
-    //       id: parentObjectServiceType as string,
-    //       name: '',
-    //     },
-    //     value: {
-    //       id: parentObjectId as string,
-    //       name: '',
-    //     },
-    //   },
-    //   title: note.value.title
-    //     ? note.value.title
-    //     : note.value.description.substring(0, 25),
-    //   description: note.value.description,
-    //   isPrivate: note.value.isPrivate as boolean,
-    //   createdByUserSid: '',
-    //   createdDateTime: '',
-    //   security: {},
-    // };
     notesStore.addNotes(newNote);
     router.go(-1);
   } catch (error) {
