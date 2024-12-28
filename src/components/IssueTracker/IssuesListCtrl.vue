@@ -62,6 +62,7 @@ defineExpose({ infinteScrollReset });
     </div>
   </q-item-section>
   <q-infinite-scroll
+    v-else
     ref="infiniteScroll"
     :disable="reachedEnd"
     @load="loadMore"
