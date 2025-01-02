@@ -103,145 +103,173 @@ async function filterFn(val: string, update: any, abort: any) {
     );
   });
 }
+
+// function showApplyButton() {
+//   if (filterNumber(advancedOptions.value)) {
+//     return true;
+//   } else {
+//     false;
+//   }
+// }
+const isDisable = () => {
+  const count = filterNumber(advancedOptions.value);
+  if (!count) {
+    return true;
+  } else {
+    false;
+  }
+};
 </script>
 
 <template>
   <q-card style="width: 700px; max-width: 80vw">
-    <div class="row">
-      <q-item-section class="q-ma-sm q-pa-md shadow-2">
-        <q-input
-          v-model="advancedOptions.dueDateValue"
-          clearable
-          label="Due Date"
-          outlined
-          type="date"
-        />
-        <q-select
-          filled
-          label="Due Date Options"
-          v-model="advancedOptions.dueDateOption"
-          :options="dateOptions"
-          clearable
-          emit-value
-          map-options
-          option-label="label"
-          option-value="value"
-          hint="needed when due date is selected"
-        />
-      </q-item-section>
-    </div>
-    <div class="row">
-      <q-item-section class="q-ma-sm q-pa-md shadow-2">
-        <q-input
-          v-model="advancedOptions.modifiedDateValue"
-          clearable
-          label="Modified Date"
-          outlined
-          type="date"
-        />
-        <q-select
-          filled
-          label="Modified Date Options"
-          v-model="advancedOptions.modifiedDateOption"
-          :options="dateOptions"
-          clearable
-          emit-value
-          map-options
-          option-label="label"
-          option-value="value"
-          hint="needed when modified date is selected"
-        />
-      </q-item-section>
-    </div>
-    <div class="q-pa-md row">
-      <q-item-section>
-        <q-select
-          outlined
-          label="Status"
-          v-model="advancedOptions.statusId"
-          :options="taskListsStore.TaskStatuses"
-          emit-value
-          map-options
-          option-label="name"
-          option-value="id"
-        />
-      </q-item-section>
-    </div>
-    <div class="q-pa-md row">
-      <q-item-section>
-        <q-select
-          outlined
-          label="Priority"
-          v-model="advancedOptions.priorityId"
-          :options="taskListsStore.TaskPriorities"
-          emit-value
-          map-options
-          option-label="name"
-          option-value="id"
-        />
-      </q-item-section>
-    </div>
-    <div class="q-pa-md row">
-      <q-item-section>
-        <q-select
-          outlined
-          label="Task Type"
-          v-model="advancedOptions.taskTypeId"
-          :options="taskListsStore.TaskTypes"
-          emit-value
-          map-options
-          option-label="name"
-          option-value="id"
-        />
-      </q-item-section>
-    </div>
-
-    <div class="q-pa-md row">
-      <q-item-section>
-        <q-select
-          outlined
-          label="Assigned To"
-          v-model="advancedOptions.assignedToId"
-          :options="taskListsStore.users"
-          clearable
-          emit-value
-          map-options
-          option-label="name"
-          option-value="id"
-          use-input
-          @filter="filterFn"
-        />
-      </q-item-section>
-    </div>
-    <div class="q-pa-md row">
-      <q-item-section>
-        <q-select
-          outlined
-          label="Owned By"
-          v-model="advancedOptions.ownedById"
-          :options="taskListsStore.users"
-          clearable
-          emit-value
-          map-options
-          option-label="name"
-          option-value="id"
-          use-input
-          @filter="filterFn"
-        />
-      </q-item-section>
-    </div>
-    <div class="q-pa-md row">
-      <q-item-section>
-        <div class="q-mr-md">
-          <q-checkbox
-            v-model="advancedOptions.showCompleted"
-            label="Show completed tasks"
+    <q-bar>
+      <div>Advanced Filter options</div>
+      <q-space></q-space>
+      <q-btn dense flat icon="close" v-close-popup> </q-btn>
+    </q-bar>
+    <q-scroll-area style="height: 70vh">
+      <div class="row">
+        <q-item-section class="q-ma-sm q-pa-md shadow-2">
+          <q-input
+            v-model="advancedOptions.dueDateValue"
+            clearable
+            label="Due Date"
+            outlined
+            type="date"
           />
-        </div>
-      </q-item-section>
-    </div>
-    <q-card-actions>
-      <q-btn v-close-popup color="primary" label="Apply" @click="emitOptions" />
+          <q-select
+            filled
+            label="Due Date Options"
+            v-model="advancedOptions.dueDateOption"
+            :options="dateOptions"
+            clearable
+            emit-value
+            map-options
+            option-label="label"
+            option-value="value"
+            hint="needed when due date is selected"
+          />
+        </q-item-section>
+      </div>
+      <div class="row">
+        <q-item-section class="q-ma-sm q-pa-md shadow-2">
+          <q-input
+            v-model="advancedOptions.modifiedDateValue"
+            clearable
+            label="Modified Date"
+            outlined
+            type="date"
+          />
+          <q-select
+            filled
+            label="Modified Date Options"
+            v-model="advancedOptions.modifiedDateOption"
+            :options="dateOptions"
+            clearable
+            emit-value
+            map-options
+            option-label="label"
+            option-value="value"
+            hint="needed when modified date is selected"
+          />
+        </q-item-section>
+      </div>
+      <div class="q-pa-md row">
+        <q-item-section>
+          <q-select
+            outlined
+            label="Status"
+            v-model="advancedOptions.statusId"
+            :options="taskListsStore.TaskStatuses"
+            emit-value
+            map-options
+            option-label="name"
+            option-value="id"
+          />
+        </q-item-section>
+      </div>
+      <div class="q-pa-md row">
+        <q-item-section>
+          <q-select
+            outlined
+            label="Priority"
+            v-model="advancedOptions.priorityId"
+            :options="taskListsStore.TaskPriorities"
+            emit-value
+            map-options
+            option-label="name"
+            option-value="id"
+          />
+        </q-item-section>
+      </div>
+      <div class="q-pa-md row">
+        <q-item-section>
+          <q-select
+            outlined
+            label="Task Type"
+            v-model="advancedOptions.taskTypeId"
+            :options="taskListsStore.TaskTypes"
+            emit-value
+            map-options
+            option-label="name"
+            option-value="id"
+          />
+        </q-item-section>
+      </div>
+
+      <div class="q-pa-md row">
+        <q-item-section>
+          <q-select
+            outlined
+            label="Assigned To"
+            v-model="advancedOptions.assignedToId"
+            :options="taskListsStore.users"
+            clearable
+            emit-value
+            map-options
+            option-label="name"
+            option-value="id"
+            use-input
+            @filter="filterFn"
+          />
+        </q-item-section>
+      </div>
+      <div class="q-pa-md row">
+        <q-item-section>
+          <q-select
+            outlined
+            label="Owned By"
+            v-model="advancedOptions.ownedById"
+            :options="taskListsStore.users"
+            clearable
+            emit-value
+            map-options
+            option-label="name"
+            option-value="id"
+            use-input
+            @filter="filterFn"
+          />
+        </q-item-section>
+      </div>
+      <div class="q-pa-md row">
+        <q-item-section>
+          <div class="q-mr-md">
+            <q-checkbox
+              v-model="advancedOptions.showCompleted"
+              label="Show completed tasks"
+            />
+          </div>
+        </q-item-section></div
+    ></q-scroll-area>
+    <q-card-actions align="right">
+      <q-btn
+        :disable="isDisable()"
+        v-close-popup
+        color="primary"
+        label="Apply"
+        @click="emitOptions"
+      />
     </q-card-actions>
   </q-card>
 </template>

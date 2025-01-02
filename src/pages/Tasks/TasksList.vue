@@ -188,13 +188,13 @@ function toggleLeftDrawer() {
                 }}</q-badge>
               </q-btn>
             </div>
-            <div class="q-mr-md">
+            <div v-if="filterCount != 0" class="q-mr-md">
               <q-btn flat icon="clear" @click="clearFilterValues" />
             </div>
           </div>
         </div>
         <tasks-list-ctrl :parent="parent" ref="infinteScroll" />
-        <q-dialog v-model="showAdvOptions">
+        <q-dialog v-model="showAdvOptions" persistent>
           <task-advanced-filters
             :filter-options="filterOptions"
             :parent="parent"
