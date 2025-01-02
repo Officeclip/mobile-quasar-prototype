@@ -123,11 +123,12 @@ const isDisable = () => {
 
 <template>
   <q-card style="width: 700px; max-width: 80vw">
-    <q-bar>
-      <div>Advanced Filter options</div>
+    <q-card-section class="row items-center">
+      <span class="text-h6">Advanced Filter options</span>
       <q-space></q-space>
       <q-btn dense flat icon="close" v-close-popup> </q-btn>
-    </q-bar>
+    </q-card-section>
+    <q-separator />
     <q-scroll-area style="height: 70vh">
       <div class="row">
         <q-item-section class="q-ma-sm q-pa-md shadow-2">
@@ -262,6 +263,7 @@ const isDisable = () => {
           </div>
         </q-item-section></div
     ></q-scroll-area>
+    <q-separator />
     <q-card-actions align="right">
       <q-btn
         :disable="isDisable()"
