@@ -190,14 +190,11 @@ function toggleLeftDrawer() {
           >
             <template v-slot:header>
               <q-item-section>
-                <q-item-label
-                  v-if="
-                    expenseDetail.accountName !== '' ||
-                    expenseDetail.projectName !== ''
-                  "
-                >
-                  {{ expenseDetail.accountName }} :
-                  {{ expenseDetail.projectName }}
+                <q-item-label v-if="expenseDetail.accountName !== ''">
+                  {{ expenseDetail.accountName }}
+                  <span v-if="expenseDetail.projectName !== ''">{{
+                    ': ' + expenseDetail.projectName
+                  }}</span>
                 </q-item-label>
                 <q-item-label caption>
                   {{
