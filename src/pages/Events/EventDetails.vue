@@ -242,9 +242,9 @@ function toggleLeftDrawer() {
             </div>
           </q-item-section>
         </q-item>
-        <q-item v-else>
+        <!-- <q-item v-else>
           <q-item-section> No Attendees selected </q-item-section>
-        </q-item>
+        </q-item> -->
         <q-item v-if="event?.url">
           <q-item-section>
             <q-item-label caption>Url </q-item-label>
@@ -270,7 +270,7 @@ function toggleLeftDrawer() {
             <q-item-label caption> Show Time As </q-item-label>
             <q-item-label>
               <span
-                class="q-py-xs q-px-sm"
+                class="q-pa-xs"
                 :style="{
                   backgroundColor: getEventShowTimeAsColor(
                     event?.showTimeAs?.name

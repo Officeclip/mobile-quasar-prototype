@@ -32,6 +32,7 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
         const response = await instance.post(callStr, trackerCaseDetails);
         if (response.status === 200) {
           this.issueDetails = response.data;
+          window.location.reload();
         }
       } catch (error) {
         Constants.throwError(error);

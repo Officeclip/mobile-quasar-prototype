@@ -271,7 +271,7 @@ const regarding = computed(() => {
         <q-item-section>
           <q-radio
             v-model="event.eventType.id"
-            color="teal"
+            color="red"
             keep-color
             label="Group"
             val="1"
@@ -281,7 +281,7 @@ const regarding = computed(() => {
         <q-item-section>
           <q-radio
             v-model="event.eventType.id"
-            color="red"
+            color="secondary"
             keep-color
             label="Meeting"
             val="2"
@@ -291,7 +291,7 @@ const regarding = computed(() => {
         <q-item-section>
           <q-radio
             v-model="event.eventType.id"
-            color="cyan"
+            color="primary"
             keep-color
             label="Personal"
             val="3"
