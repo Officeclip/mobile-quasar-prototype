@@ -165,7 +165,7 @@ function toggleLeftDrawer() {
           flat
           icon="arrow_back"
           round
-          @click="router.push({ path: '/eventSummary' })"
+          @click="router.go(-1)"
         />
         <q-btn
           aria-label="Menu"

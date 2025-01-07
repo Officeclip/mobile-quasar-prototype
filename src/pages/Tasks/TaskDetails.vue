@@ -148,13 +148,7 @@ const newSubtask = ref({
   <q-layout view="hHh Lpr lFf" v-if="isLoaded">
     <q-header bordered class="bg-primary text-white" reveal>
       <q-toolbar>
-        <q-btn
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="router.push({ path: '/tasksList' })"
-        />
+        <q-btn dense flat icon="arrow_back" round @click="router.go(-1)" />
         <q-btn
           aria-label="Menu"
           dense
