@@ -120,7 +120,6 @@ function goToApp(url: string) {
             option-label="name"
             option-value="id"
             outlined
-            dense
             @update:model-value="updateOrganization"
           />
         </div>
