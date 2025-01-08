@@ -145,8 +145,8 @@ const newSubtask = ref({
 </style>
 
 <template>
-  <q-layout view="hHh Lpr lFf" v-if="isLoaded">
-    <q-header bordered class="bg-primary text-white" reveal>
+  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
+    <q-header bordered class="bg-primary text-white" reveal height-hint="98">
       <q-toolbar>
         <q-btn dense flat icon="arrow_back" round @click="router.go(-1)" />
         <q-btn
