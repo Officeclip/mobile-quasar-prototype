@@ -14,7 +14,7 @@ const ocSession = () => SessionStorage.getItem('oc-session') as Session;
 
 const endPointUrlsObj = {
   testUrl: import.meta.env.VITE_API_ENDPOINT_TEST,
-  onlineUrl: import.meta.env.VITE_API_ENDPOINT_ONLINE,
+  onlineUrl: import.meta.env.VITE_API_ENDPOINT,
 };
 
 export enum ObjectType {

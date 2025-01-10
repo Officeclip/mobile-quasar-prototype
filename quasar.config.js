@@ -10,6 +10,9 @@
 
 const { configure } = require('quasar/wrappers');
 const path = require('path');
+const dotenv = require('dotenv').config({
+  path: path.resolve(__dirname, '.env.local'),
+}); // Ensure dotenv is required correctly
 const { Notify } = require('quasar');
 
 module.exports = configure(function (/* ctx */) {
@@ -54,6 +57,7 @@ module.exports = configure(function (/* ctx */) {
         browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
         node: 'node16',
       },
+      env: dotenv.parsed, // Use the parsed environment variables
 
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       // vueRouterBase,
