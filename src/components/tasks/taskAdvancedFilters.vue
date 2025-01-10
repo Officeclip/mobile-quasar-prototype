@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onBeforeMount, ref, Ref } from 'vue';
+import { onBeforeMount, ref, Ref, computed, watch } from 'vue';
 import { useTaskListsStore } from 'stores/task/taskListsStore';
 import { user } from 'src/models/task/taskLists';
 import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
@@ -41,11 +41,11 @@ const advancedOptions: Ref<searchFilter> = ref({
 
 function filterNumber(filter: searchFilter) {
   let val = 0;
-  val += filter.dueDateOption !== '' ? 1 : 0;
+  val += (filter.dueDateOption ?? '').length > 0 ? 1 : 0;
   val += filter.modifiedDateOption !== '' ? 1 : 0;
   val += filter.statusId ? 1 : 0;
-  val += filter.priorityId ? 1 : 0;
-  val += filter.taskTypeId ? 1 : 0;
+  val += filter.priorityId === '' || filter.priorityId === '0' ? 0 : 1;
+  val += filter.taskTypeId === '' || filter.taskTypeId === '-1' ? 0 : 1;
   val += filter.assignedToId ? 1 : 0;
   val += filter.ownedById ? 1 : 0;
   val += filter.regardingTypeId ? 1 : 0;
@@ -55,6 +55,7 @@ function filterNumber(filter: searchFilter) {
 }
 
 function emitOptions() {
+  taskSummaryStore.$reset();
   taskSummaryStore.setFilter(advancedOptions.value);
   taskSummaryStore.resetPageNumber();
   taskSummaryStore.getTasksUpdated(true);
@@ -119,6 +120,26 @@ const isDisable = () => {
     false;
   }
 };
+
+const isDueDateDisabled = computed(() => !advancedOptions.value.dueDateValue);
+const isModifiedDateDisabled = computed(
+  () => !advancedOptions.value.modifiedDateValue
+);
+
+watch(
+  () => [
+    advancedOptions.value.dueDateValue,
+    advancedOptions.value.modifiedDateValue,
+  ],
+  ([newDueDate, newModifiedDate]) => {
+    if (!newDueDate) {
+      advancedOptions.value.dueDateOption = '';
+    }
+    if (!newModifiedDate) {
+      advancedOptions.value.modifiedDateOption = '';
+    }
+  }
+);
 </script>
 
 <template>
@@ -150,6 +171,7 @@ const isDisable = () => {
             option-label="label"
             option-value="value"
             hint="needed when due date is selected"
+            :disable="isDueDateDisabled"
           />
         </q-item-section>
       </div>
@@ -173,6 +195,7 @@ const isDisable = () => {
             option-label="label"
             option-value="value"
             hint="needed when modified date is selected"
+            :disable="isModifiedDateDisabled"
           />
         </q-item-section>
       </div>
