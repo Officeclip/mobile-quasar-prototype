@@ -7,7 +7,7 @@ export function resetIdleTimer() {
   idleTime.value = 0;
 }
 
-export function startIdleTimer(logoutCallback: () => void, idleLimit = 60) {
+export function startIdleTimer(logoutCallback: () => void, idleLimit = 3600) {
   idleTime.value = 0; // Reset idle time when starting the timer
   clearInterval(idleInterval);
   idleInterval = setInterval(() => {

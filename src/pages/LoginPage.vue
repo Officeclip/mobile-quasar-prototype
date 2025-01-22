@@ -140,7 +140,6 @@ const redirectToSetUpAccount = () => {
                   ><q-input
                     class="col"
                     maxlength="450px"
-                    dense
                     outlined
                     v-model="login.userName"
                     label="Email Address"
@@ -153,7 +152,6 @@ const redirectToSetUpAccount = () => {
                 <q-item
                   ><q-input
                     class="col"
-                    dense
                     outlined
                     v-model="login.password"
                     type="password"
@@ -203,7 +201,6 @@ const redirectToSetUpAccount = () => {
                     class="text-bold q-pa-none"
                     no-caps
                     flat
-                    dense
                     @click="redirectToSetUpAccount"
                     >Sign up</q-btn
                   >
