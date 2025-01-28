@@ -75,7 +75,8 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
         const response = await instance.get(callStr ?? '');
         this.timesheets = response.data.data;
         if (response.status === 204) {
-          this.errorMsg = response.statusText;
+          //this.errorMsg = response.statusText;
+          this.errorMsg = 'No Content';
           return true;
         }
       } catch (error) {

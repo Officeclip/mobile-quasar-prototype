@@ -60,7 +60,8 @@ export const useNotesStore = defineStore('notesStore', {
         }
         if (response.status === 204) {
           await this.resetNotesList();
-          this.errorMsg = response.statusText;
+          //this.errorMsg = response.statusText;
+          this.errorMsg = 'No Content';
           return true;
         }
       } catch (error) {
