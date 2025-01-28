@@ -91,7 +91,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
           this.url = this.links ? `${this.links}` : '';
         } else if (response.status === 204) {
           await this.resetTaskSummaryList();
-          this.errorMsg = response.statusText;
+          this.errorMsg = 'No Content';
           return true;
         } else {
           return true;
