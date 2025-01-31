@@ -78,7 +78,8 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
           this.url = this.links ? `${this.links}` : '';
         } else if (response.status === 204) {
           await this.resetContactSummaryList();
-          this.errorMsg = response.statusText;
+          //this.errorMsg = response.statusText;
+          this.errorMsg = 'No Content';
           return true;
         } else {
           return true;

@@ -81,7 +81,8 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
           this.url = this.links ? `${this.links}` : '';
         } else if (response.status === 204) {
           await this.resetIssuesSummaryList();
-          this.errorMsg = response.statusText;
+          //this.errorMsg = response.statusText;
+          this.errorMsg = 'No Content';
           return true;
         } else {
           return true;
