@@ -12,7 +12,7 @@ const props = defineProps<{
   taskSid: string;
 }>();
 
-const { subtask } = toRefs(props);
+const subtask = ref(props.subtask);
 const taskListsStore = useTaskListsStore();
 const userSummaryStore = useUserSummaryStore();
 const $q = useQuasar();
@@ -47,22 +47,22 @@ async function filterFn(val: string, update: any) {
   });
 }
 
-const newSubtask = ref({
-  id: '',
-  parentId: props.taskSid,
-  title: '',
-  description: '',
-  assignee: {
-    id: '',
-    name: '',
-  },
-  isCompleted: false,
-  completedDate: '',
-});
+// const newSubtask = ref({
+//   id: '',
+//   parentId: props.taskSid,
+//   title: '',
+//   description: '',
+//   assignee: {
+//     id: '',
+//     name: '',
+//   },
+//   isCompleted: false,
+//   completedDate: '',
+// });
 
-if (!subtask.value.id) {
-  subtask.value = newSubtask.value;
-}
+// if (!subtask.value.id) {
+//   subtask.value = newSubtask.value;
+// }
 
 const emit = defineEmits(['saveSubtask']);
 
@@ -87,9 +87,9 @@ const validateAll = () => {
   }
 };
 
-defineExpose({
-  emitSubtask,
-});
+// defineExpose({
+//   emitSubtask,
+// });
 </script>
 
 <template>

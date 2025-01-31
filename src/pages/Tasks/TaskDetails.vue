@@ -318,7 +318,7 @@ const newSubtask = ref({
                 <div>
                   <q-chip
                     v-for="tag in taskDetail?.tags"
-                    :key="tag"
+                    :key="tag.id"
                     dense
                     square
                     >{{ tag.name }}</q-chip

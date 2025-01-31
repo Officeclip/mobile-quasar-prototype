@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
-import { ref, toRefs } from 'vue';
+import { ref } from 'vue';
 import addEditSubtaskDialog from 'components/tasks/addEditSubtaskDialog.vue';
-import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { subTask } from 'src/models/task/subtask';
 
@@ -11,9 +10,8 @@ const props = defineProps<{
   taskSid: string;
 }>();
 
-const { subtask } = toRefs(props);
+const subtask = ref(props.subtask);
 const taskDetailsStore = useTaskDetailsStore();
-const router = useRouter();
 const $q = useQuasar();
 
 function toggleSubtaskStatus(id: string) {
@@ -47,22 +45,22 @@ async function editSubtask(subtask: subTask) {
   }
 }
 
-const newSubtask = ref({
-  id: '',
-  parentId: props.taskSid,
-  title: '',
-  description: '',
-  assignee: {
-    id: '',
-    name: '',
-  },
-  isCompleted: false,
-  completedDate: '',
-});
+// const newSubtask = ref({
+//   id: '',
+//   parentId: props.taskSid,
+//   title: '',
+//   description: '',
+//   assignee: {
+//     id: '',
+//     name: '',
+//   },
+//   isCompleted: false,
+//   completedDate: '',
+// });
 
-if (!subtask.value.id) {
-  subtask.value = newSubtask.value;
-}
+// if (!subtask.value.id) {
+//   subtask.value = newSubtask.value;
+// }
 
 const showEditSubtaskDialog = ref(false);
 const showConfirmationDialog = ref(false);
