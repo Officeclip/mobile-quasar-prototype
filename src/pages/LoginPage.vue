@@ -205,7 +205,8 @@ const redirectToSetUpAccount = () => {
                     >Sign up</q-btn
                   >
                 </div>
-                <div v-if="!util.isHideTestPage()">
+                <!-- <pre>ZZZZ:{{ util.isHideTestPage() }}</pre> -->
+                <div v-if="util.isHideTestPage()">
                   <q-btn
                     :to="{
                       name: 'loginPage2',

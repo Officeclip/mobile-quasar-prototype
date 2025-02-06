@@ -217,6 +217,11 @@ const routes: RouteRecordRaw[] = [
     name: 'settings',
     component: () => import('../pages/removeLocalData.vue'),
   },
+  {
+    path: '/timeOffSummary',
+    name: 'timeOffSummary',
+    component: () => import('../pages/TimeOff/TimeOffSummary.vue'),
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

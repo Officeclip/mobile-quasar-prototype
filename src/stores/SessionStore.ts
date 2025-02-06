@@ -98,6 +98,12 @@ export const useSessionStore = defineStore('sessionStore', {
           name: 'Issue Tracker',
           url: '/trackerBinderSummary',
         },
+        {
+          id: 10,
+          icon: 'alarm_off',
+          name: 'Time Off',
+          url: '/timeOffSummary',
+        },
       ];
       return defaultHomeIcons;
     },
