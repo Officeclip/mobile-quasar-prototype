@@ -4,6 +4,7 @@ const config: CapacitorConfig = {
   appId: 'com.example.app',
   appName: 'mobile',
   webDir: 'www',
+  bundledWebRuntime: false,
 };
 
 export default config;
