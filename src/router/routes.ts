@@ -222,6 +222,11 @@ const routes: RouteRecordRaw[] = [
     name: 'timeOffSummary',
     component: () => import('../pages/TimeOff/TimeOffSummary.vue'),
   },
+  {
+    path: '/editTimeOff/:id',
+    name: 'editTimeOff',
+    component: () => import('../pages/TimeOff/EditTimeOff.vue'),
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

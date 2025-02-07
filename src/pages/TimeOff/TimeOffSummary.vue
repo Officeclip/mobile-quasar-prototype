@@ -13,9 +13,41 @@ const myDrawer = ref();
 const tab = ref('my-requests'); // Default tab
 const timeOffSummaries = computed(() => timeOffStore.TimeOffSummaries);
 
+const columns = [
+  {
+    name: 'createdBy',
+    required: true,
+    label: 'Created By',
+    align: 'left' as const,
+    field: 'createdByUserName',
+    sortable: true,
+  },
+  {
+    name: 'dateRange',
+    label: 'Date Range',
+    align: 'left' as const,
+    field: (row) => `${row.fromDate} - ${row.toDate}`,
+    format: (val) => `${val}`,
+    sortable: true,
+  },
+  {
+    name: 'totalHours',
+    label: 'Total Hrs',
+    align: 'left',
+    field: 'totalHours',
+  },
+  {
+    name: 'payrollName',
+    label: 'Payroll Name',
+    align: 'left',
+    field: 'payrollName',
+  },
+  { name: 'status', label: 'Status', align: 'left', field: 'status' },
+];
+
 const loadTimeOffSummaries = async (tabValue: string) => {
   try {
-    await timeOffStore.getTimeOffSummariesFake(tabValue);
+    await timeOffStore.getTimeOffByCategory(tabValue);
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -27,8 +59,8 @@ const loadTimeOffSummaries = async (tabValue: string) => {
   }
 };
 
-onMounted(() => {
-  loadTimeOffSummaries(tab.value);
+onMounted(async () => {
+  await loadTimeOffSummaries(tab.value);
 });
 
 const handleTabClick = (tabValue: string) => {
@@ -40,8 +72,13 @@ const toggleLeftDrawer = () => {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
 };
-</script>
 
+const viewDetails = (row) => {
+  // router.push({ path: `/timeOffDetails/${row.id}` });
+  // alert(`View details clicked${row.id}`);
+  router.push({ path: `/editTimeOff/${row.id}` });
+};
+</script>
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
@@ -75,25 +112,54 @@ const toggleLeftDrawer = () => {
           no-caps
           inline-label
           align="justify"
+          active-color="primary"
+          class="bg-grey-4"
         >
           <q-tab name="my-requests" label="My Requests" icon="outbox" />
           <q-tab name="inbox" label="Inbox" icon="inbox"> </q-tab>
-
           <q-tab name="archived" label="Archived" icon="archive" />
         </q-tabs>
 
-        <q-list v-for="summary in timeOffSummaries" :key="summary.id">
-          <q-item>
-            <q-item-section>
-              <q-item-label>{{ summary.createdByUserName }}</q-item-label>
-            </q-item-section>
-            <q-item-section
-              >{{ summary.fromDate }} - {{ summary.toDate }}</q-item-section
+        <q-table
+          :rows="timeOffSummaries"
+          :columns="columns"
+          row-key="id"
+          flat
+          bordered
+          separator="horizontal"
+        >
+          <template v-slot:body="props">
+            <q-tr
+              :props="props"
+              @click="viewDetails(props.row)"
+              class="cursor-pointer"
             >
-            <q-item-section>{{ summary.status }}</q-item-section>
-          </q-item>
-          <q-separator inset></q-separator>
-        </q-list>
+              <q-td key="createdBy" :props="props">
+                <q-item-section>
+                  <q-item-label class="text-subtitle1">{{
+                    props.row.createdByUserName
+                  }}</q-item-label>
+                </q-item-section>
+              </q-td>
+              <td key="dateRange" :props="props">
+                <q-item-section>
+                  {{ props.row.fromDate }} - {{ props.row.toDate }}
+                </q-item-section>
+              </td>
+              <td key="totalHours" :props="props">
+                <q-item-section>{{ props.row.totalHours }} hrs</q-item-section>
+              </td>
+              <td key="payrollName" :props="props">
+                <q-item-section>{{ props.row.payrollName }}</q-item-section>
+              </td>
+              <td key="status" :props="props">
+                <q-item-section>
+                  <q-chip dense>{{ props.row.status }}</q-chip>
+                </q-item-section>
+              </td>
+            </q-tr>
+          </template>
+        </q-table>
       </q-page>
     </q-page-container>
   </q-layout>

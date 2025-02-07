@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { TimeOffSummary } from '../../models/TimeOff/timeOffSummary';
 import { TimeOffDetails } from 'src/models/TimeOff/timeOffDetails';
+import { TimeOffList } from 'src/models/TimeOff/timeOffList';
 import { Constants } from 'stores/Constants';
 import util from 'src/helpers/util';
 
@@ -8,29 +9,21 @@ export const useTimeOffStore = defineStore('timeOffStore', {
   state: () => ({
     timeOff: [] as TimeOffSummary[],
     timeOffDetail: {} as TimeOffDetails,
+    timeOffLists: [] as TimeOffList[],
     errorMsg: '' as string,
   }),
 
   getters: {
     TimeOffSummaries: (state) => state.timeOff,
     TimeOffDetail: (state) => state.timeOffDetail,
+    TimeOffLists: (state) => state.timeOffLists,
   },
 
   actions: {
-    async getTimeOffSummariesFake(category: string) {
-      const callStr = `http://localhost:3000/timeOffSummaries?category=${category}`;
-      try {
-        const instance = Constants.getAxiosInstance();
-        const response = await instance.get(callStr ?? '');
-        this.timeOff = response.data;
-      } catch (error) {
-        Constants.throwError(error);
-      }
-    },
-
     // getting the time off summary by category
     async getTimeOffByCategory(category: string) {
-      const callStr = `${util.getEndPointUrl()}/timeoff-summary?category=${category}`;
+      // const callStr = `${util.getEndPointUrl()}/timeoff-summary?category=${category}`;
+      const callStr = `http://localhost:3000/timeoff-summary?category=${category}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr ?? '');
@@ -42,11 +35,13 @@ export const useTimeOffStore = defineStore('timeOffStore', {
 
     // getting the time off details by id
     async getTimeOffDetails(id: string | string[]) {
+      const callStr = `http://localhost:3000/timeoff-detail/${id}`;
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(
-          `${util.getEndPointUrl()}/timeoff-detail/${id}`
-        );
+        // const response = await instance.get(
+        //   `${util.getEndPointUrl()}/timeoff-detail/${id}`
+        // );
+        const response = await instance.get(callStr ?? '');
         this.timeOffDetail = response.data;
       } catch (error) {
         Constants.throwError(error);
@@ -70,19 +65,19 @@ export const useTimeOffStore = defineStore('timeOffStore', {
     },
 
     //deleting the time off details
-    async deleteTimeOff(id: string | string[]) {
-      try {
-        const instance = Constants.getAxiosInstance();
-        const response = await instance.delete(
-          `${util.getEndPointUrl()}/timeoff-detail/${id}`
-        );
-        if (response.status === 200) {
-          this.timeOff = response.data;
-        }
-      } catch (error) {
-        Constants.throwError(error);
-      }
-    },
+    // async deleteTimeOff(id: string | string[]) {
+    //   try {
+    //     const instance = Constants.getAxiosInstance();
+    //     const response = await instance.delete(
+    //       `${util.getEndPointUrl()}/timeoff-detail/${id}`
+    //     );
+    //     if (response.status === 200) {
+    //       this.timeOff = response.data;
+    //     }
+    //   } catch (error) {
+    //     Constants.throwError(error);
+    //   }
+    // },
 
     //adding the time off details
     async addTimeOffDetails(timeOffDetail: TimeOffDetails) {
@@ -95,6 +90,20 @@ export const useTimeOffStore = defineStore('timeOffStore', {
         if (response.status === 200) {
           this.timeOffDetail = response.data;
         }
+      } catch (error) {
+        Constants.throwError(error);
+      }
+    },
+
+    async getTimeOffLists() {
+      const callStr = 'http://localhost:3000/timeoff-list';
+      try {
+        const instance = Constants.getAxiosInstance();
+        // const response = await instance.get(
+        //   `${util.getEndPointUrl()}/timeoff-list`
+        // );
+        const response = await instance.get(callStr ?? '');
+        this.timeOffLists = response.data;
       } catch (error) {
         Constants.throwError(error);
       }
