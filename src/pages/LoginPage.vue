@@ -175,30 +175,20 @@ const redirectToSetUpAccount = () => {
                   ></q-btn>
                 </q-item>
               </q-card-section>
-              <q-item>
-                <div class="row items-center">
-                  <div>
-                    <q-item-section
-                      ><q-item-label caption
-                        >Your linked Api Url is:</q-item-label
-                      ></q-item-section
-                    >
+              <q-card-section>
+                <q-item class="row items-center q-gutter-sm">
+                  <div class="text-caption q-mr-sm">
+                    Your linked Api Url is:
                   </div>
-                  <div>
-                    <q-item-section>
-                      <q-item-label class="q-ml-sm">{{
-                        util.getEndPointUrl()
-                      }}</q-item-label></q-item-section
-                    >
-                  </div>
-                </div></q-item
-              >
+                  <div>{{ util.getEndPointUrl() }}</div>
+                </q-item>
+              </q-card-section>
               <q-card-section class="text-center q-pt-none">
-                <div class="text-grey-8">
+                <div class="text-body2">
                   Don't have an account yet?
                   <q-btn
                     color="primary"
-                    class="text-bold q-pa-none"
+                    class="text-subtitle2 q-pa-none"
                     no-caps
                     flat
                     @click="redirectToSetUpAccount"
@@ -228,7 +218,7 @@ const redirectToSetUpAccount = () => {
 </template>
 <style>
 .my_card {
-  width: 25rem;
+  min-width: 25rem;
   border-radius: 8px;
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
     0 8px 10px -6px rgb(0 0 0 / 0.1);

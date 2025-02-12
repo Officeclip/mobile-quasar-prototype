@@ -101,6 +101,7 @@ const redirectToSetUpAccount = () => {
               <q-item-section>
                 <q-input
                   style="min-width: 250px"
+                  class="q-pa-md"
                   v-model="inputValue"
                   placeholder="enter valid rest api url"
                   hint="Ex: https/your-site/officeclip/api"
@@ -112,8 +113,9 @@ const redirectToSetUpAccount = () => {
                   :readonly="readOnly"
                   :bg-color="bgColor"
               /></q-item-section>
-              <q-item-section side top>
+              <q-item-section side class="q-pb-md">
                 <q-btn
+                  class="q-mb-sm"
                   outline
                   color="primary"
                   no-caps
