@@ -144,6 +144,50 @@ const closePopUp = () => {
 };
 </script>
 <template>
+  <div>
+    <q-banner class="q-mb-md bg-grey-4" dense>
+      <!-- <template v-slot:avatar>
+        <q-icon name="info" />
+      </template> -->
+      <div>
+        <q-item>
+          <q-item-section
+            ><q-item-label class="text-h6"
+              >Workflow Information <q-icon name="info"
+            /></q-item-label>
+            <q-item-label>
+              Your workflow is set to
+              <span class="text-subtitle1">{{ submitToUserName?.name }}</span>
+              ({{ workFlow?.workflowType }}), please click the button to submit,
+            </q-item-label></q-item-section
+          >
+          <q-item-section side
+            ><q-btn
+              icon="send"
+              color="primary"
+              flat
+              round
+              dense
+              @click="
+                () => {
+                  /* your action here */
+                }
+              " /></q-item-section
+        ></q-item>
+      </div>
+      <!-- <div v-if="workFlow?.submitToUserId">
+        <q-btn
+          class="q-px-sm"
+          no-caps
+          dense
+          color="primary"
+          label="Submit"
+          @click="submitButtonWorkFlow"
+        />
+        <q-item-label> to: {{ submitToUserName?.name }} </q-item-label>
+      </div> -->
+    </q-banner>
+  </div>
   <div class="q-mt-sm">
     <!-- if submitToUserId there then this will comes up -->
     <div
@@ -159,9 +203,7 @@ const closePopUp = () => {
           label="Submit"
           @click="submitButtonWorkFlow"
         />
-        <q-item-label class="text-caption">
-          to: {{ submitToUserName?.name }}
-        </q-item-label>
+        <q-item-label> to: {{ submitToUserName?.name }} </q-item-label>
       </div>
       <div v-if="workFlow?.approveToUserId">
         <q-btn
@@ -172,7 +214,7 @@ const closePopUp = () => {
           label="Approve"
           @click="approveButtonWorkFlow"
         />
-        <q-item-label class="text-caption q-mx-sm"
+        <q-item-label class="q-mx-sm"
           >to: {{ approveToUserName?.name }}</q-item-label
         >
       </div>
@@ -185,7 +227,7 @@ const closePopUp = () => {
           label="Reject"
           @click="rejectButtonWorkFlow"
         />
-        <q-item-label class="text-caption q-mx-sm"
+        <q-item-label class="q-mx-sm"
           >to: {{ rejectToUserName?.name }}</q-item-label
         >
       </div>
