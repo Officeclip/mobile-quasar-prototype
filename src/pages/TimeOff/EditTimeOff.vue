@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, computed, ref, Ref } from 'vue';
+import { onMounted, ref, Ref } from 'vue';
 import { useTimeOffStore } from '../../stores/timeOff/timeOffStore';
 import { useRouter, useRoute } from 'vue-router';
 import TimeOffForm from '../../components/TimeOff/TimeOffFormCtrl.vue';
@@ -12,13 +12,15 @@ const route = useRoute();
 const router = useRouter();
 const timeOffStore = useTimeOffStore();
 
-const timeOffSid = route.params.id;
+const id = Array.isArray(route.params.id)
+  ? route.params.id[0]
+  : route.params.id;
 
-const timeOff: Ref<TimeOffDetails> = ref(null);
+const timeOff: Ref<TimeOffDetails> = ref({} as TimeOffDetails);
 
-onMounted(async () => {
+const loadTimeOffDetails = async (id: string) => {
   try {
-    await timeOffStore.getTimeOffDetails(timeOffSid);
+    await timeOffStore.getTimeOffDetails(id);
     const response = timeOffStore.TimeOffDetail;
     timeOff.value = response;
   } catch (error) {
@@ -29,6 +31,10 @@ onMounted(async () => {
       await router.push({ path: '/timesheetsAll' });
     });
   }
+};
+
+onMounted(async () => {
+  await loadTimeOffDetails(id);
 });
 
 const childComponent = ref(null);

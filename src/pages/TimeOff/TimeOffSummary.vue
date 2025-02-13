@@ -76,7 +76,7 @@ const toggleLeftDrawer = () => {
 const viewDetails = (row) => {
   // router.push({ path: `/timeOffDetails/${row.id}` });
   // alert(`View details clicked${row.id}`);
-  router.push({ path: `/editTimeOff/${row.id}` });
+  router.push({ path: `/timeOffDetails/${row.id}` });
 };
 </script>
 <template>

@@ -34,7 +34,7 @@ export const useTimeOffStore = defineStore('timeOffStore', {
     },
 
     // getting the time off details by id
-    async getTimeOffDetails(id: string | string[]) {
+    async getTimeOffDetails(id: string) {
       const callStr = `http://localhost:3000/timeoff-detail/${id}`;
       try {
         const instance = Constants.getAxiosInstance();
@@ -65,19 +65,19 @@ export const useTimeOffStore = defineStore('timeOffStore', {
     },
 
     //deleting the time off details
-    // async deleteTimeOff(id: string | string[]) {
-    //   try {
-    //     const instance = Constants.getAxiosInstance();
-    //     const response = await instance.delete(
-    //       `${util.getEndPointUrl()}/timeoff-detail/${id}`
-    //     );
-    //     if (response.status === 200) {
-    //       this.timeOff = response.data;
-    //     }
-    //   } catch (error) {
-    //     Constants.throwError(error);
-    //   }
-    // },
+    async deleteTimeOff(id: string | string[]) {
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.delete(
+          `${util.getEndPointUrl()}/timeoff-detail/${id}`
+        );
+        if (response.status === 200) {
+          this.timeOff = response.data;
+        }
+      } catch (error) {
+        Constants.throwError(error);
+      }
+    },
 
     //adding the time off details
     async addTimeOffDetails(timeOffDetail: TimeOffDetails) {

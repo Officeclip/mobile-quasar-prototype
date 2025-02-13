@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import { useTimeOffStore } from '../../stores/timeOff/timeOffStore';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
@@ -25,6 +25,13 @@ const loadTimeOffLists = async () => {
   }
 };
 
+watch(
+  () => props.timeOff,
+  (newTimeOff) => {
+    timeOffData.value = newTimeOff;
+  }
+);
+
 onMounted(async () => {
   await loadTimeOffLists();
 });
@@ -33,40 +40,77 @@ onMounted(async () => {
 <template>
   <q-page class="q-pa-md">
     <q-card>
-      <pre>{{ timeOffData }}</pre>
       <q-card-section>
-        <q-select
-          label="Category"
-          v-model="timeOffData.payrollSid"
-          :options="timeOffCategoryLists"
-          :rules="[isDateValid]"
-          hide-bottom-space
-          ref="dateRef"
-          option-label="name"
-          option-value="id"
-          emit-value
-          map-options
-        />
-        <q-input
-          v-model="timeOffData.startDate"
-          label="Start Date"
-          type="date"
-          outlined
-          required
-        />
-        <q-input
-          v-model="timeOffData.endDate"
-          label="End Date"
-          type="date"
-          outlined
-          required
-        />
-        <q-input
-          v-model="timeOffData.description"
-          label="Reason"
-          outlined
-          required
-        />
+        <q-list>
+          <q-item>
+            <q-item-section>
+              <q-input
+                v-model="timeOffData.createdBy"
+                label="Employee Name"
+                required
+              /> </q-item-section
+          ></q-item>
+
+          <q-item>
+            <q-item-section>
+              <q-select
+                label="Category"
+                v-model="timeOffData.payrollSid"
+                :options="timeOffCategoryLists"
+                :rules="[isDateValid]"
+                hide-bottom-space
+                ref="dateRef"
+                option-label="name"
+                option-value="id"
+                emit-value
+                map-options
+              />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-input
+                v-model="timeOffData.totalHours"
+                label="Hours Requested"
+                required
+              /> </q-item-section
+          ></q-item>
+          <q-item>
+            <q-item-section>
+              <q-input
+                v-model="timeOffData.status"
+                label="Status"
+                required
+              /> </q-item-section
+          ></q-item>
+          <q-item>
+            <q-item-section>
+              <q-input
+                v-model="timeOffData.startDate"
+                label="Start Date"
+                type="date"
+                required
+              />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-input
+                v-model="timeOffData.endDate"
+                label="End Date"
+                type="date"
+                required
+              /> </q-item-section
+          ></q-item>
+          <q-item>
+            <q-item-section>
+              <q-input
+                v-model="timeOffData.description"
+                label="Reason"
+                required
+              /> </q-item-section
+          ></q-item>
+        </q-list>
       </q-card-section>
     </q-card>
   </q-page>

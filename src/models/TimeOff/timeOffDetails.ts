@@ -10,10 +10,12 @@ export interface TimeOffDetails {
   totalHours: number;
   createdDate: string;
   createdUserSid: string;
+  createdBy: string;
   modifiedDate: string;
   modifiedUserSid: string;
   payrollName: string;
   payrollSid: string;
   comments: Comments[];
+  status: string;
   security: security;
 }
