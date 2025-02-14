@@ -144,48 +144,116 @@ const closePopUp = () => {
 };
 </script>
 <template>
-  <div>
+  <div v-if="workFlow?.workflowType == 'auto'">
     <q-banner class="q-mb-md bg-grey-4" dense>
-      <!-- <template v-slot:avatar>
-        <q-icon name="info" />
-      </template> -->
       <div>
         <q-item>
           <q-item-section
-            ><q-item-label class="text-h6"
-              >Workflow Information <q-icon name="info"
-            /></q-item-label>
-            <q-item-label>
+            ><q-item-label class="text-h6 row items-center"
+              ><q-icon name="info" />Workflow Information
+            </q-item-label>
+            <q-item-label
+              v-if="props?.stageId == 1 && workFlow?.workflowType === 'auto'"
+            >
               Your workflow is set to
               <span class="text-subtitle1">{{ submitToUserName?.name }}</span>
-              ({{ workFlow?.workflowType }}), please click the button to submit,
-            </q-item-label></q-item-section
-          >
+              ({{ workFlow?.workflowType }}), click on the button to submit the
+              <span>{{ props?.entityType }}</span> to the next stage,
+            </q-item-label>
+
+            <q-item-label v-else>
+              <span class="text-subtitle1">{{ rejectToUserName?.name }}</span>
+              is submitted ({{ workFlow?.workflowType }})
+              <span>{{ props?.entityType }}</span> to you, please take the
+              action to approve or reject,
+            </q-item-label>
+          </q-item-section>
           <q-item-section side
             ><q-btn
+              v-if="workFlow?.submitToUserId"
               icon="send"
               color="primary"
               flat
               round
               dense
-              @click="
-                () => {
-                  /* your action here */
-                }
-              " /></q-item-section
+              @click="submitButtonWorkFlow"
+            />
+            <q-btn
+              v-if="workFlow?.approveToUserId"
+              icon="check_circle"
+              color="primary"
+              flat
+              round
+              dense
+              @click="approveButtonWorkFlow"
+            />
+            <q-btn
+              v-if="workFlow?.rejectToUserId"
+              icon="cancel"
+              color="primary"
+              flat
+              round
+              dense
+              @click="rejectButtonWorkFlow"
+            /> </q-item-section
         ></q-item>
       </div>
-      <!-- <div v-if="workFlow?.submitToUserId">
-        <q-btn
-          class="q-px-sm"
-          no-caps
-          dense
-          color="primary"
-          label="Submit"
-          @click="submitButtonWorkFlow"
-        />
-        <q-item-label> to: {{ submitToUserName?.name }} </q-item-label>
-      </div> -->
+    </q-banner>
+  </div>
+  <!-- handling manual workflow -->
+  <div v-else>
+    <q-banner class="q-mb-md bg-grey-4" dense>
+      <div>
+        <q-item>
+          <q-item-section
+            ><q-item-label class="text-h6 row items-center"
+              ><q-icon name="info" />Workflow Information
+            </q-item-label>
+            <q-item-label>
+              You can approve the timesheet by click on approve button or you
+              can select the user to submit the timesheet to the next stage
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-btn
+              icon="check_circle"
+              color="primary"
+              flat
+              round
+              dense
+              @click="approveButtonWorkFlow"
+            /> </q-item-section
+        ></q-item>
+        <q-item>
+          <q-item-section>
+            <q-item-label>
+              <q-select
+                outlined
+                dense
+                label="Submit To:"
+                v-model="workFlowModel"
+                :options="workFlowUsers"
+                option-label="name"
+                option-value="id"
+                map-options
+                emit-value
+                @update:model-value="(newValue: any) => manualWorkflow(newValue)"
+              />
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-btn
+              v-if="workFlow?.submitToUserId"
+              icon="send"
+              color="primary"
+              flat
+              round
+              dense
+              @click="submitButtonWorkFlow"
+            />
+          </q-item-section>
+        </q-item>
+      </div>
     </q-banner>
   </div>
   <div class="q-mt-sm">
