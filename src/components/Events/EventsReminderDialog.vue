@@ -44,37 +44,6 @@ function generateReminder() {
 </script>
 
 <template>
-  <!-- <q-card>
-    <div class="q-pa-lg row flex-center">
-      <q-item-label>Reminders:</q-item-label>
-      <q-select
-        v-model="selectedReminderOption"
-        :options="reminderOptions"
-        class="select-spacing"
-        emit-value
-        map-options
-        standout
-      />
-
-      <q-select
-        v-model="selectedReminderTime"
-        :options="reminderTimes"
-        class="select-spacing"
-        emit-value
-        map-options
-        standout
-      />
-      <q-item-label>before it is due</q-item-label>
-    </div>
-    <q-card-actions>
-      <q-btn
-        v-close-popup
-        color="primary"
-        label="Save"
-        @click="generateReminder"
-      />
-    </q-card-actions>
-  </q-card> -->
   <q-card style="width: 80%">
     <q-toolbar>
       <q-avatar>
