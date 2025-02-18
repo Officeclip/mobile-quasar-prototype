@@ -36,12 +36,12 @@ const columns = [
     align: 'left',
     field: 'totalHours',
   },
-  {
-    name: 'payrollName',
-    label: 'Payroll Name',
-    align: 'left',
-    field: 'payrollName',
-  },
+  // {
+  //   name: 'payrollName',
+  //   label: 'Payroll Name',
+  //   align: 'left',
+  //   field: 'payrollName',
+  // },
   { name: 'status', label: 'Status', align: 'left', field: 'status' },
 ];
 
@@ -151,9 +151,9 @@ const viewDetails = (row) => {
               <td key="totalHours" :props="props">
                 <q-item-section>{{ props.row.totalHours }} hrs</q-item-section>
               </td>
-              <td key="payrollName" :props="props">
+              <!-- <td key="payrollName" :props="props">
                 <q-item-section>{{ props.row.payrollName }}</q-item-section>
-              </td>
+              </td> -->
               <td key="status" :props="props">
                 <q-item-section>
                   <q-chip dense>{{ props.row.status }}</q-chip>

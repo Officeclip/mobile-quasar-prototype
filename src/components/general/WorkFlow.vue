@@ -150,19 +150,23 @@ const closePopUp = () => {
         <q-item>
           <q-item-section
             ><q-item-label class="text-h6 row items-center"
-              ><q-icon name="info" />Workflow Information
+              ><q-icon name="info" class="q-mr-sm" />Workflow Information
             </q-item-label>
             <q-item-label
               v-if="props?.stageId == 1 && workFlow?.workflowType === 'auto'"
             >
               Your workflow is set to
-              <span class="text-subtitle1">{{ submitToUserName?.name }}</span>
+              <span class="text-subtitle1 text-weight-medium">{{
+                submitToUserName?.name
+              }}</span>
               ({{ workFlow?.workflowType }}), click on the button to submit the
               <span>{{ props?.entityType }}</span> to the next stage,
             </q-item-label>
 
             <q-item-label v-else>
-              <span class="text-subtitle1">{{ rejectToUserName?.name }}</span>
+              <span class="text-subtitle1 text-weight-medium">{{
+                rejectToUserName?.name
+              }}</span>
               is submitted ({{ workFlow?.workflowType }})
               <span>{{ props?.entityType }}</span> to you, please take the
               action to approve or reject,
@@ -226,7 +230,7 @@ const closePopUp = () => {
         ></q-item>
         <q-item>
           <q-item-section>
-            <q-item-label>
+            <q-item-label style="width: 80%">
               <q-select
                 outlined
                 dense
@@ -256,8 +260,10 @@ const closePopUp = () => {
       </div>
     </q-banner>
   </div>
-  <div class="q-mt-sm">
-    <!-- if submitToUserId there then this will comes up -->
+
+  <!-- use this below commented code for switched into old workflow design -->
+  <!-- <div class="q-mt-sm">
+    if submitToUserId there then this will comes up
     <div
       v-if="workFlow?.workflowType == 'auto'"
       class="row items-center justify-center"
@@ -301,7 +307,7 @@ const closePopUp = () => {
       </div>
     </div>
 
-    <!-- if the workflow routing setup as manual this will come up -->
+    if the workflow routing setup as manual this will come up
     <div
       v-if="workFlow?.workflowType == 'manual'"
       class="row items-center justify-center"
@@ -337,7 +343,7 @@ const closePopUp = () => {
         @click="approveButtonWorkFlow"
       />
     </div>
-  </div>
+  </div> -->
   <div>
     <q-dialog v-model="showConfirmationDialog">
       <q-card>
