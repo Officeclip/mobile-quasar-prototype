@@ -262,6 +262,14 @@ function handleRemove(item: { id: string }) {
 const regarding = computed(() => {
   return `${event.value?.parent.type.name} : ${event.value?.parent.value.name}`;
 });
+
+const remindTo = computed(() => {
+  return event.value?.reminder.to;
+});
+
+const reminderValue = computed(() => {
+  return event.value?.reminder.beforeMinutes;
+});
 </script>
 
 <template>
@@ -506,6 +514,16 @@ const regarding = computed(() => {
           </template>
         </q-select>
       </q-item>
+
+      <q-item v-ripple clickable @click="reminderDialogOpened = true">
+        <q-item-section avatar>
+          <q-icon color="primary" name="alarm" size="sm" />
+        </q-item-section>
+        <q-item-section>{{ reminderTextInfo }}</q-item-section>
+        <q-item-section side>
+          <q-icon color="primary" name="chevron_right" />
+        </q-item-section>
+      </q-item>
       <q-item>
         <q-input
           v-model="event.url"
@@ -616,6 +634,8 @@ const regarding = computed(() => {
     </q-dialog>
     <q-dialog v-model="reminderDialogOpened">
       <EventsReminderDialog
+        :remindTo="remindTo"
+        :reminderValue="reminderValue"
         @reminder-text-generated="handleReminderText"
         @reminder-data-generated="handleReminderData"
       />
