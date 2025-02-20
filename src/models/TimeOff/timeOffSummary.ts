@@ -1,13 +1,17 @@
 import { security } from '../security';
 
 export interface TimeOffSummary {
-  createdByUserName: string;
-  employeeId: string;
   id: string;
   status: string;
-  totalHours: number;
-  fromDate: string;
-  toDate: string;
+  startDate: string;
+  endDate: string;
   stageId: number;
+  employeeId: string;
+  createdByUserName: string;
+  totalHours: number;
+  payroll: {
+    id: string;
+    name: string;
+  };
   security: security;
 }

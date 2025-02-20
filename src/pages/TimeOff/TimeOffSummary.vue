@@ -11,6 +11,13 @@ const $q = useQuasar();
 const myDrawer = ref();
 
 const tab = ref('my-requests'); // Default tab
+const title = computed(() =>
+  tab.value === 'my-requests'
+    ? 'My Requests'
+    : tab.value === 'inbox'
+    ? 'Inbox'
+    : 'Archived'
+);
 const timeOffSummaries = computed(() => timeOffStore.TimeOffSummaries);
 
 const columns = [
@@ -102,7 +109,7 @@ const viewDetails = (row) => {
           round
           @click="toggleLeftDrawer"
         />
-        <q-toolbar-title>Time Off({{ tab }})</q-toolbar-title>
+        <q-toolbar-title>Time Off: {{ title }}</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <drawer ref="myDrawer" />
@@ -145,7 +152,7 @@ const viewDetails = (row) => {
               </q-td>
               <td key="dateRange" :props="props">
                 <q-item-section>
-                  {{ props.row.fromDate }} - {{ props.row.toDate }}
+                  {{ props.row.startDate }} - {{ props.row.endDate }}
                 </q-item-section>
               </td>
               <td key="totalHours" :props="props">

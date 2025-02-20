@@ -7,10 +7,27 @@ import { useRouter } from 'vue-router';
 const props = defineProps(['timeOff']);
 const timeOffData = ref(props.timeOff);
 const $q = useQuasar();
+// const statusName = computed({
+//   get: () => (timeOffData.value.status ? timeOffData.value.status.name : ''),
+//   set: (value) => {
+//     if (timeOffData.value.status) {
+//       timeOffData.value.status.id = value;
+//     }
+//   },
+// });
+const payrollName = computed({
+  get: () => (timeOffData.value.payroll ? timeOffData.value.payroll.id : ''),
+  set: (value) => {
+    if (timeOffData.value.payroll) {
+      timeOffData.value.payroll.id = value.id;
+      timeOffData.value.payroll.name = value.name;
+    }
+  },
+});
 const router = useRouter();
 
 const timeOffStore = useTimeOffStore();
-const timeOffCategoryLists = computed(() => timeOffStore.TimeOffLists);
+const timeOffCategoryLists = computed(() => timeOffStore.CategoryLists);
 
 const loadTimeOffLists = async () => {
   try {
@@ -40,12 +57,13 @@ onMounted(async () => {
 <template>
   <q-page class="q-pa-md">
     <q-card>
+      <!-- <pre>{{ timeOffData }}</pre> -->
       <q-card-section>
         <q-list>
           <q-item>
             <q-item-section>
               <q-input
-                v-model="timeOffData.createdBy"
+                v-model="timeOffData.createdByUserName"
                 label="Employee Name"
                 required
               /> </q-item-section
@@ -53,16 +71,16 @@ onMounted(async () => {
 
           <q-item>
             <q-item-section>
+              <!-- <pre>PP{{ timeOffCategoryLists }}</pre> -->
               <q-select
                 label="Category"
-                v-model="timeOffData.payrollSid"
+                v-model="payrollName"
                 :options="timeOffCategoryLists"
                 :rules="[isDateValid]"
                 hide-bottom-space
                 ref="dateRef"
                 option-label="name"
                 option-value="id"
-                emit-value
                 map-options
               />
             </q-item-section>
@@ -75,14 +93,14 @@ onMounted(async () => {
                 required
               /> </q-item-section
           ></q-item>
-          <q-item>
+          <!-- <q-item>
             <q-item-section>
               <q-input
-                v-model="timeOffData.status"
+                v-model="statusName"
                 label="Status"
                 required
               /> </q-item-section
-          ></q-item>
+          ></q-item> -->
           <q-item>
             <q-item-section>
               <q-input

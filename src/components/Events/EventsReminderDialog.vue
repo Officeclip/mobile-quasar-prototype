@@ -1,8 +1,12 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useReminderDataStore } from 'stores/reminder/reminderData';
 
 const props = defineProps(['remindTo', 'reminderValue']);
+
+const label = computed(() => {
+  return props?.remindTo ? 'Update' : 'Save';
+});
 
 const reminderDataStore = useReminderDataStore();
 reminderDataStore.getReminderObject();
@@ -44,10 +48,10 @@ function generateReminder() {
 </script>
 
 <template>
-  <q-card style="width: 80%">
-    <q-toolbar>
+  <q-card bordered style="width: 80%; border-color: #ff5722">
+    <q-toolbar class="bg-orange text-white">
       <q-avatar>
-        <q-icon color="primary" name="alarm" size="md" />
+        <q-icon name="alarm" size="md" />
       </q-avatar>
 
       <q-toolbar-title
@@ -66,7 +70,6 @@ function generateReminder() {
           :options="reminderOptions"
           emit-value
           map-options
-          standout
       /></q-item-label>
       <q-item-label>
         <q-select
@@ -75,19 +78,18 @@ function generateReminder() {
           class="select-spacing"
           emit-value
           map-options
-          standout
       /></q-item-label>
       <q-item-label class="q-ml-xs">before it is due</q-item-label>
     </q-card-section>
     <q-card-actions align="right">
       <q-btn
         flat
+        no-caps
         v-close-popup
         color="primary"
-        label="Save"
+        :label="label"
         @click="generateReminder"
       >
-        <template #default></template>
       </q-btn>
     </q-card-actions>
   </q-card>

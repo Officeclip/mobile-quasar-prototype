@@ -1,16 +1,18 @@
 {
   "timeoff-summary": [
     {
-      "createdByUserName": "John Doe",
-      "employeeId": "E001",
       "id": "T001",
-      "category": "my-requests",
       "status": "Approved",
-      "payrollName": "Casual Leave",
+      "startDate": "2023-01-01",
+      "endDate": "2023-01-01",
+      "stageId": 1,
+      "employeeId": "E001",
+      "createdByUserName": "John Doe",
       "totalHours": 8,
-      "fromDate": "2023-01-01",
-      "toDate": "2023-01-01",
-      "stageId": 1,
+      "payroll": {
+        "id": "pl003",
+        "name": "Personal Leave"
+      },
       "security": {
         "read": true,
         "write": true,
@@ -19,16 +21,18 @@
       }
     },
     {
-      "createdByUserName": "Jane Smith",
-      "employeeId": "E002",
       "id": "T002",
-      "category": "my-requests",
       "status": "Pending",
-      "payrollName": "Sick Leave",
+      "startDate": "2023-01-02",
+      "endDate": "2023-01-03",
+      "stageId": 2,
+      "employeeId": "E002",
+      "createdByUserName": "Jane Smith",
       "totalHours": 16,
-      "fromDate": "2023-01-02",
-      "toDate": "2023-01-03",
-      "stageId": 2,
+      "payroll": {
+        "id": "sl002",
+        "name": "Sick Leave"
+      },
       "security": {
         "read": true,
         "write": true,
@@ -37,16 +41,18 @@
       }
     },
     {
-      "createdByUserName": "Alice Johnson",
-      "employeeId": "E003",
       "id": "T003",
-      "category": "my-requests",
       "status": "Rejected",
-      "payrollName": "Personal Leave",
+      "startDate": "2023-01-04",
+      "endDate": "2023-01-06",
+      "stageId": 3,
+      "employeeId": "E003",
+      "createdByUserName": "Alice Johnson",
       "totalHours": 24,
-      "fromDate": "2023-01-04",
-      "toDate": "2023-01-06",
-      "stageId": 3,
+      "payroll": {
+        "id": "pl003",
+        "name": "Personal Leave"
+      },
       "security": {
         "read": true,
         "write": true,
@@ -55,16 +61,18 @@
       }
     },
     {
-      "createdByUserName": "Bob Brown",
-      "employeeId": "E004",
       "id": "T004",
-      "category": "my-requests",
       "status": "Approved",
-      "payrollName": "Sick Leave",
+      "startDate": "2023-01-07",
+      "endDate": "2023-01-10",
+      "stageId": 1,
+      "employeeId": "E004",
+      "createdByUserName": "Bob Brown",
       "totalHours": 32,
-      "fromDate": "2023-01-07",
-      "toDate": "2023-01-10",
-      "stageId": 1,
+      "payroll": {
+        "id": "sl002",
+        "name": "Sick Leave"
+      },
       "security": {
         "read": true,
         "write": true,
@@ -73,16 +81,18 @@
       }
     },
     {
-      "createdByUserName": "Charlie Davis",
-      "employeeId": "E005",
       "id": "T005",
-      "category": "inbox",
       "status": "Pending",
-      "payrollName": "Vacation",
+      "startDate": "2023-01-11",
+      "endDate": "2023-01-15",
+      "stageId": 2,
+      "employeeId": "E005",
+      "createdByUserName": "Charlie Davis",
       "totalHours": 40,
-      "fromDate": "2023-01-11",
-      "toDate": "2023-01-15",
-      "stageId": 2,
+      "payroll": {
+        "id": "va001",
+        "name": "Vacation"
+      },
       "security": {
         "read": true,
         "write": true,
@@ -91,16 +101,18 @@
       }
     },
     {
-      "createdByUserName": "Diana Evans",
-      "employeeId": "E006",
       "id": "T006",
-      "category": "inbox",
       "status": "Rejected",
-      "payrollName": "Paternity Leave",
+      "startDate": "2023-01-16",
+      "endDate": "2023-01-20",
+      "stageId": 3,
+      "employeeId": "E006",
+      "createdByUserName": "Diana Evans",
       "totalHours": 48,
-      "fromDate": "2023-01-16",
-      "toDate": "2023-01-20",
-      "stageId": 3,
+      "payroll": {
+        "id": "pl005",
+        "name": "Paternity Leave"
+      },
       "security": {
         "read": true,
         "write": true,
@@ -109,16 +121,18 @@
       }
     },
     {
-      "createdByUserName": "Ethan Foster",
-      "employeeId": "E007",
       "id": "T007",
-      "category": "inbox",
       "status": "Approved",
-      "payrollName": "Casual Leave",
+      "startDate": "2023-01-21",
+      "endDate": "2023-01-26",
+      "stageId": 1,
+      "employeeId": "E007",
+      "createdByUserName": "Ethan Foster",
       "totalHours": 56,
-      "fromDate": "2023-01-21",
-      "toDate": "2023-01-26",
-      "stageId": 1,
+      "payroll": {
+        "id": "cl006",
+        "name": "Casual Leave"
+      },
       "security": {
         "read": true,
         "write": true,
@@ -127,16 +141,18 @@
       }
     },
     {
-      "createdByUserName": "Fiona Green",
-      "employeeId": "E008",
       "id": "T008",
-      "category": "inbox",
       "status": "Pending",
-      "payrollName": "Vacation",
-      "totalHours": 64,
-      "fromDate": "2023-01-27",
-      "toDate": "2023-02-02",
+      "startDate": "2023-01-27",
+      "endDate": "2023-02-02",
       "stageId": 2,
+      "employeeId": "E008",
+      "createdByUserName": "Fiona Green",
+      "totalHours": 64,
+      "payroll": {
+        "id": "va001",
+        "name": "Vacation"
+      },
       "security": {
         "read": true,
         "write": true,
@@ -145,16 +161,18 @@
       }
     },
     {
-      "createdByUserName": "George Harris",
-      "employeeId": "E009",
       "id": "T009",
-      "category": "inbox",
       "status": "Rejected",
-      "payrollName": "Maternity Leave",
-      "totalHours": 72,
-      "fromDate": "2023-02-03",
-      "toDate": "2023-02-10",
+      "startDate": "2023-02-03",
+      "endDate": "2023-02-10",
       "stageId": 3,
+      "employeeId": "E009",
+      "createdByUserName": "George Harris",
+      "totalHours": 72,
+      "payroll": {
+        "id": "ml004",
+        "name": "Maternity Leave"
+      },
       "security": {
         "read": true,
         "write": true,
@@ -163,16 +181,18 @@
       }
     },
     {
-      "createdByUserName": "Hannah Irving",
-      "employeeId": "E010",
       "id": "T010",
-      "category": "archived",
       "status": "Approved",
-      "payrollName": "Casual Leave",
-      "totalHours": 80,
-      "fromDate": "2023-02-11",
-      "toDate": "2023-02-20",
+      "startDate": "2023-02-11",
+      "endDate": "2023-02-20",
       "stageId": 1,
+      "employeeId": "E010",
+      "createdByUserName": "Hannah Irving",
+      "totalHours": 80,
+      "payroll": {
+        "id": "cl006",
+        "name": "Casual Leave"
+      },
       "security": {
         "read": true,
         "write": true,
@@ -185,20 +205,23 @@
     {
       "id": "T001",
       "description": "Vacation to relax and unwind.",
+      "status": {
+        "id": 1,
+        "name": "Approved"
+      },
       "startDate": "2023-01-01",
       "startTime": "09:00",
       "endDate": "2023-01-10",
       "datesRequested": [],
       "totalHours": 80,
-      "createdDate": "2022-12-01",
       "createdUserSid": "user1",
-      "createdBy": "John Doe",
-      "modifiedDate": "2022-12-02",
-      "modifiedUserSid": "user2",
-      "payrollName": "Personal Leave",
-      "payrollSid": "pl003",
+      "createdDate": "2022-12-01",
+      "createdByUserName": "John Doe",
+      "payroll": {
+        "id": "pl003",
+        "name": "Personal Leave"
+      },
       "comments": [],
-      "status": "Approved",
       "security": {
         "read": true,
         "write": true,
@@ -209,20 +232,23 @@
     {
       "id": "T002",
       "description": "Sick leave for recovery.",
+      "status": {
+        "id": 2,
+        "name": "Pending"
+      },
       "startDate": "2023-02-01",
       "startTime": "10:00",
       "endDate": "2023-02-05",
       "datesRequested": [],
       "totalHours": 40,
-      "createdDate": "2023-01-15",
       "createdUserSid": "user3",
-      "createdBy": "Jane Smith",
-      "modifiedDate": "2023-01-16",
-      "modifiedUserSid": "user4",
-      "payrollName": "Maternity Leave",
-      "payrollSid": "ml004",
+      "createdDate": "2023-01-15",
+      "createdByUserName": "Jane Smith",
+      "payroll": {
+        "id": "ml004",
+        "name": "Maternity Leave"
+      },
       "comments": [],
-      "status": "Pending",
       "security": {
         "read": true,
         "write": true,
@@ -233,20 +259,23 @@
     {
       "id": "T003",
       "description": "Personal leave for family time.",
+      "status": {
+        "id": 3,
+        "name": "Rejected"
+      },
       "startDate": "2023-03-01",
       "startTime": "08:00",
       "endDate": "2023-03-03",
       "datesRequested": [],
       "totalHours": 24,
-      "createdDate": "2023-02-20",
       "createdUserSid": "user5",
-      "createdBy": "Alice Johnson",
-      "modifiedDate": "2023-02-21",
-      "modifiedUserSid": "user6",
-      "payrollName": "Paternity Leave",
-      "payrollSid": "pl005",
+      "createdDate": "2023-02-20",
+      "createdByUserName": "Alice Johnson",
+      "payroll": {
+        "id": "pl005",
+        "name": "Paternity Leave"
+      },
       "comments": [],
-      "status": "Rejected",
       "security": {
         "read": true,
         "write": true,
@@ -257,20 +286,23 @@
     {
       "id": "T004",
       "description": "Maternity leave for new mothers.",
+      "status": {
+        "id": 4,
+        "name": "Cancelled"
+      },
       "startDate": "2023-04-01",
       "startTime": "09:00",
       "endDate": "2023-04-30",
       "datesRequested": [],
       "totalHours": 160,
-      "createdDate": "2023-03-01",
       "createdUserSid": "user7",
-      "createdBy": "Bob Brown",
-      "modifiedDate": "2023-03-02",
-      "modifiedUserSid": "user8",
-      "payrollName": "Casual Leave",
-      "payrollSid": "cl006",
+      "createdDate": "2023-03-01",
+      "createdByUserName": "Bob Brown",
+      "payroll": {
+        "id": "cl006",
+        "name": "Casual Leave"
+      },
       "comments": [],
-      "status": "Cancelled",
       "security": {
         "read": true,
         "write": true,
@@ -281,20 +313,23 @@
     {
       "id": "T005",
       "description": "Paternity leave for new fathers.",
+      "status": {
+        "id": 5,
+        "name": "Request for Cancellation"
+      },
       "startDate": "2023-05-01",
       "startTime": "09:00",
       "endDate": "2023-05-15",
       "datesRequested": [],
       "totalHours": 120,
-      "createdDate": "2023-04-01",
       "createdUserSid": "user9",
-      "createdBy": "Charlie Davis",
-      "modifiedDate": "2023-04-02",
-      "modifiedUserSid": "user10",
-      "payrollName": "Vacation",
-      "payrollSid": "va001",
+      "createdDate": "2023-04-01",
+      "createdByUserName": "Charlie Davis",
+      "payroll": {
+        "id": "va001",
+        "name": "Vacation"
+      },
       "comments": [],
-      "status": "Request for Cancellation",
       "security": {
         "read": true,
         "write": true,
@@ -305,20 +340,23 @@
     {
       "id": "T006",
       "description": "Bereavement leave for loss.",
+      "status": {
+        "id": 1,
+        "name": "Approved"
+      },
       "startDate": "2023-06-01",
       "startTime": "09:00",
       "endDate": "2023-06-05",
       "datesRequested": [],
       "totalHours": 40,
-      "createdDate": "2023-05-20",
       "createdUserSid": "user11",
-      "createdBy": "Diana Evans",
-      "modifiedDate": "2023-05-21",
-      "modifiedUserSid": "user12",
-      "payrollName": "Sick Leave",
-      "payrollSid": "sl002",
+      "createdDate": "2023-05-20",
+      "createdByUserName": "Diana Evans",
+      "payroll": {
+        "id": "sl002",
+        "name": "Sick Leave"
+      },
       "comments": [],
-      "status": "Approved",
       "security": {
         "read": true,
         "write": true,
@@ -329,20 +367,23 @@
     {
       "id": "T007",
       "description": "Jury duty leave for civic duty.",
+      "status": {
+        "id": 6,
+        "name": "Submitted"
+      },
       "startDate": "2023-07-01",
       "startTime": "09:00",
       "endDate": "2023-07-03",
       "datesRequested": [],
       "totalHours": 24,
-      "createdDate": "2023-06-15",
       "createdUserSid": "user13",
-      "createdBy": "Ethan Foster",
-      "modifiedDate": "2023-06-16",
-      "modifiedUserSid": "user14",
-      "payrollName": "Personal Leave",
-      "payrollSid": "pl003",
+      "createdDate": "2023-06-15",
+      "createdByUserName": "Ethan Foster",
+      "payroll": {
+        "id": "pl003",
+        "name": "Personal Leave"
+      },
       "comments": [],
-      "status": "Submitted",
       "security": {
         "read": true,
         "write": true,
@@ -353,20 +394,23 @@
     {
       "id": "T008",
       "description": "Military leave for service.",
+      "status": {
+        "id": 2,
+        "name": "Pending"
+      },
       "startDate": "2023-08-01",
       "startTime": "09:00",
       "endDate": "2023-08-15",
       "datesRequested": [],
       "totalHours": 120,
-      "createdDate": "2023-07-01",
       "createdUserSid": "user15",
-      "createdBy": "Fiona Green",
-      "modifiedDate": "2023-07-02",
-      "modifiedUserSid": "user16",
-      "payrollName": "Maternity Leave",
-      "payrollSid": "ml004",
+      "createdDate": "2023-07-01",
+      "createdByUserName": "Fiona Green",
+      "payroll": {
+        "id": "ml004",
+        "name": "Maternity Leave"
+      },
       "comments": [],
-      "status": "Pending",
       "security": {
         "read": true,
         "write": true,
@@ -377,20 +421,23 @@
     {
       "id": "T009",
       "description": "Unpaid leave for personal reasons.",
+      "status": {
+        "id": 3,
+        "name": "Rejected"
+      },
       "startDate": "2023-09-01",
       "startTime": "09:00",
       "endDate": "2023-09-10",
       "datesRequested": [],
       "totalHours": 80,
-      "createdDate": "2023-08-01",
       "createdUserSid": "user17",
-      "createdBy": "George Harris",
-      "modifiedDate": "2023-08-02",
-      "modifiedUserSid": "user18",
-      "payrollName": "Paternity Leave",
-      "payrollSid": "pl005",
+      "createdDate": "2023-08-01",
+      "createdByUserName": "George Harris",
+      "payroll": {
+        "id": "pl005",
+        "name": "Paternity Leave"
+      },
       "comments": [],
-      "status": "Rejected",
       "security": {
         "read": true,
         "write": true,
@@ -401,20 +448,23 @@
     {
       "id": "T010",
       "description": "Compensatory leave for extra work.",
+      "status": {
+        "id": 1,
+        "name": "Approved"
+      },
       "startDate": "2023-10-01",
       "startTime": "09:00",
       "endDate": "2023-10-05",
       "datesRequested": [],
       "totalHours": 40,
-      "createdDate": "2023-09-01",
       "createdUserSid": "user19",
-      "createdBy": "Hannah Irving",
-      "modifiedDate": "2023-09-02",
-      "modifiedUserSid": "user20",
-      "payrollName": "Casual Leave",
-      "payrollSid": "cl006",
+      "createdDate": "2023-09-01",
+      "createdByUserName": "Hannah Irving",
+      "payroll": {
+        "id": "cl006",
+        "name": "Casual Leave"
+      },
       "comments": [],
-      "status": "Approved",
       "security": {
         "read": true,
         "write": true,
@@ -424,11 +474,15 @@
     }
   ],
   "timeoff-list": [
-    { "id": "va001", "name": "Vacation" },
-    { "id": "sl002", "name": "Sick Leave" },
-    { "id": "pl003", "name": "Personal Leave" },
-    { "id": "ml004", "name": "Maternity Leave" },
-    { "id": "pl005", "name": "Paternity Leave" },
-    { "id": "cl006", "name": "Casual Leave" }
+    {
+      "category": [
+        { "id": "va001", "name": "Vacation" },
+        { "id": "sl002", "name": "Sick Leave" },
+        { "id": "pl003", "name": "Personal Leave" },
+        { "id": "ml004", "name": "Maternity Leave" },
+        { "id": "pl005", "name": "Paternity Leave" },
+        { "id": "cl006", "name": "Casual Leave" }
+      ]
+    }
   ]
 }

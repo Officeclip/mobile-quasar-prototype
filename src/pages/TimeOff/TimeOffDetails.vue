@@ -172,14 +172,14 @@ const toggleLeftDrawer = () => {
           <!-- </q-card-section> -->
           <q-card-section>
             <q-list>
-              <q-item>
+              <!-- <q-item>
                 <q-item-section>
                   <q-item-label caption>Time Off Status:</q-item-label>
                   <q-item-label class="text-subtitle1">{{
-                    timeOffDetails.status
+                    timeOffDetails.status?.name
                   }}</q-item-label>
                 </q-item-section></q-item
-              >
+              > -->
               <q-item>
                 <q-item-section>
                   <q-item-label caption>Description:</q-item-label>
@@ -208,7 +208,7 @@ const toggleLeftDrawer = () => {
                 <q-item-section>
                   <q-item-label caption>Time Off Type:</q-item-label>
                   <q-item-label class="text-subtitle1">{{
-                    timeOffDetails.payrollName
+                    timeOffDetails.payroll?.name
                   }}</q-item-label>
                 </q-item-section></q-item
               >
@@ -217,7 +217,7 @@ const toggleLeftDrawer = () => {
                 <q-item-section>
                   <q-item-label caption>Created By:</q-item-label>
                   <q-item-label class="text-subtitle1">{{
-                    timeOffDetails.createdBy
+                    timeOffDetails.createdByUserName
                   }}</q-item-label>
                 </q-item-section></q-item
               >

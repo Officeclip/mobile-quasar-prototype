@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { TimeOffSummary } from '../../models/TimeOff/timeOffSummary';
 import { TimeOffDetails } from 'src/models/TimeOff/timeOffDetails';
-import { TimeOffList } from 'src/models/TimeOff/timeOffList';
+import { Categories } from 'src/models/TimeOff/timeOffList';
 import { Constants } from 'stores/Constants';
 import util from 'src/helpers/util';
 
@@ -9,14 +9,14 @@ export const useTimeOffStore = defineStore('timeOffStore', {
   state: () => ({
     timeOff: [] as TimeOffSummary[],
     timeOffDetail: {} as TimeOffDetails,
-    timeOffLists: [] as TimeOffList[],
+    categoryLists: [] as Categories[],
     errorMsg: '' as string,
   }),
 
   getters: {
     TimeOffSummaries: (state) => state.timeOff,
     TimeOffDetail: (state) => state.timeOffDetail,
-    TimeOffLists: (state) => state.timeOffLists,
+    CategoryLists: (state) => state.categoryLists,
   },
 
   actions: {
@@ -103,7 +103,7 @@ export const useTimeOffStore = defineStore('timeOffStore', {
         //   `${util.getEndPointUrl()}/timeoff-list`
         // );
         const response = await instance.get(callStr ?? '');
-        this.timeOffLists = response.data;
+        this.categoryLists = response.data[0].category;
       } catch (error) {
         Constants.throwError(error);
       }
