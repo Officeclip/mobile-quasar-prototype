@@ -147,14 +147,13 @@ const isAllowDelete = computed(() => {
           <q-list>
             <q-item>
               <q-item-section>
-                <q-item-label
-                  ><span class="text-subtitle1 text-weight-medium"
+                <q-item-label class="text-subtitle1"
+                  ><span class="text-weight-medium"
                     >{{ issueDetails?.caseId }}:</span
                   >
-                  <span class="description"
-                    >{{ issueDetails?.name }}
-                  </span></q-item-label
-                >
+                  <span class="description q-ml-sm" v-html="issueDetails?.name">
+                  </span
+                ></q-item-label>
               </q-item-section>
             </q-item>
             <q-separator spaced inset></q-separator>
