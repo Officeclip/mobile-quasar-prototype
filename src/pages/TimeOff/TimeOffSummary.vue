@@ -10,9 +10,9 @@ const router = useRouter();
 const $q = useQuasar();
 const myDrawer = ref();
 
-const tab = ref('my-requests'); // Default tab
+const tab = ref('mylist'); // Default tab
 const title = computed(() =>
-  tab.value === 'my-requests'
+  tab.value === 'mylist'
     ? 'My Requests'
     : tab.value === 'inbox'
     ? 'Inbox'
@@ -53,6 +53,7 @@ const columns = [
 ];
 
 const loadTimeOffSummaries = async (tabValue: string) => {
+  timeOffStore.resetTimeOffSummaryList(); // Clear previous data
   try {
     await timeOffStore.getTimeOffByCategory(tabValue);
   } catch (error) {
@@ -124,11 +125,10 @@ const viewDetails = (row) => {
           active-color="primary"
           class="bg-grey-4"
         >
-          <q-tab name="my-requests" label="My Requests" icon="outbox" />
+          <q-tab name="mylist" label="My Requests" icon="outbox" />
           <q-tab name="inbox" label="Inbox" icon="inbox"> </q-tab>
           <q-tab name="archived" label="Archived" icon="archive" />
         </q-tabs>
-
         <q-table
           :rows="timeOffSummaries"
           :columns="columns"

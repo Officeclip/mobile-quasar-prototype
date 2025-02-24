@@ -76,7 +76,6 @@ onMounted(async () => {
                 label="Category"
                 v-model="payrollName"
                 :options="timeOffCategoryLists"
-                :rules="[isDateValid]"
                 hide-bottom-space
                 ref="dateRef"
                 option-label="name"

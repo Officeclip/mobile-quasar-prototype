@@ -54,9 +54,9 @@ function generateReminder() {
         <q-icon name="alarm" size="md" />
       </q-avatar>
 
-      <q-toolbar-title
-        ><span v-if="!props?.remindTo" class="text-subtitle1 q-mr-sm">Set</span
-        ><span class="text-h6">Reminder:</span></q-toolbar-title
+      <q-toolbar-title class="text-subtitle1"
+        ><span v-if="!props?.remindTo" class="q-mr-sm">Set</span
+        ><span>Reminder:</span></q-toolbar-title
       >
 
       <q-btn flat round dense icon="close" v-close-popup></q-btn>

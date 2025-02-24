@@ -149,10 +149,10 @@ const toggleLeftDrawer = () => {
         <div>
           <WorkFlow
             v-if="status != 'Approved' && status != 'Pending'"
-            entityId="XCBXHGDCSBBTN89VR66WXDJF3CUYNDJC6JJM6LQ"
-            employeeId="W4TCSK9V584Z6EJFJC5Q"
-            entityType="timesheet"
-            stageId="1"
+            :entityId="id"
+            :employeeId="employeeId"
+            :entityType="entityType"
+            :stageId="stageId"
           />
         </div>
         <q-card>

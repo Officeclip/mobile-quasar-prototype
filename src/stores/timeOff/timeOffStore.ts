@@ -7,14 +7,14 @@ import util from 'src/helpers/util';
 
 export const useTimeOffStore = defineStore('timeOffStore', {
   state: () => ({
-    timeOff: [] as TimeOffSummary[],
+    timeOffSummary: [] as TimeOffSummary[],
     timeOffDetail: {} as TimeOffDetails,
     categoryLists: [] as Categories[],
     errorMsg: '' as string,
   }),
 
   getters: {
-    TimeOffSummaries: (state) => state.timeOff,
+    TimeOffSummaries: (state) => state.timeOffSummary,
     TimeOffDetail: (state) => state.timeOffDetail,
     CategoryLists: (state) => state.categoryLists,
   },
@@ -22,12 +22,17 @@ export const useTimeOffStore = defineStore('timeOffStore', {
   actions: {
     // getting the time off summary by category
     async getTimeOffByCategory(category: string) {
-      // const callStr = `${util.getEndPointUrl()}/timeoff-summary?category=${category}`;
-      const callStr = `http://localhost:3000/timeoff-summary?category=${category}`;
+      const callStr = `${util.getEndPointUrl()}/timeoff-summary?category=${category}`;
+      // const callStr = `http://localhost:3000/timeoff-summary?category=${category}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(callStr ?? '');
-        this.timeOff = response.data;
+        this.timeOffSummary = response.data.data;
+        if (response.status === 204) {
+          //this.errorMsg = response.statusText;
+          this.errorMsg = 'No Content';
+          return true;
+        }
       } catch (error) {
         Constants.throwError(error);
       }
@@ -35,13 +40,14 @@ export const useTimeOffStore = defineStore('timeOffStore', {
 
     // getting the time off details by id
     async getTimeOffDetails(id: string) {
-      const callStr = `http://localhost:3000/timeoff-detail/${id}`;
+      // const callStr = `${util.getEndPointUrl()}/timeoff-detail/${id}`;
+      // const callStr = `http://localhost:3000/timeoff-detail/${id}`;
       try {
         const instance = Constants.getAxiosInstance();
-        // const response = await instance.get(
-        //   `${util.getEndPointUrl()}/timeoff-detail/${id}`
-        // );
-        const response = await instance.get(callStr ?? '');
+        const response = await instance.get(
+          `${util.getEndPointUrl()}/timeoff-detail/${id}`
+        );
+        // const response = await instance.get(callStr ?? '');
         this.timeOffDetail = response.data;
       } catch (error) {
         Constants.throwError(error);
@@ -72,7 +78,7 @@ export const useTimeOffStore = defineStore('timeOffStore', {
           `${util.getEndPointUrl()}/timeoff-detail/${id}`
         );
         if (response.status === 200) {
-          this.timeOff = response.data;
+          this.timeOffSummary = response.data;
         }
       } catch (error) {
         Constants.throwError(error);
@@ -96,17 +102,22 @@ export const useTimeOffStore = defineStore('timeOffStore', {
     },
 
     async getTimeOffLists() {
-      const callStr = 'http://localhost:3000/timeoff-list';
+      // const callStr = `${util.getEndPointUrl()}/timeoff-list`;
+      // const callStr = 'http://localhost:3000/timeoff-list';
       try {
         const instance = Constants.getAxiosInstance();
-        // const response = await instance.get(
-        //   `${util.getEndPointUrl()}/timeoff-list`
-        // );
-        const response = await instance.get(callStr ?? '');
-        this.categoryLists = response.data[0].category;
+        const response = await instance.get(
+          `${util.getEndPointUrl()}/timeoff-lists`
+        );
+        // const response = await instance.get(callStr ?? '');
+        const newData = response.data[0];
+        this.categoryLists = newData.category;
       } catch (error) {
         Constants.throwError(error);
       }
+    },
+    async resetTimeOffSummaryList() {
+      this.timeOffSummary = [];
     },
   },
 });
