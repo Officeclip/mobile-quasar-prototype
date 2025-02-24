@@ -14,7 +14,7 @@ import drawer from '../../components/drawer.vue';
 const router = useRouter();
 const route = useRoute();
 const timesheetsStore = useTimesheetsStore();
-const timesheetCommentsStore = useTECommentsStore();
+const teCommentsStore = useTECommentsStore();
 const $q = useQuasar();
 const myDrawer = ref();
 
@@ -35,8 +35,9 @@ const isAllowedDelete = ref();
 onMounted(async () => {
   try {
     await timesheetsStore.getTimesheetDetails(id, stageId);
-    await timesheetCommentsStore.$reset();
-    await timesheetCommentsStore.getTimesheetComments(id);
+    teCommentsStore.$reset();
+    await teCommentsStore.getTimesheetComments(id);
+    await teCommentsStore.getTimesheetGroupProfile();
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -64,6 +65,11 @@ onMounted(async () => {
 
 const timesheetDetails = computed(() => {
   return timesheetsStore.TimesheetDetails;
+});
+
+//getting the dcaa data from timesheet group profile
+const timesheetDCAA = computed(() => {
+  return teCommentsStore.DCAA;
 });
 
 const title = ref('Confirm');
@@ -114,7 +120,7 @@ const deleteTimesheetDetail = async (id: string) => {
   }
 };
 const commentsList = computed(() => {
-  return timesheetCommentsStore.commentsList;
+  return teCommentsStore.commentsList;
 });
 const listLength = computed(() => {
   return commentsList.value.length;
@@ -173,6 +179,7 @@ function toggleLeftDrawer() {
           :employeeId="employeeId"
           :entityType="entityType"
           :stageId="stageId"
+          :groupProfileInfo="timesheetDCAA"
         />
       </div>
       <q-card

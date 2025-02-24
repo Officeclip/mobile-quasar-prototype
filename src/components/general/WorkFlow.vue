@@ -2,17 +2,23 @@
 import { onBeforeMount, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useWorkFlowStore } from 'src/stores/workFlow/WorkFlow';
-import { useTECommentsStore } from 'src/stores/TECommentsStore';
+// import { useTECommentsStore } from 'src/stores/TECommentsStore';
 import { useQuasar } from 'quasar';
 
-const props = defineProps(['entityId', 'entityType', 'stageId', 'employeeId']);
+const props = defineProps([
+  'entityId',
+  'entityType',
+  'stageId',
+  'employeeId',
+  'groupProfileInfo',
+]);
 const $q = useQuasar();
 const router = useRouter();
 const showConfirmationDialog = ref(false);
 const password = ref('');
 const workFlowModel = ref('');
 const workFlowStore = useWorkFlowStore();
-const teCommentsStore = useTECommentsStore();
+// const teCommentsStore = useTECommentsStore();
 
 onBeforeMount(async () => {
   try {
@@ -21,7 +27,7 @@ onBeforeMount(async () => {
       props?.entityType,
       props?.stageId
     );
-    await teCommentsStore.getTimesheetGroupProfile();
+    // await teCommentsStore.getTimesheetGroupProfile();
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -65,8 +71,12 @@ const rejectToUserName = computed(() => {
 });
 
 const timesheetDCAA = computed(() => {
-  return teCommentsStore.DCAA;
+  return props?.groupProfileInfo;
 });
+
+// const timesheetDCAA = computed(() => {
+//   return teCommentsStore.DCAA;
+// });
 
 const upDateWorkFlow = async () => {
   if (
@@ -260,7 +270,6 @@ const closePopUp = () => {
       </div>
     </q-banner>
   </div>
-
   <!-- use this below commented code for switched into old workflow design -->
   <!-- <div class="q-mt-sm">
     if submitToUserId there then this will comes up
