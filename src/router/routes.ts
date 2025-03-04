@@ -228,6 +228,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/TimeOff/TimeOffDetails.vue'),
   },
   {
+    path: '/newTimeOff',
+    name: 'newTimeOff',
+    component: () => import('pages/TimeOff/NewTimeOff.vue'),
+  },
+  {
     path: '/editTimeOff/:id',
     name: 'editTimeOff',
     component: () => import('../pages/TimeOff/EditTimeOff.vue'),

@@ -4,8 +4,7 @@ import { useTimeOffStore } from '../../stores/timeOff/timeOffStore';
 import { useRouter, useRoute } from 'vue-router';
 import TimeOffForm from '../../components/TimeOff/TimeOffFormCtrl.vue';
 import { useQuasar } from 'quasar';
-import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
-// import OCSubmitButton from 'src/components/OCcomponents/OC-SubmitButton.vue';
+import OCSubmitButton from 'src/components/OCcomponents/OC-SubmitButton.vue';
 import { TimeOffDetails } from 'src/models/TimeOff/timeOffDetails';
 
 const $q = useQuasar();
@@ -13,38 +12,36 @@ const route = useRoute();
 const router = useRouter();
 const timeOffStore = useTimeOffStore();
 
-const id = Array.isArray(route.params.id)
-  ? route.params.id[0]
-  : route.params.id;
-
-const timeOff: Ref<TimeOffDetails> = ref({} as TimeOffDetails);
-
-const loadTimeOffDetails = async (id: string) => {
-  try {
-    await timeOffStore.getTimeOffDetails(id);
-    const response = timeOffStore.TimeOffDetail;
-    timeOff.value = response;
-  } catch (error) {
-    $q.dialog({
-      title: 'Alert',
-      message: error as string,
-    }).onOk(async () => {
-      await router.push({ path: '/timesheetsAll' });
-    });
-  }
-};
-
-onMounted(async () => {
-  await loadTimeOffDetails(id);
-});
+// const timeOff: Ref<TimeOffDetails> = ref({} as TimeOffDetails);
 
 const childComponent = ref(null);
+
+const timeOff: Ref<TimeOffDetails> = ref({
+  id: '',
+  description: '',
+  startDate: new Date().toISOString().slice(0, 10),
+  startTime: new Date().toISOString().slice(11, 16),
+  endDate: new Date().toISOString().slice(0, 10),
+  requestedFor: 'full_day', //full day, half day, hourly
+  datesRequested: [],
+  totalHours: Number(),
+  totalDays: Number(),
+  createdUserSid: '',
+  createdDate: '',
+  createdByUserName: '',
+  payroll: {
+    id: '',
+    name: '',
+  },
+  comments: '',
+  security: {},
+});
 
 async function onSubmit() {
   try {
     if (!childComponent.value.validateAll()) return;
-    const editTimeOff = ref(timeOff.value);
-    await timeOffStore.editTimeOff(editTimeOff.value);
+    const newTimeOff = ref(timeOff.value);
+    await timeOffStore.addTimeOffDetails(newTimeOff.value);
     router.go(-1);
   } catch (error) {
     $q.dialog({
@@ -67,9 +64,8 @@ async function onSubmit() {
           icon="arrow_back"
         >
         </q-btn>
-        <q-toolbar-title> Edit TimeOff</q-toolbar-title>
-        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
-        <!-- <OCSubmitButton @handleClick="onSubmit"></OCSubmitButton> -->
+        <q-toolbar-title> New TimeOff</q-toolbar-title>
+        <OCSubmitButton @handleClick="onSubmit"></OCSubmitButton>
       </q-toolbar>
     </q-header>
     <q-page-container>

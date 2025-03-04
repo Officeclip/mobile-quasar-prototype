@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useWorkFlowStore } from 'src/stores/workFlow/WorkFlow';
 // import { useTECommentsStore } from 'src/stores/TECommentsStore';
 import { useQuasar } from 'quasar';
+import { bu } from 'app/src-capacitor/www/assets/index.2cd8f154';
 
 const props = defineProps([
   'entityId',
@@ -15,10 +16,17 @@ const props = defineProps([
 const $q = useQuasar();
 const router = useRouter();
 const showConfirmationDialog = ref(false);
+const comments: any = ref(''); //for timeoff approve or reject comments
+const showCommentsDialog = ref(false); //for timeoff approve or reject comments
 const password = ref('');
 const workFlowModel = ref('');
 const workFlowStore = useWorkFlowStore();
 // const teCommentsStore = useTECommentsStore();
+const buttonObj = ref({
+  name: '',
+  icon: '',
+  color: '',
+});
 
 onBeforeMount(async () => {
   try {
@@ -118,6 +126,23 @@ const setApproveToUserId = computed(() => {
     : workFlow.value.approveToUserId;
 });
 
+const approveWorkflow = () => {
+  workFlow.value.stageId = props.stageId;
+  workFlow.value.submitToUserId = '';
+  workFlow.value.rejectToUserId = '';
+  workFlow.value.approveToUserId = setApproveToUserId?.value;
+  workFlow.value.users = null;
+  upDateWorkFlow();
+};
+
+const rejectWorkflow = () => {
+  workFlow.value.stageId = props.stageId;
+  workFlow.value.submitToUserId = '';
+  workFlow.value.approveToUserId = '';
+  workFlow.value.users = null;
+  upDateWorkFlow();
+};
+
 const manualWorkflow = (newValue: string) => {
   workFlow.value.submitToUserId = newValue;
   workFlow.value.stageId = props.stageId;
@@ -134,23 +159,55 @@ const submitButtonWorkFlow = () => {
   upDateWorkFlow();
 };
 const approveButtonWorkFlow = () => {
-  workFlow.value.stageId = props.stageId;
-  workFlow.value.submitToUserId = '';
-  workFlow.value.rejectToUserId = '';
-  workFlow.value.approveToUserId = setApproveToUserId?.value;
-  workFlow.value.users = null;
-  upDateWorkFlow();
+  if (props?.entityType == 'timeOff') {
+    buttonObj.value.name = 'Approve';
+    buttonObj.value.icon = 'thumb_up';
+    buttonObj.value.color = 'positive';
+    showCommentsDialog.value = true;
+  } else {
+    // workFlow.value.stageId = props.stageId;
+    // workFlow.value.submitToUserId = '';
+    // workFlow.value.rejectToUserId = '';
+    // workFlow.value.approveToUserId = setApproveToUserId?.value;
+    // workFlow.value.users = null;
+    // upDateWorkFlow();
+    approveWorkflow();
+  }
+};
+const submitComments = (isButton = 'Approve') => {
+  if (comments.value === '') {
+    $q.dialog({
+      title: 'Alert',
+      message: 'Please enter comments',
+    });
+  } else {
+    workFlow.value.comments = comments.value;
+    if (isButton === 'Approve') {
+      approveWorkflow();
+    } else {
+      rejectWorkflow();
+    }
+  }
 };
 const rejectButtonWorkFlow = () => {
-  workFlow.value.stageId = props.stageId;
-  workFlow.value.submitToUserId = '';
-  workFlow.value.approveToUserId = '';
-  workFlow.value.users = null;
-  upDateWorkFlow();
+  if (props?.entityType == 'timeOff') {
+    buttonObj.value.name = 'Reject';
+    buttonObj.value.icon = 'thumb_down';
+    buttonObj.value.color = 'negative';
+    showCommentsDialog.value = true;
+  } else {
+    // workFlow.value.stageId = props.stageId;
+    // workFlow.value.submitToUserId = '';
+    // workFlow.value.approveToUserId = '';
+    // workFlow.value.users = null;
+    // upDateWorkFlow();
+    rejectWorkflow();
+  }
 };
 
 const closePopUp = () => {
-  showConfirmationDialog.value = false;
+  comments.value = '';
+  showCommentsDialog.value = false;
 };
 </script>
 <template>
@@ -160,7 +217,7 @@ const closePopUp = () => {
         <q-item>
           <q-item-section
             ><q-item-label class="text-h6 row items-center"
-              ><q-icon name="info" class="q-mr-sm" />Workflow Information
+              ><q-icon name="info" class="q-mr-sm" />Workflow Info:
             </q-item-label>
             <q-item-label
               v-if="props?.stageId == 1 && workFlow?.workflowType === 'auto'"
@@ -195,7 +252,7 @@ const closePopUp = () => {
             <q-btn
               v-if="workFlow?.approveToUserId"
               icon="check_circle"
-              color="primary"
+              color="positive"
               flat
               round
               dense
@@ -204,7 +261,7 @@ const closePopUp = () => {
             <q-btn
               v-if="workFlow?.rejectToUserId"
               icon="cancel"
-              color="primary"
+              color="negative"
               flat
               round
               dense
@@ -364,8 +421,78 @@ const closePopUp = () => {
             placeholder="Enter Password"
           />
           <button class="q-mx-sm" @click="teDCAAupdateWorkflow">Submit</button>
-          <button @click="closePopUp">Cancel</button>
+          <button v-close-popup>Cancel</button>
         </q-card-section>
+      </q-card>
+    </q-dialog>
+    <!-- handling ask write comments while approve or reject the timeoff -->
+    <q-dialog v-model="showCommentsDialog">
+      <!-- <q-card>
+        <q-card-section>
+          <h6 class="q-my-lg">Enter Comments</h6>
+          <q-input
+            v-model="comments"
+            placeholder="Enter Comments"
+            type="textarea"
+          />
+          <q-btn
+            flat
+            no-caps
+            v-close-popup
+            color="primary"
+            @click="submitComments(buttonObj)"
+            >Submit
+          </q-btn>
+          <button v-close-popup>Cancel</button>
+        </q-card-section>
+      </q-card> -->
+
+      <q-card bordered style="width: 80%">
+        <q-toolbar>
+          <q-avatar>
+            <q-icon
+              :name="buttonObj?.icon"
+              size="md"
+              :color="buttonObj?.color"
+            />
+          </q-avatar>
+
+          <q-toolbar-title
+            >{{ buttonObj?.name }} Time Off request</q-toolbar-title
+          >
+
+          <q-btn
+            flat
+            round
+            dense
+            icon="close"
+            @click="closePopUp"
+            v-close-popup
+          ></q-btn>
+        </q-toolbar>
+
+        <q-card-section>
+          <q-item-label>
+            <q-input
+              outlined
+              v-model="comments"
+              placeholder="Enter Comments"
+              type="textarea"
+              class="bg-grey-2"
+            />
+          </q-item-label>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn
+            flat
+            no-caps
+            :label="buttonObj?.name"
+            :color="buttonObj?.color"
+            v-close-popup
+            @click="submitComments(buttonObj?.name)"
+          >
+          </q-btn>
+        </q-card-actions>
       </q-card>
     </q-dialog>
   </div>

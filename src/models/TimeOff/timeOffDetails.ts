@@ -3,15 +3,13 @@ import { Comments } from '../teComments';
 export interface TimeOffDetails {
   id: string;
   description: string;
-  // status: {
-  //   id: string;
-  //   name: string;
-  // };
   startDate: string;
   startTime: string;
   endDate: string;
+  requestedFor: string;
   datesRequested: [];
   totalHours: number;
+  totalDays: number;
   createdUserSid: string;
   createdDate: string;
   createdByUserName: string;

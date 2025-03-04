@@ -126,7 +126,7 @@ const viewDetails = (row) => {
           class="bg-grey-4"
         >
           <q-tab name="mylist" label="My Requests" icon="outbox" />
-          <q-tab name="inbox" label="Inbox" icon="inbox"> </q-tab>
+          <q-tab name="inbox" label="Inbox" icon="inbox" />
           <q-tab name="archived" label="Archived" icon="archive" />
         </q-tabs>
         <q-table
@@ -169,6 +169,18 @@ const viewDetails = (row) => {
             </q-tr>
           </template>
         </q-table>
+        <q-page-sticky position="bottom-right" :offset="[18, 18]">
+          <q-btn
+            :to="{
+              name: 'newTimeOff',
+            }"
+            fab
+            icon="add"
+            color="accent"
+            padding="md"
+          >
+          </q-btn>
+        </q-page-sticky>
       </q-page>
     </q-page-container>
   </q-layout>

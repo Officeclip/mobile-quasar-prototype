@@ -60,10 +60,17 @@ const formattedTimeOffDates = computed(() => {
 });
 
 const isAllowEdit = computed(() =>
-  isAllowed({ security: { write: timeOffDetails.value?.security?.write } })
+  isAllowed({
+    security: { write: timeOffDetails.value?.security?.write },
+    isTimeExpense: true,
+  })
 );
+
 const isAllowDelete = computed(() =>
-  isAllowed({ security: { delete: timeOffDetails.value?.security?.delete } })
+  isAllowed({
+    security: { delete: timeOffDetails.value?.security?.delete },
+    isTimeExpense: true,
+  })
 );
 
 const title = ref('Confirm');
@@ -146,7 +153,10 @@ const toggleLeftDrawer = () => {
     <!-- <q-space class="q-mt-sm" /> -->
     <q-page-container class="q-mb-md">
       <q-page>
-        <div>
+        <!-- <pre>isAllowEdit:{{ isAllowEdit }}</pre>
+        <pre>isAllowDelete::{{ isAllowDelete }}</pre>
+        <pre>security::{{ timeOffDetails.security }}</pre> -->
+        <div v-if="isAllowEdit && isAllowDelete">
           <WorkFlow
             v-if="status != 'Approved' && status != 'Pending'"
             :entityId="id"
@@ -155,24 +165,24 @@ const toggleLeftDrawer = () => {
             :stageId="stageId"
           />
         </div>
-        <q-card>
-          <!-- <q-card-section v-if="status != 'Approved' && status != 'Pending'"> -->
-          <!-- <WorkFlow
+        <!-- <q-card> -->
+        <!-- <q-card-section v-if="status != 'Approved' && status != 'Pending'"> -->
+        <!-- <WorkFlow
               entityId="Z4NYNZ9SG8GCHCAD449VNTHFBM9CSESDE8JM6LQ"
               employeeId="JZNC3B9D72FYN8QVFC5Q"
               entityType="timesheet"
               stageId="1"
             /> -->
-          <!-- <WorkFlow
+        <!-- <WorkFlow
               entityId="XCBXHGDCSBBTN89VR66WXDJF3CUYNDJC6JJM6LQ"
               employeeId="W4TCSK9V584Z6EJFJC5Q"
               entityType="timesheet"
               stageId="1"
             /> -->
-          <!-- </q-card-section> -->
-          <q-card-section>
-            <q-list>
-              <!-- <q-item>
+        <!-- </q-card-section> -->
+        <!-- <q-card-section> -->
+        <q-list>
+          <!-- <q-item>
                 <q-item-section>
                   <q-item-label caption>Time Off Status:</q-item-label>
                   <q-item-label class="text-subtitle1">{{
@@ -180,50 +190,58 @@ const toggleLeftDrawer = () => {
                   }}</q-item-label>
                 </q-item-section></q-item
               > -->
-              <q-item>
-                <q-item-section>
-                  <q-item-label caption>Description:</q-item-label>
-                  <q-item-label class="text-subtitle1">{{
-                    timeOffDetails.description
-                  }}</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label caption>Requested Time Off Dates:</q-item-label>
-                  <q-item-label class="text-subtitle1">{{
-                    formattedTimeOffDates
-                  }}</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label caption>Requested Hours:</q-item-label>
-                  <q-item-label class="text-subtitle1">{{
-                    timeOffDetails.totalHours
-                  }}</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label caption>Time Off Type:</q-item-label>
-                  <q-item-label class="text-subtitle1">{{
-                    timeOffDetails.payroll?.name
-                  }}</q-item-label>
-                </q-item-section></q-item
-              >
+          <q-item>
+            <q-item-section>
+              <q-item-label caption>Description:</q-item-label>
+              <q-item-label class="text-subtitle1">{{
+                timeOffDetails.description
+              }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-item-label caption>Requested Time Off Dates:</q-item-label>
+              <q-item-label class="text-subtitle1">{{
+                formattedTimeOffDates
+              }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-if="timeOffDetails.totalHours > 0">
+            <q-item-section>
+              <q-item-label caption>Requested Hours:</q-item-label>
+              <q-item-label class="text-subtitle1">{{
+                timeOffDetails.totalHours
+              }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-else>
+            <q-item-section>
+              <q-item-label caption>Requested Days:</q-item-label>
+              <q-item-label class="text-subtitle1">{{
+                timeOffDetails.totalDays
+              }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-item-label caption>Time Off Type:</q-item-label>
+              <q-item-label class="text-subtitle1">{{
+                timeOffDetails.payroll?.name
+              }}</q-item-label>
+            </q-item-section></q-item
+          >
 
-              <q-item>
-                <q-item-section>
-                  <q-item-label caption>Created By:</q-item-label>
-                  <q-item-label class="text-subtitle1">{{
-                    timeOffDetails.createdByUserName
-                  }}</q-item-label>
-                </q-item-section></q-item
-              >
-            </q-list>
-          </q-card-section>
-        </q-card>
+          <q-item>
+            <q-item-section>
+              <q-item-label caption>Created By:</q-item-label>
+              <q-item-label class="text-subtitle1">{{
+                timeOffDetails.createdByUserName
+              }}</q-item-label>
+            </q-item-section></q-item
+          >
+        </q-list>
+        <!-- </q-card-section>
+        </q-card> -->
       </q-page>
     </q-page-container>
   </q-layout>
