@@ -24,7 +24,7 @@ const employeeId = route.params.employeeId;
 const entityType = 'timeOff';
 
 const timeOffDetailSid = ref('');
-const isLoaded = ref(false);
+const loading = ref(true);
 
 const loadTimeOffDetails = async (id: string) => {
   try {
@@ -37,7 +37,7 @@ const loadTimeOffDetails = async (id: string) => {
       await router.push({ path: '/timeOffSummary' });
     });
   } finally {
-    isLoaded.value = true;
+    loading.value = false;
   }
 };
 
@@ -152,96 +152,93 @@ const toggleLeftDrawer = () => {
     <Drawer ref="myDrawer" />
     <!-- <q-space class="q-mt-sm" /> -->
     <q-page-container class="q-mb-md">
-      <q-page>
-        <!-- <pre>isAllowEdit:{{ isAllowEdit }}</pre>
+      <q-page v-if="loading" class="flex flex-center">
+        <div>
+          <q-spinner color="primary" size="3em" />
+          <p class="text-center q-mt-md">Loading data...</p>
+        </div></q-page
+      ><q-page v-else>
+        <div>
+          <!-- <pre>isAllowEdit:{{ isAllowEdit }}</pre>
         <pre>isAllowDelete::{{ isAllowDelete }}</pre>
         <pre>security::{{ timeOffDetails.security }}</pre> -->
-        <div v-if="isAllowEdit && isAllowDelete">
-          <WorkFlow
-            v-if="status != 'Approved' && status != 'Pending'"
-            :entityId="id"
-            :employeeId="employeeId"
-            :entityType="entityType"
-            :stageId="stageId"
-          />
-        </div>
-        <!-- <q-card> -->
-        <!-- <q-card-section v-if="status != 'Approved' && status != 'Pending'"> -->
-        <!-- <WorkFlow
+          <div v-if="isAllowEdit && isAllowDelete">
+            <WorkFlow
+              v-if="status != 'Approved' && status != 'Pending'"
+              :entityId="id"
+              :employeeId="employeeId"
+              :entityType="entityType"
+              :stageId="stageId"
+            />
+          </div>
+          <!-- <q-card> -->
+          <!-- <q-card-section v-if="status != 'Approved' && status != 'Pending'"> -->
+          <!-- <WorkFlow
               entityId="Z4NYNZ9SG8GCHCAD449VNTHFBM9CSESDE8JM6LQ"
               employeeId="JZNC3B9D72FYN8QVFC5Q"
               entityType="timesheet"
               stageId="1"
             /> -->
-        <!-- <WorkFlow
+          <!-- <WorkFlow
               entityId="XCBXHGDCSBBTN89VR66WXDJF3CUYNDJC6JJM6LQ"
               employeeId="W4TCSK9V584Z6EJFJC5Q"
               entityType="timesheet"
               stageId="1"
             /> -->
-        <!-- </q-card-section> -->
-        <!-- <q-card-section> -->
-        <q-list>
-          <!-- <q-item>
-                <q-item-section>
-                  <q-item-label caption>Time Off Status:</q-item-label>
-                  <q-item-label class="text-subtitle1">{{
-                    timeOffDetails.status?.name
-                  }}</q-item-label>
-                </q-item-section></q-item
-              > -->
-          <q-item>
-            <q-item-section>
-              <q-item-label caption>Description:</q-item-label>
-              <q-item-label class="text-subtitle1">{{
-                timeOffDetails.description
-              }}</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-item-label caption>Requested Time Off Dates:</q-item-label>
-              <q-item-label class="text-subtitle1">{{
-                formattedTimeOffDates
-              }}</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item v-if="timeOffDetails.totalHours > 0">
-            <q-item-section>
-              <q-item-label caption>Requested Hours:</q-item-label>
-              <q-item-label class="text-subtitle1">{{
-                timeOffDetails.totalHours
-              }}</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item v-else>
-            <q-item-section>
-              <q-item-label caption>Requested Days:</q-item-label>
-              <q-item-label class="text-subtitle1">{{
-                timeOffDetails.totalDays
-              }}</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-item-label caption>Time Off Type:</q-item-label>
-              <q-item-label class="text-subtitle1">{{
-                timeOffDetails.payroll?.name
-              }}</q-item-label>
-            </q-item-section></q-item
-          >
+          <!-- </q-card-section> -->
+          <!-- <q-card-section> -->
+          <q-list>
+            <q-item>
+              <q-item-section>
+                <q-item-label caption>Description:</q-item-label>
+                <q-item-label class="text-subtitle1">{{
+                  timeOffDetails.description
+                }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-item-label caption>Requested Time Off Dates:</q-item-label>
+                <q-item-label class="text-subtitle1">{{
+                  formattedTimeOffDates
+                }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item v-if="timeOffDetails.totalHours > 0">
+              <q-item-section>
+                <q-item-label caption>Requested Hours:</q-item-label>
+                <q-item-label class="text-subtitle1">{{
+                  timeOffDetails.totalHours
+                }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item v-else>
+              <q-item-section>
+                <q-item-label caption>Requested Days:</q-item-label>
+                <q-item-label class="text-subtitle1">{{
+                  timeOffDetails.totalDays
+                }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-item-label caption>Time Off Type:</q-item-label>
+                <q-item-label class="text-subtitle1">{{
+                  timeOffDetails.payroll?.name
+                }}</q-item-label>
+              </q-item-section></q-item
+            >
 
-          <q-item>
-            <q-item-section>
-              <q-item-label caption>Created By:</q-item-label>
-              <q-item-label class="text-subtitle1">{{
-                timeOffDetails.createdByUserName
-              }}</q-item-label>
-            </q-item-section></q-item
-          >
-        </q-list>
-        <!-- </q-card-section>
-        </q-card> -->
+            <q-item>
+              <q-item-section>
+                <q-item-label caption>Created By:</q-item-label>
+                <q-item-label class="text-subtitle1">{{
+                  timeOffDetails.createdByUserName
+                }}</q-item-label>
+              </q-item-section></q-item
+            >
+          </q-list>
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>

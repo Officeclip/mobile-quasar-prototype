@@ -9,6 +9,7 @@ const timeOffStore = useTimeOffStore();
 const router = useRouter();
 const $q = useQuasar();
 const myDrawer = ref();
+const isLoading = ref<boolean>(true);
 
 const tab = ref('mylist'); // Default tab
 const title = computed(() =>
@@ -64,6 +65,8 @@ const loadTimeOffSummaries = async (tabValue: string) => {
       await router.push({ path: '/homePage' });
       router.go(0);
     });
+  } finally {
+    isLoading.value = false;
   }
 };
 
@@ -115,7 +118,13 @@ const viewDetails = (row) => {
     </q-header>
     <drawer ref="myDrawer" />
     <q-page-container>
-      <q-page>
+      <q-page v-if="isLoading" class="flex flex-center text-center">
+        <div>
+          <q-spinner color="primary" size="3em" />
+          <p class="q-mt-md q-ml-sm">Loading data...</p>
+        </div></q-page
+      >
+      <q-page v-else>
         <q-tabs
           v-model="tab"
           @update:model-value="handleTabClick"
