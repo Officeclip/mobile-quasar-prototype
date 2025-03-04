@@ -4,10 +4,13 @@ import { computed, onMounted, ref } from 'vue';
 import drawer from '../../components/drawer.vue';
 import { useTrackerBinderSummaryStore } from 'src/stores/issueTracker/trackerBinderSummaryStore';
 import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
 
 const router = useRouter();
 const title = ref('Binders');
 const myDrawer = ref();
+const $q = useQuasar();
+const isLoading = ref<boolean>(true);
 
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
@@ -15,8 +18,24 @@ function toggleLeftDrawer() {
 }
 const trackerBinderSummaryStore = useTrackerBinderSummaryStore();
 
+const loadBindersList = async () => {
+  try {
+    await trackerBinderSummaryStore.getTrackerBindersList();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/homePage' });
+    });
+  } finally {
+    isLoading.value = false;
+  }
+};
+
 onMounted(() => {
-  trackerBinderSummaryStore.getTrackerBindersList();
+  // trackerBinderSummaryStore.getTrackerBindersList();
+  loadBindersList();
 });
 const binderList = computed(() => {
   return trackerBinderSummaryStore.TrackerBindersList;
@@ -50,48 +69,56 @@ const binderList = computed(() => {
     <drawer ref="myDrawer" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
-      <q-page>
-        <q-list>
-          <q-item>
-            <q-item-section class="text-h6 items-center">
-              {{ title }}</q-item-section
-            >
-          </q-item>
-          <q-separator spaced inset color="yellow-6"></q-separator>
-        </q-list>
-        <div v-if="binderList">
-          <q-list v-for="binder in binderList" :key="binder.id">
-            <q-item
-              :to="{
-                name: 'trackerCaseSummary',
-                params: {
-                  binderId: binder.id,
-                  binderName: binder.name,
-                },
-              }"
-              clickable
-              v-ripple
-            >
+      <q-page v-if="isLoading" class="flex flex-center text-center">
+        <div>
+          <q-spinner color="primary" size="3em" />
+          <p class="q-mt-md q-ml-sm">Loading data...</p>
+        </div></q-page
+      >
+      <q-page v-else>
+        <div>
+          <q-list>
+            <q-item>
+              <q-item-section class="text-h6 items-center">
+                {{ title }}</q-item-section
+              >
+            </q-item>
+            <q-separator spaced inset color="yellow-6"></q-separator>
+          </q-list>
+          <div v-if="binderList">
+            <q-list v-for="binder in binderList" :key="binder.id">
+              <q-item
+                :to="{
+                  name: 'trackerCaseSummary',
+                  params: {
+                    binderId: binder.id,
+                    binderName: binder.name,
+                  },
+                }"
+                clickable
+                v-ripple
+              >
+                <q-item-section>
+                  <q-item-label
+                    >{{ binder.name }} ({{ binder.count }})</q-item-label
+                  >
+                </q-item-section>
+                <q-item-section side>
+                  <q-icon color="primary" name="chevron_right" />
+                </q-item-section>
+              </q-item>
+              <q-separator spaced inset></q-separator>
+            </q-list>
+          </div>
+          <div v-else>
+            <q-item>
               <q-item-section>
-                <q-item-label
-                  >{{ binder.name }} ({{ binder.count }})</q-item-label
-                >
-              </q-item-section>
-              <q-item-section side>
-                <q-icon color="primary" name="chevron_right" />
+                <q-item-label class="text-subtitle2">
+                  No Binders has been created yet please contact your Admin.
+                </q-item-label>
               </q-item-section>
             </q-item>
-            <q-separator spaced inset></q-separator>
-          </q-list>
-        </div>
-        <div v-else>
-          <q-item>
-            <q-item-section>
-              <q-item-label class="text-subtitle2">
-                No Binders has been created yet please contact your Admin.
-              </q-item-label>
-            </q-item-section>
-          </q-item>
+          </div>
         </div>
       </q-page>
     </q-page-container>
