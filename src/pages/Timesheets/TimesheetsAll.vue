@@ -17,7 +17,9 @@ const teCommentsStore = useTECommentsStore();
 const myDrawer = ref();
 
 const timesheetsStore = useTimesheetsStore();
-onMounted(async () => {
+
+const loadTimesheets = async () => {
+  $q.loading.show();
   try {
     await teCommentsStore.getTimesheetGroupProfile();
     await timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
@@ -29,7 +31,13 @@ onMounted(async () => {
       await router.push({ path: '/homePage' });
       router.go(0);
     });
+  } finally {
+    $q.loading.hide();
   }
+};
+
+onMounted(async () => {
+  await loadTimesheets();
 });
 
 const timesheetsAll = computed(() => {

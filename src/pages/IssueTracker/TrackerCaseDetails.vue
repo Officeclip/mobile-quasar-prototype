@@ -20,7 +20,6 @@ const id = ref<string | string[]>('0');
 id.value = route.params.id;
 const binderName = route.params.binderName;
 const myDrawer = ref();
-const isLoading = ref(true);
 const appName = route.params.appName;
 
 const notesCount = ref<any>('0');
@@ -42,6 +41,7 @@ function toggleLeftDrawer() {
 const issueDetailsStore = useIssueDetailsStore();
 
 const loadIssueDetails = async (id: string) => {
+  $q.loading.show();
   try {
     await issueDetailsStore.getTrackerCaseDetails(id);
   } catch (error) {
@@ -52,7 +52,7 @@ const loadIssueDetails = async (id: string) => {
       await router.push({ path: '/homePage' });
     });
   } finally {
-    isLoading.value = false;
+    $q.loading.hide();
   }
 };
 
@@ -159,13 +159,7 @@ const isAllowDelete = computed(() => {
     <drawer ref="myDrawer" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container class="q-mb-md">
-      <q-page v-if="isLoading" class="flex flex-center text-center">
-        <div>
-          <q-spinner color="primary" size="3em" />
-          <p class="q-mt-md q-ml-sm">Loading data...</p>
-        </div></q-page
-      >
-      <q-page v-else>
+      <q-page>
         <q-card>
           <q-list>
             <q-item>

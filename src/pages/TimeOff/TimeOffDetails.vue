@@ -24,9 +24,9 @@ const employeeId = route.params.employeeId;
 const entityType = 'timeOff';
 
 const timeOffDetailSid = ref('');
-const loading = ref(true);
 
 const loadTimeOffDetails = async (id: string) => {
+  $q.loading.show();
   try {
     await timeOffStore.getTimeOffDetails(id);
   } catch (error) {
@@ -37,7 +37,7 @@ const loadTimeOffDetails = async (id: string) => {
       await router.push({ path: '/timeOffSummary' });
     });
   } finally {
-    loading.value = false;
+    $q.loading.hide();
   }
 };
 
@@ -151,13 +151,8 @@ const toggleLeftDrawer = () => {
     </q-header>
     <Drawer ref="myDrawer" />
     <!-- <q-space class="q-mt-sm" /> -->
-    <q-page-container class="q-mb-md">
-      <q-page v-if="loading" class="flex flex-center">
-        <div>
-          <q-spinner color="primary" size="3em" />
-          <p class="text-center q-mt-md">Loading data...</p>
-        </div></q-page
-      ><q-page v-else>
+    <q-page-container class="q-mb-md"
+      ><q-page>
         <div>
           <!-- <pre>isAllowEdit:{{ isAllowEdit }}</pre>
         <pre>isAllowDelete::{{ isAllowDelete }}</pre>

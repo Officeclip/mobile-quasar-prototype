@@ -9,7 +9,6 @@ const timeOffStore = useTimeOffStore();
 const router = useRouter();
 const $q = useQuasar();
 const myDrawer = ref();
-const isLoading = ref<boolean>(true);
 
 const tab = ref('mylist'); // Default tab
 const title = computed(() =>
@@ -55,6 +54,7 @@ const columns = [
 
 const loadTimeOffSummaries = async (tabValue: string) => {
   timeOffStore.resetTimeOffSummaryList(); // Clear previous data
+  $q.loading.show();
   try {
     await timeOffStore.getTimeOffByCategory(tabValue);
   } catch (error) {
@@ -66,7 +66,7 @@ const loadTimeOffSummaries = async (tabValue: string) => {
       router.go(0);
     });
   } finally {
-    isLoading.value = false;
+    $q.loading.hide();
   }
 };
 
@@ -118,13 +118,7 @@ const viewDetails = (row) => {
     </q-header>
     <drawer ref="myDrawer" />
     <q-page-container>
-      <q-page v-if="isLoading" class="flex flex-center text-center">
-        <div>
-          <q-spinner color="primary" size="3em" />
-          <p class="q-mt-md q-ml-sm">Loading data...</p>
-        </div></q-page
-      >
-      <q-page v-else>
+      <q-page>
         <q-tabs
           v-model="tab"
           @update:model-value="handleTabClick"

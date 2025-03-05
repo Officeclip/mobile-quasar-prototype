@@ -18,7 +18,9 @@ const teCommentsStore = useTECommentsStore();
 const $q = useQuasar();
 const myDrawer = ref();
 
-const id = route.params.id;
+const id = Array.isArray(route.params.id)
+  ? route.params.id[0]
+  : route.params.id;
 const employeeId = route.params.employeeId;
 const entityType = 'timesheet';
 const timesheetDetailSid = ref('');
@@ -28,11 +30,8 @@ const stageId = Number(route.params.stageId);
 const status = route.params.status;
 const mode = route.params.mode;
 
-const isLoaded = ref<boolean>(false);
-const isAllowedWrite = ref();
-const isAllowedDelete = ref();
-
-onMounted(async () => {
+const loadTimesheetDetails = async (id: string, stageId: number) => {
+  $q.loading.show();
   try {
     await timesheetsStore.getTimesheetDetails(id, stageId);
     teCommentsStore.$reset();
@@ -46,25 +45,31 @@ onMounted(async () => {
       await router.push({ path: '/timesheetsAll' });
     });
   } finally {
-    isLoaded.value = true;
+    $q.loading.hide();
   }
+};
 
-  isAllowedWrite.value = isAllowed({
-    security: {
-      write: timesheetDetails?.value[0].security.write,
-    },
-    isTimeExpense: true,
-  });
-  isAllowedDelete.value = isAllowed({
-    security: {
-      delete: timesheetDetails?.value[0].security.delete,
-    },
-    isTimeExpense: true,
-  });
+onMounted(async () => {
+  await loadTimesheetDetails(id, stageId);
 });
 
 const timesheetDetails = computed(() => {
   return timesheetsStore.TimesheetDetails;
+});
+
+const isAllowDelete = computed(() => {
+  const details = timesheetDetails?.value[0];
+  return isAllowed({
+    security: { delete: details?.security?.delete },
+    isTimeExpense: true,
+  });
+});
+const isAllowEdit = computed(() => {
+  const details = timesheetDetails?.value[0];
+  return isAllowed({
+    security: { write: details?.security?.write },
+    isTimeExpense: true,
+  });
 });
 
 //getting the dcaa data from timesheet group profile
@@ -137,7 +142,7 @@ function toggleLeftDrawer() {
 </script>
 
 <template>
-  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
+  <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
@@ -159,7 +164,7 @@ function toggleLeftDrawer() {
         />
         <q-toolbar-title> Details </q-toolbar-title>
         <q-btn
-          v-if="isAllowedDelete"
+          v-if="isAllowDelete"
           flat
           round
           dense
@@ -211,7 +216,7 @@ function toggleLeftDrawer() {
             </q-item-section>
             <q-item-section side>
               <q-btn
-                v-if="isAllowedWrite && mode === 'PERIODIC'"
+                v-if="isAllowEdit && mode === 'PERIODIC'"
                 :to="{
                   name: 'editTimesheet',
                   params: {
@@ -230,7 +235,7 @@ function toggleLeftDrawer() {
             </q-item-section>
             <q-item-section side>
               <q-btn
-                v-if="isAllowedDelete"
+                v-if="isAllowDelete"
                 @click="displayShowDeleteTimesheetDetail(timesheetDetail?.id)"
                 size="sm"
                 flat
@@ -293,7 +298,7 @@ function toggleLeftDrawer() {
         style="z-index: 1000"
       >
         <q-btn
-          v-if="isAllowedWrite && mode === 'PERIODIC'"
+          v-if="isAllowEdit && mode === 'PERIODIC'"
           :to="{
             name: 'newTimesheet',
             params: {

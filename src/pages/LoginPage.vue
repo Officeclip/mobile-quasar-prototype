@@ -11,6 +11,7 @@ import { Constants } from 'src/stores/Constants';
 import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
 import apiLinkPage from 'src/pages/apiLinkPage.vue';
+import { fi } from 'date-fns/locale';
 
 const sessionStore = useSessionStore();
 const tokenStore = useTokenStore();
@@ -43,9 +44,7 @@ const $q = useQuasar();
 
 async function onSubmit(e: any) {
   e.preventDefault();
-  $q.loading.show({
-    delay: 400, // ms
-  });
+  $q.loading.show();
   try {
     const isFormCorrect = await v$.value.$validate();
     if (!isFormCorrect) {
@@ -66,6 +65,8 @@ async function onSubmit(e: any) {
       message: error as string,
       color: 'red',
     });
+  } finally {
+    $q.loading.hide();
   }
 }
 

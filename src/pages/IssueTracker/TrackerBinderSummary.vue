@@ -10,7 +10,6 @@ const router = useRouter();
 const title = ref('Binders');
 const myDrawer = ref();
 const $q = useQuasar();
-const isLoading = ref<boolean>(true);
 
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
@@ -19,6 +18,7 @@ function toggleLeftDrawer() {
 const trackerBinderSummaryStore = useTrackerBinderSummaryStore();
 
 const loadBindersList = async () => {
+  $q.loading.show();
   try {
     await trackerBinderSummaryStore.getTrackerBindersList();
   } catch (error) {
@@ -29,7 +29,7 @@ const loadBindersList = async () => {
       await router.push({ path: '/homePage' });
     });
   } finally {
-    isLoading.value = false;
+    $q.loading.hide();
   }
 };
 
@@ -69,13 +69,7 @@ const binderList = computed(() => {
     <drawer ref="myDrawer" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
-      <q-page v-if="isLoading" class="flex flex-center text-center">
-        <div>
-          <q-spinner color="primary" size="3em" />
-          <p class="q-mt-md q-ml-sm">Loading data...</p>
-        </div></q-page
-      >
-      <q-page v-else>
+      <q-page>
         <div>
           <q-list>
             <q-item>
