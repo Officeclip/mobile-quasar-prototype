@@ -1,8 +1,3 @@
-<!--
-  FIXME: sg: icons should be bigger, row spacing should be more, screen doesn't dance on hover [30]
-  FIXME: sg: organization drop down should work [30]
- -->
-
 <script lang="ts" setup>
 import { computed, ComputedRef, onBeforeMount, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -19,7 +14,6 @@ const profileListsStore = useProfileListsStore();
 const organization = ref('');
 const $q = useQuasar();
 
-const isLoaded = ref<boolean>(false);
 const myDrawer = ref();
 
 const filteredHomeIcons = computed(() => {
@@ -39,6 +33,7 @@ const organizationItems = computed(() => {
 });
 
 onBeforeMount(async () => {
+  $q.loading.show();
   try {
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
     await sessionStore.getSession();
@@ -64,7 +59,7 @@ onBeforeMount(async () => {
       router.go(0);
     });
   } finally {
-    isLoaded.value = true;
+    $q.loading.hide();
   }
 });
 
@@ -93,7 +88,7 @@ function goToApp(url: string) {
 }
 </style>
 <template>
-  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
+  <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
         <q-btn

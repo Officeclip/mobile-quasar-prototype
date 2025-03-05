@@ -2,9 +2,8 @@
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
 import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
-import { ref, Ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { eventDetails } from 'src/models/event/eventDetails';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useQuasar } from 'quasar';
 import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';

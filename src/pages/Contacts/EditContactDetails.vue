@@ -20,8 +20,6 @@ const loadContactDetails = async () => {
   $q.loading.show();
   try {
     await contactDetailsStore.getContactDetails(route.params.id as string);
-    const response = contactDetailsStore.ContactDetails;
-    contactDetails.value = response;
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -36,7 +34,6 @@ const loadContactDetails = async () => {
 };
 
 onMounted(async () => {
-  // await contactDetailsStore.getContactDetails(route.params.id as string);
   await loadContactDetails();
   const response = contactDetailsStore.ContactDetails;
   contactDetails.value = response;
