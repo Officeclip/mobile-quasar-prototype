@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, Ref, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import { useRoute, useRouter } from 'vue-router';
@@ -18,8 +18,25 @@ const paramsId = route.params.id;
 const appName = route.params.appName;
 const event = ref<eventDetails | null>(null);
 
+const loadEventDetails = async () => {
+  $q.loading.show();
+  try {
+    await eventDetailsStore.getEventDetailsById(paramsId);
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/eventSummary' });
+      router.go(0);
+    });
+  } finally {
+    $q.loading.hide();
+  }
+};
+
 onMounted(async () => {
-  await eventDetailsStore.getEventDetailsById(paramsId);
+  await loadEventDetails();
   const respone = eventDetailsStore.EventDetails;
   event.value = respone;
 });
@@ -37,16 +54,19 @@ function handleRRuleText(rruleText: string) {
 function handleReminder(reminder: [string, number]) {
   if (event.value) {
     event.value.reminder.to = reminder[0];
-    event.value.reminder.beforeMinutes = reminder[1].toString();
+    event.value.reminder.beforeMinutes = reminder[1];
   }
 }
 const childComponent = ref(null);
 
-async function onSubmit(e: any) {
+async function onSubmit() {
+  $q.loading.show();
   try {
     if (!childComponent.value.validateAll()) return;
     const editEventDetails = ref(event);
-    await eventDetailsStore.editEventDetails(editEventDetails.value);
+    if (editEventDetails.value) {
+      await eventDetailsStore.editEventDetails(editEventDetails.value);
+    }
     await eventSummaryStore.resetEventSummaryList();
     router.go(-2);
   } catch (error) {
@@ -54,6 +74,8 @@ async function onSubmit(e: any) {
       title: 'Alert',
       message: error as string,
     });
+  } finally {
+    $q.loading.hide();
   }
 }
 </script>
