@@ -15,6 +15,7 @@ import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
 import { isAllowed } from 'src/helpers/security';
 import drawer from '../../components/drawer.vue';
+import { $ } from 'app/src-capacitor/www/assets/index.2cd8f154';
 
 const route = useRoute();
 const router = useRouter();
@@ -29,13 +30,11 @@ const entityType = 'expense';
 const fromDate = route.params.fromDate;
 const toDate = route.params.toDate;
 const status = route.params.status;
-const isLoaded = ref<boolean>(false);
 
-const isAllowedWrite = ref();
-const isAllowedDelete = ref();
 const myDrawer = ref();
 
-onMounted(async () => {
+const loadExpenseDetails = async () => {
+  $q.loading.show();
   try {
     await expenseDetailsStore.getExpenseDetails(id, stageId);
     await expenseCommentsStore.$reset();
@@ -48,24 +47,31 @@ onMounted(async () => {
       await router.push({ path: '/expensesAll' });
     });
   } finally {
-    isLoaded.value = true;
+    $q.loading.hide();
   }
-  isAllowedWrite.value = isAllowed({
-    security: {
-      write: expenseDetails?.value[0].security.write,
-    },
-    isTimeExpense: true,
-  });
-  isAllowedDelete.value = isAllowed({
-    security: {
-      delete: expenseDetails?.value[0].security.delete,
-    },
-    isTimeExpense: true,
-  });
+};
+
+onMounted(async () => {
+  await loadExpenseDetails();
 });
 
 const expenseDetails = computed(() => {
   return expenseDetailsStore.expenseDetailsList;
+});
+
+const isAllowDelete = computed(() => {
+  const details = expenseDetails?.value[0];
+  return isAllowed({
+    security: { delete: details?.security?.delete },
+    isTimeExpense: true,
+  });
+});
+const isAllowEdit = computed(() => {
+  const details = expenseDetails?.value[0];
+  return isAllowed({
+    security: { write: details?.security?.write },
+    isTimeExpense: true,
+  });
 });
 
 const commentsList = computed(() => {
@@ -137,7 +143,7 @@ function toggleLeftDrawer() {
 </style>
 
 <template>
-  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
+  <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
@@ -159,7 +165,7 @@ function toggleLeftDrawer() {
         />
         <q-toolbar-title> Expense Details </q-toolbar-title>
         <q-btn
-          v-if="isAllowedDelete"
+          v-if="isAllowDelete"
           flat
           round
           dense
@@ -215,7 +221,7 @@ function toggleLeftDrawer() {
               ><q-item-section side>
                 <q-item-label>
                   <q-btn
-                    v-if="isAllowedWrite"
+                    v-if="isAllowEdit"
                     :to="{
                       name: 'editExpense',
                       params: {
@@ -237,7 +243,7 @@ function toggleLeftDrawer() {
               </q-item-section>
               <q-item-section side>
                 <q-btn
-                  v-if="isAllowedDelete"
+                  v-if="isAllowDelete"
                   @click="showExpenseDetailDelete(expenseDetail?.expenseSid)"
                   size="sm"
                   flat
@@ -297,7 +303,7 @@ function toggleLeftDrawer() {
           style="z-index: 1000"
         >
           <q-btn
-            v-if="isAllowedWrite"
+            v-if="isAllowEdit"
             :to="{
               name: 'newExpense',
               params: {

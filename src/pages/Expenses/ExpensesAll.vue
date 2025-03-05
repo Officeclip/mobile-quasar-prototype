@@ -16,7 +16,8 @@ const title = ref(capitalize(expenseStatus.value));
 
 const myDrawer = ref();
 
-onMounted(async () => {
+const loadExpensesByStatus = async () => {
+  $q.loading.show();
   try {
     await expensesDetailsStore.getExpensesByStatus(String(expenseStatus.value));
   } catch (error) {
@@ -26,7 +27,13 @@ onMounted(async () => {
     }).onOk(async () => {
       await router.push({ path: '/HomePage' });
     });
+  } finally {
+    $q.loading.hide();
   }
+};
+
+onMounted(async () => {
+  await loadExpensesByStatus();
 });
 
 const allExpenses = computed(() => {

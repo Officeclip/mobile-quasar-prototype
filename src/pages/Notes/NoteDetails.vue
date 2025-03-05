@@ -6,6 +6,7 @@ import { useRoute, useRouter } from 'vue-router';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import { useQuasar } from 'quasar';
 import drawer from '../../components/drawer.vue';
+import { $ } from 'app/src-capacitor/www/assets/index.2cd8f154';
 
 const route = useRoute();
 const router = useRouter();
@@ -22,13 +23,14 @@ const isPrivate = ref<string>();
 
 const id = ref<string | string[]>('0');
 
-const isLoaded = ref<boolean>(false);
+// const isLoaded = ref<boolean>(false);
 
 const note = computed(() => {
   return notesStore.Note;
 });
 
-onMounted(async () => {
+const loadNoteDetails = async () => {
+  $q.loading.show();
   try {
     id.value = route.params.id;
     await notesStore.getNote(route.params.id as string);
@@ -41,8 +43,12 @@ onMounted(async () => {
       await router.push({ path: `/contactDetails/${parentObjectId}` });
     });
   } finally {
-    isLoaded.value = true;
+    $q.loading.hide();
   }
+};
+
+onMounted(async () => {
+  await loadNoteDetails();
 });
 
 const title = ref('Confirm');
@@ -80,7 +86,7 @@ function toggleLeftDrawer() {
 </style>
 
 <template>
-  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
+  <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn

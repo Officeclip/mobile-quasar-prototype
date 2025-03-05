@@ -24,7 +24,8 @@ const appName = route.params.appName;
 
 const myDrawer = ref();
 
-onMounted(async () => {
+const loadEventDetails = async () => {
+  $q.loading.show();
   try {
     await eventDetailsStore.getEventDetailsById(id);
     await reminderDataStore.getReminderObject();
@@ -34,9 +35,19 @@ onMounted(async () => {
       message: error as string,
     }).onOk(async () => {
       await router.push({ path: '/eventSummary' });
-      await router.go(0);
+      router.go(0);
     });
+  } finally {
+    $q.loading.hide();
   }
+};
+
+onMounted(async () => {
+  await loadEventDetails();
+});
+
+const event = computed(() => {
+  return eventDetailsStore?.eventDetails;
 });
 
 const isAllowEdit = computed(() => {
@@ -49,10 +60,6 @@ const isAllowDelete = computed(() => {
   return isAllowed({
     security: { delete: event.value?.security?.delete },
   });
-});
-
-const event = computed(() => {
-  return eventDetailsStore?.eventDetails;
 });
 
 const selectedTime = computed(() => {

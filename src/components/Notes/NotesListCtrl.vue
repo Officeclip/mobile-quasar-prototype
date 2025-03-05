@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useNotesStore } from '../../stores/NotesStore';
-import { computed, onBeforeMount } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
@@ -26,7 +26,8 @@ const getNotesCount = computed(() => {
   return notesStore.NotesCount;
 });
 
-onBeforeMount(async () => {
+const loadNotesList = async () => {
+  $q.loading.show();
   try {
     await notesStore.getNotes(
       parentObjectServiceType.value,
@@ -41,8 +42,32 @@ onBeforeMount(async () => {
     }).onOk(async () => {
       await router.push({ path: '/HomePage' });
     });
+  } finally {
+    $q.loading.hide();
   }
+};
+
+onMounted(async () => {
+  await loadNotesList();
 });
+
+// onBeforeMount(async () => {
+//   try {
+//     await notesStore.getNotes(
+//       parentObjectServiceType.value,
+//       parentObjectId.value,
+//       noteBookId.value
+//     );
+//     emit('numberOfNotes', getNotesCount);
+//   } catch (error) {
+//     $q.dialog({
+//       title: 'Alert',
+//       message: error as string,
+//     }).onOk(async () => {
+//       await router.push({ path: '/HomePage' });
+//     });
+//   }
+// });
 
 const errorMsg = computed(() => {
   return notesStore.errorMsg;

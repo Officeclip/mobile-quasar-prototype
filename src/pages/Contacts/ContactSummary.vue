@@ -11,6 +11,7 @@ import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
 import { searchFilter } from 'src/models/Contact/searchFilter';
+import { $ } from 'app/src-capacitor/www/assets/index.2cd8f154';
 
 const router = useRouter();
 const $q = useQuasar();
@@ -45,6 +46,7 @@ const errorMsg = computed(() => {
 
 let reachedEnd = ref(false); // indicate if all contacts have been loaded
 const loadMore = async (index: any, done: () => void) => {
+  $q.loading.show();
   try {
     reachedEnd.value = await contactSummaryStore.getUpdatedContacts(false);
     //https://quasar.dev/vue-components/infinite-scroll/#usage
@@ -56,6 +58,8 @@ const loadMore = async (index: any, done: () => void) => {
     }).onOk(async () => {
       await router.push({ path: '/HomePage' });
     });
+  } finally {
+    $q.loading.hide();
   }
 };
 

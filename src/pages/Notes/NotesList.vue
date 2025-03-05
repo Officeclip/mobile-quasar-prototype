@@ -1,18 +1,36 @@
 <!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
-import { onBeforeMount, ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import { useNotesStore } from '../../stores/NotesStore';
 import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
+import { useQuasar } from 'quasar';
 
 const router = useRouter();
 const selectedNoteBook = ref('');
 const notesStore = useNotesStore();
 const myDrawer = ref();
+const $q = useQuasar();
 
-onBeforeMount(async () => {
-  await notesStore.getNoteBooks();
+const loadNoteBooks = async () => {
+  $q.loading.show();
+  try {
+    await notesStore.getNoteBooks();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/homePage' });
+    });
+  } finally {
+    $q.loading.hide();
+  }
+};
+
+onMounted(async () => {
+  await loadNoteBooks();
 });
 
 const noteBooks = computed(() => {
