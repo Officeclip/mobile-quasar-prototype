@@ -1,7 +1,3 @@
-<!--
-TODO: skd: Edit the address also with state as a dropdown. It should be done with the
-code and not the name [1.5h]
--->
 <script setup lang="ts">
 import { onMounted, ref, Ref } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
@@ -18,27 +14,52 @@ const contactDetailsStore = useContactDetailsStore();
 const router = useRouter();
 const route = useRoute();
 
-const contactDetails: Ref<ContactDetails> = ref(null);
+const contactDetails: Ref<ContactDetails | null> = ref(null);
+
+const loadContactDetails = async () => {
+  $q.loading.show();
+  try {
+    await contactDetailsStore.getContactDetails(route.params.id as string);
+    const response = contactDetailsStore.ContactDetails;
+    contactDetails.value = response;
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/contactSummary' });
+      router.go(0);
+    });
+  } finally {
+    $q.loading.hide();
+  }
+};
 
 onMounted(async () => {
-  await contactDetailsStore.getContactDetails(route.params.id as string);
+  // await contactDetailsStore.getContactDetails(route.params.id as string);
+  await loadContactDetails();
   const response = contactDetailsStore.ContactDetails;
   contactDetails.value = response;
 });
 
 const childComponent = ref(null);
 
-async function onSubmit(e: any) {
+async function onSubmit() {
+  $q.loading.show();
   try {
     if (!childComponent.value.validateAll()) return;
     const editContactDetails = ref(contactDetails);
-    await contactDetailsStore.editContactDetails(editContactDetails.value!);
+    if (editContactDetails.value) {
+      await contactDetailsStore.editContactDetails(editContactDetails.value);
+    }
     router.go(-1);
   } catch (error) {
     $q.dialog({
       title: 'Alert',
       message: error as string,
     });
+  } finally {
+    $q.loading.hide();
   }
 }
 </script>

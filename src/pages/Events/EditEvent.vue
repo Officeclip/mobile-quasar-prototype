@@ -16,7 +16,7 @@ const eventSummaryStore = useEventSummaryStore();
 
 const paramsId = route.params.id;
 const appName = route.params.appName;
-const event: Ref<eventDetails> = ref(null);
+const event = ref<eventDetails | null>(null);
 
 onMounted(async () => {
   await eventDetailsStore.getEventDetailsById(paramsId);
@@ -24,16 +24,21 @@ onMounted(async () => {
   event.value = respone;
 });
 function handleRRule(rrule: string) {
-  event.value.recurrence.rule = rrule;
+  if (event.value) {
+    event.value.recurrence.rule = rrule;
+  }
 }
 
 function handleRRuleText(rruleText: string) {
-  event.value.recurrence.text = rruleText;
+  if (event.value) {
+    event.value.recurrence.text = rruleText;
+  }
 }
-
 function handleReminder(reminder: [string, number]) {
-  event.value.reminder.to = reminder[0];
-  event.value.reminder.beforeMinutes = reminder[1];
+  if (event.value) {
+    event.value.reminder.to = reminder[0];
+    event.value.reminder.beforeMinutes = reminder[1].toString();
+  }
 }
 const childComponent = ref(null);
 

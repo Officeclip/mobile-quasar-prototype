@@ -22,10 +22,7 @@ const parentObjectServiceType = route.params.objectTypeId
   : '';
 const appName = route.params.appName ? route.params.appName : '';
 
-const isValid = ref(true);
-
-//TODO: CR: 2024-05-17: nk: Fix the below type error?
-const event: Ref<eventDetails> = ref({
+const event = ref({
   id: '',
   createdDate: new Date().toISOString(),
   createdGroupSid: '',
@@ -54,16 +51,33 @@ const event: Ref<eventDetails> = ref({
   modifiedDate: '',
   modifiedUserSid: '',
   modifiedUserName: '',
-  reminder: {},
+  reminder: {
+    to: '',
+    beforeMinutes: '',
+  },
   recurrence: {
     text: '',
     rule: '',
   },
-  label: {},
-  showTimeAs: {},
+  label: {
+    id: '',
+    name: '',
+    backColor: '',
+    foreColor: '',
+    borderColor: '',
+  },
+  showTimeAs: {
+    id: '',
+    name: '',
+  },
   meetingAttendees: [],
   url: '',
-  security: {},
+  security: {
+    read: false,
+    write: false,
+    append: false,
+    delete: false,
+  },
 });
 
 function handleRRule(rrule: string) {
@@ -74,19 +88,19 @@ function handleRRuleText(rruleText: string) {
   event.value.recurrence.text = rruleText;
 }
 
-//TODO: CR: 2024-05-17: nk: Fix the below type error?
 function handleReminder(reminder: [string, number]) {
   event.value.reminder.to = reminder[0];
-  event.value.reminder.beforeMinutes = reminder[1];
+  event.value.reminder.beforeMinutes = reminder[1].toString();
 }
 
 const childComponent = ref<typeof EventForm>(); // see: https://stackoverflow.com/a/65027995
 
-async function onSubmit(e: any) {
+async function onSubmit() {
+  $q.loading.show();
   try {
     if (!childComponent.value?.validateAll()) return;
-    const newEventDetails = ref(event);
-    await eventDetailsStore.addEventDetails(newEventDetails.value);
+    const newEventData = ref(event);
+    await eventDetailsStore.addEventDetails(newEventData.value);
     await eventSummaryStore.resetEventSummaryList();
     router.go(-1);
   } catch (error) {
@@ -94,6 +108,8 @@ async function onSubmit(e: any) {
       title: 'Alert',
       message: error as string,
     });
+  } finally {
+    $q.loading.hide();
   }
 }
 </script>

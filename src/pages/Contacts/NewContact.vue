@@ -2,7 +2,6 @@
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import { useRouter } from 'vue-router';
 import EditContactDetailsCtrl from '../../components/Contacts/EditContactDetailsCtrl.vue';
-import { ContactDetails } from 'src/models/Contact/contactDetails';
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
@@ -12,8 +11,7 @@ const $q = useQuasar();
 const router = useRouter();
 const usecontactDetailsStore = useContactDetailsStore();
 
-//TODO: CR: 2024-05-17: nk: Fix the below type error?
-const contactDetails: ContactDetails = ref({
+const contactDetails = ref({
   //from: https://stackoverflow.com/a/49741799
   id: '',
   first_name: '',
@@ -31,17 +29,20 @@ const contactDetails: ContactDetails = ref({
   home_phone: '',
   thumbnail: '',
   picture: '',
-  security: {},
+  security: {
+    read: false,
+    write: false,
+    append: false,
+    delete: false,
+  },
 });
 
-const childComponent = ref(null);
-
-async function onSubmit(e: any) {
+// const childComponent = ref(null);
+const childComponent = ref<typeof EditContactDetailsCtrl>();
+async function onSubmit() {
+  $q.loading.show();
   try {
-    //FIXME: Remove the lint supress line from here. See: https://stackoverflow.com/a/54535439
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-
-    if (!childComponent.value.validateAll()) return;
+    if (!childComponent.value?.validateAll()) return;
 
     const newContactDetails = ref(contactDetails);
     await usecontactDetailsStore.addContactDetails(newContactDetails.value);
@@ -51,6 +52,8 @@ async function onSubmit(e: any) {
       title: 'Alert',
       message: error as string,
     });
+  } finally {
+    $q.loading.hide();
   }
 }
 </script>
