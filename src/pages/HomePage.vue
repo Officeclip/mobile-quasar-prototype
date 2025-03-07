@@ -48,9 +48,9 @@ function toggleLeftDrawer() {
   myDrawer.value.toggleLeftDrawer();
 }
 
-function getColor(url: string) {
-  return url !== '' ? 'primary' : 'dark';
-}
+// function getColor(url: string) {
+//   return url !== '' ? 'primary' : 'dark';
+// }
 
 function getClass(url: string) {
   return url !== '' ? 'pointer' : '';
@@ -101,7 +101,7 @@ function goToApp(url: string) {
               <div>
                 <q-icon
                   :class="getClass(item.url)"
-                  :color="getColor(item.url)"
+                  :color="item.color"
                   :name="item.icon"
                   size="lg"
                   @click="goToApp(item.url)"

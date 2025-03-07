@@ -36,12 +36,14 @@ const filteredHomeIcons = computed(() => {
       icon: 'home',
       name: 'Home Page',
       url: '/homePage',
+      color: '',
     },
     {
       id: 34,
       icon: 'do_disturb',
       name: 'Reset',
       url: '/settings',
+      color: '',
     },
   ];
   const newHomeIcons = [newIcons[0], ...homeIcons];
@@ -49,9 +51,9 @@ const filteredHomeIcons = computed(() => {
   return newHomeIcons;
 });
 
-function getColor(url: string) {
-  return url !== '' ? 'primary' : 'dark';
-}
+// function getColor(url: string) {
+//   return url !== '' ? 'primary' : 'dark';
+// }
 
 function getClass(url: string) {
   return url !== '' ? 'pointer' : '';
@@ -96,7 +98,7 @@ onMounted(async () => {
             <SelectOrganizations :dense="dense" class="bg-grey-2" />
           </q-item-section>
         </q-item>
-        <q-separator color="primary"></q-separator>
+        <q-separator color="grey-4"></q-separator>
         <q-item
           v-for="item in filteredHomeIcons"
           :key="item.name"
@@ -106,7 +108,7 @@ onMounted(async () => {
           <q-item-section avatar>
             <q-icon
               :class="getClass(item.url)"
-              :color="getColor(item.url)"
+              :color="item.color"
               :name="item.icon"
               size="md"
             ></q-icon>
