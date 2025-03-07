@@ -139,6 +139,8 @@ const viewDetails = (row) => {
           flat
           bordered
           separator="horizontal"
+          rows-per-page-label="Timeoff list"
+          :rows-per-page-options="[10, 15, 20]"
         >
           <template v-slot:body="props">
             <q-tr

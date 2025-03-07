@@ -7,12 +7,14 @@ import packageJson from '../../package.json';
 import { useProfileListsStore } from 'stores/profileListsStore';
 import { Constants } from 'stores/Constants';
 import util from 'src/helpers/util';
+import SelectOrganizations from './general/SelectOrganizations.vue';
 
 const sessionStore = useSessionStore();
 const leftDrawerOpen = ref(false);
 const router = useRouter();
 const profileListsStore = useProfileListsStore();
 const userIcon = ref();
+const dense = true;
 
 const session = computed(() => {
   return sessionStore.session;
@@ -69,7 +71,7 @@ onMounted(async () => {
   if (util.isObjectNullOrEmpty(profileListsStore.profileLists)) {
     await profileListsStore.getProfileLists();
   }
-  userIcon.value = profileListsStore.ProfilesUserGeneral.userIcon;
+  userIcon.value = profileListsStore.ProfilesUserGeneral?.userIcon;
 });
 </script>
 
@@ -86,46 +88,77 @@ onMounted(async () => {
 <!-- see: https://forum.quasar-framework.org/topic/2911/width-attribute-on-q-layout-drawer-giving-error-in-browser-console/3 -->
 
 <template>
-  <q-drawer
-    v-model="leftDrawerOpen"
-    :width="250"
-    bordered
-    class="bg-grey-2"
-    show-if-above
-  >
-    <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px">
+  <q-drawer v-model="leftDrawerOpen" :mi-width="250" bordered show-if-above>
+    <q-scroll-area style="margin-top: 100px; height: calc(100% - 160px)">
       <q-list>
-        <div v-for="item in filteredHomeIcons" :key="item.name">
-          <q-item clickable @click="goToApp(item.url)">
-            <q-item-section avatar>
-              <q-icon
-                :class="getClass(item.url)"
-                :color="getColor(item.url)"
-                :name="item.icon"
-                size="md"
-              ></q-icon>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ item.name }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </div>
+        <q-item dense class="q-pa-none">
+          <q-item-section>
+            <SelectOrganizations :dense="dense" class="bg-grey-2" />
+          </q-item-section>
+        </q-item>
+        <q-separator color="primary"></q-separator>
+        <q-item
+          v-for="item in filteredHomeIcons"
+          :key="item.name"
+          clickable
+          @click="goToApp(item.url)"
+        >
+          <q-item-section avatar>
+            <q-icon
+              :class="getClass(item.url)"
+              :color="getColor(item.url)"
+              :name="item.icon"
+              size="md"
+            ></q-icon>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ item.name }}</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
-      <div style="height: 50px"></div>
     </q-scroll-area>
-    <q-img
-      src="https://cdn.quasar.dev/img/material.png"
+    <!-- <q-img
+      src="src/images/dark-pastel-blue-solid-color-background.jpg"
       class="absolute-top"
-      style="height: 150px"
+      height="150px"
+    > -->
+    <!-- <q-img
+      src="src/images/jet-solid-color-background.jpg"
+      class="absolute-top"
+      height="150px"
+    > -->
+    <!-- <q-img
+      src="src/images/ruddy-pink-solid-color-background.jpg"
+      class="absolute-top"
+      height="150px"
+    > -->
+    <!-- <q-img
+      src="src/images/soap-solid-color-background.jpg"
+      class="absolute-top"
+      height="150px"
+    > -->
+    <q-img
+      src="src/images/2880x1800-smoky-black-solid-color-background.jpg"
+      class="absolute-top"
+      height="100px"
     >
-      <div class="absolute-bottom bg-transparent">
-        <q-avatar class="q-mb-sm" size="56px">
-          <q-icon v-if="userIcon === ''" name="person" size="xl"></q-icon>
-          <img v-if="userIcon !== ''" :src="userIcon" />
-        </q-avatar>
-        <div class="text-weight-bold">{{ session?.userName }}</div>
-        <div>{{ session?.userEmail }}</div>
-      </div>
+      <q-item class="q-px-none">
+        <q-item-section side>
+          <q-avatar size="xl" color="white">
+            <q-img v-if="userIcon" v-bind:src="userIcon" />
+            <q-icon v-else name="person" />
+          </q-avatar>
+        </q-item-section>
+        <q-separator vertical color="white" inset></q-separator>
+        <q-item-section class="q-ml-md">
+          <q-item-label class="text-subtitle1">
+            {{ session?.userName }}
+          </q-item-label>
+          <q-item-label>
+            {{ session?.userEmail }}
+          </q-item-label>
+        </q-item-section>
+      </q-item>
     </q-img>
 
     <q-footer bordered class="bg-white text-primary left-zero">

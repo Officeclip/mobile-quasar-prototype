@@ -14,7 +14,7 @@ const timeOffStore = useTimeOffStore();
 
 // const timeOff: Ref<TimeOffDetails> = ref({} as TimeOffDetails);
 
-const childComponent = ref(null);
+// const childComponent = ref(null);
 
 const timeOff: Ref<TimeOffDetails> = ref({
   id: '',
@@ -39,7 +39,7 @@ const timeOff: Ref<TimeOffDetails> = ref({
 
 async function onSubmit() {
   try {
-    if (!childComponent.value.validateAll()) return;
+    // if (!childComponent.value.validateAll()) return;
     const newTimeOff = ref(timeOff.value);
     await timeOffStore.addTimeOffDetails(newTimeOff.value);
     router.go(-1);
@@ -70,7 +70,7 @@ async function onSubmit() {
     </q-header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
-        <TimeOffForm v-if="timeOff" :timeOff="timeOff" ref="childComponent" />
+        <TimeOffForm v-if="timeOff" :timeOff="timeOff" />
       </q-form>
     </q-page-container>
   </q-layout>

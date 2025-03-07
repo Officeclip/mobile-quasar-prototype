@@ -1,55 +1,30 @@
 <script lang="ts" setup>
-import { computed, ComputedRef, onBeforeMount, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useSessionStore } from 'stores/SessionStore';
-import { Session } from '../models/session';
 import { useProfileListsStore } from 'stores/profileListsStore';
 import { useQuasar } from 'quasar';
 import drawer from '../components/drawer.vue';
+import SelectOrganizations from 'src/components/general/SelectOrganizations.vue';
 
 const router = useRouter();
 const sessionStore = useSessionStore();
 const profileListsStore = useProfileListsStore();
 
-const organization = ref('');
 const $q = useQuasar();
-
+const isLoaded = ref<boolean>(false);
 const myDrawer = ref();
 
 const filteredHomeIcons = computed(() => {
   return sessionStore.getHomeIcons();
 });
 
-async function updateOrganization(newValue: any) {
-  await sessionStore.changeOrganization(newValue.id);
-}
-
-const session: ComputedRef<Session> = computed(() => {
-  return sessionStore.Session;
-});
-
-const organizationItems = computed(() => {
-  return profileListsStore.Organizations;
-});
-
-onBeforeMount(async () => {
+const loadProfileList = async () => {
   $q.loading.show();
   try {
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
     await sessionStore.getSession();
     await profileListsStore.getProfileLists();
-
-    const organizationItems = computed(() => {
-      return profileListsStore.profileLists.organization;
-    });
-
-    const organizationItem = computed(() => {
-      return organizationItems.value.find(
-        (orgItem) => orgItem.id === session.value.orgId
-      );
-    });
-
-    organization.value = organizationItem.value?.name as string;
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -60,7 +35,12 @@ onBeforeMount(async () => {
     });
   } finally {
     $q.loading.hide();
+    isLoaded.value = true;
   }
+};
+
+onMounted(async () => {
+  await loadProfileList();
 });
 
 function toggleLeftDrawer() {
@@ -88,7 +68,7 @@ function goToApp(url: string) {
 }
 </style>
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -107,16 +87,8 @@ function goToApp(url: string) {
 
     <q-page-container>
       <q-page>
-        <div class="q-pa-lg text-center">
-          <q-select
-            v-model="organization"
-            :options="organizationItems"
-            label="Select Organization"
-            option-label="name"
-            option-value="id"
-            outlined
-            @update:model-value="updateOrganization"
-          />
+        <div>
+          <SelectOrganizations />
         </div>
         <div>
           <div class="row">

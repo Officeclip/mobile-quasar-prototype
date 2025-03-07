@@ -152,7 +152,7 @@ function toggleLeftDrawer() {
                   v-if="contact.thumbnail"
                   v-bind:src="contact.thumbnail"
                 />
-                <q-icon name="image" v-else />
+                <q-icon v-else name="person" />
               </q-avatar>
             </q-item-section>
             <q-item-section>
