@@ -46,18 +46,16 @@ const organization = ref(organizationItem.value?.name || '');
 </script>
 
 <template>
-  <div class="q-pa-lg text-center">
-    <q-select
-      :dense="isDense"
-      v-model="organization"
-      :options="organizationItems"
-      label="Select Organization"
-      option-label="name"
-      option-value="id"
-      outlined
-      @update:model-value="updateOrganizations"
-    />
-  </div>
+  <q-select
+    :dense="isDense"
+    v-model="organization"
+    :options="organizationItems"
+    label="Select Organization"
+    option-label="name"
+    option-value="id"
+    outlined
+    @update:model-value="updateOrganizations"
+  />
 </template>
 
 <style scoped></style>

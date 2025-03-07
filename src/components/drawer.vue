@@ -93,12 +93,12 @@ onMounted(async () => {
   <q-drawer v-model="leftDrawerOpen" :mi-width="250" bordered show-if-above>
     <q-scroll-area style="margin-top: 100px; height: calc(100% - 160px)">
       <q-list>
-        <q-item dense class="q-pa-none">
+        <q-item class="bg-grey-3">
           <q-item-section>
-            <SelectOrganizations :dense="dense" class="bg-grey-2" />
+            <SelectOrganizations :dense="dense" />
           </q-item-section>
         </q-item>
-        <q-separator color="grey-4"></q-separator>
+        <!-- <q-separator color="grey-4"></q-separator> -->
         <q-item
           v-for="item in filteredHomeIcons"
           :key="item.name"
