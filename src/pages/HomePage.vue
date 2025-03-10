@@ -48,9 +48,9 @@ function toggleLeftDrawer() {
   myDrawer.value.toggleLeftDrawer();
 }
 
-// function getColor(url: string) {
-//   return url !== '' ? 'primary' : 'dark';
-// }
+function getColor(url: string) {
+  return url !== '' ? 'primary' : 'dark';
+}
 
 function getClass(url: string) {
   return url !== '' ? 'pointer' : '';
@@ -61,6 +61,7 @@ function goToApp(url: string) {
     router.push({ path: url });
   }
 }
+const dense = true;
 </script>
 <style>
 .q-dialog__backdrop {
@@ -80,6 +81,7 @@ function goToApp(url: string) {
           @click="toggleLeftDrawer"
         />
         <q-toolbar-title> OfficeClip Suite</q-toolbar-title>
+        <!-- <SelectOrganizations :dense="dense" class="bg-white" /> -->
       </q-toolbar>
     </q-header>
 
@@ -87,28 +89,30 @@ function goToApp(url: string) {
 
     <q-page-container>
       <q-page>
-        <div>
+        <div class="q-mx-xl q-mt-md bg-grey-2">
           <SelectOrganizations />
         </div>
-        <div>
-          <div class="row">
-            <div
-              v-for="item in filteredHomeIcons"
-              :key="item.name"
-              class="col-4 q-pa-xl text-center itemsCenter"
-              style="height: 150px"
+        <div class="row">
+          <div
+            v-for="item in filteredHomeIcons"
+            :key="item.name"
+            class="col-4 flex justify-evenly q-mt-md"
+          >
+            <q-card
+              class="flex flex-center text-center q-py-xs q-ma-md clickable-card"
+              style="width: 100%; max-width: 250px"
+              @click="goToApp(item.url)"
             >
               <div>
                 <q-icon
                   :class="getClass(item.url)"
-                  :color="item.color"
+                  :color="getColor(item.url)"
                   :name="item.icon"
                   size="lg"
-                  @click="goToApp(item.url)"
                 ></q-icon>
                 <div>{{ item.name }}</div>
               </div>
-            </div>
+            </q-card>
           </div>
         </div>
       </q-page>
@@ -116,17 +120,28 @@ function goToApp(url: string) {
   </q-layout>
 </template>
 <style scoped>
-.pointer:hover {
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 50px;
-  background-color: rgb(201, 201, 185);
-  border: 1px solid rgb(24, 22, 22);
+.clickable-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer; /* Change cursor to pointer */
+}
+.clickable-card:hover {
+  transform: translateZ(10px) scale(1.05); /* Move forward and scale up */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+  /* transform: translateZ(10px); Move card forward */
+  /* transform: translateY(-4px); Slight lift on hover */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); Add shadow for depth */
 }
 
-.itemsCenter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* .clickable-card:active {
+  transform: translateY(0); Return to original position on click
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); Reduce shadow on click
+} */
+.clickable-card:active {
+  transform: translateZ(0) scale(1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.card-content {
+  transition: font-size 0.2s ease, color 0.2s ease;
 }
 </style>
