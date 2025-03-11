@@ -17,6 +17,9 @@ function confirm() {
       localStorage.clear();
       sessionStorage.clear();
       router.push({ path: '/loginPage' });
+      setTimeout(() => {
+        window.location.reload();
+      }, 400); // 2000 milliseconds = 2 seconds
     })
     .onCancel(() => {
       console.log('>>>> Cancel');
@@ -25,9 +28,9 @@ function confirm() {
 }
 // alert('1234');
 confirm();
-router.push({ path: '/HomePage' });
+// router.push({ path: '/loginPage' });
 </script>
 
-<template>
+<!-- <template>
   <p>Please wait</p>
-</template>
+</template> -->

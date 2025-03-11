@@ -51,9 +51,9 @@ const filteredHomeIcons = computed(() => {
   return newHomeIcons;
 });
 
-// function getColor(url: string) {
-//   return url !== '' ? 'primary' : 'dark';
-// }
+function getColor(url: string) {
+  return url !== '' ? 'primary' : 'dark';
+}
 
 function getClass(url: string) {
   return url !== '' ? 'pointer' : '';
@@ -67,6 +67,9 @@ function goToApp(url: string) {
 
 function logout() {
   router.push({ path: '/loginPage' });
+  setTimeout(() => {
+    window.location.reload();
+  }, 400); // 2000 milliseconds = 2 seconds
 }
 
 onMounted(async () => {
@@ -77,21 +80,11 @@ onMounted(async () => {
 });
 </script>
 
-<style>
-.q-list--dense > .q-item,
-.q-item--dense {
-  min-height: 12px !important;
-}
-.left-zero {
-  left: 0px !important;
-}
-</style>
-
 <!-- see: https://forum.quasar-framework.org/topic/2911/width-attribute-on-q-layout-drawer-giving-error-in-browser-console/3 -->
 
 <template>
-  <q-drawer v-model="leftDrawerOpen" :mi-width="250" bordered show-if-above>
-    <q-scroll-area style="margin-top: 100px; height: calc(100% - 160px)">
+  <q-drawer v-model="leftDrawerOpen" :mi-width="200" bordered show-if-above>
+    <q-scroll-area style="margin-top: 80px; height: calc(100% - 80px)">
       <q-list>
         <q-item class="bg-grey-3">
           <q-item-section>
@@ -108,13 +101,43 @@ onMounted(async () => {
           <q-item-section avatar>
             <q-icon
               :class="getClass(item.url)"
-              :color="item.color"
+              :color="getColor(item.url)"
               :name="item.icon"
               size="md"
             ></q-icon>
           </q-item-section>
           <q-item-section>
             <q-item-label>{{ item.name }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item class="q-mt-sm">
+          <q-item-section>
+            <q-btn
+              icon="logout"
+              outline
+              color="primary"
+              dense
+              @click="logout"
+              label="Log out"
+            />
+          </q-item-section>
+        </q-item>
+        <q-item>
+          <q-item-section>
+            <div class="flex justify-between bg-grey-3 q-px-sm">
+              <div>
+                <div>
+                  <span class="text-italic">App Version:</span>
+                  {{ packageJson.version }}
+                </div>
+              </div>
+              <div>
+                <div>
+                  <span class="text-italic">OC Version:</span>
+                  {{ Constants.getRestApiVersionFromSession() }}
+                </div>
+              </div>
+            </div>
           </q-item-section>
         </q-item>
       </q-list>
@@ -139,12 +162,13 @@ onMounted(async () => {
       class="absolute-top"
       height="150px"
     > -->
-    <q-img
+    <!-- <q-img
       src="src/images/2880x1800-smoky-black-solid-color-background.jpg"
       class="absolute-top"
       height="100px"
-    >
-      <q-item class="q-px-none">
+    > -->
+    <div class="background-div">
+      <q-item>
         <q-item-section side>
           <q-avatar size="xl" color="white">
             <q-img v-if="userIcon" v-bind:src="userIcon" />
@@ -152,7 +176,7 @@ onMounted(async () => {
           </q-avatar>
         </q-item-section>
         <q-separator vertical color="white" inset></q-separator>
-        <q-item-section class="q-ml-md">
+        <q-item-section class="q-ml-md text-white">
           <q-item-label class="text-subtitle1">
             {{ session?.userName }}
           </q-item-label>
@@ -160,43 +184,62 @@ onMounted(async () => {
             {{ session?.userEmail }}
           </q-item-label>
         </q-item-section>
+        <q-item-section side top>
+          <q-icon name="settings" color="white" />
+        </q-item-section>
       </q-item>
-    </q-img>
+      <!-- <q-item dense class="text-white">
+        <q-item-section>Version:</q-item-section>
+        <q-item-section>{{ packageJson.version }}</q-item-section>
+        <q-item-section>OC Version:</q-item-section>
+        <q-item-section>{{
+          Constants.getRestApiVersionFromSession()
+        }}</q-item-section>
+      </q-item> -->
+      <!-- <div class="text-white flex justify-between q-ma-md">
+        <div>
+          <div>
+            <span class="text-italic">Version:</span> {{ packageJson.version }}
+          </div>
+        </div>
+        <div>
+          <div>
+            <span class="text-italic">OC Version:</span>
+            {{ Constants.getRestApiVersionFromSession() }}
+          </div>
+        </div>
+      </div> -->
+    </div>
 
-    <q-footer bordered class="bg-white text-primary left-zero">
-      <q-separator color="red-6"></q-separator>
-      <q-list>
-        <q-item class="q-mb-xs">
-          <q-item-section>
-            <q-item-label
-              ><q-btn
-                class="q-px-md"
-                outline
-                color="primary"
-                no-caps
-                rounded
-                dense
-                @click="logout"
-                label="Logout"
-              ></q-btn>
-            </q-item-label>
-          </q-item-section>
-          <q-item-section>
-            <q-list class="absolute-bottom-right text-caption dense">
-              <q-item dense>
-                <q-item-section>Version:</q-item-section>
-                <q-item-section side>{{ packageJson.version }}</q-item-section>
-              </q-item>
-              <q-item dense>
-                <q-item-section>OC Version:</q-item-section>
-                <q-item-section side>{{
-                  Constants.getRestApiVersionFromSession()
-                }}</q-item-section>
-              </q-item>
-            </q-list>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-footer>
+    <!-- <div>
+      <div class="flex justify-center">
+        <button @click="logout" class="text-primary">
+          <span>Log out</span>
+        </button>
+      </div>
+      <div class="flex justify-between">
+        <div>
+          <div>
+            <span class="text-italic">Version:</span> {{ packageJson.version }}
+          </div>
+        </div>
+        <div>
+          <div>
+            <span class="text-italic">OC Version:</span>
+            {{ Constants.getRestApiVersionFromSession() }}
+          </div>
+        </div>
+      </div>
+    </div> -->
   </q-drawer>
 </template>
+<style scoped>
+.background-div {
+  background-color: #000; /* Replace with your desired color */
+  height: 80px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+</style>

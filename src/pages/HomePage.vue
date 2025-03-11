@@ -61,7 +61,6 @@ function goToApp(url: string) {
     router.push({ path: url });
   }
 }
-const dense = true;
 </script>
 <style>
 .q-dialog__backdrop {
@@ -89,9 +88,10 @@ const dense = true;
 
     <q-page-container>
       <q-page>
-        <div class="q-mx-xl q-mt-md bg-grey-2">
-          <SelectOrganizations />
-        </div>
+        <q-card class="q-mx-xl q-mt-md">
+          <div>
+            <SelectOrganizations /></div
+        ></q-card>
         <div class="row">
           <div
             v-for="item in filteredHomeIcons"
@@ -126,7 +126,7 @@ const dense = true;
 }
 .clickable-card:hover {
   transform: translateZ(10px) scale(1.05); /* Move forward and scale up */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
   /* transform: translateZ(10px); Move card forward */
   /* transform: translateY(-4px); Slight lift on hover */
   /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); Add shadow for depth */
