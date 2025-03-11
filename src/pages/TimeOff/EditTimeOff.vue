@@ -7,12 +7,10 @@ import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 // import OCSubmitButton from 'src/components/OCcomponents/OC-SubmitButton.vue';
 import { TimeOffDetails } from 'src/models/TimeOff/timeOffDetails';
-import { fi } from 'date-fns/locale';
 
 const $q = useQuasar();
 const route = useRoute();
 const router = useRouter();
-const isLoading = ref(true);
 const timeOffStore = useTimeOffStore();
 
 const id = Array.isArray(route.params.id)
@@ -33,8 +31,6 @@ const loadTimeOffDetails = async (id: string) => {
     }).onOk(async () => {
       await router.push({ path: '/timesheetsAll' });
     });
-  } finally {
-    isLoading.value = false;
   }
 };
 
@@ -77,13 +73,7 @@ async function onSubmit() {
       </q-toolbar>
     </q-header>
     <q-page-container>
-      <q-page v-if="isLoading" class="flex flex-center text-center">
-        <div>
-          <q-spinner color="primary" size="3em" />
-          <p class="q-mt-md q-ml-sm">Loading data...</p>
-        </div></q-page
-      >
-      <q-form v-else @submit="onSubmit" class="q-gutter-md">
+      <q-form @submit="onSubmit" class="q-gutter-md">
         <TimeOffForm v-if="timeOff" :timeOff="timeOff" ref="childComponent" />
       </q-form>
     </q-page-container>

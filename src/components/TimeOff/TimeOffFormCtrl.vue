@@ -10,6 +10,7 @@ const props = defineProps(['timeOff']);
 const timeOffData = ref(props.timeOff);
 const $q = useQuasar();
 const showDatePicker = ref(false);
+
 const payrollName = computed({
   get: () => (timeOffData.value.payroll ? timeOffData.value.payroll.id : ''),
   set: (value) => {
@@ -57,16 +58,16 @@ watch(
   }
 );
 
-watch(
-  () => timeOffData.value.requestedFor,
-  (newRequestFor) => {
-    // Reset the timeOffData object when requestedFor changes
-    timeOffData.value = {
-      ...props.timeOff,
-      requestedFor: newRequestFor,
-    };
-  }
-);
+// watch(
+//   () => timeOffData.value.requestedFor,
+//   (newRequestFor) => {
+//     // Reset the timeOffData object when requestedFor changes
+//     timeOffData.value = {
+//       ...props.timeOff,
+//       requestedFor: newRequestFor,
+//     };
+//   }
+// );
 
 onMounted(async () => {
   await loadTimeOffLists();
@@ -74,7 +75,6 @@ onMounted(async () => {
   if (timeOffData.value.startDate === timeOffData.value.endDate) {
     calculateNumberOfDays(); // Call the function to set the initial number of days
   }
-  // calculateNumberOfDays(); // Call the function to set the initial number of days
 });
 const requestForOptions = [
   { label: 'Full Day (8h)', value: 'full_day' },
@@ -124,7 +124,9 @@ watch(
 const totalHours = computed({
   get: () => {
     if (timeOffData.value.requestedFor === 'full_day') {
-      return (timeOffData.value.totalHours = 8);
+      const totalDays = timeOffData.value.totalDays;
+      return (timeOffData.value.totalHours = totalDays * 8);
+      // return (timeOffData.value.totalHours = 8);
     }
     if (timeOffData.value.requestedFor === 'half_day') {
       return (timeOffData.value.totalHours = 4);
