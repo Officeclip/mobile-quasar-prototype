@@ -5,4 +5,6 @@ export interface TimeOffList {
 export interface Categories {
   id: string;
   name: string;
+  balance: number;
+  balanceType: string;
 }

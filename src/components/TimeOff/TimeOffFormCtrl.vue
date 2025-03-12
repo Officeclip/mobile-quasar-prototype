@@ -24,7 +24,14 @@ const router = useRouter();
 
 const timeOffStore = useTimeOffStore();
 const timeOffgroupProfile = useTimeOffgroupProfile();
-const timeOffCategoryLists = computed(() => timeOffStore.CategoryLists);
+const timeOffCategoryLists = computed(() => {
+  return timeOffStore.CategoryLists.map((category) => {
+    return {
+      ...category,
+      name: `${category.name} (${category.balance} ${category.balanceType})`,
+    };
+  });
+});
 
 const loadTimeOffLists = async () => {
   try {
@@ -107,7 +114,8 @@ const calculateNumberOfDays = () => {
     const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1; // Including both start and end dates
     timeOffData.value.totalDays = daysDiff;
   } else {
-    timeOffData.value.totalDays = 0;
+    // timeOffData.value.totalDays = 8;
+    return;
   }
 };
 
