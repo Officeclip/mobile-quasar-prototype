@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar class="glossy">
+      <q-toolbar>
         <q-toolbar-title>Sample Data </q-toolbar-title>
       </q-toolbar>
     </q-header>

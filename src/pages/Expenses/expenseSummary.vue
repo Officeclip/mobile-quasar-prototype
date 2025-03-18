@@ -45,7 +45,7 @@ const allExpenses = [
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar class="glossy">
+      <q-toolbar>
         <q-btn
           @click="router.go(-1)"
           flat

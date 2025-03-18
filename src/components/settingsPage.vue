@@ -1,4 +1,32 @@
-<script setup></script>
+<script setup>
+import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();
+const router = useRouter();
+
+const removeLocalData = () => {
+  $q.dialog({
+    title: 'Confirm',
+    message: 'Would you like to remove all local data?',
+    cancel: true,
+    // persistent: true,
+  })
+    .onOk(() => {
+      console.log('>>>> OK');
+      localStorage.clear();
+      sessionStorage.clear();
+      router.push({ path: '/loginPage' });
+      setTimeout(() => {
+        window.location.reload();
+      }, 400); // 2000 milliseconds = 2 seconds
+    })
+    .onCancel(() => {
+      console.log('>>>> Cancel');
+      router.push({ path: '/HomePage' });
+    });
+};
+</script>
 
 <template>
   <div class="settings">
@@ -13,7 +41,7 @@
 
       <q-card-section>
         <q-list>
-          <q-item clickable v-ripple>
+          <q-item clickable v-ripple @click="removeLocalData">
             <q-item-section>
               <q-item-label>Reset data</q-item-label>
             </q-item-section>

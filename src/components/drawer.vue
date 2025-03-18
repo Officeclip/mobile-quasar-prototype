@@ -40,16 +40,16 @@ const filteredHomeIcons = computed(() => {
       url: '/homePage',
       color: '',
     },
-    {
-      id: 34,
-      icon: 'do_disturb',
-      name: 'Reset',
-      url: '/settings',
-      color: '',
-    },
+    // {
+    //   id: 34,
+    //   icon: 'do_disturb',
+    //   name: 'Reset',
+    //   url: '/settings',
+    //   color: '',
+    // },
   ];
   const newHomeIcons = [newIcons[0], ...homeIcons];
-  newHomeIcons.push(newIcons[1]);
+  // newHomeIcons.push(newIcons[1]);
   return newHomeIcons;
 });
 
@@ -164,65 +164,25 @@ const openSettings = (pos: any) => {
           <q-item-label class="text-subtitle1">
             {{ session?.userName }}
           </q-item-label>
-          <q-item-label>
+          <q-item-label class="text-caption ellipsis">
             {{ session?.userEmail }}
           </q-item-label>
         </q-item-section>
         <q-item-section side top>
-          <q-icon name="settings" color="white" @click="openSettings('left')" />
+          <q-btn
+            icon="settings"
+            flat
+            round
+            dense
+            color="white"
+            @click="openSettings('left')"
+          ></q-btn>
         </q-item-section>
       </q-item>
     </div>
     <q-dialog v-model="settingsDialog" persistent :position="position">
       <SettingsComponent />
     </q-dialog>
-    <!-- <q-card>
-        <q-bar>
-          <q-icon name="settings"></q-icon>
-          <div>Settings</div>
-
-          <q-space></q-space>
-
-          <q-btn dense flat icon="close" v-close-popup> </q-btn>
-        </q-bar>
-
-        <q-card-section>
-          <q-list>
-            <q-item clickable>
-              <q-item-section side>
-                <q-icon name="refresh"></q-icon>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Reset data</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable>
-              <q-item-section side>
-                <q-icon name="lock"></q-icon>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Change Password</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable>
-              <q-item-section side>
-                <q-icon name="person"></q-icon>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Change Profile</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable>
-              <q-item-section side>
-                <q-icon name="palette"></q-icon>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Change Theme</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card-section>
-      </q-card> -->
   </q-drawer>
 </template>
 <style scoped>

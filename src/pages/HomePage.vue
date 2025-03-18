@@ -80,6 +80,7 @@ function goToApp(url: string) {
           @click="toggleLeftDrawer"
         />
         <q-toolbar-title> OfficeClip Suite</q-toolbar-title>
+        <q-btn flat icon="logout" dense />
         <!-- <SelectOrganizations :dense="dense" class="bg-white" /> -->
       </q-toolbar>
     </q-header>
