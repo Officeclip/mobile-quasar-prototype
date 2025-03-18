@@ -212,11 +212,11 @@ const routes: RouteRecordRaw[] = [
     name: 'editIssue',
     component: () => import('../pages/IssueTracker/EditIssue.vue'),
   },
-  {
-    path: '/settings',
-    name: 'settings',
-    component: () => import('../pages/removeLocalData.vue'),
-  },
+  // {
+  //   path: '/settings',
+  //   name: 'settings',
+  //   component: () => import('../pages/removeLocalData.vue'),
+  // },
   {
     path: '/timeOffSummary',
     name: 'timeOffSummary',

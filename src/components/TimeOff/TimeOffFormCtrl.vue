@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-side-effects-in-computed-properties -->
 <script setup>
-import { onMounted, ref, computed, watch } from 'vue';
+import { defineProps, onMounted, ref, computed, watch } from 'vue';
 import { useTimeOffStore } from '../../stores/timeOff/timeOffStore';
 import { useTimeOffgroupProfile } from 'src/stores/timeOff/timeOffGroupProfile';
 import { useQuasar } from 'quasar';
@@ -10,6 +10,12 @@ const props = defineProps(['timeOff']);
 const timeOffData = ref(props.timeOff);
 const $q = useQuasar();
 const showDatePicker = ref(false);
+const showBalanceInfo = ref(true); // State to control the temporary message
+const router = useRouter();
+const userId = ref();
+
+const timeOffStore = useTimeOffStore();
+const timeOffgroupProfile = useTimeOffgroupProfile();
 
 const payrollName = computed({
   get: () => (timeOffData.value.payroll ? timeOffData.value.payroll.id : ''),
@@ -20,30 +26,35 @@ const payrollName = computed({
     }
   },
 });
-const router = useRouter();
-
-const timeOffStore = useTimeOffStore();
-const timeOffgroupProfile = useTimeOffgroupProfile();
-const timeOffCategoryLists = computed(() => {
-  return timeOffStore.CategoryLists.map((category) => {
-    return {
-      ...category,
-      name: `${category.name} (${category.balance} ${category.balanceType})`,
-    };
-  });
-});
 
 const loadTimeOffLists = async () => {
-  try {
-    await timeOffStore.getTimeOffLists();
-  } catch (error) {
-    $q.dialog({
-      title: 'Alert',
-      message: error,
-    }).onOk(async () => {
-      await router.push({ path: '/HomePage' });
-    });
-  }
+  watch(
+    () => props.timeOff,
+    (newTimeOff) => {
+      userId.value = newTimeOff?.createdUserSid;
+      try {
+        timeOffStore.getTimeOffLists(userId.value);
+      } catch (error) {
+        $q.dialog({
+          title: 'Alert',
+          message: error,
+        }).onOk(async () => {
+          await router.push({ path: '/HomePage' });
+        });
+      }
+    },
+    { immediate: true }
+  );
+  // try {
+  //   await timeOffStore.getTimeOffLists(userId.value);
+  // } catch (error) {
+  //   $q.dialog({
+  //     title: 'Alert',
+  //     message: error,
+  //   }).onOk(async () => {
+  //     await router.push({ path: '/HomePage' });
+  //   });
+  // }
 };
 const getTimeOffGroupProfile = async () => {
   try {
@@ -65,23 +76,16 @@ watch(
   }
 );
 
-// watch(
-//   () => timeOffData.value.requestedFor,
-//   (newRequestFor) => {
-//     // Reset the timeOffData object when requestedFor changes
-//     timeOffData.value = {
-//       ...props.timeOff,
-//       requestedFor: newRequestFor,
-//     };
-//   }
-// );
-
 onMounted(async () => {
   await loadTimeOffLists();
   await getTimeOffGroupProfile();
-  if (timeOffData.value.startDate === timeOffData.value.endDate) {
+  if (timeOffData.value?.startDate === timeOffData.value?.endDate) {
     calculateNumberOfDays(); // Call the function to set the initial number of days
   }
+  // Hide the balance information after a few seconds
+  setTimeout(() => {
+    showBalanceInfo.value = false;
+  }, 3000);
 });
 const requestForOptions = [
   { label: 'Full Day (8h)', value: 'full_day' },
@@ -91,6 +95,14 @@ const requestForOptions = [
 
 const profileData = computed(() => {
   return timeOffgroupProfile?.TimeOffgroupProfile;
+});
+const timeOffCategoryLists = computed(() => {
+  return timeOffStore.CategoryLists.map((category) => {
+    return {
+      ...category,
+      name: `${category.name} (${category.balance} ${category.balanceType})`,
+    };
+  });
 });
 
 const calculateNumberOfDays = () => {
@@ -145,6 +157,10 @@ const totalHours = computed({
     timeOffData.value.totalHours = value;
   },
 });
+
+const onClick = () => {
+  showBalanceInfo.value = true;
+};
 </script>
 
 <template>
@@ -152,6 +168,7 @@ const totalHours = computed({
     <!-- <pre>profileData:{{ profileData }}</pre>
     <pre>Request for:{{ timeOffData.requestedFor }}</pre> -->
     <!-- <pre>timeOffData::{{ timeOffData }}</pre> -->
+    <!-- <pre>userId:: {{ userId }}</pre> -->
     <q-list>
       <q-item>
         <q-item-section>
@@ -177,6 +194,15 @@ const totalHours = computed({
             option-label="name"
             option-value="id"
             map-options
+          />
+        </q-item-section>
+        <q-item-section side>
+          <q-btn
+            icon="info"
+            flat
+            color="primary"
+            label="Balances"
+            @click="showBalanceInfo = true"
           />
         </q-item-section>
       </q-item>
@@ -286,6 +312,27 @@ const totalHours = computed({
         ><div class="row items-center justify-end">
           <q-btn v-close-popup color="primary" flat label="Close" /></div
       ></q-date>
+    </q-dialog>
+    <q-dialog v-model="showBalanceInfo">
+      <q-card>
+        <q-card-section>
+          <div v-for="category in timeOffCategoryLists" :key="category.id">
+            <q-item>
+              <q-item-section>{{ category.name }}</q-item-section>
+            </q-item>
+            <q-separator
+              inset
+              v-if="
+                category !==
+                timeOffCategoryLists[timeOffCategoryLists.length - 1]
+              "
+            />
+          </div>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Close" v-close-popup />
+        </q-card-actions>
+      </q-card>
     </q-dialog>
   </q-page>
 </template>

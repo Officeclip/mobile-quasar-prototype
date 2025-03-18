@@ -11,7 +11,6 @@ import { Constants } from 'src/stores/Constants';
 import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
 import apiLinkPage from 'src/pages/apiLinkPage.vue';
-import { fi } from 'date-fns/locale';
 
 const sessionStore = useSessionStore();
 const tokenStore = useTokenStore();
@@ -131,8 +130,8 @@ const redirectToSetUpAccount = () => {
           <q-card class="q-pa-md shadow-2 my_card" bordered>
             <q-form @submit="onSubmit" v-if="!mPin">
               <q-card-section class="text-center">
-                <div class="text-grey-9 text-h5 text-weight-bold">Sign in</div>
-                <div class="text-grey-8">
+                <div class="text-h5 text-weight-bold">Sign in</div>
+                <div class="text-subtitle1">
                   Sign in below to access your account
                 </div>
               </q-card-section>
@@ -206,7 +205,6 @@ const redirectToSetUpAccount = () => {
                     >Sign up</q-btn
                   >
                 </div>
-                <!-- <pre>ZZZZ:{{ util.isHideTestPage() }}</pre> -->
                 <div v-if="util.isHideTestPage()">
                   <q-btn
                     :to="{

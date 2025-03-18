@@ -2,7 +2,9 @@
 import { ref, watch } from 'vue';
 import { useSessionStore } from 'stores/SessionStore';
 import util from 'src/helpers/util';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 const sessionStore = useSessionStore();
 
 const dotComUserApi = ref('https://api.officeclip.workers.dev');
@@ -10,39 +12,44 @@ const dotComUserApi = ref('https://api.officeclip.workers.dev');
 const boxVersionUserApi = ref('');
 
 const selectedOption = ref('2');
-const inputValue = ref(dotComUserApi.value);
+const inputValue = ref('');
 const readOnly = ref(false);
 const bgColor = ref('');
 
-watch(selectedOption, (newVal) => {
+const updateInputValue = (option) => {
   inputValue.value =
-    newVal === '1' ? boxVersionUserApi.value : dotComUserApi.value;
-  readOnly.value = newVal === '2' ? true : false;
-  bgColor.value = newVal === '2' ? 'grey-4' : '';
+    option === '1' ? boxVersionUserApi.value : dotComUserApi.value;
+  readOnly.value = option === '2';
+  bgColor.value = option === '2' ? 'grey-4' : '';
+};
+
+watch(selectedOption, (newVal) => {
+  updateInputValue(newVal);
 });
+
+// Initialize input values based on the default selected option
+updateInputValue(selectedOption.value);
 
 const saveApiLinkInLocalStorage = () => {
   util.setEndPointUrlInLocalStorage(inputValue.value);
   window.location.reload();
 };
 
-// const howToGetApi = ref(false);
 const submitting = ref(false);
 
-function simulateSubmit() {
-  submitting.value = true;
-  setTimeout(() => {
-    submitting.value = false;
-  }, 3000);
-}
-
 async function isValidRestApiUrl(testUrl) {
-  simulateSubmit();
-  const res = await sessionStore.isValidUrl(testUrl);
-  if (res) {
-    saveApiLinkInLocalStorage();
-  } else {
-    alert('Please enter valid Rest Api Url');
+  $q.loading.show();
+  try {
+    const res = await sessionStore.isValidUrl(testUrl);
+    if (res) {
+      saveApiLinkInLocalStorage();
+    } else {
+      alert('Please enter valid Rest Api Url');
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    $q.loading.hide();
   }
 }
 
@@ -62,7 +69,7 @@ const redirectToSetUpAccount = () => {
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="flex flex-center">
-        <q-card v-if="isIndex" flat bordered class="q-mx-sm">
+        <q-card v-if="isIndex" flat bordered class="q-ma-lg">
           <q-card-section>
             Manage your business on the go with OfficeClip Mobile access
             contacts, projects, timesheets, and more. <br />
@@ -79,7 +86,6 @@ const redirectToSetUpAccount = () => {
             Learn more and sign up at
             <q-btn
               color="primary"
-              class="q-pa-none"
               no-caps
               flat
               dense
@@ -88,7 +94,10 @@ const redirectToSetUpAccount = () => {
             >
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn outline dense no-caps class="q-ml-sm" @click="getApiScreen()"
+            <q-btn
+              icon-right="arrow_forward"
+              color="primary"
+              @click="getApiScreen()"
               >Next</q-btn
             >
           </q-card-actions>
@@ -114,10 +123,7 @@ const redirectToSetUpAccount = () => {
               /></q-item-section>
               <q-item-section side top>
                 <q-btn
-                  outline
                   color="primary"
-                  no-caps
-                  rounded
                   @click="isValidRestApiUrl(inputValue)"
                   :disable="inputValue"
                   :loading="submitting"

@@ -8,6 +8,8 @@ import { useProfileListsStore } from 'stores/profileListsStore';
 import { Constants } from 'stores/Constants';
 import util from 'src/helpers/util';
 import SelectOrganizations from './general/SelectOrganizations.vue';
+import SettingsComponent from './settingsPage.vue';
+import { defineExpose } from 'vue';
 
 const sessionStore = useSessionStore();
 const leftDrawerOpen = ref(false);
@@ -78,6 +80,13 @@ onMounted(async () => {
   }
   userIcon.value = profileListsStore.ProfilesUserGeneral?.userIcon;
 });
+
+const settingsDialog = ref(false);
+const position = ref<'top' | 'left' | 'right' | 'standard' | 'bottom'>('top');
+const openSettings = (pos: any) => {
+  position.value = pos;
+  settingsDialog.value = true;
+};
 </script>
 
 <!-- see: https://forum.quasar-framework.org/topic/2911/width-attribute-on-q-layout-drawer-giving-error-in-browser-console/3 -->
@@ -142,31 +151,6 @@ onMounted(async () => {
         </q-item>
       </q-list>
     </q-scroll-area>
-    <!-- <q-img
-      src="src/images/dark-pastel-blue-solid-color-background.jpg"
-      class="absolute-top"
-      height="150px"
-    > -->
-    <!-- <q-img
-      src="src/images/jet-solid-color-background.jpg"
-      class="absolute-top"
-      height="150px"
-    > -->
-    <!-- <q-img
-      src="src/images/ruddy-pink-solid-color-background.jpg"
-      class="absolute-top"
-      height="150px"
-    > -->
-    <!-- <q-img
-      src="src/images/soap-solid-color-background.jpg"
-      class="absolute-top"
-      height="150px"
-    > -->
-    <!-- <q-img
-      src="src/images/2880x1800-smoky-black-solid-color-background.jpg"
-      class="absolute-top"
-      height="100px"
-    > -->
     <div class="background-div">
       <q-item>
         <q-item-section side>
@@ -185,52 +169,60 @@ onMounted(async () => {
           </q-item-label>
         </q-item-section>
         <q-item-section side top>
-          <q-icon name="settings" color="white" />
+          <q-icon name="settings" color="white" @click="openSettings('left')" />
         </q-item-section>
       </q-item>
-      <!-- <q-item dense class="text-white">
-        <q-item-section>Version:</q-item-section>
-        <q-item-section>{{ packageJson.version }}</q-item-section>
-        <q-item-section>OC Version:</q-item-section>
-        <q-item-section>{{
-          Constants.getRestApiVersionFromSession()
-        }}</q-item-section>
-      </q-item> -->
-      <!-- <div class="text-white flex justify-between q-ma-md">
-        <div>
-          <div>
-            <span class="text-italic">Version:</span> {{ packageJson.version }}
-          </div>
-        </div>
-        <div>
-          <div>
-            <span class="text-italic">OC Version:</span>
-            {{ Constants.getRestApiVersionFromSession() }}
-          </div>
-        </div>
-      </div> -->
     </div>
+    <q-dialog v-model="settingsDialog" persistent :position="position">
+      <SettingsComponent />
+    </q-dialog>
+    <!-- <q-card>
+        <q-bar>
+          <q-icon name="settings"></q-icon>
+          <div>Settings</div>
 
-    <!-- <div>
-      <div class="flex justify-center">
-        <button @click="logout" class="text-primary">
-          <span>Log out</span>
-        </button>
-      </div>
-      <div class="flex justify-between">
-        <div>
-          <div>
-            <span class="text-italic">Version:</span> {{ packageJson.version }}
-          </div>
-        </div>
-        <div>
-          <div>
-            <span class="text-italic">OC Version:</span>
-            {{ Constants.getRestApiVersionFromSession() }}
-          </div>
-        </div>
-      </div>
-    </div> -->
+          <q-space></q-space>
+
+          <q-btn dense flat icon="close" v-close-popup> </q-btn>
+        </q-bar>
+
+        <q-card-section>
+          <q-list>
+            <q-item clickable>
+              <q-item-section side>
+                <q-icon name="refresh"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Reset data</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable>
+              <q-item-section side>
+                <q-icon name="lock"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Change Password</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable>
+              <q-item-section side>
+                <q-icon name="person"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Change Profile</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable>
+              <q-item-section side>
+                <q-icon name="palette"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Change Theme</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+      </q-card> -->
   </q-drawer>
 </template>
 <style scoped>

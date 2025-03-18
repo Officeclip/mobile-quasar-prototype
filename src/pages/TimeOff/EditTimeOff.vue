@@ -38,11 +38,11 @@ onMounted(async () => {
   await loadTimeOffDetails(id);
 });
 
-const childComponent = ref(null);
+// const childComponent = ref(null);
 
 async function onSubmit() {
   try {
-    if (!childComponent.value.validateAll()) return;
+    // if (!childComponent.value.validateAll()) return;
     const editTimeOff = ref(timeOff.value);
     await timeOffStore.editTimeOff(editTimeOff.value);
     router.go(-1);
@@ -74,7 +74,7 @@ async function onSubmit() {
     </q-header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
-        <TimeOffForm v-if="timeOff" :timeOff="timeOff" ref="childComponent" />
+        <TimeOffForm v-if="timeOff" :timeOff="timeOff" />
       </q-form>
     </q-page-container>
   </q-layout>

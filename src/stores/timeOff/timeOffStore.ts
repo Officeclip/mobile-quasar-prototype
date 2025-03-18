@@ -101,13 +101,11 @@ export const useTimeOffStore = defineStore('timeOffStore', {
       }
     },
 
-    async getTimeOffLists() {
-      // const callStr = `${util.getEndPointUrl()}/timeoff-list`;
-      // const callStr = 'http://localhost:3000/timeoff-list';
+    async getTimeOffLists(userId: string) {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/timeoff-lists`
+          `${util.getEndPointUrl()}/timeoff-lists?userId=${userId}`
         );
         // const response = await instance.get(callStr ?? '');
         const newData = response.data[0];
