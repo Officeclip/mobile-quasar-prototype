@@ -12,7 +12,11 @@ const router = useRouter();
 const $q = useQuasar();
 const myDrawer = ref();
 
-const tab = ref('inbox'); // Default tab
+const tab = ref(localStorage.getItem('selectedTimeOffTab') || 'inbox'); // Default tab
+
+watch(tab, (newTab) => {
+  localStorage.setItem('selectedTimeOffTab', newTab);
+});
 const title = computed(() =>
   tab.value === 'mylist'
     ? 'My Requests'
@@ -159,9 +163,14 @@ const viewDetails = async (
             >
               <q-item-section class="col-grow q-mr-lg">
                 <q-item-label>{{ item.createdByUserName }}</q-item-label>
-                <q-item-label caption
+                <q-item-label caption class="text-grey-8"
                   >{{ item.startDate }} - {{ item.endDate }}</q-item-label
                 >
+                <q-item-label>
+                  <q-icon name="account_balance_wallet" />
+                  <span class="q-mx-sm">PayRoll:</span>
+                  <span>{{ item.payroll.name }}</span>
+                </q-item-label>
               </q-item-section>
               <q-item-section>
                 <q-item-label
@@ -183,6 +192,9 @@ const viewDetails = async (
                 <q-icon color="primary" name="chevron_right" />
               </q-item-section>
             </q-item>
+            <q-separator
+              v-if="item !== timeOffSummaries[timeOffSummaries.length - 1]"
+            />
           </q-list>
           <!-- <q-table
           :rows="timeOffSummaries"

@@ -75,6 +75,9 @@ onBeforeUnmount(() => {
 
 onMounted(async () => {
   localStorage.removeItem('X-Token');
+  localStorage.removeItem('selectedTimeOffTab');
+  localStorage.removeItem('selectedTimesheetTab');
+  localStorage.removeItem('selectedExpenseTab');
   sessionStorage.removeItem('oc-session');
 
   // set the local storage endpoint url

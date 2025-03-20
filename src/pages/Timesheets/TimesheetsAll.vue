@@ -10,8 +10,13 @@ import { useTECommentsStore } from 'src/stores/TECommentsStore';
 import drawer from '../../components/drawer.vue';
 import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 
-const timesheetStatus = ref('inbox');
-const title = ref(capitalize(timesheetStatus.value));
+const tab = ref(localStorage.getItem('selectedTimesheetTab') || 'inbox'); // Default tab
+
+watch(tab, (newTab) => {
+  localStorage.setItem('selectedTimesheetTab', newTab);
+});
+
+const title = ref(capitalize(tab.value));
 const $q = useQuasar();
 const router = useRouter();
 const teCommentsStore = useTECommentsStore();
@@ -38,7 +43,7 @@ const loadTimesheets = async (tabValue: string) => {
 };
 
 onMounted(async () => {
-  await loadTimesheets(timesheetStatus.value);
+  await loadTimesheets(tab.value);
 });
 
 const timesheetsAll = computed(() => {
@@ -52,7 +57,7 @@ const errorMsg = computed(() => {
   return timesheetsStore.errorMsg;
 });
 
-watch(timesheetStatus, async (newModel) => {
+watch(tab, async (newModel) => {
   await loadTimesheets(newModel);
   title.value = capitalize(newModel);
 });
@@ -96,7 +101,7 @@ function toggleLeftDrawer() {
     <drawer ref="myDrawer" />
     <q-footer>
       <q-tabs
-        v-model="timesheetStatus"
+        v-model="tab"
         class="bg-primary text-white shadow-2"
         align="justify"
         switch-indicator
@@ -128,7 +133,7 @@ function toggleLeftDrawer() {
               clickable
               v-ripple
             >
-              <q-item-section>
+              <q-item-section class="col-grow q-mr-lg">
                 <q-item-label>
                   {{ item.createdByUserName }}
                 </q-item-label>
