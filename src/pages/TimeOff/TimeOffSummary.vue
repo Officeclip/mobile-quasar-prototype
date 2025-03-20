@@ -4,6 +4,7 @@ import { useTimeOffStore } from 'src/stores/timeOff/timeOffStore';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import drawer from '../../components/drawer.vue';
+import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 
 const timeOffStore = useTimeOffStore();
@@ -126,7 +127,7 @@ const viewDetails = async (
       </q-toolbar>
     </q-header>
     <drawer ref="myDrawer" />
-    <q-footer elevated>
+    <q-footer>
       <q-tabs
         v-model="tab"
         align="justify"
@@ -237,13 +238,7 @@ const viewDetails = async (
         </q-page>
       </div>
       <div v-else>
-        <q-list>
-          <q-item>
-            <q-item-section class="text-h6 q-py-sm">
-              <q-item-label> No Items Found </q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
+        <NoItemsMsg />
       </div>
     </q-page-container>
   </q-layout>

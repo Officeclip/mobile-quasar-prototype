@@ -8,6 +8,7 @@ import { useRouter } from 'vue-router';
 import { isAllowed } from 'src/helpers/security';
 import { useTECommentsStore } from 'src/stores/TECommentsStore';
 import drawer from '../../components/drawer.vue';
+import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 
 const timesheetStatus = ref('inbox');
 const title = ref(capitalize(timesheetStatus.value));
@@ -93,7 +94,7 @@ function toggleLeftDrawer() {
       </q-toolbar>
     </q-header>
     <drawer ref="myDrawer" />
-    <q-footer elevated>
+    <q-footer>
       <q-tabs
         v-model="timesheetStatus"
         class="bg-primary text-white shadow-2"
@@ -185,13 +186,7 @@ function toggleLeftDrawer() {
             </q-list>
           </div>
           <div v-else>
-            <q-list>
-              <q-item>
-                <q-item-section class="text-h6 q-py-sm">
-                  <q-item-label> No Items Found </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
+            <NoItemsMsg />
           </div>
         </div>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">

@@ -102,7 +102,7 @@ function goToApp(url: string) {
             <q-card
               bordered
               flat
-              class="text-center q-py-sm q-ma-md clickable-card"
+              class="text-center q-py-sm q-ma-md clickable-card bg-grey-1"
               style="width: 110px; max-width: 250px"
               @click="goToApp(item.url)"
             >
