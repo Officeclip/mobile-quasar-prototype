@@ -6,6 +6,7 @@ import { useProfileListsStore } from 'stores/profileListsStore';
 import { useQuasar } from 'quasar';
 import drawer from '../components/drawer.vue';
 import SelectOrganizations from 'src/components/general/SelectOrganizations.vue';
+import logOutButton from '../components/general/logOutButton.vue';
 
 const router = useRouter();
 const sessionStore = useSessionStore();
@@ -80,8 +81,8 @@ function goToApp(url: string) {
           @click="toggleLeftDrawer"
         />
         <q-toolbar-title> OfficeClip Suite</q-toolbar-title>
-        <q-btn flat icon="logout" dense />
-        <!-- <SelectOrganizations :dense="dense" class="bg-white" /> -->
+        <q-space />
+        <logOutButton />
       </q-toolbar>
     </q-header>
 
@@ -89,19 +90,20 @@ function goToApp(url: string) {
 
     <q-page-container>
       <q-page>
-        <q-card class="q-mx-xl q-mt-md">
-          <div>
-            <SelectOrganizations /></div
-        ></q-card>
+        <div class="q-mx-lg q-my-md responsive-width">
+          <SelectOrganizations />
+        </div>
         <div class="row">
           <div
             v-for="item in filteredHomeIcons"
             :key="item.name"
-            class="col-4 flex justify-evenly q-mt-md"
+            class="col-4 flex justify-evenly"
           >
             <q-card
-              class="flex flex-center text-center q-py-xs q-ma-md clickable-card"
-              style="width: 100%; max-width: 250px"
+              bordered
+              flat
+              class="text-center q-py-sm q-ma-md clickable-card"
+              style="width: 110px; max-width: 250px"
               @click="goToApp(item.url)"
             >
               <div>
@@ -144,5 +146,23 @@ function goToApp(url: string) {
 
 .card-content {
   transition: font-size 0.2s ease, color 0.2s ease;
+}
+/* .responsive-width {
+  width: 80%;
+} */
+
+@media (min-width: 560px) {
+  .responsive-width {
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+  }
+}
+@media (min-width: 670px) {
+  .responsive-width {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+  }
 }
 </style>

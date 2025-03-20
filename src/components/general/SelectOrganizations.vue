@@ -47,6 +47,7 @@ const organization = ref(organizationItem.value?.name || '');
 
 <template>
   <q-select
+    class="full-width"
     :dense="isDense"
     v-model="organization"
     :options="organizationItems"
