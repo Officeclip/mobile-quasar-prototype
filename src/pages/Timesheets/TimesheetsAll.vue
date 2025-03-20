@@ -18,11 +18,11 @@ const myDrawer = ref();
 
 const timesheetsStore = useTimesheetsStore();
 
-const loadTimesheets = async () => {
+const loadTimesheets = async (tabValue: string) => {
   $q.loading.show();
   try {
     await teCommentsStore.getTimesheetGroupProfile();
-    await timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
+    await timesheetsStore.getTimesheetsByStatus(tabValue);
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -37,7 +37,7 @@ const loadTimesheets = async () => {
 };
 
 onMounted(async () => {
-  await loadTimesheets();
+  await loadTimesheets(timesheetStatus.value);
 });
 
 const timesheetsAll = computed(() => {
@@ -51,8 +51,8 @@ const errorMsg = computed(() => {
   return timesheetsStore.errorMsg;
 });
 
-watch([timesheetStatus], ([newModel]) => {
-  timesheetsStore.getTimesheetsByStatus(String(newModel));
+watch(timesheetStatus, async (newModel) => {
+  await loadTimesheets(newModel);
   title.value = capitalize(newModel);
 });
 
@@ -96,13 +96,13 @@ function toggleLeftDrawer() {
     <q-footer elevated>
       <q-tabs
         v-model="timesheetStatus"
-        no-caps
-        inline-label
         class="bg-primary text-white shadow-2"
         align="justify"
-        indicator-color="Red"
+        switch-indicator
+        narrow-indicator
+        dense
       >
-        <q-tab name="inbox" label="Inbox" icon="inbox"> </q-tab>
+        <q-tab name="inbox" label="Inbox" icon="inbox" />
         <q-tab name="outbox" label="Outbox" icon="outbox" />
         <q-tab name="archived" label="Archived" icon="archive" />
       </q-tabs>

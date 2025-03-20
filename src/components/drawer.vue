@@ -92,7 +92,7 @@ const openSettings = (pos: any) => {
 <!-- see: https://forum.quasar-framework.org/topic/2911/width-attribute-on-q-layout-drawer-giving-error-in-browser-console/3 -->
 
 <template>
-  <q-drawer v-model="leftDrawerOpen" :mi-width="200" bordered show-if-above>
+  <q-drawer v-model="leftDrawerOpen" bordered show-if-above>
     <q-scroll-area style="margin-top: 80px; height: calc(100% - 80px)">
       <q-list>
         <q-item class="bg-grey-3">
