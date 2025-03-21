@@ -18,7 +18,9 @@ import { useQuasar } from 'quasar';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import drawer from '../../components/drawer.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
+const loading = ref(true);
 const model = ref('1');
 const contactDetailsStore = useContactDetailsStore();
 const contactListsStore = useContactListsStore();
@@ -28,12 +30,10 @@ const $q = useQuasar();
 const id = ref<string | string[]>('0');
 id.value = route.params.id;
 
-// const isLoaded = ref<boolean>(false);
-
 const myDrawer = ref();
 
 const loadContactDetails = async () => {
-  $q.loading.show();
+  loading.value = true;
   try {
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
     await contactDetailsStore.getContactDetails(route.params.id as string);
@@ -47,7 +47,7 @@ const loadContactDetails = async () => {
       router.go(0);
     });
   } finally {
-    $q.loading.hide();
+    loading.value = false;
   }
 };
 
@@ -223,6 +223,7 @@ function toggleLeftDrawer() {
     </q-header>
     <drawer ref="myDrawer" />
     <q-page-container>
+      <OC_Loader :visible="loading" />
       <q-card class="relative-position card-example" flat>
         <q-card-section class="q-pb-none">
           <div class="center">

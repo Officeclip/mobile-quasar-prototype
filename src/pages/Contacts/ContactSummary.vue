@@ -11,8 +11,9 @@ import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
 import { searchFilter } from 'src/models/Contact/searchFilter';
-import { $ } from 'app/src-capacitor/www/assets/index.2cd8f154';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
+const loading = ref(true);
 const router = useRouter();
 const $q = useQuasar();
 const contactSummaryStore = useContactSummaryStore();
@@ -46,7 +47,7 @@ const errorMsg = computed(() => {
 
 let reachedEnd = ref(false); // indicate if all contacts have been loaded
 const loadMore = async (index: any, done: () => void) => {
-  $q.loading.show();
+  loading.value = true;
   try {
     reachedEnd.value = await contactSummaryStore.getUpdatedContacts(false);
     //https://quasar.dev/vue-components/infinite-scroll/#usage
@@ -59,7 +60,7 @@ const loadMore = async (index: any, done: () => void) => {
       await router.push({ path: '/HomePage' });
     });
   } finally {
-    $q.loading.hide();
+    loading.value = false;
   }
 };
 
@@ -115,6 +116,7 @@ function toggleLeftDrawer() {
     <drawer ref="myDrawer" />
     <q-page-container>
       <q-page>
+        <OC_Loader :visible="loading" />
         <q-input
           v-model="searchOptions.searchString"
           class="GNL__toolbar-input q-ma-md"

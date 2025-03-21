@@ -35,7 +35,7 @@ defineProps({
           :thickness="thickness"
           class="q-mr-md"
         />
-        <div v-if="message" class="loader-message">
+        <div v-if="message" class="text-body2">
           {{ message }}
         </div></q-card-section
       >
@@ -59,7 +59,7 @@ defineProps({
 
 .loader-message {
   /* margin-top: 10px; */
-  font-size: 1.3em;
+  font-size: 1.2em;
   /* color: var(--q-color-primary); */
 }
 </style>
