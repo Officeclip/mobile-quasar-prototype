@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { useNotesStore } from '../../stores/NotesStore';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
 const props = defineProps(['params']);
 const notesStore = useNotesStore();
 const router = useRouter();
 const $q = useQuasar();
+const loading = ref(true);
 
 const parentObjectId = computed(() => {
   return props.params.parentObjectId;
@@ -27,7 +29,7 @@ const getNotesCount = computed(() => {
 });
 
 const loadNotesList = async () => {
-  $q.loading.show();
+  loading.value = true;
   try {
     await notesStore.getNotes(
       parentObjectServiceType.value,
@@ -43,7 +45,7 @@ const loadNotesList = async () => {
       await router.push({ path: '/HomePage' });
     });
   } finally {
-    $q.loading.hide();
+    loading.value = false;
   }
 };
 
@@ -74,6 +76,7 @@ const errorMsg = computed(() => {
 });
 </script>
 <template>
+  <OC_Loader :visible="loading" />
   <q-item-section v-if="errorMsg">
     <div class="flex justify-center">
       <span class="text-subtitle1 text-weight-medium inline q-mr-xs">{{

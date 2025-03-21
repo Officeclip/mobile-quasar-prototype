@@ -6,15 +6,17 @@ import { useNotesStore } from '../../stores/NotesStore';
 import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
 import { useQuasar } from 'quasar';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
 const router = useRouter();
 const selectedNoteBook = ref('');
 const notesStore = useNotesStore();
 const myDrawer = ref();
 const $q = useQuasar();
+const loading = ref(true);
 
 const loadNoteBooks = async () => {
-  $q.loading.show();
+  loading.value = true;
   try {
     await notesStore.getNoteBooks();
   } catch (error) {
@@ -25,7 +27,7 @@ const loadNoteBooks = async () => {
       await router.push({ path: '/homePage' });
     });
   } finally {
-    $q.loading.hide();
+    loading.value = false;
   }
 };
 
@@ -94,6 +96,7 @@ function toggleLeftDrawer() {
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
       <q-page>
+        <OC_Loader :visible="loading" />
         <div class="q-pa-lg text-center">
           <q-select
             outlined

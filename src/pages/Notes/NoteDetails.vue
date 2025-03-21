@@ -6,12 +6,13 @@ import { useRoute, useRouter } from 'vue-router';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import { useQuasar } from 'quasar';
 import drawer from '../../components/drawer.vue';
-import { $ } from 'app/src-capacitor/www/assets/index.2cd8f154';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
 const myDrawer = ref();
+const loading = ref(true);
 
 const parentObjectId = route.params.objectId ? route.params.objectId : '';
 const parentObjectServiceType = route.params.objectTypeId
@@ -30,7 +31,7 @@ const note = computed(() => {
 });
 
 const loadNoteDetails = async () => {
-  $q.loading.show();
+  loading.value = true;
   try {
     id.value = route.params.id;
     await notesStore.getNote(route.params.id as string);
@@ -43,7 +44,7 @@ const loadNoteDetails = async () => {
       await router.push({ path: `/contactDetails/${parentObjectId}` });
     });
   } finally {
-    $q.loading.hide();
+    loading.value = false;
   }
 };
 
@@ -135,36 +136,43 @@ function toggleLeftDrawer() {
     </q-header>
     <drawer ref="myDrawer" />
     <q-page-container>
-      <q-card class="relative-position card-example" flat bordered>
-        <q-card-section class="q-pb-none">
-          <q-list>
-            <q-item>
-              <q-item-section>
-                <q-item-label caption>Title</q-item-label>
-                <q-item-label class="q-mb-sm">{{ note?.title }}</q-item-label>
+      <q-page>
+        <OC_Loader :visible="loading" />
+        <q-card
+          v-if="note"
+          class="relative-position card-example"
+          flat
+          bordered
+        >
+          <q-card-section class="q-pb-none">
+            <q-list>
+              <q-item>
+                <q-item-section>
+                  <q-item-label caption>Title</q-item-label>
+                  <q-item-label class="q-mb-sm">{{ note?.title }}</q-item-label>
 
-                <q-item-label caption>Description</q-item-label>
-                <q-item-label class="q-mb-sm">
-                  <div v-html="note?.description"></div>
-                </q-item-label>
+                  <q-item-label caption>Description</q-item-label>
+                  <q-item-label class="q-mb-sm">
+                    <div v-html="note?.description"></div>
+                  </q-item-label>
 
-                <q-item-label caption>Private</q-item-label>
-                <q-item-label class="q-mb-sm">{{ isPrivate }}</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card-section>
-      </q-card>
-
-      <ConfirmDelete
-        v-if="isNoteDelete"
-        :showConfirmationDialog="isNoteDelete"
-        :id="route.params.id"
-        :title="title"
-        :message="message"
-        @cancel="cancelConfirmation"
-        @confirm="deleteNote"
-      />
+                  <q-item-label caption>Private</q-item-label>
+                  <q-item-label class="q-mb-sm">{{ isPrivate }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card-section>
+        </q-card></q-page
+      >
     </q-page-container>
   </q-layout>
+  <ConfirmDelete
+    v-if="isNoteDelete"
+    :showConfirmationDialog="isNoteDelete"
+    :id="route.params.id"
+    :title="title"
+    :message="message"
+    @cancel="cancelConfirmation"
+    @confirm="deleteNote"
+  />
 </template>

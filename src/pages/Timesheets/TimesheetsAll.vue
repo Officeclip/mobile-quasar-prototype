@@ -9,6 +9,7 @@ import { isAllowed } from 'src/helpers/security';
 import { useTECommentsStore } from 'src/stores/TECommentsStore';
 import drawer from '../../components/drawer.vue';
 import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
 const tab = ref(localStorage.getItem('selectedTimesheetTab') || 'inbox'); // Default tab
 
@@ -21,11 +22,12 @@ const $q = useQuasar();
 const router = useRouter();
 const teCommentsStore = useTECommentsStore();
 const myDrawer = ref();
+const loading = ref(true);
 
 const timesheetsStore = useTimesheetsStore();
 
 const loadTimesheets = async (tabValue: string) => {
-  $q.loading.show();
+  loading.value = true;
   try {
     await teCommentsStore.getTimesheetGroupProfile();
     await timesheetsStore.getTimesheetsByStatus(tabValue);
@@ -38,7 +40,7 @@ const loadTimesheets = async (tabValue: string) => {
       router.go(0);
     });
   } finally {
-    $q.loading.hide();
+    loading.value = false;
   }
 };
 
@@ -115,6 +117,7 @@ function toggleLeftDrawer() {
     </q-footer>
     <q-page-container>
       <q-page>
+        <OC_Loader :visible="loading" />
         <div v-if="timesheetsAll">
           <q-list v-for="item in timesheetsAll" :key="item.id">
             <q-item

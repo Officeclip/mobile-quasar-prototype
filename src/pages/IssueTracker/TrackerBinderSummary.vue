@@ -5,11 +5,13 @@ import drawer from '../../components/drawer.vue';
 import { useTrackerBinderSummaryStore } from 'src/stores/issueTracker/trackerBinderSummaryStore';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
 const router = useRouter();
 const title = ref('Binders');
 const myDrawer = ref();
 const $q = useQuasar();
+const loading = ref(true);
 
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
@@ -18,7 +20,7 @@ function toggleLeftDrawer() {
 const trackerBinderSummaryStore = useTrackerBinderSummaryStore();
 
 const loadBindersList = async () => {
-  $q.loading.show();
+  loading.value = true;
   try {
     await trackerBinderSummaryStore.getTrackerBindersList();
   } catch (error) {
@@ -29,7 +31,7 @@ const loadBindersList = async () => {
       await router.push({ path: '/homePage' });
     });
   } finally {
-    $q.loading.hide();
+    loading.value = false;
   }
 };
 
@@ -70,6 +72,7 @@ const binderList = computed(() => {
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
       <q-page>
+        <OC_Loader :visible="loading" />
         <div>
           <q-list>
             <q-item>

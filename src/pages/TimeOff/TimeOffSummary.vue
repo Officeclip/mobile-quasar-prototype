@@ -6,11 +6,13 @@ import { useQuasar } from 'quasar';
 import drawer from '../../components/drawer.vue';
 import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
 const timeOffStore = useTimeOffStore();
 const router = useRouter();
 const $q = useQuasar();
 const myDrawer = ref();
+const loading = ref(true);
 
 const tab = ref(localStorage.getItem('selectedTimeOffTab') || 'inbox'); // Default tab
 
@@ -60,7 +62,7 @@ const timeOffSummaries = computed(() => timeOffStore.TimeOffSummaries);
 
 const loadTimeOffSummaries = async (tabValue: string) => {
   timeOffStore.resetTimeOffSummaryList(); // Clear previous data
-  $q.loading.show();
+  loading.value = true;
   try {
     await timeOffStore.getTimeOffByCategory(tabValue);
   } catch (error) {
@@ -72,7 +74,7 @@ const loadTimeOffSummaries = async (tabValue: string) => {
       router.go(0);
     });
   } finally {
-    $q.loading.hide();
+    loading.value = false;
   }
 };
 
@@ -148,6 +150,7 @@ const viewDetails = async (
     <q-page-container>
       <div v-if="timeOffSummaries">
         <q-page>
+          <OC_Loader :visible="loading" />
           <q-list v-for="item in timeOffSummaries" :key="item.id">
             <q-item
               clickable
@@ -255,3 +258,6 @@ const viewDetails = async (
     </q-page-container>
   </q-layout>
 </template>
+<style scopped lang="scss">
+@import '../../css/status.scss';
+</style>

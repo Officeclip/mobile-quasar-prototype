@@ -7,7 +7,9 @@ import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
+const loading = ref(true);
 const expensesDetailsStore = useExpenseDetailsStore();
 const router = useRouter();
 const $q = useQuasar();
@@ -23,7 +25,7 @@ const title = ref(capitalize(tab.value));
 const myDrawer = ref();
 
 const loadExpensesByStatus = async () => {
-  $q.loading.show();
+  loading.value = true;
   try {
     await expensesDetailsStore.getExpensesByStatus(String(tab.value));
   } catch (error) {
@@ -34,7 +36,7 @@ const loadExpensesByStatus = async () => {
       await router.push({ path: '/HomePage' });
     });
   } finally {
-    $q.loading.hide();
+    loading.value = false;
   }
 };
 
@@ -106,6 +108,7 @@ function toggleLeftDrawer() {
     </q-footer>
     <q-page-container>
       <q-page>
+        <OC_Loader :visible="loading" />
         <div v-if="allExpenses">
           <q-list v-for="expense in allExpenses" :key="expense.id">
             <q-item

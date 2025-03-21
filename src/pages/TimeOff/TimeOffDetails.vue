@@ -8,12 +8,14 @@ import Drawer from '../../components/drawer.vue';
 import { isAllowed } from 'src/helpers/security';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import WorkFlow from '../../components/general/WorkFlow.vue';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
 const router = useRouter();
 const route = useRoute();
 const $q = useQuasar();
 const timeOffStore = useTimeOffStore();
 const myDrawer = ref();
+const loading = ref(true);
 
 const id = Array.isArray(route.params.id)
   ? route.params.id[0]
@@ -26,7 +28,7 @@ const entityType = 'timeOff';
 const timeOffDetailSid = ref('');
 
 const loadTimeOffDetails = async (id: string) => {
-  $q.loading.show();
+  loading.value = true;
   try {
     await timeOffStore.getTimeOffDetails(id);
   } catch (error) {
@@ -37,7 +39,7 @@ const loadTimeOffDetails = async (id: string) => {
       await router.push({ path: '/timeOffSummary' });
     });
   } finally {
-    $q.loading.hide();
+    loading.value = false;
   }
 };
 
@@ -153,6 +155,7 @@ const toggleLeftDrawer = () => {
     <!-- <q-space class="q-mt-sm" /> -->
     <q-page-container class="q-mb-md"
       ><q-page>
+        <OC_Loader :visible="loading" />
         <div>
           <!-- <pre>isAllowEdit:{{ isAllowEdit }}</pre>
         <pre>isAllowDelete::{{ isAllowDelete }}</pre>

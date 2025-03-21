@@ -10,6 +10,7 @@ import WorkFlow from '../../components/general/WorkFlow.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import drawer from '../../components/drawer.vue';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -17,6 +18,7 @@ const timesheetsStore = useTimesheetsStore();
 const teCommentsStore = useTECommentsStore();
 const $q = useQuasar();
 const myDrawer = ref();
+const loading = ref(true);
 
 const id = Array.isArray(route.params.id)
   ? route.params.id[0]
@@ -31,7 +33,7 @@ const status = route.params.status;
 const mode = route.params.mode;
 
 const loadTimesheetDetails = async (id: string, stageId: number) => {
-  $q.loading.show();
+  loading.value = true;
   try {
     await timesheetsStore.getTimesheetDetails(id, stageId);
     teCommentsStore.$reset();
@@ -45,7 +47,7 @@ const loadTimesheetDetails = async (id: string, stageId: number) => {
       await router.push({ path: '/timesheetsAll' });
     });
   } finally {
-    $q.loading.hide();
+    loading.value = false;
   }
 };
 
@@ -111,6 +113,7 @@ const deleteTimesheet = async (id: string) => {
 };
 
 const deleteTimesheetDetail = async (id: string) => {
+  loading.value = true;
   try {
     await timesheetsStore.deleteTimesheet(id);
     showDeleteTimesheetDetail.value = false;
@@ -122,6 +125,8 @@ const deleteTimesheetDetail = async (id: string) => {
     }).onOk(async () => {
       showDeleteTimesheetDetail.value = false;
     });
+  } finally {
+    loading.value = false;
   }
 };
 const commentsList = computed(() => {
@@ -177,152 +182,154 @@ function toggleLeftDrawer() {
     </q-header>
     <drawer ref="myDrawer" />
     <q-page-container>
-      <div>
-        <WorkFlow
-          v-if="status != 'Approved' && status != 'Pending'"
-          :entityId="id"
-          :employeeId="employeeId"
-          :entityType="entityType"
-          :stageId="stageId"
-          :groupProfileInfo="timesheetDCAA"
-        />
-      </div>
-      <q-card
-        v-for="timesheetDetail in timesheetDetails"
-        :key="timesheetDetail.id"
-        class="q-ma-sm bg-grey-2"
-      >
-        <q-expansion-item
-          default-opened
-          expand-separator
-          expand-icon-class="text-primary"
-          class="bg-white"
+      <q-page>
+        <OC_Loader :visible="loading" />
+        <div>
+          <WorkFlow
+            v-if="status != 'Approved' && status != 'Pending'"
+            :entityId="id"
+            :employeeId="employeeId"
+            :entityType="entityType"
+            :stageId="stageId"
+            :groupProfileInfo="timesheetDCAA"
+          />
+        </div>
+        <q-card
+          v-for="timesheetDetail in timesheetDetails"
+          :key="timesheetDetail.id"
+          class="q-ma-sm"
         >
-          <template v-slot:header>
-            <q-item-section>
-              <q-item-label caption>
-                {{ timesheetDetail.accountName }}
-              </q-item-label>
-              <q-item-label>
-                {{
-                  timesheetDetail.taskDate
-                    ? timesheetDetail.taskDate
-                    : 'No Specific Date'
-                }}
-              </q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              {{ timesheetDetail.timeDuration }} hrs
-            </q-item-section>
-            <q-item-section side>
-              <q-btn
-                v-if="isAllowEdit && mode === 'PERIODIC'"
-                :to="{
-                  name: 'editTimesheet',
-                  params: {
-                    id: timesheetDetail?.id,
-                    fromDate: fromDate,
-                    toDate: toDate,
-                  },
-                }"
-                size="sm"
-                flat
-                round
-                dense
-                icon="edit"
-              >
-              </q-btn>
-            </q-item-section>
-            <q-item-section side>
-              <q-btn
-                v-if="isAllowDelete"
-                @click="displayShowDeleteTimesheetDetail(timesheetDetail?.id)"
-                size="sm"
-                flat
-                round
-                dense
-                icon="delete"
-                class="q-btn-hover:hover"
-              ></q-btn>
-            </q-item-section>
-          </template>
-          <OCItem
-            v-if="timesheetDetail?.projectName"
-            title="Project"
-            :value="timesheetDetail.projectName"
-          />
-          <OCItem
-            v-if="timesheetDetail?.serviceItemName"
-            title="Task"
-            :value="timesheetDetail.serviceItemName"
-          />
-          <OCItem
-            title="Billable"
-            :value="timesheetDetail.isBillable ? 'Yes' : 'No'"
-          />
-          <OCItem
-            v-if="timesheetDetail?.description"
-            title="Description"
-            :value="timesheetDetail.description"
-          />
-        </q-expansion-item>
-      </q-card>
-      <q-card v-if="timesheetDetails.length > 0" class="q-ma-sm bg-grey-4">
-        <q-expansion-item
-          default-opened
-          expand-separator
-          expand-icon-class="text-primary"
-        >
-          <template v-slot:header>
-            <q-item-section>
-              <q-item-label>Comments: </q-item-label>
-            </q-item-section>
-          </template>
-          <q-list>
-            <q-item v-for="comments in commentsList" :key="comments.id">
-              <q-item-section style="white-space: pre-wrap"
-                >{{ comments.text_comment }}
+          <q-expansion-item
+            expand-separator
+            expand-icon-class="text-primary"
+            class="bg-white"
+          >
+            <template v-slot:header>
+              <q-item-section>
+                <q-item-label caption>
+                  {{ timesheetDetail.accountName }}
+                </q-item-label>
+                <q-item-label>
+                  {{
+                    timesheetDetail.taskDate
+                      ? timesheetDetail.taskDate
+                      : 'No Specific Date'
+                  }}
+                </q-item-label>
               </q-item-section>
-              <q-item-section style="white-space: pre-wrap">
-                by {{ comments.commentedUserName }} on
-                {{ comments.commentedDate.split('T')[0] }}
+              <q-item-section side>
+                {{ timesheetDetail.timeDuration }} hrs
               </q-item-section>
-            </q-item>
-            <q-item v-if="listLength === 0"> No Comments are present </q-item>
-          </q-list>
-        </q-expansion-item>
-      </q-card>
-      <q-page-sticky
-        position="bottom-right"
-        :offset="[18, 18]"
-        style="z-index: 1000"
-      >
-        <q-btn
-          v-if="isAllowEdit && mode === 'PERIODIC'"
-          :to="{
-            name: 'newTimesheet',
-            params: {
-              timesheetSid: timesheetDetails[0]?.timesheetSid,
-              fromDate: fromDate,
-              toDate: toDate,
-            },
-          }"
-          fab
-          icon="add"
-          color="accent"
-          padding="md"
+              <q-item-section side>
+                <q-btn
+                  v-if="isAllowEdit && mode === 'PERIODIC'"
+                  :to="{
+                    name: 'editTimesheet',
+                    params: {
+                      id: timesheetDetail?.id,
+                      fromDate: fromDate,
+                      toDate: toDate,
+                    },
+                  }"
+                  size="sm"
+                  flat
+                  round
+                  dense
+                  icon="edit"
+                >
+                </q-btn>
+              </q-item-section>
+              <q-item-section side>
+                <q-btn
+                  v-if="isAllowDelete"
+                  @click="displayShowDeleteTimesheetDetail(timesheetDetail?.id)"
+                  size="sm"
+                  flat
+                  round
+                  dense
+                  icon="delete"
+                  class="q-btn-hover:hover"
+                ></q-btn>
+              </q-item-section>
+            </template>
+            <OCItem
+              v-if="timesheetDetail?.projectName"
+              title="Project"
+              :value="timesheetDetail.projectName"
+            />
+            <OCItem
+              v-if="timesheetDetail?.serviceItemName"
+              title="Task"
+              :value="timesheetDetail.serviceItemName"
+            />
+            <OCItem
+              title="Billable"
+              :value="timesheetDetail.isBillable ? 'Yes' : 'No'"
+            />
+            <OCItem
+              v-if="timesheetDetail?.description"
+              title="Description"
+              :value="timesheetDetail.description"
+            />
+          </q-expansion-item>
+        </q-card>
+        <q-card
+          flat
+          bordered
+          v-if="timesheetDetails.length > 0"
+          class="q-ma-sm"
         >
-        </q-btn>
-        <q-btn
-          v-else
-          fab
-          icon="add"
-          color="accent"
-          padding="md"
-          @click="showWarningMsg"
+          <q-expansion-item expand-separator expand-icon-class="text-primary">
+            <template v-slot:header>
+              <q-item-section>
+                <q-item-label>Comments: </q-item-label>
+              </q-item-section>
+            </template>
+            <q-list>
+              <q-item v-for="comments in commentsList" :key="comments.id">
+                <q-item-section style="white-space: pre-wrap"
+                  >{{ comments.text_comment }}
+                </q-item-section>
+                <q-item-section style="white-space: pre-wrap">
+                  by {{ comments.commentedUserName }} on
+                  {{ comments.commentedDate.split('T')[0] }}
+                </q-item-section>
+              </q-item>
+              <q-item v-if="listLength === 0"> No Comments are present </q-item>
+            </q-list>
+          </q-expansion-item>
+        </q-card>
+        <q-page-sticky
+          position="bottom-right"
+          :offset="[18, 18]"
+          style="z-index: 1000"
         >
-        </q-btn>
-      </q-page-sticky>
+          <q-btn
+            v-if="isAllowEdit && mode === 'PERIODIC'"
+            :to="{
+              name: 'newTimesheet',
+              params: {
+                timesheetSid: timesheetDetails[0]?.timesheetSid,
+                fromDate: fromDate,
+                toDate: toDate,
+              },
+            }"
+            fab
+            icon="add"
+            color="accent"
+            padding="md"
+          >
+          </q-btn>
+          <q-btn
+            v-else
+            fab
+            icon="add"
+            color="accent"
+            padding="md"
+            @click="showWarningMsg"
+          >
+          </q-btn> </q-page-sticky
+      ></q-page>
     </q-page-container>
   </q-layout>
 
