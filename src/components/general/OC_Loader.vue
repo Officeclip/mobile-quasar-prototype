@@ -57,9 +57,9 @@ defineProps({
   z-index: 9999;
 }
 
-.loader-message {
-  /* margin-top: 10px; */
+/* .loader-message {
+  margin-top: 10px;
   font-size: 1.2em;
-  /* color: var(--q-color-primary); */
-}
+  color: var(--q-color-primary);
+} */
 </style>
