@@ -19,7 +19,10 @@ import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import drawer from '../../components/drawer.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
+import { useMetaContactDetailsStore } from 'src/stores/contact/ContactTestDetails';
 
+const metaContactStore = useMetaContactDetailsStore();
+// const metaData = ref(null);
 const loading = ref(true);
 const model = ref('1');
 const contactDetailsStore = useContactDetailsStore();
@@ -29,8 +32,27 @@ const router = useRouter();
 const $q = useQuasar();
 const id = ref<string | string[]>('0');
 id.value = route.params.id;
+const toggleMetaList = ref('show more');
 
 const myDrawer = ref();
+
+const loadMetaDetails = async () => {
+  loading.value = true;
+  try {
+    await metaContactStore.getContactDetails();
+    // await contactDetailsStore.getContactLists();
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/contactSummary' });
+      router.go(0);
+    });
+  } finally {
+    loading.value = false;
+  }
+};
 
 const loadContactDetails = async () => {
   loading.value = true;
@@ -53,10 +75,16 @@ const loadContactDetails = async () => {
 
 onMounted(async () => {
   loadContactDetails();
+  loadMetaDetails();
+  // metaData.value = metaDetails.value[0];
 });
 
 const contactDetails = computed(() => {
   return contactDetailsStore.ContactDetails;
+});
+
+const metaDetails = computed(() => {
+  return metaContactStore.contactDetails;
 });
 
 const children = computed(() => {
@@ -169,6 +197,11 @@ function toggleLeftDrawer() {
 .q-dialog__backdrop {
   backdrop-filter: blur(7px);
 }
+.wrap-text {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
 </style>
 
 <template>
@@ -238,6 +271,50 @@ function toggleLeftDrawer() {
         </q-card-section>
         <ContactDetails v-if="model === '1'" :params="params" />
         <MetaDetails v-if="model === '2'" :params="parent" />
+        <q-item>
+          <q-item-section>
+            <q-toggle
+              v-model="toggleMetaList"
+              color="primary"
+              keep-color
+              false-value="show more"
+              true-value="show less"
+              :label="toggleMetaList"
+            ></q-toggle>
+          </q-item-section>
+        </q-item>
+        <div v-if="metaDetails">
+          <div v-if="toggleMetaList === 'show less'">
+            <q-card
+              v-for="section in metaDetails[0].sections"
+              :key="section.sectionId"
+              class="q-mb-md"
+            >
+              <q-toolbar>
+                <q-toolbar-title>{{ section.sectionName }}</q-toolbar-title>
+              </q-toolbar>
+              <q-separator />
+              <div class="row q-col-gutter-sm">
+                <q-list
+                  v-for="entry in section.sectionEntries"
+                  :key="entry.metaId"
+                  class="col-6"
+                >
+                  <q-item>
+                    <q-item-section>
+                      <q-item-label caption
+                        >{{ entry.visibleName }}:
+                      </q-item-label>
+                      <q-item-label class="wrap-text">
+                        {{ entry.value }}
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </div>
+            </q-card>
+          </div>
+        </div>
         <div v-for="child in children" :key="child.id">
           <q-card-section v-if="child.id == ObjectType.Note">
             <q-list bordered class="rounded-borders">

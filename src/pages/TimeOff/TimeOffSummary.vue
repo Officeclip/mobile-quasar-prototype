@@ -7,6 +7,7 @@ import drawer from '../../components/drawer.vue';
 import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
+import toolBar from 'src/components/general/toolBar.vue';
 
 const timeOffStore = useTimeOffStore();
 const router = useRouter();
@@ -89,6 +90,7 @@ watch(tab, async (newTab) => {
 const toggleLeftDrawer = () => {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
+  // myDrawer.value = !myDrawer.value;
 };
 
 // const viewDetails = (row) => {
@@ -111,7 +113,14 @@ const viewDetails = async (
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
+      <toolBar
+        :title="title"
+        :backButton="true"
+        :toggleLeftDrawer="toggleLeftDrawer"
+        :showLogOutButton="true"
+      />
+
+      <!-- <q-toolbar>
         <q-btn
           @click="router.push({ path: '/homepage' })"
           flat
@@ -130,9 +139,9 @@ const viewDetails = async (
           @click="toggleLeftDrawer"
         />
         <q-toolbar-title>Time Off: {{ title }}</q-toolbar-title>
-      </q-toolbar>
+      </q-toolbar> -->
     </q-header>
-    <drawer ref="myDrawer" />
+    <drawer v-if="myDrawer" />
     <q-footer>
       <q-tabs
         v-model="tab"
