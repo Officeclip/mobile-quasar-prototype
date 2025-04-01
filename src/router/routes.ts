@@ -112,9 +112,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/LoginPage.vue'),
   },
   {
-    path: '/formData',
-    name: 'formData',
-    component: () => import('../pages/ParentComponent.vue'),
+    path: '/editMetaData',
+    name: 'editMetaData',
+    component: () => import('../pages/EditMetaDataTest.vue'),
   },
   {
     path: '/kRegarding',

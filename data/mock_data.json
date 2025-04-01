@@ -850,7 +850,7 @@
               "visibleName": "First Name",
               "type": "string",
               "visible": true,
-              "editable": true,
+              "editable": false,
               "value": "Hertha"
             },
             {
@@ -936,7 +936,7 @@
               "visibleName": "State",
               "type": "select",
               "visible": true,
-              "editable": true,
+              "editable": false,
               "value": "2"
             },
             {
@@ -982,11 +982,11 @@
       "metaId": 114,
       "listItems": [
         {
-          "value": 1,
+          "value": "1",
           "name": "USA"
         },
         {
-          "value": 2,
+          "value": "2",
           "name": "India"
         }
       ]

@@ -7,10 +7,12 @@ import util from 'src/helpers/util';
 export const useMetaDetailsStore = defineStore('metaDetailsStore', {
   state: () => ({
     metaDetails: undefined as MetaDetails | undefined,
+    metaDetails_N: [] as MetaDetails[],
   }),
 
   getters: {
     MetaDetails: (state) => state.metaDetails,
+    MetaDetails_N: (state) => state.metaDetails_N,
   },
 
   actions: {
@@ -82,6 +84,20 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
       } catch (error: any) {
         alert(error);
       }
+    },
+    // March 01, 2025 implementing the meta details by Sudhakar need to review after done
+    async getMetaDetail_N() {
+      const response = await fetch('data/mock_data.json');
+      const mockData = await response.json();
+      this.metaDetails_N = mockData['meta-details'].map((detail: any) => ({
+        ...detail,
+        sections: detail.sections.map((section: any) => ({
+          ...section,
+          sectionEntries: section.sectionEntries.map((entry: any) => ({
+            ...entry,
+          })),
+        })),
+      }));
     },
   },
 });

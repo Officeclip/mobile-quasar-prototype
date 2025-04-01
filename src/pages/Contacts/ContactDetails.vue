@@ -19,9 +19,9 @@ import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import drawer from '../../components/drawer.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
-import { useMetaContactDetailsStore } from 'src/stores/contact/ContactTestDetails';
+import { useMetaDetailsStore } from 'src/stores/MetaDetailsStore';
 
-const metaContactStore = useMetaContactDetailsStore();
+const metaContactStore = useMetaDetailsStore();
 // const metaData = ref(null);
 const loading = ref(true);
 const model = ref('1');
@@ -39,7 +39,7 @@ const myDrawer = ref();
 const loadMetaDetails = async () => {
   loading.value = true;
   try {
-    await metaContactStore.getContactDetails();
+    await metaContactStore.getMetaDetail_N();
     // await contactDetailsStore.getContactLists();
   } catch (error) {
     $q.dialog({
@@ -84,7 +84,7 @@ const contactDetails = computed(() => {
 });
 
 const metaDetails = computed(() => {
-  return metaContactStore.contactDetails;
+  return metaContactStore.MetaDetails_N;
 });
 
 const children = computed(() => {
@@ -193,7 +193,7 @@ function toggleLeftDrawer() {
 }
 </script>
 
-<style>
+<style scoped>
 .q-dialog__backdrop {
   backdrop-filter: blur(7px);
 }
