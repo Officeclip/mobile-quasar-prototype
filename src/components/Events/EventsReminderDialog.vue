@@ -1,14 +1,24 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useReminderDataStore } from 'stores/reminder/reminderData';
+
+const props = defineProps(['remindTo', 'reminderValue']);
+
+const label = computed(() => {
+  return props?.remindTo ? 'Update' : 'Save';
+});
 
 const reminderDataStore = useReminderDataStore();
 reminderDataStore.getReminderObject();
 
 const reminderOptions = reminderDataStore.ReminderOptions;
 const reminderTimes = reminderDataStore.ReminderTimes;
-const selectedReminderOption = ref('me');
-const selectedReminderTime = ref(60);
+const selectedReminderOption = ref(
+  props?.remindTo ? props.remindTo : 'Remind Me'
+);
+const selectedReminderTime = ref(
+  props?.reminderValue ? props.reminderValue : 60
+);
 const emit = defineEmits([
   'reminder-data-generated',
   'reminder-text-generated',
@@ -38,25 +48,51 @@ function generateReminder() {
 </script>
 
 <template>
-  <q-card>
-    <div class="q-pa-lg row flex-center">
-      <q-item-label>Reminders:</q-item-label>
-      <q-select v-model="selectedReminderOption" :options="reminderOptions" class="select-spacing" emit-value
-        map-options standout />
+  <q-card bordered style="width: 80%; border-color: #ff5722">
+    <q-toolbar class="bg-orange text-white">
+      <q-avatar>
+        <q-icon name="alarm" size="md" />
+      </q-avatar>
 
-      <q-select v-model="selectedReminderTime" :options="reminderTimes" class="select-spacing" emit-value map-options
-        standout />
-      <q-item-label>before it is due</q-item-label>
-    </div>
-    <q-card-actions>
-      <q-btn v-close-popup color="primary" label="Save" @click="generateReminder" />
+      <q-toolbar-title class="text-subtitle1"
+        ><span v-if="!props?.remindTo" class="q-mr-sm">Set</span
+        ><span>Reminder:</span></q-toolbar-title
+      >
+
+      <q-btn flat round dense icon="close" v-close-popup></q-btn>
+    </q-toolbar>
+    <q-separator />
+
+    <q-card-section>
+      <q-item-label>
+        <q-select
+          v-model="selectedReminderOption"
+          :options="reminderOptions"
+          emit-value
+          map-options
+      /></q-item-label>
+      <q-item-label>
+        <q-select
+          v-model="selectedReminderTime"
+          :options="reminderTimes"
+          class="select-spacing"
+          emit-value
+          map-options
+      /></q-item-label>
+      <q-item-label class="q-ml-xs">before it is due</q-item-label>
+    </q-card-section>
+    <q-card-actions align="right">
+      <q-btn
+        flat
+        no-caps
+        v-close-popup
+        color="primary"
+        :label="label"
+        @click="generateReminder"
+      >
+      </q-btn>
     </q-card-actions>
   </q-card>
 </template>
 
-<style scoped>
-.select-spacing {
-  margin: 5px;
-  /* Adjust the margin as needed */
-}
-</style>
+<style scoped></style>

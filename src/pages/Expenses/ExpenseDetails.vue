@@ -15,7 +15,9 @@ import { useTECommentsStore } from '../../stores/TECommentsStore';
 import { useQuasar } from 'quasar';
 import { isAllowed } from 'src/helpers/security';
 import drawer from '../../components/drawer.vue';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
+const loading = ref(true);
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
@@ -29,13 +31,11 @@ const entityType = 'expense';
 const fromDate = route.params.fromDate;
 const toDate = route.params.toDate;
 const status = route.params.status;
-const isLoaded = ref<boolean>(false);
 
-const isAllowedWrite = ref();
-const isAllowedDelete = ref();
 const myDrawer = ref();
 
-onMounted(async () => {
+const loadExpenseDetails = async () => {
+  loading.value = true;
   try {
     await expenseDetailsStore.getExpenseDetails(id, stageId);
     await expenseCommentsStore.$reset();
@@ -48,24 +48,31 @@ onMounted(async () => {
       await router.push({ path: '/expensesAll' });
     });
   } finally {
-    isLoaded.value = true;
+    loading.value = false;
   }
-  isAllowedWrite.value = isAllowed({
-    security: {
-      write: expenseDetails?.value[0].security.write,
-    },
-    isTimeExpense: true,
-  });
-  isAllowedDelete.value = isAllowed({
-    security: {
-      delete: expenseDetails?.value[0].security.delete,
-    },
-    isTimeExpense: true,
-  });
+};
+
+onMounted(async () => {
+  await loadExpenseDetails();
 });
 
 const expenseDetails = computed(() => {
   return expenseDetailsStore.expenseDetailsList;
+});
+
+const isAllowDelete = computed(() => {
+  const details = expenseDetails?.value[0];
+  return isAllowed({
+    security: { delete: details?.security?.delete },
+    isTimeExpense: true,
+  });
+});
+const isAllowEdit = computed(() => {
+  const details = expenseDetails?.value[0];
+  return isAllowed({
+    security: { write: details?.security?.write },
+    isTimeExpense: true,
+  });
 });
 
 const commentsList = computed(() => {
@@ -92,6 +99,7 @@ const cancelConfirmation = () => {
   isExpenseDetailDelete.value = false;
 };
 const deleteExpense = async (id: string) => {
+  loading.value = true;
   {
     try {
       await expenseDetailsStore.deleteExpense(id);
@@ -104,6 +112,8 @@ const deleteExpense = async (id: string) => {
       }).onOk(async () => {
         isExpenseDelete.value = false;
       });
+    } finally {
+      loading.value = false;
     }
   }
 };
@@ -137,7 +147,7 @@ function toggleLeftDrawer() {
 </style>
 
 <template>
-  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
+  <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
@@ -159,7 +169,7 @@ function toggleLeftDrawer() {
         />
         <q-toolbar-title> Expense Details </q-toolbar-title>
         <q-btn
-          v-if="isAllowedDelete"
+          v-if="isAllowDelete"
           flat
           round
           dense
@@ -172,6 +182,7 @@ function toggleLeftDrawer() {
     </q-header>
     <drawer ref="myDrawer" />
     <q-page-container class="q-ma-sm">
+      <OC_Loader :visible="loading" />
       <div>
         <WorkFlow
           v-if="status != 'Approved' && status != 'Pending'"
@@ -181,123 +192,125 @@ function toggleLeftDrawer() {
           :stageId="stageId"
         />
       </div>
-      <div v-for="expenseDetail in expenseDetails" :key="expenseDetail.id">
-        <q-list class="rounded-borders q-my-md bg-grey-3">
-          <q-expansion-item
-            expand-separator
-            expand-icon-class="text-primary"
-            class="bg-white"
-          >
-            <template v-slot:header>
-              <q-item-section>
-                <q-item-label v-if="expenseDetail.accountName !== ''">
-                  {{ expenseDetail.accountName }}
-                  <span v-if="expenseDetail.projectName !== ''">{{
-                    ': ' + expenseDetail.projectName
-                  }}</span>
-                </q-item-label>
-                <q-item-label caption>
-                  {{
-                    expenseDetail.expenseDate
-                      ? expenseDetail.expenseDate
-                      : 'No Specific Date'
-                  }}
-                </q-item-label>
-              </q-item-section>
+      <q-card
+        v-for="expenseDetail in expenseDetails"
+        :key="expenseDetail.id"
+        class="q-ma-sm"
+      >
+        <q-expansion-item
+          expand-separator
+          expand-icon-class="text-primary"
+          class="bg-white"
+        >
+          <template v-slot:header>
+            <q-item-section>
+              <q-item-label v-if="expenseDetail.accountName !== ''">
+                {{ expenseDetail.accountName }}
+                <span v-if="expenseDetail.projectName !== ''">{{
+                  ': ' + expenseDetail.projectName
+                }}</span>
+              </q-item-label>
+              <q-item-label caption>
+                {{
+                  expenseDetail.expenseDate
+                    ? expenseDetail.expenseDate
+                    : 'No Specific Date'
+                }}
+              </q-item-label>
+            </q-item-section>
 
-              <q-item-section>
-                <q-item-label>
-                  {{ expenseDetail.amount.toFixed(2) }}
-                  <span class="text-caption q-pl-xs">{{
-                    expenseDetail.currency
-                  }}</span>
-                </q-item-label> </q-item-section
-              ><q-item-section side>
-                <q-item-label>
-                  <q-btn
-                    v-if="isAllowedWrite"
-                    :to="{
-                      name: 'editExpense',
-                      params: {
-                        id: expenseDetail?.id,
-                        expenseSid: expenseDetail?.expenseSid,
-                        fromDate: fromDate,
-                        toDate: toDate,
-                      },
-                    }"
-                    size="sm"
-                    flat
-                    round
-                    dense
-                    icon="edit"
-                    class="q-ml-sm"
-                  >
-                  </q-btn>
-                </q-item-label>
-              </q-item-section>
-              <q-item-section side>
+            <q-item-section>
+              <q-item-label>
+                {{ expenseDetail.amount.toFixed(2) }}
+                <span class="text-caption q-pl-xs">{{
+                  expenseDetail.currency
+                }}</span>
+              </q-item-label> </q-item-section
+            ><q-item-section side>
+              <q-item-label>
                 <q-btn
-                  v-if="isAllowedDelete"
-                  @click="showExpenseDetailDelete(expenseDetail?.expenseSid)"
+                  v-if="isAllowEdit"
+                  :to="{
+                    name: 'editExpense',
+                    params: {
+                      id: expenseDetail?.id,
+                      expenseSid: expenseDetail?.expenseSid,
+                      fromDate: fromDate,
+                      toDate: toDate,
+                    },
+                  }"
                   size="sm"
                   flat
                   round
                   dense
-                  icon="delete"
-                  class="q-btn-hover:hover"
-                ></q-btn>
-              </q-item-section>
-            </template>
-            <q-item-section class="q-ma-md">
-              <q-item-label caption> Billable </q-item-label>
-              <q-item-label class="q-mb-sm">
-                {{ expenseDetail.billable ? 'Yes' : 'No' }}
+                  icon="edit"
+                  class="q-ml-sm"
+                >
+                </q-btn>
               </q-item-label>
-
-              <q-item-label caption> Description </q-item-label>
-              <q-item-label>
-                {{ expenseDetail.description }}
-              </q-item-label>
-
-              <autoRentalExpense
-                v-if="expenseDetail.autoRentalExpense"
-                :expense="expenseDetail.autoRentalExpense"
-              />
-
-              <airTravelExpense
-                v-if="expenseDetail.airTravelExpense"
-                :expense="expenseDetail.airTravelExpense"
-              />
-
-              <hotelExpense
-                v-if="expenseDetail.hotelExpense"
-                :expense="expenseDetail.hotelExpense"
-              />
-
-              <mileageExpense
-                v-if="expenseDetail.mileageExpense"
-                :expense="expenseDetail.mileageExpense"
-              />
-
-              <taxiExpense
-                v-if="expenseDetail.taxiExpense"
-                :expense="expenseDetail.taxiExpense"
-              />
-
-              <telephoneExpense
-                v-if="expenseDetail.telephoneExpense"
-                :expense="expenseDetail.telephoneExpense"
-              />
             </q-item-section>
-          </q-expansion-item>
-        </q-list>
+            <q-item-section side>
+              <q-btn
+                v-if="isAllowDelete"
+                @click="showExpenseDetailDelete(expenseDetail?.expenseSid)"
+                size="sm"
+                flat
+                round
+                dense
+                icon="delete"
+                class="q-btn-hover:hover"
+              ></q-btn>
+            </q-item-section>
+          </template>
+          <q-item-section class="q-ma-md">
+            <q-item-label caption> Billable </q-item-label>
+            <q-item-label class="q-mb-sm">
+              {{ expenseDetail.billable ? 'Yes' : 'No' }}
+            </q-item-label>
+
+            <q-item-label caption> Description </q-item-label>
+            <q-item-label>
+              {{ expenseDetail.description }}
+            </q-item-label>
+
+            <autoRentalExpense
+              v-if="expenseDetail.autoRentalExpense"
+              :expense="expenseDetail.autoRentalExpense"
+            />
+
+            <airTravelExpense
+              v-if="expenseDetail.airTravelExpense"
+              :expense="expenseDetail.airTravelExpense"
+            />
+
+            <hotelExpense
+              v-if="expenseDetail.hotelExpense"
+              :expense="expenseDetail.hotelExpense"
+            />
+
+            <mileageExpense
+              v-if="expenseDetail.mileageExpense"
+              :expense="expenseDetail.mileageExpense"
+            />
+
+            <taxiExpense
+              v-if="expenseDetail.taxiExpense"
+              :expense="expenseDetail.taxiExpense"
+            />
+
+            <telephoneExpense
+              v-if="expenseDetail.telephoneExpense"
+              :expense="expenseDetail.telephoneExpense"
+            />
+          </q-item-section>
+        </q-expansion-item>
         <q-page-sticky
           position="bottom-right"
           :offset="[18, 18]"
           style="z-index: 1000"
         >
           <q-btn
-            v-if="isAllowedWrite"
+            v-if="isAllowEdit"
             :to="{
               name: 'newExpense',
               params: {
@@ -331,13 +344,9 @@ function toggleLeftDrawer() {
           @cancel="cancelConfirmation"
           @confirm="deleteExpenseDetail"
         />
-      </div>
-      <q-card v-if="expenseDetails.length > 0" class="q-ma-sm bg-grey-4">
-        <q-expansion-item
-          default-opened
-          expand-separator
-          expand-icon-class="text-primary"
-        >
+      </q-card>
+      <q-card flat bordered v-if="expenseDetails.length > 0" class="q-ma-sm">
+        <q-expansion-item expand-separator expand-icon-class="text-primary">
           <template v-slot:header>
             <q-item-section>
               <q-item-label>Comments: </q-item-label>

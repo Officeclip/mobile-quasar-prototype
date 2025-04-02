@@ -212,10 +212,30 @@ const routes: RouteRecordRaw[] = [
     name: 'editIssue',
     component: () => import('../pages/IssueTracker/EditIssue.vue'),
   },
+  // {
+  //   path: '/settings',
+  //   name: 'settings',
+  //   component: () => import('../pages/removeLocalData.vue'),
+  // },
   {
-    path: '/settings',
-    name: 'settings',
-    component: () => import('../pages/removeLocalData.vue'),
+    path: '/timeOffSummary',
+    name: 'timeOffSummary',
+    component: () => import('../pages/TimeOff/TimeOffSummary.vue'),
+  },
+  {
+    path: '/timeOffDetails/:id/:status/:stageId/:employeeId',
+    name: 'timeOffDetails',
+    component: () => import('../pages/TimeOff/TimeOffDetails.vue'),
+  },
+  {
+    path: '/newTimeOff',
+    name: 'newTimeOff',
+    component: () => import('pages/TimeOff/NewTimeOff.vue'),
+  },
+  {
+    path: '/editTimeOff/:id',
+    name: 'editTimeOff',
+    component: () => import('../pages/TimeOff/EditTimeOff.vue'),
   },
   // Always leave this as last one,
   // but you can also remove it

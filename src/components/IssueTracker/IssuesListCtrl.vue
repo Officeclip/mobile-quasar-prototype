@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useIssueSummaryStore } from 'src/stores/issueTracker/issueSummaryStore';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { getIssueTrackerLabelColor } from 'src/helpers/colorIconHelper';
 import { useQuasar } from 'quasar';
 
-const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
-const props = defineProps(['parent', 'binderId']);
+const props = defineProps(['parent', 'binderId', 'binderName']);
 
 const issueSummaryStore = useIssueSummaryStore();
 
@@ -50,6 +49,12 @@ function infinteScrollReset() {
   });
 }
 
+const viewDetails = async (id: string, binderName: string, appName: any) => {
+  await router.push({
+    path: `/trackerCaseDetails/${id}/${binderName}/${appName}`,
+  });
+};
+
 defineExpose({ infinteScrollReset });
 </script>
 
@@ -68,7 +73,11 @@ defineExpose({ infinteScrollReset });
     @load="loadMore"
   >
     <q-list v-for="issue in issuesList" :key="issue.id">
-      <q-item
+      <q-card
+        @click="viewDetails(issue.id, binderName, parent.appName)"
+        class="clickable-card q-py-md"
+      >
+        <!-- <q-item
         clickable
         v-ripple
         :to="{
@@ -79,47 +88,49 @@ defineExpose({ infinteScrollReset });
             appName: parent.appName,
           },
         }"
-      >
-        <q-item-section>
-          <q-item-label class="ellipsis"
-            ><span class="text-subtitle1 text-weight-medium inline q-mr-xs"
-              >{{ issue.caseId }}:</span
-            >
-            <span v-html="issue?.name"></span
-          ></q-item-label>
-        </q-item-section>
-        <q-item-section v-if="issue.status" side top>
-          <q-chip dense :class="getIssueTrackerLabelColor(issue.status)">
-            <q-item-label caption class="q-px-xs testClass">{{
-              issue.status
-            }}</q-item-label>
-          </q-chip>
-        </q-item-section>
+      > -->
+        <q-item>
+          <q-item-section>
+            <q-item-label class="ellipsis"
+              ><span class="text-subtitle1 text-weight-medium inline q-mr-xs"
+                >{{ issue.caseId }}:</span
+              >
+              <span v-html="issue?.name"></span
+            ></q-item-label>
+          </q-item-section>
+          <q-item-section v-if="issue.status" side>
+            <q-chip dense :class="getIssueTrackerLabelColor(issue.status)">
+              <q-item-label caption class="q-px-xs testClass">{{
+                issue.status
+              }}</q-item-label>
+            </q-chip>
+          </q-item-section>
 
-        <q-item-section side>
-          <q-icon color="primary" name="chevron_right" />
-        </q-item-section>
-      </q-item>
-      <q-item>
-        <q-item-section>
-          <div class="flex items-end justify-between ellipsis">
-            <q-item-label v-if="issue.createdDate">
-              <span class="text-caption">created:</span>
-              <span class="q-mx-sm">{{
-                dateTimeHelper.formatDateTimeFromRestAPIForUI(
-                  issue.createdDate,
-                  false
-                )
-              }}</span>
-            </q-item-label>
-            <q-item-label v-if="issue.assignedTo">
-              <span class="text-caption">assigned:</span>
-              <span class="q-mx-sm">{{ issue.assignedTo }}</span>
-            </q-item-label>
-          </div>
-        </q-item-section>
-      </q-item>
-      <q-separator spaced inset></q-separator>
+          <q-item-section side>
+            <q-icon color="primary" name="chevron_right" />
+          </q-item-section>
+        </q-item>
+        <q-item>
+          <q-item-section>
+            <div class="flex items-end justify-between ellipsis">
+              <q-item-label v-if="issue.createdDate">
+                <span class="text-caption">created:</span>
+                <span class="q-mx-sm">{{
+                  dateTimeHelper.formatDateTimeFromRestAPIForUI(
+                    issue.createdDate,
+                    false
+                  )
+                }}</span>
+              </q-item-label>
+              <q-item-label v-if="issue.assignedTo">
+                <span class="text-caption">assigned:</span>
+                <span class="q-mx-sm">{{ issue.assignedTo }}</span>
+              </q-item-label>
+            </div>
+          </q-item-section>
+        </q-item>
+      </q-card>
+      <!-- <q-separator spaced inset></q-separator> -->
     </q-list>
     <template v-slot:loading>
       <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
@@ -129,11 +140,24 @@ defineExpose({ infinteScrollReset });
 
 <style scopped lang="scss">
 @import '../../css/status.scss';
-.q-item {
-  min-height: 24px;
-  padding: 4px 16px;
+
+.clickable-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
 }
-.required {
-  color: red;
+
+.clickable-card:hover {
+  // transform: translateY(-5px);
+  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: rgb(
+    231,
+    231,
+    231
+  ); // Add your desired background color here
+}
+
+.clickable-card:active {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 </style>

@@ -61,42 +61,56 @@ export const useSessionStore = defineStore('sessionStore', {
           name: 'Calendar',
           icon: 'calendar_month',
           url: '/eventSummary',
+          color: 'primary', // Blue, represents scheduling & planning
         },
         {
           id: 22,
           name: 'Contacts',
           icon: 'person',
           url: '/contactSummary',
+          color: 'teal', // Friendly, represents communication & connection
         },
         {
           id: 8,
           icon: 'schedule',
           name: 'Timesheet',
           url: '/timesheetsAll',
+          color: 'amber', // Represents time tracking & productivity
         },
         {
           id: 7,
           icon: 'card_travel',
           name: 'Expenses',
           url: '/expensesAll',
+          color: 'green', // Money/financial, represents transactions
         },
         {
           id: 20,
           icon: 'checklist',
           name: 'Tasks',
           url: '/tasksList',
+          color: 'purple', // Represents organization & completion
         },
         {
           id: 21,
           icon: 'subject',
           name: 'Notes',
           url: '/notesList',
+          color: 'orange', // Represents ideas & creativity
         },
         {
           id: 5,
           icon: 'bug_report',
           name: 'Issue Tracker',
           url: '/trackerBinderSummary',
+          color: 'red', // Represents errors & alerts
+        },
+        {
+          id: 10,
+          icon: 'alarm_off',
+          name: 'Time Off',
+          url: '/timeOffSummary',
+          color: 'light-blue', // Represents relaxation & freedom
         },
       ];
       return defaultHomeIcons;

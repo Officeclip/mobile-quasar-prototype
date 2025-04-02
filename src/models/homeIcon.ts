@@ -3,4 +3,5 @@ export interface HomeIcon {
   name: string;
   icon: string;
   url: string;
+  color: string;
 }

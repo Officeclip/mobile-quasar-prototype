@@ -2,17 +2,31 @@
 import { onBeforeMount, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useWorkFlowStore } from 'src/stores/workFlow/WorkFlow';
-import { useTECommentsStore } from 'src/stores/TECommentsStore';
+// import { useTECommentsStore } from 'src/stores/TECommentsStore';
 import { useQuasar } from 'quasar';
+import { bu } from 'app/src-capacitor/www/assets/index.2cd8f154';
 
-const props = defineProps(['entityId', 'entityType', 'stageId', 'employeeId']);
+const props = defineProps([
+  'entityId',
+  'entityType',
+  'stageId',
+  'employeeId',
+  'groupProfileInfo',
+]);
 const $q = useQuasar();
 const router = useRouter();
 const showConfirmationDialog = ref(false);
+const comments: any = ref(''); //for timeoff approve or reject comments
+const showCommentsDialog = ref(false); //for timeoff approve or reject comments
 const password = ref('');
 const workFlowModel = ref('');
 const workFlowStore = useWorkFlowStore();
-const teCommentsStore = useTECommentsStore();
+// const teCommentsStore = useTECommentsStore();
+const buttonObj = ref({
+  name: '',
+  icon: '',
+  color: '',
+});
 
 onBeforeMount(async () => {
   try {
@@ -21,7 +35,7 @@ onBeforeMount(async () => {
       props?.entityType,
       props?.stageId
     );
-    await teCommentsStore.getTimesheetGroupProfile();
+    // await teCommentsStore.getTimesheetGroupProfile();
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -65,8 +79,12 @@ const rejectToUserName = computed(() => {
 });
 
 const timesheetDCAA = computed(() => {
-  return teCommentsStore.DCAA;
+  return props?.groupProfileInfo;
 });
+
+// const timesheetDCAA = computed(() => {
+//   return teCommentsStore.DCAA;
+// });
 
 const upDateWorkFlow = async () => {
   if (
@@ -108,6 +126,23 @@ const setApproveToUserId = computed(() => {
     : workFlow.value.approveToUserId;
 });
 
+const approveWorkflow = () => {
+  workFlow.value.stageId = props.stageId;
+  workFlow.value.submitToUserId = '';
+  workFlow.value.rejectToUserId = '';
+  workFlow.value.approveToUserId = setApproveToUserId?.value;
+  workFlow.value.users = null;
+  upDateWorkFlow();
+};
+
+const rejectWorkflow = () => {
+  workFlow.value.stageId = props.stageId;
+  workFlow.value.submitToUserId = '';
+  workFlow.value.approveToUserId = '';
+  workFlow.value.users = null;
+  upDateWorkFlow();
+};
+
 const manualWorkflow = (newValue: string) => {
   workFlow.value.submitToUserId = newValue;
   workFlow.value.stageId = props.stageId;
@@ -124,28 +159,177 @@ const submitButtonWorkFlow = () => {
   upDateWorkFlow();
 };
 const approveButtonWorkFlow = () => {
-  workFlow.value.stageId = props.stageId;
-  workFlow.value.submitToUserId = '';
-  workFlow.value.rejectToUserId = '';
-  workFlow.value.approveToUserId = setApproveToUserId?.value;
-  workFlow.value.users = null;
-  upDateWorkFlow();
+  if (props?.entityType == 'timeOff') {
+    buttonObj.value.name = 'Approve';
+    buttonObj.value.icon = 'thumb_up';
+    buttonObj.value.color = 'positive';
+    showCommentsDialog.value = true;
+  } else {
+    // workFlow.value.stageId = props.stageId;
+    // workFlow.value.submitToUserId = '';
+    // workFlow.value.rejectToUserId = '';
+    // workFlow.value.approveToUserId = setApproveToUserId?.value;
+    // workFlow.value.users = null;
+    // upDateWorkFlow();
+    approveWorkflow();
+  }
+};
+const submitComments = (isButton = 'Approve') => {
+  if (comments.value === '') {
+    $q.dialog({
+      title: 'Alert',
+      message: 'Please enter comments',
+    });
+  } else {
+    workFlow.value.comments = comments.value;
+    if (isButton === 'Approve') {
+      approveWorkflow();
+    } else {
+      rejectWorkflow();
+    }
+  }
 };
 const rejectButtonWorkFlow = () => {
-  workFlow.value.stageId = props.stageId;
-  workFlow.value.submitToUserId = '';
-  workFlow.value.approveToUserId = '';
-  workFlow.value.users = null;
-  upDateWorkFlow();
+  if (props?.entityType == 'timeOff') {
+    buttonObj.value.name = 'Reject';
+    buttonObj.value.icon = 'thumb_down';
+    buttonObj.value.color = 'negative';
+    showCommentsDialog.value = true;
+  } else {
+    // workFlow.value.stageId = props.stageId;
+    // workFlow.value.submitToUserId = '';
+    // workFlow.value.approveToUserId = '';
+    // workFlow.value.users = null;
+    // upDateWorkFlow();
+    rejectWorkflow();
+  }
 };
 
 const closePopUp = () => {
-  showConfirmationDialog.value = false;
+  comments.value = '';
+  showCommentsDialog.value = false;
 };
 </script>
 <template>
-  <div class="q-mt-sm">
-    <!-- if submitToUserId there then this will comes up -->
+  <div v-if="workFlow?.workflowType == 'auto'">
+    <q-banner class="q-mb-md bg-grey-4" dense>
+      <div>
+        <q-item>
+          <q-item-section
+            ><q-item-label class="text-h6 row items-center"
+              ><q-icon name="info" class="q-mr-sm" />Workflow Info:
+            </q-item-label>
+            <q-item-label
+              v-if="props?.stageId == 1 && workFlow?.workflowType === 'auto'"
+            >
+              Your workflow is set to
+              <span class="text-subtitle1 text-weight-medium">{{
+                submitToUserName?.name
+              }}</span>
+              ({{ workFlow?.workflowType }}), click on the button to submit the
+              <span>{{ props?.entityType }}</span> to the next stage,
+            </q-item-label>
+
+            <q-item-label v-else>
+              <span class="text-subtitle1 text-weight-medium">{{
+                rejectToUserName?.name
+              }}</span>
+              is submitted ({{ workFlow?.workflowType }})
+              <span>{{ props?.entityType }}</span> to you, please take the
+              action to approve or reject,
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side
+            ><q-btn
+              v-if="workFlow?.submitToUserId"
+              icon="send"
+              color="primary"
+              flat
+              round
+              dense
+              @click="submitButtonWorkFlow"
+            />
+            <q-btn
+              v-if="workFlow?.approveToUserId"
+              icon="check_circle"
+              color="positive"
+              flat
+              round
+              dense
+              @click="approveButtonWorkFlow"
+            />
+            <q-btn
+              v-if="workFlow?.rejectToUserId"
+              icon="cancel"
+              color="negative"
+              flat
+              round
+              dense
+              @click="rejectButtonWorkFlow"
+            /> </q-item-section
+        ></q-item>
+      </div>
+    </q-banner>
+  </div>
+  <!-- handling manual workflow -->
+  <div v-else>
+    <q-banner class="q-mb-md bg-grey-4" dense>
+      <div>
+        <q-item>
+          <q-item-section
+            ><q-item-label class="text-h6 row items-center"
+              ><q-icon name="info" />Workflow Information
+            </q-item-label>
+            <q-item-label>
+              You can approve the timesheet by click on approve button or you
+              can select the user to submit the timesheet to the next stage
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-btn
+              icon="check_circle"
+              color="primary"
+              flat
+              round
+              dense
+              @click="approveButtonWorkFlow"
+            /> </q-item-section
+        ></q-item>
+        <q-item>
+          <q-item-section>
+            <q-item-label style="width: 80%">
+              <q-select
+                outlined
+                dense
+                label="Submit To:"
+                v-model="workFlowModel"
+                :options="workFlowUsers"
+                option-label="name"
+                option-value="id"
+                map-options
+                emit-value
+                @update:model-value="(newValue: any) => manualWorkflow(newValue)"
+              />
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-btn
+              v-if="workFlow?.submitToUserId"
+              icon="send"
+              color="primary"
+              flat
+              round
+              dense
+              @click="submitButtonWorkFlow"
+            />
+          </q-item-section>
+        </q-item>
+      </div>
+    </q-banner>
+  </div>
+  <!-- use this below commented code for switched into old workflow design -->
+  <!-- <div class="q-mt-sm">
+    if submitToUserId there then this will comes up
     <div
       v-if="workFlow?.workflowType == 'auto'"
       class="row items-center justify-center"
@@ -159,9 +343,7 @@ const closePopUp = () => {
           label="Submit"
           @click="submitButtonWorkFlow"
         />
-        <q-item-label class="text-caption">
-          to: {{ submitToUserName?.name }}
-        </q-item-label>
+        <q-item-label> to: {{ submitToUserName?.name }} </q-item-label>
       </div>
       <div v-if="workFlow?.approveToUserId">
         <q-btn
@@ -172,7 +354,7 @@ const closePopUp = () => {
           label="Approve"
           @click="approveButtonWorkFlow"
         />
-        <q-item-label class="text-caption q-mx-sm"
+        <q-item-label class="q-mx-sm"
           >to: {{ approveToUserName?.name }}</q-item-label
         >
       </div>
@@ -185,13 +367,13 @@ const closePopUp = () => {
           label="Reject"
           @click="rejectButtonWorkFlow"
         />
-        <q-item-label class="text-caption q-mx-sm"
+        <q-item-label class="q-mx-sm"
           >to: {{ rejectToUserName?.name }}</q-item-label
         >
       </div>
     </div>
 
-    <!-- if the workflow routing setup as manual this will come up -->
+    if the workflow routing setup as manual this will come up
     <div
       v-if="workFlow?.workflowType == 'manual'"
       class="row items-center justify-center"
@@ -227,7 +409,7 @@ const closePopUp = () => {
         @click="approveButtonWorkFlow"
       />
     </div>
-  </div>
+  </div> -->
   <div>
     <q-dialog v-model="showConfirmationDialog">
       <q-card>
@@ -239,8 +421,78 @@ const closePopUp = () => {
             placeholder="Enter Password"
           />
           <button class="q-mx-sm" @click="teDCAAupdateWorkflow">Submit</button>
-          <button @click="closePopUp">Cancel</button>
+          <button v-close-popup>Cancel</button>
         </q-card-section>
+      </q-card>
+    </q-dialog>
+    <!-- handling ask write comments while approve or reject the timeoff -->
+    <q-dialog v-model="showCommentsDialog">
+      <!-- <q-card>
+        <q-card-section>
+          <h6 class="q-my-lg">Enter Comments</h6>
+          <q-input
+            v-model="comments"
+            placeholder="Enter Comments"
+            type="textarea"
+          />
+          <q-btn
+            flat
+            no-caps
+            v-close-popup
+            color="primary"
+            @click="submitComments(buttonObj)"
+            >Submit
+          </q-btn>
+          <button v-close-popup>Cancel</button>
+        </q-card-section>
+      </q-card> -->
+
+      <q-card bordered style="width: 80%">
+        <q-toolbar>
+          <q-avatar>
+            <q-icon
+              :name="buttonObj?.icon"
+              size="md"
+              :color="buttonObj?.color"
+            />
+          </q-avatar>
+
+          <q-toolbar-title
+            >{{ buttonObj?.name }} Time Off request</q-toolbar-title
+          >
+
+          <q-btn
+            flat
+            round
+            dense
+            icon="close"
+            @click="closePopUp"
+            v-close-popup
+          ></q-btn>
+        </q-toolbar>
+
+        <q-card-section>
+          <q-item-label>
+            <q-input
+              outlined
+              v-model="comments"
+              placeholder="Enter Comments"
+              type="textarea"
+              class="bg-grey-2"
+            />
+          </q-item-label>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn
+            flat
+            no-caps
+            :label="buttonObj?.name"
+            :color="buttonObj?.color"
+            v-close-popup
+            @click="submitComments(buttonObj?.name)"
+          >
+          </q-btn>
+        </q-card-actions>
       </q-card>
     </q-dialog>
   </div>

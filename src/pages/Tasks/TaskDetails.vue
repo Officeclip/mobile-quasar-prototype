@@ -24,10 +24,13 @@ const router = useRouter();
 const myDrawer = ref();
 
 const id = route.params.id;
-const isLoaded = ref<boolean>(false);
 const appName = route.params.appName;
+const taskDetail = ref();
+const pendingSubtasks = ref();
+const completedSubtasks = ref();
 
-onMounted(async () => {
+const loadTimesheetDetails = async () => {
+  $q.loading.show();
   try {
     await taskDetailsStore.getTask(id as string);
   } catch (error) {
@@ -39,21 +42,32 @@ onMounted(async () => {
       await router.go(0);
     });
   } finally {
-    isLoaded.value = true;
+    $q.loading.hide();
   }
+};
+
+onMounted(async () => {
+  await loadTimesheetDetails();
+  taskDetail.value = taskDetailsStore.taskDetail;
+  pendingSubtasks.value = taskDetail.value?.subTasks.filter(
+    (subtask: subTask) => !subtask.isCompleted
+  );
+  completedSubtasks.value = taskDetail.value?.subTasks.filter(
+    (subtask: subTask) => subtask.isCompleted
+  );
 });
 
-const taskDetail = computed(() => {
-  return taskDetailsStore?.taskDetail;
-});
+// const taskDetail = computed(() => {
+//   return taskDetailsStore.taskDetail;
+// });
 
-const pendingSubtasks = computed(() => {
-  return taskDetail.value?.subTasks.filter((subtask) => !subtask.isCompleted);
-});
+// const pendingSubtasks = computed(() => {
+//   return taskDetail.value?.subTasks.filter((subtask) => !subtask.isCompleted);
+// });
 
-const completedSubtasks = computed(() => {
-  return taskDetail.value?.subTasks.filter((subtask) => subtask.isCompleted);
-});
+// const completedSubtasks = computed(() => {
+//   return taskDetail.value?.subTasks.filter((subtask) => subtask.isCompleted);
+// });
 
 const formattedStartDate = computed(() => {
   return dateTimeHelper.formatDateTimeFromRestAPIForUI(
@@ -127,6 +141,12 @@ const newSubtask = ref({
   isCompleted: false,
   completedDate: '',
 });
+
+const regardingInfo = computed(() => {
+  const data = taskDetail.value?.parent;
+  if (!data) return '';
+  return `${data.type.name}: ${data.value.name}`;
+});
 </script>
 
 <style>
@@ -145,7 +165,7 @@ const newSubtask = ref({
 </style>
 
 <template>
-  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
+  <q-layout view="lHh Lpr lFf" v-if="taskDetail">
     <q-header bordered class="bg-primary text-white" reveal height-hint="98">
       <q-toolbar>
         <q-btn dense flat icon="arrow_back" round @click="router.go(-1)" />
@@ -334,13 +354,7 @@ const newSubtask = ref({
               </q-item-section>
               <q-item-section>
                 <q-item-label caption>Regarding</q-item-label>
-                <q-item-label description
-                  >{{
-                    taskDetail?.parent.type.name +
-                    ': ' +
-                    taskDetail?.parent.value.name
-                  }}
-                </q-item-label>
+                <q-item-label description>{{ regardingInfo }} </q-item-label>
               </q-item-section>
             </q-item>
           </div>

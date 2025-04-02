@@ -15,8 +15,8 @@ export const useReminderDataStore = defineStore('reminderDataStore', {
   actions: {
     getReminderObject() {
       const reminderOptions = [
-        { label: 'Remind Me', value: 'me' },
-        { label: 'Remind Everybody', value: 'everyone' },
+        { label: 'Remind Me', value: 'Remind Me' },
+        { label: 'Remind Everybody', value: 'Remind Everybody' },
       ];
 
       const reminderTimes = [

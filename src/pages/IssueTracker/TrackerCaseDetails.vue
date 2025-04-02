@@ -12,7 +12,9 @@ import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import { isAllowed } from 'src/helpers/security';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import { ObjectType } from '../../helpers/util';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
+const loading = ref(true);
 const $q = useQuasar();
 const route = useRoute();
 const router = useRouter();
@@ -40,8 +42,25 @@ function toggleLeftDrawer() {
 }
 const issueDetailsStore = useIssueDetailsStore();
 
+const loadIssueDetails = async (id: string) => {
+  loading.value = true;
+  try {
+    await issueDetailsStore.getTrackerCaseDetails(id);
+  } catch (error) {
+    $q.dialog({
+      title: 'Alert',
+      message: error as string,
+    }).onOk(async () => {
+      await router.push({ path: '/homePage' });
+    });
+  } finally {
+    loading.value = false;
+  }
+};
+
 onMounted(() => {
-  issueDetailsStore.getTrackerCaseDetails(id.value);
+  // issueDetailsStore.getTrackerCaseDetails(id.value);
+  loadIssueDetails(id.value as string);
 });
 const issueDetails = computed(() => {
   return issueDetailsStore?.IssueDetails;
@@ -67,6 +86,7 @@ const projectServiceItem = computed(() => {
 });
 
 const deleteIssueDetail = async (id: string) => {
+  loading.value = true;
   try {
     await issueDetailsStore.deleteTrackerCaseDetails(id);
     showDeleteIssueDetail.value = false;
@@ -78,6 +98,8 @@ const deleteIssueDetail = async (id: string) => {
     }).onOk(async () => {
       showDeleteIssueDetail.value = false;
     });
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -143,18 +165,18 @@ const isAllowDelete = computed(() => {
     <q-space class="q-mt-sm"></q-space>
     <q-page-container class="q-mb-md">
       <q-page>
+        <OC_Loader :visible="loading" />
         <q-card>
           <q-list>
             <q-item>
               <q-item-section>
-                <q-item-label
-                  ><span class="text-subtitle1 text-weight-medium"
+                <q-item-label class="text-subtitle1"
+                  ><span class="text-weight-medium"
                     >{{ issueDetails?.caseId }}:</span
                   >
-                  <span class="description"
-                    >{{ issueDetails?.name }}
-                  </span></q-item-label
-                >
+                  <span class="description q-ml-sm" v-html="issueDetails?.name">
+                  </span
+                ></q-item-label>
               </q-item-section>
             </q-item>
             <q-separator spaced inset></q-separator>

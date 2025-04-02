@@ -1,24 +1,18 @@
-<!--
-  FIXME: sg: icons should be bigger, row spacing should be more, screen doesn't dance on hover [30]
-  FIXME: sg: organization drop down should work [30]
- -->
-
 <script lang="ts" setup>
-import { computed, ComputedRef, onBeforeMount, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useSessionStore } from 'stores/SessionStore';
-import { Session } from '../models/session';
 import { useProfileListsStore } from 'stores/profileListsStore';
 import { useQuasar } from 'quasar';
 import drawer from '../components/drawer.vue';
+import SelectOrganizations from 'src/components/general/SelectOrganizations.vue';
+import logOutButton from '../components/general/logOutButton.vue';
 
 const router = useRouter();
 const sessionStore = useSessionStore();
 const profileListsStore = useProfileListsStore();
 
-const organization = ref('');
 const $q = useQuasar();
-
 const isLoaded = ref<boolean>(false);
 const myDrawer = ref();
 
@@ -26,35 +20,12 @@ const filteredHomeIcons = computed(() => {
   return sessionStore.getHomeIcons();
 });
 
-async function updateOrganization(newValue: any) {
-  await sessionStore.changeOrganization(newValue.id);
-}
-
-const session: ComputedRef<Session> = computed(() => {
-  return sessionStore.Session;
-});
-
-const organizationItems = computed(() => {
-  return profileListsStore.Organizations;
-});
-
-onBeforeMount(async () => {
+const loadProfileList = async () => {
+  $q.loading.show();
   try {
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
     await sessionStore.getSession();
     await profileListsStore.getProfileLists();
-
-    const organizationItems = computed(() => {
-      return profileListsStore.profileLists.organization;
-    });
-
-    const organizationItem = computed(() => {
-      return organizationItems.value.find(
-        (orgItem) => orgItem.id === session.value.orgId
-      );
-    });
-
-    organization.value = organizationItem.value?.name as string;
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -64,8 +35,13 @@ onBeforeMount(async () => {
       router.go(0);
     });
   } finally {
+    $q.loading.hide();
     isLoaded.value = true;
   }
+};
+
+onMounted(async () => {
+  await loadProfileList();
 });
 
 function toggleLeftDrawer() {
@@ -105,6 +81,8 @@ function goToApp(url: string) {
           @click="toggleLeftDrawer"
         />
         <q-toolbar-title> OfficeClip Suite</q-toolbar-title>
+        <q-space />
+        <logOutButton />
       </q-toolbar>
     </q-header>
 
@@ -112,24 +90,21 @@ function goToApp(url: string) {
 
     <q-page-container>
       <q-page>
-        <div class="q-pa-lg text-center">
-          <q-select
-            v-model="organization"
-            :options="organizationItems"
-            label="Select Organization"
-            option-label="name"
-            option-value="id"
-            outlined
-            @update:model-value="updateOrganization"
-          />
+        <div class="q-mx-lg q-my-md responsive-width">
+          <SelectOrganizations />
         </div>
-        <div>
-          <div class="row">
-            <div
-              v-for="item in filteredHomeIcons"
-              :key="item.name"
-              class="col-4 q-pa-xl text-center itemsCenter"
-              style="height: 150px"
+        <div class="row">
+          <div
+            v-for="item in filteredHomeIcons"
+            :key="item.name"
+            class="col-4 flex justify-evenly"
+          >
+            <q-card
+              bordered
+              flat
+              class="text-center q-py-sm q-ma-md clickable-card bg-grey-1"
+              style="width: 110px; max-width: 250px"
+              @click="goToApp(item.url)"
             >
               <div>
                 <q-icon
@@ -137,11 +112,10 @@ function goToApp(url: string) {
                   :color="getColor(item.url)"
                   :name="item.icon"
                   size="lg"
-                  @click="goToApp(item.url)"
                 ></q-icon>
                 <div>{{ item.name }}</div>
               </div>
-            </div>
+            </q-card>
           </div>
         </div>
       </q-page>
@@ -149,17 +123,46 @@ function goToApp(url: string) {
   </q-layout>
 </template>
 <style scoped>
-.pointer:hover {
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 50px;
-  background-color: rgb(201, 201, 185);
-  border: 1px solid rgb(24, 22, 22);
+.clickable-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer; /* Change cursor to pointer */
+}
+.clickable-card:hover {
+  transform: translateZ(10px) scale(1.05); /* Move forward and scale up */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+  /* transform: translateZ(10px); Move card forward */
+  /* transform: translateY(-4px); Slight lift on hover */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); Add shadow for depth */
 }
 
-.itemsCenter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* .clickable-card:active {
+  transform: translateY(0); Return to original position on click
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); Reduce shadow on click
+} */
+.clickable-card:active {
+  transform: translateZ(0) scale(1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.card-content {
+  transition: font-size 0.2s ease, color 0.2s ease;
+}
+/* .responsive-width {
+  width: 80%;
+} */
+
+@media (min-width: 560px) {
+  .responsive-width {
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+  }
+}
+@media (min-width: 670px) {
+  .responsive-width {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+  }
 }
 </style>

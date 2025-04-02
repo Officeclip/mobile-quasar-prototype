@@ -184,6 +184,7 @@ const advanceFilters = async () => {
         </q-item>
         <IssuesListCtrl
           :binderId="binderId"
+          :binderName="binderName"
           :parent="parent"
           ref="infinteScroll"
         />

@@ -43,9 +43,7 @@ const $q = useQuasar();
 
 async function onSubmit(e: any) {
   e.preventDefault();
-  $q.loading.show({
-    delay: 400, // ms
-  });
+  $q.loading.show();
   try {
     const isFormCorrect = await v$.value.$validate();
     if (!isFormCorrect) {
@@ -66,6 +64,8 @@ async function onSubmit(e: any) {
       message: error as string,
       color: 'red',
     });
+  } finally {
+    $q.loading.hide();
   }
 }
 
@@ -75,6 +75,9 @@ onBeforeUnmount(() => {
 
 onMounted(async () => {
   localStorage.removeItem('X-Token');
+  localStorage.removeItem('selectedTimeOffTab');
+  localStorage.removeItem('selectedTimesheetTab');
+  localStorage.removeItem('selectedExpenseTab');
   sessionStorage.removeItem('oc-session');
 
   // set the local storage endpoint url
@@ -130,8 +133,8 @@ const redirectToSetUpAccount = () => {
           <q-card class="q-pa-md shadow-2 my_card" bordered>
             <q-form @submit="onSubmit" v-if="!mPin">
               <q-card-section class="text-center">
-                <div class="text-grey-9 text-h5 text-weight-bold">Sign in</div>
-                <div class="text-grey-8">
+                <div class="text-h5 text-weight-bold">Sign in</div>
+                <div class="text-subtitle1">
                   Sign in below to access your account
                 </div>
               </q-card-section>
@@ -195,7 +198,7 @@ const redirectToSetUpAccount = () => {
                     >Sign up</q-btn
                   >
                 </div>
-                <div v-if="!util.isHideTestPage()">
+                <div v-if="util.isHideTestPage()">
                   <q-btn
                     :to="{
                       name: 'loginPage2',

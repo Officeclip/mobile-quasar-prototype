@@ -8,19 +8,29 @@ import { useRouter } from 'vue-router';
 import { isAllowed } from 'src/helpers/security';
 import { useTECommentsStore } from 'src/stores/TECommentsStore';
 import drawer from '../../components/drawer.vue';
+import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
-const timesheetStatus = ref('inbox');
-const title = ref(capitalize(timesheetStatus.value));
+const tab = ref(localStorage.getItem('selectedTimesheetTab') || 'inbox'); // Default tab
+
+watch(tab, (newTab) => {
+  localStorage.setItem('selectedTimesheetTab', newTab);
+});
+
+const title = ref(capitalize(tab.value));
 const $q = useQuasar();
 const router = useRouter();
 const teCommentsStore = useTECommentsStore();
 const myDrawer = ref();
+const loading = ref(true);
 
 const timesheetsStore = useTimesheetsStore();
-onMounted(async () => {
+
+const loadTimesheets = async (tabValue: string) => {
+  loading.value = true;
   try {
     await teCommentsStore.getTimesheetGroupProfile();
-    await timesheetsStore.getTimesheetsByStatus(String(timesheetStatus.value));
+    await timesheetsStore.getTimesheetsByStatus(tabValue);
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -29,7 +39,13 @@ onMounted(async () => {
       await router.push({ path: '/homePage' });
       router.go(0);
     });
+  } finally {
+    loading.value = false;
   }
+};
+
+onMounted(async () => {
+  await loadTimesheets(tab.value);
 });
 
 const timesheetsAll = computed(() => {
@@ -43,8 +59,8 @@ const errorMsg = computed(() => {
   return timesheetsStore.errorMsg;
 });
 
-watch([timesheetStatus], ([newModel]) => {
-  timesheetsStore.getTimesheetsByStatus(String(newModel));
+watch(tab, async (newModel) => {
+  await loadTimesheets(newModel);
   title.value = capitalize(newModel);
 });
 
@@ -63,7 +79,7 @@ function toggleLeftDrawer() {
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar class="glossy">
+      <q-toolbar>
         <q-btn
           @click="router.push({ path: '/homepage' })"
           flat
@@ -85,22 +101,23 @@ function toggleLeftDrawer() {
       </q-toolbar>
     </q-header>
     <drawer ref="myDrawer" />
-    <q-footer elevated>
+    <q-footer>
       <q-tabs
-        v-model="timesheetStatus"
-        no-caps
-        inline-label
+        v-model="tab"
         class="bg-primary text-white shadow-2"
         align="justify"
-        indicator-color="Red"
+        switch-indicator
+        narrow-indicator
+        dense
       >
-        <q-tab name="inbox" label="Inbox" icon="inbox"> </q-tab>
+        <q-tab name="inbox" label="Inbox" icon="inbox" />
         <q-tab name="outbox" label="Outbox" icon="outbox" />
         <q-tab name="archived" label="Archived" icon="archive" />
       </q-tabs>
     </q-footer>
     <q-page-container>
       <q-page>
+        <OC_Loader :visible="loading" />
         <div v-if="timesheetsAll">
           <q-list v-for="item in timesheetsAll" :key="item.id">
             <q-item
@@ -119,7 +136,7 @@ function toggleLeftDrawer() {
               clickable
               v-ripple
             >
-              <q-item-section>
+              <q-item-section class="col-grow q-mr-lg">
                 <q-item-label>
                   {{ item.createdByUserName }}
                 </q-item-label>
@@ -177,13 +194,7 @@ function toggleLeftDrawer() {
             </q-list>
           </div>
           <div v-else>
-            <q-list>
-              <q-item>
-                <q-item-section class="text-h6 q-py-sm">
-                  <q-item-label> No Items Found </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
+            <NoItemsMsg />
           </div>
         </div>
         <q-page-sticky position="bottom-right" :offset="[18, 18]">

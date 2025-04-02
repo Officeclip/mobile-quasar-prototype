@@ -1,24 +1,41 @@
 <script setup>
-const items = [
-  { id: '1', name: 'Contacts', icon: 'person' },
-  { id: '2', name: 'Calendar', icon: 'calendar_month' },
-  { id: '3', name: 'Accounts', icon: 'person' },
-  { id: '4', name: 'Timesheet', icon: 'schedule' },
-  { id: '5', name: 'Expenses', icon: 'card_travel' },
-  { id: '6', name: 'Notes', icon: 'subject' },
-  { id: '7', name: 'Tasks', icon: 'checklist' },
-  { id: '8', name: 'IssueTracker', icon: 'bug_report' },
-];
+import { ref } from 'vue';
+
+const selectedDates = ref([]);
+const showDatePicker = ref(false);
 </script>
 
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout>
     <q-page-container>
-      <q-page>
-        <div class="row">
-          <div v-for="item in items" :key="item.name">item.name</div>
-        </div>
+      <q-page class="q-pa-md">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Select Multiple Dates</div>
+          </q-card-section>
+          <pre>{{ selectedDates }}</pre>
+          <q-card-section>
+            <q-input v-model="selectedDates" label="Selected Dates" readonly>
+              <template v-slot:append>
+                <q-icon
+                  name="event"
+                  class="cursor-pointer"
+                  @click="showDatePicker = true"
+                />
+              </template>
+            </q-input>
+          </q-card-section>
+
+          <q-dialog v-model="showDatePicker">
+            <q-date v-model="selectedDates" multiple
+              ><div class="row items-center justify-end">
+                <q-btn v-close-popup color="primary" flat label="Close" /></div
+            ></q-date>
+          </q-dialog>
+        </q-card>
       </q-page>
     </q-page-container>
   </q-layout>
 </template>
+
+<style scoped></style>

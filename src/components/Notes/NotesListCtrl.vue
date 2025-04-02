@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { useNotesStore } from '../../stores/NotesStore';
-import { computed, onBeforeMount } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
 const props = defineProps(['params']);
 const notesStore = useNotesStore();
 const router = useRouter();
 const $q = useQuasar();
+const loading = ref(true);
 
 const parentObjectId = computed(() => {
   return props.params.parentObjectId;
@@ -26,7 +28,8 @@ const getNotesCount = computed(() => {
   return notesStore.NotesCount;
 });
 
-onBeforeMount(async () => {
+const loadNotesList = async () => {
+  loading.value = true;
   try {
     await notesStore.getNotes(
       parentObjectServiceType.value,
@@ -41,14 +44,39 @@ onBeforeMount(async () => {
     }).onOk(async () => {
       await router.push({ path: '/HomePage' });
     });
+  } finally {
+    loading.value = false;
   }
+};
+
+onMounted(async () => {
+  await loadNotesList();
 });
+
+// onBeforeMount(async () => {
+//   try {
+//     await notesStore.getNotes(
+//       parentObjectServiceType.value,
+//       parentObjectId.value,
+//       noteBookId.value
+//     );
+//     emit('numberOfNotes', getNotesCount);
+//   } catch (error) {
+//     $q.dialog({
+//       title: 'Alert',
+//       message: error as string,
+//     }).onOk(async () => {
+//       await router.push({ path: '/HomePage' });
+//     });
+//   }
+// });
 
 const errorMsg = computed(() => {
   return notesStore.errorMsg;
 });
 </script>
 <template>
+  <OC_Loader :visible="loading" />
   <q-item-section v-if="errorMsg">
     <div class="flex justify-center">
       <span class="text-subtitle1 text-weight-medium inline q-mr-xs">{{

@@ -7,18 +7,27 @@ import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
+const loading = ref(true);
 const expensesDetailsStore = useExpenseDetailsStore();
 const router = useRouter();
 const $q = useQuasar();
-const expenseStatus = ref('inbox');
-const title = ref(capitalize(expenseStatus.value));
+
+const tab = ref(localStorage.getItem('selectedExpenseTab') || 'inbox'); // Default tab
+
+watch(tab, (newTab) => {
+  localStorage.setItem('selectedExpenseTab', newTab);
+});
+
+const title = ref(capitalize(tab.value));
 
 const myDrawer = ref();
 
-onMounted(async () => {
+const loadExpensesByStatus = async () => {
+  loading.value = true;
   try {
-    await expensesDetailsStore.getExpensesByStatus(String(expenseStatus.value));
+    await expensesDetailsStore.getExpensesByStatus(String(tab.value));
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -26,7 +35,13 @@ onMounted(async () => {
     }).onOk(async () => {
       await router.push({ path: '/HomePage' });
     });
+  } finally {
+    loading.value = false;
   }
+};
+
+onMounted(async () => {
+  await loadExpensesByStatus();
 });
 
 const allExpenses = computed(() => {
@@ -37,7 +52,7 @@ const errorMsg = computed(() => {
   return expensesDetailsStore.errorMsg;
 });
 
-watch([expenseStatus], ([newModel]) => {
+watch([tab], ([newModel]) => {
   expensesDetailsStore.getExpensesByStatus(String(newModel));
   title.value = capitalize(newModel);
 });
@@ -56,7 +71,7 @@ function toggleLeftDrawer() {
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar class="glossy">
+      <q-toolbar>
         <q-btn
           @click="router.push({ path: '/homepage' })"
           flat
@@ -80,7 +95,7 @@ function toggleLeftDrawer() {
     <drawer ref="myDrawer" />
     <q-footer elevated>
       <q-tabs
-        v-model="expenseStatus"
+        v-model="tab"
         no-caps
         inline-label
         class="bg-primary text-white shadow-2"
@@ -93,6 +108,7 @@ function toggleLeftDrawer() {
     </q-footer>
     <q-page-container>
       <q-page>
+        <OC_Loader :visible="loading" />
         <div v-if="allExpenses">
           <q-list v-for="expense in allExpenses" :key="expense.id">
             <q-item

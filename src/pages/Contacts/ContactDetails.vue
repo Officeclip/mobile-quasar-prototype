@@ -3,7 +3,7 @@ TODO: skd: Provide a way to edit the image also [1.5h]
 TODO: skd: Implement child events the same way as implemented in OfficeClip. Do at least the UI [2h]
 -->
 <script setup lang="ts">
-import { ref, onBeforeMount, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import { useContactListsStore } from '../../stores/contact/ContactListsStore';
 import { useRoute, useRouter } from 'vue-router';
@@ -18,19 +18,22 @@ import { useQuasar } from 'quasar';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import drawer from '../../components/drawer.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
+const loading = ref(true);
 const model = ref('1');
 const contactDetailsStore = useContactDetailsStore();
 const contactListsStore = useContactListsStore();
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
-
-const isLoaded = ref<boolean>(false);
+const id = ref<string | string[]>('0');
+id.value = route.params.id;
 
 const myDrawer = ref();
 
-onBeforeMount(async () => {
+const loadContactDetails = async () => {
+  loading.value = true;
   try {
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
     await contactDetailsStore.getContactDetails(route.params.id as string);
@@ -41,11 +44,15 @@ onBeforeMount(async () => {
       message: error as string,
     }).onOk(async () => {
       await router.push({ path: '/contactSummary' });
-      await router.go(0);
+      router.go(0);
     });
   } finally {
-    isLoaded.value = true;
+    loading.value = false;
   }
+};
+
+onMounted(async () => {
+  loadContactDetails();
 });
 
 const contactDetails = computed(() => {
@@ -55,9 +62,6 @@ const contactDetails = computed(() => {
 const children = computed(() => {
   return contactListsStore.Children;
 });
-
-const id = ref<string | string[]>('0');
-id.value = route.params.id;
 
 const stateName = computed(() => {
   const item = contactDetailsStore.States.find(
@@ -114,14 +118,16 @@ const handleTaskCount = (value: string) => {
 };
 
 const isAllowEdit = computed(() => {
+  const data = contactDetails.value?.security;
   return isAllowed({
-    security: { write: contactDetails.value?.security.write },
+    security: { write: data?.write },
   });
 });
 
 const isAllowDelete = computed(() => {
+  const data = contactDetails.value?.security;
   return isAllowed({
-    security: { delete: contactDetails.value?.security.delete },
+    security: { delete: data?.delete },
   });
 });
 
@@ -166,7 +172,7 @@ function toggleLeftDrawer() {
 </style>
 
 <template>
-  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
+  <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <BackButton />
@@ -217,6 +223,7 @@ function toggleLeftDrawer() {
     </q-header>
     <drawer ref="myDrawer" />
     <q-page-container>
+      <OC_Loader :visible="loading" />
       <q-card class="relative-position card-example" flat>
         <q-card-section class="q-pb-none">
           <div class="center">

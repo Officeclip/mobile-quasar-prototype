@@ -11,7 +11,9 @@ import { useQuasar } from 'quasar';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 import drawer from '../../components/drawer.vue';
 import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
+import OC_Loader from 'src/components/general/OC_Loader.vue';
 
+const loading = ref(true);
 const route = useRoute();
 const router = useRouter();
 const eventDetailsStore = useEventDetailsStore();
@@ -24,7 +26,8 @@ const appName = route.params.appName;
 
 const myDrawer = ref();
 
-onMounted(async () => {
+const loadEventDetails = async () => {
+  loading.value = true;
   try {
     await eventDetailsStore.getEventDetailsById(id);
     await reminderDataStore.getReminderObject();
@@ -34,9 +37,19 @@ onMounted(async () => {
       message: error as string,
     }).onOk(async () => {
       await router.push({ path: '/eventSummary' });
-      await router.go(0);
+      router.go(0);
     });
+  } finally {
+    loading.value = false;
   }
+};
+
+onMounted(async () => {
+  await loadEventDetails();
+});
+
+const event = computed(() => {
+  return eventDetailsStore?.eventDetails;
 });
 
 const isAllowEdit = computed(() => {
@@ -49,10 +62,6 @@ const isAllowDelete = computed(() => {
   return isAllowed({
     security: { delete: event.value?.security?.delete },
   });
-});
-
-const event = computed(() => {
-  return eventDetailsStore?.eventDetails;
 });
 
 const selectedTime = computed(() => {
@@ -210,113 +219,118 @@ function toggleLeftDrawer() {
     </q-header>
     <drawer ref="myDrawer" />
     <q-page-container>
-      <q-list>
-        <OCItem :value="event?.eventName" class="text-weight-regular text-h6" />
-        <OCItem
-          v-if="event?.eventDescription !== ''"
-          :value="event?.eventDescription"
-        />
-        <OCItem
-          v-if="event?.eventLocation"
-          title="Location"
-          :value="event?.eventLocation"
-        />
-        <!-- TODO CR: 2024-05-17: nk: Fix the below type errors. -->
-        <OCItem title="Start Date" :value="startDate" />
-        <OCItem title="End Date" :value="endDate" />
-        <OCItem
-          title="Is All Day Event ?"
-          :value="event?.isAllDayEvent ? 'Yes' : 'No'"
-        />
-        <q-item v-if="event?.meetingAttendees?.length">
-          <q-item-section>
-            <q-item-label caption> Attendees </q-item-label>
-            <div style="display: inline-flex; align-items: baseline">
-              <q-item-label
-                v-for="attendee in attendeesList"
-                :key="attendee.id"
-              >
-                <q-chip dense class="q-px-sm">{{ attendee?.name }}</q-chip>
-                <q-tooltip>{{ attendee?.email }}</q-tooltip>
-              </q-item-label>
-            </div>
-          </q-item-section>
-        </q-item>
-        <!-- <q-item v-else>
+      <q-page>
+        <OC_Loader :visible="loading" />
+        <q-list>
+          <OCItem
+            :value="event?.eventName"
+            class="text-weight-regular text-h6"
+          />
+          <OCItem
+            v-if="event?.eventDescription !== ''"
+            :value="event?.eventDescription"
+          />
+          <OCItem
+            v-if="event?.eventLocation"
+            title="Location"
+            :value="event?.eventLocation"
+          />
+          <!-- TODO CR: 2024-05-17: nk: Fix the below type errors. -->
+          <OCItem title="Start Date" :value="startDate" />
+          <OCItem title="End Date" :value="endDate" />
+          <OCItem
+            title="Is All Day Event ?"
+            :value="event?.isAllDayEvent ? 'Yes' : 'No'"
+          />
+          <q-item v-if="event?.meetingAttendees?.length">
+            <q-item-section>
+              <q-item-label caption> Attendees </q-item-label>
+              <div style="display: inline-flex; align-items: baseline">
+                <q-item-label
+                  v-for="attendee in attendeesList"
+                  :key="attendee.id"
+                >
+                  <q-chip dense class="q-px-sm">{{ attendee?.name }}</q-chip>
+                  <q-tooltip>{{ attendee?.email }}</q-tooltip>
+                </q-item-label>
+              </div>
+            </q-item-section>
+          </q-item>
+          <!-- <q-item v-else>
           <q-item-section> No Attendees selected </q-item-section>
         </q-item> -->
-        <q-item v-if="event?.url">
-          <q-item-section>
-            <q-item-label caption>Url </q-item-label>
-            <q-item-label class="cursor-pointer" @click="openUrl"
-              >{{ event?.url }}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item v-if="event?.label?.id !== '-1'">
-          <q-item-section>
-            <q-item-label caption> Label </q-item-label>
-            <q-item-label>
-              <span
-                class="q-py-xs q-px-sm"
-                :style="{ backgroundColor: event?.label?.backColor }"
-                >{{ event?.label?.name }}</span
-              >
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item v-if="event?.showTimeAs?.id !== '-1'">
-          <q-item-section>
-            <q-item-label caption> Show Time As </q-item-label>
-            <q-item-label>
-              <span
-                class="q-pa-xs"
-                :style="{
+          <q-item v-if="event?.url">
+            <q-item-section>
+              <q-item-label caption>Url </q-item-label>
+              <q-item-label class="cursor-pointer" @click="openUrl"
+                >{{ event?.url }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-if="event?.label?.id !== '-1'">
+            <q-item-section>
+              <q-item-label caption> Label </q-item-label>
+              <q-item-label>
+                <span
+                  class="q-py-xs q-px-sm"
+                  :style="{ backgroundColor: event?.label?.backColor }"
+                  >{{ event?.label?.name }}</span
+                >
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-if="event?.showTimeAs?.id !== '-1'">
+            <q-item-section>
+              <q-item-label caption> Show Time As </q-item-label>
+              <q-item-label>
+                <span
+                  class="q-pa-xs"
+                  :style="{
                   backgroundColor: getEventShowTimeAsColor(
                     event?.showTimeAs?.name
                   ) as string,
                 }"
-                >{{ event?.showTimeAs?.name }}</span
-              >
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-        <OCItem
-          v-if="event?.recurrence?.rule"
-          title="Repeat"
-          :value="event?.recurrence?.text"
-        />
-        <OCItem
-          v-if="event?.reminder?.to"
-          title="Reminder"
-          :value="`${event?.reminder?.to} ${selectedTime?.label} Before`"
-        />
-        <q-item>
-          <q-item-section>
-            <q-item-label caption> Created </q-item-label>
-            <q-item-label>
-              {{ createdDate }}
-              <span class="text-italic">by</span>
-              {{ event?.createdUserName }}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section>
-            <q-item-label caption> Last Modified </q-item-label>
-            <q-item-label>
-              {{ lastModifiedDate }}
-              <span class="text-italic">by</span>
-              {{ event?.modifiedUserName }}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-        <OCItem
-          v-if="event?.parent?.value?.id"
-          title="Regarding"
-          :value="projectServiceItem"
-        />
-      </q-list>
+                  >{{ event?.showTimeAs?.name }}</span
+                >
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <OCItem
+            v-if="event?.recurrence?.rule"
+            title="Repeat"
+            :value="event?.recurrence?.text"
+          />
+          <OCItem
+            v-if="event?.reminder?.to"
+            title="Reminder"
+            :value="`${event?.reminder?.to} ${selectedTime?.label} Before`"
+          />
+          <q-item>
+            <q-item-section>
+              <q-item-label caption> Created </q-item-label>
+              <q-item-label>
+                {{ createdDate }}
+                <span class="text-italic">by</span>
+                {{ event?.createdUserName }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-item-label caption> Last Modified </q-item-label>
+              <q-item-label>
+                {{ lastModifiedDate }}
+                <span class="text-italic">by</span>
+                {{ event?.modifiedUserName }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <OCItem
+            v-if="event?.parent?.value?.id"
+            title="Regarding"
+            :value="projectServiceItem"
+          /> </q-list
+      ></q-page>
     </q-page-container>
   </q-layout>
 
