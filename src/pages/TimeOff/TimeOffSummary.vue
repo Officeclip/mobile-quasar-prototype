@@ -148,8 +148,8 @@ const viewDetails = async (
       </q-tabs>
     </q-footer>
     <q-page-container>
-      <div v-if="timeOffSummaries">
-        <q-page>
+      <q-page>
+        <div v-if="timeOffSummaries">
           <OC_Loader :visible="loading" />
           <q-list v-for="item in timeOffSummaries" :key="item.id">
             <q-item
@@ -238,23 +238,23 @@ const viewDetails = async (
             </q-tr>
           </template>
         </q-table> -->
-          <q-page-sticky position="bottom-right" :offset="[18, 18]">
-            <q-btn
-              :to="{
-                name: 'newTimeOff',
-              }"
-              fab
-              icon="add"
-              color="accent"
-              padding="md"
-            >
-            </q-btn>
-          </q-page-sticky>
-        </q-page>
-      </div>
-      <div v-else>
-        <NoItemsMsg />
-      </div>
+        </div>
+        <div v-else>
+          <NoItemsMsg />
+        </div>
+        <q-page-sticky position="bottom-right" :offset="[18, 18]">
+          <q-btn
+            :to="{
+              name: 'newTimeOff',
+            }"
+            fab
+            icon="add"
+            color="accent"
+            padding="md"
+          >
+          </q-btn>
+        </q-page-sticky>
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>

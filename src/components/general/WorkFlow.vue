@@ -219,6 +219,7 @@ const closePopUp = () => {
             ><q-item-label class="text-h6 row items-center"
               ><q-icon name="info" class="q-mr-sm" />Workflow Info:
             </q-item-label>
+            <!-- this is shownup on the screen in the timesheet and expenses only be'se there is no stage-1 in timeoff -->
             <q-item-label
               v-if="props?.stageId == 1 && workFlow?.workflowType === 'auto'"
             >
