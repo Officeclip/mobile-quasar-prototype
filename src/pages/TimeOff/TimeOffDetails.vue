@@ -50,6 +50,15 @@ const timeOffDetails = computed(() => timeOffStore.TimeOffDetail);
 
 const formattedTimeOffDates = computed(() => {
   if (timeOffDetails.value) {
+    if (
+      timeOffDetails.value.datesRequested &&
+      Array.isArray(timeOffDetails.value.datesRequested) &&
+      timeOffDetails.value.datesRequested.length > 0
+    ) {
+      return timeOffDetails.value.datesRequested
+        .map((date) => dateTimeHelper.formatDateForTE(date))
+        .join(', ');
+    }
     const startDate = timeOffDetails.value.startDate
       ? dateTimeHelper.formatDateForTE(timeOffDetails.value.startDate)
       : '';
