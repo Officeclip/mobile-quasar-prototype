@@ -5,10 +5,12 @@ export interface TimeOffSummary {
   status: string;
   startDate: string;
   endDate: string;
+  datesRequested: [];
   stageId: number;
   employeeId: string;
   createdByUserName: string;
   totalHours: number;
+  totalDays: number;
   payroll: {
     id: string;
     name: string;

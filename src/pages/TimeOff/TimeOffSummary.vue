@@ -7,12 +7,14 @@ import drawer from '../../components/drawer.vue';
 import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
+import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 const timeOffStore = useTimeOffStore();
 const router = useRouter();
 const $q = useQuasar();
 const myDrawer = ref();
 const loading = ref(true);
+const iconName = ref('');
 
 const tab = ref(localStorage.getItem('selectedTimeOffTab') || 'inbox'); // Default tab
 
@@ -107,6 +109,46 @@ const viewDetails = async (
     path: `/timeOffDetails/${id}/${status}/${stageId}/${employeeId}`,
   });
 };
+
+const formattedTimeOffDates = (item: any) => {
+  if (item) {
+    if (
+      item.datesRequested &&
+      Array.isArray(item.datesRequested) &&
+      item.datesRequested.length > 0
+    ) {
+      return item.datesRequested
+        .map((date: string) => dateTimeHelper.formatDateForTE(date))
+        .join(', ');
+    }
+    const startDate = item.startDate
+      ? dateTimeHelper.formatDateForTE(item.startDate)
+      : '';
+    const endDate = item.endDate
+      ? dateTimeHelper.formatDateForTE(item.endDate)
+      : '';
+    if (startDate && endDate) {
+      return startDate === endDate ? startDate : `${startDate} to ${endDate}`;
+    }
+    return '';
+  }
+  return '';
+};
+
+const getDaysOrHrs = (item: any) => {
+  if (item) {
+    if (item.totalHours) {
+      iconName.value = 'access_time';
+      return `${item.totalHours} ${item.totalHours === 1 ? 'hr' : 'hrs'}`;
+    }
+    if (item.totalDays) {
+      iconName.value = 'calendar_today';
+      return `${item.totalDays} ${item.totalDays === 1 ? 'day' : 'days'}`;
+    }
+    return '';
+  }
+  return '';
+};
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -152,6 +194,7 @@ const viewDetails = async (
         <div v-if="timeOffSummaries">
           <OC_Loader :visible="loading" />
           <q-list v-for="item in timeOffSummaries" :key="item.id">
+            <!-- <pre>DD{{ getDaysOrHrs(item) }}</pre> -->
             <q-item
               clickable
               v-ripple
@@ -164,22 +207,19 @@ const viewDetails = async (
                 )
               "
             >
-              <q-item-section class="col-grow q-mr-lg">
+              <q-item-section>
                 <q-item-label>{{ item.createdByUserName }}</q-item-label>
-                <q-item-label caption class="text-grey-8"
-                  >{{ item.startDate }} - {{ item.endDate }}</q-item-label
-                >
+              </q-item-section>
+              <q-item-section>
                 <q-item-label>
-                  <q-icon name="account_balance_wallet" />
-                  <span class="q-mx-sm">PayRoll:</span>
-                  <span>{{ item.payroll.name }}</span>
+                  {{ formattedTimeOffDates(item) }}
                 </q-item-label>
               </q-item-section>
               <q-item-section>
-                <q-item-label
-                  >{{ item.totalHours }}
-                  <span class="text-caption q-pl-xs">hrs</span></q-item-label
-                >
+                <q-item-label>
+                  <q-icon :name="iconName" />
+                  {{ getDaysOrHrs(item) }}
+                </q-item-label>
               </q-item-section>
               <q-item-section style="align-items: end">
                 <q-chip
@@ -247,10 +287,9 @@ const viewDetails = async (
             :to="{
               name: 'newTimeOff',
             }"
-            fab
+            fab-mini
             icon="add"
             color="accent"
-            padding="md"
           >
           </q-btn>
         </q-page-sticky>
@@ -260,4 +299,12 @@ const viewDetails = async (
 </template>
 <style scopped lang="scss">
 @import '../../css/status.scss';
+
+.text-captionm {
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  letter-spacing: 0.03333em;
+  color: #616161 !important;
+}
 </style>

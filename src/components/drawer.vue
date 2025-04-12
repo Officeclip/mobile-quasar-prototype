@@ -19,7 +19,7 @@ const userIcon = ref();
 const dense = true;
 
 const session = computed(() => {
-  return sessionStore.session;
+  return sessionStore.Session;
 });
 
 console.log('Session info: ', session.value);
@@ -74,11 +74,15 @@ function logout() {
   }, 400); // 2000 milliseconds = 2 seconds
 }
 
-onMounted(async () => {
-  if (util.isObjectNullOrEmpty(profileListsStore.profileLists)) {
+const loadProfileLists = async () => {
+  if (util.isObjectNullOrEmpty(profileListsStore.ProfileLists)) {
     await profileListsStore.getProfileLists();
   }
   userIcon.value = profileListsStore.ProfilesUserGeneral?.userIcon;
+};
+
+onMounted(async () => {
+  await loadProfileLists();
 });
 
 const settingsDialog = ref(false);
