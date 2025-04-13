@@ -14,7 +14,6 @@ const router = useRouter();
 const $q = useQuasar();
 const myDrawer = ref();
 const loading = ref(true);
-const iconName = ref('');
 
 const tab = ref(localStorage.getItem('selectedTimeOffTab') || 'inbox'); // Default tab
 
@@ -138,12 +137,14 @@ const formattedTimeOffDates = (item: any) => {
 const getDaysOrHrs = (item: any) => {
   if (item) {
     if (item.totalHours) {
-      iconName.value = 'access_time';
-      return `${item.totalHours} ${item.totalHours === 1 ? 'hr' : 'hrs'}`;
+      return `<span style="font-size: 1.2em;">${item.totalHours}</span> ${
+        item.totalHours === 1 ? 'hr' : 'hrs'
+      }`;
     }
     if (item.totalDays) {
-      iconName.value = 'calendar_today';
-      return `${item.totalDays} ${item.totalDays === 1 ? 'day' : 'days'}`;
+      return `<span style="font-size: 1.2em;">${item.totalDays}</span> ${
+        item.totalDays === 1 ? 'day' : 'days'
+      }`;
     }
     return '';
   }
@@ -216,9 +217,12 @@ const getDaysOrHrs = (item: any) => {
                 </q-item-label>
               </q-item-section>
               <q-item-section>
-                <q-item-label>
-                  <q-icon :name="iconName" />
-                  {{ getDaysOrHrs(item) }}
+                <q-item-label class="q-ml-sm flex items-center">
+                  <!-- <q-icon :name="iconName" /> -->
+                  <q-icon
+                    :name="item?.totalHours ? 'access_time' : 'calendar_today'"
+                  />
+                  <div class="q-ml-xs" v-html="getDaysOrHrs(item)"></div>
                 </q-item-label>
               </q-item-section>
               <q-item-section style="align-items: end">
