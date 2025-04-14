@@ -310,14 +310,13 @@ watch(
     </q-dialog>
     <q-dialog v-model="showBalanceInfo">
       <q-card>
-        <q-bar v-if="timeOffData?.createdByUserName">
-          <div>
+        <q-bar>
+          <div v-if="timeOffData?.createdByUserName">
             Balance Left For:
             <span class="text-subtitle1">{{
               timeOffData?.createdByUserName
             }}</span>
           </div>
-          <!-- <div>{{ timeOffData?.createdByUserName }}</div> -->
 
           <q-space></q-space>
 
@@ -326,7 +325,7 @@ watch(
         <q-card-section>
           <div v-for="category in timeOffCategoryLists" :key="category.id">
             <q-item>
-              <q-item-section>{{ category.name }}</q-item-section>
+              <q-item-section>{{ category.name }} left</q-item-section>
             </q-item>
             <q-separator
               inset
@@ -337,9 +336,6 @@ watch(
             />
           </div>
         </q-card-section>
-        <!-- <q-card-actions align="right">
-          <q-btn flat label="Close" v-close-popup />
-        </q-card-actions> -->
       </q-card>
     </q-dialog>
   </q-page>
