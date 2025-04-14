@@ -6,6 +6,7 @@ export interface TimeOffSummary {
   startDate: string;
   endDate: string;
   datesRequested: [];
+  requestedFor: string;
   stageId: number;
   employeeId: string;
   createdByUserName: string;

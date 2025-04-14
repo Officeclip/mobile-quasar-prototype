@@ -142,6 +142,9 @@ const getDaysOrHrs = (item: any) => {
       }`;
     }
     if (item.totalDays) {
+      if (item.totalDays === 0.5) {
+        return item.requestedFor;
+      }
       return `<span style="font-size: 1.2em;">${item.totalDays}</span> ${
         item.totalDays === 1 ? 'day' : 'days'
       }`;

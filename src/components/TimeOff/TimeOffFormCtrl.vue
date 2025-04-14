@@ -10,7 +10,7 @@ const props = defineProps(['timeOff']);
 const timeOffData = ref(props.timeOff);
 const $q = useQuasar();
 const showDatePicker = ref(false);
-const showBalanceInfo = ref(true); // State to control the temporary message
+const showBalanceInfo = ref(false); // State to control the temporary message
 const router = useRouter();
 const userId = ref();
 
@@ -45,16 +45,6 @@ const loadTimeOffLists = async () => {
     },
     { immediate: true }
   );
-  // try {
-  //   await timeOffStore.getTimeOffLists(userId.value);
-  // } catch (error) {
-  //   $q.dialog({
-  //     title: 'Alert',
-  //     message: error,
-  //   }).onOk(async () => {
-  //     await router.push({ path: '/HomePage' });
-  //   });
-  // }
 };
 const getTimeOffGroupProfile = async () => {
   try {
@@ -82,10 +72,6 @@ onMounted(async () => {
   if (timeOffData.value?.startDate === timeOffData.value?.endDate) {
     calculateNumberOfDays(); // Call the function to set the initial number of days
   }
-  // Hide the balance information after a few seconds
-  setTimeout(() => {
-    showBalanceInfo.value = false;
-  }, 3000);
 });
 const requestForOptions = [
   { label: 'Full Day (8h)', value: 'full_day' },
@@ -157,10 +143,6 @@ const totalHours = computed({
     timeOffData.value.totalHours = value;
   },
 });
-
-const onClick = () => {
-  showBalanceInfo.value = true;
-};
 </script>
 
 <template>
