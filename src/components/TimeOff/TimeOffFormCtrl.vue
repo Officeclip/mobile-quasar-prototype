@@ -143,6 +143,20 @@ const totalHours = computed({
     timeOffData.value.totalHours = value;
   },
 });
+
+watch(
+  () => [timeOffData.value.requestedFor],
+  (newValue) => {
+    if (newValue[0] === 'half_day' || 'hourly') {
+      timeOffData.value.endDate = timeOffData.value.startDate;
+      timeOffData.value.totalDays = 1;
+      timeOffData.value.datesRequested = [];
+    }
+    if (newValue[0] === 'hourly') {
+      timeOffData.value.totalHours = 0;
+    }
+  }
+);
 </script>
 
 <template>
@@ -183,7 +197,6 @@ const totalHours = computed({
             icon="info"
             flat
             color="primary"
-            label="Balances"
             @click="showBalanceInfo = true"
           />
         </q-item-section>
@@ -253,10 +266,10 @@ const totalHours = computed({
             v-model="timeOffData.startTime"
             label="Start Time"
             type="time"
+            mask="##:## am"
             required
           /> </q-item-section
       ></q-item>
-
       <q-item
         v-if="
           profileData.timeoffUnit === 'Days' &&
@@ -297,6 +310,19 @@ const totalHours = computed({
     </q-dialog>
     <q-dialog v-model="showBalanceInfo">
       <q-card>
+        <q-bar v-if="timeOffData?.createdByUserName">
+          <div>
+            Balance Left For:
+            <span class="text-subtitle1">{{
+              timeOffData?.createdByUserName
+            }}</span>
+          </div>
+          <!-- <div>{{ timeOffData?.createdByUserName }}</div> -->
+
+          <q-space></q-space>
+
+          <q-btn dense flat icon="close" v-close-popup> </q-btn>
+        </q-bar>
         <q-card-section>
           <div v-for="category in timeOffCategoryLists" :key="category.id">
             <q-item>
@@ -311,9 +337,9 @@ const totalHours = computed({
             />
           </div>
         </q-card-section>
-        <q-card-actions align="right">
+        <!-- <q-card-actions align="right">
           <q-btn flat label="Close" v-close-popup />
-        </q-card-actions>
+        </q-card-actions> -->
       </q-card>
     </q-dialog>
   </q-page>
