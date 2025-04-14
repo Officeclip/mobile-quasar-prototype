@@ -15,10 +15,9 @@ const $q = useQuasar();
 const myDrawer = ref();
 const loading = ref(true);
 
-const tab = ref(localStorage.getItem('selectedTimeOffTab') || 'inbox'); // Default tab
-
+const tab = ref(timeOffStore.selectedTab);
 watch(tab, (newTab) => {
-  localStorage.setItem('selectedTimeOffTab', newTab);
+  timeOffStore.selectedTab = newTab;
 });
 const title = computed(() =>
   tab.value === 'mylist'
@@ -175,7 +174,7 @@ const getDaysOrHrs = (item: any) => {
           round
           @click="toggleLeftDrawer"
         />
-        <q-toolbar-title>Time Off: {{ title }}</q-toolbar-title>
+        <q-toolbar-title>{{ title }}</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <drawer ref="myDrawer" />
@@ -198,7 +197,6 @@ const getDaysOrHrs = (item: any) => {
         <div v-if="timeOffSummaries">
           <OC_Loader :visible="loading" />
           <q-list v-for="item in timeOffSummaries" :key="item.id">
-            <!-- <pre>DD{{ getDaysOrHrs(item) }}</pre> -->
             <q-item
               clickable
               v-ripple

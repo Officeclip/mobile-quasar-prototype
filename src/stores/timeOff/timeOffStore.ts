@@ -11,6 +11,7 @@ export const useTimeOffStore = defineStore('timeOffStore', {
     timeOffDetail: {} as TimeOffDetails,
     categoryLists: [] as Categories[],
     errorMsg: '' as string,
+    selectedTab: 'inbox' as string,
   }),
 
   getters: {
