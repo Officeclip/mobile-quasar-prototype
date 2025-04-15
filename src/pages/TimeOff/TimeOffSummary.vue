@@ -142,7 +142,7 @@ const getDaysOrHrs = (item: any) => {
     }
     if (item.totalDays) {
       if (item.totalDays === 0.5) {
-        return item.requestedFor;
+        return 'half day';
       }
       return `<span style="font-size: 1.2em;">${item.totalDays}</span> ${
         item.totalDays === 1 ? 'day' : 'days'
@@ -174,7 +174,7 @@ const getDaysOrHrs = (item: any) => {
           round
           @click="toggleLeftDrawer"
         />
-        <q-toolbar-title>{{ title }}</q-toolbar-title>
+        <q-toolbar-title>Time Off: {{ title }}</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <drawer ref="myDrawer" />

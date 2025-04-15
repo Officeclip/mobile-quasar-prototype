@@ -117,6 +117,24 @@ const toggleLeftDrawer = () => {
     myDrawer.value.toggleLeftDrawer();
   }
 };
+
+const getDaysOrHrs = () => {
+  if (timeOffDetails.value) {
+    if (timeOffDetails.value?.totalHours) {
+      return `${timeOffDetails.value?.totalHours}${
+        timeOffDetails.value?.totalHours === 1 ? ' hr' : ' hrs'
+      }`;
+    } else {
+      if (timeOffDetails.value?.totalDays === 0.5) {
+        return 'half day';
+      }
+      return `${timeOffDetails.value?.totalDays} ${
+        timeOffDetails.value?.totalDays === 1 ? ' day' : ' days'
+      }`;
+    }
+  }
+  return '';
+};
 </script>
 
 <template>
@@ -211,19 +229,17 @@ const toggleLeftDrawer = () => {
                 }}</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item v-if="timeOffDetails.totalHours > 0">
+            <q-item>
               <q-item-section>
-                <q-item-label caption>Requested Hours:</q-item-label>
+                <q-item-label caption
+                  >{{
+                    timeOffDetails.totalHours
+                      ? 'Requested Hours'
+                      : 'Requested Days'
+                  }}
+                </q-item-label>
                 <q-item-label class="text-subtitle1">{{
-                  timeOffDetails.totalHours
-                }}</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item v-else>
-              <q-item-section>
-                <q-item-label caption>Requested Days:</q-item-label>
-                <q-item-label class="text-subtitle1">{{
-                  timeOffDetails.totalDays
+                  getDaysOrHrs()
                 }}</q-item-label>
               </q-item-section>
             </q-item>

@@ -11,6 +11,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
 
     timesheetDetails: [] as TimesheetDetails[],
     timesheetDetail: {} as TimesheetDetails,
+    selectedTab: 'inbox' as string,
     errorMsg: '' as string,
   }),
 

@@ -157,6 +157,12 @@ watch(
     }
   }
 );
+const readonly = computed(() => {
+  return (
+    timeOffData.value.requestedFor === 'full_day' ||
+    timeOffData.value.requestedFor === 'half_day'
+  );
+});
 </script>
 
 <template>
@@ -281,6 +287,7 @@ watch(
             v-model="timeOffData.totalDays"
             label="# of Days"
             required
+            readonly
           /> </q-item-section
       ></q-item>
       <q-item v-else>
@@ -289,7 +296,7 @@ watch(
             v-model="totalHours"
             label="Hours"
             required
-            :readonly="timeOffData.requestedFor === 'half_day'"
+            :readonly="readonly"
           /> </q-item-section
       ></q-item>
 

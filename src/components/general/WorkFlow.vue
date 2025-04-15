@@ -282,8 +282,9 @@ const closePopUp = () => {
               ><q-icon name="info" />Workflow Information
             </q-item-label>
             <q-item-label>
-              You can approve the timesheet by click on approve button or you
-              can select the user to submit the timesheet to the next stage
+              You can approve the <span>{{ props?.entityType }}</span> by
+              clicking the Approve button or you can select a user from the
+              dropdown menu to submit it to the next stage
             </q-item-label>
           </q-item-section>
           <q-item-section side>

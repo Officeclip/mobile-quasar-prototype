@@ -11,10 +11,11 @@ import drawer from '../../components/drawer.vue';
 import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 
-const tab = ref(localStorage.getItem('selectedTimesheetTab') || 'inbox'); // Default tab
+const timesheetsStore = useTimesheetsStore();
 
+const tab = ref(timesheetsStore.selectedTab);
 watch(tab, (newTab) => {
-  localStorage.setItem('selectedTimesheetTab', newTab);
+  timesheetsStore.selectedTab = newTab;
 });
 
 const title = ref(capitalize(tab.value));
@@ -23,8 +24,6 @@ const router = useRouter();
 const teCommentsStore = useTECommentsStore();
 const myDrawer = ref();
 const loading = ref(true);
-
-const timesheetsStore = useTimesheetsStore();
 
 const loadTimesheets = async (tabValue: string) => {
   loading.value = true;

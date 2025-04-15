@@ -23,6 +23,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     mileageExpense: undefined as mileageExpense | undefined,
     taxiExpense: undefined as taxiExpense | undefined,
     telephoneExpense: undefined as telephoneExpense | undefined,
+    selectedTab: 'inbox' as string,
     errorMsg: '' as string,
   }),
 

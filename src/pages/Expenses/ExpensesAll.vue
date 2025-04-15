@@ -14,10 +14,10 @@ const expensesDetailsStore = useExpenseDetailsStore();
 const router = useRouter();
 const $q = useQuasar();
 
-const tab = ref(localStorage.getItem('selectedExpenseTab') || 'inbox'); // Default tab
+const tab = ref(expensesDetailsStore.selectedTab);
 
 watch(tab, (newTab) => {
-  localStorage.setItem('selectedExpenseTab', newTab);
+  expensesDetailsStore.selectedTab = newTab;
 });
 
 const title = ref(capitalize(tab.value));
