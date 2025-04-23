@@ -4,7 +4,6 @@ import { useRouter } from 'vue-router';
 import { useWorkFlowStore } from 'src/stores/workFlow/WorkFlow';
 // import { useTECommentsStore } from 'src/stores/TECommentsStore';
 import { useQuasar } from 'quasar';
-import { bu } from 'app/src-capacitor/www/assets/index.2cd8f154';
 
 const props = defineProps([
   'entityId',
@@ -226,18 +225,18 @@ const closePopUp = () => {
               Your workflow is set to
               <span class="text-subtitle1 text-weight-medium">{{
                 submitToUserName?.name
-              }}</span>
-              ({{ workFlow?.workflowType }}), click on the button to submit the
-              <span>{{ props?.entityType }}</span> to the next stage,
+              }}</span
+              >, please submit the <span>{{ props?.entityType }}</span> to the
+              next stage,
             </q-item-label>
 
             <q-item-label v-else>
               <span class="text-subtitle1 text-weight-medium">{{
                 rejectToUserName?.name
               }}</span>
-              is submitted ({{ workFlow?.workflowType }})
-              <span>{{ props?.entityType }}</span> to you, please take the
-              action to approve or reject,
+              has submitted
+              <span>{{ props?.entityType }}</span
+              >, please approve or reject,
             </q-item-label>
           </q-item-section>
           <q-item-section side
@@ -282,9 +281,8 @@ const closePopUp = () => {
               ><q-icon name="info" />Workflow Information
             </q-item-label>
             <q-item-label>
-              You can approve the <span>{{ props?.entityType }}</span> by
-              clicking the Approve button or you can select a user from the
-              dropdown menu to submit it to the next stage
+              Please approve the <span>{{ props?.entityType }}</span> or select
+              a user from the dropdown menu to submit it to the next stage
             </q-item-label>
           </q-item-section>
           <q-item-section side>
