@@ -245,7 +245,7 @@ const getDaysOrHrs = () => {
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label caption>Type:</q-item-label>
+                <q-item-label caption>Category:</q-item-label>
                 <q-item-label class="text-subtitle1">{{
                   timeOffDetails.payroll?.name
                 }}</q-item-label>
