@@ -8,6 +8,7 @@ import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
+import { isAllowed } from 'src/helpers/security';
 
 const timeOffStore = useTimeOffStore();
 const router = useRouter();
@@ -152,6 +153,8 @@ const getDaysOrHrs = (item: any) => {
   }
   return '';
 };
+
+const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -287,7 +290,11 @@ const getDaysOrHrs = (item: any) => {
         <div v-else>
           <NoItemsMsg />
         </div>
-        <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-page-sticky
+          v-if="isAllow"
+          position="bottom-right"
+          :offset="[18, 18]"
+        >
           <q-btn
             :to="{
               name: 'newTimeOff',
