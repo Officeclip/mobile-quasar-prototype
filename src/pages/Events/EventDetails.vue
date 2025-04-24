@@ -226,10 +226,17 @@ function toggleLeftDrawer() {
             :value="event?.eventName"
             class="text-weight-regular text-h6"
           />
-          <OCItem
+          <!-- <OCItem
             v-if="event?.eventDescription !== ''"
             :value="event?.eventDescription"
-          />
+          /> -->
+          <q-item>
+            <q-item-section>
+              <q-item-label>
+                <div v-html="event?.eventDescription"></div>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
           <OCItem
             v-if="event?.eventLocation"
             title="Location"
@@ -310,7 +317,7 @@ function toggleLeftDrawer() {
               <q-item-label caption> Created </q-item-label>
               <q-item-label>
                 {{ createdDate }}
-                <span class="text-italic">by</span>
+                <span class="text-italic q-mr-xs">by</span>
                 {{ event?.createdUserName }}
               </q-item-label>
             </q-item-section>
@@ -320,7 +327,7 @@ function toggleLeftDrawer() {
               <q-item-label caption> Last Modified </q-item-label>
               <q-item-label>
                 {{ lastModifiedDate }}
-                <span class="text-italic">by</span>
+                <span class="text-italic q-mr-xs">by</span>
                 {{ event?.modifiedUserName }}
               </q-item-label>
             </q-item-section>

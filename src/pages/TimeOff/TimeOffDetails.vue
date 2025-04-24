@@ -9,6 +9,7 @@ import { isAllowed } from 'src/helpers/security';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import WorkFlow from '../../components/general/WorkFlow.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
+import { time } from 'console';
 
 const router = useRouter();
 const route = useRoute();
@@ -65,6 +66,9 @@ const formattedTimeOffDates = computed(() => {
     const endDate = timeOffDetails.value.endDate
       ? dateTimeHelper.formatDateForTE(timeOffDetails.value.endDate)
       : '';
+    if (timeOffDetails.value.requestedFor === 'half_day') {
+      return startDate;
+    }
     return startDate && endDate ? `${startDate} to ${endDate}` : '';
   }
   return '';
@@ -196,6 +200,7 @@ const getDaysOrHrs = () => {
               :stageId="stageId"
             />
           </div>
+          <!-- <pre>ZZ{{ timeOffDetails }}</pre> -->
           <!-- <q-card> -->
           <!-- <q-card-section v-if="status != 'Approved' && status != 'Pending'"> -->
           <!-- <WorkFlow

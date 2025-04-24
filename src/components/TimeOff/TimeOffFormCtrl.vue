@@ -1,5 +1,5 @@
 <!-- eslint-disable vue/no-side-effects-in-computed-properties -->
-<script setup>
+<script lang="ts" setup>
 import { defineProps, onMounted, ref, computed, watch } from 'vue';
 import { useTimeOffStore } from '../../stores/timeOff/timeOffStore';
 import { useTimeOffgroupProfile } from 'src/stores/timeOff/timeOffGroupProfile';
@@ -34,7 +34,7 @@ const loadTimeOffLists = async () => {
       userId.value = newTimeOff?.createdUserSid;
       try {
         timeOffStore.getTimeOffLists(userId.value);
-      } catch (error) {
+      } catch (error: any) {
         $q.dialog({
           title: 'Alert',
           message: error,
@@ -49,7 +49,7 @@ const loadTimeOffLists = async () => {
 const getTimeOffGroupProfile = async () => {
   try {
     await timeOffgroupProfile.getTimeOffGroupProfile();
-  } catch (error) {
+  } catch (error: any) {
     $q.dialog({
       title: 'Alert',
       message: error,
@@ -97,9 +97,11 @@ const calculateNumberOfDays = () => {
     timeOffData.value.datesRequested.length > 0
   ) {
     const dates = timeOffData.value.datesRequested.map(
-      (date) => new Date(date)
+      (date: any) => new Date(date)
     );
-    const uniqueDates = [...new Set(dates.map((date) => date.toDateString()))];
+    const uniqueDates = [
+      ...new Set(dates.map((date: any) => date.toDateString())),
+    ];
     timeOffData.value.totalDays = uniqueDates.length;
   } else if (
     timeOffData.value.startDate &&
@@ -163,6 +165,16 @@ const readonly = computed(() => {
     timeOffData.value.requestedFor === 'half_day'
   );
 });
+
+const ruleEndDateGreaterThanStartDate = (val: string) => {
+  if (!timeOffData.value.startDate || timeOffData.value.startDate.length === 0)
+    return true;
+  const startDate = new Date(timeOffData.value.startDate);
+  const endDate = new Date(val);
+  return endDate >= startDate
+    ? true
+    : 'End Date should be more than or equal to Start Date';
+};
 </script>
 
 <template>
@@ -257,6 +269,7 @@ const readonly = computed(() => {
           <q-input
             v-model="timeOffData.endDate"
             label="End Date"
+            :rules="[ruleEndDateGreaterThanStartDate]"
             type="date"
             required
           /> </q-item-section
