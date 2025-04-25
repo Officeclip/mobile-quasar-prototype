@@ -3,7 +3,7 @@
 import { defineProps, onMounted, ref, computed, watch } from 'vue';
 import { useTimeOffStore } from '../../stores/timeOff/timeOffStore';
 import { useTimeOffgroupProfile } from 'src/stores/timeOff/timeOffGroupProfile';
-import { useQuasar } from 'quasar';
+import { useQuasar, QInput } from 'quasar';
 import { useRouter } from 'vue-router';
 
 const props = defineProps(['timeOff']);
@@ -166,6 +166,22 @@ const readonly = computed(() => {
   );
 });
 
+const reasonRef = ref<QInput>(); // from: https://stackoverflow.com/a/65106524
+const startDateRef = ref<QInput>();
+const endDateRef = ref<QInput>();
+const categoryRef = ref<QInput>();
+const hoursRef = ref<QInput>();
+
+const ruleNotEmpty = (val: string) => {
+  const condition = val && val.length > 0;
+  return condition ? true : 'This field is required';
+};
+
+const hoursNotEmpty = (val: number) => {
+  const condition = val > 0;
+  return condition ? true : 'This field is required';
+};
+
 const ruleEndDateGreaterThanStartDate = (val: string) => {
   if (!timeOffData.value.startDate || timeOffData.value.startDate.length === 0)
     return true;
@@ -175,6 +191,35 @@ const ruleEndDateGreaterThanStartDate = (val: string) => {
     ? true
     : 'End Date should be more than or equal to Start Date';
 };
+
+const isCategoryValid = () => {
+  const condition = timeOffData.value.payroll.name != '';
+  return condition ? true : 'Please select category';
+};
+
+const validateAll = () => {
+  reasonRef.value?.validate();
+  startDateRef.value?.validate();
+  endDateRef.value?.validate();
+  categoryRef.value?.validate();
+  hoursRef.value?.validate();
+
+  if (
+    reasonRef.value?.hasError ||
+    startDateRef.value?.hasError ||
+    endDateRef.value?.hasError ||
+    categoryRef.value?.hasError ||
+    hoursRef.value?.hasError
+  ) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+defineExpose({
+  validateAll,
+});
 </script>
 
 <template>
@@ -201,10 +246,12 @@ const ruleEndDateGreaterThanStartDate = (val: string) => {
       <q-item>
         <q-item-section>
           <q-select
-            label="Category"
+            label="Category*"
             v-model="payrollName"
+            :rules="[isCategoryValid]"
             :options="timeOffCategoryLists"
             hide-bottom-space
+            ref="categoryRef"
             option-label="name"
             option-value="id"
             map-options
@@ -252,9 +299,11 @@ const ruleEndDateGreaterThanStartDate = (val: string) => {
         <q-item-section>
           <q-input
             v-model="timeOffData.startDate"
-            label="Start Date"
+            label="Start Date*"
             type="date"
             required
+            :rules="[ruleNotEmpty]"
+            ref="startDateRef"
           />
         </q-item-section>
       </q-item>
@@ -268,10 +317,11 @@ const ruleEndDateGreaterThanStartDate = (val: string) => {
         <q-item-section>
           <q-input
             v-model="timeOffData.endDate"
-            label="End Date"
-            :rules="[ruleEndDateGreaterThanStartDate]"
+            label="End Date*"
+            :rules="[ruleNotEmpty, ruleEndDateGreaterThanStartDate]"
             type="date"
             required
+            ref="endDateRef"
           /> </q-item-section
       ></q-item>
       <q-item
@@ -307,17 +357,22 @@ const ruleEndDateGreaterThanStartDate = (val: string) => {
         <q-item-section>
           <q-input
             v-model="totalHours"
-            label="Hours"
+            label="Hours*"
             required
+            type="number"
             :readonly="readonly"
+            ref="hoursRef"
+            :rules="[hoursNotEmpty]"
           /> </q-item-section
       ></q-item>
 
       <q-item>
         <q-item-section>
           <q-input
+            ref="reasonRef"
             v-model="timeOffData.description"
-            label="Reason"
+            :rules="[ruleNotEmpty]"
+            label="Reason*"
             required
           /> </q-item-section
       ></q-item>

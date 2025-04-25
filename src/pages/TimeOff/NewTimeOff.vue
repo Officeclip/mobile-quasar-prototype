@@ -36,9 +36,12 @@ const timeOff: Ref<TimeOffDetails> = ref({
   security: {},
 });
 
+const childComponent = ref<typeof TimeOffForm>();
+
 async function onSubmit() {
+  $q.loading.show();
   try {
-    // if (!childComponent.value.validateAll()) return;
+    if (!childComponent.value.validateAll()) return;
     const newTimeOff = ref(timeOff.value);
     await timeOffStore.addTimeOffDetails(newTimeOff.value);
     router.go(-1);
@@ -47,6 +50,8 @@ async function onSubmit() {
       title: 'Alert',
       message: error as string,
     });
+  } finally {
+    $q.loading.hide();
   }
 }
 </script>
@@ -70,7 +75,7 @@ async function onSubmit() {
     <q-page-container>
       <!-- <pre>New Page::{{ timeOff }}</pre> -->
       <q-form @submit="onSubmit" class="q-gutter-md">
-        <TimeOffForm v-if="timeOff" :timeOff="timeOff" />
+        <TimeOffForm v-if="timeOff" :timeOff="timeOff" ref="childComponent" />
       </q-form>
     </q-page-container>
   </q-layout>
