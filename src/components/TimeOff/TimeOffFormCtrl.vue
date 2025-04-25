@@ -92,30 +92,24 @@ const timeOffCategoryLists = computed(() => {
 });
 
 const calculateNumberOfDays = () => {
-  if (
-    timeOffData.value.datesRequested &&
-    timeOffData.value.datesRequested.length > 0
-  ) {
-    const dates = timeOffData.value.datesRequested.map(
-      (date: any) => new Date(date)
-    );
-    const uniqueDates = [
-      ...new Set(dates.map((date: any) => date.toDateString())),
-    ];
-    timeOffData.value.totalDays = uniqueDates.length;
-  } else if (
-    timeOffData.value.startDate &&
-    timeOffData.value.endDate &&
-    profileData.value.mode === 'continuousDates'
-  ) {
-    const startDate = new Date(timeOffData.value.startDate);
-    const endDate = new Date(timeOffData.value.endDate);
-    const timeDiff = endDate - startDate;
-    const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1; // Including both start and end dates
-    timeOffData.value.totalDays = daysDiff;
+  if (timeOffData.value.requestedFor === 'full_day') {
+    if (profileData.value.mode === 'specificDates') {
+      const dates = timeOffData.value.datesRequested.map(
+        (date: any) => new Date(date)
+      );
+      const uniqueDates = [
+        ...new Set(dates.map((date: any) => date.toDateString())),
+      ];
+      timeOffData.value.totalDays = uniqueDates.length;
+    } else {
+      const startDate = new Date(timeOffData.value.startDate);
+      const endDate = new Date(timeOffData.value.endDate);
+      const timeDiff = endDate - startDate;
+      const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1; // Including both start and end dates
+      timeOffData.value.totalDays = daysDiff;
+    }
   } else {
-    // timeOffData.value.totalDays = 8;
-    return;
+    return (timeOffData.value.totalDays = 0);
   }
 };
 
@@ -132,15 +126,18 @@ watch(
 const totalHours = computed({
   get: () => {
     if (timeOffData.value.requestedFor === 'full_day') {
+      calculateNumberOfDays();
       const totalDays = timeOffData.value.totalDays;
       return (timeOffData.value.totalHours = totalDays * 8);
-      // return (timeOffData.value.totalHours = 8);
     }
-    if (timeOffData.value.requestedFor === 'half_day' || 'hourly') {
+    if (timeOffData.value.requestedFor === 'half_day') {
       timeOffData.value.endDate = timeOffData.value.startDate; // Set end date to start date for half day
-      timeOffData.value.totalDays = 1;
       timeOffData.value.datesRequested = [];
       return (timeOffData.value.totalHours = 4);
+    } else if (timeOffData.value.requestedFor === 'hourly') {
+      timeOffData.value.endDate = timeOffData.value.startDate; // Set end date to start date for hourly
+      timeOffData.value.datesRequested = [];
+      return timeOffData.value.totalHours; // Allow user-modified value to persist
     }
     return timeOffData.value.totalHours;
   },
