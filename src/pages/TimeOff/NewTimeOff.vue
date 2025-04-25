@@ -41,7 +41,7 @@ const childComponent = ref<typeof TimeOffForm>();
 async function onSubmit() {
   $q.loading.show();
   try {
-    if (!childComponent.value.validateAll()) return;
+    if (!childComponent.value || !childComponent.value.validateAll()) return;
     const newTimeOff = ref(timeOff.value);
     await timeOffStore.addTimeOffDetails(newTimeOff.value);
     router.go(-1);
