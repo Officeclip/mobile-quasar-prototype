@@ -136,7 +136,10 @@ const totalHours = computed({
       return (timeOffData.value.totalHours = totalDays * 8);
       // return (timeOffData.value.totalHours = 8);
     }
-    if (timeOffData.value.requestedFor === 'half_day') {
+    if (timeOffData.value.requestedFor === 'half_day' || 'hourly') {
+      timeOffData.value.endDate = timeOffData.value.startDate; // Set end date to start date for half day
+      timeOffData.value.totalDays = 1;
+      timeOffData.value.datesRequested = [];
       return (timeOffData.value.totalHours = 4);
     }
     return timeOffData.value.totalHours;
@@ -146,19 +149,6 @@ const totalHours = computed({
   },
 });
 
-watch(
-  () => [timeOffData.value.requestedFor],
-  (newValue) => {
-    if (newValue[0] === 'half_day' || 'hourly') {
-      timeOffData.value.endDate = timeOffData.value.startDate;
-      timeOffData.value.totalDays = 1;
-      timeOffData.value.datesRequested = [];
-    }
-    if (newValue[0] === 'hourly') {
-      timeOffData.value.totalHours = 0;
-    }
-  }
-);
 const readonly = computed(() => {
   return (
     timeOffData.value.requestedFor === 'full_day' ||
@@ -226,7 +216,7 @@ defineExpose({
   <q-page class="q-pa-md">
     <!-- <pre>profileData:{{ profileData }}</pre>
     <pre>Request for:{{ timeOffData.requestedFor }}</pre> -->
-    <!-- <pre>timeOffData::{{ timeOffData }}</pre> -->
+    <pre>timeOffData::{{ timeOffData }}</pre>
     <!-- <pre>userId:: {{ userId }}</pre> -->
     <q-list>
       <q-item>
