@@ -81,7 +81,7 @@ function goToApp(url: string) {
           @click="toggleLeftDrawer"
         />
         <q-toolbar-title> OfficeClip Suite</q-toolbar-title>
-        <q-space />
+        <!-- <q-space /> -->
         <logOutButton />
       </q-toolbar>
     </q-header>
