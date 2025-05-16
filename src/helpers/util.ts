@@ -1,7 +1,7 @@
 import { LocalStorage, SessionStorage } from 'quasar';
 import { Session } from 'src/models/session';
-import logger from './logger';
-import { get } from 'http';
+// import logger from './logger';
+// import { get } from 'http';
 
 // sometimes useful if we get into infinite loop and have to rewind the loop
 const waitInSecs = async (seconds: number) =>
@@ -12,10 +12,10 @@ const ocSession = () => SessionStorage.getItem('oc-session') as Session;
 // const testUrl = import.meta.env.VITE_API_ENDPOINT_TEST;
 // const onlineUrl = import.meta.env.VITE_API_ENDPOINT_ONLINE;
 
-const endPointUrlsObj = {
-  testUrl: import.meta.env.VITE_API_ENDPOINT_TEST,
-  onlineUrl: import.meta.env.VITE_API_ENDPOINT,
-};
+// const endPointUrlsObj = {
+//   testUrl: import.meta.env.VITE_API_ENDPOINT_TEST,
+//   onlineUrl: import.meta.env.VITE_API_ENDPOINT,
+// };
 
 export enum ObjectType {
   Task = 1,
@@ -91,18 +91,26 @@ function getEndPointUrlFromUri(url: string) {
 function setEndPointUrlInLocalStorageFromPageUri(pageUri: string) {
   // if testUrl is present in env.local then we do not check anything and move to test url directly.
   // this represents that we are in development environment.
-  if (endPointUrlsObj.testUrl) {
-    LocalStorage.set('endPointUrl', endPointUrlsObj.testUrl);
+  const endPointUrl = import.meta.env.VITE_API_ENDPOINT;
+  // check if the local storage endPointUrl is empty then return
+  const storedEndPointUrl = getEndPointUrl();
+  if (storedEndPointUrl) {
     return;
+  }
+  if (endPointUrl) {
+    LocalStorage.set('endPointUrl', endPointUrl);
+    // return;
+  } else {
+    LocalStorage.set('endPointUrl', getEndPointUrlFromUri(pageUri));
   }
   // if onlineUrl is present in env.local then we do not check anything and move to online url directly.
   // this represents that we are in production environment.
-  if (!endPointUrlsObj.onlineUrl) {
-    LocalStorage.set('endPointUrl', getEndPointUrlFromUri(pageUri));
-    return;
-  }
+  // if (!endPointUrlsObj.onlineUrl) {
+  //   LocalStorage.set('endPointUrl', getEndPointUrlFromUri(pageUri));
+  //   return;
+  // }
 }
-
+// this is manually set in the local storage
 function setEndPointUrlInLocalStorage(url: string) {
   LocalStorage.set('endPointUrl', url);
 }
@@ -152,5 +160,5 @@ export default {
   isObjectNullOrEmpty,
   decycle,
   getEndPointUrlFromUri,
-  endPointUrlsObj,
+  // endPointUrlsObj,
 };

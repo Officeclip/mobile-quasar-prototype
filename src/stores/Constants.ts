@@ -87,6 +87,7 @@ export class Constants {
     }
   }
 
+  // this is not used anywhere
   static saveEndPointUrlInLocalStorage(endPointUrl: string | null) {
     if (endPointUrl) {
       LocalStorage.set('endPointUrl', endPointUrl);

@@ -113,8 +113,8 @@ onMounted(async () => {
   logger.log(`PIN is: ${mPin.value}`, 'warn');
 });
 
-// util.setEndPointUrlInLocalStorageFromPageUri(window.location.href);
-util.setEndPointUrlInLocalStorageFromPageUri(addressBarUrl);
+// this should be comment for app release
+// util.setEndPointUrlInLocalStorageFromPageUri(addressBarUrl);
 
 const redirectToSetUpAccount = () => {
   window.location.href = 'https://app.officeclip.com/setupsite.aspx';
@@ -130,7 +130,7 @@ const redirectToSetUpAccount = () => {
         </div>
 
         <div v-else>
-          <q-card class="q-pa-md shadow-2 my_card" bordered>
+          <q-card class="shadow-2 my_card" bordered>
             <q-form @submit="onSubmit" v-if="!mPin">
               <q-card-section class="text-center">
                 <div class="text-h5 text-weight-bold">Sign in</div>
@@ -179,11 +179,16 @@ const redirectToSetUpAccount = () => {
                 </q-item>
               </q-card-section>
               <q-card-section>
-                <q-item class="row items-center q-gutter-sm">
-                  <div class="text-caption q-mr-sm">
-                    Your linked Api Url is:
-                  </div>
-                  <div>{{ util.getEndPointUrl() }}</div>
+                <q-item>
+                  <q-item-section>
+                    <div>
+                      <span class="text-caption q-mr-xs">
+                        Your linked Api Url is:</span
+                      >
+
+                      {{ util.getEndPointUrl() }}
+                    </div>
+                  </q-item-section>
                 </q-item>
               </q-card-section>
               <q-card-section class="text-center q-pt-none">

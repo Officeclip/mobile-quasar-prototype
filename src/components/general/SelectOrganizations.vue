@@ -8,9 +8,7 @@ import { useQuasar } from 'quasar';
 const router = useRouter();
 const sessionStore = useSessionStore();
 const profileListsStore = useProfileListsStore();
-const props = defineProps(['dense']);
 const $q = useQuasar();
-const isDense = props.dense;
 const updateOrganizations = async (newValue: any) => {
   $q.loading.show();
   try {
@@ -48,7 +46,6 @@ const organization = ref(organizationItem.value?.name || '');
 <template>
   <q-select
     class="full-width"
-    :dense="isDense"
     v-model="organization"
     :options="organizationItems"
     label="Select Organization"

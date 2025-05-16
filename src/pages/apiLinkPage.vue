@@ -7,7 +7,7 @@ import { useQuasar } from 'quasar';
 const $q = useQuasar();
 const sessionStore = useSessionStore();
 
-const dotComUserApi = ref('https://api.officeclip.workers.dev');
+const dotComUserApi = ref('https://api.officeclip.workers.dev'); // Dutta: it should be read from env.local
 
 const boxVersionUserApi = ref('');
 
@@ -69,7 +69,7 @@ const redirectToSetUpAccount = () => {
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="flex flex-center">
-        <q-card v-if="isIndex" flat bordered class="q-ma-lg">
+        <q-card v-if="isIndex" flat bordered class="q-ma-md">
           <q-card-section>
             Manage your business on the go with OfficeClip Mobile access
             contacts, projects, timesheets, and more. <br />
@@ -103,64 +103,66 @@ const redirectToSetUpAccount = () => {
           </q-card-actions>
         </q-card>
 
-        <q-card v-if="isSetUp">
-          <q-card-section>
-            <p class="text-subtitle2">Set the API Link:</p>
-            <div class="row">
-              <q-item-section>
-                <q-input
-                  style="min-width: 250px"
-                  class="q-pa-md"
-                  v-model="inputValue"
-                  placeholder="enter valid rest api url"
-                  hint="Ex: https/your-site/officeclip/api"
-                  type="url"
-                  outlined
-                  hide-bottom-space
-                  dense
-                  autogrow
-                  :readonly="readOnly"
-                  :bg-color="bgColor"
-              /></q-item-section>
-              <q-item-section side class="q-pb-md">
-                <q-btn
-                  color="primary"
-                  @click="isValidRestApiUrl(inputValue)"
-                  :disable="inputValue"
-                  :loading="submitting"
-                  >Save</q-btn
-                ></q-item-section
-              >
-            </div>
-          </q-card-section>
-          <q-card-section class="flex justify-between">
-            <q-radio
-              v-model="selectedOption"
-              color="red"
-              keep-color
-              label="Installed on our machine"
-              val="1"
-              size="sm"
-            />
-            <q-radio
-              v-model="selectedOption"
-              color="teal"
-              keep-color
-              label="Using from Officeclip.com"
-              val="2"
-              size="sm"
-            />
-          </q-card-section>
+        <div v-if="isSetUp">
+          <q-card class="q-ma-md">
+            <q-card-section>
+              <p class="text-subtitle2">Set the API Link:</p>
+              <div class="row">
+                <q-item-section>
+                  <q-input
+                    style="min-width: 250px"
+                    class="q-pa-md"
+                    v-model="inputValue"
+                    placeholder="enter valid rest api url"
+                    hint="Ex: https://your-site/officeclip/api"
+                    type="url"
+                    outlined
+                    hide-bottom-space
+                    dense
+                    autogrow
+                    :readonly="readOnly"
+                    :bg-color="bgColor"
+                /></q-item-section>
+                <q-item-section side class="q-pb-md">
+                  <q-btn
+                    color="primary"
+                    @click="isValidRestApiUrl(inputValue)"
+                    :disable="inputValue"
+                    :loading="submitting"
+                    >Save</q-btn
+                  ></q-item-section
+                >
+              </div>
+            </q-card-section>
+            <q-card-section class="flex justify-between">
+              <q-radio
+                v-model="selectedOption"
+                color="teal"
+                keep-color
+                label="Using from Officeclip.com"
+                val="2"
+                size="sm"
+              />
+              <q-radio
+                v-model="selectedOption"
+                color="red"
+                keep-color
+                label="Installed on our machine"
+                val="1"
+                size="sm"
+              />
+            </q-card-section>
 
-          <q-card-section v-if="selectedOption === '1'">
-            <p>To find your customized url(password-less login):</p>
-            <ol>
-              <li>Login to OfficeClip on a desktop browser</li>
-              <li>Click on the picture at top right</li>
-              <li>Click the Mobile button</li>
-            </ol>
-          </q-card-section>
-        </q-card>
+            <q-card-section v-if="selectedOption === '1'">
+              <p>To find your customized url(password-less login):</p>
+              <ol>
+                <li>Login to OfficeClip on a desktop browser</li>
+                <li>Click on the picture at top right</li>
+                <li>Click the Mobile button</li>
+              </ol>
+            </q-card-section>
+          </q-card>
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>

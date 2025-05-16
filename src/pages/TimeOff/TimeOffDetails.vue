@@ -191,7 +191,7 @@ const getDaysOrHrs = () => {
           <!-- <pre>isAllowEdit:{{ isAllowEdit }}</pre>
         <pre>isAllowDelete::{{ isAllowDelete }}</pre>
         <pre>security::{{ timeOffDetails.security }}</pre> -->
-          <div v-if="isAllowEdit && isAllowDelete">
+          <div v-if="isAllowEdit">
             <WorkFlow
               v-if="status != 'Approved' && status != 'Pending'"
               :entityId="id"

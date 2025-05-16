@@ -101,7 +101,7 @@ const openSettings = (pos: any) => {
       <q-list>
         <q-item class="bg-grey-3">
           <q-item-section>
-            <SelectOrganizations :dense="dense" />
+            <SelectOrganizations />
           </q-item-section>
         </q-item>
         <!-- <q-separator color="grey-4"></q-separator> -->
@@ -123,32 +123,16 @@ const openSettings = (pos: any) => {
             <q-item-label>{{ item.name }}</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="q-mt-sm">
+        <q-item class="q-mt-lg">
           <q-item-section>
-            <q-btn
-              icon="logout"
-              outline
-              color="primary"
-              dense
-              @click="logout"
-              label="Log out"
-            />
-          </q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section>
-            <div class="flex justify-between bg-grey-3 q-px-sm">
+            <div class="flex justify-between">
               <div>
-                <div>
-                  <span class="text-italic">App Version:</span>
-                  {{ packageJson.version }}
-                </div>
+                App Version:
+                {{ packageJson.version }}
               </div>
               <div>
-                <div>
-                  <span class="text-italic">OC Version:</span>
-                  {{ Constants.getRestApiVersionFromSession() }}
-                </div>
+                OC Version:
+                {{ Constants.getRestApiVersionFromSession() }}
               </div>
             </div>
           </q-item-section>
@@ -187,6 +171,17 @@ const openSettings = (pos: any) => {
     <q-dialog v-model="settingsDialog" persistent :position="position">
       <SettingsComponent />
     </q-dialog>
+    <q-footer
+      ><q-btn
+        icon="logout"
+        label="Log out"
+        class="full-width"
+        unelevated
+        rounded
+        @click="logout"
+      >
+      </q-btn>
+    </q-footer>
   </q-drawer>
 </template>
 <style scoped>
