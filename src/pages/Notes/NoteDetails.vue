@@ -84,6 +84,13 @@ function toggleLeftDrawer() {
 .q-dialog__backdrop {
   backdrop-filter: blur(7px);
 }
+.note-description {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-line;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 </style>
 
 <template>
@@ -153,7 +160,10 @@ function toggleLeftDrawer() {
 
                   <q-item-label caption>Description</q-item-label>
                   <q-item-label class="q-mb-sm">
-                    <div v-html="note?.description"></div>
+                    <div
+                      class="note-description"
+                      v-html="note?.description"
+                    ></div>
                   </q-item-label>
 
                   <q-item-label caption>Private</q-item-label>
