@@ -45,11 +45,8 @@ export const useSessionStore = defineStore('sessionStore', {
     },
 
     getHomeIcons(): HomeIcon[] {
-      const sortedIcons = this.sortHomeIconsAlphabetically(
-        this.getDefaultHomeIcons()
-      );
-      // const defaultHomeIcons = this.getDefaultHomeIcons();
-      const result = sortedIcons.filter((item) => {
+      const defaultHomeIcons = this.getDefaultHomeIcons();
+      const result = defaultHomeIcons.filter((item) => {
         return this.Session.applicationIds.includes(item.id);
       });
       return result;
@@ -116,13 +113,7 @@ export const useSessionStore = defineStore('sessionStore', {
           color: 'light-blue', // Represents relaxation & freedom
         },
       ];
-      return defaultHomeIcons;
-    },
-
-    sortHomeIconsAlphabetically(icons: HomeIcon[]): HomeIcon[] {
-      // Use slice() to create a shallow copy of the array before sorting
-      // to avoid modifying the original array.
-      return icons.slice().sort((a, b) => {
+      return defaultHomeIcons.slice().sort((a, b) => {
         const nameA = a.name.toLowerCase();
         const nameB = b.name.toLowerCase();
 
