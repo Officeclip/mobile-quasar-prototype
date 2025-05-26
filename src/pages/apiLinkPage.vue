@@ -69,34 +69,62 @@ const redirectToSetUpAccount = () => {
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="flex flex-center">
-        <q-card v-if="isIndex" flat bordered class="q-ma-md">
-          <q-card-section>
-            Manage your business on the go with OfficeClip Mobile access
-            contacts, projects, timesheets, and more. <br />
-            Integrations with Google, Outlook, and other systems.
+        <q-card
+          v-if="isIndex"
+          flat
+          bordered
+          class="q-ma-md shadow-2"
+          style="max-width: 420px"
+        >
+          <q-card-section class="bg-primary text-white rounded-borders">
+            <div class="text-h6 q-mb-xs">Welcome to OfficeClip Mobile</div>
+            <div class="text-body2">
+              Manage your business on the go: access contacts, projects,
+              timesheets, and more.<br />
+              Seamless integrations with Google, Outlook, and other systems.
+            </div>
           </q-card-section>
+          <q-separator />
           <q-card-section>
-            <p class="text-subtitle2">Available in two editions:</p>
-            <ol>
-              <li>Free Basic edition</li>
-              <li>Enterprise edition</li>
-            </ol>
+            <div class="text-subtitle2 text-weight-medium q-mb-sm">
+              Available in two editions:
+            </div>
+            <q-list dense>
+              <q-item>
+                <q-item-section avatar>
+                  <q-icon name="star_border" color="primary" />
+                </q-item-section>
+                <q-item-section> Free Basic edition </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section avatar>
+                  <q-icon name="workspace_premium" color="amber" />
+                </q-item-section>
+                <q-item-section> Enterprise edition </q-item-section>
+              </q-item>
+            </q-list>
           </q-card-section>
+          <q-separator />
           <q-card-section>
-            Learn more and sign up at
-            <q-btn
-              color="primary"
-              no-caps
-              flat
-              dense
-              @click="redirectToSetUpAccount"
-              >officeclip.com</q-btn
-            >
+            <div class="q-mb-sm">
+              <span>Learn more and sign up at</span>
+              <q-btn
+                color="primary"
+                no-caps
+                flat
+                dense
+                class="q-ml-xs"
+                @click="redirectToSetUpAccount"
+                >officeclip.com</q-btn
+              >
+            </div>
           </q-card-section>
           <q-card-actions align="right">
             <q-btn
               icon-right="arrow_forward"
               color="primary"
+              unelevated
+              rounded
               @click="getApiScreen()"
               >Next</q-btn
             >
@@ -104,42 +132,57 @@ const redirectToSetUpAccount = () => {
         </q-card>
 
         <div v-if="isSetUp">
-          <q-card class="q-ma-md">
-            <q-card-section>
-              <p class="text-subtitle2">Set the API Link:</p>
-              <div class="row">
-                <q-item-section>
-                  <q-input
-                    style="min-width: 250px"
-                    class="q-pa-md"
-                    v-model="inputValue"
-                    placeholder="enter valid rest api url"
-                    hint="Ex: https://your-site/officeclip/api"
-                    type="url"
-                    outlined
-                    hide-bottom-space
-                    dense
-                    autogrow
-                    :readonly="readOnly"
-                    :bg-color="bgColor"
-                /></q-item-section>
-                <q-item-section side class="q-pb-md">
-                  <q-btn
-                    color="primary"
-                    @click="isValidRestApiUrl(inputValue)"
-                    :disable="inputValue"
-                    :loading="submitting"
-                    >Save</q-btn
-                  ></q-item-section
-                >
+          <q-card class="q-ma-md shadow-2" style="max-width: 420px">
+            <q-card-section class="bg-primary text-white rounded-borders">
+              <div class="text-h6 q-mb-xs">API Link Setup</div>
+              <div class="text-body2">
+                Configure your OfficeClip API endpoint to connect your mobile
+                app.<br />
+                Choose your edition and enter the appropriate API URL.
               </div>
             </q-card-section>
-            <q-card-section class="flex justify-between">
+            <q-separator />
+            <q-card-section>
+              <div class="row items-center q-col-gutter-md">
+                <div class="col-9 q-mb-xs">
+                  <q-input
+                    v-model="inputValue"
+                    placeholder="Enter valid REST API URL"
+                    hint="e.g. https://your-site/officeclip/api"
+                    type="url"
+                    outlined
+                    dense
+                    :readonly="readOnly"
+                    :bg-color="bgColor"
+                    class="full-width"
+                    :rules="[(val) => !!val || 'API URL is required']"
+                    clearable
+                  >
+                    <template #prepend>
+                      <q-icon name="link" color="primary" />
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-3 flex flex-center">
+                  <q-btn
+                    color="primary"
+                    label="Save"
+                    @click="isValidRestApiUrl(inputValue)"
+                    :disable="!inputValue"
+                    :loading="submitting"
+                    unelevated
+                    rounded
+                    class="full-width q-mb-lg"
+                  />
+                </div>
+              </div>
+            </q-card-section>
+            <q-card-section class="flex justify-between q-py-sm">
               <q-radio
                 v-model="selectedOption"
                 color="teal"
                 keep-color
-                label="Using from Officeclip.com"
+                label="OfficeClip Cloud"
                 val="2"
                 size="sm"
               />
@@ -147,18 +190,23 @@ const redirectToSetUpAccount = () => {
                 v-model="selectedOption"
                 color="red"
                 keep-color
-                label="Installed on our machine"
+                label="Self-Hosted"
                 val="1"
                 size="sm"
               />
             </q-card-section>
-
-            <q-card-section v-if="selectedOption === '1'">
-              <p>To find your customized url(password-less login):</p>
-              <ol>
-                <li>Login to OfficeClip on a desktop browser</li>
-                <li>Click on the picture at top right</li>
-                <li>Click the Mobile button</li>
+            <q-separator />
+            <q-card-section
+              v-if="selectedOption === '1'"
+              class="bg-grey-1 rounded-borders"
+            >
+              <div class="text-subtitle2 text-weight-medium q-mb-xs">
+                How to find your custom API URL:
+              </div>
+              <ol class="q-pl-md q-mb-none">
+                <li>Login to OfficeClip on a desktop browser.</li>
+                <li>Click your profile picture at the top right.</li>
+                <li>Select <b>Mobile</b> to view your API URL.</li>
               </ol>
             </q-card-section>
           </q-card>
