@@ -123,7 +123,7 @@ const openSettings = (pos: any) => {
             <q-item-label>{{ item.name }}</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="q-mt-lg">
+        <q-item class="q-my-lg">
           <q-item-section>
             <div class="flex justify-between">
               <div>

@@ -49,7 +49,7 @@ const removeLocalData = () => {
               <q-icon name="refresh" />
             </q-item-section>
           </q-item>
-          <q-item clickable v-ripple>
+          <!-- <q-item clickable v-ripple>
             <q-item-section>
               <q-item-label>Profile</q-item-label>
             </q-item-section>
@@ -92,7 +92,7 @@ const removeLocalData = () => {
             <q-item-section side>
               <q-icon name="language" />
             </q-item-section>
-          </q-item>
+          </q-item> -->
         </q-list>
       </q-card-section>
     </q-card>
