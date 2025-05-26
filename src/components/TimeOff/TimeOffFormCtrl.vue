@@ -10,7 +10,6 @@ const props = defineProps(['timeOff']);
 const timeOffData = ref(props.timeOff);
 const $q = useQuasar();
 const showDatePicker = ref(false);
-const showBalanceInfo = ref(false); // State to control the temporary message
 const router = useRouter();
 const userId = ref();
 
@@ -244,14 +243,6 @@ defineExpose({
             map-options
           />
         </q-item-section>
-        <q-item-section side>
-          <q-btn
-            icon="info"
-            flat
-            color="primary"
-            @click="showBalanceInfo = true"
-          />
-        </q-item-section>
       </q-item>
 
       <q-item
@@ -369,36 +360,6 @@ defineExpose({
         ><div class="row items-center justify-end">
           <q-btn v-close-popup color="primary" flat label="Close" /></div
       ></q-date>
-    </q-dialog>
-    <q-dialog v-model="showBalanceInfo">
-      <q-card>
-        <q-bar>
-          <div v-if="timeOffData?.createdByUserName">
-            Balance Left For:
-            <span class="text-subtitle1">{{
-              timeOffData?.createdByUserName
-            }}</span>
-          </div>
-
-          <q-space></q-space>
-
-          <q-btn dense flat icon="close" v-close-popup> </q-btn>
-        </q-bar>
-        <q-card-section>
-          <div v-for="category in timeOffCategoryLists" :key="category.id">
-            <q-item>
-              <q-item-section>{{ category.name }} left</q-item-section>
-            </q-item>
-            <q-separator
-              inset
-              v-if="
-                category !==
-                timeOffCategoryLists[timeOffCategoryLists.length - 1]
-              "
-            />
-          </div>
-        </q-card-section>
-      </q-card>
     </q-dialog>
   </q-page>
 </template>

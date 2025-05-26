@@ -99,11 +99,11 @@ const openSettings = (pos: any) => {
   <q-drawer v-model="leftDrawerOpen" bordered show-if-above>
     <q-scroll-area style="margin-top: 80px; height: calc(100% - 80px)">
       <q-list>
-        <q-item class="bg-grey-3">
+        <!-- <q-item class="bg-grey-3">
           <q-item-section>
             <SelectOrganizations />
           </q-item-section>
-        </q-item>
+        </q-item> -->
         <!-- <q-separator color="grey-4"></q-separator> -->
         <q-item
           v-for="item in filteredHomeIcons"
@@ -143,8 +143,10 @@ const openSettings = (pos: any) => {
       <q-item>
         <q-item-section side>
           <q-avatar size="xl" color="white">
-            <q-img v-if="userIcon" v-bind:src="userIcon" />
-            <q-icon v-else name="person" />
+            <!-- currently userIcon we couldn't able to get it from backend some code need to implement so that we are stopping to check this directly showing default -->
+            <!-- <q-img v-if="userIcon" v-bind:src="userIcon" />
+            <q-icon v-else name="person" /> -->
+            <q-icon name="person" />
           </q-avatar>
         </q-item-section>
         <q-separator vertical color="white" inset></q-separator>
