@@ -26,7 +26,6 @@ const isRoleAccess = () => {
   );
   return data?.access;
 };
-const noContactName = '- None -';
 
 const myDrawer = ref();
 

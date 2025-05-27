@@ -173,8 +173,8 @@ const approveButtonWorkFlow = () => {
     approveWorkflow();
   }
 };
-const submitComments = (isButton = 'Approve') => {
-  if (comments.value === '') {
+const submitComments = (isButton: any) => {
+  if (isButton === 'Reject' && comments.value === '') {
     $q.dialog({
       title: 'Alert',
       message: 'Please enter comments',
@@ -245,8 +245,8 @@ const closePopUp = () => {
               icon="send"
               color="primary"
               flat
+              size="16px"
               round
-              dense
               @click="submitButtonWorkFlow"
             />
             <q-btn
@@ -254,8 +254,8 @@ const closePopUp = () => {
               icon="check_circle"
               color="positive"
               flat
+              size="16px"
               round
-              dense
               @click="approveButtonWorkFlow"
             />
             <q-btn
@@ -263,8 +263,8 @@ const closePopUp = () => {
               icon="cancel"
               color="negative"
               flat
+              size="16px"
               round
-              dense
               @click="rejectButtonWorkFlow"
             /> </q-item-section
         ></q-item>
