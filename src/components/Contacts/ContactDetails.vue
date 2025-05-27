@@ -30,32 +30,37 @@ const countryName = computed(() => props.params.countryName);
             ></q-item-label
           >
           <q-item-label caption>Country</q-item-label>
-          <q-item-label class="q-mb-sm">{{ countryName }}</q-item-label>
+          <q-item-label class="q-mb-sm">
+            <span v-if="countryName">{{ countryName }}</span>
+            <span v-else style="opacity: 0.3; font-style: italic"
+              >-- none --</span
+            ></q-item-label
+          >
 
-          <q-item-label caption>Address</q-item-label>
+          <q-item-label v-if="contactDetails?.street_address" caption
+            >Address</q-item-label
+          >
           <q-item-label>
             <span v-if="contactDetails?.street_address">{{
               contactDetails?.street_address
             }}</span>
-            <span v-else style="opacity: 0.3; font-style: italic"
+            <!-- <span v-else style="opacity: 0.3; font-style: italic"
               >-- none --</span
-            ></q-item-label
-          >
-          <q-item-label>
+            > -->
+          </q-item-label>
+          <q-item-label v-if="contactDetails?.city">
             <span v-if="contactDetails?.city">{{ contactDetails?.city }}</span>
-            <span v-else style="opacity: 0.3; font-style: italic"
-              >-- none --</span
-            >, {{ stateName }}</q-item-label
+            , {{ stateName }}</q-item-label
           >
           <q-item-label
-            >{{ countryName }},
+            ><span v-if="countryName">{{ countryName }},</span>
             <span v-if="contactDetails?.postal_code">{{
               contactDetails?.postal_code
             }}</span>
-            <span v-else style="opacity: 0.3; font-style: italic"
+            <!-- <span v-else style="opacity: 0.3; font-style: italic"
               >-- none --</span
-            ></q-item-label
-          >
+            > -->
+          </q-item-label>
         </q-item-section>
         <q-item-section class="rowItems">
           <q-item-label caption>Last Name</q-item-label>
