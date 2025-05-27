@@ -136,43 +136,38 @@ function toggleLeftDrawer() {
           </div>
         </q-item-section>
         <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
-          <q-item
-            v-for="contact in contacts"
-            :key="contact.id"
-            v-ripple
-            :to="{
-              name: 'contactDetails',
-              params: {
-                id: contact.id,
-              },
-            }"
-            clickable
-          >
-            <q-item-section side>
-              <q-avatar color="grey-4">
-                <q-img
-                  v-if="contact.thumbnail"
-                  v-bind:src="contact.thumbnail"
-                />
-                <q-icon v-else name="person" />
-              </q-avatar>
-            </q-item-section>
-            <q-item-section>
-              <span
-                v-if="
-                  contact.first_name.length > 0 || contact.last_name.length > 0
-                "
-              >
-                {{ contact.first_name + ' ' + contact.last_name }}
-              </span>
-              <span v-else style="font-style: italic; opacity: 0.6">{{
-                noContactName
-              }}</span>
-            </q-item-section>
-            <q-item-section side>
-              <q-icon color="primary" name="chevron_right" />
-            </q-item-section>
-          </q-item>
+          <div v-for="contact in contacts" :key="contact.id">
+            <q-item
+              v-if="contact.first_name || contact.last_name || contact.email"
+              v-ripple
+              :to="{
+                name: 'contactDetails',
+                params: {
+                  id: contact.id,
+                },
+              }"
+              clickable
+            >
+              <q-item-section side>
+                <q-avatar color="grey-4">
+                  <q-img
+                    v-if="contact.thumbnail"
+                    v-bind:src="contact.thumbnail"
+                  />
+                  <q-icon v-else name="person" />
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <span v-if="contact.first_name || contact.last_name">
+                  {{ contact.first_name + ' ' + contact.last_name }}
+                </span>
+                <span v-else>{{ contact.email }}</span>
+              </q-item-section>
+              <q-item-section side>
+                <q-icon color="primary" name="chevron_right" />
+              </q-item-section>
+            </q-item>
+          </div>
           <template v-slot:loading>
             <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
           </template>
