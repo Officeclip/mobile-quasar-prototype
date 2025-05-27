@@ -132,7 +132,7 @@ function toggleLeftDrawer() {
                 </q-item-label>
                 <q-item-label caption>{{
                   expense.fromDate
-                    ? dateTimeHelper.extractDateFromUtc(expense.fromDate)
+                    ? dateTimeHelper.formatDateForTE(expense.fromDate)
                     : 'No Specific Date'
                 }}</q-item-label>
               </q-item-section>
