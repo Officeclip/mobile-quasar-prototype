@@ -39,7 +39,7 @@ const task: Ref<taskDetails> = ref({
     },
   },
   id: '',
-  startDate: '',
+  startDate: new Date().toISOString(),
   subject: '',
   taskOwnerSid: null,
   taskPriorityId: '-1',
