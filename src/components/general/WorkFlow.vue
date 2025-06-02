@@ -247,6 +247,7 @@ const closePopUp = () => {
               flat
               size="16px"
               round
+              dense
               @click="submitButtonWorkFlow"
             />
             <q-btn
@@ -256,6 +257,7 @@ const closePopUp = () => {
               flat
               size="16px"
               round
+              dense
               @click="approveButtonWorkFlow"
             />
             <q-btn
@@ -265,6 +267,7 @@ const closePopUp = () => {
               flat
               size="16px"
               round
+              dense
               @click="rejectButtonWorkFlow"
             /> </q-item-section
         ></q-item>
@@ -289,6 +292,7 @@ const closePopUp = () => {
             <q-btn
               icon="check_circle"
               color="primary"
+              size="16px"
               flat
               round
               dense
@@ -317,6 +321,7 @@ const closePopUp = () => {
               v-if="workFlow?.submitToUserId"
               icon="send"
               color="primary"
+              size="16px"
               flat
               round
               dense
