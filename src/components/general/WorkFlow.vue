@@ -66,9 +66,14 @@ const submitToUserName = computed(() => {
     (x: { id: string }) => x.id === submitToUserId.value
   );
 });
+// const approveToUserName = computed(() => {
+//   return workFlowUsers.value?.find(
+//     (x: { id: string }) => x.id === approveToUserId.value
+//   );
+// });
 const approveToUserName = computed(() => {
   return workFlowUsers.value?.find(
-    (x: { id: string }) => x.id === approveToUserId.value
+    (x: { id: string }) => x.id === props?.employeeId
   );
 });
 const rejectToUserName = computed(() => {
@@ -283,9 +288,18 @@ const closePopUp = () => {
             ><q-item-label class="text-h6 row items-center"
               ><q-icon name="info" />Workflow Information
             </q-item-label>
-            <q-item-label>
-              Please approve the <span>{{ props?.entityType }}</span> or select
-              a user from the dropdown menu to submit it to the next stage
+            <q-item-label v-if="props?.stageId == 1">
+              Approve the <span>{{ props?.entityType }}</span> yourself or
+              select a user from the dropdown menu to submit it to the next
+              stage
+            </q-item-label>
+            <q-item-label v-else>
+              <span class="text-subtitle1 text-weight-medium">{{
+                approveToUserName?.name
+              }}</span>
+              has submitted the <span>{{ props?.entityType }}</span
+              >, please approve or select a user from the dropdown menu to
+              submit it to the next stage.
             </q-item-label>
           </q-item-section>
           <q-item-section side>
