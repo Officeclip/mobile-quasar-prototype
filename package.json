@@ -11,7 +11,9 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "backend": "json-server -p 4000 --w ./data/mock_data.json",
-    "build": "quasar build"
+    "build": "quasar build",
+    "test-android": "quasar dev -m capacitor -T android",
+    "production-android": "quasar build -m capacitor -T android"
   },
   "dependencies": {
     "@capacitor/app": "^6.0.2",
