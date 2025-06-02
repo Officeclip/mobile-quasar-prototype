@@ -231,8 +231,7 @@ const closePopUp = () => {
               <span class="text-subtitle1 text-weight-medium">{{
                 submitToUserName?.name
               }}</span
-              >, please submit the <span>{{ props?.entityType }}</span> to the
-              next stage,
+              >, please submit the <span>{{ props?.entityType }}</span>
             </q-item-label>
 
             <q-item-label v-else>
