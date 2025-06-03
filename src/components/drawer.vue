@@ -123,7 +123,7 @@ const openSettings = (pos: any) => {
             <q-item-label>{{ item.name }}</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="q-my-lg">
+        <!-- <q-item class="q-my-lg">
           <q-item-section>
             <div class="flex justify-between">
               <div>
@@ -136,7 +136,7 @@ const openSettings = (pos: any) => {
               </div>
             </div>
           </q-item-section>
-        </q-item>
+        </q-item> -->
       </q-list>
     </q-scroll-area>
     <div class="background-div">
@@ -173,11 +173,25 @@ const openSettings = (pos: any) => {
     <q-dialog v-model="settingsDialog" persistent :position="position">
       <SettingsComponent />
     </q-dialog>
-    <q-footer
-      ><q-btn
+    <q-footer>
+      <q-item dense class="bg-white text-black">
+        <q-item-section>
+          <div class="flex justify-between q-mb-sm">
+            <div>
+              App Version:
+              {{ packageJson.version }}
+            </div>
+            <div>
+              OC Version:
+              {{ Constants.getRestApiVersionFromSession() }}
+            </div>
+          </div>
+        </q-item-section>
+      </q-item>
+      <q-btn
         icon="logout"
         label="Log out"
-        class="full-width"
+        class="full-width q-pa-sm"
         unelevated
         rounded
         @click="logout"
