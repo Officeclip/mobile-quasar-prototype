@@ -97,7 +97,9 @@ const openSettings = (pos: any) => {
 
 <template>
   <q-drawer v-model="leftDrawerOpen" bordered show-if-above>
-    <q-scroll-area style="margin-top: 80px; height: calc(100% - 80px)">
+    <q-scroll-area
+      style="margin-top: 80px; padding-bottom: 80px; height: calc(100% - 80px)"
+    >
       <q-list>
         <!-- <q-item class="bg-grey-3">
           <q-item-section>
@@ -174,9 +176,9 @@ const openSettings = (pos: any) => {
       <SettingsComponent />
     </q-dialog>
     <q-footer>
-      <q-item dense class="bg-white text-black">
+      <q-item dense class="bg-grey-3 text-black">
         <q-item-section>
-          <div class="flex justify-between q-mb-sm">
+          <div class="flex justify-between q-mb-xs">
             <div>
               App Version:
               {{ packageJson.version }}
