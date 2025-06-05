@@ -166,7 +166,7 @@ const redirectToSetUpAccount = () => {
                 <div class="col-3 flex flex-center">
                   <q-btn
                     color="primary"
-                    label="Save"
+                    label="Submit"
                     @click="isValidRestApiUrl(inputValue)"
                     :disable="!inputValue"
                     :loading="submitting"
