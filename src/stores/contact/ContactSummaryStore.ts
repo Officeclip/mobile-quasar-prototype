@@ -69,7 +69,20 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(this.url);
         if (response.status === 200) {
-          const summaries = response.data.data;
+          const data = response.data.data;
+          const newData = data.map(async (item: any) => {
+            if (item.thumbnail) {
+              const response = await instance.get(
+                `${util.getEndPointUrl()}/image-detail?id=${item.thumbnail}`
+              );
+              const base64Obj = response.data;
+              item.thumbnail = `data:image/${base64Obj.srcType};base64,${base64Obj.src}`;
+            } else {
+              return item;
+            }
+            return item;
+          });
+          const summaries = await Promise.all(newData);
           if (isFilter) {
             await this.resetContactSummaryList();
           }

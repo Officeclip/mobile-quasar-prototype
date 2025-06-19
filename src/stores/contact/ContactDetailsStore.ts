@@ -51,12 +51,19 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
     async getContactDetails(id: string) {
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(
+        const { data: contact } = await instance.get(
           `${util.getEndPointUrl()}/contact-detail/${id}`
         );
-        if (response.data) {
-          this.contactDetails = response.data;
+
+        if (contact.picture) {
+          const { data: image } = await instance.get(
+            `${util.getEndPointUrl()}/image-detail?id=${contact.picture}`
+          );
+          contact.picture = `data:image/${image.srcType};base64,${image.src}`;
         }
+
+        this.contactDetails = contact;
+        return contact;
       } catch (error) {
         Constants.throwError(error);
       }

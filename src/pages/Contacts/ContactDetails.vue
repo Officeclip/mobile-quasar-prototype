@@ -51,12 +51,12 @@ const loadContactDetails = async () => {
   }
 };
 
-onMounted(async () => {
-  loadContactDetails();
-});
-
 const contactDetails = computed(() => {
   return contactDetailsStore.ContactDetails;
+});
+
+onMounted(async () => {
+  await loadContactDetails();
 });
 
 const children = computed(() => {
