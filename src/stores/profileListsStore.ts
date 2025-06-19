@@ -15,15 +15,27 @@ export const useProfileListsStore = defineStore('profileListsStore', {
   },
 
   actions: {
-    async getProfileLists() {
+    async getProfileLists(): Promise<void> {
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(
+        const { data: result } = await instance.get(
           `${util.getEndPointUrl()}/profile-lists`
         );
-        if (response.data) {
-          this.profileLists = response.data;
+
+        if (result?.profiles?.user?.general?.userPhoto) {
+          try {
+            const iconId = result.profiles.user.general.userPhoto;
+            const { data: iconData } = await instance.get(
+              `${util.getEndPointUrl()}/image-detail`,
+              { params: { id: iconId } }
+            );
+            result.profiles.user.general.userPhoto = `data:image/${iconData.srcType};base64,${iconData.src}`;
+          } catch (iconError) {
+            Constants.throwError(iconError);
+          }
         }
+
+        this.profileLists = result;
       } catch (error) {
         Constants.throwError(error);
       }

@@ -7,7 +7,6 @@ import packageJson from '../../package.json';
 import { useProfileListsStore } from 'stores/profileListsStore';
 import { Constants } from 'stores/Constants';
 import util from 'src/helpers/util';
-import SelectOrganizations from './general/SelectOrganizations.vue';
 import SettingsComponent from './settingsPage.vue';
 import { defineExpose } from 'vue';
 
@@ -15,8 +14,7 @@ const sessionStore = useSessionStore();
 const leftDrawerOpen = ref(false);
 const router = useRouter();
 const profileListsStore = useProfileListsStore();
-const userIcon = ref();
-const dense = true;
+const userPhoto = ref();
 
 const session = computed(() => {
   return sessionStore.Session;
@@ -40,16 +38,8 @@ const filteredHomeIcons = computed(() => {
       url: '/homePage',
       color: '',
     },
-    // {
-    //   id: 34,
-    //   icon: 'do_disturb',
-    //   name: 'Reset',
-    //   url: '/settings',
-    //   color: '',
-    // },
   ];
   const newHomeIcons = [newIcons[0], ...homeIcons];
-  // newHomeIcons.push(newIcons[1]);
   return newHomeIcons;
 });
 
@@ -78,7 +68,7 @@ const loadProfileLists = async () => {
   if (util.isObjectNullOrEmpty(profileListsStore.ProfileLists)) {
     await profileListsStore.getProfileLists();
   }
-  userIcon.value = profileListsStore.ProfilesUserGeneral?.userIcon;
+  userPhoto.value = profileListsStore.ProfilesUserGeneral?.userPhoto;
 };
 
 onMounted(async () => {
@@ -101,12 +91,6 @@ const openSettings = (pos: any) => {
       style="margin-top: 80px; padding-bottom: 80px; height: calc(100% - 80px)"
     >
       <q-list>
-        <!-- <q-item class="bg-grey-3">
-          <q-item-section>
-            <SelectOrganizations />
-          </q-item-section>
-        </q-item> -->
-        <!-- <q-separator color="grey-4"></q-separator> -->
         <q-item
           v-for="item in filteredHomeIcons"
           :key="item.name"
@@ -125,30 +109,14 @@ const openSettings = (pos: any) => {
             <q-item-label>{{ item.name }}</q-item-label>
           </q-item-section>
         </q-item>
-        <!-- <q-item class="q-my-lg">
-          <q-item-section>
-            <div class="flex justify-between">
-              <div>
-                App Version:
-                {{ packageJson.version }}
-              </div>
-              <div>
-                OC Version:
-                {{ Constants.getRestApiVersionFromSession() }}
-              </div>
-            </div>
-          </q-item-section>
-        </q-item> -->
       </q-list>
     </q-scroll-area>
     <div class="background-div">
       <q-item>
         <q-item-section side>
           <q-avatar size="xl" color="white">
-            <!-- currently userIcon we couldn't able to get it from backend some code need to implement so that we are stopping to check this directly showing default -->
-            <!-- <q-img v-if="userIcon" v-bind:src="userIcon" />
-            <q-icon v-else name="person" /> -->
-            <q-icon name="person" />
+            <q-img v-if="userPhoto" v-bind:src="userPhoto" />
+            <q-icon v-else name="person" />
           </q-avatar>
         </q-item-section>
         <q-separator vertical color="white" inset></q-separator>
