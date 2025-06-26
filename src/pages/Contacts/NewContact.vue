@@ -14,6 +14,8 @@ const usecontactDetailsStore = useContactDetailsStore();
 const contactDetails = ref({
   //from: https://stackoverflow.com/a/49741799
   id: '',
+  thumbnail: '',
+  picture: '',
   first_name: '',
   last_name: '',
   title: '',

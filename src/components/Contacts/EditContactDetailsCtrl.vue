@@ -1,7 +1,8 @@
 <script setup>
-import { defineProps, ref, onBeforeMount, watch } from 'vue';
+import { defineProps, ref, onBeforeMount } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import util from '../../helpers/util';
+import UploadPhoto from '../general/UploadPhoto.vue';
 
 const props = defineProps(['fromParentData']);
 const contactDetails = ref(props?.fromParentData);
@@ -83,116 +84,143 @@ function filterStatesFn(val, update) {
 defineExpose({
   validateAll,
 });
+
+// Function to handle photo upload dialog
+const showPhotoCtrl = ref(false);
+const onPhotoSaved = (image) => {
+  contactDetails.value.picture = image;
+  showPhotoCtrl.value = false;
+};
 </script>
 
 <template>
-  <div>
-    <div class="q-pa-md">
-      <div class="q-gutter-y-md column">
-        <q-input
-          v-model="contactDetails.first_name"
-          label="First Name"
-          placeholder="enter first name"
-          dense
-        ></q-input>
-        <q-input
-          v-model="contactDetails.last_name"
-          label="Last Name"
-          placeholder="enter last name"
-          dense
-          :rules="[isLastNameValid]"
-          hide-bottom-space
-          ref="lastNameRef"
-        >
-        </q-input>
-        <q-input
-          v-model="contactDetails.title"
-          label="Title"
-          placeholder="enter title"
-          dense
-        ></q-input>
-        <q-input
-          v-model="contactDetails.email"
-          label="Email"
-          placeholder="enter email address"
-          dense
-          :rules="[isValidEmail]"
-          hide-bottom-space
-          ref="emailRef"
-        ></q-input>
-        <q-select
-          v-model="contactDetails.country_id"
-          :options="filterCountries"
-          label="Country"
-          dense
-          option-value="id"
-          option-label="name"
-          map-options
-          emit-value
-          use-input
-          fill-input
-          hide-selected
-          input-debounce="0"
-          @filter="filterCountriesFn"
-        >
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> not found</q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-        <q-input
-          v-model="contactDetails.work_phone"
-          label="Work Phone"
-          placeholder="work phone"
-          dense
-        ></q-input>
-        <q-input
-          v-model="contactDetails.home_phone"
-          label="Home Phone"
-          placeholder="home phone"
-          dense
-        ></q-input>
-        <q-input
-          v-model="contactDetails.street_address"
-          label="Address"
-          placeholder="street address"
-          dense
-        ></q-input>
-        <q-input
-          v-model="contactDetails.city"
-          label="City"
-          placeholder="City"
-          dense
-        ></q-input>
-        <q-select
-          v-model="contactDetails.state_id"
-          :options="filterStates"
-          label="State"
-          dense
-          option-value="id"
-          option-label="name"
-          map-options
-          emit-value
-          use-input
-          fill-input
-          hide-selected
-          input-debounce="0"
-          @filter="filterStatesFn"
-        >
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> not found</q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-        <q-input
-          v-model="contactDetails.postal_code"
-          label="Postal Code"
-          placeholder="postal code"
-          dense
-        ></q-input>
+  <div class="q-pa-md">
+    <div class="q-gutter-y-md column">
+      <!-- Photo Upload Button and UploadPhotot Dialog -->
+      <div class="row items-center q-gutter-sm">
+        <q-avatar size="100px" v-if="contactDetails.picture">
+          <img :src="contactDetails.picture" alt="Contact Photo" />
+        </q-avatar>
+        <q-btn
+          v-if="!showPhotoCtrl"
+          color="primary"
+          :label="contactDetails.picture ? 'Edit Photo' : 'Upload Photo'"
+          @click="showPhotoCtrl = true"
+          icon="photo_camera"
+          flat
+        />
+        <upload-photo
+          v-if="showPhotoCtrl"
+          :showCamera="true"
+          @update:modelValue="onPhotoSaved"
+        />
       </div>
+      <!-- <div class="q-mb-md" v-if="showPhotoCtrl">
+        <upload-photo :showCamera="false" @update:modelValue="onPhotoSaved" />
+      </div> -->
+      <q-input
+        v-model="contactDetails.first_name"
+        label="First Name"
+        placeholder="enter first name"
+        dense
+      ></q-input>
+      <q-input
+        v-model="contactDetails.last_name"
+        label="Last Name"
+        placeholder="enter last name"
+        dense
+        :rules="[isLastNameValid]"
+        hide-bottom-space
+        ref="lastNameRef"
+      >
+      </q-input>
+      <q-input
+        v-model="contactDetails.title"
+        label="Title"
+        placeholder="enter title"
+        dense
+      ></q-input>
+      <q-input
+        v-model="contactDetails.email"
+        label="Email"
+        placeholder="enter email address"
+        dense
+        :rules="[isValidEmail]"
+        hide-bottom-space
+        ref="emailRef"
+      ></q-input>
+      <q-select
+        v-model="contactDetails.country_id"
+        :options="filterCountries"
+        label="Country"
+        dense
+        option-value="id"
+        option-label="name"
+        map-options
+        emit-value
+        use-input
+        fill-input
+        hide-selected
+        input-debounce="0"
+        @filter="filterCountriesFn"
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> not found</q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+      <q-input
+        v-model="contactDetails.work_phone"
+        label="Work Phone"
+        placeholder="work phone"
+        dense
+      ></q-input>
+      <q-input
+        v-model="contactDetails.home_phone"
+        label="Home Phone"
+        placeholder="home phone"
+        dense
+      ></q-input>
+      <q-input
+        v-model="contactDetails.street_address"
+        label="Address"
+        placeholder="street address"
+        dense
+      ></q-input>
+      <q-input
+        v-model="contactDetails.city"
+        label="City"
+        placeholder="City"
+        dense
+      ></q-input>
+      <q-select
+        v-model="contactDetails.state_id"
+        :options="filterStates"
+        label="State"
+        dense
+        option-value="id"
+        option-label="name"
+        map-options
+        emit-value
+        use-input
+        fill-input
+        hide-selected
+        input-debounce="0"
+        @filter="filterStatesFn"
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> not found</q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+      <q-input
+        v-model="contactDetails.postal_code"
+        label="Postal Code"
+        placeholder="postal code"
+        dense
+      ></q-input>
     </div>
   </div>
 </template>
