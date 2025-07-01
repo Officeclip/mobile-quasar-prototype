@@ -109,15 +109,8 @@ const onPhotoSaved = (image) => {
           icon="photo_camera"
           flat
         />
-        <upload-photo
-          v-if="showPhotoCtrl"
-          :showCamera="true"
-          @update:modelValue="onPhotoSaved"
-        />
+        <upload-photo v-if="showPhotoCtrl" @update:modelValue="onPhotoSaved" />
       </div>
-      <!-- <div class="q-mb-md" v-if="showPhotoCtrl">
-        <upload-photo :showCamera="false" @update:modelValue="onPhotoSaved" />
-      </div> -->
       <q-input
         v-model="contactDetails.first_name"
         label="First Name"

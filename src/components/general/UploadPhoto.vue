@@ -1,34 +1,28 @@
 <script setup>
-import { ref, nextTick, watch, defineEmits, defineProps } from 'vue';
+import { ref, onBeforeUnmount, watch, nextTick } from 'vue';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 
-// const props = defineProps({
-//   modelValue: String, // v-model for file name
-//   showGallery: { type: Boolean, default: true }, // show/hide gallery button
-// });
-const props = defineProps(['showCamera']);
 const emit = defineEmits(['update:modelValue', 'error']);
-
+const isMobileApp = !!(
+  window.Capacitor &&
+  window.Capacitor.isNativePlatform &&
+  window.Capacitor.isNativePlatform()
+);
 const imageSrc = ref(null);
 const showCropModal = ref(false);
 const cameraImage = ref(null);
 const cropperInstance = ref(null);
 const imageToCrop = ref(null);
 
-watch(
-  () => props.modelValue,
-  (val) => {
-    if (val) {
-      // Optionally, load the image if you want to show the thumbnail
-      // You can implement loading from Filesystem if needed
-    }
-  }
-);
+const videoElement = ref(null);
+const videoStream = ref(null);
+const videoActive = ref(false);
+const loading = ref(false);
 
-const openCamera = async () => {
+const openMobileCamera = async () => {
   try {
     const photo = await Camera.getPhoto({
       quality: 90,
@@ -40,7 +34,35 @@ const openCamera = async () => {
     cameraImage.value = photo.dataUrl;
     showCropModal.value = true;
   } catch (error) {
-    emit('error', 'Camera error');
+    console.error('Camera error:', error);
+  }
+};
+
+const openWebCamera = async () => {
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    try {
+      loading.value = true;
+      videoStream.value = null;
+      videoActive.value = false;
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      videoStream.value = stream;
+      videoActive.value = true;
+      loading.value = false;
+    } catch (error) {
+      alert('Could not access camera. Please allow camera permission.');
+      videoActive.value = false;
+      loading.value = false;
+    }
+  } else {
+    alert('getUserMedia is not supported by your browser.');
+  }
+};
+
+const openCamera = async () => {
+  if (isMobileApp) {
+    await openMobileCamera();
+  } else {
+    await openWebCamera();
   }
 };
 
@@ -50,27 +72,74 @@ const selectFromGallery = async () => {
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
-      source: CameraSource.Photos,
+      source: CameraSource.Photos, // Use gallery
     });
     cameraImage.value = photo.dataUrl;
     showCropModal.value = true;
   } catch (error) {
-    emit('error', 'Gallery error');
+    emit('Gallery error:', error);
   }
+};
+// Assign stream to video element as soon as both are available
+watch([videoStream, videoElement], ([stream, video]) => {
+  if (stream && video) {
+    video.srcObject = stream;
+  }
+});
+
+const capturePhoto = () => {
+  if (!videoElement.value) return;
+  const video = videoElement.value;
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  // Always use drawImage for both web and mobile webview
+  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+  cameraImage.value = canvas.toDataURL('image/png');
+  stopCamera();
+  showCropModal.value = true;
 };
 
 const initCropper = () => {
+  // Defensive destroy previous instance
   if (cropperInstance.value) {
-    cropperInstance.value.destroy();
+    try {
+      cropperInstance.value.destroy();
+    } catch (e) {
+      // Ignore errors if already destroyed or undefined
+    }
     cropperInstance.value = null;
   }
-  if (imageToCrop.value) {
-    cropperInstance.value = new Cropper(imageToCrop.value, {
-      aspectRatio: 1,
-      viewMode: 1,
-      autoCropArea: 0.8,
-      background: false,
-      zoomable: true,
+  // Defensive: ensure imageToCrop is defined and loaded
+  if (imageToCrop.value && imageToCrop.value.complete) {
+    try {
+      cropperInstance.value = new Cropper(imageToCrop.value, {
+        aspectRatio: 1,
+        viewMode: 1,
+        autoCropArea: 0.8,
+        background: false,
+        zoomable: true,
+      });
+    } catch (e) {
+      // If Cropper fails, log error
+      emit('Cropper initialization failed:', e);
+    }
+  } else {
+    // If image is not loaded yet, wait for next tick and try again
+    nextTick(() => {
+      if (imageToCrop.value) {
+        try {
+          cropperInstance.value = new Cropper(imageToCrop.value, {
+            aspectRatio: 1,
+            viewMode: 1,
+            autoCropArea: 0.8,
+            background: false,
+            zoomable: true,
+          });
+        } catch (e) {
+          emit('Cropper initialization failed (delayed):', e);
+        }
+      }
     });
   }
 };
@@ -78,7 +147,7 @@ const initCropper = () => {
 const cropAndSave = async () => {
   await nextTick();
   if (!cropperInstance.value) {
-    emit('error', 'Cropper is not ready.');
+    emit('Cropper is not ready. Please wait for the image to load.');
     return;
   }
   const croppedCanvas = cropperInstance.value.getCroppedCanvas({
@@ -99,90 +168,109 @@ const cropAndSave = async () => {
     });
     emit('update:modelValue', dataUrl);
   } catch {
-    emit('error', 'Failed to save image.');
+    alert('Failed to save image to gallery.');
   }
 };
-
+const stopCamera = () => {
+  if (videoStream.value) {
+    videoStream.value.getTracks().forEach((track) => track.stop());
+    videoStream.value = null;
+  }
+  videoActive.value = false;
+};
 const cancelCrop = () => {
   showCropModal.value = false;
 };
+onBeforeUnmount(() => {
+  stopCamera();
+});
 </script>
 
 <template>
+  <!-- <q-page class="flex flex-center q-pa-md"> -->
   <div class="column items-center">
-    <div class="q-mb-md row justify-center">
+    <div class="column">
       <q-btn
-        v-if="showCamera"
-        flat
+        v-if="!videoActive"
         color="primary"
-        label="Open Camera"
+        label="Open-Camera"
         @click="openCamera"
-        class="q-mr-sm"
-        icon="photo_camera"
-        no-caps
+        class="q-mb-md"
+        rounded
       />
       <q-btn
-        flat
+        v-if="!videoActive"
         color="secondary"
         label="Select from Gallery"
         @click="selectFromGallery"
-        icon="photo_library"
-        no-caps
+        class="q-mb-md"
+        rounded
       />
     </div>
-    <!-- commented these lines not required to show whole cropped image will see later if required -->
+    <q-btn
+      v-if="videoActive && !loading"
+      label="Capture Photo"
+      color="secondary"
+      @click="capturePhoto"
+      class="q-mb-md"
+    />
+    <div v-if="videoActive && !loading && videoStream" class="camera-container">
+      <video
+        ref="videoElement"
+        autoplay
+        playsinline
+        class="camera-feed"
+      ></video>
+    </div>
 
     <!-- <q-card v-if="imageSrc" class="q-mt-md rounded-lg shadow-lg">
-      <q-card-section>
-        <div class="text-h6 text-center">Last Cropped Image</div>
-      </q-card-section>
-      <q-card-section class="flex flex-center">
-        <q-avatar color="grey-3" size="200px">
-          <q-img :src="imageSrc" alt="Cropped Image" />
-        </q-avatar>
-      </q-card-section>
-    </q-card>
-    <div v-else class="text-grey-6 text-center q-mt-md">
-      No image captured yet.
-    </div> -->
-
-    <q-dialog v-model="showCropModal" persistent full-width>
-      <q-card class="column full-height">
-        <q-card-section class="q-pb-none">
-          <div class="text-h6">Crop & Save Image</div>
+        <q-card-section>
+          <div class="text-h6 text-center">Last Cropped Image</div>
         </q-card-section>
-        <q-card-section class="col flex flex-center">
-          <div v-if="cameraImage">
-            <img
-              ref="imageToCrop"
-              :src="cameraImage"
-              alt="Image to Crop"
-              @load="initCropper"
-            />
-          </div>
-          <div v-else class="text-grey-6">Loading image...</div>
+        <q-card-section class="flex flex-center">
+          <q-avatar color="grey-3" size="200px">
+            <q-img :src="imageSrc" alt="Cropped Image" />
+          </q-avatar>
         </q-card-section>
-        <q-card-actions align="right" class="q-pa-md">
-          <q-btn
-            flat
-            label="Cancel"
-            color="negative"
-            @click="cancelCrop"
-            rounded
-          />
-          <q-btn
-            v-if="cameraImage"
-            label="Crop & Save"
-            color="primary"
-            @click="cropAndSave"
-            rounded
-          />
-        </q-card-actions>
       </q-card>
-    </q-dialog>
+      <div v-else class="text-grey-6 text-center q-mt-md">
+        No image captured yet.
+      </div> -->
   </div>
+  <q-dialog v-model="showCropModal" persistent full-width>
+    <q-card class="column full-height">
+      <q-card-section class="q-pb-none">
+        <div class="text-h6">Crop & Save Image</div>
+      </q-card-section>
+      <q-card-section class="col flex flex-center cropper-container">
+        <div v-if="cameraImage" class="cropper-image-wrapper">
+          <img
+            ref="imageToCrop"
+            :src="cameraImage"
+            alt="Image to Crop"
+            @load="initCropper"
+          />
+        </div>
+        <div v-else class="text-grey-6">Loading image...</div>
+      </q-card-section>
+      <q-card-actions align="right" class="q-pa-md">
+        <q-btn
+          flat
+          label="Cancel"
+          color="negative"
+          @click="cancelCrop"
+          rounded
+        />
+        <q-btn
+          v-if="cameraImage"
+          label="Crop & Save"
+          color="primary"
+          @click="cropAndSave"
+          rounded
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+  <!-- </q-page> -->
 </template>
-
-<style scoped>
-/* ... (reuse your styles here) ... */
-</style>
+<style scoped></style>
