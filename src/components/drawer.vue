@@ -140,7 +140,7 @@ const openSettings = (pos: any) => {
         </q-item-section>
       </q-item>
     </div>
-    <q-dialog v-model="settingsDialog" persistent :position="position">
+    <q-dialog v-model="settingsDialog" :position="position">
       <SettingsComponent />
     </q-dialog>
     <q-footer>

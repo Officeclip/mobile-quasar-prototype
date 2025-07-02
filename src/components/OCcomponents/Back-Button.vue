@@ -9,5 +9,5 @@ const goBack = () => {
 </script>
 
 <template>
-  <q-btn dense flat icon="arrow_back" round @click="goBack" />
+  <q-btn dense flat icon="west" round @click="goBack" />
 </template>

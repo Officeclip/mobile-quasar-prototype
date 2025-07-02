@@ -214,12 +214,17 @@ onBeforeUnmount(() => {
       @click="capturePhoto"
       class="q-mb-md"
     />
-    <div v-if="videoActive && !loading && videoStream" class="camera-container">
+    <div
+      v-if="videoActive && !loading && videoStream"
+      class="camera-container"
+      style="width: 100%; margin: 0 auto"
+    >
       <video
         ref="videoElement"
         autoplay
         playsinline
         class="camera-feed"
+        style="width: 100%; height: auto; display: block; border-radius: 12px"
       ></video>
     </div>
 
