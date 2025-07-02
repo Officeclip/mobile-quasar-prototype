@@ -203,7 +203,6 @@ onBeforeUnmount(() => {
         color="secondary"
         label="Select from Gallery"
         @click="selectFromGallery"
-        class="q-mb-md"
         rounded
       />
     </div>

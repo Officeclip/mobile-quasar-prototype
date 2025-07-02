@@ -111,35 +111,35 @@ const openSettings = (pos: any) => {
         </q-item>
       </q-list>
     </q-scroll-area>
-    <div class="background-div">
-      <q-item>
-        <q-item-section side>
-          <q-avatar size="xl" color="white">
-            <q-img v-if="userPhoto" v-bind:src="userPhoto" />
-            <q-icon v-else name="person" />
-          </q-avatar>
-        </q-item-section>
-        <q-separator vertical color="white" inset></q-separator>
-        <q-item-section class="q-ml-md text-white">
-          <q-item-label class="text-subtitle1">
-            {{ session?.userName }}
-          </q-item-label>
-          <q-item-label class="text-caption ellipsis">
-            {{ session?.userEmail }}
-          </q-item-label>
-        </q-item-section>
-        <q-item-section side top>
-          <q-btn
-            icon="settings"
-            flat
-            round
-            dense
-            color="white"
-            @click="openSettings('left')"
-          ></q-btn>
-        </q-item-section>
-      </q-item>
-    </div>
+    <!-- <div class="background-div flex justify-center items-center"> -->
+    <q-item class="background-div">
+      <q-item-section side>
+        <q-avatar size="xl" color="white">
+          <q-img v-if="userPhoto" v-bind:src="userPhoto" />
+          <q-icon v-else name="person" />
+        </q-avatar>
+      </q-item-section>
+      <q-separator vertical color="white" inset></q-separator>
+      <q-item-section class="q-ml-md text-white">
+        <q-item-label class="text-subtitle1">
+          {{ session?.userName }}
+        </q-item-label>
+        <q-item-label class="text-caption ellipsis" style="max-width: 180px">
+          {{ session?.userEmail }}
+        </q-item-label>
+      </q-item-section>
+      <q-item-section side top>
+        <q-btn
+          icon="settings"
+          flat
+          round
+          dense
+          color="white"
+          @click="openSettings('left')"
+        ></q-btn>
+      </q-item-section>
+    </q-item>
+    <!-- </div> -->
     <q-dialog v-model="settingsDialog" :position="position">
       <SettingsComponent />
     </q-dialog>

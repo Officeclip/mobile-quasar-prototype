@@ -97,7 +97,7 @@ const onPhotoSaved = (image) => {
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
       <!-- Photo Upload Button and UploadPhotot Dialog -->
-      <div class="row items-center q-gutter-sm">
+      <div class="row items-center q-gutter-sm q-mb-md">
         <q-avatar size="100px" v-if="contactDetails.picture">
           <img :src="contactDetails.picture" alt="Contact Photo" />
         </q-avatar>
