@@ -99,7 +99,7 @@
           "type": "Boolean",
           "visible": true,
           "editable": true,
-          "value": "True"
+          "value": "true"
         },
         {
           "metaId": 71,
@@ -263,7 +263,7 @@
           "type": "UserList",
           "visible": true,
           "editable": false,
-          "value": "24883"
+          "value": 24883
         },
         {
           "metaId": 94,
@@ -295,7 +295,7 @@
           "type": "OwnerList",
           "visible": true,
           "editable": true,
-          "value": "24883"
+          "value": 24883
         }
       ]
     },
@@ -309,7 +309,7 @@
           "type": "List",
           "visible": true,
           "editable": true,
-          "value": "-1"
+          "value": 366
         },
         {
           "metaId": 70042,

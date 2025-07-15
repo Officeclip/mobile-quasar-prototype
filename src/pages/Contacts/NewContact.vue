@@ -2,14 +2,18 @@
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import { useRouter } from 'vue-router';
 import EditContactDetailsCtrl from '../../components/Contacts/EditContactDetailsCtrl.vue';
-import { ref } from 'vue';
+import { Ref, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
+import { useImageDetailStore } from '../../stores/ImageDetail';
 
 const $q = useQuasar();
 const router = useRouter();
 const usecontactDetailsStore = useContactDetailsStore();
+
+const base64Image: Ref<string | null> = ref(null);
+const imageDetailStore = useImageDetailStore();
 
 const contactDetails = ref({
   //from: https://stackoverflow.com/a/49741799
@@ -29,8 +33,6 @@ const contactDetails = ref({
   country_id: 0,
   work_phone: '',
   home_phone: '',
-  thumbnail: '',
-  picture: '',
   security: {
     read: false,
     write: false,
@@ -39,8 +41,10 @@ const contactDetails = ref({
   },
 });
 
-// const childComponent = ref(null);
 const childComponent = ref<typeof EditContactDetailsCtrl>();
+const onPhotoSaved = (image: string) => {
+  base64Image.value = image;
+};
 async function onSubmit() {
   $q.loading.show();
   try {
@@ -48,6 +52,16 @@ async function onSubmit() {
 
     const newContactDetails = ref(contactDetails);
     await usecontactDetailsStore.addContactDetails(newContactDetails.value);
+    if (base64Image.value) {
+      const contactId = usecontactDetailsStore.ContactId;
+      if (contactId) {
+        await imageDetailStore.constructImageObjectAndSave(
+          contactId,
+          'Contacts',
+          base64Image.value
+        );
+      }
+    }
     router.push('/contactSummary');
   } catch (error) {
     $q.dialog({
@@ -75,6 +89,7 @@ async function onSubmit() {
           <EditContactDetailsCtrl
             v-if="contactDetails"
             :fromParentData="contactDetails"
+            @photo-updated="onPhotoSaved"
             ref="childComponent"
           />
         </div>

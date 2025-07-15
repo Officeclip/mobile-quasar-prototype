@@ -5,7 +5,7 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 
-const emit = defineEmits(['update:modelValue', 'error']);
+const emit = defineEmits(['photo-updated', 'error']);
 const isMobileApp = !!(
   window.Capacitor &&
   window.Capacitor.isNativePlatform &&
@@ -151,22 +151,27 @@ const cropAndSave = async () => {
     return;
   }
   const croppedCanvas = cropperInstance.value.getCroppedCanvas({
-    width: 500,
-    height: 500,
+    width: 120,
+    height: 120,
   });
   const dataUrl = croppedCanvas.toDataURL('image/png');
   imageSrc.value = dataUrl;
   showCropModal.value = false;
   try {
-    const base64 = dataUrl.split(',')[1];
-    const fileName = `cropped_${Date.now()}.png`;
+    // Compress the image losslessly (or with minimal quality loss)
+    // Use JPEG with quality 0.8 for much smaller size, or PNG for lossless but larger
+    // Here, we use JPEG for better size reduction
+    const compressedDataUrl = croppedCanvas.toDataURL('image/jpeg', 0.8); // 0.8 = 80% quality
+    //const dataUrl = croppedCanvas.toDataURL('image/png');
+    const base64 = compressedDataUrl.split(',')[1];
+    const fileName = `cropped_${Date.now()}.jpg`;
     await Filesystem.writeFile({
       path: `Pictures/QuasarCrops/${fileName}`,
       data: base64,
       directory: Directory.External,
       recursive: true,
     });
-    emit('update:modelValue', dataUrl);
+    emit('photo-updated', compressedDataUrl);
   } catch {
     alert('Failed to save image to gallery.');
   }
@@ -226,20 +231,6 @@ onBeforeUnmount(() => {
         style="width: 100%; height: auto; display: block; border-radius: 12px"
       ></video>
     </div>
-
-    <!-- <q-card v-if="imageSrc" class="q-mt-md rounded-lg shadow-lg">
-        <q-card-section>
-          <div class="text-h6 text-center">Last Cropped Image</div>
-        </q-card-section>
-        <q-card-section class="flex flex-center">
-          <q-avatar color="grey-3" size="200px">
-            <q-img :src="imageSrc" alt="Cropped Image" />
-          </q-avatar>
-        </q-card-section>
-      </q-card>
-      <div v-else class="text-grey-6 text-center q-mt-md">
-        No image captured yet.
-      </div> -->
   </div>
   <q-dialog v-model="showCropModal" persistent full-width>
     <q-card class="column full-height">

@@ -9,6 +9,7 @@ import { Constants } from 'stores/Constants';
 import util from 'src/helpers/util';
 import SettingsComponent from './settingsPage.vue';
 import { defineExpose } from 'vue';
+import uploadphoto from 'src/components/general/UploadPhoto.vue';
 
 const sessionStore = useSessionStore();
 const leftDrawerOpen = ref(false);
@@ -77,10 +78,25 @@ onMounted(async () => {
 
 const settingsDialog = ref(false);
 const position = ref<'top' | 'left' | 'right' | 'standard' | 'bottom'>('top');
+const showViewPhoto = ref(false);
+const showEditPhotoDialog = ref(false);
 const openSettings = (pos: any) => {
   position.value = pos;
   settingsDialog.value = true;
 };
+
+// Handler for photo-updated event from uploadphoto component
+function onPhotoUpdated(newPhoto: string) {
+  showEditPhotoDialog.value = false;
+  userPhoto.value = newPhoto;
+}
+
+// Method to handle edit photo click
+function handleEditPhotoClick() {
+  setTimeout(() => {
+    showEditPhotoDialog.value = true;
+  }, 200);
+}
 </script>
 
 <!-- see: https://forum.quasar-framework.org/topic/2911/width-attribute-on-q-layout-drawer-giving-error-in-browser-console/3 -->
@@ -114,10 +130,46 @@ const openSettings = (pos: any) => {
     <!-- <div class="background-div flex justify-center items-center"> -->
     <q-item class="background-div">
       <q-item-section side>
-        <q-avatar size="xl" color="white">
-          <q-img v-if="userPhoto" v-bind:src="userPhoto" />
-          <q-icon v-else name="person" />
+        <q-avatar
+          size="xl"
+          color="white"
+          class="cursor-pointer"
+          @click="showViewPhoto = true"
+        >
+          <template v-if="userPhoto">
+            <q-img :src="userPhoto" />
+          </template>
+          <template v-else>
+            <q-icon name="person" />
+          </template>
         </q-avatar>
+        <q-dialog v-model="showViewPhoto">
+          <q-card style="text-align: center">
+            <q-card-section>
+              <q-avatar
+                size="140px"
+                color="white"
+                @click="handleEditPhotoClick"
+              >
+                <q-img v-if="userPhoto" v-bind:src="userPhoto" />
+                <q-icon v-else name="person" size="120px" />
+              </q-avatar>
+            </q-card-section>
+            <q-card-actions align="center">
+              <q-btn
+                dense
+                flat
+                color="primary"
+                label="Edit Photo"
+                @click="handleEditPhotoClick"
+              />
+              <q-btn dense flat color="grey" label="Close" v-close-popup />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+        <q-dialog v-model="showEditPhotoDialog">
+          <uploadphoto @photo-updated="onPhotoUpdated" />
+        </q-dialog>
       </q-item-section>
       <q-separator vertical color="white" inset></q-separator>
       <q-item-section class="q-ml-md text-white">

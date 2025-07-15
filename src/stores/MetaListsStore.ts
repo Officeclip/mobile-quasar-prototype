@@ -26,5 +26,16 @@ export const useMetaListsStore = defineStore('metaListsStore', {
         alert(error);
       }
     },
+    async getMetaListsDemo() {
+      try {
+        const response = await fetch('http://localhost:3000/meta-lists');
+        const data = await response.json();
+        if (data) {
+          this.metaLists = data;
+        }
+      } catch (error: any) {
+        alert(error);
+      }
+    },
   },
 });

@@ -7,14 +7,17 @@ import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
 import { ContactDetails } from 'src/models/Contact/contactDetails';
+import { useImageDetailStore } from '../../stores/ImageDetail';
 
 const $q = useQuasar();
 
 const contactDetailsStore = useContactDetailsStore();
+const imageDetailStore = useImageDetailStore();
 const router = useRouter();
 const route = useRoute();
 
 const contactDetails: Ref<ContactDetails | null> = ref(null);
+const base64Image: Ref<string | null> = ref(null);
 
 const loadContactDetails = async () => {
   $q.loading.show();
@@ -40,6 +43,9 @@ onMounted(async () => {
 });
 
 const childComponent = ref(null);
+const onPhotoSaved = (image: string) => {
+  base64Image.value = image;
+};
 
 async function onSubmit() {
   $q.loading.show();
@@ -48,6 +54,13 @@ async function onSubmit() {
     const editContactDetails = ref(contactDetails);
     if (editContactDetails.value) {
       await contactDetailsStore.editContactDetails(editContactDetails.value);
+    }
+    if (base64Image.value) {
+      imageDetailStore.constructImageObjectAndSave(
+        contactDetails.value?.id ?? '',
+        'Contacts',
+        base64Image.value
+      );
     }
     router.go(-1);
   } catch (error) {
@@ -76,6 +89,7 @@ async function onSubmit() {
           <EditContactDetailsCtrl
             v-if="contactDetails"
             :fromParentData="contactDetails"
+            @photo-updated="onPhotoSaved"
             ref="childComponent"
           />
         </div>

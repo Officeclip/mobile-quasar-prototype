@@ -3,8 +3,10 @@ import { defineProps, ref, onBeforeMount } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import util from '../../helpers/util';
 import UploadPhoto from '../general/UploadPhoto.vue';
+// import { useImageDetailStore } from '../../stores/ImageDetail';
 
 const props = defineProps(['fromParentData']);
+const emit = defineEmits(['photo-updated']);
 const contactDetails = ref(props?.fromParentData);
 
 const getStates = ref(null);
@@ -17,6 +19,7 @@ const filterCountries = ref(null);
 const filterStates = ref(null);
 
 const usecontactDetailsStore = useContactDetailsStore();
+// const imageDetailStore = useImageDetailStore();
 
 onBeforeMount(async () => {
   await usecontactDetailsStore.getContactLists();
@@ -89,6 +92,7 @@ defineExpose({
 const showPhotoCtrl = ref(false);
 const onPhotoSaved = (image) => {
   contactDetails.value.picture = image;
+  emit('photo-updated', image);
   showPhotoCtrl.value = false;
 };
 </script>
@@ -98,7 +102,7 @@ const onPhotoSaved = (image) => {
     <div class="q-gutter-y-md column">
       <!-- Photo Upload Button and UploadPhotot Dialog -->
       <div class="row items-center q-gutter-sm q-mb-md">
-        <q-avatar size="100px" v-if="contactDetails.picture">
+        <q-avatar size="90px" v-if="contactDetails.picture">
           <img :src="contactDetails.picture" alt="Contact Photo" />
         </q-avatar>
         <q-btn
@@ -109,7 +113,7 @@ const onPhotoSaved = (image) => {
           icon="photo_camera"
           flat
         />
-        <upload-photo v-if="showPhotoCtrl" @update:modelValue="onPhotoSaved" />
+        <upload-photo v-if="showPhotoCtrl" @photo-updated="onPhotoSaved" />
       </div>
       <q-input
         v-model="contactDetails.first_name"

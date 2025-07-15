@@ -4,6 +4,7 @@ import { Constants } from '../Constants';
 import { linkHeader } from 'src/models/general/linkHeader';
 import util from 'src/helpers/util';
 import { searchFilter } from 'src/models/Contact/searchFilter';
+import { useImageDetailStore } from '../ImageDetail';
 
 export const useContactSummaryStore = defineStore('contactSummaryStore', {
   state: () => ({
@@ -72,12 +73,22 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
           const data = response.data.data;
           const newData = data.map(async (item: any) => {
             if (item.thumbnail) {
-              const response = await instance.get(
-                `${util.getEndPointUrl()}/image-detail?id=${item.thumbnail}`
-              );
-              const base64Obj = response.data;
-              item.thumbnail = `data:image/${base64Obj.srcType};base64,${base64Obj.src}`;
-            } else {
+              const imageDetailStore = useImageDetailStore();
+              await imageDetailStore.getImageDetail(item.thumbnail);
+              // Wait for the store to update and ensure ImageDetail is reactive
+              const base64Obj = imageDetailStore.ImageDetail;
+              if (base64Obj) {
+                item.thumbnail = `data:image/${base64Obj.srcType};base64,${base64Obj.src}`;
+              }
+            }
+
+            //   const response = await instance.get(
+            //     `${util.getEndPointUrl()}/image-detail?id=${item.thumbnail}`
+            //   );
+            //   const base64Obj = response.data;
+            //   item.thumbnail = `data:image/${base64Obj.srcType};base64,${base64Obj.src}`;
+            // }
+            else {
               return item;
             }
             return item;

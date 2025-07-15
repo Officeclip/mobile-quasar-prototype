@@ -4,6 +4,7 @@ import { State, Country, Children } from '../../models/Contact/contactsList';
 import { Constants } from '../Constants';
 import { useContactListsStore } from './ContactListsStore';
 import util from 'src/helpers/util';
+import { useImageDetailStore } from '../ImageDetail';
 
 export const useContactDetailsStore = defineStore('contactDetailsStore', {
   state: () => ({
@@ -12,6 +13,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
     countries: [] as Country[],
     children: [] as Children[],
     contactDetails: {} as ContactDetails,
+    contact_Id: '' as string,
   }),
 
   getters: {
@@ -20,6 +22,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
     Countries: (state) => state.countries,
     ContactDetails: (state) => state.contactDetails,
     Children: (state) => state.children,
+    ContactId: (state) => state.contact_Id,
   },
 
   actions: {
@@ -51,19 +54,25 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
     async getContactDetails(id: string) {
       try {
         const instance = Constants.getAxiosInstance();
-        const { data: contact } = await instance.get(
+        const { data: contactDetails } = await instance.get(
           `${util.getEndPointUrl()}/contact-detail/${id}`
         );
 
-        if (contact.picture) {
-          const { data: image } = await instance.get(
-            `${util.getEndPointUrl()}/image-detail?id=${contact.picture}`
-          );
-          contact.picture = `data:image/${image.srcType};base64,${image.src}`;
-        }
+        if (contactDetails.picture) {
+          const imageDetailStore = useImageDetailStore();
+          await imageDetailStore.getImageDetail(contactDetails.picture);
+          const base64Obj = imageDetailStore.ImageDetail;
+          if (base64Obj) {
+            contactDetails.picture = `data:image/${base64Obj.srcType};base64,${base64Obj.src}`;
+          }
 
-        this.contactDetails = contact;
-        return contact;
+          // const { data: image } = await instance.get(
+          //   `${util.getEndPointUrl()}/image-detail?id=${contactDetails.picture}`
+          // );
+          // contactDetails.picture = `data:image/${image.srcType};base64,${image.src}`;
+        }
+        this.contactDetails = contactDetails;
+        return contactDetails;
       } catch (error) {
         Constants.throwError(error);
       }
@@ -91,7 +100,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(callStr, contactDetails);
         if (response.status === 200) {
-          this.contactDetails = response.data;
+          this.contactDetails = await response.data;
         }
       } catch (error) {
         Constants.throwError(error);
@@ -107,6 +116,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
         );
         if (response.status === 201) {
           this.contactDetails = response.data;
+          this.contact_Id = response.data;
         }
       } catch (error) {
         Constants.throwError(error);

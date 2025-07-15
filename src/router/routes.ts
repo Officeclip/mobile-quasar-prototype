@@ -237,6 +237,13 @@ const routes: RouteRecordRaw[] = [
     name: 'editTimeOff',
     component: () => import('../pages/TimeOff/EditTimeOff.vue'),
   },
+
+  //for testung edit metadetails purposes
+  {
+    path: '/EditMetaDetailDemo/:contactId',
+    name: 'EditMetaDetail',
+    component: () => import('../pages/Meta/EditMetaDetailDemo.vue'),
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

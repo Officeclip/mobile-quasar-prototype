@@ -18,7 +18,7 @@ const formattedDateTime = computed(() => {
 
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
-
+  <pre>{{ props.params }}</pre>
   <div v-if="props.params?.editable" class="q-mb-md">
     <q-input
       v-if="getType === 'string'"

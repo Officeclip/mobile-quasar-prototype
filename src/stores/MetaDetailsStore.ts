@@ -3,6 +3,7 @@ import { MetaDetails } from '../models/Meta/metaDetails';
 import { Constants } from './Constants';
 import { useMetaListsStore } from './MetaListsStore';
 import util from 'src/helpers/util';
+import { get } from 'http';
 
 export const useMetaDetailsStore = defineStore('metaDetailsStore', {
   state: () => ({
@@ -80,6 +81,17 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
           this.fixValuesForSelect(isReadOnly);
         }
       } catch (error: any) {
+        alert(error);
+      }
+    },
+    async getMetaDetailsDemo() {
+      try {
+        const response = await fetch('http://localhost:3000/meta-details');
+        const data = await response.json();
+        if (data) {
+          this.metaDetails = data;
+        }
+      } catch (error) {
         alert(error);
       }
     },

@@ -4,7 +4,7 @@
 // import { useContactsStore } from '../../stores/ContactsStore';
 import { onMounted, computed } from 'vue';
 import EditMetaDetailCtrl from '../../components/Meta/EditMetaDetailCtrl.vue';
-logger.log('Routed to EditMetaDetail: setup');
+// logger.log('Routed to EditMetaDetail: setup');
 // const contactsStore = useContactsStore();
 import { useRoute } from 'vue-router';
 
