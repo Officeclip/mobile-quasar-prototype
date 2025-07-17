@@ -34,6 +34,7 @@ export const useProfileListsStore = defineStore('profileListsStore', {
             Constants.throwError(iconError);
           }
         }
+        console.log('Profile lists fetched:', result);
 
         this.profileLists = result;
       } catch (error) {

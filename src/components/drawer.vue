@@ -10,12 +10,16 @@ import util from 'src/helpers/util';
 import SettingsComponent from './settingsPage.vue';
 import { defineExpose } from 'vue';
 import uploadphoto from 'src/components/general/UploadPhoto.vue';
+import { useImageDetailStore } from 'src/stores/ImageDetail';
 
 const sessionStore = useSessionStore();
 const leftDrawerOpen = ref(false);
 const router = useRouter();
 const profileListsStore = useProfileListsStore();
 const userPhoto = ref();
+
+//save the updated image detail
+const imageDetailStore = useImageDetailStore();
 
 const session = computed(() => {
   return sessionStore.Session;
@@ -89,6 +93,12 @@ const openSettings = (pos: any) => {
 function onPhotoUpdated(newPhoto: string) {
   showEditPhotoDialog.value = false;
   userPhoto.value = newPhoto;
+  // Save the updated image detail
+  imageDetailStore.constructImageObjectAndSave(
+    session.value.userId,
+    'Users',
+    newPhoto
+  );
 }
 
 // Method to handle edit photo click
@@ -146,11 +156,7 @@ function handleEditPhotoClick() {
         <q-dialog v-model="showViewPhoto">
           <q-card style="text-align: center">
             <q-card-section>
-              <q-avatar
-                size="140px"
-                color="white"
-                @click="handleEditPhotoClick"
-              >
+              <q-avatar size="140px" color="white">
                 <q-img v-if="userPhoto" v-bind:src="userPhoto" />
                 <q-icon v-else name="person" size="120px" />
               </q-avatar>

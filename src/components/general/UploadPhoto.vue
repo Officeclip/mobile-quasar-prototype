@@ -161,7 +161,7 @@ const cropAndSave = async () => {
     // Compress the image losslessly (or with minimal quality loss)
     // Use JPEG with quality 0.8 for much smaller size, or PNG for lossless but larger
     // Here, we use JPEG for better size reduction
-    const compressedDataUrl = croppedCanvas.toDataURL('image/jpeg', 0.8); // 0.8 = 80% quality
+    const compressedDataUrl = croppedCanvas.toDataURL('image/jpeg', 0.9); // 0.8 = 80% quality
     //const dataUrl = croppedCanvas.toDataURL('image/png');
     const base64 = compressedDataUrl.split(',')[1];
     const fileName = `cropped_${Date.now()}.jpg`;
