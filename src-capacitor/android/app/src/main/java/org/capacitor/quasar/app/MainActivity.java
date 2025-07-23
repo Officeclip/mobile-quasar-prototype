@@ -1,4 +1,4 @@
-package org.capacitor.officeclip.mobile;
+package org.capacitor.quasar.app;
 
 import com.getcapacitor.BridgeActivity;
 

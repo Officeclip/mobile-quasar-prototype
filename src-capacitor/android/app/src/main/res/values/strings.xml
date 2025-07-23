@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">OfficeClip Mobile</string>
     <string name="title_activity_main">OfficeClip Mobile</string>
-    <string name="package_name">org.capacitor.officeclip.mobile</string>
-    <string name="custom_url_scheme">org.capacitor.officeclip.mobile</string>
+    <string name="package_name">org.capacitor.quasar.app</string>
+    <string name="custom_url_scheme">org.capacitor.quasar.app</string>
 </resources>
