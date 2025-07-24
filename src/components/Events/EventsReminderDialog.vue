@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { useReminderDataStore } from 'stores/reminder/reminderData';
+import { useReminderDataStore } from '../../stores/reminder/reminderData';
 
 const props = defineProps(['remindTo', 'reminderValue']);
 
@@ -14,10 +14,10 @@ reminderDataStore.getReminderObject();
 const reminderOptions = reminderDataStore.ReminderOptions;
 const reminderTimes = reminderDataStore.ReminderTimes;
 const selectedReminderOption = ref(
-  props?.remindTo ? props.remindTo : 'Remind Me'
+  props?.remindTo ? props.remindTo : 'Remind Me',
 );
 const selectedReminderTime = ref(
-  props?.reminderValue ? props.reminderValue : 60
+  props?.reminderValue ? props.reminderValue : 60,
 );
 const emit = defineEmits([
   'reminder-data-generated',
@@ -27,10 +27,10 @@ const emit = defineEmits([
 function generateReminder() {
   // Find the selected reminder option and time based on refs
   const selectedOption = reminderOptions.find(
-    (option: any) => option.value === selectedReminderOption.value
+    (option: any) => option.value === selectedReminderOption.value,
   );
   const selectedTime = reminderTimes.find(
-    (time: any) => time.value === selectedReminderTime.value
+    (time: any) => time.value === selectedReminderTime.value,
   );
 
   if (selectedOption && selectedTime) {

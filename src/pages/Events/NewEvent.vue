@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
-import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
+import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';

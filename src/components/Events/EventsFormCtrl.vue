@@ -1,15 +1,13 @@
-<!-- eslint-disable vue/no-mutating-props -->
-<!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
 import { computed, onMounted, ref, Ref, watch } from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
-import { useEventDetailsStore } from 'stores/event/eventDetailsStore';
-import { useEventListsStore } from 'stores/event/eventListsStore';
-import { useReminderDataStore } from 'stores/reminder/reminderData';
+import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
+import { useEventListsStore } from '../../stores/event/eventListsStore';
+import { useReminderDataStore } from '../../stores/reminder/reminderData';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { userSummary } from 'src/models/userSummary';
-import { useUserSummaryStore } from 'stores/userSummaryStore';
+import { useUserSummaryStore } from '../../stores/userSummaryStore';
 import Regarding from '../general/regardingComponent.vue';
 import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar, QInput } from 'quasar';
@@ -40,13 +38,13 @@ const appName = props.appNameFromParent;
 const startDateModelValue = ref();
 startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
   event.value.startDateTime,
-  event.value.isAllDayEvent
+  event.value.isAllDayEvent,
 );
 
 const endDateModelValue = ref();
 endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
   event.value.endDateTime,
-  event.value.isAllDayEvent
+  event.value.isAllDayEvent,
 );
 
 watch(
@@ -54,13 +52,13 @@ watch(
   ([newStartDateModelValue, newEndtDateModelValue]) => {
     event.value.startDateTime = dateTimeHelper.formatDateTimeFromUIForRestAPI(
       newStartDateModelValue,
-      event.value.isAllDayEvent
+      event.value.isAllDayEvent,
     );
     event.value.endDateTime = dateTimeHelper.formatDateTimeFromUIForRestAPI(
       newEndtDateModelValue,
-      event.value.isAllDayEvent
+      event.value.isAllDayEvent,
     );
-  }
+  },
 );
 
 const dateTimeMask = 'ddd, MMM DD, YYYY hh:mm A';
@@ -97,7 +95,7 @@ const ShowMyTimeAsOptions = computed(() => {
 const selectedTime = computed(() => {
   const reminderTimes = reminderDataStore.ReminderTimes;
   const obj = reminderTimes.find(
-    (time: any) => time.value === event.value.reminder.beforeMinutes
+    (time: any) => time.value === event.value.reminder.beforeMinutes,
   );
   return obj ? obj : 'null';
 });
@@ -105,7 +103,7 @@ const reminderTextInfo = event.value?.reminder.to
   ? ref(
       computed(() => {
         return `${event.value.reminder.to} ${selectedTime.value.label} before`;
-      })
+      }),
     )
   : ref('Reminder');
 
@@ -144,7 +142,7 @@ function filterFn(val: string, update: any) {
   update(() => {
     const needle = val.toLowerCase();
     filterOptions.value = userSummaryStore.userSummaries.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }
@@ -189,7 +187,7 @@ function changeEndDateWhenStartDateChanged(val: string | number | null) {
     const endDateTime = dateTimeHelper.addHoursToDate(date, 1);
     endDateModelValue.value = dateTimeHelper.formatDateTimeForUI(
       endDateTime,
-      false
+      false,
     );
   }
 }
@@ -198,11 +196,11 @@ const showTimeAsBackColor = getEventShowTimeAsColor();
 function toggleAllDay(evt: boolean) {
   startDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
     event.value.startDateTime,
-    evt
+    evt,
   );
   endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
     event.value.endDateTime,
-    evt
+    evt,
   );
 }
 
@@ -245,13 +243,13 @@ defineExpose({
 });
 
 const canBeRemoved = computed(
-  () => (item: { id: string }) => item.id !== session.userId
+  () => (item: { id: string }) => item.id !== session.userId,
 );
 
 function handleRemove(item: { id: string }) {
   if (canBeRemoved.value(item)) {
     const index = event.value?.meetingAttendees.findIndex(
-      (option: { id: string }) => option.id === item.id
+      (option: { id: string }) => option.id === item.id,
     );
     if (index !== -1) {
       event.value?.meetingAttendees.splice(index, 1);
@@ -560,7 +558,9 @@ const reminderValue = computed(() => {
                 class="q-my-xs"
                 v-bind="scope.itemProps"
                 v-bind:style="{
-                  backgroundColor: (showTimeAsBackColor as string[])[scope.opt.id]
+                  backgroundColor: (showTimeAsBackColor as string[])[
+                    scope.opt.id
+                  ],
                 }"
               >
                 {{ scope.opt.name }}
@@ -571,7 +571,9 @@ const reminderValue = computed(() => {
                 dense
                 class="q-selectedItem"
                 v-bind:style="{
-                  backgroundColor: (showTimeAsBackColor as string[])[scope.opt.id],
+                  backgroundColor: (showTimeAsBackColor as string[])[
+                    scope.opt.id
+                  ],
                 }"
               >
                 {{ scope.opt.name }}

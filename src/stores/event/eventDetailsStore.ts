@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { eventDetails } from 'src/models/event/eventDetails';
 import { MeetingAttendees } from 'src/models/meetingAttendees';
 import { eventSummary } from 'src/models/event/eventSummary';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../../stores/Constants';
 import util from 'src/helpers/util';
 
 export const useEventDetailsStore = defineStore('eventDetailsStore', {

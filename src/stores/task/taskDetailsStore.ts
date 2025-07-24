@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { taskDetails } from 'src/models/task/taskDetails';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../../stores/Constants';
 import { subTask } from 'src/models/task/subtask';
 import util from 'src/helpers/util';
 
@@ -24,7 +24,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
           `${util.getEndPointUrl()}/task-detail`,
-          taskDetail
+          taskDetail,
         );
 
         if (response.status === 200) {
@@ -39,7 +39,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.getEndPointUrl()}/task-detail/${id}`
+          `${util.getEndPointUrl()}/task-detail/${id}`,
         );
         if (response.status === 200) {
           this.taskDetail = response.data;
@@ -54,7 +54,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
           `${util.getEndPointUrl()}/task-detail/${taskDetail.id}`,
-          taskDetail
+          taskDetail,
         );
         if (response.status === 200) {
           this.taskDetail = response.data;
@@ -68,7 +68,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/task-detail/${id}`
+          `${util.getEndPointUrl()}/task-detail/${id}`,
         );
         this.taskDetail = response.data;
       } catch (error) {
@@ -95,7 +95,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
           `${util.getEndPointUrl()}/subtask`,
-          subtask
+          subtask,
         );
 
         if (response.status === 200) {
@@ -111,7 +111,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
           `${util.getEndPointUrl()}/subtask/${subtask.id}`,
-          subtask
+          subtask,
         );
         if (response.status === 200) {
           this.subTask = response.data;
@@ -125,7 +125,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       const subtask: subTask | undefined = this.taskDetail?.subTasks.find(
         (subtask: subTask) => {
           return subtask.id === subtaskId;
-        }
+        },
       );
       if (subtask) subtask.isCompleted = !subtask.isCompleted;
       await this.editSubtask(<subTask>subtask);
@@ -135,7 +135,7 @@ export const useTaskDetailsStore = defineStore('taskDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.getEndPointUrl()}/subtask/${id}`
+          `${util.getEndPointUrl()}/subtask/${id}`,
         );
         if (response.status === 200) {
           this.subTask = response.data;

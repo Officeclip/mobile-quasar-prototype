@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, onMounted } from 'vue';
 import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
-import { useReminderDataStore } from 'stores/reminder/reminderData';
+import { useReminderDataStore } from '../../stores/reminder/reminderData';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
@@ -67,7 +67,7 @@ const isAllowDelete = computed(() => {
 const selectedTime = computed(() => {
   const reminderTimes = reminderDataStore.ReminderTimes;
   const obj = reminderTimes.find(
-    (time: any) => time.value === event.value?.reminder?.beforeMinutes
+    (time: any) => time.value === event.value?.reminder?.beforeMinutes,
   );
   return obj ? obj : 'null';
 });
@@ -76,7 +76,7 @@ const startDate = computed(() => {
   if (event.value?.startDateTime) {
     const formattedDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
       event.value?.startDateTime,
-      event.value?.isAllDayEvent
+      event.value?.isAllDayEvent,
     );
     return formattedDate;
   }
@@ -87,7 +87,7 @@ const endDate = computed(() => {
   if (event.value?.endDateTime) {
     const formattedDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
       event.value?.endDateTime,
-      event.value?.isAllDayEvent
+      event.value?.isAllDayEvent,
     );
     return formattedDate;
   }
@@ -97,7 +97,7 @@ const endDate = computed(() => {
 const createdDate = computed(() => {
   if (event.value?.createdDate) {
     const data = dateTimeHelper.formatDateandTimeFromUtc(
-      event.value?.createdDate
+      event.value?.createdDate,
     );
     return data;
   }
@@ -107,7 +107,7 @@ const createdDate = computed(() => {
 const lastModifiedDate = computed(() => {
   if (event.value?.modifiedDate) {
     const data = dateTimeHelper.formatDateandTimeFromUtc(
-      event.value?.modifiedDate
+      event.value?.modifiedDate,
     );
     return data;
   }
@@ -293,10 +293,10 @@ function toggleLeftDrawer() {
                 <span
                   class="q-pa-xs"
                   :style="{
-                  backgroundColor: getEventShowTimeAsColor(
-                    event?.showTimeAs?.name
-                  ) as string,
-                }"
+                    backgroundColor: getEventShowTimeAsColor(
+                      event?.showTimeAs?.name,
+                    ) as string,
+                  }"
                   >{{ event?.showTimeAs?.name }}</span
                 >
               </q-item-label>

@@ -7,7 +7,7 @@ import {
   getTaskStatusColor,
   getTaskStatusIcon,
 } from 'src/helpers/colorIconHelper';
-import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
+import { useTaskSummaryStore } from '../../stores/task/taskSummaryStore';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 const props = defineProps<{

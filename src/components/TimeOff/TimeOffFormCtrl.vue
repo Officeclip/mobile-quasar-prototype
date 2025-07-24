@@ -42,7 +42,7 @@ const loadTimeOffLists = async () => {
         });
       }
     },
-    { immediate: true }
+    { immediate: true },
   );
 };
 const getTimeOffGroupProfile = async () => {
@@ -62,7 +62,7 @@ watch(
   () => props.timeOff,
   (newTimeOff) => {
     timeOffData.value = newTimeOff;
-  }
+  },
 );
 
 onMounted(async () => {
@@ -94,7 +94,7 @@ const calculateNumberOfDays = () => {
   if (timeOffData.value.requestedFor === 'full_day') {
     if (profileData.value.mode === 'specificDates') {
       const dates = timeOffData.value.datesRequested.map(
-        (date: any) => new Date(date)
+        (date: any) => new Date(date),
       );
       const uniqueDates = [
         ...new Set(dates.map((date: any) => date.toDateString())),
@@ -120,7 +120,7 @@ watch(
   ],
   () => {
     calculateNumberOfDays();
-  }
+  },
 );
 const totalHours = computed({
   get: () => {

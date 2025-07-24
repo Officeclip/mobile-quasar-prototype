@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, onBeforeMount, ref } from 'vue';
-import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
+import { useTaskSummaryStore } from '../../stores/task/taskSummaryStore';
 import TaskSummaryItem from 'components/tasks/TaskSummaryItem.vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { workFlow, users } from '../../models/workFlow';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../../stores/Constants';
 import util from 'src/helpers/util';
 
 export const useWorkFlowStore = defineStore('workFlowStore', {
@@ -19,7 +19,7 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=${stageId}`
+          `${util.getEndPointUrl()}/workflow-summary?entityId=${entityId}&entityType=${entityType}&stageId=${stageId}`,
         );
         this.workFlow = response.data[0];
         this.workFlowUsers = response.data[0].users;
@@ -33,7 +33,7 @@ export const useWorkFlowStore = defineStore('workFlowStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
           `${util.getEndPointUrl()}/workflow-summary`,
-          workFlow
+          workFlow,
         );
         if (response.status === 200) {
           this.workFlow = response.data;

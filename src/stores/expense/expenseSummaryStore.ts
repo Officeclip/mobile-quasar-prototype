@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { expenseSummary } from '../../models/expense/expenseSummary';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../../stores/Constants';
 import util from 'src/helpers/util';
 
 export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
@@ -19,7 +19,7 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/expense-summary`
+          `${util.getEndPointUrl()}/expense-summary`,
         );
         this.expenseSummary = response.data;
       } catch (error) {
@@ -43,7 +43,7 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/expense-summary?id=${id}`
+          `${util.getEndPointUrl()}/expense-summary?id=${id}`,
         );
         if (response.data && response.data.length > 0) {
           this.expenseSummaryById = response.data[0];

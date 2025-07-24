@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onBeforeMount, ref, Ref, computed, toRefs } from 'vue';
-import { useTaskListsStore } from 'stores/task/taskListsStore';
-import { useUserSummaryStore } from 'stores/userSummaryStore';
+import { useTaskListsStore } from '../../stores/task/taskListsStore';
+import { useUserSummaryStore } from '../../stores/userSummaryStore';
 import { userSummary } from 'src/models/userSummary';
 import { useQuasar, QInput } from 'quasar';
 import { useRouter } from 'vue-router';
@@ -42,7 +42,7 @@ async function filterFn(val: string, update: any) {
   update(() => {
     const needle = val.toLowerCase();
     contactOptions.value = userSummaryStore.userSummaries.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }

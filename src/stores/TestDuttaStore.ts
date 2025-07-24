@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../stores/Constants';
 
 export const useTestDuttaStore = defineStore('testDuttaStore', {
   state: () => ({
@@ -27,7 +27,7 @@ export const useTestDuttaStore = defineStore('testDuttaStore', {
           Constants.saveAuthorizationTokenInLocalStorage(tokenHeader, 12345);
         }
         console.log(
-          `TestDuttaStore: getDuttaTestById - length - ${response.headers}`
+          `TestDuttaStore: getDuttaTestById - length - ${response.headers}`,
         );
       } catch (error) {
         alert(error);

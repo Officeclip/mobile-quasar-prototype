@@ -3,8 +3,8 @@ import { onBeforeMount, ref, Ref } from 'vue';
 import { searchFilter } from 'src/models/issueTracker/searchFilter';
 import { useQuasar } from 'quasar';
 import { useRouter, useRoute } from 'vue-router';
-import { useIssueListsStore } from 'stores/issueTracker/issueListsStore';
-import { useIssueSummaryStore } from 'stores/issueTracker/issueSummaryStore';
+import { useIssueListsStore } from '../../stores/issueTracker/issueListsStore';
+import { useIssueSummaryStore } from '../../stores/issueTracker/issueSummaryStore';
 import { user } from '../../models/issueTracker/issueLists';
 
 const emit = defineEmits([
@@ -82,7 +82,7 @@ async function filterFn(val: string, update: any, abort: any) {
   update(() => {
     const needle = val.toLowerCase();
     userList.value = issueListsStore.users.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }

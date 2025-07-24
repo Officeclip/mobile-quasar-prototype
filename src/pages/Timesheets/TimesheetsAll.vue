@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed, watch, capitalize, onMounted } from 'vue';
-// import { useTimesheetsStore } from '../../stores/timesheet/DemoStore'; // <-- Use the correct store for demo
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
@@ -8,7 +7,7 @@ import { QInfiniteScroll, useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import { isAllowed } from 'src/helpers/security';
 import { useTECommentsStore } from 'src/stores/TECommentsStore';
-import drawer from '../../components/drawer.vue';
+import drawer from 'src/components/drawer.vue';
 import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 
@@ -77,7 +76,7 @@ watch(tab, async (newTab) => {
   }
 
   // Also load other necessary data
-  await loadTEGroupProfile();
+  // await loadTEGroupProfile();
   loadMore(0, () => {}); // Initial load
 });
 
@@ -87,6 +86,7 @@ onMounted(async () => {
   await timesheetsStore.resetTimesheets();
   await loadTEGroupProfile();
   // q-infinite-scroll will automatically call `loadMore` on mount.
+  loadMore(0, () => {}); // Initial load
 });
 
 const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });

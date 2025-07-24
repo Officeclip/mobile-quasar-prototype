@@ -4,7 +4,7 @@ import {
   airTravelExpense,
   expenseDetails,
 } from '../models/expense/expenseDetails';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../stores/Constants';
 import util from 'src/helpers/util';
 
 export const useExpensesStore = defineStore('expensesStore', {
@@ -29,7 +29,7 @@ export const useExpensesStore = defineStore('expensesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/expense-summary`
+          `${util.getEndPointUrl()}/expense-summary`,
         );
         this.expenses = response.data;
       } catch (error) {
@@ -67,7 +67,7 @@ export const useExpensesStore = defineStore('expensesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/expense-detail?id=${id}`
+          `${util.getEndPointUrl()}/expense-detail?id=${id}`,
         );
         this.expenseDetails = response.data;
       } catch (error) {
@@ -79,7 +79,7 @@ export const useExpensesStore = defineStore('expensesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/expense-detail?expenseType=${airTravelExpense}`
+          `${util.getEndPointUrl()}/expense-detail?expenseType=${airTravelExpense}`,
         );
         this.airTravelExpense = response.data;
       } catch (error) {
@@ -92,7 +92,7 @@ export const useExpensesStore = defineStore('expensesStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
           `${util.getEndPointUrl()}/expense-detail`,
-          expenseDetail
+          expenseDetail,
         );
         if (response.status === 200) {
           this.expenseDetail = response.data;
@@ -107,7 +107,7 @@ export const useExpensesStore = defineStore('expensesStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
           `${util.getEndPointUrl()}/expense-detail/${expenseDetail.id}`,
-          expenseDetail
+          expenseDetail,
         );
         if (response.status === 200) {
           this.expenseDetail = response.data;
@@ -120,7 +120,7 @@ export const useExpensesStore = defineStore('expensesStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.getEndPointUrl()}/expense-detail/${id}`
+          `${util.getEndPointUrl()}/expense-detail/${id}`,
         );
         if (response.status === 200) {
           this.expense = response.data;

@@ -9,7 +9,7 @@ import {
   expenseDetails,
 } from '../../models/expense/expenseDetails';
 import { expenseSummary } from 'src/models/expense/expenseSummary';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../../stores/Constants';
 import util from 'src/helpers/util';
 
 export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
@@ -44,7 +44,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/expense-detail?expenseSid=${expenseSid}&stageId=${stageId}`
+          `${util.getEndPointUrl()}/expense-detail?expenseSid=${expenseSid}&stageId=${stageId}`,
         );
         this.expenseDetailsList = response.data;
       } catch (error) {
@@ -56,7 +56,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/expense-detail/${id}`
+          `${util.getEndPointUrl()}/expense-detail/${id}`,
         );
         if (response.data) {
           // see: https://stackoverflow.com/a/69204006/89256
@@ -108,7 +108,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
           `${util.getEndPointUrl()}/expense-detail`,
-          expenseDetails
+          expenseDetails,
         );
         if (response.status === 200) {
           this.expenseDetails = response.data;
@@ -123,7 +123,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
           `${util.getEndPointUrl()}/expense-detail/${expenseDetails.id}`,
-          expenseDetails
+          expenseDetails,
         );
         if (response.status === 200) {
           this.expenseDetails = response.data;
@@ -137,7 +137,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.getEndPointUrl()}/expense-detail/${id}`
+          `${util.getEndPointUrl()}/expense-detail/${id}`,
         );
         if (response.status === 200) {
           this.expenseDetails = response.data;
@@ -151,7 +151,7 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.getEndPointUrl()}/expense-summary/${id}`
+          `${util.getEndPointUrl()}/expense-summary/${id}`,
         );
         if (response.status === 200) {
           this.expenseDetails = response.data;

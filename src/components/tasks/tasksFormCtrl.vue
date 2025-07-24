@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { defineProps, ref, Ref, computed, onMounted, watch } from 'vue';
-import { useTaskListsStore } from 'stores/task/taskListsStore';
+import { useTaskListsStore } from '../../stores/task/taskListsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import { userSummary } from 'src/models/userSummary';
-import { useUserSummaryStore } from 'stores/userSummaryStore';
+import { useUserSummaryStore } from '../../stores/userSummaryStore';
 import { tag } from 'src/models/task/taskLists';
 import Regarding from 'components/general/regardingComponent.vue';
 import { useQuasar } from 'quasar';
@@ -42,14 +42,14 @@ const dateMask = 'YYYY-MM-DD';
 const startDateModel = computed(() => {
   return dateTimeHelper.formatDateTimeFromRestAPIForUI(
     task.value?.startDate,
-    true
+    true,
   );
 });
 
 const dueDateModel = computed(() => {
   return dateTimeHelper.formatDateTimeFromRestAPIForUI(
     task.value?.dueDate,
-    true
+    true,
   );
 });
 
@@ -108,7 +108,7 @@ async function filterUsersFn(val: string, update: any) {
   update(() => {
     const needle = val.toLowerCase();
     filterUsersList.value = usersList.value.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }
@@ -123,7 +123,7 @@ async function filterTagFn(val: string, update: any) {
   update(() => {
     const needle = val.toLowerCase();
     filterTagOptions.value = tagOptions.value.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }

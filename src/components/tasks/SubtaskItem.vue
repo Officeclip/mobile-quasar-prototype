@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
+import { useTaskDetailsStore } from '../../stores/task/taskDetailsStore';
 import { ref } from 'vue';
 import addEditSubtaskDialog from 'components/tasks/addEditSubtaskDialog.vue';
 import { useQuasar } from 'quasar';

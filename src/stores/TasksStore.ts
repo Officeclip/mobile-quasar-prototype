@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { Task } from '../models/task';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../stores/Constants';
 import util from 'src/helpers/util';
 
 export const useTasksStore = defineStore('tasksStore', {
@@ -33,7 +33,7 @@ export const useTasksStore = defineStore('tasksStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/tasks?id=${id}`
+          `${util.getEndPointUrl()}/tasks?id=${id}`,
         );
         this.task = response.data[0];
       } catch (error) {
@@ -47,7 +47,7 @@ export const useTasksStore = defineStore('tasksStore', {
       const instance = Constants.getAxiosInstance();
       const response = await instance.post(
         `${util.getEndPointUrl()}/tasks`,
-        task
+        task,
       );
 
       if (response.status === 200) {
@@ -62,7 +62,7 @@ export const useTasksStore = defineStore('tasksStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
           `${util.getEndPointUrl()}/tasks/${task.id}`,
-          task
+          task,
         );
         if (response.status === 200) {
           this.task = response.data;
@@ -76,7 +76,7 @@ export const useTasksStore = defineStore('tasksStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.getEndPointUrl()}/tasks/${id}`
+          `${util.getEndPointUrl()}/tasks/${id}`,
         );
         if (response.status === 200) {
           this.task = response.data;

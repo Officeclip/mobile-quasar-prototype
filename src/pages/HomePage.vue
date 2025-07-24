@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useSessionStore } from 'stores/SessionStore';
-import { useProfileListsStore } from 'stores/profileListsStore';
+import { useSessionStore } from '../stores/SessionStore';
+import { useProfileListsStore } from '../stores/profileListsStore';
 import { useQuasar } from 'quasar';
 import drawer from '../components/drawer.vue';
 import SelectOrganizations from 'src/components/general/SelectOrganizations.vue';
@@ -124,7 +124,9 @@ function goToApp(url: string) {
 </template>
 <style scoped>
 .clickable-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   cursor: pointer; /* Change cursor to pointer */
 }
 .clickable-card:hover {
@@ -145,7 +147,9 @@ function goToApp(url: string) {
 }
 
 .card-content {
-  transition: font-size 0.2s ease, color 0.2s ease;
+  transition:
+    font-size 0.2s ease,
+    color 0.2s ease;
 }
 /* .responsive-width {
   width: 80%;

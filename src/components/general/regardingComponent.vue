@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
-import { useRegardingStore } from 'stores/regarding/regardingStore';
+import { useRegardingStore } from '../../stores/regarding/regardingStore';
 import { regardingItem } from 'src/models/general/regardingItem';
 import { useQuasar } from 'quasar';
 
@@ -58,7 +58,7 @@ async function filterItems(val: string, update: (arg0: () => void) => void) {
   update(() => {
     const needle = val.toLowerCase();
     regardingItems.value = regardingStore.regardingItems.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }

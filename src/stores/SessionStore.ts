@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { Session } from 'src/models/session';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../stores/Constants';
 import { SessionStorage } from 'quasar';
 import { HomeIcon } from 'src/models/homeIcon';
 import util from 'src/helpers/util';

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import util from 'src/helpers/util';
 import { userSummary } from 'src/models/userSummary';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../stores/Constants';
 
 export const useUserSummaryStore = defineStore('userSummaryStore', {
   state: () => ({
@@ -17,7 +17,7 @@ export const useUserSummaryStore = defineStore('userSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/user-summary`
+          `${util.getEndPointUrl()}/user-summary`,
         );
         this.userSummaries = response.data;
       } catch (error) {

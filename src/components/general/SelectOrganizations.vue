@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useSessionStore } from 'stores/SessionStore';
-import { useProfileListsStore } from 'stores/profileListsStore';
+import { useSessionStore } from '../../stores/SessionStore';
+import { useProfileListsStore } from '../../stores/profileListsStore';
 import { useQuasar } from 'quasar';
 
 const router = useRouter();
@@ -36,7 +36,7 @@ const organizationItems = computed(() => {
 
 const organizationItem = computed(() => {
   return organizationItems.value?.find(
-    (orgItem) => orgItem.id === session.value.orgId
+    (orgItem) => orgItem.id === session.value.orgId,
   );
 });
 

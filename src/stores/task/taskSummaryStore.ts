@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { taskSummary } from 'src/models/task/taskSummary';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../../stores/Constants';
 import { searchFilter } from 'src/models/task/searchFilter';
 import { linkHeader } from 'src/models/general/linkHeader';
 import util from 'src/helpers/util';
@@ -118,7 +118,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/task-summary?id=${id}`
+          `${util.getEndPointUrl()}/task-summary?id=${id}`,
         );
         this.taskSummary = response.data[0];
       } catch (error) {
@@ -143,7 +143,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
           `${util.getEndPointUrl()}/task-summary`,
-          taskSummary
+          taskSummary,
         );
         if (response.status === 200) {
           await this.getTask(taskSummary.id);
@@ -158,7 +158,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
           `${util.getEndPointUrl()}/task-summary/${taskSummary.id}`,
-          taskSummary
+          taskSummary,
         );
         if (response.status === 200) {
           this.taskSummary = response.data;
@@ -172,7 +172,7 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.getEndPointUrl()}/task-summary/${id}`
+          `${util.getEndPointUrl()}/task-summary/${id}`,
         );
         if (response.status === 200) {
           this.taskSummary = response.data;

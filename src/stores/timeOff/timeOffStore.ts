@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { TimeOffSummary } from '../../models/TimeOff/timeOffSummary';
 import { TimeOffDetails } from 'src/models/TimeOff/timeOffDetails';
 import { Categories } from 'src/models/TimeOff/timeOffList';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../../stores/Constants';
 import util from 'src/helpers/util';
 
 export const useTimeOffStore = defineStore('timeOffStore', {
@@ -46,7 +46,7 @@ export const useTimeOffStore = defineStore('timeOffStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/timeoff-detail/${id}`
+          `${util.getEndPointUrl()}/timeoff-detail/${id}`,
         );
         // const response = await instance.get(callStr ?? '');
         this.timeOffDetail = response.data;
@@ -61,7 +61,7 @@ export const useTimeOffStore = defineStore('timeOffStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
           `${util.getEndPointUrl()}/timeoff-detail/${timeOffDetail.id}`,
-          timeOffDetail
+          timeOffDetail,
         );
         if (response.status === 200) {
           this.timeOffDetail = response.data;
@@ -76,7 +76,7 @@ export const useTimeOffStore = defineStore('timeOffStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.getEndPointUrl()}/timeoff-detail/${id}`
+          `${util.getEndPointUrl()}/timeoff-detail/${id}`,
         );
         if (response.status === 200) {
           this.timeOffSummary = response.data;
@@ -92,7 +92,7 @@ export const useTimeOffStore = defineStore('timeOffStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
           `${util.getEndPointUrl()}/timeoff-detail`,
-          timeOffDetail
+          timeOffDetail,
         );
         if (response.status === 200) {
           this.timeOffDetail = response.data;
@@ -106,7 +106,7 @@ export const useTimeOffStore = defineStore('timeOffStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/timeoff-lists?userId=${userId}`
+          `${util.getEndPointUrl()}/timeoff-lists?userId=${userId}`,
         );
         // const response = await instance.get(callStr ?? '');
         const newData = response.data[0];

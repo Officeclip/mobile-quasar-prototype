@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { Timesheet } from '../../models/Timesheet/timesheet';
 import { TimesheetDetails } from '../../models/Timesheet/timesheetDetails';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../Constants';
 import util from 'src/helpers/util';
 // import { linkHeader } from 'src/models/general/linkHeader';
 

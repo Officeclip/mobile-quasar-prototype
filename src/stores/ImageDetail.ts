@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import util from 'src/helpers/util';
 import { imageDetail } from 'src/models/imageDetail';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../stores/Constants';
 
 export const useImageDetailStore = defineStore('imageDetailStore', {
   state: () => ({
@@ -17,7 +17,7 @@ export const useImageDetailStore = defineStore('imageDetailStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/image-detail?id=${id}`
+          `${util.getEndPointUrl()}/image-detail?id=${id}`,
         );
         this.imageDetail = response.data;
       } catch (error) {
@@ -35,7 +35,7 @@ export const useImageDetailStore = defineStore('imageDetailStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
           `${util.getEndPointUrl()}/image-detail`,
-          image
+          image,
         );
         this.imageDetail = response.data;
       } catch (error) {
@@ -45,7 +45,7 @@ export const useImageDetailStore = defineStore('imageDetailStore', {
     async constructImageObjectAndSave(
       itemId: string,
       itemName: string,
-      base64: string
+      base64: string,
     ) {
       const base64Parts = base64.split(',');
       const srcTypeMatch = base64Parts[0].match(/:(.*?);/);

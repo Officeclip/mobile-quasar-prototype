@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { onBeforeMount, ref, Ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
-import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
+import { useTaskSummaryStore } from '../../stores/task/taskSummaryStore';
 import TaskAdvancedFilters from 'components/tasks/taskAdvancedFilters.vue';
 import { searchFilter } from 'src/models/task/searchFilter';
-import { useSessionStore } from 'stores/SessionStore';
+import { useSessionStore } from '../../stores/SessionStore';
 import TasksListCtrl from 'components/tasks/tasksListCtrl.vue';
 import drawer from '../../components/drawer.vue';
 import { useRouter } from 'vue-router';
@@ -42,7 +42,7 @@ const sessionStore = useSessionStore();
 
 const showAdvOptions = ref(false);
 const assignedToMe = ref(
-  filterOptions.value.assignedToId === sessionStore.Session.userId
+  filterOptions.value.assignedToId === sessionStore.Session.userId,
 );
 
 function clearFilterValues() {
@@ -80,7 +80,7 @@ watch(
   () => filterOptions.value.filterString,
   async (newValue) => {
     await filterFn(newValue);
-  }
+  },
 );
 
 watch(assignedToMe, async () => {

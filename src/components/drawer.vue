@@ -1,11 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { useSessionStore } from 'stores/SessionStore';
+import { useSessionStore } from '../stores/SessionStore';
 import { useRouter } from 'vue-router';
 import packageJson from '../../package.json';
-import { useProfileListsStore } from 'stores/profileListsStore';
-import { Constants } from 'stores/Constants';
+import { useProfileListsStore } from '../stores/profileListsStore';
+import { Constants } from '../stores/Constants';
 import util from 'src/helpers/util';
 import SettingsComponent from './settingsPage.vue';
 import { defineExpose } from 'vue';
@@ -97,7 +97,7 @@ function onPhotoUpdated(newPhoto: string) {
   imageDetailStore.constructImageObjectAndSave(
     session.value.userId,
     'Users',
-    newPhoto
+    newPhoto,
   );
 }
 

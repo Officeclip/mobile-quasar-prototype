@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import dateTimeHelper from '../helpers/dateTimeHelper.js';
 import { Event } from '../models/event';
 import { MeetingAttendees } from '../models/meetingAttendees.js';
-import { Constants } from 'stores/Constants';
+import { Constants } from '../stores/Constants';
 import util from 'src/helpers/util.js';
 
 export const useEventsStore = defineStore('eventsStore', {
@@ -24,7 +24,7 @@ export const useEventsStore = defineStore('eventsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/meetingAttendees`
+          `${util.getEndPointUrl()}/meetingAttendees`,
         );
 
         this.meetingAttendees = response.data;
@@ -45,7 +45,7 @@ export const useEventsStore = defineStore('eventsStore', {
 
     async getEventsById(
       parentObjectId: number,
-      parentObjectServiceType: number
+      parentObjectServiceType: number,
     ) {
       const callStr = `${util.getEndPointUrl()}/events?parentObjectId=${parentObjectId}&parentObjectServiceType=${parentObjectServiceType}`;
       try {
@@ -62,7 +62,7 @@ export const useEventsStore = defineStore('eventsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/events?id=${id}`
+          `${util.getEndPointUrl()}/events?id=${id}`,
         );
         if (response.data && response.data.length > 0) {
           this.event = response.data[0];
@@ -93,7 +93,7 @@ export const useEventsStore = defineStore('eventsStore', {
           function (a) {
             const helper = dateTimeHelper.extractDateFromUtc(a.startDateTime);
             return helper?.replace(/-/g, '/');
-          }
+          },
         );
         return dates;
       }
@@ -105,7 +105,7 @@ export const useEventsStore = defineStore('eventsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.put(
           `${util.getEndPointUrl()}/events/${event.id}`,
-          event
+          event,
         );
         if (response.status === 200) {
           this.event = response.data;
@@ -128,7 +128,7 @@ export const useEventsStore = defineStore('eventsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.getEndPointUrl()}/events/${id}`
+          `${util.getEndPointUrl()}/events/${id}`,
         );
         if (response.status === 200) {
           this.event = response.data;

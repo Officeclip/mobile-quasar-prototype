@@ -1,4 +1,3 @@
-<!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import drawer from '../../components/drawer.vue';
@@ -302,7 +301,7 @@ const isAllowDelete = computed(() => {
                   {{
                     dateTimeHelper.formatDateTimeFromRestAPIForUI(
                       issueDetails?.createdDate,
-                      false
+                      false,
                     )
                   }}
                 </q-item-label>
@@ -317,7 +316,7 @@ const isAllowDelete = computed(() => {
                   {{
                     dateTimeHelper.formatDateTimeFromRestAPIForUI(
                       issueDetails?.modifiedDate,
-                      false
+                      false,
                     )
                   }}
                 </q-item-label>

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { Ref, ref, onMounted, onBeforeUnmount } from 'vue';
 import { Login } from '../models/login';
-import { useSessionStore } from 'stores/SessionStore';
+import { useSessionStore } from '../stores/SessionStore';
 import { useTokenStore } from '../stores/tokenStore';
 import { useVuelidate } from '@vuelidate/core';
 import { email, required } from '@vuelidate/validators';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
-import { Constants } from 'src/stores/Constants';
+import { Constants } from '../stores/Constants';
 import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
 import apiLinkPage from 'src/pages/apiLinkPage.vue';
@@ -228,7 +228,8 @@ const redirectToSetUpAccount = () => {
 .my_card {
   min-width: 25rem;
   border-radius: 8px;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
     0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 </style>

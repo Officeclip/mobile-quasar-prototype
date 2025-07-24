@@ -3,7 +3,7 @@
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
+import { useTaskDetailsStore } from '../../stores/task/taskDetailsStore';
 import addEditSubtaskDialog from 'components/tasks/addEditSubtaskDialog.vue';
 import { subTask } from 'src/models/task/subtask';
 import SubtaskItem from 'components/tasks/SubtaskItem.vue';
@@ -50,10 +50,10 @@ onMounted(async () => {
   await loadTimesheetDetails();
   taskDetail.value = taskDetailsStore.taskDetail;
   pendingSubtasks.value = taskDetail.value?.subTasks.filter(
-    (subtask: subTask) => !subtask.isCompleted
+    (subtask: subTask) => !subtask.isCompleted,
   );
   completedSubtasks.value = taskDetail.value?.subTasks.filter(
-    (subtask: subTask) => subtask.isCompleted
+    (subtask: subTask) => subtask.isCompleted,
   );
 });
 
@@ -72,14 +72,14 @@ onMounted(async () => {
 const formattedStartDate = computed(() => {
   return dateTimeHelper.formatDateTimeFromRestAPIForUI(
     taskDetail.value?.startDate as string,
-    true
+    true,
   );
 });
 
 const formattedEndDate = computed(() => {
   return dateTimeHelper.formatDateTimeFromRestAPIForUI(
     taskDetail.value?.dueDate as string,
-    true
+    true,
   );
 });
 
@@ -248,8 +248,12 @@ const regardingInfo = computed(() => {
             <div class="relative-position">
               <span class="chip-caption">Priority</span>
               <q-chip
-                :color="getPriorityColor(taskDetail?.taskPriorityName as string)"
-                :icon-right="getPriorityIcon(taskDetail?.taskPriorityName as string)"
+                :color="
+                  getPriorityColor(taskDetail?.taskPriorityName as string)
+                "
+                :icon-right="
+                  getPriorityIcon(taskDetail?.taskPriorityName as string)
+                "
                 square
                 text-color="white"
               >
@@ -259,8 +263,12 @@ const regardingInfo = computed(() => {
             <div class="relative-position">
               <span class="chip-caption">Status</span>
               <q-chip
-                :color="getTaskStatusColor(taskDetail?.taskStatusCategory as string)"
-                :icon-right="getTaskStatusIcon(taskDetail?.taskStatusCategory as string)"
+                :color="
+                  getTaskStatusColor(taskDetail?.taskStatusCategory as string)
+                "
+                :icon-right="
+                  getTaskStatusIcon(taskDetail?.taskStatusCategory as string)
+                "
                 square
                 text-color="white"
               >
@@ -359,7 +367,7 @@ const regardingInfo = computed(() => {
             </q-item>
           </div>
         </q-card-section>
-        <div v-if="pendingSubtasks?.length as number > 0">
+        <div v-if="(pendingSubtasks?.length as number) > 0">
           <q-toolbar class="bg-primary text-white shadow-2">
             <q-toolbar-title>Subtasks</q-toolbar-title>
             <q-btn

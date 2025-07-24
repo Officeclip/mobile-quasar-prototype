@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, Ref, defineProps, onBeforeMount, computed } from 'vue';
-import { useIssueListsStore } from 'stores/issueTracker/issueListsStore';
+import { useIssueListsStore } from '../../stores/issueTracker/issueListsStore';
 import { trackerCaseDetails } from 'src/models/issueTracker/trackerCaseDetails';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import Regarding from 'components/general/regardingComponent.vue';
@@ -20,7 +20,7 @@ const issueListsStore = useIssueListsStore();
 
 onBeforeMount(async () => {
   await issueListsStore.getTrackerLists(
-    props.issueFromParent?.binderId.toString()
+    props.issueFromParent?.binderId.toString(),
   );
 });
 

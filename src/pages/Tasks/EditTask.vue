@@ -3,7 +3,7 @@
 import { onMounted, ref, Ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import TasksForm from 'components/tasks/tasksFormCtrl.vue';
-import { useTaskDetailsStore } from 'stores/task/taskDetailsStore';
+import { useTaskDetailsStore } from '../../stores/task/taskDetailsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { useQuasar } from 'quasar';
 import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';

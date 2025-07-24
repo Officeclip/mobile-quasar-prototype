@@ -1,5 +1,3 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
-<!-- Cleaned up using Google Bard -->
 <script setup lang="ts">
 import { onMounted, computed, ref, Ref } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';

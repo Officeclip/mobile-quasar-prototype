@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { onBeforeMount, ref, Ref, computed, watch } from 'vue';
-import { useTaskListsStore } from 'stores/task/taskListsStore';
+import { useTaskListsStore } from '../../stores/task/taskListsStore';
 import { user } from 'src/models/task/taskLists';
-import { useTaskSummaryStore } from 'stores/task/taskSummaryStore';
+import { useTaskSummaryStore } from '../../stores/task/taskSummaryStore';
 import { searchFilter } from 'src/models/task/searchFilter';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
@@ -100,7 +100,7 @@ async function filterFn(val: string, update: any, abort: any) {
   update(() => {
     const needle = val.toLowerCase();
     userList.value = taskListsStore.users.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }
@@ -123,7 +123,7 @@ const isDisable = () => {
 
 const isDueDateDisabled = computed(() => !advancedOptions.value.dueDateValue);
 const isModifiedDateDisabled = computed(
-  () => !advancedOptions.value.modifiedDateValue
+  () => !advancedOptions.value.modifiedDateValue,
 );
 
 watch(
@@ -138,7 +138,7 @@ watch(
     if (!newModifiedDate) {
       advancedOptions.value.modifiedDateOption = '';
     }
-  }
+  },
 );
 </script>
 
