@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, watch, capitalize, onMounted } from 'vue';
+// import { useTimesheetsStore } from '../../stores/timesheet/DemoStore'; // <-- Use the correct store for demo
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
-import { useQuasar } from 'quasar';
+import { QInfiniteScroll, useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import { isAllowed } from 'src/helpers/security';
 import { useTECommentsStore } from 'src/stores/TECommentsStore';
@@ -12,61 +13,86 @@ import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 
 const timesheetsStore = useTimesheetsStore();
-
-const tab = ref(timesheetsStore.selectedTab);
-watch(tab, (newTab) => {
-  timesheetsStore.selectedTab = newTab;
-});
-
-const title = ref(capitalize(tab.value));
+const teCommentsStore = useTECommentsStore();
 const $q = useQuasar();
 const router = useRouter();
-const teCommentsStore = useTECommentsStore();
-const myDrawer = ref();
-const loading = ref(true);
 
-const loadTimesheets = async (tabValue: string) => {
+const tab = ref(timesheetsStore.selectedTab);
+const title = ref(capitalize(tab.value));
+const loading = ref(true);
+let reachedEnd = ref(false);
+const myDrawer = ref();
+const infiniteScrollRef = ref<QInfiniteScroll | null>(null); // <-- Add ref for the component
+
+// --- Computed Properties ---
+const timesheetsAll = computed(() => timesheetsStore.Timesheets);
+const timesheetDCAA = computed(() => teCommentsStore.TimesheetDCAA);
+const errorMsg = computed(() => timesheetsStore.errorMsg);
+
+const loadTEGroupProfile = async () => {
+  await teCommentsStore.getTimesheetGroupProfile();
+};
+const loadMore = async (index: number, done: () => void) => {
+  // 👇 THIS IS THE ADDITION 👇
+  // If we already know we've reached the end, stop immediately.
+  if (reachedEnd.value) {
+    done();
+    return;
+  }
   loading.value = true;
   try {
-    await teCommentsStore.getTimesheetGroupProfile();
-    await timesheetsStore.getTimesheetsByStatus(tabValue);
+    // Call the newly refactored action in the store
+    const isEnd = await timesheetsStore.fetchMoreTimesheets(tab.value);
+    if (isEnd) {
+      reachedEnd.value = true;
+    }
+    done();
   } catch (error) {
+    reachedEnd.value = true; // Stop on error
+    done();
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      await router.push({ path: '/homePage' });
-      router.go(0);
     });
   } finally {
     loading.value = false;
   }
 };
 
+// --- Watcher ---
+// This is the key fix: watching the tab to reset state and trigger a new load.
+watch(tab, async (newTab) => {
+  timesheetsStore.selectedTab = newTab;
+  title.value = capitalize(newTab);
+
+  // 1. Reset the store's list and pagination
+  await timesheetsStore.resetTimesheets();
+
+  // 2. Reset the component's state
+  reachedEnd.value = false;
+
+  // 3. Reset the q-infinite-scroll component to trigger a new load from page 1
+  if (infiniteScrollRef.value) {
+    infiniteScrollRef.value.reset();
+  }
+
+  // Also load other necessary data
+  await loadTEGroupProfile();
+  loadMore(0, () => {}); // Initial load
+});
+
+// --- Lifecycle Hook ---
 onMounted(async () => {
-  await loadTimesheets(tab.value);
-});
-
-const timesheetsAll = computed(() => {
-  return timesheetsStore.Timesheets;
-});
-const timesheetDCAA = computed(() => {
-  return teCommentsStore.TimesheetDCAA;
-});
-
-const errorMsg = computed(() => {
-  return timesheetsStore.errorMsg;
-});
-
-watch(tab, async (newModel) => {
-  await loadTimesheets(newModel);
-  title.value = capitalize(newModel);
+  // Clear any stale data from previous sessions on component mount
+  await timesheetsStore.resetTimesheets();
+  await loadTEGroupProfile();
+  // q-infinite-scroll will automatically call `loadMore` on mount.
 });
 
 const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
 const showWarningMsg = () => {
   alert(
-    'Add new time entry is not available in mobile app for Check-in, Check-out mode, please visit the web app to add the new timesheet'
+    'Add new time entry is not available in mobile app for Check-in, Check-out mode, please visit the web app to add the new timesheet',
   );
 };
 
@@ -118,57 +144,66 @@ function toggleLeftDrawer() {
       <q-page>
         <OC_Loader :visible="loading" />
         <div v-if="timesheetsAll">
-          <q-list v-for="item in timesheetsAll" :key="item.id">
-            <q-item
-              :to="{
-                name: 'timesheetDetails',
-                params: {
-                  id: item.id,
-                  employeeId: item.employeeId,
-                  fromDate: item.fromDate,
-                  toDate: item.toDate,
-                  stageId: item.stageId,
-                  status: item.status,
-                  mode: item.mode,
-                },
-              }"
-              clickable
-              v-ripple
-            >
-              <q-item-section class="col-grow q-mr-lg">
-                <q-item-label>
-                  {{ item.createdByUserName }}
-                </q-item-label>
-                <q-item-label caption class="text-grey-8">
-                  {{
-                    item.fromDate
-                      ? dateTimeHelper.formatDateForTE(item.fromDate)
-                      : 'No Specific Date'
-                  }}
-                </q-item-label>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>
-                  {{ item.totalHours }}
-                  <span class="text-caption q-pl-xs">hrs</span>
-                </q-item-label>
-              </q-item-section>
-              <q-item-section style="align-items: end">
-                <q-chip
-                  dense
-                  :class="getExpenseOrTimesheetStatusColor(item.status)"
-                >
-                  <q-item-label caption class="q-px-sm">{{
-                    item.status
-                  }}</q-item-label>
-                </q-chip>
-              </q-item-section>
-              <q-item-section side>
-                <q-icon color="primary" name="chevron_right" />
-              </q-item-section>
-            </q-item>
-            <q-separator></q-separator>
-          </q-list>
+          <q-infinite-scroll
+            ref="infiniteScrollRef"
+            :disable="reachedEnd"
+            @load="loadMore"
+          >
+            <q-list v-for="item in timesheetsAll" :key="item.id">
+              <q-item
+                :to="{
+                  name: 'timesheetDetails',
+                  params: {
+                    id: item.id,
+                    employeeId: item.employeeId,
+                    fromDate: item.fromDate,
+                    toDate: item.toDate,
+                    stageId: item.stageId,
+                    status: item.status,
+                    mode: item.mode,
+                  },
+                }"
+                clickable
+                v-ripple
+              >
+                <q-item-section class="col-grow q-mr-lg">
+                  <q-item-label>
+                    {{ item.createdByUserName }}
+                  </q-item-label>
+                  <q-item-label caption class="text-grey-8">
+                    {{
+                      item.fromDate
+                        ? dateTimeHelper.formatDateForTE(item.fromDate)
+                        : 'No Specific Date'
+                    }}
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>
+                    {{ item.totalHours }}
+                    <span class="text-caption q-pl-xs">hrs</span>
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section style="align-items: end">
+                  <q-chip
+                    dense
+                    :class="getExpenseOrTimesheetStatusColor(item.status)"
+                  >
+                    <q-item-label caption class="q-px-sm">{{
+                      item.status
+                    }}</q-item-label>
+                  </q-chip>
+                </q-item-section>
+                <q-item-section side>
+                  <q-icon color="primary" name="chevron_right" />
+                </q-item-section>
+              </q-item>
+              <q-separator></q-separator>
+            </q-list>
+            <template v-slot:loading>
+              <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
+            </template>
+          </q-infinite-scroll>
         </div>
         <div v-else>
           <div v-if="title === 'Inbox'">
