@@ -49,7 +49,7 @@ export default configure(function (/* ctx */) {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       publicPath: '',
 
-      extendViteConf(viteConf, { isServer, isClient }) {
+      extendViteConf(viteConf, {}) {
         viteConf.base = ''; // Keep this if you need to set an empty base
       },
 
