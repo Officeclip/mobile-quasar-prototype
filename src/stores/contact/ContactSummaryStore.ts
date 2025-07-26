@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { ContactSummary } from '../../models/Contact/contactSummary';
 import { Constants } from '../Constants';
-import { linkHeader } from 'src/models/general/linkHeader';
 import util from 'src/helpers/util';
 import { searchFilter } from 'src/models/Contact/searchFilter';
 import { useImageDetailStore } from '../ImageDetail';
@@ -9,141 +8,116 @@ import { useImageDetailStore } from '../ImageDetail';
 export const useContactSummaryStore = defineStore('contactSummaryStore', {
   state: () => ({
     contactSummary: [] as ContactSummary[],
-    url: '' as string,
     pageSize: 10,
     pageNum: 1,
-    links: {} as linkHeader,
+    // The link for the next page of results from the API. Null if no next page.
+    nextPageUrl: null as string | null,
     errorMsg: '' as string,
     filter: {} as searchFilter,
   }),
 
   getters: {
-    ContactSummary: (state) => state.contactSummary,
-    IsEmptyLinkHeader: (state) => Object.keys(state.links).length == 0,
+    // Expose a read-only version of the contacts.
+    contacts: (state) => state.contactSummary,
   },
 
   actions: {
-    constructBaseURL() {
-      const baseUrl = `${util.getEndPointUrl()}/contact-summary?pagenumber=${
-        this.pageNum
-      }&pagesize=${this.pageSize}`;
-      return baseUrl;
-    },
-
-    constructQueryParams() {
-      const queryParams = new URLSearchParams();
-      const params: searchFilter = this.filter;
-      const filterKeys = Object.keys(params);
-      filterKeys.forEach((key) => {
-        if (this.filter[key]) {
-          queryParams.append(key, String(this.filter[key]));
-        }
+    /**
+     * Constructs the base URL for fetching contacts, including filter parameters.
+     * @returns {string} The fully constructed URL.
+     */
+    buildUrl(): string {
+      const baseUrl = `${util.getEndPointUrl()}/contact-summary`;
+      const params = new URLSearchParams({
+        pagenumber: this.pageNum.toString(),
+        pagesize: this.pageSize.toString(),
       });
-      return queryParams;
-    },
 
-    getUrl() {
-      let callStr = '';
-      if (!this.IsEmptyLinkHeader) {
-        callStr = `${this.links}`;
-      } else {
-        callStr = this.constructBaseURL();
-        const queryParams = this.constructQueryParams();
-        const queryString = queryParams.toString();
-        callStr += queryString ? `&${queryString}` : '';
+      // Append active filter parameters
+      for (const key in this.filter) {
+        if (
+          Object.prototype.hasOwnProperty.call(this.filter, key) &&
+          this.filter[key]
+        ) {
+          params.append(key, String(this.filter[key]));
+        }
       }
-      this.url = callStr;
+
+      return `${baseUrl}?${params.toString()}`;
     },
 
-    setFilter(searchFilter: searchFilter) {
-      this.filter = searchFilter;
-    },
-
-    resetPageNumber() {
+    /**
+     * Sets a new search filter and resets the store's state for a fresh search.
+     * @param {searchFilter} newFilter - The new filter object.
+     */
+    setFilter(newFilter: searchFilter) {
+      this.filter = newFilter;
       this.pageNum = 1;
-      this.links = {} as linkHeader; // https://stackoverflow.com/a/45339463
+      this.nextPageUrl = null;
+      this.contactSummary = [];
+      this.errorMsg = '';
     },
 
-    async getUpdatedContacts(isFilter: boolean): Promise<boolean> {
-      this.getUrl();
+    /**
+     * Fetches contacts from the API. Appends to the existing list.
+     * @returns {Promise<boolean>} A promise that resolves to true if the end of the list is reached.
+     */
+    async fetchContacts(): Promise<boolean> {
+      // Use the 'nextPageUrl' from the previous API call if it exists, otherwise build a new URL.
+      const urlToFetch = this.nextPageUrl || this.buildUrl();
+
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(this.url);
-        if (response.status === 200) {
+        const response = await instance.get(urlToFetch);
+
+        if (response.status === 204) {
+          this.contactSummary = [];
+          this.errorMsg = 'No contacts found.';
+          this.nextPageUrl = null; // No more pages
+          return true;
+        }
+
+        if (response.status === 200 && response.data?.data) {
           const data = response.data.data;
-          const newData = data.map(async (item: any) => {
+
+          if (data.length === 0) {
+            if (this.pageNum === 1) this.errorMsg = 'No contacts found.';
+            this.nextPageUrl = null; // No more data
+            return true;
+          }
+
+          this.errorMsg = ''; // Clear previous errors on success
+
+          // ⚠️ NOTE: This loop fetches images one by one to prevent race conditions.
+          // For better performance, `useImageDetailStore` should be refactored to cache
+          // multiple images by ID, which would allow for parallel fetching.
+          const imageDetailStore = useImageDetailStore();
+          for (const item of data) {
             if (item.thumbnail) {
-              const imageDetailStore = useImageDetailStore();
               await imageDetailStore.getImageDetail(item.thumbnail);
-              // Wait for the store to update and ensure ImageDetail is reactive
               const base64Obj = imageDetailStore.ImageDetail;
               if (base64Obj) {
                 item.thumbnail = `data:image/${base64Obj.srcType};base64,${base64Obj.src}`;
               }
             }
-
-            //   const response = await instance.get(
-            //     `${util.getEndPointUrl()}/image-detail?id=${item.thumbnail}`
-            //   );
-            //   const base64Obj = response.data;
-            //   item.thumbnail = `data:image/${base64Obj.srcType};base64,${base64Obj.src}`;
-            // }
-            else {
-              return item;
-            }
-            return item;
-          });
-          const summaries = await Promise.all(newData);
-          if (isFilter) {
-            await this.resetContactSummaryList();
           }
-          this.contactSummary.push(...summaries);
-          this.links = response.data.pagination.next || '{}';
-          this.url = this.links ? `${this.links}` : '';
-        } else if (response.status === 204) {
-          await this.resetContactSummaryList();
-          //this.errorMsg = response.statusText;
-          this.errorMsg = 'No Content';
-          return true;
-        } else {
-          return true;
+
+          this.contactSummary.push(...data);
+          this.nextPageUrl = response.data.pagination.next || null;
+          this.pageNum++;
+
+          return this.nextPageUrl === null;
         }
-      } catch (error) {}
-      return this.url === 'null';
-    },
-
-    async getContactSummary() {
-      try {
-        const instance = Constants.getAxiosInstance();
-        const response = await instance.get(
-          `${util.getEndPointUrl()}/contact-summary`
-        );
-        this.contactSummary = response.data;
-      } catch (error: any) {
-        alert(error);
+      } catch (error) {
+        console.error('Failed to fetch contacts:', error);
+        this.errorMsg = 'An error occurred while fetching contacts.';
+        this.nextPageUrl = null; // Stop fetching on error
+        return true;
       }
-    },
 
-    async getContactSummaryByBatch(limit: number, page: number) {
-      const callStr = `${util.getEndPointUrl()}/contact-summary?_limit=${limit}&_page=${page}`;
-      const response = await fetch(callStr);
-      const data = await response.json();
-      this.contactSummary.push(...data);
-    },
-
-    async getContactSummaryWithFilter(
-      limit: number,
-      page: number,
-      filter: string
-    ) {
-      const callStr = `${util.getEndPointUrl()}/contact-summary?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
-      const response = await fetch(callStr);
-      const data = await response.json();
-      this.contactSummary.push(...data);
-    },
-
-    async resetContactSummaryList() {
-      this.contactSummary = [];
+      // Default case if response status is not 200 or 204
+      this.nextPageUrl = null;
+      return true;
     },
   },
 });

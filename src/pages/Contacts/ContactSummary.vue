@@ -1,99 +1,99 @@
-<!--
-  TODO: sg/nk: Implement advance search so that the parameters
-  is used for data fetch as query string [2h]
- -->
 <script lang="ts" setup>
 import { useContactSummaryStore } from '../../stores/contact/ContactSummaryStore';
-import { computed, ref, Ref, watch } from 'vue';
+import { computed, ref, watch, onUnmounted, Ref } from 'vue';
 import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar } from 'quasar';
-import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
-import { searchFilter } from 'src/models/Contact/searchFilter';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 
-const loading = ref(true);
-const router = useRouter();
-const $q = useQuasar();
+// --- Store and Router Initialization ---
 const contactSummaryStore = useContactSummaryStore();
 const sessionStore = useSessionStore();
-const session = sessionStore.Session;
-const isAdmin = session.isAdmin;
-const isRoleAccess = () => {
-  const data = session.roleAccess.find(
-    (x) => x.name === 'TimeExpensesCreateTimeSheet'
+const $q = useQuasar();
+
+// --- Component State ---
+const loading = ref(false);
+const searchString: Ref<string> = ref('');
+const reachedEnd = ref(false); // Local state to disable infinite scroll
+const myDrawer = ref(); // Ref for the drawer component
+
+// --- Computed Properties ---
+const contacts = computed(() => contactSummaryStore.contacts);
+const errorMsg = computed(() => contactSummaryStore.errorMsg);
+const session = computed(() => sessionStore.Session);
+const canCreateContact = computed(() => {
+  if (!session.value) return false;
+  if (session.value.isAdmin) return true;
+  return session.value.roleAccess?.some(
+    (x) => x.name === 'TimeExpensesCreateTimeSheet' && x.access,
   );
-  return data?.access;
-};
-
-const myDrawer = ref();
-
-const defaultSearchOptions: searchFilter = {
-  searchString: '',
-};
-
-let searchOptions: Ref<searchFilter> = ref({ ...defaultSearchOptions });
-
-const contacts = computed(() => {
-  contactSummaryStore.$reset();
-  return contactSummaryStore.ContactSummary;
 });
 
-const errorMsg = computed(() => {
-  return contactSummaryStore.errorMsg;
-});
+// --- Methods ---
 
-let reachedEnd = ref(false); // indicate if all contacts have been loaded
-const loadMore = async (index: any, done: () => void) => {
+/**
+ * Loads the next page of contacts for the q-infinite-scroll component.
+ */
+const loadMore = async (index: number, done: () => void) => {
+  if (loading.value) {
+    done();
+    return;
+  }
   loading.value = true;
   try {
-    reachedEnd.value = await contactSummaryStore.getUpdatedContacts(false);
-    //https://quasar.dev/vue-components/infinite-scroll/#usage
-    done();
+    reachedEnd.value = await contactSummaryStore.fetchContacts();
   } catch (error) {
     $q.dialog({
-      title: 'Alert',
-      message: error as string,
-    }).onOk(async () => {
-      await router.push({ path: '/HomePage' });
+      title: 'Error',
+      message: 'An unexpected error occurred: ' + error.message,
     });
+    reachedEnd.value = true; // Stop trying to load on error
   } finally {
     loading.value = false;
+    done();
   }
 };
 
-async function filterFn(val: string) {
-  if (val.length > 2) {
-    searchOptions.value.searchString = val.toLowerCase();
-    contactSummaryStore.resetPageNumber();
-    contactSummaryStore.setFilter(searchOptions.value);
-    await contactSummaryStore.getUpdatedContacts(true);
-  }
-}
-
-watch(
-  () => searchOptions.value.searchString,
-  async (newValue) => {
-    await filterFn(newValue);
-  }
-);
-
-function clearSearch() {
-  window.location.reload();
-}
+/**
+ * Clears the search input, which triggers the watcher to reload the list.
+ */
+const clearSearch = () => {
+  searchString.value = '';
+};
 
 function toggleLeftDrawer() {
-  if (myDrawer.value == null) return;
-  myDrawer.value.toggleLeftDrawer();
+  myDrawer.value?.toggleLeftDrawer();
 }
+
+// --- Watchers ---
+
+watch(searchString, async (newValue) => {
+  // Perform search if length is >= 3 or if the search is cleared.
+  if (newValue.length >= 3 || newValue.length === 0) {
+    loading.value = true;
+    contactSummaryStore.setFilter({ searchString: newValue.toLowerCase() });
+    reachedEnd.value = false; // Reset for new search result
+
+    // Fetch the first page of the new search results.
+    // The infinite scroll will handle subsequent pages.
+    try {
+      reachedEnd.value = await contactSummaryStore.fetchContacts();
+    } finally {
+      loading.value = false;
+    }
+  }
+});
+
+// --- Lifecycle Hooks ---
+
+// Reset the store when the component is unmounted to ensure a fresh state on next visit.
+onUnmounted(() => {
+  contactSummaryStore.$reset();
+});
 </script>
 
-<style>
-.q-dialog__backdrop {
-  backdrop-filter: blur(7px);
-}
-</style>
+<style scoped></style>
 
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -101,89 +101,95 @@ function toggleLeftDrawer() {
       <q-toolbar>
         <BackButton />
         <q-btn
-          aria-label="Menu"
-          dense
           flat
-          icon="menu"
+          dense
           round
+          icon="menu"
+          aria-label="Menu"
           @click="toggleLeftDrawer"
         />
-        <q-toolbar-title> Contact List</q-toolbar-title>
-        <q-space />
+        <q-toolbar-title>Contact List</q-toolbar-title>
       </q-toolbar>
     </q-header>
+
     <drawer ref="myDrawer" />
+
     <q-page-container>
       <q-page>
         <OC_Loader :visible="loading" />
+
         <q-input
-          v-model="searchOptions.searchString"
+          v-model="searchString"
+          outlined
+          debounce="500"
+          placeholder="Search contacts (min 3 characters)"
           class="GNL__toolbar-input q-ma-md"
-          debounce="1000"
           clearable
           @clear="clearSearch"
-          label="Search"
-          outlined
-          placeholder="Start typing with min 3 characters to search"
         >
+          <template v-slot:prepend>
+            <q-icon name="search" />
+          </template>
         </q-input>
-        <q-item-section v-if="errorMsg !== ''">
-          <div class="flex justify-center">
-            <span class="text-subtitle1 text-weight-medium inline q-mr-xs">{{
-              errorMsg
-            }}</span>
-          </div>
-        </q-item-section>
-        <q-infinite-scroll :disable="reachedEnd" @load="loadMore">
-          <div v-for="contact in contacts" :key="contact.id">
+
+        <div
+          v-if="errorMsg && contacts.length === 0"
+          class="text-center text-subtitle1 text-grey-7 q-pa-md"
+        >
+          {{ errorMsg }}
+        </div>
+
+        <q-infinite-scroll
+          @load="loadMore"
+          :disable="reachedEnd || loading"
+          :offset="250"
+        >
+          <q-list separator>
             <q-item
-              v-if="contact.first_name || contact.last_name || contact.email"
-              v-ripple
-              :to="{
-                name: 'contactDetails',
-                params: {
-                  id: contact.id,
-                },
-              }"
+              v-for="contact in contacts"
+              :key="contact.id"
               clickable
+              v-ripple
+              :to="{ name: 'contactDetails', params: { id: contact.id } }"
             >
-              <q-item-section side>
+              <q-item-section avatar>
                 <q-avatar color="grey-4">
-                  <q-img
-                    v-if="contact.thumbnail"
-                    v-bind:src="contact.thumbnail"
-                  />
+                  <q-img v-if="contact.thumbnail" :src="contact.thumbnail" />
                   <q-icon v-else name="person" />
                 </q-avatar>
               </q-item-section>
+
               <q-item-section>
-                <span v-if="contact.first_name || contact.last_name">
-                  {{ contact.first_name + ' ' + contact.last_name }}
-                </span>
-                <span v-else>{{ contact.email }}</span>
+                <q-item-label>
+                  <span v-if="contact.first_name || contact.last_name">
+                    {{ contact.first_name }} {{ contact.last_name }}
+                  </span>
+                  <span v-else>{{ contact.email }}</span>
+                </q-item-label>
               </q-item-section>
+
               <q-item-section side>
-                <q-icon color="primary" name="chevron_right" />
+                <q-icon name="chevron_right" color="primary" />
               </q-item-section>
             </q-item>
-          </div>
+          </q-list>
+
           <template v-slot:loading>
-            <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="primary" size="40px" />
+            </div>
           </template>
         </q-infinite-scroll>
-        <q-separator color="orange" inset />
-        <div>
-          <q-page-sticky :offset="[18, 18]" position="bottom-right">
-            <q-btn
-              v-if="isAdmin || isRoleAccess()"
-              :to="{ name: 'newContact' }"
-              color="accent"
-              fab
-              icon="add"
-              padding="md"
-            />
-          </q-page-sticky>
-        </div>
+
+        <q-page-sticky position="bottom-right" :offset="[18, 18]">
+          <q-btn
+            v-if="canCreateContact"
+            fab
+            icon="add"
+            color="accent"
+            :to="{ name: 'newContact' }"
+          />
+        </q-page-sticky>
       </q-page>
     </q-page-container>
   </q-layout>
