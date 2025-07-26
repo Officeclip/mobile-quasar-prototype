@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, capitalize, onMounted } from 'vue';
+import { ref, computed, watch, capitalize, onMounted, nextTick } from 'vue';
 import { useTimesheetsStore } from '../../stores/timesheet/TimesheetsStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
@@ -18,7 +18,7 @@ const router = useRouter();
 
 const tab = ref(timesheetsStore.selectedTab);
 const title = ref(capitalize(tab.value));
-const loading = ref(true);
+const loading = ref(false); // <-- Change this from 'true' to 'false'
 let reachedEnd = ref(false);
 const myDrawer = ref();
 const infiniteScrollRef = ref<QInfiniteScroll | null>(null); // <-- Add ref for the component
@@ -32,18 +32,12 @@ const loadTEGroupProfile = async () => {
   await teCommentsStore.getTimesheetGroupProfile();
 };
 const loadMore = async (index: number, done: () => void) => {
-  // 👇 THIS IS THE ADDITION 👇
-  // If we already know we've reached the end, stop immediately.
-  if (reachedEnd.value) {
-    done();
-    return;
-  }
   loading.value = true;
   try {
-    // Call the newly refactored action in the store
-    const isEnd = await timesheetsStore.fetchMoreTimesheets(tab.value);
-    if (isEnd) {
-      reachedEnd.value = true;
+    // Fetch more timesheets for the current tab
+    reachedEnd.value = await timesheetsStore.fetchMoreTimesheets(tab.value);
+    if (reachedEnd.value) {
+      infiniteScrollRef.value?.stop(); // Stop infinite scroll if all data is loaded
     }
     done();
   } catch (error) {
@@ -62,22 +56,18 @@ const loadMore = async (index: number, done: () => void) => {
 // This is the key fix: watching the tab to reset state and trigger a new load.
 watch(tab, async (newTab) => {
   timesheetsStore.selectedTab = newTab;
-  title.value = capitalize(newTab);
+  title.value = capitalize(newTab); // 1. Reset the store's list and pagination state
 
-  // 1. Reset the store's list and pagination
-  await timesheetsStore.resetTimesheets();
+  await timesheetsStore.resetTimesheets(); // 2. Reset the component's own "end reached" flag
 
-  // 2. Reset the component's state
-  reachedEnd.value = false;
+  reachedEnd.value = false; // 3. Reset the q-infinite-scroll and EXPLICITLY trigger a new load.
 
-  // 3. Reset the q-infinite-scroll component to trigger a new load from page 1
+  // Simply calling .reset() is not reliably triggering the load in this scenario.
+  // Calling .trigger() right after ensures the fetch for the new tab happens.
   if (infiniteScrollRef.value) {
     infiniteScrollRef.value.reset();
+    infiniteScrollRef.value.trigger();
   }
-
-  // Also load other necessary data
-  // await loadTEGroupProfile();
-  loadMore(0, () => {}); // Initial load
 });
 
 // --- Lifecycle Hook ---
@@ -86,7 +76,14 @@ onMounted(async () => {
   await timesheetsStore.resetTimesheets();
   await loadTEGroupProfile();
   // q-infinite-scroll will automatically call `loadMore` on mount.
-  loadMore(0, () => {}); // Initial load
+
+  // Wait for the DOM to update after the reset.
+  await nextTick();
+  // Now that the component is mounted and the list is empty,
+  // explicitly trigger the infinite scroll to fetch the first page.
+  if (infiniteScrollRef.value) {
+    infiniteScrollRef.value.trigger();
+  }
 });
 
 const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
@@ -142,92 +139,93 @@ function toggleLeftDrawer() {
     </q-footer>
     <q-page-container>
       <q-page>
+        <div v-if="errorMsg !== ''">
+          <q-list class="flex flex-center">
+            <q-item v-if="title === 'Inbox'">
+              <q-item-section>
+                <q-item-label class="text-h6 q-py-md">
+                  {{ errorMsg }}
+                </q-item-label>
+                <q-item-label class="text-h6 q-py-sm">
+                  Create your first Timesheet
+                </q-item-label>
+                <q-item-label>
+                  A timesheet is used to track employee's time spent on projects
+                  and tasks.
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item v-else>
+              <q-item-section>
+                <q-item-label class="text-h6 q-py-md">
+                  {{ errorMsg }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </div>
         <OC_Loader :visible="loading" />
-        <div v-if="timesheetsAll">
-          <q-infinite-scroll
-            ref="infiniteScrollRef"
-            :disable="reachedEnd"
-            @load="loadMore"
-          >
-            <q-list v-for="item in timesheetsAll" :key="item.id">
-              <q-item
-                :to="{
-                  name: 'timesheetDetails',
-                  params: {
-                    id: item.id,
-                    employeeId: item.employeeId,
-                    fromDate: item.fromDate,
-                    toDate: item.toDate,
-                    stageId: item.stageId,
-                    status: item.status,
-                    mode: item.mode,
-                  },
-                }"
-                clickable
-                v-ripple
-              >
-                <q-item-section class="col-grow q-mr-lg">
-                  <q-item-label>
-                    {{ item.createdByUserName }}
-                  </q-item-label>
-                  <q-item-label caption class="text-grey-8">
-                    {{
-                      item.fromDate
-                        ? dateTimeHelper.formatDateForTE(item.fromDate)
-                        : 'No Specific Date'
-                    }}
-                  </q-item-label>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>
-                    {{ item.totalHours }}
-                    <span class="text-caption q-pl-xs">hrs</span>
-                  </q-item-label>
-                </q-item-section>
-                <q-item-section style="align-items: end">
-                  <q-chip
-                    dense
-                    :class="getExpenseOrTimesheetStatusColor(item.status)"
-                  >
-                    <q-item-label caption class="q-px-sm">{{
-                      item.status
-                    }}</q-item-label>
-                  </q-chip>
-                </q-item-section>
-                <q-item-section side>
-                  <q-icon color="primary" name="chevron_right" />
-                </q-item-section>
-              </q-item>
-              <q-separator></q-separator>
-            </q-list>
-            <template v-slot:loading>
-              <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
-            </template>
-          </q-infinite-scroll>
-        </div>
-        <div v-else>
-          <div v-if="title === 'Inbox'">
-            <q-list>
-              <q-item>
-                <q-item-section>
-                  <q-item-label v-if="errorMsg !== ''" class="text-h6 q-py-md">
-                    {{ errorMsg }}
-                  </q-item-label>
-                  <q-item-label class="text-h6 q-py-sm">
-                    Create your first Timesheet
-                  </q-item-label>
-                  <q-item-label>
-                    A timesheet is used to track employee's time spent on
-                    projects and tasks.
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </div>
-          <div v-else>
-            <NoItemsMsg />
-          </div>
-        </div>
+        <q-infinite-scroll
+          ref="infiniteScrollRef"
+          :disable="reachedEnd"
+          @load="loadMore"
+        >
+          <q-list v-for="item in timesheetsAll" :key="item.id">
+            <q-item
+              :to="{
+                name: 'timesheetDetails',
+                params: {
+                  id: item.id,
+                  employeeId: item.employeeId,
+                  fromDate: item.fromDate,
+                  toDate: item.toDate,
+                  stageId: item.stageId,
+                  status: item.status,
+                  mode: item.mode,
+                },
+              }"
+              clickable
+              v-ripple
+            >
+              <q-item-section class="col-grow q-mr-lg">
+                <q-item-label>
+                  {{ item.createdByUserName }}
+                </q-item-label>
+                <q-item-label caption class="text-grey-8">
+                  {{
+                    item.fromDate
+                      ? dateTimeHelper.formatDateForTE(item.fromDate)
+                      : 'No Specific Date'
+                  }}
+                </q-item-label>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>
+                  {{ item.totalHours }}
+                  <span class="text-caption q-pl-xs">hrs</span>
+                </q-item-label>
+              </q-item-section>
+              <q-item-section style="align-items: end">
+                <q-chip
+                  dense
+                  :class="getExpenseOrTimesheetStatusColor(item.status)"
+                >
+                  <q-item-label caption class="q-px-sm">{{
+                    item.status
+                  }}</q-item-label>
+                </q-chip>
+              </q-item-section>
+              <q-item-section side>
+                <q-icon color="primary" name="chevron_right" />
+              </q-item-section>
+            </q-item>
+            <q-separator></q-separator>
+          </q-list>
+          <template v-slot:loading>
+            <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
+          </template>
+        </q-infinite-scroll>
+
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-btn
             v-if="isAllow && timesheetDCAA.mode === 'PERIODIC'"

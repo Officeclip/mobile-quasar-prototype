@@ -1,61 +1,81 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch, capitalize } from 'vue';
-import { useExpenseDetailsStore } from '../../stores/expense/expenseDetailsStore';
+import { ref, onMounted, computed, watch, capitalize, nextTick } from 'vue';
+import { useExpenseSummaryStore } from '../../stores/expense/expenseSummaryStore';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { isAllowed } from 'src/helpers/security';
-import { useQuasar } from 'quasar';
+import { QInfiniteScroll, useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 
-const loading = ref(true);
-const expensesDetailsStore = useExpenseDetailsStore();
-const router = useRouter();
+const expensesDetailsStore = useExpenseSummaryStore();
+
 const $q = useQuasar();
+const router = useRouter();
 
 const tab = ref(expensesDetailsStore.selectedTab);
-
-watch(tab, (newTab) => {
-  expensesDetailsStore.selectedTab = newTab;
-});
-
 const title = ref(capitalize(tab.value));
-
+const loading = ref(false); // <-- Change this from 'true' to 'false'
+let reachedEnd = ref(false);
 const myDrawer = ref();
+const infiniteScrollRef = ref<QInfiniteScroll | null>(null); // <-- Add ref for the component
 
-const loadExpensesByStatus = async () => {
+// --- Computed Properties ---
+const allExpenses = computed(() => expensesDetailsStore.ExpenseSummary);
+const errorMsg = computed(() => expensesDetailsStore.errorMsg);
+
+const loadMore = async (index: number, done: () => void) => {
   loading.value = true;
   try {
-    await expensesDetailsStore.getExpensesByStatus(String(tab.value));
+    // Fetch more timesheets for the current tab
+    reachedEnd.value = await expensesDetailsStore.fetchMoreExpenseSummaries(
+      tab.value,
+    );
+    if (reachedEnd.value) {
+      infiniteScrollRef.value?.stop(); // Stop infinite scroll if all data is loaded
+    }
+    done();
   } catch (error) {
+    reachedEnd.value = true; // Stop on error
+    done();
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      await router.push({ path: '/HomePage' });
     });
   } finally {
     loading.value = false;
   }
 };
 
+// --- Watcher ---
+// This is the key fix: watching the tab to reset state and trigger a new load.
+watch(tab, async (newTab) => {
+  expensesDetailsStore.selectedTab = newTab;
+  title.value = capitalize(newTab); // 1. Reset the store's list and pagination state
+
+  await expensesDetailsStore.resetExpenses(); // 2. Reset the component's own "end reached" flag
+
+  reachedEnd.value = false; // 3. Reset the q-infinite-scroll and EXPLICITLY trigger a new load.
+
+  // Simply calling .reset() is not reliably triggering the load in this scenario.
+  // Calling .trigger() right after ensures the fetch for the new tab happens.
+  if (infiniteScrollRef.value) {
+    infiniteScrollRef.value.reset();
+    infiniteScrollRef.value.trigger();
+  }
+});
+
 onMounted(async () => {
-  await loadExpensesByStatus();
+  // await loadExpensesByStatus();
+  await expensesDetailsStore.resetExpenses();
+  await nextTick();
+  // explicitly trigger the infinite scroll to fetch the first page.
+  if (infiniteScrollRef.value) {
+    infiniteScrollRef.value.trigger();
+  }
 });
 
-const allExpenses = computed(() => {
-  return expensesDetailsStore.ExpenseSummary;
-});
-
-const errorMsg = computed(() => {
-  return expensesDetailsStore.errorMsg;
-});
-
-watch([tab], ([newModel]) => {
-  expensesDetailsStore.getExpensesByStatus(String(newModel));
-  title.value = capitalize(newModel);
-});
 const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
 
 function toggleLeftDrawer() {
@@ -108,8 +128,37 @@ function toggleLeftDrawer() {
     </q-footer>
     <q-page-container>
       <q-page>
+        <div v-if="errorMsg !== ''">
+          <q-list class="flex flex-center">
+            <q-item v-if="title === 'Inbox'">
+              <q-item-section>
+                <q-item-label class="text-h6 q-py-md">
+                  {{ errorMsg }}
+                </q-item-label>
+                <q-item-label class="text-h6 q-py-sm">
+                  Create your first Expense
+                </q-item-label>
+                <q-item-label>
+                  An Expense report is used to track employee's expenses on
+                  projects and tasks.
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item v-else>
+              <q-item-section>
+                <q-item-label class="text-h6 q-py-md">
+                  {{ errorMsg }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </div>
         <OC_Loader :visible="loading" />
-        <div v-if="allExpenses">
+        <q-infinite-scroll
+          ref="infiniteScrollRef"
+          :disable="reachedEnd"
+          @load="loadMore"
+        >
           <q-list v-for="expense in allExpenses" :key="expense.id">
             <q-item
               :to="{
@@ -157,38 +206,8 @@ function toggleLeftDrawer() {
                 <q-icon color="primary" name="chevron_right" />
               </q-item-section>
             </q-item>
-            <q-separator></q-separator>
-          </q-list>
-        </div>
-        <div v-else>
-          <div v-if="title === 'Inbox'">
-            <q-list>
-              <q-item>
-                <q-item-section>
-                  <q-item-label v-if="errorMsg !== ''" class="text-h6 q-py-md">
-                    {{ errorMsg }}
-                  </q-item-label>
-                  <q-item-label class="text-h6 q-py-sm">
-                    Create your first Expense
-                  </q-item-label>
-                  <q-item-label>
-                    A expense is used to track cost incurred by an individual or
-                    organization in order to achieve a specific goal or benefit.
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </div>
-          <div v-else>
-            <q-list>
-              <q-item>
-                <q-item-section class="text-h6 q-py-sm">
-                  <q-item-label> No Items Found </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </div>
-        </div>
+            <q-separator></q-separator> </q-list
+        ></q-infinite-scroll>
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn

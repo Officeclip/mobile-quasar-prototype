@@ -3,7 +3,6 @@ import { Timesheet } from '../../models/Timesheet/timesheet';
 import { TimesheetDetails } from '../../models/Timesheet/timesheetDetails';
 import { Constants } from '../Constants';
 import util from 'src/helpers/util';
-// import { linkHeader } from 'src/models/general/linkHeader';
 
 export const useTimesheetsStore = defineStore('timesheetsStore', {
   state: () => ({
@@ -24,7 +23,6 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
 
     TimesheetDetails: (state) => state.timesheetDetails,
     TimesheetDetail: (state) => state.timesheetDetail,
-    // IsEmptyLinkHeader: (state) => Object.keys(state.links).length == 0,
     SelectedTab: (state) => state.selectedTab,
   },
 
@@ -33,43 +31,22 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
      * Resets the timesheet list and pagination.
      * Call this before loading data for a new category.
      */
-    resetTimesheets() {
+    async resetTimesheets() {
       this.timesheets = [];
       this.nextPageUrl = null;
       this.errorMsg = '';
     },
-    /**
-     * Fetches timesheets, appending them to the existing list for infinite scroll.
-     * It uses the `nextPageUrl` if available, otherwise builds the initial URL.
-     * @returns {Promise<boolean>} - A promise that resolves to `true` if there are no more pages to load.
-     */
-    // constructBaseURL(category: string) {
-    //   const baseUrl = `${util.getEndPointUrl()}/timesheet-summary?category=${category}&pagenumber=${
-    //     this.pageNum
-    //   }&pagesize=${this.pageSize}`;
-    //   return baseUrl;
-    // },
-
-    // getUrl(category: string) {
-    //   let callStr = '';
-    //   if (!this.IsEmptyLinkHeader) {
-    //     callStr = `${this.links}`;
-    //   } else {
-    //     callStr = this.constructBaseURL(category);
-    //   }
-    //   this.url = callStr;
-    // },
-
-    // resetPageNumber() {
-    //   this.pageNum = 1;
-    //   this.links = {} as linkHeader; // https://stackoverflow.com/a/45339463
-    // },
 
     async fetchMoreTimesheets(category: string): Promise<boolean> {
       // Use the next page URL from the previous API call, or construct the initial URL.
+      const isFirstPageLoad = this.timesheets.length === 0;
+      // const requestUrl =
+      //   this.nextPageUrl ||
+      //   `${util.getEndPointUrl()}/timesheet-summary?category=${category}&pagesize=${this.pageSize}`;
       const requestUrl =
-        this.nextPageUrl ||
-        `${util.getEndPointUrl()}/timesheet-summary?category=${category}&pagesize=${this.pageSize}`;
+        isFirstPageLoad || !this.nextPageUrl
+          ? `${util.getEndPointUrl()}/timesheet-summary?category=${category}&pagesize=${this.pageSize}`
+          : this.nextPageUrl;
 
       try {
         const instance = Constants.getAxiosInstance();

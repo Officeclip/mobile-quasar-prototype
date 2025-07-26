@@ -8,13 +8,11 @@ import {
   telephoneExpense,
   expenseDetails,
 } from '../../models/expense/expenseDetails';
-import { expenseSummary } from 'src/models/expense/expenseSummary';
 import { Constants } from '../../stores/Constants';
 import util from 'src/helpers/util';
 
 export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
   state: () => ({
-    expenseSummary: [] as expenseSummary[],
     expenseDetailsList: [] as expenseDetails[],
     expenseDetails: {} as expenseDetails,
     airTravelExpense: undefined as airTravelExpense | undefined,
@@ -24,11 +22,12 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
     taxiExpense: undefined as taxiExpense | undefined,
     telephoneExpense: undefined as telephoneExpense | undefined,
     selectedTab: 'inbox' as string,
+    pageSize: 10,
+    nextPageUrl: null as string | null,
     errorMsg: '' as string,
   }),
 
   getters: {
-    ExpenseSummary: (state) => state.expenseSummary,
     ExpenseDetailsList: (state) => state.expenseDetailsList,
     ExpenseDetails: (state) => state.expenseDetails,
     AirTravelExpense: (state) => state.airTravelExpense,
@@ -61,42 +60,6 @@ export const useExpenseDetailsStore = defineStore('expensesDetailsStore', {
         if (response.data) {
           // see: https://stackoverflow.com/a/69204006/89256
           this.expenseDetails = response.data;
-        }
-      } catch (error) {
-        Constants.throwError(error);
-      }
-    },
-
-    getInOutboxList(status: string) {
-      try {
-        let completeUrl = '';
-        switch (status) {
-          case 'Inbox':
-            completeUrl = `${util.getEndPointUrl()}/expense-summary?status=Saved&status=Approved&status=Submitted&status=Rejected`;
-            break;
-          case 'Outbox':
-            completeUrl = `${util.getEndPointUrl()}/expense-summary?status=None&status=Pending`;
-            break;
-          case 'Archived':
-            completeUrl = `${util.getEndPointUrl()}/expense-summary?status=Saved&status=Approved&status=Rejected`;
-            break;
-        }
-        return completeUrl;
-      } catch (error) {
-        Constants.throwError(error);
-      }
-    },
-
-    async getExpensesByStatus(status: string) {
-      const callStr = `${util.getEndPointUrl()}/expense-summary?category=${status}`;
-      try {
-        const instance = Constants.getAxiosInstance();
-        const response = await instance.get(callStr ?? '');
-        this.expenseSummary = response.data.data;
-        if (response.status === 204) {
-          //this.errorMsg = response.statusText;
-          this.errorMsg = 'No Content';
-          return true;
         }
       } catch (error) {
         Constants.throwError(error);

@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="flex flex-center col">
     <q-list>
       <q-item>
         <q-item-section class="text-h6">
