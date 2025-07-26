@@ -1,11 +1,14 @@
+<!-- components/ContactSummary.vue -->
+
 <script lang="ts" setup>
 import { useContactSummaryStore } from '../../stores/contact/ContactSummaryStore';
-import { computed, ref, watch, onUnmounted, Ref } from 'vue';
+import { computed, ref, watch, onMounted, Ref } from 'vue';
 import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar } from 'quasar';
 import drawer from '../../components/drawer.vue';
 import BackButton from '../../components/OCcomponents/Back-Button.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
+import { onBeforeRouteLeave } from 'vue-router';
 
 // --- Store and Router Initialization ---
 const contactSummaryStore = useContactSummaryStore();
@@ -15,8 +18,8 @@ const $q = useQuasar();
 // --- Component State ---
 const loading = ref(false);
 const searchString: Ref<string> = ref('');
-const reachedEnd = ref(false); // Local state to disable infinite scroll
-const myDrawer = ref(); // Ref for the drawer component
+const reachedEnd = ref(false);
+const myDrawer = ref();
 
 // --- Computed Properties ---
 const contacts = computed(() => contactSummaryStore.contacts);
@@ -32,9 +35,6 @@ const canCreateContact = computed(() => {
 
 // --- Methods ---
 
-/**
- * Loads the next page of contacts for the q-infinite-scroll component.
- */
 const loadMore = async (index: number, done: () => void) => {
   if (loading.value) {
     done();
@@ -46,21 +46,18 @@ const loadMore = async (index: number, done: () => void) => {
   } catch (error) {
     $q.dialog({
       title: 'Error',
-      message: 'An unexpected error occurred: ' + error.message,
+      message: 'An unexpected error occurred.' + error.message,
     });
-    reachedEnd.value = true; // Stop trying to load on error
+    reachedEnd.value = true;
   } finally {
     loading.value = false;
     done();
   }
 };
 
-/**
- * Clears the search input, which triggers the watcher to reload the list.
- */
-const clearSearch = () => {
+function clearSearch() {
   searchString.value = '';
-};
+}
 
 function toggleLeftDrawer() {
   myDrawer.value?.toggleLeftDrawer();
@@ -69,14 +66,10 @@ function toggleLeftDrawer() {
 // --- Watchers ---
 
 watch(searchString, async (newValue) => {
-  // Perform search if length is >= 3 or if the search is cleared.
   if (newValue.length >= 3 || newValue.length === 0) {
     loading.value = true;
     contactSummaryStore.setFilter({ searchString: newValue.toLowerCase() });
-    reachedEnd.value = false; // Reset for new search result
-
-    // Fetch the first page of the new search results.
-    // The infinite scroll will handle subsequent pages.
+    reachedEnd.value = false;
     try {
       reachedEnd.value = await contactSummaryStore.fetchContacts();
     } finally {
@@ -87,13 +80,28 @@ watch(searchString, async (newValue) => {
 
 // --- Lifecycle Hooks ---
 
-// Reset the store when the component is unmounted to ensure a fresh state on next visit.
-onUnmounted(() => {
-  contactSummaryStore.$reset();
+onMounted(() => {
+  // When the component mounts, sync the local search input with the persisted filter from the store.
+  // This ensures that if the user navigates back from a detail page, their search query is still visible.
+  searchString.value = contactSummaryStore.filter.searchString || '';
+});
+
+// When the user navigates away from this page, decide whether to clear the search state.
+onBeforeRouteLeave((to, from) => {
+  // If the user is navigating to a specific contact's detail page,
+  // we keep the store state so it's there when they return.
+  // For any other navigation (e.g., back to home), we reset the store for a fresh start next time.
+  if (to.name !== 'contactDetails') {
+    contactSummaryStore.$reset();
+  }
 });
 </script>
 
-<style scoped></style>
+<style>
+.q-dialog__backdrop {
+  backdrop-filter: blur(7px);
+}
+</style>
 
 <template>
   <q-layout view="lHh Lpr lFf">
