@@ -12,7 +12,7 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
     timesheetDetails: [] as TimesheetDetails[],
     timesheetDetail: {} as TimesheetDetails,
     selectedTab: 'inbox' as string,
-    pageSize: 10,
+    pageSize: 15,
     nextPageUrl: null as string | null, // Stores the 'next' URL from the API
     errorMsg: '' as string,
   }),

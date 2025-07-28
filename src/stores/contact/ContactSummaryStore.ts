@@ -5,6 +5,9 @@ import util from 'src/helpers/util';
 import { searchFilter } from 'src/models/Contact/searchFilter';
 import { useImageDetailStore } from '../ImageDetail';
 
+// Define a key for local storage
+const SEARCH_HISTORY_LS_KEY = 'contactSearchHistory';
+
 export const useContactSummaryStore = defineStore('contactSummaryStore', {
   state: () => ({
     contactSummary: [] as ContactSummary[],
@@ -24,6 +27,43 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
   },
 
   actions: {
+    /**
+     * Initializes the store, loading search history from local storage.
+     * This should be called once, typically on app startup or when the store is first used.
+     */
+    init() {
+      try {
+        const storedHistory = localStorage.getItem(SEARCH_HISTORY_LS_KEY);
+        if (storedHistory) {
+          const parsedHistory = JSON.parse(storedHistory);
+          // Ensure it's an array and limit to maxSearchHistory just in case old data is too large
+          if (Array.isArray(parsedHistory)) {
+            this.searchHistory = parsedHistory.slice(0, this.maxSearchHistory);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load search history from local storage:', e);
+        // Clear corrupted history if parsing fails
+        this.searchHistory = [];
+        localStorage.removeItem(SEARCH_HISTORY_LS_KEY);
+      }
+    },
+
+    /**
+     * Saves the current search history to local storage.
+     * This should be called whenever the searchHistory array is modified.
+     */
+    saveHistory() {
+      try {
+        localStorage.setItem(
+          SEARCH_HISTORY_LS_KEY,
+          JSON.stringify(this.searchHistory),
+        );
+      } catch (e) {
+        console.error('Failed to save search history to local storage:', e);
+      }
+    },
+
     buildUrl(): string {
       const baseUrl = `${util.getEndPointUrl()}/contact-summary`;
       const params = new URLSearchParams({
@@ -62,6 +102,8 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
       const normalizedNewQuery = searchQuery.trim().toLowerCase();
       if (!normalizedNewQuery) return; // Don't add empty strings or only whitespace to history
 
+      let historyChanged = false; // Flag to track if history actually changed
+
       let foundExisting = false;
       let existingIndex = -1;
 
@@ -76,6 +118,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
         this.searchHistory.splice(existingIndex, 1);
         this.searchHistory.unshift(normalizedNewQuery);
         foundExisting = true;
+        historyChanged = true;
       } else {
         // If not an exact duplicate, check for extensions
         for (let i = 0; i < this.searchHistory.length; i++) {
@@ -90,6 +133,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
             this.searchHistory.splice(i, 1); // Remove the shorter, older version
             this.searchHistory.unshift(normalizedNewQuery); // Add the longer, new version to the front
             foundExisting = true;
+            historyChanged = true;
             break; // We've updated, no need to check further
           }
           // Case: Existing history item is an extension of the new query
@@ -103,6 +147,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
             // This means the user typed a shorter version of something previously searched.
             // We should remove the longer one and add the new, shorter one to the front.
             this.searchHistory.splice(i, 1); // Remove the longer existing item
+            historyChanged = true;
             // Do not break here, as the new query might also be an extension of another older item
             // Or, more simply, we will add the new query if foundExisting is still false after the loop.
           }
@@ -111,23 +156,31 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
         // If no existing item was an extension or exact match, add the new query
         if (!foundExisting) {
           this.searchHistory.unshift(normalizedNewQuery);
+          historyChanged = true;
         }
       }
 
       // Trim history to max size
       if (this.searchHistory.length > this.maxSearchHistory) {
         this.searchHistory = this.searchHistory.slice(0, this.maxSearchHistory);
+        historyChanged = true; // Slicing means history array reference might change
+      }
+      // Only save if the history array was actually modified
+      if (historyChanged) {
+        this.saveHistory();
       }
     },
 
     clearSearchHistory() {
       this.searchHistory = [];
+      this.saveHistory(); // Save the cleared history
     },
 
     removeSearchFromHistory(searchQuery: string) {
       const index = this.searchHistory.indexOf(searchQuery);
       if (index > -1) {
         this.searchHistory.splice(index, 1);
+        this.saveHistory(); // Save the modified history
       }
     },
 
@@ -205,7 +258,7 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
 
     $reset() {
       this.contactSummary = [];
-      this.pageSize = 10;
+      this.pageSize = 15;
       this.pageNum = 1;
       this.nextPageUrl = null;
       this.errorMsg = '';
@@ -214,3 +267,8 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
     },
   },
 });
+
+// Call init when the store is first defined/loaded
+// This is typically the best place for store-specific initialization logic
+const contactSummaryStore = useContactSummaryStore();
+contactSummaryStore.init();

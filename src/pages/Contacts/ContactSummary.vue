@@ -313,7 +313,7 @@ onBeforeRouteLeave((to, from) => {
             aria-label="Clear All Search History"
             @click="clearAllSearchHistory"
           >
-            <q-tooltip>Clear All Search History</q-tooltip>
+            <!-- <q-tooltip>Clear All Search History</q-tooltip> -->
           </q-btn>
         </div>
 
