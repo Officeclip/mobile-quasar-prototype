@@ -7,7 +7,7 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
   state: () => ({
     expenseSummary: [] as expenseSummary[],
     selectedTab: 'inbox' as string,
-    pageSize: 10,
+    pageSize: 15,
     nextPageUrl: null as string | null,
     errorMsg: '' as string,
   }),

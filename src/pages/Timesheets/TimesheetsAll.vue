@@ -126,11 +126,10 @@ function toggleLeftDrawer() {
     <q-footer>
       <q-tabs
         v-model="tab"
+        no-caps
+        inline-label
         class="bg-primary text-white shadow-2"
         align="justify"
-        switch-indicator
-        narrow-indicator
-        dense
       >
         <q-tab name="inbox" label="Inbox" icon="inbox" />
         <q-tab name="outbox" label="Outbox" icon="outbox" />

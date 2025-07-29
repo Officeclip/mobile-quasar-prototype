@@ -9,7 +9,7 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
   state: () => ({
     issuesList: [] as trackerCaseSummary[],
     url: '' as string,
-    pageSize: 10,
+    pageSize: 15,
     pageNum: 1,
     filter: {} as searchFilter,
     links: {} as linkHeader,
