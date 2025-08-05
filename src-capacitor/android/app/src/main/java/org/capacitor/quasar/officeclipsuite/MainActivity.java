@@ -1,4 +1,4 @@
-package org.capacitor.quasar.app;
+package org.capacitor.quasar.officeclipsuite;
 
 import com.getcapacitor.BridgeActivity;
 
