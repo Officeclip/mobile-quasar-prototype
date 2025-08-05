@@ -36,3 +36,4 @@ yarn-error.log*
 /quasar.config.js.temporary.compiled.1750919686310.mjs
 /*.jks
 /*.mjs
+/src-capacitor/android/app/release
