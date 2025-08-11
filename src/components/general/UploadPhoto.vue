@@ -154,17 +154,14 @@ const cropAndSave = async () => {
     width: 120,
     height: 120,
   });
-  const dataUrl = croppedCanvas.toDataURL('image/png');
-  imageSrc.value = dataUrl;
   showCropModal.value = false;
   try {
     // Compress the image losslessly (or with minimal quality loss)
-    // Use JPEG with quality 0.8 for much smaller size, or PNG for lossless but larger
-    // Here, we use JPEG for better size reduction
-    const compressedDataUrl = croppedCanvas.toDataURL('image/jpeg', 0.9); // 0.8 = 80% quality
-    //const dataUrl = croppedCanvas.toDataURL('image/png');
+    // Use JPEG with high quality for a good balance of size and quality.
+    const compressedDataUrl = croppedCanvas.toDataURL('image/jpeg'); // 0.9 = 90% quality
     const base64 = compressedDataUrl.split(',')[1];
-    const fileName = `cropped_${Date.now()}.jpg`;
+    imageSrc.value = compressedDataUrl; // Update the displayed image with the final JPEG
+    const fileName = `cropped_${Date.now()}.jpeg`;
     await Filesystem.writeFile({
       path: `Pictures/QuasarCrops/${fileName}`,
       data: base64,
