@@ -1,14 +1,5 @@
 {
   "appId": "org.capacitor.quasar.officeclipsuite",
   "appName": "OfficeClip Mobile",
-  "webDir": "www",
-  "plugins": {
-    "Keyboard": {
-      "resizeOnFullScreen": false
-    },
-    "EdgeToEdge": {}
-  },
-  "android": {
-    "adjustMarginsForEdgeToEdge": "force"
-  }
+  "webDir": "www"
 }

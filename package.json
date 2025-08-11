@@ -1,6 +1,6 @@
 {
   "name": "mobile",
-  "version": "0.6.9",
+  "version": "0.7.1",
   "description": "Quasar Prototype of OfficeClip Mobile",
   "productName": "OfficeClip Mobile",
   "author": "SK Dutta <skd@officeclip.com>",
@@ -22,8 +22,6 @@
     "@capacitor/cli": "^7.4.0",
     "@capacitor/core": "^7.4.2",
     "@capacitor/filesystem": "^7.0.1",
-    "@capacitor/status-bar": "^7.0.1",
-    "@capawesome/capacitor-android-edge-to-edge-support": "^7.2.2",
     "@intlify/unplugin-vue-i18n": "^6.0.8",
     "@quasar/extras": "^1.16.4",
     "@vuelidate/core": "^2.0.3",
