@@ -49,7 +49,7 @@ const openWebCamera = async () => {
       videoActive.value = true;
       loading.value = false;
     } catch (error) {
-      alert('Could not access camera. Please allow camera permission.');
+      alert('Could not access camera. Please allow camera permission.', error);
       videoActive.value = false;
       loading.value = false;
     }
@@ -105,8 +105,8 @@ const initCropper = () => {
   if (cropperInstance.value) {
     try {
       cropperInstance.value.destroy();
-    } catch (e) {
-      // Ignore errors if already destroyed or undefined
+    } catch (error) {
+      alert('error', error);
     }
     cropperInstance.value = null;
   }
