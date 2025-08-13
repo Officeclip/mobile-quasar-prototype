@@ -29,16 +29,16 @@ export const useTokenStore = defineStore('loginStore', {
         }
         const response = await instance.post(
           `${util.getEndPointUrl()}/login`,
-          login
+          login,
         );
         //TODO: 20240306: skd: nk: the token and expiration date is returning as undefined in mockoon we need to fix it
         if (response.data) {
           this.token = response.data;
           Constants.saveAuthorizationTokenInLocalStorage(
             this.token.accessToken,
-            this.token.expirationTime
+            this.token.expirationTime,
           );
-          Constants.saveUserNameInLocalStorage(login.userName);
+          // Constants.saveUserNameInLocalStorage(login.userName);
         }
       } catch (error) {
         Constants.throwError(error);

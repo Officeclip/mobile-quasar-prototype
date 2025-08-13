@@ -76,7 +76,7 @@ const redirectToSetUpAccount = () => {
           class="q-ma-md shadow-2"
           style="max-width: 420px"
         >
-          <q-card-section class="bg-primary text-white rounded-borders">
+          <q-card-section class="bg-grey-2 rounded-borders">
             <div class="text-h6 q-mb-xs">Welcome to OfficeClip Mobile</div>
             <div class="text-body2">
               Manage your business on the go: access contacts, projects,
@@ -133,7 +133,7 @@ const redirectToSetUpAccount = () => {
 
         <div v-if="isSetUp">
           <q-card class="q-ma-md shadow-2" style="max-width: 420px">
-            <q-card-section class="bg-primary text-white rounded-borders">
+            <q-card-section class="bg-grey-2 rounded-borders">
               <div class="text-h6 q-mb-xs">API Link Setup</div>
               <div class="text-body2">
                 Configure your OfficeClip API endpoint to connect your mobile
