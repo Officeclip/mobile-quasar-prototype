@@ -151,16 +151,17 @@ const cropAndSave = async () => {
     return;
   }
   const croppedCanvas = cropperInstance.value.getCroppedCanvas({
-    width: 120,
-    height: 120,
+    width: 320, // Set the desired width
+    height: 320, // Set the desired height
+    imageSmoothingEnabled: true,
+    imageSmoothingQuality: 'high',
+    fillColor: '#fff',
   });
   showCropModal.value = false;
   try {
-    // Compress the image losslessly (or with minimal quality loss)
-    // Use JPEG with high quality for a good balance of size and quality.
-    const compressedDataUrl = croppedCanvas.toDataURL('image/jpeg'); // 0.9 = 90% quality
-    const base64 = compressedDataUrl.split(',')[1];
-    imageSrc.value = compressedDataUrl; // Update the displayed image with the final JPEG
+    const dataUrl = croppedCanvas.toDataURL('image/jpeg');
+    const base64 = dataUrl.split(',')[1];
+    imageSrc.value = dataUrl; // Update the displayed image with the final JPEG
     const fileName = `cropped_${Date.now()}.jpeg`;
     await Filesystem.writeFile({
       path: `Pictures/QuasarCrops/${fileName}`,
@@ -168,7 +169,7 @@ const cropAndSave = async () => {
       directory: Directory.External,
       recursive: true,
     });
-    emit('photo-updated', compressedDataUrl);
+    emit('photo-updated', dataUrl);
   } catch {
     alert('Failed to save image to gallery.');
   }
