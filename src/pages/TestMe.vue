@@ -2,6 +2,7 @@
 import { computed, onMounted } from 'vue';
 import { useMetaDetailsStore } from 'src/stores/MetaDetailsStore';
 import { useRouter } from 'vue-router';
+import BackButton from 'src/components/OCcomponents/Back-Button.vue';
 
 const router = useRouter();
 const store = useMetaDetailsStore();
@@ -36,7 +37,7 @@ const onEdit = () => {
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
-        <q-btn flat round dense color="white" icon="arrow_back"> </q-btn>
+        <BackButton />
         <q-toolbar-title> Contact Details </q-toolbar-title>
         <q-btn flat round dense color="white" icon="edit" @click="onEdit()">
         </q-btn>

@@ -53,7 +53,7 @@ function onSubmit(e: any) {
           icon="arrow_back"
         >
         </q-btn>
-        <q-toolbar-title> Edit Contact</q-toolbar-title>
+        <q-toolbar-title> Edit Contact Demo</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-page-container>

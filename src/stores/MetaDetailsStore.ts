@@ -42,7 +42,7 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
           // Find the matching list item in the meta list
 
           const listItem = metaLists.find(
-            (item: any) => item.metaId === sectionEntry.metaId
+            (item: any) => item.metaId === sectionEntry.metaId,
           );
 
           // If found, replace the value from the list items
@@ -51,14 +51,14 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
               // This is for reading so we will replace the value with the text
               if (sectionEntry.type === 'select') {
                 sectionEntry.value = listItem.listItems.find(
-                  (item: any) => item.value == sectionEntry.value
+                  (item: any) => item.value == sectionEntry.value,
                 )?.name;
               } else {
                 //TODO: Change this to switch statement for easy understanding
                 // otherwise it is a multi-select
                 sectionEntry.value = this.replaceIds(
                   sectionEntry.value,
-                  listItem.listItems
+                  listItem.listItems,
                 );
               }
             } else {
@@ -74,7 +74,7 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/meta-details?id=${id}`
+          `${util.getEndPointUrl()}/meta-details?id=${id}`,
         );
         if (response.data && response.data.length > 0) {
           this.metaDetails = response.data[0];
@@ -84,6 +84,8 @@ export const useMetaDetailsStore = defineStore('metaDetailsStore', {
         alert(error);
       }
     },
+
+    //newly added for testing
     async getMetaDetailsDemo() {
       try {
         const response = await fetch('http://localhost:3000/meta-details');

@@ -160,7 +160,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   // isLoading.value = false;
-  $q.loading.show();
+  $q.loading.hide();
 });
 </script>
 
