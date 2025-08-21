@@ -18,12 +18,21 @@ onMounted(async () => {
 const metaDetails = computed(() => store.MetaDetails || { sections: [] });
 
 // Filter sections and entries by visible
-const filteredSections = computed(() => {
+const visibleSections = computed(() => {
   if (!metaDetails.value?.sections) return [];
-  return metaDetails.value.sections.map((section) => ({
-    ...section,
-    sectionEntries: section.sectionEntries.filter((entry) => entry.visible),
-  }));
+  return metaDetails.value.sections
+    .map((section) => ({
+      ...section,
+      sectionEntries: section.sectionEntries.filter(
+        (entry) =>
+          entry.visible &&
+          entry.value !== '' &&
+          entry.value !== '-1' &&
+          entry.visibleName !== 'id' &&
+          entry.visibleName !== 'group_id',
+      ),
+    }))
+    .filter((section) => section.sectionEntries.length > 0);
 });
 
 const onEdit = () => {
@@ -46,7 +55,7 @@ const onEdit = () => {
     <q-page-container>
       <q-page class="q-pa-md">
         <q-card
-          v-for="section in filteredSections"
+          v-for="section in visibleSections"
           :key="section.id"
           class="q-mb-md"
         >
@@ -56,13 +65,7 @@ const onEdit = () => {
           <q-separator />
           <q-list bordered>
             <div v-for="entry in section.sectionEntries" :key="entry.id">
-              <q-item
-                v-if="
-                  entry.visibleName != 'id' &&
-                  entry.visibleName != 'group_id' &&
-                  entry.value !== ''
-                "
-              >
+              <q-item>
                 <q-item-section>
                   <div class="text-caption text-grey-7">
                     {{ entry.visibleName }}
@@ -74,7 +77,7 @@ const onEdit = () => {
           </q-list>
         </q-card>
         <div
-          v-if="filteredSections.length === 0"
+          v-if="visibleSections.length === 0"
           class="text-center text-grey q-mt-xl"
         >
           No sections to display.

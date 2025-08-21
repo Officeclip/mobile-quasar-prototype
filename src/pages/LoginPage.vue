@@ -293,7 +293,8 @@ onBeforeUnmount(() => {
               <!-- Footer Section -->
               <q-card-section>
                 <!-- API URL Display -->
-                <div class="api-url-display">
+                <!-- as per Dutta suggestion not showing this section -->
+                <!-- <div class="api-url-display">
                   <q-icon
                     name="link"
                     size="sm"
@@ -304,7 +305,7 @@ onBeforeUnmount(() => {
                   <span class="text-caption text-weight-medium q-ml-xs">
                     {{ util.getEndPointUrl() }}
                   </span>
-                </div>
+                </div> -->
 
                 <!-- Sign Up Link -->
                 <div class="signup-link">
