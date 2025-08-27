@@ -1,4 +1,5 @@
 <script setup lang="ts">
+type FormDataEntryValue = string | File;
 import { computed } from 'vue';
 import EditMetaDetailCtrl from 'src/components/Meta/Demo/EditMetaDetailCtrl.vue';
 import { useRoute, useRouter } from 'vue-router';

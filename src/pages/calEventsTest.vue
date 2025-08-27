@@ -9,12 +9,12 @@ const startsModelValue = ref();
 const startsModelValue2 = ref();
 startsModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
   start.value,
-  isAllDayEvent.value
+  isAllDayEvent.value,
 );
 
 startsModelValue2.value = dateTimeHelper.formatDateTimeForUI(
   new Date(start.value),
-  true
+  true,
 );
 const dateTimeMask = 'ddd, MMM D, YYYY hh:mm A';
 const dateMask = 'ddd, MMM D, YYYY';
@@ -24,7 +24,7 @@ const mask = (x: boolean) => {
 watch(isAllDayEvent, () => {
   startsModelValue.value = dateTimeHelper.formatDateandTimeFromUtc(
     start.value,
-    isAllDayEvent.value
+    isAllDayEvent.value,
   );
 });
 </script>

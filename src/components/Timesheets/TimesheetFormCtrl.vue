@@ -39,7 +39,7 @@ onMounted(async () => {
     (props.timesheet?.projectSid ? ':' + props.timesheet?.projectSid : '');
 
   customerProjectModel.value = customerProjectOptions.value.find(
-    (x) => x.id === custProjId
+    (x) => x.id === custProjId,
   )
     ? custProjId
     : '';
@@ -55,11 +55,11 @@ let isCommentsRequired = false;
 const selectedPeriod = computed(() => {
   const fromDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
     props?.fromDate,
-    true
+    true,
   );
   const toDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
     props?.toDate,
-    true
+    true,
   );
 
   const formattedDt = `${fromDate} - ${toDate}`;
@@ -106,11 +106,11 @@ watch(
     //update the service item options each time when customer project get changed
     serviceItemsOptions.value =
       timesheetListStore.getServiceItemsBycustomerProjectId(
-        newCustomerProjectModel
+        newCustomerProjectModel,
       );
 
     const serviceItem = serviceItemsOptions.value.find(
-      (x) => x.id === serviceItemModel.value
+      (x) => x.id === serviceItemModel.value,
     );
 
     if (!serviceItem) return;
@@ -118,7 +118,7 @@ watch(
       isBillableModify.value = serviceItem.isBillableModify;
       props.timesheet.isBillable = serviceItem.isBillable;
     }
-  }
+  },
 );
 
 const dateRef = ref(null);

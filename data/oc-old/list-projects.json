@@ -1,32 +1,32 @@
 [
-    {
-        "isDefault": true,
-        "name": "",
-        "id": "-1"
-    },
-    {
-        "isDefault": false,
-        "name": "New Project",
-        "id": "N6MT62FXTBYTXG9EGAKTN8D5MMKKWWACBCTM6LQ"
-    },
-    {
-        "isDefault": false,
-        "name": "OfficeClip LLC",
-        "id": "9JRMY8SR7JYVSHDRJC9Q"
-    },
-    {
-        "isDefault": false,
-        "name": "OfficeClip: Testing1",
-        "id": "5JRMY8SR7JYVSHDRJC5Q"
-    },
-    {
-        "isDefault": false,
-        "name": "OfficeClip: Testing2",
-        "id": "Y2JV7TJC6CVLWJW3ZM8Y"
-    },
-    {
-        "isDefault": false,
-        "name": "OfficeClip: Testing3",
-        "id": "J2JV7TJC6CVLWJW3ZN9Y"
-    }
+  {
+    "isDefault": true,
+    "name": "",
+    "id": "-1"
+  },
+  {
+    "isDefault": false,
+    "name": "New Project",
+    "id": "N6MT62FXTBYTXG9EGAKTN8D5MMKKWWACBCTM6LQ"
+  },
+  {
+    "isDefault": false,
+    "name": "OfficeClip LLC",
+    "id": "9JRMY8SR7JYVSHDRJC9Q"
+  },
+  {
+    "isDefault": false,
+    "name": "OfficeClip: Testing1",
+    "id": "5JRMY8SR7JYVSHDRJC5Q"
+  },
+  {
+    "isDefault": false,
+    "name": "OfficeClip: Testing2",
+    "id": "Y2JV7TJC6CVLWJW3ZM8Y"
+  },
+  {
+    "isDefault": false,
+    "name": "OfficeClip: Testing3",
+    "id": "J2JV7TJC6CVLWJW3ZN9Y"
+  }
 ]

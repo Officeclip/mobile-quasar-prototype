@@ -96,7 +96,9 @@ export const useTaskSummaryStore = defineStore('taskSummaryStore', {
         } else {
           return true;
         }
-      } catch (error) {}
+      } catch (error) {
+        console.warn('taskSummaryStore suppressed error', error);
+      }
       return this.url === 'null';
     },
 

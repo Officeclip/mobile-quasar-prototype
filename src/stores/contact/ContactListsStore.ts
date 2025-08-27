@@ -21,7 +21,7 @@ export const useContactListsStore = defineStore('contactListsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/contact-lists`
+          `${util.getEndPointUrl()}/contact-lists`,
         );
         const contactList = response.data[0];
         this.states = contactList.states;

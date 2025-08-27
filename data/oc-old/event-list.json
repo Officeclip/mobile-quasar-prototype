@@ -1,23 +1,23 @@
 [
-    {
-        "endDateTime": "2020-03-04 19:00:00Z",
-        "eventName": "meeting with team",
-        "eventType": "2",
-        "sid": "UANZXMFSH84NZADCHC5Q",
-        "startDateTime": "2020-03-04 18:30:00Z"
-    },
-    {
-        "endDateTime": "2020-03-02 10:05:28Z",
-        "eventName": "test event from REST API",
-        "eventType": "1",
-        "sid": "BJ6VW39CUJFT29DVHC5Q",
-        "startDateTime": "2020-03-01 18:30:00Z"
-    },
-    {
-        "endDateTime": "2020-03-01 19:00:00Z",
-        "eventName": "test event",
-        "eventType": "2",
-        "sid": "HMMEY89FBCULYCSD645Q",
-        "startDateTime": "2020-03-01 18:30:00Z"
-    }
+  {
+    "endDateTime": "2020-03-04 19:00:00Z",
+    "eventName": "meeting with team",
+    "eventType": "2",
+    "sid": "UANZXMFSH84NZADCHC5Q",
+    "startDateTime": "2020-03-04 18:30:00Z"
+  },
+  {
+    "endDateTime": "2020-03-02 10:05:28Z",
+    "eventName": "test event from REST API",
+    "eventType": "1",
+    "sid": "BJ6VW39CUJFT29DVHC5Q",
+    "startDateTime": "2020-03-01 18:30:00Z"
+  },
+  {
+    "endDateTime": "2020-03-01 19:00:00Z",
+    "eventName": "test event",
+    "eventType": "2",
+    "sid": "HMMEY89FBCULYCSD645Q",
+    "startDateTime": "2020-03-01 18:30:00Z"
+  }
 ]

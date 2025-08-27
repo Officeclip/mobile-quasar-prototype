@@ -1,7 +1,8 @@
 import { ref } from 'vue';
 
 const idleTime = ref(0);
-let idleInterval: NodeJS.Timeout;
+//let idleInterval: NodeJS.Timeout;
+let idleInterval: ReturnType<typeof setTimeout>;
 
 export function resetIdleTimer() {
   idleTime.value = 0;

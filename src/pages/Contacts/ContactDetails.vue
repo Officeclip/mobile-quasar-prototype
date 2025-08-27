@@ -65,7 +65,7 @@ const children = computed(() => {
 
 const stateName = computed(() => {
   const item = contactDetailsStore.States.find(
-    (state) => state.id === contactDetails.value?.state_id
+    (state) => state.id === contactDetails.value?.state_id,
   );
   const stateItem = item ? item.name : '';
   return stateItem;
@@ -73,7 +73,7 @@ const stateName = computed(() => {
 
 const countryName = computed(() => {
   const item = contactDetailsStore.Countries.find(
-    (country) => country.id === contactDetails.value?.country_id
+    (country) => country.id === contactDetails.value?.country_id,
   );
   const countryItem = item ? item.name : '';
   return countryItem;
@@ -145,7 +145,7 @@ const cancelConfirmation = () => {
 const confirmDeletion = async () => {
   try {
     await contactDetailsStore.deleteContactDetails(
-      contactDetails.value?.id as string
+      contactDetails.value?.id as string,
     );
     showConfirmationDialog.value = false;
     router.go(-1);

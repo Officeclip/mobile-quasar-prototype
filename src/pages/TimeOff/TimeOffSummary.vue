@@ -24,8 +24,8 @@ const title = computed(() =>
   tab.value === 'mylist'
     ? 'My Requests'
     : tab.value === 'inbox'
-    ? 'Inbox'
-    : 'Archived'
+      ? 'Inbox'
+      : 'Archived',
 );
 const timeOffSummaries = computed(() => timeOffStore.TimeOffSummaries);
 
@@ -102,7 +102,7 @@ const viewDetails = async (
   id: string,
   status: string,
   stageId: number,
-  employeeId: string
+  employeeId: string,
 ) => {
   await router.push({
     path: `/timeOffDetails/${id}/${status}/${stageId}/${employeeId}`,
@@ -208,7 +208,7 @@ const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
                   item?.id,
                   item?.status,
                   item?.stageId,
-                  item?.employeeId
+                  item?.employeeId,
                 )
               "
             >

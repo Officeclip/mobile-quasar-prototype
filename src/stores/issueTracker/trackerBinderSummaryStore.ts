@@ -19,7 +19,7 @@ export const useTrackerBinderSummaryStore = defineStore(
         try {
           const instance = Constants.getAxiosInstance();
           const response = await instance.get(
-            `${util.getEndPointUrl()}/tracker-binder-summary`
+            `${util.getEndPointUrl()}/tracker-binder-summary`,
           );
           this.trackerBindersList = response.data;
         } catch (error) {
@@ -27,5 +27,5 @@ export const useTrackerBinderSummaryStore = defineStore(
         }
       },
     },
-  }
+  },
 );

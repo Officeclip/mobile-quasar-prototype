@@ -25,7 +25,7 @@ onBeforeMount(async () => {
   await usecontactDetailsStore.getContactLists();
   getCountries.value = usecontactDetailsStore.countries;
   defaultCountry.value = getCountries.value.find(
-    (country) => country.is_default
+    (country) => country.is_default,
   );
   getStates.value = usecontactDetailsStore.states;
   defaultState.value = getStates.value.find((state) => state.is_default);
@@ -70,7 +70,7 @@ function filterCountriesFn(val, update) {
   update(() => {
     const needle = val.toLowerCase();
     filterCountries.value = getCountries.value.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }
@@ -79,7 +79,7 @@ function filterStatesFn(val, update) {
   update(() => {
     const needle = val.toLowerCase();
     filterStates.value = getStates.value.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }

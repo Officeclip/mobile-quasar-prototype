@@ -9,19 +9,16 @@
       "id": "6",
       "name": "Closed",
       "category": "Completed"
-
     },
     {
       "id": "7",
       "name": "Pending",
       "category": "Pending"
-
     },
     {
       "id": "8",
       "name": "Completed",
       "category": "Completed"
-
     }
   ],
   "priority": [

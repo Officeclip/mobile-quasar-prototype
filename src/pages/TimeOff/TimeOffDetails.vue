@@ -78,14 +78,14 @@ const isAllowEdit = computed(() =>
   isAllowed({
     security: { write: timeOffDetails.value?.security?.write },
     isTimeExpense: true,
-  })
+  }),
 );
 
 const isAllowDelete = computed(() =>
   isAllowed({
     security: { delete: timeOffDetails.value?.security?.delete },
     isTimeExpense: true,
-  })
+  }),
 );
 
 const title = ref('Confirm');

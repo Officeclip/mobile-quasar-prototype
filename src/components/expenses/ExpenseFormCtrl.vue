@@ -61,11 +61,11 @@ const paymentTypeOptions = computed(() => {
 const period = computed(() => {
   const fromDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
     props?.fromDate,
-    true
+    true,
   );
   const toDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
     props?.toDate,
-    true
+    true,
   );
   return `${fromDate} - ${toDate}`;
 });
@@ -136,7 +136,7 @@ watch([customerProjectModel], ([newCustomerProjectModel]) => {
 
 function getExpenseTypeDetail(expTypeId) {
   const expenseType = expenseTypeOptions.value.find(
-    (x) => x.expenseTypeSid === expTypeId
+    (x) => x.expenseTypeSid === expTypeId,
   );
   if (!expenseType) return;
   if (expenseType != null) {

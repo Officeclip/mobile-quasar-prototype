@@ -7,7 +7,7 @@ const isSessionAdmin = sessionStore.Session.isAdmin;
 function isRoleAccess(roleAccess: string): boolean {
   if (roleAccess !== '') {
     const data = sessionStore.Session.roleAccess.find(
-      (x) => x.name === roleAccess
+      (x) => x.name === roleAccess,
     );
     return data?.access ?? true;
   }

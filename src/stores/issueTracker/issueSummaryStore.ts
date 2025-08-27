@@ -87,7 +87,9 @@ export const useIssueSummaryStore = defineStore('issueSummaryStore', {
         } else {
           return true;
         }
-      } catch (error) {}
+      } catch (error) {
+        console.warn('issueSummaryStore suppressed error', error);
+      }
       return this.url === 'null';
     },
 

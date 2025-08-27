@@ -1,25 +1,25 @@
 [
-    {
-        "accountName": "OfficeClip LLC",
-        "accountSid": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
-        "breakTime": "",
-        "checkInTime": "0001-01-01 00:00:00Z",
-        "checkOutTime": "0001-01-01 00:00:00Z",
-        "createdDate": "2023-06-06 09:13:19Z",
-        "createdUserSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
-        "description": "worked on trigyn enhancement - time off history for a particular date - report",
-        "isBillable": true,
-        "modifiedDate": "2023-06-06 09:13:19Z",
-        "modifiedUserSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
-        "payrollName": "",
-        "payrollSid": "ECHTWHSFBJ9CW39XAC5Q",
-        "projectName": "General",
-        "projectSid": "W6YVXB9R4GBCWHA4EM4X6ZFFCB9E2Y9SBDYM6LQ",
-        "serviceItemName": "Support",
-        "serviceItemSid": "VMTV6WGXN6HE2CD4NGGR7JWV7A6CSXAD4MJM6LQ",
-        "taskDate": "2023-06-04 18:30:00Z",
-        "timeDuration": 5.0,
-        "timesheetDetailSid": "28GCS6SCDC9NN7DDJ8UMY3JXACBYNZGVN4TM6LQ",
-        "timesheetSid": "U6JY3RHDXBYEX8HXBCHEYRS5BZHKN7UX2M9M6LQ"
-    }
+  {
+    "accountName": "OfficeClip LLC",
+    "accountSid": "4A9RY7EVHA8CNSHRJBLNB3HRD6TLYUEXYCYM6LQ",
+    "breakTime": "",
+    "checkInTime": "0001-01-01 00:00:00Z",
+    "checkOutTime": "0001-01-01 00:00:00Z",
+    "createdDate": "2023-06-06 09:13:19Z",
+    "createdUserSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
+    "description": "worked on trigyn enhancement - time off history for a particular date - report",
+    "isBillable": true,
+    "modifiedDate": "2023-06-06 09:13:19Z",
+    "modifiedUserSid": "ECGLWRFDFZNCXXGEJBTQSDFSVM6XNSDVJJ9M6LQ",
+    "payrollName": "",
+    "payrollSid": "ECHTWHSFBJ9CW39XAC5Q",
+    "projectName": "General",
+    "projectSid": "W6YVXB9R4GBCWHA4EM4X6ZFFCB9E2Y9SBDYM6LQ",
+    "serviceItemName": "Support",
+    "serviceItemSid": "VMTV6WGXN6HE2CD4NGGR7JWV7A6CSXAD4MJM6LQ",
+    "taskDate": "2023-06-04 18:30:00Z",
+    "timeDuration": 5.0,
+    "timesheetDetailSid": "28GCS6SCDC9NN7DDJ8UMY3JXACBYNZGVN4TM6LQ",
+    "timesheetSid": "U6JY3RHDXBYEX8HXBCHEYRS5BZHKN7UX2M9M6LQ"
+  }
 ]

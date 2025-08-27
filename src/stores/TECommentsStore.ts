@@ -21,7 +21,7 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/te-comments?category=timesheet&id=${timesheetSid}`
+          `${util.getEndPointUrl()}/te-comments?category=timesheet&id=${timesheetSid}`,
         );
         const newData = response.data;
         this.commentsList = newData;
@@ -34,7 +34,7 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/te-comments?category=expense&id=${expenseSid}`
+          `${util.getEndPointUrl()}/te-comments?category=expense&id=${expenseSid}`,
         );
         const newData = response.data;
         this.commentsList = newData;
@@ -48,7 +48,7 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/timesheet-group-profile`
+          `${util.getEndPointUrl()}/timesheet-group-profile`,
         );
         const newData = response.data[0];
         this.timesheetDCAA = newData;
@@ -64,7 +64,7 @@ export const useTECommentsStore = defineStore('teCommentsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
           `${util.getEndPointUrl()}/timesheet-comments`,
-          comment
+          comment,
         );
         if (response.status === 200) {
           await this.getTimesheetComments(comment.id);

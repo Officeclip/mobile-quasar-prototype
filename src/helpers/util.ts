@@ -29,7 +29,7 @@ export enum ObjectType {
 function isValidEmail(email: string, isRequired: boolean) {
   if (email === '' && isRequired === false) return true;
   const regex =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/;
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}(?:\.[0-9]{1,3}){3}\])|(([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,24}))$/;
   return regex.test(email);
 }
 
@@ -141,7 +141,7 @@ function decycle(obj: any, stack: any[] = []): any {
   return Array.isArray(obj)
     ? obj.map((x) => decycle(x, s))
     : Object.fromEntries(
-        Object.entries(obj).map(([k, v]) => [k, decycle(v, s)])
+        Object.entries(obj).map(([k, v]) => [k, decycle(v, s)]),
       );
 }
 

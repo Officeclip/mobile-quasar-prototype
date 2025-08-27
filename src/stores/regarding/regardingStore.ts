@@ -53,7 +53,7 @@ export const useRegardingStore = defineStore('regardingStore', {
         const response = await instance.get(
           `${util.getEndPointUrl()}/regarding?parentType=${
             type.name
-          }&searchString=${searchString}`
+          }&searchString=${searchString}`,
         );
         const regardingItems = response.data;
         const filtered = regardingItems.filter((t: regardingItem) => {

@@ -38,7 +38,7 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
           if (t.startDateTime) {
             const newDate = dateTimeHelper.getDateTimeFromRestAPI(
               t.startDateTime,
-              true
+              true,
             );
             return dateTimeHelper.formatDateForCalendar(newDate) === date;
           }
@@ -51,7 +51,7 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
 
     async getEventSummaryByParent(
       parentObjectId: number,
-      parentObjectServiceType: number
+      parentObjectServiceType: number,
     ) {
       const callStr = `${util.getEndPointUrl()}/eventSummary?parentSId=${parentObjectId}&parentServiceType=${parentObjectServiceType}`;
       try {
@@ -72,14 +72,14 @@ export const useEventSummaryStore = defineStore('eventSummaryStore', {
             if (a.startDateTime) {
               const mydate = dateTimeHelper.getDateTimeFromRestAPI(
                 a.startDateTime,
-                true
+                true,
               );
               const dateString = dateTimeHelper.formatDateForCalendar(mydate);
               return dateString;
             } else {
               return null;
             }
-          }
+          },
         );
         return dates;
       }

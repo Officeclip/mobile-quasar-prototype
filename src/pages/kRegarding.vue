@@ -54,7 +54,7 @@ async function filterFn(val, update, abort) {
   update(() => {
     const needle = val.toLowerCase();
     shownOptions.value = eventListsStore.regardingContacts.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }

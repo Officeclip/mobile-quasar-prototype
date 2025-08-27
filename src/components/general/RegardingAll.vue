@@ -25,7 +25,7 @@ const selectedRegContact = ref(null);
 async function filterContacts(
   val: string,
   update: (arg0: () => void) => void,
-  abort: () => void
+  abort: () => void,
 ) {
   if (val.length < 2) {
     abort();
@@ -46,7 +46,7 @@ async function filterContacts(
   update(() => {
     const needle = val.toLowerCase();
     regardingContacts.value = regardingAllStore.regardingContacts.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }

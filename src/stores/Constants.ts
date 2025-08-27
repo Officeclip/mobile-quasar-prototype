@@ -35,7 +35,7 @@ export class Constants {
     instance.interceptors.response.use(
       (x) => {
         logger.log(
-          `axios response: ${JSON.stringify(util.decycle(x), null, 4)}`
+          `axios response: ${JSON.stringify(util.decycle(x), null, 4)}`,
         );
         logger.log('++++++');
         return x;
@@ -61,7 +61,7 @@ export class Constants {
         logger.log('++++++');
         // We can choose to rethrow the error or handle it as needed
         return Promise.reject(error);
-      }
+      },
     );
     return instance;
   }
@@ -76,7 +76,7 @@ export class Constants {
 
   static saveAuthorizationTokenInLocalStorage(
     token: string,
-    expirationUnixEpoch: number
+    expirationUnixEpoch: number,
   ) {
     LocalStorage.set('X-Token', `${token},${expirationUnixEpoch}`);
   }
@@ -117,13 +117,13 @@ export class Constants {
   static throwError(error: unknown) {
     //TODO: We need a way to go to the login page if token expires: https://dev.to/darkmavis1980/how-to-use-axios-interceptors-to-handle-api-error-responses-2ij1
     logger.log(
-      `throwError(...): ${JSON.stringify(util.decycle(error), null, 4)}`
+      `throwError(...): ${JSON.stringify(util.decycle(error), null, 4)}`,
     );
     if (axios.isAxiosError(error)) {
       if (error?.response?.data) {
         const responseError: responseError = error.response.data;
         Constants.throwError(
-          `${responseError.description}: ${responseError.message}`
+          `${responseError.description}: ${responseError.message}`,
         );
       } else {
         throw `Axios error: ${error.message}`;

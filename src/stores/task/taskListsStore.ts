@@ -36,7 +36,7 @@ export const useTaskListsStore = defineStore('taskListsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/task-lists`
+          `${util.getEndPointUrl()}/task-lists`,
         );
         const taskLists: taskLists = response.data[0];
         this.tags = taskLists.tags;
@@ -55,7 +55,7 @@ export const useTaskListsStore = defineStore('taskListsStore', {
         this.users = [];
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/task-lists`
+          `${util.getEndPointUrl()}/task-lists`,
         );
         const userList = response.data[0].users;
         const filtered = userList.filter((t: regardingContact) => {

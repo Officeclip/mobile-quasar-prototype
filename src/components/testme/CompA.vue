@@ -13,7 +13,7 @@ const isAllDay = ref(true);
 const endDateModelValue = ref('');
 endDateModelValue.value = dateTimeHelper.formatDateTimeFromRestAPIForUI(
   endDate.value,
-  isAllDay.value
+  isAllDay.value,
 );
 
 const validateAll = () => {

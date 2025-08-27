@@ -137,7 +137,7 @@ const listLength = computed(() => {
 });
 const showWarningMsg = () => {
   alert(
-    'Add new timesheet details entry is not available in mobile app for Check-in, Check-out mode,please visit the web app to add the new timesheet details'
+    'Add new timesheet details entry is not available in mobile app for Check-in, Check-out mode,please visit the web app to add the new timesheet details',
   );
 };
 function toggleLeftDrawer() {

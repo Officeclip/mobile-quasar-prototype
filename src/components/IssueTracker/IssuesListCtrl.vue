@@ -26,7 +26,7 @@ const loadMore = async (index: any, done: () => void) => {
   try {
     reachedEnd.value = await issueSummaryStore.getIssuesUpdated(
       false,
-      props.binderId
+      props.binderId,
     );
     //https://quasar.dev/vue-components/infinite-scroll/#usage
     done();
@@ -118,7 +118,7 @@ defineExpose({ infinteScrollReset });
                 <span class="q-mx-sm">{{
                   dateTimeHelper.formatDateTimeFromRestAPIForUI(
                     issue.createdDate,
-                    false
+                    false,
                   )
                 }}</span>
               </q-item-label>
@@ -142,7 +142,9 @@ defineExpose({ infinteScrollReset });
 @import '../../css/status.scss';
 
 .clickable-card {
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   cursor: pointer;
 }
 

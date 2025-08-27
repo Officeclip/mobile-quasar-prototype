@@ -1,6 +1,6 @@
-export interface regarding{
-  type:regardingType,
-  value: regardingItem,
+export interface regarding {
+  type: regardingType;
+  value: regardingItem;
 }
 export interface regardingType {
   id: string;

@@ -58,7 +58,7 @@ async function onSubmit() {
         await imageDetailStore.constructImageObjectAndSave(
           contactId,
           'Contacts',
-          base64Image.value
+          base64Image.value,
         );
       }
     }

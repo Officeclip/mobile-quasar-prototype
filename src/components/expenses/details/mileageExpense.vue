@@ -10,7 +10,5 @@ mileage.value = props.expense;
 
 <template>
   <q-item-label caption> Mileage </q-item-label>
-  <q-item-label class="q-mb-sm">
-    {{ mileage?.mileage }} (miles)
-  </q-item-label>
+  <q-item-label class="q-mb-sm"> {{ mileage?.mileage }} (miles) </q-item-label>
 </template>

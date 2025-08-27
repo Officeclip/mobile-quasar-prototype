@@ -59,7 +59,7 @@ async function onSubmit() {
       imageDetailStore.constructImageObjectAndSave(
         contactDetails.value?.id ?? '',
         'Contacts',
-        base64Image.value
+        base64Image.value,
       );
     }
     router.go(-1);

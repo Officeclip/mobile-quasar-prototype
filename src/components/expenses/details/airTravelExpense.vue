@@ -23,7 +23,7 @@ airTravel.value = props.expense;
     {{
       dateTimeHelper.formatDateTimeFromRestAPIForUI(
         airTravel?.departureDate as string,
-        true
+        true,
       )
     }}
   </q-item-label>
@@ -32,7 +32,7 @@ airTravel.value = props.expense;
     {{
       dateTimeHelper.formatDateTimeFromRestAPIForUI(
         airTravel?.arrivalDate as string,
-        true
+        true,
       )
     }}
   </q-item-label>

@@ -17,7 +17,7 @@ export const useTimeOffgroupProfile = defineStore('timeOffgroupProfile', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/timeoff-group-profile`
+          `${util.getEndPointUrl()}/timeoff-group-profile`,
         );
         const newData = response.data[0];
         this.timeOffGroupProfile = newData;

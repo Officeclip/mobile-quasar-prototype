@@ -30,7 +30,7 @@ const extractTimeFromUtc = (utcDateTime: string) => {
 
 const formatDateandTimeFromUtc = (
   utcDateTimeStr: string,
-  isAllDayEvent = false
+  isAllDayEvent = false,
 ) => {
   if (!utcDateTimeStr) {
     return null;

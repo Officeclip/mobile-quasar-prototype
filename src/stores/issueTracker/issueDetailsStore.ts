@@ -17,7 +17,7 @@ export const useIssueDetailsStore = defineStore('issueDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/tracker-case-detail/${id}`
+          `${util.getEndPointUrl()}/tracker-case-detail/${id}`,
         );
         this.issueDetails = response.data;
       } catch (error) {

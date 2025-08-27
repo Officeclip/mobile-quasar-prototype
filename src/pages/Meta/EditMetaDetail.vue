@@ -7,6 +7,7 @@ import EditMetaDetailCtrl from '../../components/Meta/EditMetaDetailCtrl.vue';
 // logger.log('Routed to EditMetaDetail: setup');
 // const contactsStore = useContactsStore();
 import { useRoute } from 'vue-router';
+import { logger } from '@/helpers/logger';
 
 const route = useRoute();
 
@@ -117,6 +118,7 @@ function onSubmit(e) {
     });
   }
   logger.log(data);
+  //console.warn('EditMetaDetail:', data);
 
   // const stringnewValue = formData.get('stringnewValue')
   // const numericnewValue = formData.get('numericnewValue')

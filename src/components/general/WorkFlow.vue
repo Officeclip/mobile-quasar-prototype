@@ -32,7 +32,7 @@ onBeforeMount(async () => {
     await workFlowStore.getWorkFlow(
       props?.entityId,
       props?.entityType,
-      props?.stageId
+      props?.stageId,
     );
     // await teCommentsStore.getTimesheetGroupProfile();
   } catch (error) {
@@ -63,7 +63,7 @@ const rejectToUserId = computed(() => {
 });
 const submitToUserName = computed(() => {
   return workFlowUsers.value?.find(
-    (x: { id: string }) => x.id === submitToUserId.value
+    (x: { id: string }) => x.id === submitToUserId.value,
   );
 });
 // const approveToUserName = computed(() => {
@@ -73,12 +73,12 @@ const submitToUserName = computed(() => {
 // });
 const approveToUserName = computed(() => {
   return workFlowUsers.value?.find(
-    (x: { id: string }) => x.id === props?.employeeId
+    (x: { id: string }) => x.id === props?.employeeId,
   );
 });
 const rejectToUserName = computed(() => {
   return workFlowUsers.value?.find(
-    (x: { id: string }) => x.id === rejectToUserId.value
+    (x: { id: string }) => x.id === rejectToUserId.value,
   );
 });
 
@@ -325,7 +325,9 @@ const closePopUp = () => {
                 option-value="id"
                 map-options
                 emit-value
-                @update:model-value="(newValue: any) => manualWorkflow(newValue)"
+                @update:model-value="
+                  (newValue: any) => manualWorkflow(newValue)
+                "
               />
             </q-item-label>
           </q-item-section>

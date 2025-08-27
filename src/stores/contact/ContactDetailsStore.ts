@@ -30,7 +30,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/contact-summary`
+          `${util.getEndPointUrl()}/contact-summary`,
         );
         this.contactDetailsList = response.data;
       } catch (error) {
@@ -55,7 +55,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const { data: contactDetails } = await instance.get(
-          `${util.getEndPointUrl()}/contact-detail/${id}`
+          `${util.getEndPointUrl()}/contact-detail/${id}`,
         );
 
         if (contactDetails.picture) {
@@ -112,7 +112,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(
           `${util.getEndPointUrl()}/contact-detail`,
-          contactDetails
+          contactDetails,
         );
         if (response.status === 201) {
           this.contactDetails = response.data;
@@ -128,7 +128,7 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.delete(
-          `${util.getEndPointUrl()}/contact-detail/${id}`
+          `${util.getEndPointUrl()}/contact-detail/${id}`,
         );
         if (response.status === 200) {
           this.contactDetails = response.data;

@@ -38,7 +38,7 @@ const sessionStore = useSessionStore();
 const issueSummaryStore = useIssueSummaryStore();
 
 const assignedToMe = ref(
-  filterOptions.value.assignedToId === sessionStore.Session.userId
+  filterOptions.value.assignedToId === sessionStore.Session.userId,
 );
 
 //need to figure out how and what value assigned for starredIssues filter
@@ -75,7 +75,7 @@ watch(
   () => filterOptions.value.searchString,
   async (newValue) => {
     await filterFn(newValue);
-  }
+  },
 );
 
 watch(assignedToMe, async () => {

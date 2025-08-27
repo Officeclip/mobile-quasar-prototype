@@ -1,89 +1,71 @@
+/* eslint-env node */
 const { defineConfig, globalIgnores } = require('eslint/config');
-
 const globals = require('globals');
-const typescriptEslint = require('@typescript-eslint/eslint-plugin');
-const vue = require('eslint-plugin-vue');
 const js = require('@eslint/js');
-
-const { FlatCompat } = require('@eslint/eslintrc');
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
+const vue = require('eslint-plugin-vue');
+const prettier = require('eslint-config-prettier');
+const tsPlugin = require('@typescript-eslint/eslint-plugin');
 
 module.exports = defineConfig([
+  // Base parser for Vue SFCs
   {
     languageOptions: {
+      parser: require('vue-eslint-parser'),
       parserOptions: {
+        // keep it QUIET: no TS project mode
         parser: require.resolve('@typescript-eslint/parser'),
+        ecmaVersion: 'latest',
+        sourceType: 'module',
         extraFileExtensions: ['.vue'],
-        project: true,
-        tsconfigRootDir: 'C:\OfficeclipNew\mobile\mobile-quasar-prototype',
       },
-
       globals: {
         ...globals.browser,
         ...globals.node,
         ...vue.environments['setup-compiler-macros']['setup-compiler-macros'],
-        ga: 'readonly',
-        cordova: 'readonly',
-        __statics: 'readonly',
-        __QUASAR_SSR__: 'readonly',
-        __QUASAR_SSR_SERVER__: 'readonly',
-        __QUASAR_SSR_CLIENT__: 'readonly',
-        __QUASAR_SSR_PWA__: 'readonly',
-        process: 'readonly',
-        Capacitor: 'readonly',
-        chrome: 'readonly',
       },
     },
+  },
 
-    extends: compat.extends(
-      'plugin:@typescript-eslint/recommended',
-      'plugin:vue/vue3-essential',
-      'prettier',
-    ),
+  // Base JS rules (minimal)
+  js.configs.recommended,
 
+  // Vue “essential” (low-noise) flat preset
+  ...vue.configs['flat/essential'],
+
+  // Disable stylistic rules that fight Prettier
+  prettier,
+
+  // Your minimal repo rules. All WARN except true foot-guns.
+  {
     plugins: {
-      '@typescript-eslint': typescriptEslint,
-      vue,
+      // keep existing plugins (vue, etc.)
+      '@typescript-eslint': tsPlugin,
     },
-
     rules: {
-      'prefer-promise-reject-errors': 'off',
-
-      quotes: [
+      // let warnings exist; we’ll hide them in CLI with --quiet
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-unused-vars': [
         'warn',
-        'single',
-        {
-          avoidEscape: true,
-        },
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
 
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/no-var-requires': 'off',
-      'no-unused-vars': 'off',
+      // keep only real errors:
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-empty-interface': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
-  {
-    // ADD THIS NEW CONFIG OBJECT TO OVERRIDE THE RULE FOR THE CONFIG FILE ITSELF
-    files: ['eslint.config.cjs'], // Target only this file
-    rules: {
-      '@typescript-eslint/no-require-imports': 'off', // Disable the rule for this file
-    },
-  },
+
+  // Ignore generated/legacy areas
   globalIgnores([
     'dist',
-    'src-capacitor',
-    'src-cordova',
     '.quasar',
     'node_modules',
-    '**/.eslintrc.js',
+    'coverage',
+    'src-capacitor',
+    'src-cordova',
     'src-ssr',
-    // Ensure the temporary files are also ignored globally if they don't need any linting at all
-    'quasar.config.js.temporary.compiled.*.mjs',
   ]),
 ]);

@@ -1,5 +1,5 @@
-export interface userSummary{
-  id: string,
-  name: string,
-  email: string
+export interface userSummary {
+  id: string;
+  name: string;
+  email: string;
 }

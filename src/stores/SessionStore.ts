@@ -19,7 +19,7 @@ export const useSessionStore = defineStore('sessionStore', {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(`${urlString}/isValid`);
-        if ((response.status = 200)) {
+        if (response.status === 200) {
           return true;
         } else {
           return false;
