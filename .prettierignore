@@ -1,0 +1,8 @@
+dist
+.quasar
+node_modules
+coverage
+src-capacitor
+src-cordova
+src-ssr
+
