@@ -10,7 +10,8 @@ import { useRouter } from 'vue-router';
 import { Constants } from '../stores/Constants';
 import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
-import apiLinkPage from 'src/pages/apiLinkPage.vue';
+// import apiLinkPage from 'src/pages/apiLinkPage.vue';
+import welcomePage from 'src/pages/welcomPage.vue';
 
 // Store and router initialization
 const sessionStore = useSessionStore();
@@ -69,7 +70,7 @@ function showNotification(
     message,
     color: type === 'negative' ? 'negative' : 'positive',
     position: 'top',
-    timeout: 4000,
+    timeout: 3000,
     // actions: [
     //   { icon: 'close', color: 'white', round: true, handler: () => {} },
     // ],
@@ -177,7 +178,8 @@ onBeforeUnmount(() => {
 
         <!-- API Link Page -->
         <div v-if="!hasEndpointUrl" class="api-link-container">
-          <apiLinkPage />
+          <!-- <apiLinkPage /> -->
+          <welcomePage />
         </div>
 
         <!-- Main Login Card -->

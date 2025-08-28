@@ -11,28 +11,70 @@ export const useSessionStore = defineStore('sessionStore', {
   }),
 
   getters: {
-    Session: () => SessionStorage.getItem('oc-session') as Session,
+    Session: (state) => {
+      // First check state, then fallback to SessionStorage
+      if (state.session && Object.keys(state.session).length > 0) {
+        return state.session;
+      }
+      return SessionStorage.getItem('oc-session') as Session;
+    },
   },
 
   actions: {
-    async isValidUrl(urlString: string) {
+    // Enhanced URL validation function
+    isValidUrlFormat(urlString: string): boolean {
+      if (typeof urlString !== 'string' || !urlString.trim()) {
+        return false;
+      }
+
+      urlString = urlString.trim();
+
+      // Ensure the URL starts with http:// or https://
+      if (!/^https?:\/\/.+/i.test(urlString)) {
+        return false;
+      }
+
+      try {
+        const url = new URL(urlString);
+        // Only allow http and https protocols
+        return url.protocol === 'http:' || url.protocol === 'https:';
+      } catch {
+        return false;
+      }
+    },
+
+    async isValidUrl(urlString: string): Promise<boolean> {
+      // Validate URL format first
+      if (!this.isValidUrlFormat(urlString)) {
+        console.warn('Invalid URL format:', urlString);
+        return false;
+      }
+
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(`${urlString}/isValid`);
-        if ((response.status = 200)) {
-          return true;
-        } else {
-          return false;
-        }
+        const endpoint = `${urlString.replace(/\/+$/, '')}/isValid`;
+
+        const response = await instance.get(endpoint, {
+          validateStatus: (status: number) => status === 200,
+        });
+
+        return response.status === 200;
       } catch (error) {
+        console.error('URL validation error:', error);
         return false;
       }
     },
 
     async getSession() {
       try {
+        // Check if session already exists
+        const existingSession = SessionStorage.getItem('oc-session') as Session;
+        if (existingSession && existingSession.applicationIds) {
+          this.session = existingSession;
+          return;
+        }
+
         //TODO: user_id and org_id will be sent via the header for every call
-        //TODO: *DO Not* load if session already exists
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(`${util.getEndPointUrl()}/session`);
         if (response.data) {
@@ -46,8 +88,16 @@ export const useSessionStore = defineStore('sessionStore', {
 
     getHomeIcons(): HomeIcon[] {
       const defaultHomeIcons = this.getDefaultHomeIcons();
+
+      // Add null check for Session
+      const session = this.Session;
+      if (!session || !session.applicationIds) {
+        console.warn('Session or applicationIds not available');
+        return [];
+      }
+
       const result = defaultHomeIcons.filter((item) => {
-        return this.Session.applicationIds.includes(item.id);
+        return session.applicationIds.includes(item.id);
       });
       return result;
     },
@@ -133,11 +183,21 @@ export const useSessionStore = defineStore('sessionStore', {
         const instance = Constants.getAxiosInstance();
         const response = await instance.post(callStr);
         if (response.status === 200) {
+          // Clear all cached data to ensure fresh data for new organization
+          SessionStorage.clear();
+          // this.session = {} as Session;
+
+          // Fetch new session data for the new organization
           await this.getSession();
-          window.location.reload();
+
+          // Force complete page reload to ensure all stores and components refresh
+          // window.location.reload();
+        } else {
+          throw new Error(`Server returned status: ${response.status}`);
         }
       } catch (error) {
-        console.error(`addEventDetail Error: ${error}`);
+        console.error(`changeOrganization Error: ${error}`);
+        throw error;
       }
     },
   },

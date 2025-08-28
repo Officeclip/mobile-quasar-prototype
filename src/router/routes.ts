@@ -244,6 +244,12 @@ const routes: RouteRecordRaw[] = [
     name: 'EditMetaDetail',
     component: () => import('../pages/Meta/EditMetaDetailDemo.vue'),
   },
+
+  {
+    path: '/apisetup',
+    name: 'apisetup',
+    component: () => import('../pages/apiSetupPage.vue'),
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
