@@ -8,165 +8,442 @@ import drawer from '../components/drawer.vue';
 import SelectOrganizations from 'src/components/general/SelectOrganizations.vue';
 import logOutButton from '../components/general/logOutButton.vue';
 
+// Store and router initialization
 const router = useRouter();
 const sessionStore = useSessionStore();
 const profileListsStore = useProfileListsStore();
-
 const $q = useQuasar();
-const isLoaded = ref<boolean>(false);
-const myDrawer = ref();
 
+// Reactive state
+const isLoadingData = ref<boolean>(false);
+const hasError = ref<boolean>(false);
+const errorMessage = ref<string>('');
+const myDrawer = ref();
+const searchQuery = ref<string>('');
+const viewMode = ref<'grid' | 'list'>('grid');
+
+// Computed properties
 const filteredHomeIcons = computed(() => {
-  return sessionStore.getHomeIcons();
+  try {
+    const icons = sessionStore.getHomeIcons();
+    if (!icons || icons.length === 0) return [];
+
+    if (searchQuery.value.trim()) {
+      const query = searchQuery.value.toLowerCase().trim();
+      return icons.filter((item) => item.name.toLowerCase().includes(query));
+    }
+
+    return icons;
+  } catch (error) {
+    console.error('Error filtering home icons:', error);
+    return [];
+  }
 });
 
-const loadProfileList = async () => {
-  $q.loading.show();
+const hasSearchResults = computed(() => {
+  return searchQuery.value.trim() === '' || filteredHomeIcons.value.length > 0;
+});
+
+const isSessionLoaded = computed(() => {
+  const session = sessionStore.Session;
+  return session && session.applicationIds && session.applicationIds.length > 0;
+});
+
+// Utility functions
+function showNotification(
+  message: string,
+  type: 'negative' | 'positive' | 'info' = 'info',
+): void {
+  $q.notify({
+    message,
+    color: type,
+    position: 'top',
+    timeout: 2500,
+    actions: [
+      { icon: 'close', color: 'white', round: true, handler: () => {} },
+    ],
+  });
+}
+
+async function handleAppClick(item: any): Promise<void> {
+  if (item.url === '') {
+    showNotification(`${item.name} is currently unavailable`, 'info');
+    return;
+  }
+
   try {
-    // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
+    await router.push({ path: item.url });
+  } catch (error) {
+    console.error('Navigation error:', error);
+    showNotification(`Failed to open ${item.name}`, 'negative');
+  }
+}
+
+async function loadProfileList(): Promise<void> {
+  if (isLoadingData.value) return; // Prevent multiple calls
+
+  isLoadingData.value = true;
+
+  try {
     await sessionStore.getSession();
     await profileListsStore.getProfileLists();
   } catch (error) {
+    console.error('Failed to load profile data:', error);
+    hasError.value = true;
+    errorMessage.value =
+      (error as string) || 'Failed to load dashboard data. Please try again.';
+
     $q.dialog({
-      title: 'Alert',
-      message: error as string,
+      title: 'Connection Error',
+      message: errorMessage.value,
+      persistent: true,
+      ok: {
+        label: 'Go to Login',
+        color: 'primary',
+        unelevated: true,
+      },
     }).onOk(async () => {
       await router.push({ path: '/LoginPage' });
       router.go(0);
     });
   } finally {
-    $q.loading.hide();
-    isLoaded.value = true;
+    isLoadingData.value = false;
   }
-};
+}
 
+function toggleLeftDrawer(): void {
+  if (myDrawer.value) {
+    myDrawer.value.toggleLeftDrawer();
+  }
+}
+
+function clearSearch(): void {
+  searchQuery.value = '';
+}
+
+async function refreshDashboard(): Promise<void> {
+  await loadProfileList();
+}
+
+// Lifecycle hooks
 onMounted(async () => {
   await loadProfileList();
 });
-
-function toggleLeftDrawer() {
-  if (myDrawer.value == null) return;
-  myDrawer.value.toggleLeftDrawer();
-}
-
-function getColor(url: string) {
-  return url !== '' ? 'primary' : 'dark';
-}
-
-function getClass(url: string) {
-  return url !== '' ? 'pointer' : '';
-}
-
-function goToApp(url: string) {
-  if (url !== '') {
-    router.push({ path: url });
-  }
-}
 </script>
-<style>
-.q-dialog__backdrop {
-  backdrop-filter: blur(7px);
-}
-</style>
+
 <template>
-  <q-layout view="lHh Lpr lFf" v-if="isLoaded">
-    <q-header elevated>
-      <q-toolbar>
+  <q-layout view="lHh Lpr lFf" class="bg-grey-1">
+    <!-- Loading Screen -->
+    <div v-if="isLoadingData" class="fixed-full flex flex-center bg-primary">
+      <div class="text-center text-white">
+        <q-spinner-orbit size="2.5rem" color="white" />
+        <div class="q-mt-md text-h6">Loading Dashboard...</div>
+      </div>
+    </div>
+
+    <!-- Error Screen -->
+    <div v-else-if="hasError" class="fixed-full flex flex-center bg-negative">
+      <div class="text-center text-white q-pa-lg">
+        <q-icon name="error_outline" size="3rem" />
+        <div class="q-mt-md text-h6">Error Loading Dashboard</div>
+        <div class="q-mt-sm text-body2">{{ errorMessage }}</div>
         <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title> OfficeClip Suite</q-toolbar-title>
-        <!-- <q-space /> -->
-        <logOutButton />
-      </q-toolbar>
-    </q-header>
+          class="q-mt-lg"
+          color="white"
+          text-color="negative"
+          @click="refreshDashboard"
+        >
+          Try Again
+        </q-btn>
+      </div>
+    </div>
 
-    <drawer ref="myDrawer" />
+    <!-- Main Layout -->
+    <template v-else-if="isSessionLoaded">
+      <!-- Header -->
+      <q-header elevated class="bg-primary">
+        <q-toolbar>
+          <q-btn
+            flat
+            dense
+            round
+            icon="menu"
+            aria-label="Menu"
+            @click="toggleLeftDrawer"
+          />
 
-    <q-page-container>
-      <q-page>
-        <div class="q-mx-lg q-my-md responsive-width">
-          <SelectOrganizations />
-        </div>
-        <div class="row">
-          <div
-            v-for="item in filteredHomeIcons"
-            :key="item.name"
-            class="col-4 flex justify-evenly"
+          <q-toolbar-title class="text-weight-medium">
+            OfficeClip Suite
+          </q-toolbar-title>
+
+          <q-space />
+
+          <q-btn
+            flat
+            dense
+            round
+            icon="refresh"
+            @click="refreshDashboard"
+            :loading="isLoadingData"
           >
-            <q-card
-              bordered
-              flat
-              class="text-center q-py-sm q-ma-md clickable-card bg-grey-1"
-              style="width: 110px; max-width: 250px"
-              @click="goToApp(item.url)"
-            >
-              <div>
-                <q-icon
-                  :class="getClass(item.url)"
-                  :color="getColor(item.url)"
-                  :name="item.icon"
-                  size="lg"
-                ></q-icon>
-                <div>{{ item.name }}</div>
-              </div>
-            </q-card>
+            <q-tooltip>Refresh</q-tooltip>
+          </q-btn>
+
+          <logOutButton />
+        </q-toolbar>
+      </q-header>
+
+      <!-- Navigation Drawer -->
+      <drawer ref="myDrawer" />
+
+      <!-- Page Container -->
+      <q-page-container>
+        <q-page class="q-pa-md">
+          <div class="row justify-center">
+            <div class="col-12" style="max-width: 1200px">
+              <!-- Organization Selection -->
+              <q-card flat>
+                <q-card-section class="q-pa-md">
+                  <SelectOrganizations />
+                </q-card-section>
+              </q-card>
+
+              <!-- Search and View Controls -->
+              <q-card flat class="q-mb-md">
+                <q-card-section class="q-pa-md">
+                  <div class="row items-center q-col-gutter-md">
+                    <div class="col-8 col-sm-6 col-md-4">
+                      <q-input
+                        v-model="searchQuery"
+                        outlined
+                        dense
+                        placeholder="Search applications..."
+                        clearable
+                        @clear="clearSearch"
+                      >
+                        <template v-slot:prepend>
+                          <q-icon name="search" />
+                        </template>
+                      </q-input>
+                    </div>
+
+                    <div class="col-auto">
+                      <q-btn-toggle
+                        v-model="viewMode"
+                        toggle-color="primary"
+                        outline
+                        :options="[
+                          {
+                            label: '',
+                            value: 'grid',
+                            icon: 'grid_view',
+                            slot: 'grid',
+                          },
+                          {
+                            label: '',
+                            value: 'list',
+                            icon: 'view_list',
+                            slot: 'list',
+                          },
+                        ]"
+                      >
+                        <template v-slot:grid>
+                          <q-tooltip>Grid View</q-tooltip>
+                        </template>
+                        <template v-slot:list>
+                          <q-tooltip>List View</q-tooltip>
+                        </template>
+                      </q-btn-toggle>
+                    </div>
+                  </div>
+                </q-card-section>
+              </q-card>
+
+              <!-- Apps Container -->
+              <q-card flat bordered>
+                <!-- No Results -->
+                <div v-if="!hasSearchResults" class="q-pa-xl text-center">
+                  <q-icon name="search_off" size="3rem" color="grey-5" />
+                  <div class="text-h6 q-mt-md q-mb-sm text-grey-7">
+                    No applications found
+                  </div>
+                  <div class="text-body2 text-grey-5 q-mb-md">
+                    Try adjusting your search terms
+                  </div>
+                  <q-btn
+                    v-if="searchQuery.trim()"
+                    flat
+                    color="primary"
+                    @click="clearSearch"
+                  >
+                    Clear Search
+                  </q-btn>
+                </div>
+
+                <!-- No Apps Available -->
+                <div
+                  v-else-if="filteredHomeIcons.length === 0"
+                  class="q-pa-xl text-center"
+                >
+                  <q-icon name="apps" size="3rem" color="grey-5" />
+                  <div class="text-h6 q-mt-md q-mb-sm text-grey-7">
+                    No applications available
+                  </div>
+                  <div class="text-body2 text-grey-5 q-mb-md">
+                    Contact your administrator to enable applications
+                  </div>
+                </div>
+
+                <!-- Grid View -->
+                <div v-else-if="viewMode === 'grid'" class="q-pa-md">
+                  <div class="row q-col-gutter-md">
+                    <div
+                      v-for="item in filteredHomeIcons"
+                      :key="item.id"
+                      class="col-4 col-sm-4 col-md-3 col-lg-2"
+                    >
+                      <q-card
+                        :class="[
+                          'cursor-pointer transition-all',
+                          item.url === '' ? 'opacity-60' : 'hover-lift',
+                        ]"
+                        flat
+                        bordered
+                        @click="handleAppClick(item)"
+                      >
+                        <q-card-section class="text-center q-pa-md">
+                          <div class="relative-position q-mb-sm">
+                            <q-icon
+                              :name="item.icon"
+                              :color="item.url !== '' ? 'primary' : 'grey-5'"
+                              size="2rem"
+                            />
+                            <q-badge
+                              v-if="item.url === ''"
+                              color="orange"
+                              floating
+                              rounded
+                              class="text-caption"
+                            >
+                              Soon
+                            </q-badge>
+                          </div>
+                          <div
+                            class="text-subtitle2 text-weight-medium ellipsis"
+                          >
+                            {{ item.name }}
+                          </div>
+                        </q-card-section>
+
+                        <!-- Hover Overlay -->
+                        <div
+                          v-if="item.url !== ''"
+                          class="absolute-full bg-primary text-white flex flex-center transition-all hover-overlay"
+                        >
+                          <q-icon name="open_in_new" size="sm" />
+                        </div>
+                      </q-card>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- List View -->
+                <div v-else>
+                  <q-list separator>
+                    <q-item
+                      v-for="item in filteredHomeIcons"
+                      :key="item.id"
+                      :class="[
+                        'cursor-pointer',
+                        item.url === '' ? 'opacity-60' : '',
+                      ]"
+                      clickable
+                      @click="handleAppClick(item)"
+                    >
+                      <q-item-section avatar>
+                        <q-avatar
+                          :color="
+                            item.color ||
+                            (item.url !== '' ? 'primary' : 'grey-4')
+                          "
+                          text-color="white"
+                        >
+                          <q-icon :name="item.icon" />
+                        </q-avatar>
+                      </q-item-section>
+
+                      <q-item-section>
+                        <q-item-label class="text-weight-medium">
+                          {{ item.name }}
+                        </q-item-label>
+                      </q-item-section>
+
+                      <q-item-section side>
+                        <q-icon
+                          v-if="item.url !== ''"
+                          name="chevron_right"
+                          color="grey-6"
+                        />
+                        <q-chip
+                          v-else
+                          size="sm"
+                          color="orange"
+                          text-color="white"
+                          label="Soon"
+                        />
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </div>
+              </q-card>
+            </div>
           </div>
-        </div>
-      </q-page>
-    </q-page-container>
+        </q-page>
+      </q-page-container>
+    </template>
+
+    <!-- Session Not Loaded -->
+    <div v-else class="fixed-full flex flex-center bg-warning">
+      <div class="text-center text-white q-pa-lg">
+        <q-icon name="warning" size="3rem" />
+        <div class="q-mt-md text-h6">Session Not Available</div>
+        <div class="q-mt-sm text-body2">Please login again</div>
+        <q-btn
+          class="q-mt-lg"
+          color="white"
+          text-color="warning"
+          @click="router.push('/LoginPage')"
+        >
+          Go to Login
+        </q-btn>
+      </div>
+    </div>
   </q-layout>
 </template>
-<style scoped>
-.clickable-card {
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-  cursor: pointer; /* Change cursor to pointer */
-}
-.clickable-card:hover {
-  transform: translateZ(10px) scale(1.05); /* Move forward and scale up */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-  /* transform: translateZ(10px); Move card forward */
-  /* transform: translateY(-4px); Slight lift on hover */
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); Add shadow for depth */
+
+<style>
+.q-dialog__backdrop {
+  backdrop-filter: blur(4px);
 }
 
-/* .clickable-card:active {
-  transform: translateY(0); Return to original position on click
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); Reduce shadow on click
-} */
-.clickable-card:active {
-  transform: translateZ(0) scale(1);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+.transition-all {
+  transition: all 0.3s ease;
 }
 
-.card-content {
-  transition:
-    font-size 0.2s ease,
-    color 0.2s ease;
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-/* .responsive-width {
-  width: 80%;
-} */
 
-@media (min-width: 560px) {
-  .responsive-width {
-    margin-left: auto;
-    margin-right: auto;
-    width: 85%;
-  }
+.hover-overlay {
+  opacity: 0;
 }
-@media (min-width: 670px) {
-  .responsive-width {
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
-  }
+
+.hover-overlay:hover {
+  opacity: 0.9;
+}
+
+.opacity-60 {
+  opacity: 0.6;
 }
 </style>

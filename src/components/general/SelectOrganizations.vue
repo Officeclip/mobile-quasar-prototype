@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useSessionStore } from '../../stores/SessionStore';
 import { useProfileListsStore } from '../../stores/profileListsStore';
@@ -9,16 +9,17 @@ const router = useRouter();
 const sessionStore = useSessionStore();
 const profileListsStore = useProfileListsStore();
 const $q = useQuasar();
-const updateOrganizations = async (newValue: any) => {
+
+const updateOrganizations = async (orgId: string) => {
   $q.loading.show();
   try {
-    await sessionStore.changeOrganization(newValue.id);
+    await sessionStore.changeOrganization(orgId);
   } catch (error) {
     $q.dialog({
       title: 'Alert',
       message: error as string,
     }).onOk(async () => {
-      await router.push({ path: '/homePage' });
+      await router.push({ path: '/HomePage' });
       router.go(0);
     });
   } finally {
@@ -34,24 +35,27 @@ const organizationItems = computed(() => {
   return profileListsStore.profileLists?.organization;
 });
 
-const organizationItem = computed(() => {
+const organizationModel = computed(() => {
   return organizationItems.value?.find(
-    (orgItem) => orgItem.id === session.value.orgId,
+    (orgItem) => orgItem.id === session.value?.orgId,
   );
 });
-
-const organization = ref(organizationItem.value?.name || '');
 </script>
 
 <template>
   <q-select
     class="full-width"
-    v-model="organization"
+    filled
+    transition-show="scale"
+    transition-hide="scale"
+    v-model="organizationModel"
     :options="organizationItems"
     label="Select Organization"
     option-label="name"
     option-value="id"
+    emit-value
     outlined
+    :loading="!organizationItems?.length"
     @update:model-value="updateOrganizations"
   />
 </template>
