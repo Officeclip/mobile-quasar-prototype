@@ -10,6 +10,7 @@
     "lint:fix": "eslint src --ext .ts,.vue --fix --cache --quiet",
     "format": "prettier --write .",
     "format:check": "prettier -c .",
+    "check": "npm run lint && npm run format:check && npm run typecheck",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
