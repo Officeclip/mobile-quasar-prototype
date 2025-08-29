@@ -1,0 +1,441 @@
+{
+  "id": 0,
+  "sections": [
+    {
+      "sectionId": 8,
+      "sectionName": "Personal Information",
+      "sectionEntries": [
+        {
+          "metaId": 59,
+          "visibleName": "id",
+          "type": "Identifier",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 60,
+          "visibleName": "group_id",
+          "type": "ForeignKey",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 61,
+          "visibleName": "First Name",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 62,
+          "visibleName": "Last Name",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 63,
+          "visibleName": "Salutation",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 64,
+          "visibleName": "Title",
+          "type": "Text",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 65,
+          "visibleName": "Company Name",
+          "type": "PickList",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 66,
+          "visibleName": "Work Phone",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 67,
+          "visibleName": "Department",
+          "type": "Text",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 68,
+          "visibleName": "Manager",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 69,
+          "visibleName": "Email Address",
+          "type": "Email",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 70,
+          "visibleName": "Email Opt-Out",
+          "type": "Boolean",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 71,
+          "visibleName": "Mobile Phone",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 72,
+          "visibleName": "Alternate Work Phone",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 73,
+          "visibleName": "Fax",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 74,
+          "visibleName": "Home Phone",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 75,
+          "visibleName": "Currency Type",
+          "type": "List",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 76,
+          "visibleName": "Birthdate",
+          "type": "Date",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 77,
+          "visibleName": "Assistant Name",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 91,
+          "visibleName": "Contact Source",
+          "type": "List",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 90758,
+          "visibleName": "Web Site",
+          "type": "Hyperlink",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 211980,
+          "visibleName": "Alternate Email Address",
+          "type": "Email",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 284368,
+          "visibleName": "Parent Account",
+          "type": "AccountList",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        }
+      ]
+    },
+    {
+      "sectionId": 9,
+      "sectionName": "Address Information",
+      "sectionEntries": [
+        {
+          "metaId": 79,
+          "visibleName": "Address Line 1",
+          "type": "Text",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 81,
+          "visibleName": "Address Line 2",
+          "type": "Text",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 83,
+          "visibleName": "City",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 85,
+          "visibleName": "State",
+          "type": "List",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 87,
+          "visibleName": "Zip/Postal Code",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 89,
+          "visibleName": "Country",
+          "type": "List",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        }
+      ]
+    },
+    {
+      "sectionId": 10,
+      "sectionName": "Other Information",
+      "sectionEntries": [
+        {
+          "metaId": 92,
+          "visibleName": "Notes",
+          "type": "HugeText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 93,
+          "visibleName": "Created User",
+          "type": "UserList",
+          "visible": true,
+          "editable": false,
+          "value": ""
+        },
+        {
+          "metaId": 94,
+          "visibleName": "Created Date",
+          "type": "Date",
+          "visible": true,
+          "editable": false,
+          "value": ""
+        },
+        {
+          "metaId": 95,
+          "visibleName": "Modified User",
+          "type": "UserList",
+          "visible": true,
+          "editable": false,
+          "value": ""
+        },
+        {
+          "metaId": 96,
+          "visibleName": "Modified Date",
+          "type": "Date",
+          "visible": true,
+          "editable": false,
+          "value": ""
+        },
+        {
+          "metaId": 99,
+          "visibleName": "Owner",
+          "type": "OwnerList",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        }
+      ]
+    },
+    {
+      "sectionId": 11,
+      "sectionName": "User-defined fields",
+      "sectionEntries": [
+        {
+          "metaId": 11240,
+          "visibleName": "Version",
+          "type": "List",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 70042,
+          "visibleName": "Serial No.",
+          "type": "LongText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 96798,
+          "visibleName": "Application",
+          "type": "List",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 145254,
+          "visibleName": "Contact Type",
+          "type": "List",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 335016,
+          "visibleName": "No. of Users",
+          "type": "Number",
+          "visible": true,
+          "editable": true,
+          "value": null
+        },
+        {
+          "metaId": 335017,
+          "visibleName": "License expiry date",
+          "type": "Date",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 339731,
+          "visibleName": "Edition",
+          "type": "List",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 397909,
+          "visibleName": "Review",
+          "type": "List",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        }
+      ]
+    },
+    {
+      "sectionId": 29458,
+      "sectionName": "Hidden Fields",
+      "sectionEntries": [
+        {
+          "metaId": 78,
+          "visibleName": "Assistant Phone",
+          "type": "ShortText",
+          "visible": false,
+          "editable": true,
+          "value": ""
+        }
+      ]
+    },
+    {
+      "sectionId": 78885,
+      "sectionName": "Other Address Information",
+      "sectionEntries": [
+        {
+          "metaId": 80,
+          "visibleName": "Other Address Line 1",
+          "type": "Text",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 82,
+          "visibleName": "Other Address Line 2",
+          "type": "Text",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 84,
+          "visibleName": "Other City",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 86,
+          "visibleName": "Other State",
+          "type": "List",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 88,
+          "visibleName": "Other Zip/Postal Code",
+          "type": "ShortText",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        },
+        {
+          "metaId": 90,
+          "visibleName": "Other Country",
+          "type": "List",
+          "visible": true,
+          "editable": true,
+          "value": ""
+        }
+      ]
+    }
+  ]
+}
