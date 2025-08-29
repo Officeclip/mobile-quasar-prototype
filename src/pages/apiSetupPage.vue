@@ -89,13 +89,8 @@ async function connectApi() {
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <q-page class="bg-grey-2">
-        <q-card
-          flat
-          bordered
-          class="q-ma-lg shadow-4"
-          style="max-width: 480px; border-radius: 12px"
-        >
+      <q-page class="bg-grey-2 flex justify-center">
+        <q-card flat class="q-ma-lg shadow-4 card">
           <!-- Header -->
           <q-card-section class="bg-primary text-white q-pa-lg">
             <div class="flex items-center">
@@ -194,7 +189,7 @@ async function connectApi() {
 
           <!-- Action Buttons -->
           <q-card-actions align="between">
-            <q-btn flat color="grey-7" :to="{ name: 'welcome' }">
+            <q-btn flat color="grey-7" :to="{ name: 'loginPage' }">
               <q-icon left name="arrow_back" />
               Back
             </q-btn>
@@ -224,3 +219,11 @@ async function connectApi() {
     </q-page-container>
   </q-layout>
 </template>
+
+<style scoped>
+.card {
+  max-width: 480px;
+  min-width: 380px;
+  border-radius: 12px;
+}
+</style>
