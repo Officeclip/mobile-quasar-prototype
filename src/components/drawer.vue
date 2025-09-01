@@ -49,11 +49,11 @@ const filteredHomeIcons = computed(() => {
 });
 
 function getColor(url: string) {
-  return url !== '' ? 'primary' : 'dark';
+  return url !== '' ? 'primary' : 'grey-6';
 }
 
 function getClass(url: string) {
-  return url !== '' ? 'pointer' : '';
+  return url !== '' ? 'cursor-pointer' : 'cursor-not-allowed';
 }
 
 function goToApp(url: string) {
@@ -66,7 +66,7 @@ function logout() {
   router.push({ path: '/loginPage' });
   setTimeout(() => {
     window.location.reload();
-  }, 400); // 2000 milliseconds = 2 seconds
+  }, 400);
 }
 
 const loadProfileLists = async () => {
@@ -84,6 +84,7 @@ const settingsDialog = ref(false);
 const position = ref<'top' | 'left' | 'right' | 'standard' | 'bottom'>('top');
 const showViewPhoto = ref(false);
 const showEditPhotoDialog = ref(false);
+
 const openSettings = (pos: any) => {
   position.value = pos;
   settingsDialog.value = true;
@@ -109,18 +110,63 @@ function handleEditPhotoClick() {
 }
 </script>
 
-<!-- see: https://forum.quasar-framework.org/topic/2911/width-attribute-on-q-layout-drawer-giving-error-in-browser-console/3 -->
-
 <template>
-  <q-drawer v-model="leftDrawerOpen" bordered show-if-above>
-    <q-scroll-area
-      style="margin-top: 80px; padding-bottom: 80px; height: calc(100% - 80px)"
-    >
-      <q-list>
+  <q-drawer
+    v-model="leftDrawerOpen"
+    bordered
+    show-if-above
+    :breakpoint="1023"
+    class="column"
+  >
+    <!-- Header Section with User Info -->
+    <div class="bg-primary text-white q-pa-md">
+      <q-item class="q-pa-none">
+        <q-item-section side>
+          <q-avatar
+            size="56px"
+            class="cursor-pointer bg-white text-primary shadow-2"
+            @click="showViewPhoto = true"
+          >
+            <q-img v-if="userPhoto" :src="userPhoto" />
+            <q-icon v-else name="person" size="32px" />
+          </q-avatar>
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label class="text-subtitle1 text-weight-medium">
+            {{ session?.userName }}
+          </q-item-label>
+          <q-item-label class="text-caption opacity-70">
+            {{ session?.userEmail }}
+          </q-item-label>
+        </q-item-section>
+
+        <q-item-section side top>
+          <q-btn
+            icon="settings"
+            flat
+            round
+            dense
+            color="white"
+            size="sm"
+            @click="openSettings('left')"
+          >
+            <q-tooltip class="bg-grey-8">Settings</q-tooltip>
+          </q-btn>
+        </q-item-section>
+      </q-item>
+    </div>
+
+    <!-- Navigation Section - Scrollable -->
+    <q-scroll-area class="col bg-white">
+      <q-list class="q-py-sm">
         <q-item
           v-for="item in filteredHomeIcons"
           :key="item.name"
           clickable
+          v-ripple
+          class="q-mx-sm q-my-xs rounded-borders"
+          :class="item.url === '' ? 'disabled' : ''"
           @click="goToApp(item.url)"
         >
           <q-item-section avatar>
@@ -129,112 +175,115 @@ function handleEditPhotoClick() {
               :color="getColor(item.url)"
               :name="item.icon"
               size="md"
-            ></q-icon>
+            />
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{ item.name }}</q-item-label>
+            <q-item-label
+              class="text-weight-medium"
+              :class="item.url === '' ? 'text-grey-6' : 'text-grey-8'"
+            >
+              {{ item.name }}
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side v-if="item.url !== ''">
+            <q-icon name="chevron_right" color="grey-5" size="sm" />
+          </q-item-section>
+          <q-item-section side v-else>
+            <q-chip size="sm" color="orange" text-color="white" label="Soon" />
           </q-item-section>
         </q-item>
       </q-list>
     </q-scroll-area>
-    <!-- <div class="background-div flex justify-center items-center"> -->
-    <q-item class="background-div">
-      <q-item-section side>
-        <q-avatar
-          size="xl"
-          color="white"
-          class="cursor-pointer"
-          @click="showViewPhoto = true"
-        >
-          <template v-if="userPhoto">
-            <q-img :src="userPhoto" />
-          </template>
-          <template v-else>
-            <q-icon name="person" />
-          </template>
-        </q-avatar>
-        <q-dialog v-model="showViewPhoto">
-          <q-card style="text-align: center">
-            <q-card-section>
-              <q-avatar size="140px" color="white">
-                <q-img v-if="userPhoto" v-bind:src="userPhoto" />
-                <q-icon v-else name="person" size="120px" />
-              </q-avatar>
-            </q-card-section>
-            <q-card-actions align="center">
-              <q-btn
-                dense
-                flat
-                color="primary"
-                label="Edit Photo"
-                @click="handleEditPhotoClick"
-              />
-              <q-btn dense flat color="grey" label="Close" v-close-popup />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-        <q-dialog v-model="showEditPhotoDialog">
-          <uploadphoto @photo-updated="onPhotoUpdated" />
-        </q-dialog>
-      </q-item-section>
-      <q-separator vertical color="white" inset></q-separator>
-      <q-item-section class="q-ml-md text-white">
-        <q-item-label class="text-subtitle1">
-          {{ session?.userName }}
-        </q-item-label>
-        <q-item-label class="text-caption ellipsis" style="max-width: 180px">
-          {{ session?.userEmail }}
-        </q-item-label>
-      </q-item-section>
-      <q-item-section side top>
-        <q-btn
-          icon="settings"
-          flat
-          round
-          dense
-          color="white"
-          @click="openSettings('left')"
-        ></q-btn>
-      </q-item-section>
-    </q-item>
-    <!-- </div> -->
-    <q-dialog v-model="settingsDialog" :position="position">
-      <SettingsComponent />
-    </q-dialog>
-    <q-footer>
-      <q-item dense class="bg-grey-3 text-black">
+
+    <!-- Footer Section -->
+    <div class="bg-grey-2 q-pa-md">
+      <!-- Version Information -->
+      <q-item dense class="q-pa-sm bg-white rounded-borders q-mb-sm">
         <q-item-section>
-          <div class="flex justify-between q-mb-xs">
-            <div>
-              App Version:
-              {{ packageJson.version }}
-            </div>
-            <div>
-              OC Version:
-              {{ Constants.getRestApiVersionFromSession() }}
-            </div>
+          <div class="row justify-between items-center text-caption q-mb-xs">
+            <span class="text-weight-medium text-grey-7">App Version:</span>
+            <span class="text-weight-bold text-grey-9">{{
+              packageJson.version
+            }}</span>
+          </div>
+          <div class="row justify-between items-center text-caption">
+            <span class="text-weight-medium text-grey-7">OC Version:</span>
+            <span class="text-weight-bold text-grey-9">{{
+              Constants.getRestApiVersionFromSession()
+            }}</span>
           </div>
         </q-item-section>
       </q-item>
+
+      <!-- Logout Button -->
       <q-btn
         icon="logout"
         label="Log out"
-        class="full-width q-pa-sm"
+        class="full-width"
         unelevated
         rounded
+        color="negative"
+        text-color="white"
         @click="logout"
-      >
-      </q-btn>
-    </q-footer>
+      />
+    </div>
+
+    <!-- Photo View Dialog -->
+    <q-dialog v-model="showViewPhoto">
+      <q-card class="text-center q-pa-md" style="min-width: 300px">
+        <q-card-section>
+          <q-avatar size="140px">
+            <q-img v-if="userPhoto" :src="userPhoto" />
+            <q-icon v-else name="person" size="120px" color="grey-5" />
+          </q-avatar>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <div class="text-h6 text-weight-medium q-mb-xs">
+            {{ session?.userName }}
+          </div>
+          <div class="text-caption text-grey-9">{{ session?.userEmail }}</div>
+        </q-card-section>
+
+        <q-card-actions align="center" class="q-pt-none">
+          <q-btn
+            flat
+            color="primary"
+            label="Edit Photo"
+            @click="handleEditPhotoClick"
+          />
+          <q-btn flat color="grey" label="Close" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <!-- Edit Photo Dialog -->
+    <q-dialog v-model="showEditPhotoDialog">
+      <uploadphoto @photo-updated="onPhotoUpdated" />
+    </q-dialog>
+
+    <!-- Settings Dialog -->
+    <q-dialog v-model="settingsDialog" :position="position">
+      <SettingsComponent />
+    </q-dialog>
   </q-drawer>
 </template>
+
 <style scoped>
-.background-div {
-  background-color: #000; /* Replace with your desired color */
-  height: 80px;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 1;
+/* Minimal custom styles - using mostly Quasar classes */
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Hover effect for navigation items */
+.q-item.q-item--clickable:not(.disabled):hover {
+  background-color: #f5f5f5;
+}
+
+/* Active state for current route */
+.q-item.q-item--active {
+  background-color: #e3f2fd;
+  color: #1976d2;
 }
 </style>
