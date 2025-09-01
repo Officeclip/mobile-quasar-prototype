@@ -89,8 +89,8 @@ async function connectApi() {
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <q-page class="bg-grey-2 flex justify-center">
-        <q-card flat class="q-ma-lg shadow-4 card">
+      <q-page class="bg-grey-2 flex flex-center row">
+        <q-card flat class="q-ma-md col-10 col-md-6">
           <!-- Header -->
           <q-card-section class="bg-primary text-white q-pa-lg">
             <div class="flex items-center">

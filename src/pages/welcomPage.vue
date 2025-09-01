@@ -16,7 +16,7 @@ function redirectToSignup() {
             <!-- <div class="text-h5 text-weight-bold q-mb-xs">
               Welcome to OfficeClip Mobile
             </div> -->
-            <h6 class="q-ma-sm">Welcome to OfficeClip Mobile</h6>
+            <h6 class="q-ma-sm">Welcome to OfficeClip</h6>
             <div class="text-body2 text-blue-2">
               Your business management companion
             </div>

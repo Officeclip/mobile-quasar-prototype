@@ -141,7 +141,7 @@ function decycle(obj: any, stack: any[] = []): any {
   return Array.isArray(obj)
     ? obj.map((x) => decycle(x, s))
     : Object.fromEntries(
-        Object.entries(obj).map(([k, v]) => [k, decycle(v, s)])
+        Object.entries(obj).map(([k, v]) => [k, decycle(v, s)]),
       );
 }
 

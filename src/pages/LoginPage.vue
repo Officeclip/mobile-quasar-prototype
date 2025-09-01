@@ -187,14 +187,11 @@ onBeforeUnmount(() => {
           <q-card flat bordered>
             <!-- Header Section -->
             <q-card-section class="login-header">
-              <div>
-                <img
-                  src="/my-app-icon.png"
-                  alt="OfficeClip Logo"
-                  style="width: 100px; height: 100px"
-                />
-              </div>
-              <h1 class="login-title">Welcome Back</h1>
+              <q-avatar size="84px">
+                <q-img src="/my-app-icon.png" />
+                <!-- <q-icon name="business" size="28px" /> -->
+              </q-avatar>
+              <h1 class="login-title">Welcome to OfficeClip</h1>
               <p class="login-subtitle">
                 Sign in to access your account and continue your journey
               </p>
@@ -425,7 +422,7 @@ onBeforeUnmount(() => {
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 1rem 0;
 }
 
 .api-link-container {
@@ -463,7 +460,7 @@ onBeforeUnmount(() => {
 .login-title {
   font-size: 1.75rem;
   font-weight: 700;
-  margin: 0 0 0.5rem;
+  margin: 0;
   color: #1a202c;
   letter-spacing: -0.025em;
 }
@@ -472,7 +469,7 @@ onBeforeUnmount(() => {
   color: #64748b;
   margin: 0;
   font-size: 0.9rem;
-  line-height: 1.5;
+  /* line-height: 1.5; */
 }
 
 /* Form Styles */
@@ -549,13 +546,13 @@ onBeforeUnmount(() => {
 }
 
 /* Footer Section */
-.footer-section {
+/* .footer-section {
   padding: 1rem 2rem 2rem;
   background: rgba(248, 250, 252, 0.5);
   border-top: 1px solid rgba(226, 232, 240, 0.5);
-}
+} */
 
-.api-url-display {
+/* .api-url-display {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -564,7 +561,7 @@ onBeforeUnmount(() => {
   background: rgba(255, 255, 255, 0.7);
   border-radius: 6px;
   border: 1px solid rgba(226, 232, 240, 0.5);
-}
+} */
 
 .signup-link {
   text-align: center;
@@ -581,7 +578,7 @@ onBeforeUnmount(() => {
 }
 
 /* Responsive Design */
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
   .login-container {
     padding: 0.5rem;
   }
@@ -609,7 +606,7 @@ onBeforeUnmount(() => {
     align-items: flex-start;
     gap: 0.5rem;
   }
-}
+} */
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
@@ -621,12 +618,7 @@ onBeforeUnmount(() => {
 }
 
 /* Dark theme support */
-@media (prefers-color-scheme: dark) {
-  /* .login-card {
-    background: rgba(17, 24, 39, 0.95);
-    border-color: rgba(75, 85, 99, 0.3);
-  } */
-
+/* @media (prefers-color-scheme: dark) {
   .login-title {
     color: #f9fafb;
   }
@@ -644,5 +636,5 @@ onBeforeUnmount(() => {
     background: rgba(31, 41, 55, 0.7);
     border-color: rgba(75, 85, 99, 0.3);
   }
-}
+} */
 </style>
