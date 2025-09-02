@@ -10,7 +10,7 @@ import { useRouter } from 'vue-router';
 import { Constants } from '../stores/Constants';
 import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
-// import apiLinkPage from 'src/pages/apiLinkPage.vue';
+import { useNotification } from '../composables/useNotification';
 import welcomePage from 'src/pages/welcomPage.vue';
 
 // Store and router initialization
@@ -18,6 +18,7 @@ const sessionStore = useSessionStore();
 const tokenStore = useTokenStore();
 const router = useRouter();
 const $q = useQuasar();
+const { showNotification } = useNotification();
 
 // Reactive state
 // const isLoading = ref(false);
@@ -62,20 +63,20 @@ function clearStorageData(): void {
   sessionStorage.removeItem('oc-session');
 }
 
-function showNotification(
-  message: string,
-  type: 'negative' | 'positive' = 'negative',
-): void {
-  $q.notify({
-    message,
-    color: type === 'negative' ? 'negative' : 'positive',
-    position: 'top',
-    timeout: 3000,
-    // actions: [
-    //   { icon: 'close', color: 'white', round: true, handler: () => {} },
-    // ],
-  });
-}
+// function showNotification(
+//   message: string,
+//   type: 'negative' | 'positive' = 'negative',
+// ): void {
+//   $q.notify({
+//     message,
+//     color: type === 'negative' ? 'negative' : 'positive',
+//     position: 'top',
+//     timeout: 3000,
+//     // actions: [
+//     //   { icon: 'close', color: 'white', round: true, handler: () => {} },
+//     // ],
+//   });
+// }
 
 function handleValidationErrors(): void {
   v$.value.$errors.forEach((error) => {

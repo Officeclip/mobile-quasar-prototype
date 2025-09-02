@@ -1,38 +1,18 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useQuasar } from 'quasar';
 import { useSessionStore } from '../stores/SessionStore';
 import util from 'src/helpers/util';
 import { useRouter } from 'vue-router';
+import { useNotification } from 'src/composables/useNotification';
 
 // Simple reactive data
 const selectedEdition = ref('cloud');
 const apiUrl = ref('');
 const loading = ref(false);
 const router = useRouter();
+const { showNotification } = useNotification();
 
-// Composables
-const $q = useQuasar();
 const sessionStore = useSessionStore();
-
-// Notification function
-function showNotification(
-  message: string,
-  type: 'negative' | 'positive' = 'negative',
-  position: 'top' | 'bottom' = 'top',
-  onDismiss?: () => void,
-): void {
-  $q.notify({
-    message,
-    color: type === 'negative' ? 'negative' : 'positive',
-    position: position,
-    timeout: 1000,
-    actions: [
-      { icon: 'close', color: 'white', round: true, handler: () => {} },
-    ],
-    onDismiss,
-  });
-}
 
 // Set default cloud URL
 const cloudUrl = import.meta.env.VITE_API_ENDPOINT_DEFAULT;
@@ -50,8 +30,14 @@ watch(selectedEdition, (newEdition) => {
 apiUrl.value = cloudUrl;
 
 // Simple connect function
-async function connectApi() {
-  if (!apiUrl.value.trim()) return;
+// async function connectApi() {
+// if (!apiUrl.value.trim()) return;
+async function connectApi(): Promise<void> {
+  const url = apiUrl.value.trim();
+  if (!url) {
+    showNotification('API URL cannot be empty.');
+    return;
+  }
 
   loading.value = true;
 
@@ -76,10 +62,7 @@ async function connectApi() {
       // apiUrl.value = '';
     }
   } catch (error) {
-    showNotification(
-      `'Connection failed. Please try again'${error}`,
-      'negative',
-    );
+    showNotification(`'Connection failed. Please try again'${error}`);
   } finally {
     loading.value = false;
   }
