@@ -2,7 +2,8 @@
 import { computed, onMounted } from 'vue';
 import { useMetaDetailsStore } from 'src/stores/MetaDetailsStore';
 import { useRouter } from 'vue-router';
-import BackButton from 'src/components/OCcomponents/Back-Button.vue';
+// import BackButton from 'src/components/OCcomponents/Back-Button.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const router = useRouter();
 const store = useMetaDetailsStore();
@@ -44,14 +45,21 @@ const onEdit = () => {
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
+    <!-- <q-header reveal bordered class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <BackButton />
         <q-toolbar-title> Contact Details </q-toolbar-title>
         <q-btn flat round dense color="white" icon="edit" @click="onEdit()">
         </q-btn>
       </q-toolbar>
-    </q-header>
+    </q-header> -->
+    <OC_Header
+      title="Contact Meta Details"
+      :show-back="true"
+      :show-edit-button="true"
+      @edit="onEdit"
+    ></OC_Header>
+
     <q-page-container>
       <q-page class="q-pa-md">
         <q-card

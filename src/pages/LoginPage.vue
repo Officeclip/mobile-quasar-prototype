@@ -185,11 +185,11 @@ onBeforeUnmount(() => {
 
         <!-- Main Login Card -->
         <div v-else class="login-container">
-          <q-card flat bordered>
+          <q-card flat class="q-mx-md">
             <!-- Header Section -->
             <q-card-section class="login-header">
               <q-avatar size="84px">
-                <q-img src="/my-app-icon.png" />
+                <q-img src="/icon.png" />
                 <!-- <q-icon name="business" size="28px" /> -->
               </q-avatar>
               <h1 class="login-title">Welcome to OfficeClip</h1>
@@ -327,7 +327,7 @@ onBeforeUnmount(() => {
                 <div v-if="util.isHideTestPage()" class="test-page-section">
                   <q-separator class="q-my-md" />
                   <q-btn
-                    :to="{ name: 'loginPage2' }"
+                    :to="{ name: 'devTestPage' }"
                     color="grey-8"
                     size="md"
                     label="Development Test Page"

@@ -7,9 +7,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/LoginPage.vue'),
   },
   {
-    path: '/loginPage2',
-    name: 'loginPage2',
-    component: () => import('pages/LoginPage2.vue'),
+    path: '/devTestPage',
+    name: 'devTestPage',
+    component: () => import('pages/devTestPage.vue'),
   },
   {
     path: '/homePage',
@@ -106,36 +106,36 @@ const routes: RouteRecordRaw[] = [
     name: 'testMe',
     component: () => import('../pages/TestMe.vue'),
   },
-  {
-    path: '/loginPage',
-    name: 'dTest',
-    component: () => import('../pages/LoginPage.vue'),
-  },
-  {
-    path: '/formData',
-    name: 'formData',
-    component: () => import('../pages/ParentComponent.vue'),
-  },
-  {
-    path: '/kRegarding',
-    name: 'kRegarding',
-    component: () => import('../pages/kRegarding.vue'),
-  },
-  {
-    path: '/coloredDdOptions',
-    name: 'coloredDdOptions',
-    component: () => import('../pages/coloredDdOptions.vue'),
-  },
-  {
-    path: '/attachmentsTest',
-    name: 'attachmentsTest',
-    component: () => import('../pages/attachmentsTest.vue'),
-  },
-  {
-    path: '/calEventsTest',
-    name: 'calEventsTest',
-    component: () => import('../pages/calEventsTest.vue'),
-  },
+  // {
+  //   path: '/loginPage',
+  //   name: 'dTest',
+  //   component: () => import('../pages/LoginPage.vue'),
+  // },
+  // {
+  //   path: '/formData',
+  //   name: 'formData',
+  //   component: () => import('../pages/ParentComponent.vue'),
+  // },
+  // {
+  //   path: '/kRegarding',
+  //   name: 'kRegarding',
+  //   component: () => import('../pages/kRegarding.vue'),
+  // },
+  // {
+  //   path: '/coloredDdOptions',
+  //   name: 'coloredDdOptions',
+  //   component: () => import('../pages/coloredDdOptions.vue'),
+  // },
+  // {
+  //   path: '/attachmentsTest',
+  //   name: 'attachmentsTest',
+  //   component: () => import('../pages/attachmentsTest.vue'),
+  // },
+  // {
+  //   path: '/calEventsTest',
+  //   name: 'calEventsTest',
+  //   component: () => import('../pages/calEventsTest.vue'),
+  // },
 
   {
     path: '/timesheetsAll',

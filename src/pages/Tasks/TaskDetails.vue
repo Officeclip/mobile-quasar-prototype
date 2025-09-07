@@ -14,6 +14,7 @@ import {
   getTaskStatusIcon,
 } from 'src/helpers/colorIconHelper';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import { useQuasar } from 'quasar';
 import drawer from '../../components/drawer.vue';
 
@@ -166,48 +167,23 @@ const regardingInfo = computed(() => {
 
 <template>
   <q-layout view="lHh Lpr lFf" v-if="taskDetail">
-    <q-header bordered class="bg-primary text-white" reveal height-hint="98">
-      <q-toolbar>
-        <q-btn dense flat icon="arrow_back" round @click="router.go(-1)" />
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title>Task Details</q-toolbar-title>
-        <div v-if="taskDetail?.security?.write">
-          <q-btn
-            :to="{ name: 'editTask', params: { id: id, appName: appName } }"
-            dense
-            flat
-            icon="edit"
-            round
-          />
-        </div>
-        <div v-else>
-          <q-btn dense disable flat icon="edit" round>
-            <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>
-          </q-btn>
-        </div>
-        <div>
-          <q-btn
-            v-if="taskDetail?.security?.delete"
-            color="white"
-            dense
-            flat
-            icon="delete"
-            round
-            @click="displayConfirmationDialog"
-          />
-          <q-btn v-else dense disable flat icon="delete" round>
-            <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>
-          </q-btn>
-        </div>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="Task Details"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+      :show-edit-button="true"
+      :disable-edit="!taskDetail?.security?.write"
+      edit-tooltip="Editing is disabled"
+      :edit-button-to="{
+        name: 'editTask',
+        params: { id: id, appName: appName },
+      }"
+      :show-delete-button="true"
+      :disable-delete="!taskDetail?.security?.delete"
+      delete-tooltip="Deleting is disabled"
+      @delete="displayConfirmationDialog"
+    >
+    </OC_Header>
     <drawer ref="myDrawer" />
     <q-page-container>
       <q-card class="q-ma-md" flat>

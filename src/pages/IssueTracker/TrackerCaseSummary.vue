@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { Ref, ref, watch } from 'vue';
 import drawer from '../../components/drawer.vue';
+import OC_Header from '../../components/OCcomponents/OC_Header.vue';
 import { useIssueSummaryStore } from 'src/stores/issueTracker/issueSummaryStore';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import AdvancedFilters from '../../components/IssueTracker/IssueTrackerAdvancedFilters.vue';
 import { searchFilter } from 'src/models/issueTracker/searchFilter';
 import { useSessionStore } from 'src/stores/SessionStore';
 import IssuesListCtrl from 'src/components/IssueTracker/IssuesListCtrl.vue';
 
 const route = useRoute();
-const router = useRouter();
 const binderId = route.params.binderId;
-const binderName = route.params.binderName;
+const binderName = route.params.binderName as string;
 const myDrawer = ref();
 const infinteScroll = ref(null);
 const defaultFilterOptions: searchFilter = {
@@ -38,11 +38,11 @@ const sessionStore = useSessionStore();
 const issueSummaryStore = useIssueSummaryStore();
 
 const assignedToMe = ref(
-  filterOptions.value.assignedToId === sessionStore.Session.userId
+  filterOptions.value.assignedToId === sessionStore.Session.userId,
 );
 
 //need to figure out how and what value assigned for starredIssues filter
-const starredIssues = ref('');
+// const starredIssues = ref('');
 
 function clearFilterValues() {
   window.location.reload();
@@ -75,7 +75,7 @@ watch(
   () => filterOptions.value.searchString,
   async (newValue) => {
     await filterFn(newValue);
-  }
+  },
 );
 
 watch(assignedToMe, async () => {
@@ -116,28 +116,12 @@ const advanceFilters = async () => {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-btn
-          @click="router.push({ path: '/trackerBinderSummary' })"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title> {{ binderName }} </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      :title="`Binder: ${binderName}`"
+      back-button-to="/trackerBinderSummary"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+    />
     <drawer ref="myDrawer" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>

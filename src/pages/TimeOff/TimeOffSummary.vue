@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import drawer from '../../components/drawer.vue';
 import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
@@ -24,42 +25,10 @@ const title = computed(() =>
   tab.value === 'mylist'
     ? 'My Requests'
     : tab.value === 'inbox'
-    ? 'Inbox'
-    : 'Archived'
+      ? 'Inbox'
+      : 'Archived',
 );
 const timeOffSummaries = computed(() => timeOffStore.TimeOffSummaries);
-
-// const columns = [
-//   {
-//     name: 'createdBy',
-//     required: true,
-//     label: 'Created By',
-//     align: 'left' as const,
-//     field: 'createdByUserName',
-//     sortable: true,
-//   },
-//   {
-//     name: 'dateRange',
-//     label: 'Date Range',
-//     align: 'left' as const,
-//     field: (row) => `${row.fromDate} - ${row.toDate}`,
-//     format: (val) => `${val}`,
-//     sortable: true,
-//   },
-//   {
-//     name: 'totalHours',
-//     label: 'Total Hrs',
-//     align: 'left',
-//     field: 'totalHours',
-//   },
-//   {
-//     name: 'payrollName',
-//     label: 'Payroll Name',
-//     align: 'left',
-//     field: 'payrollName',
-//   },
-//   { name: 'status', label: 'Status', align: 'left', field: 'status' },
-// ];
 
 const loadTimeOffSummaries = async (tabValue: string) => {
   timeOffStore.resetTimeOffSummaryList(); // Clear previous data
@@ -92,17 +61,11 @@ const toggleLeftDrawer = () => {
   myDrawer.value.toggleLeftDrawer();
 };
 
-// const viewDetails = (row) => {
-//   router.push({
-//     path: `/timeOffDetails/${row?.id}/${row?.status}/${row?.stageId}/${row?.employeeId}`,
-//   });
-// };
-
 const viewDetails = async (
   id: string,
   status: string,
   stageId: number,
-  employeeId: string
+  employeeId: string,
 ) => {
   await router.push({
     path: `/timeOffDetails/${id}/${status}/${stageId}/${employeeId}`,
@@ -158,38 +121,15 @@ const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-btn
-          @click="router.push({ path: '/homepage' })"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title>Time Off: {{ title }}</q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      :title="'Time Off: ' + title"
+      back-button-to="/homepage"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+    />
     <drawer ref="myDrawer" />
     <q-footer>
-      <q-tabs
-        v-model="tab"
-        align="justify"
-        class="bg-grey-4 text-black"
-        switch-indicator
-        narrow-indicator
-        dense
-      >
+      <q-tabs v-model="tab" align="justify" active-bg-color="grey" dense>
         <q-tab name="mylist" label="My Requests" icon="outbox" />
         <q-tab name="inbox" label="Inbox" icon="inbox" />
         <q-tab name="archived" label="Archived" icon="archive" />
@@ -208,7 +148,7 @@ const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
                   item?.id,
                   item?.status,
                   item?.stageId,
-                  item?.employeeId
+                  item?.employeeId,
                 )
               "
             >

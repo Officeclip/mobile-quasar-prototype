@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
-const router = useRouter();
+// const router = useRouter();
 // TODO: CR: 2024-08-05: Can this be put in the helper as constant?
 const allExpenses = [
   {
@@ -44,20 +45,7 @@ const allExpenses = [
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-btn
-          @click="router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
-        <q-toolbar-title> Expenses </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+    <OC_Header title="Expenses"></OC_Header>
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
       <q-page>

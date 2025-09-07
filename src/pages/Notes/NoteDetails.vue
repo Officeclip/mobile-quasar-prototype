@@ -7,6 +7,7 @@ import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import { useQuasar } from 'quasar';
 import drawer from '../../components/drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -95,52 +96,23 @@ function toggleLeftDrawer() {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-btn
-          @click="router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title> Note details </q-toolbar-title>
-
-        <q-btn
-          :to="{
-            name: 'editNote',
-            params: {
-              id: id,
-              objectTypeId: parentObjectServiceType,
-              objectId: parentObjectId,
-            },
-          }"
-          flat
-          round
-          dense
-          color="white"
-          icon="edit"
-        />
-        <q-btn
-          @click="displayConfirmationDialog"
-          flat
-          round
-          dense
-          color="white"
-          icon="delete"
-        />
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="Note details"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+      :show-edit-button="true"
+      :edit-button-to="{
+        name: 'editNote',
+        params: {
+          id: id,
+          objectTypeId: parentObjectServiceType,
+          objectId: parentObjectId,
+        },
+      }"
+      :show-delete-button="true"
+      @delete="displayConfirmationDialog"
+    >
+    </OC_Header>
     <drawer ref="myDrawer" />
     <q-page-container>
       <q-page>

@@ -1,4 +1,3 @@
-<!-- cleaned up with google bard with minor correction -->
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import drawer from '../../components/drawer.vue';
@@ -6,6 +5,7 @@ import { useTrackerBinderSummaryStore } from 'src/stores/issueTracker/trackerBin
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const router = useRouter();
 const title = ref('Binders');
@@ -46,28 +46,12 @@ const binderList = computed(() => {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-btn
-          @click="router.push({ path: '/homepage' })"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title> Issue Tracker </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="Issue Tracker"
+      back-button-to="/homepage"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+    />
     <drawer ref="myDrawer" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>

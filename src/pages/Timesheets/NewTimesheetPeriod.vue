@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from 'vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import { useTimesheetListStore } from '../../stores/timesheet/TimesheetListStore';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
@@ -46,20 +47,7 @@ watch([periodModel], ([newPeriodModel]) => {
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <q-toolbar>
-        <q-btn
-          @click="router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
-        <q-toolbar-title> New Timesheet</q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+    <OC_Header title="New Timesheet"></OC_Header>
     <q-page-container>
       <q-page>
         <q-list>

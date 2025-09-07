@@ -17,8 +17,8 @@ import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import drawer from '../../components/drawer.vue';
-import BackButton from '../../components/OCcomponents/Back-Button.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const loading = ref(true);
 const model = ref('1');
@@ -65,7 +65,7 @@ const children = computed(() => {
 
 const stateName = computed(() => {
   const item = contactDetailsStore.States.find(
-    (state) => state.id === contactDetails.value?.state_id
+    (state) => state.id === contactDetails.value?.state_id,
   );
   const stateItem = item ? item.name : '';
   return stateItem;
@@ -73,7 +73,7 @@ const stateName = computed(() => {
 
 const countryName = computed(() => {
   const item = contactDetailsStore.Countries.find(
-    (country) => country.id === contactDetails.value?.country_id
+    (country) => country.id === contactDetails.value?.country_id,
   );
   const countryItem = item ? item.name : '';
   return countryItem;
@@ -145,7 +145,7 @@ const cancelConfirmation = () => {
 const confirmDeletion = async () => {
   try {
     await contactDetailsStore.deleteContactDetails(
-      contactDetails.value?.id as string
+      contactDetails.value?.id as string,
     );
     showConfirmationDialog.value = false;
     router.go(-1);
@@ -163,6 +163,17 @@ function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
 }
+
+const handleEditClick = () => {
+  if (model.value === '1') {
+    router.push({
+      name: 'editContactDetails',
+      params: { id: id.value },
+    });
+  } else {
+    router.push({ name: 'editMetaDetail', params: { id: id.value } });
+  }
+};
 </script>
 
 <style>
@@ -173,54 +184,15 @@ function toggleLeftDrawer() {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <BackButton />
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title> Contact details </q-toolbar-title>
-        <div>
-          <q-btn
-            v-if="isAllowEdit"
-            @click="
-              model === '1'
-                ? router.push({
-                    name: 'editContactDetails',
-                    params: { id: id },
-                  })
-                : router.push({ name: 'editMetaDetail', params: { id: id } })
-            "
-            flat
-            round
-            dense
-            color="white"
-            icon="edit"
-          />
-          <q-btn v-else dense disable flat icon="edit" round>
-            <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>
-          </q-btn>
-        </div>
-        <div>
-          <q-btn
-            v-if="isAllowDelete"
-            @click="displayConfirmationDialog"
-            flat
-            round
-            dense
-            color="white"
-            icon="delete"
-          /><q-btn v-else dense disable flat icon="delete" round>
-            <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>
-          </q-btn>
-        </div>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="Contact details"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+      :show-edit-button="isAllowEdit"
+      @edit="handleEditClick"
+      :show-delete-button="isAllowDelete"
+      @delete="displayConfirmationDialog"
+    ></OC_Header>
     <drawer ref="myDrawer" />
     <q-page-container>
       <OC_Loader :visible="loading" />

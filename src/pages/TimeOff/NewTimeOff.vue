@@ -4,8 +4,8 @@ import { useTimeOffStore } from '../../stores/timeOff/timeOffStore';
 import { useRouter } from 'vue-router';
 import TimeOffForm from '../../components/TimeOff/TimeOffFormCtrl.vue';
 import { useQuasar } from 'quasar';
-import OCSubmitButton from 'src/components/OCcomponents/OC-SubmitButton.vue';
 import { TimeOffDetails } from 'src/models/TimeOff/timeOffDetails';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -57,21 +57,11 @@ async function onSubmit() {
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <q-toolbar>
-        <q-btn
-          @click="router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
-        <q-toolbar-title> New TimeOff</q-toolbar-title>
-        <OCSubmitButton @handleClick="onSubmit"></OCSubmitButton>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="New TimeOff"
+      :show-save-button="true"
+      @save="onSubmit"
+    ></OC_Header>
     <q-page-container>
       <!-- <pre>New Page::{{ timeOff }}</pre> -->
       <q-form @submit="onSubmit" class="q-gutter-md">

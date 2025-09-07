@@ -3,8 +3,8 @@ import { useContactSummaryStore } from '../../stores/contact/ContactSummaryStore
 import { computed, ref, watch, onMounted, Ref, nextTick } from 'vue';
 import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar } from 'quasar';
-import drawer from '../../components/drawer.vue';
-import BackButton from '../../components/OCcomponents/Back-Button.vue';
+import drawer from 'src/components/drawer.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import { onBeforeRouteLeave } from 'vue-router';
 
@@ -245,20 +245,11 @@ onBeforeRouteLeave((to, from) => {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <BackButton />
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title>Contact List</q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="Contact List"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+    ></OC_Header>
 
     <drawer ref="myDrawer" />
 

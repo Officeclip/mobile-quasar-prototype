@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
+import OC_Header from '../../components/OCcomponents/OC_Header.vue';
 import drawer from '../../components/drawer.vue';
 import { useIssueDetailsStore } from 'src/stores/issueTracker/issueDetailsStore';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
@@ -117,49 +118,20 @@ const isAllowDelete = computed(() => {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-btn
-          @click="router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title> Binder: {{ binderName }} </q-toolbar-title>
-        <q-btn
-          v-if="isAllowEdit"
-          flat
-          round
-          dense
-          color="white"
-          icon="edit"
-          :to="{
-            name: 'editIssue',
-            params: { id: id, appName: appName },
-          }"
-        ></q-btn>
-        <q-btn
-          v-if="isAllowDelete"
-          flat
-          round
-          dense
-          color="white"
-          icon="delete"
-          @click="displayShowDeleteIssueDetail(issueDetails?.id)"
-        ></q-btn>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      :title="`Binder: ${binderName}`"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+      :show-edit-button="isAllowEdit"
+      :edit-button-to="{
+        name: 'editIssue',
+        params: { id: id, appName: appName },
+      }"
+      :show-delete-button="isAllowDelete"
+      @delete="displayShowDeleteIssueDetail(issueDetails?.id)"
+    >
+    </OC_Header>
+
     <drawer ref="myDrawer" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container class="q-mb-md">

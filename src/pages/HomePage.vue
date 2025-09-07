@@ -172,7 +172,10 @@ onMounted(async () => {
             @click="toggleLeftDrawer"
           />
 
-          <q-toolbar-title class="text-weight-medium">
+          <q-toolbar-title
+            class="text-weight-medium"
+            style="min-width: 0; flex: 1 1 auto; white-space: normal"
+          >
             OfficeClip Suite
           </q-toolbar-title>
 

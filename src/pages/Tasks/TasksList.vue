@@ -7,9 +7,8 @@ import { searchFilter } from 'src/models/task/searchFilter';
 import { useSessionStore } from '../../stores/SessionStore';
 import TasksListCtrl from 'components/tasks/tasksListCtrl.vue';
 import drawer from '../../components/drawer.vue';
-import { useRouter } from 'vue-router';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
-const router = useRouter();
 const myDrawer = ref();
 const infinteScroll = ref(null);
 
@@ -138,27 +137,12 @@ function toggleLeftDrawer() {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header bordered class="bg-primary text-white" height-hint="98" reveal>
-      <q-toolbar>
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="router.push({ path: '/homepage' })"
-        />
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title> Tasks</q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="Tasks"
+      back-button-to="/homepage"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+    />
     <drawer ref="myDrawer" />
     <q-space class="q-mt-sm" />
     <q-page-container>

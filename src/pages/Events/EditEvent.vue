@@ -6,7 +6,7 @@ import { useRoute, useRouter } from 'vue-router';
 import EventForm from '../../components/Events/EventsFormCtrl.vue';
 import { eventDetails } from 'src/models/event/eventDetails';
 import { useQuasar } from 'quasar';
-import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const $q = useQuasar();
 const route = useRoute();
@@ -82,21 +82,11 @@ async function onSubmit() {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <q-toolbar>
-        <q-btn
-          @click="router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
-        <q-toolbar-title> Edit Event</q-toolbar-title>
-        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="Edit Event"
+      :show-save-button="true"
+      @save="onSubmit"
+    ></OC_Header>
     <q-page-container>
       <q-form @submit="onSubmit" class="q-gutter-md">
         <div>

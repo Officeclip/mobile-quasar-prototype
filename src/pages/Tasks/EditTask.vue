@@ -6,7 +6,7 @@ import TasksForm from 'components/tasks/tasksFormCtrl.vue';
 import { useTaskDetailsStore } from '../../stores/task/taskDetailsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import { useQuasar } from 'quasar';
-import OCSaveButton from 'src/components/OCcomponents/OC-SaveButton.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const $q = useQuasar();
 const tasksDetailStore = useTaskDetailsStore();
@@ -53,20 +53,11 @@ async function onSubmit(e: any) {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <q-toolbar>
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="router.go(-1)"
-        />
-        <q-toolbar-title>Edit Task</q-toolbar-title>
-        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="Edit Task"
+      :show-save-button="true"
+      @save="onSubmit"
+    ></OC_Header>
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>

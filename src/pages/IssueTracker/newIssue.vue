@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, Ref } from 'vue';
 import issueTrackerForm from '../../components/IssueTracker/IssueTrackerFormCtrl.vue';
-import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import { useIssueDetailsStore } from 'src/stores/issueTracker/issueDetailsStore';
 import { useRoute, useRouter } from 'vue-router';
 import { trackerCaseDetails } from 'src/models/issueTracker/trackerCaseDetails';
@@ -74,21 +74,11 @@ function onSubmit() {
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <q-toolbar>
-        <q-btn
-          @click="router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
-        <q-toolbar-title> New Issue</q-toolbar-title>
-        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="New Issue"
+      :show-save-button="true"
+      @save="onSubmit"
+    ></OC_Header>
     <q-page-container>
       <q-page>
         <q-list>

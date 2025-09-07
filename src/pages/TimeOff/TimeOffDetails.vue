@@ -9,7 +9,7 @@ import { isAllowed } from 'src/helpers/security';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import WorkFlow from '../../components/general/WorkFlow.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
-import { time } from 'console';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -78,14 +78,14 @@ const isAllowEdit = computed(() =>
   isAllowed({
     security: { write: timeOffDetails.value?.security?.write },
     isTimeExpense: true,
-  })
+  }),
 );
 
 const isAllowDelete = computed(() =>
   isAllowed({
     security: { delete: timeOffDetails.value?.security?.delete },
     isTimeExpense: true,
-  })
+  }),
 );
 
 const title = ref('Confirm');
@@ -143,25 +143,12 @@ const getDaysOrHrs = () => {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-btn
-          @click="router.go(-1)"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        />
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title>Time Off Details</q-toolbar-title>
+    <OC_Header
+      title="Time Off Details"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+    >
+      <template #right-actions>
         <q-btn
           v-if="isAllowEdit"
           flat
@@ -180,8 +167,8 @@ const getDaysOrHrs = () => {
           icon="delete"
           @click="displayShowDeleteTimeOffDetail(timeOffDetails?.id)"
         />
-      </q-toolbar>
-    </q-header>
+      </template>
+    </OC_Header>
     <Drawer ref="myDrawer" />
     <!-- <q-space class="q-mt-sm" /> -->
     <q-page-container class="q-mb-md"

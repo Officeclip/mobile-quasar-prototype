@@ -11,6 +11,7 @@ import { useQuasar } from 'quasar';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 import drawer from '../../components/drawer.vue';
 import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 
 const loading = ref(true);
@@ -62,6 +63,14 @@ const isAllowDelete = computed(() => {
   return isAllowed({
     security: { delete: event.value?.security?.delete },
   });
+});
+
+const canEdit = computed(() => {
+  return isAllowEdit.value && event.value?.eventType?.id !== '4';
+});
+
+const canDelete = computed(() => {
+  return isAllowDelete.value && event.value?.eventType?.id !== '4';
 });
 
 const selectedTime = computed(() => {
@@ -166,57 +175,19 @@ function toggleLeftDrawer() {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header bordered class="bg-primary text-white" height-hint="98" reveal>
-      <q-toolbar>
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="router.go(-1)"
-        />
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title>
-          <OCItem :value="event?.eventType?.name" />
-        </q-toolbar-title>
-        <div>
-          <q-btn
-            v-if="isAllowEdit && event.eventType?.id !== '4'"
-            :to="{ name: 'editEvent', params: { id: id, appName: appName } }"
-            color="white"
-            dense
-            flat
-            icon="edit"
-            round
-          />
-          <q-btn v-else dense disable flat icon="edit" round>
-            <q-tooltip class="bg-accent">Editing is disabled</q-tooltip>
-          </q-btn>
-        </div>
-        <div>
-          <q-btn
-            v-if="isAllowDelete && event.eventType?.id !== '4'"
-            color="white"
-            dense
-            flat
-            icon="delete"
-            round
-            @click="displayConfirmationDialog"
-          />
-          <q-btn v-else dense disable flat icon="delete" round>
-            <q-tooltip class="bg-accent">Deleting is disabled</q-tooltip>
-          </q-btn>
-        </div>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      :title="event?.eventType?.name || 'Event Details'"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+      :show-edit-button="canEdit"
+      :edit-button-to="{
+        name: 'editEvent',
+        params: { id: id, appName: appName },
+      }"
+      :show-delete-button="canDelete"
+      @delete="displayConfirmationDialog"
+    >
+    </OC_Header>
     <drawer ref="myDrawer" />
     <q-page-container>
       <q-page>

@@ -16,6 +16,7 @@ import { useQuasar } from 'quasar';
 import { isAllowed } from 'src/helpers/security';
 import drawer from '../../components/drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const loading = ref(true);
 const route = useRoute();
@@ -148,38 +149,14 @@ function toggleLeftDrawer() {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-btn
-          @click="router.push({ path: '/expensesAll' })"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title> Expense Details </q-toolbar-title>
-        <q-btn
-          v-if="isAllowDelete"
-          flat
-          round
-          dense
-          color="white"
-          icon="delete"
-          @click="displayConfirmationDialog"
-        >
-        </q-btn>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="Expense Details"
+      back-button-to="/expensesAll"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+      :show-delete-button="isAllowDelete"
+      @delete="displayConfirmationDialog"
+    />
     <drawer ref="myDrawer" />
     <q-page-container class="q-ma-sm">
       <OC_Loader :visible="loading" />

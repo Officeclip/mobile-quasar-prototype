@@ -7,6 +7,7 @@ import { isAllowed } from 'src/helpers/security';
 import { QInfiniteScroll, useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 
 const expensesDetailsStore = useExpenseSummaryStore();
@@ -90,36 +91,21 @@ function toggleLeftDrawer() {
 </style>
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-btn
-          @click="router.push({ path: '/homepage' })"
-          flat
-          round
-          dense
-          color="white"
-          icon="arrow_back"
-        >
-        </q-btn>
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title>{{ title }} Expenses </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      :title="`${title} Expenses`"
+      back-button-to="/homepage"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+    ></OC_Header>
     <drawer ref="myDrawer" />
-    <q-footer elevated>
+    <q-footer bordered class="bg-grey-3">
       <q-tabs
         v-model="tab"
-        no-caps
-        inline-label
-        class="bg-primary text-white shadow-2"
+        active-color="primary"
         align="justify"
+        dense
+        class="text-grey-8"
+        indicator-color="transparent"
       >
         <q-tab name="inbox" label="Inbox" icon="inbox"> </q-tab>
         <q-tab name="outbox" label="Outbox" icon="outbox" />

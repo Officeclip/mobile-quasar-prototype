@@ -6,7 +6,7 @@ import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { useQuasar } from 'quasar';
-import OCSaveButton from '../../components/OCcomponents/OC-SaveButton.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const $q = useQuasar();
 
@@ -115,21 +115,11 @@ async function onSubmit() {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <q-toolbar>
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="router.go(-1)"
-        >
-        </q-btn>
-        <q-toolbar-title> New Event</q-toolbar-title>
-        <OCSaveButton @handleClick="onSubmit"></OCSaveButton>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="New Event"
+      :show-save-button="true"
+      @save="onSubmit"
+    ></OC_Header>
     <q-page-container>
       <q-form class="q-gutter-md" @submit="onSubmit">
         <div>

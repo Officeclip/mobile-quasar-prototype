@@ -7,11 +7,10 @@ import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import { computed, ref } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper.js';
 import { format } from 'date-fns';
-import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const eventSummaryStore = useEventSummaryStore();
-const router = useRouter();
 
 const selectedDate = ref('');
 selectedDate.value = format(new Date(), 'yyyy/MM/dd');
@@ -82,28 +81,12 @@ function toggleLeftDrawer() {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated height-hint="48">
-      <q-toolbar>
-        <q-btn
-          color="white"
-          dense
-          flat
-          icon="arrow_back"
-          round
-          @click="router.push({ path: '/homepage' })"
-        >
-        </q-btn>
-        <q-btn
-          aria-label="Menu"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title> OfficeClip Calendar</q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+    <OC_Header
+      title="OfficeClip Calendar"
+      back-button-to="/homepage"
+      :show-menu-button="true"
+      @toggle-drawer="toggleLeftDrawer"
+    />
     <drawer ref="myDrawer" />
     <q-page-container>
       <q-page>
