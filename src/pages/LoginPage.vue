@@ -185,7 +185,7 @@ onBeforeUnmount(() => {
 
         <!-- Main Login Card -->
         <div v-else class="login-container">
-          <q-card flat class="q-mx-md">
+          <q-card flat class="q-mx-sm">
             <!-- Header Section -->
             <q-card-section class="login-header">
               <q-avatar size="84px">
