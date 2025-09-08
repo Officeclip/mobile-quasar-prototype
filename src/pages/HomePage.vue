@@ -121,6 +121,10 @@ function clearSearch(): void {
   searchQuery.value = '';
 }
 
+function toggleViewMode(): void {
+  viewMode.value = viewMode.value === 'grid' ? 'list' : 'grid';
+}
+
 async function refreshDashboard(): Promise<void> {
   await loadProfileList();
 }
@@ -215,7 +219,7 @@ onMounted(async () => {
               <q-card flat class="q-mb-md">
                 <q-card-section class="q-pa-md">
                   <div class="row items-center q-col-gutter-md">
-                    <div class="col-8 col-sm-6 col-md-4">
+                    <div class="col">
                       <q-input
                         v-model="searchQuery"
                         outlined
@@ -231,32 +235,17 @@ onMounted(async () => {
                     </div>
 
                     <div class="col-auto">
-                      <q-btn-toggle
-                        v-model="viewMode"
-                        toggle-color="primary"
-                        outline
-                        :options="[
-                          {
-                            label: '',
-                            value: 'grid',
-                            icon: 'grid_view',
-                            slot: 'grid',
-                          },
-                          {
-                            label: '',
-                            value: 'list',
-                            icon: 'view_list',
-                            slot: 'list',
-                          },
-                        ]"
+                      <q-btn
+                        flat
+                        dense
+                        round
+                        :icon="viewMode === 'grid' ? 'view_list' : 'grid_view'"
+                        @click="toggleViewMode"
                       >
-                        <template v-slot:grid>
-                          <q-tooltip>Grid View</q-tooltip>
-                        </template>
-                        <template v-slot:list>
-                          <q-tooltip>List View</q-tooltip>
-                        </template>
-                      </q-btn-toggle>
+                        <q-tooltip>
+                          {{ viewMode === 'grid' ? 'List View' : 'Grid View' }}
+                        </q-tooltip>
+                      </q-btn>
                     </div>
                   </div>
                 </q-card-section>
