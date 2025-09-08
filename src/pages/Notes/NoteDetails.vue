@@ -23,7 +23,7 @@ const parentObjectServiceType = route.params.objectTypeId
 const notesStore = useNotesStore();
 const isPrivate = ref<string>();
 
-const id = ref<string | string[]>('0');
+const id = route.params.id;
 
 // const isLoaded = ref<boolean>(false);
 
@@ -34,8 +34,7 @@ const note = computed(() => {
 const loadNoteDetails = async () => {
   loading.value = true;
   try {
-    id.value = route.params.id;
-    await notesStore.getNote(route.params.id as string);
+    await notesStore.getNote(id as string);
     isPrivate.value = note.value?.isPrivate ? 'Yes' : 'No';
   } catch (error) {
     $q.dialog({
@@ -79,6 +78,17 @@ function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
 }
+
+function editNote() {
+  router.push({
+    name: 'editNote',
+    params: {
+      id: id,
+      objectTypeId: parentObjectServiceType,
+      objectId: parentObjectId,
+    },
+  });
+}
 </script>
 
 <style>
@@ -101,14 +111,7 @@ function toggleLeftDrawer() {
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
       :show-edit-button="true"
-      :edit-button-to="{
-        name: 'editNote',
-        params: {
-          id: id,
-          objectTypeId: parentObjectServiceType,
-          objectId: parentObjectId,
-        },
-      }"
+      @edit="editNote"
       :show-delete-button="true"
       @delete="displayConfirmationDialog"
     >

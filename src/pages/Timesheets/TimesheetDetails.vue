@@ -154,8 +154,10 @@ function toggleLeftDrawer() {
       back-button-to="/timesheetsAll"
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
+      :show-delete-button="isAllowDelete"
+      @delete="displayConfirmationDialog"
     >
-      <template #right-actions>
+      <!-- <template #right-actions>
         <q-btn
           v-if="isAllowDelete"
           flat
@@ -166,7 +168,7 @@ function toggleLeftDrawer() {
           @click="displayConfirmationDialog"
         >
         </q-btn>
-      </template>
+      </template> -->
     </OC_Header>
     <drawer ref="myDrawer" />
     <q-page-container>

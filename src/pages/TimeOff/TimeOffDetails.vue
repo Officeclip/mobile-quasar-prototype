@@ -74,14 +74,18 @@ const formattedTimeOffDates = computed(() => {
   return '';
 });
 
-const isAllowEdit = computed(() =>
+const canEdit = computed(() =>
   isAllowed({
     security: { write: timeOffDetails.value?.security?.write },
     isTimeExpense: true,
   }),
 );
 
-const isAllowDelete = computed(() =>
+function editTimeOff() {
+  router.push({ name: 'editTimeOff', params: { id: id } });
+}
+
+const canDelete = computed(() =>
   isAllowed({
     security: { delete: timeOffDetails.value?.security?.delete },
     isTimeExpense: true,
@@ -147,10 +151,14 @@ const getDaysOrHrs = () => {
       title="Time Off Details"
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
+      :show-edit-button="canEdit"
+      @edit="editTimeOff"
+      :show-delete-button="canDelete"
+      @delete="displayShowDeleteTimeOffDetail(timeOffDetails?.id)"
     >
-      <template #right-actions>
+      <!-- <template #right-actions>
         <q-btn
-          v-if="isAllowEdit"
+          v-if="canEdit"
           flat
           round
           dense
@@ -159,7 +167,7 @@ const getDaysOrHrs = () => {
           :to="{ name: 'editTimeOff', params: { id } }"
         />
         <q-btn
-          v-if="isAllowDelete"
+          v-if="canDelete"
           flat
           round
           dense
@@ -167,7 +175,7 @@ const getDaysOrHrs = () => {
           icon="delete"
           @click="displayShowDeleteTimeOffDetail(timeOffDetails?.id)"
         />
-      </template>
+      </template> -->
     </OC_Header>
     <Drawer ref="myDrawer" />
     <!-- <q-space class="q-mt-sm" /> -->
@@ -175,10 +183,10 @@ const getDaysOrHrs = () => {
       ><q-page>
         <OC_Loader :visible="loading" />
         <div>
-          <!-- <pre>isAllowEdit:{{ isAllowEdit }}</pre>
-        <pre>isAllowDelete::{{ isAllowDelete }}</pre>
+          <!-- <pre>canEdit:{{ canEdit }}</pre>
+        <pre>canDelete::{{ canDelete }}</pre>
         <pre>security::{{ timeOffDetails.security }}</pre> -->
-          <div v-if="isAllowEdit">
+          <div v-if="canEdit">
             <WorkFlow
               v-if="status != 'Approved' && status != 'Pending'"
               :entityId="id"

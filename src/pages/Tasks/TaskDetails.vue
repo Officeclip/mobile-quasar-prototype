@@ -148,6 +148,10 @@ const regardingInfo = computed(() => {
   if (!data) return '';
   return `${data.type.name}: ${data.value.name}`;
 });
+
+function editTask() {
+  router.push({ name: 'editTask', params: { id: id, appName: appName } });
+}
 </script>
 
 <style>
@@ -174,10 +178,7 @@ const regardingInfo = computed(() => {
       :show-edit-button="true"
       :disable-edit="!taskDetail?.security?.write"
       edit-tooltip="Editing is disabled"
-      :edit-button-to="{
-        name: 'editTask',
-        params: { id: id, appName: appName },
-      }"
+      @edit="editTask"
       :show-delete-button="true"
       :disable-delete="!taskDetail?.security?.delete"
       delete-tooltip="Deleting is disabled"

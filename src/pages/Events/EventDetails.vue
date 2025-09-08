@@ -165,6 +165,10 @@ function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
 }
+
+function editEvent() {
+  router.push({ name: 'editEvent', params: { id: id, appName: appName } });
+}
 </script>
 
 <style>
@@ -180,10 +184,7 @@ function toggleLeftDrawer() {
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
       :show-edit-button="canEdit"
-      :edit-button-to="{
-        name: 'editEvent',
-        params: { id: id, appName: appName },
-      }"
+      @edit="editEvent"
       :show-delete-button="canDelete"
       @delete="displayConfirmationDialog"
     >

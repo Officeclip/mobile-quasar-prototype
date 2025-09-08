@@ -18,8 +18,8 @@ const loading = ref(true);
 const $q = useQuasar();
 const route = useRoute();
 const router = useRouter();
-const id = ref<string | string[]>('0');
-id.value = route.params.id;
+const id = route.params.id;
+// id.value = route.params.id;
 const binderName = route.params.binderName;
 const myDrawer = ref();
 const appName = route.params.appName;
@@ -60,7 +60,7 @@ const loadIssueDetails = async (id: string) => {
 
 onMounted(() => {
   // issueDetailsStore.getTrackerCaseDetails(id.value);
-  loadIssueDetails(id.value as string);
+  loadIssueDetails(id as string);
 });
 const issueDetails = computed(() => {
   return issueDetailsStore?.IssueDetails;
@@ -103,17 +103,21 @@ const deleteIssueDetail = async (id: string) => {
   }
 };
 
-const isAllowEdit = computed(() => {
+const canEdit = computed(() => {
   return isAllowed({
     security: { write: issueDetails.value?.security?.write },
   });
 });
 
-const isAllowDelete = computed(() => {
+const canDelete = computed(() => {
   return isAllowed({
     security: { delete: issueDetails.value?.security?.delete },
   });
 });
+
+function editIssue() {
+  router.push({ name: 'editIssue', params: { id: id, appName: appName } });
+}
 </script>
 
 <template>
@@ -122,12 +126,9 @@ const isAllowDelete = computed(() => {
       :title="`Binder: ${binderName}`"
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
-      :show-edit-button="isAllowEdit"
-      :edit-button-to="{
-        name: 'editIssue',
-        params: { id: id, appName: appName },
-      }"
-      :show-delete-button="isAllowDelete"
+      :show-edit-button="canEdit"
+      @edit="editIssue"
+      :show-delete-button="canDelete"
       @delete="displayShowDeleteIssueDetail(issueDetails?.id)"
     >
     </OC_Header>

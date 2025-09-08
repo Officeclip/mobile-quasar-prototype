@@ -61,14 +61,14 @@ const expenseDetails = computed(() => {
   return expenseDetailsStore.expenseDetailsList;
 });
 
-const isAllowDelete = computed(() => {
+const canDelete = computed(() => {
   const details = expenseDetails?.value[0];
   return isAllowed({
     security: { delete: details?.security?.delete },
     isTimeExpense: true,
   });
 });
-const isAllowEdit = computed(() => {
+const canEdit = computed(() => {
   const details = expenseDetails?.value[0];
   return isAllowed({
     security: { write: details?.security?.write },
@@ -154,7 +154,7 @@ function toggleLeftDrawer() {
       back-button-to="/expensesAll"
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
-      :show-delete-button="isAllowDelete"
+      :show-delete-button="canDelete"
       @delete="displayConfirmationDialog"
     />
     <drawer ref="myDrawer" />
@@ -206,7 +206,7 @@ function toggleLeftDrawer() {
             ><q-item-section side>
               <q-item-label>
                 <q-btn
-                  v-if="isAllowEdit"
+                  v-if="canEdit"
                   :to="{
                     name: 'editExpense',
                     params: {
@@ -228,7 +228,7 @@ function toggleLeftDrawer() {
             </q-item-section>
             <q-item-section side>
               <q-btn
-                v-if="isAllowDelete"
+                v-if="canDelete"
                 @click="showExpenseDetailDelete(expenseDetail?.expenseSid)"
                 size="sm"
                 flat
@@ -287,7 +287,7 @@ function toggleLeftDrawer() {
           style="z-index: 1000"
         >
           <q-btn
-            v-if="isAllowEdit"
+            v-if="canEdit"
             :to="{
               name: 'newExpense',
               params: {
