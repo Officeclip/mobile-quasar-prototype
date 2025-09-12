@@ -29,12 +29,15 @@ const regarding = computed(() => {
 });
 </script>
 <template>
-  <q-item>
-    <q-item-section>
-      <q-item-label>
-        <q-input label="Title" v-model="trackerCaseDetail.name" />
-      </q-item-label>
-      <q-item-label>
+  <q-list>
+    <q-item>
+      <q-item-section>
+        <q-input
+          label="Title"
+          v-model="trackerCaseDetail.name" /></q-item-section
+    ></q-item>
+    <q-item>
+      <q-item-section>
         <q-field
           v-model="trackerCaseDetail.description"
           label-slot
@@ -60,50 +63,50 @@ const regarding = computed(() => {
                 ],
               ]"
             ></q-editor>
-          </template>
-        </q-field>
-      </q-item-label>
-      <q-item-label>
+          </template> </q-field></q-item-section
+    ></q-item>
+    <q-item>
+      <q-item-section>
         <q-select
           label="Status"
           v-model="trackerCaseDetail.status"
           :options="issueListsStore.Status"
           map-options
           option-label="name"
-          option-value="id"
-        />
-      </q-item-label>
-      <q-item-label>
+          option-value="id" /></q-item-section
+    ></q-item>
+    <q-item>
+      <q-item-section>
         <q-select
           label="Category"
           v-model="trackerCaseDetail.category"
           :options="issueListsStore.Category"
           map-options
           option-label="name"
-          option-value="id"
-        />
-      </q-item-label>
-      <q-item-label>
+          option-value="id" /></q-item-section
+    ></q-item>
+    <q-item>
+      <q-item-section>
         <q-select
           label="Assigned To"
           v-model="trackerCaseDetail.assignedTo"
           :options="issueListsStore.Users"
           map-options
           option-label="name"
-          option-value="id"
-        />
-      </q-item-label>
-      <q-item-label>
+          option-value="id" /></q-item-section
+    ></q-item>
+    <q-item>
+      <q-item-section>
         <q-select
           label="Criticality"
           v-model="trackerCaseDetail.criticality"
           :options="issueListsStore.Criticality"
           map-options
           option-label="name"
-          option-value="id"
-        />
-      </q-item-label>
-      <q-item-label>
+          option-value="id" /></q-item-section
+    ></q-item>
+    <q-item>
+      <q-item-section>
         <q-select
           label="Kind"
           v-model="trackerCaseDetail.kind"
@@ -111,25 +114,25 @@ const regarding = computed(() => {
           map-options
           option-label="name"
           option-value="id"
-        />
-      </q-item-label>
-      <q-item-label>
-        <q-item>
-          <Regarding
-            v-if="appName === 'issueTracker'"
-            v-model="trackerCaseDetail.parent"
-            :regarding-parents="issueListsStore.RegardingParent"
-        /></q-item>
-        <OCItem
-          v-if="
-            appName !== 'issueTracker' && issueFromParent?.parent?.value?.name
-          "
-          title="Regarding"
-          :value="regarding"
-        />
-      </q-item-label>
-      <q-item-label>
-        <q-input label="Comments" v-model="trackerCaseDetail.comments" />
-      </q-item-label> </q-item-section
-  ></q-item>
+      /></q-item-section>
+    </q-item>
+    <q-item>
+      <q-item-section>
+        <Regarding
+          v-if="appName === 'issueTracker'"
+          v-model="trackerCaseDetail.parent"
+          :regarding-parents="
+            issueListsStore.RegardingParent
+          " /></q-item-section
+    ></q-item>
+    <OCItem
+      v-if="appName !== 'issueTracker' && issueFromParent?.parent?.value?.name"
+      title="Regarding"
+      :value="regarding" />
+    <q-item>
+      <q-item-section>
+        <q-input
+          label="Comments"
+          v-model="trackerCaseDetail.comments" /></q-item-section></q-item
+  ></q-list>
 </template>

@@ -231,7 +231,7 @@
             }
           ],
           "bodyType": "FILE",
-          "filePath": "oc\\contacts\\contact-summary-page-1.json",
+          "filePath": "",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [],
