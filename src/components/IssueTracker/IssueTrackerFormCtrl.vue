@@ -117,18 +117,16 @@ const regarding = computed(() => {
       /></q-item-section>
     </q-item>
     <q-item>
-      <q-item-section>
-        <Regarding
-          v-if="appName === 'issueTracker'"
-          v-model="trackerCaseDetail.parent"
-          :regarding-parents="
-            issueListsStore.RegardingParent
-          " /></q-item-section
-    ></q-item>
-    <OCItem
+      <Regarding
+        v-if="appName === 'issueTracker'"
+        v-model="trackerCaseDetail.parent"
+        :regarding-parents="issueListsStore.RegardingParent"
+      />
+    </q-item>
+    <!-- <OCItem
       v-if="appName !== 'issueTracker' && issueFromParent?.parent?.value?.name"
       title="Regarding"
-      :value="regarding" />
+      :value="regarding" /> -->
     <q-item>
       <q-item-section>
         <q-input
