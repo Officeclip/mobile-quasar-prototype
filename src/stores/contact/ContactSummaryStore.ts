@@ -233,7 +233,8 @@ export const useContactSummaryStore = defineStore('contactSummaryStore', {
           }
 
           this.contactSummary.push(...data);
-          this.nextPageUrl = response.data.pagination.next || null;
+          const nextUrl = response.data.pagination.next;
+          this.nextPageUrl = (nextUrl && nextUrl !== 'null') ? nextUrl : null;
           this.pageNum++;
 
           return this.nextPageUrl === null;
