@@ -255,7 +255,10 @@ onBeforeRouteLeave((to, from) => {
 
     <q-page-container>
       <q-page>
-        <OC_Loader :visible="loading" />
+        <OC_Loader
+          :visible="loading"
+          message="Loading Contacts, Please wait.."
+        />
 
         <q-input
           v-model="searchString"
