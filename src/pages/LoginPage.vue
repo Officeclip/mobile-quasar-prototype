@@ -12,6 +12,7 @@ import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
 import { useNotification } from '../composables/useNotification';
 import welcomePage from 'src/pages/welcomPage.vue';
+import { Browser } from '@capacitor/browser';
 
 // Store and router initialization
 const sessionStore = useSessionStore();
@@ -138,8 +139,8 @@ async function handleAutoLogin(): Promise<void> {
 }
 
 // Navigation handlers
-function redirectToSetUpAccount(): void {
-  window.open('https://app.officeclip.com/setupsite.aspx', '_blank');
+async function redirectToSetUpAccount(): Promise<void> {
+  await Browser.open({ url: 'https://app.officeclip.com/setupsite.aspx' });
 }
 
 function togglePasswordVisibility(): void {
