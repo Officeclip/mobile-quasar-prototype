@@ -128,8 +128,15 @@ const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
       @toggle-drawer="toggleLeftDrawer"
     />
     <drawer ref="myDrawer" />
-    <q-footer>
-      <q-tabs v-model="tab" align="justify" active-bg-color="grey" dense>
+    <q-footer bordered class="bg-grey-3">
+      <q-tabs
+        v-model="tab"
+        active-color="primary"
+        align="justify"
+        dense
+        class="text-grey-8"
+        indicator-color="transparent"
+      >
         <q-tab name="mylist" label="My Requests" icon="outbox" />
         <q-tab name="inbox" label="Inbox" icon="inbox" />
         <q-tab name="archived" label="Archived" icon="archive" />
