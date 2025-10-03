@@ -11,7 +11,7 @@ const logOut = () => {
 
 const confirmLogOut = () => {
   showDialog.value = false;
-  router.push({ path: '/loginPage' });
+  router.push({ path: '/' });
   setTimeout(() => {
     window.location.reload();
   }, 400); // 400 milliseconds
