@@ -442,21 +442,17 @@ const reminderValue = computed(() => {
           </template>
         </q-input>
       </q-item>
-      <q-item>
+      <q-item class="column">
         <q-input
           v-model="event.eventDescription"
           autogrow
-          class="full-width"
-          dense
           label="Notes"
           placeholder="enter event description"
         />
       </q-item>
-      <q-item>
+      <q-item class="column">
         <q-input
           v-model="event.eventLocation"
-          class="full-width"
-          dense
           label="Location"
           placeholder="enter where the event will take place"
         >
@@ -483,11 +479,10 @@ const reminderValue = computed(() => {
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>
-      <q-item v-if="event.eventType.id == '2'">
+      <q-item v-if="event.eventType.id == '2'" class="column">
         <q-select
           v-model="event.meetingAttendees"
           :options="filterOptions"
-          class="full-width"
           input-debounce="0"
           label="Attendees"
           multiple
@@ -522,14 +517,8 @@ const reminderValue = computed(() => {
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>
-      <q-item>
-        <q-input
-          v-model="event.url"
-          class="full-width"
-          dense
-          label="Url"
-          map-options
-        >
+      <q-item class="column">
+        <q-input v-model="event.url" dense label="Url" map-options>
           <template v-slot:append>
             <q-btn
               color="primary"

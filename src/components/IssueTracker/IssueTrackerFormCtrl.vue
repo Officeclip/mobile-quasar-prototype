@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { ref, Ref, defineProps, onBeforeMount, computed } from 'vue';
+import { ref, Ref, defineProps, onBeforeMount } from 'vue';
 import { useIssueListsStore } from '../../stores/issueTracker/issueListsStore';
 import { trackerCaseDetails } from 'src/models/issueTracker/trackerCaseDetails';
-import OCItem from '../../components/OCcomponents/OC-Item.vue';
+// import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import Regarding from 'components/general/regardingComponent.vue';
 
 const props = defineProps({
@@ -24,9 +24,9 @@ onBeforeMount(async () => {
   );
 });
 
-const regarding = computed(() => {
-  return `${props.issueFromParent?.parent.type.name} : ${props.issueFromParent?.parent.value.name}`;
-});
+// const regarding = computed(() => {
+//   return `${props.issueFromParent?.parent.type.name} : ${props.issueFromParent?.parent.value.name}`;
+// });
 </script>
 <template>
   <q-list>
@@ -65,56 +65,51 @@ const regarding = computed(() => {
             ></q-editor>
           </template> </q-field></q-item-section
     ></q-item>
-    <q-item>
-      <q-item-section>
-        <q-select
-          label="Status"
-          v-model="trackerCaseDetail.status"
-          :options="issueListsStore.Status"
-          map-options
-          option-label="name"
-          option-value="id" /></q-item-section
-    ></q-item>
-    <q-item>
-      <q-item-section>
-        <q-select
-          label="Category"
-          v-model="trackerCaseDetail.category"
-          :options="issueListsStore.Category"
-          map-options
-          option-label="name"
-          option-value="id" /></q-item-section
-    ></q-item>
-    <q-item>
-      <q-item-section>
-        <q-select
-          label="Assigned To"
-          v-model="trackerCaseDetail.assignedTo"
-          :options="issueListsStore.Users"
-          map-options
-          option-label="name"
-          option-value="id" /></q-item-section
-    ></q-item>
-    <q-item>
-      <q-item-section>
-        <q-select
-          label="Criticality"
-          v-model="trackerCaseDetail.criticality"
-          :options="issueListsStore.Criticality"
-          map-options
-          option-label="name"
-          option-value="id" /></q-item-section
-    ></q-item>
-    <q-item>
-      <q-item-section>
-        <q-select
-          label="Kind"
-          v-model="trackerCaseDetail.kind"
-          :options="issueListsStore.Kind"
-          map-options
-          option-label="name"
-          option-value="id"
-      /></q-item-section>
+    <q-item class="column">
+      <q-select
+        label="Status"
+        v-model="trackerCaseDetail.status"
+        :options="issueListsStore.Status"
+        map-options
+        option-label="name"
+        option-value="id"
+    /></q-item>
+    <q-item class="column">
+      <q-select
+        label="Category"
+        v-model="trackerCaseDetail.category"
+        :options="issueListsStore.Category"
+        map-options
+        option-label="name"
+        option-value="id"
+    /></q-item>
+    <q-item class="column">
+      <q-select
+        label="Assigned To"
+        v-model="trackerCaseDetail.assignedTo"
+        :options="issueListsStore.Users"
+        map-options
+        option-label="name"
+        option-value="id"
+    /></q-item>
+    <q-item class="column">
+      <q-select
+        label="Criticality"
+        v-model="trackerCaseDetail.criticality"
+        :options="issueListsStore.Criticality"
+        map-options
+        option-label="name"
+        option-value="id"
+    /></q-item>
+    <q-item class="column">
+      <q-select
+        label="Kind"
+        v-model="trackerCaseDetail.kind"
+        :options="issueListsStore.Kind"
+        map-options
+        option-label="name"
+        option-value="id"
+      />
     </q-item>
     <q-item>
       <Regarding
