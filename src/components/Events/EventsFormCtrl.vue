@@ -257,9 +257,9 @@ function handleRemove(item: { id: string }) {
   }
 }
 
-const regarding = computed(() => {
-  return `${event.value?.parent.type.name} : ${event.value?.parent.value.name}`;
-});
+// const regarding = computed(() => {
+//   return `${event.value?.parent.type.name} : ${event.value?.parent.value.name}`;
+// });
 
 const remindTo = computed(() => {
   return event.value?.reminder.to;
@@ -271,7 +271,7 @@ const reminderValue = computed(() => {
 </script>
 
 <template>
-  <div>
+  <div class="q-mb-sm">
     <q-list>
       <q-item>
         <q-item-section>
