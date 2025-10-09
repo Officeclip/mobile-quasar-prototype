@@ -368,12 +368,13 @@ function createValue(val: string, done: any) {
           </template>
         </q-select>
       </q-item>
-      <q-item>
+      <div>
         <Regarding
           v-if="appName === 'task'"
           v-model="task.parent"
           :regarding-parents="taskListsStore.RegardingParent"
-      /></q-item>
+        />
+      </div>
       <OCItem
         v-if="appName !== 'task' && taskFromParent?.parent?.value?.name"
         title="Regarding"

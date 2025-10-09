@@ -604,12 +604,12 @@ const reminderValue = computed(() => {
           </q-select>
         </q-item-section>
       </q-item>
-      <q-item v-if="appName === 'event'">
+      <div v-if="appName === 'event'">
         <Regarding
           v-model="event.parent"
           :regarding-parents="eventListsStore.RegardingParent"
         />
-      </q-item>
+      </div>
       <!-- <OCItem
         v-if="appName !== 'event' && event?.parent?.value?.name"
         title="Regarding"

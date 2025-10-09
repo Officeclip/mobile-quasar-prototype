@@ -70,31 +70,33 @@ watch(regardingType, (newValue) => {
 </script>
 
 <template>
-  <q-item-section>
-    <q-select
-      v-model="regardingType"
-      :options="metaTypeOptions"
-      label="Regarding"
-      map-options
-      option-label="name"
-      option-value="id"
-    />
-  </q-item-section>
-  <q-item-section>
-    <q-select
-      v-model="selectedRegItem"
-      :disable="regardingType.id == '-1'"
-      :options="regardingItems"
-      option-label="name"
-      option-value="id"
-      use-input
-      @filter="filterItems"
-    >
-      <template v-slot:no-option>
-        <q-item>
-          <q-item-section class="text-grey">No results</q-item-section>
-        </q-item>
-      </template>
-    </q-select>
-  </q-item-section>
+  <q-item>
+    <q-item-section>
+      <q-select
+        v-model="regardingType"
+        :options="metaTypeOptions"
+        label="Regarding"
+        map-options
+        option-label="name"
+        option-value="id"
+      />
+    </q-item-section>
+    <q-item-section>
+      <q-select
+        v-model="selectedRegItem"
+        :disable="regardingType.id == '-1'"
+        :options="regardingItems"
+        option-label="name"
+        option-value="id"
+        use-input
+        @filter="filterItems"
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">No results</q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+    </q-item-section>
+  </q-item>
 </template>
