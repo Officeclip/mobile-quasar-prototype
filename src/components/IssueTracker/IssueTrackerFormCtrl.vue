@@ -29,27 +29,27 @@ onBeforeMount(async () => {
 const selectFields = computed(() => [
   {
     label: 'Status',
-    model: 'status',
+    model: 'status' as keyof trackerCaseDetails,
     options: issueListsStore.Status,
   },
   {
     label: 'Category',
-    model: 'category',
+    model: 'category' as keyof trackerCaseDetails,
     options: issueListsStore.Category,
   },
   {
     label: 'Assigned To',
-    model: 'assignedTo',
+    model: 'assignedTo' as keyof trackerCaseDetails,
     options: issueListsStore.Users,
   },
   {
     label: 'Criticality',
-    model: 'criticality',
+    model: 'criticality' as keyof trackerCaseDetails,
     options: issueListsStore.Criticality,
   },
   {
     label: 'Kind',
-    model: 'kind',
+    model: 'kind' as keyof trackerCaseDetails,
     options: issueListsStore.Kind,
   },
 ]);
@@ -61,52 +61,23 @@ const selectFields = computed(() => [
       <q-card-section>
         <div class="row q-col-gutter-md">
           <div class="col-12 col-md-6">
-            <q-input label="Title" v-model="trackerCaseDetail.name" filled />
-          </div>
-
-          <div
-            class="col-12 col-md-6"
-            v-for="(field, index) in selectFields"
-            :key="index"
-          >
-            <q-select
-              :label="field.label"
-              v-model="trackerCaseDetail[field.model]"
-              :options="field.options"
-              map-options
-              option-label="name"
-              option-value="id"
-              filled
-            />
-          </div>
-
-          <div class="col-12 col-md-6">
-            <Regarding
-              v-if="appName === 'issueTracker'"
-              v-model="trackerCaseDetail.parent"
-              :regarding-parents="issueListsStore.RegardingParent"
-              class="col-md-6"
-            />
-          </div>
-          <div class="col-12 col-md-6">
             <q-input
-              label="Comments"
-              v-model="trackerCaseDetail.comments"
+              label="Title"
+              v-model="trackerCaseDetail.name"
               filled
-              class="q-mt-md"
+              class="full-width"
             />
           </div>
           <div class="col-12 col-md-6">
             <q-field
               v-model="trackerCaseDetail.description"
-              label-slot
-              borderless
-              class="q-mb-md"
+              label="Description"
+              filled
+              stack-label
             >
-              <template #label>Description</template>
               <template #control>
                 <q-editor
-                  class="col-12 q-mt-md"
+                  class="full-width"
                   paragraph-tag="div"
                   placeholder="Enter description"
                   min-height="5rem"
@@ -124,6 +95,40 @@ const selectFields = computed(() => [
                 />
               </template>
             </q-field>
+          </div>
+
+          <div
+            class="col-12 col-md-6"
+            v-for="field in selectFields"
+            :key="field.model"
+          >
+            <q-select
+              :label="field.label"
+              v-model="trackerCaseDetail[field.model]"
+              :options="field.options"
+              map-options
+              option-label="name"
+              option-value="id"
+              filled
+              class="full-width"
+            />
+          </div>
+
+          <div class="col-12 col-md-6">
+            <Regarding
+              v-if="appName === 'issueTracker'"
+              v-model="trackerCaseDetail.parent"
+              :regarding-parents="issueListsStore.RegardingParent"
+              class="full-width"
+            />
+          </div>
+          <div class="col-12 col-md-6">
+            <q-input
+              label="Comments"
+              v-model="trackerCaseDetail.comments"
+              filled
+              class="full-width"
+            />
           </div>
         </div>
       </q-card-section>
