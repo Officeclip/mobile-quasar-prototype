@@ -33,7 +33,7 @@ onBeforeMount(async () => {
       <q-card-section>
         <div class="row q-col-gutter-x-md q-col-gutter-y-md">
           <!-- Left Column -->
-          <div class="col-12 col-md-6 q-gutter-y-md">
+          <div class="col-12 col-sm-6 q-gutter-y-md">
             <q-input
               label="Title"
               v-model="trackerCaseDetail.name"
@@ -89,7 +89,7 @@ onBeforeMount(async () => {
           </div>
 
           <!-- Right Column -->
-          <div class="col-12 col-md-6 q-gutter-y-md">
+          <div class="col-12 col-sm-6 q-gutter-y-md">
             <q-select
               label="Category"
               v-model="trackerCaseDetail.category"
