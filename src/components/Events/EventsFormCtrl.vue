@@ -532,7 +532,7 @@ const reminderValue = computed(() => {
         </q-input>
       </q-item>
       <q-item>
-        <q-item-section class="q-pr-xl">
+        <q-item-section>
           <q-select
             filled
             v-model="event.showTimeAs"
@@ -604,12 +604,14 @@ const reminderValue = computed(() => {
           </q-select>
         </q-item-section>
       </q-item>
-      <div v-if="appName === 'event'">
-        <Regarding
-          v-model="event.parent"
-          :regarding-parents="eventListsStore.RegardingParent"
-        />
-      </div>
+      <q-item v-if="appName === 'event'">
+        <q-item-section>
+          <Regarding
+            v-model="event.parent"
+            :regarding-parents="eventListsStore.RegardingParent"
+          />
+        </q-item-section>
+      </q-item>
       <!-- <OCItem
         v-if="appName !== 'event' && event?.parent?.value?.name"
         title="Regarding"

@@ -70,9 +70,12 @@ watch(regardingType, (newValue) => {
 </script>
 
 <template>
-  <q-item>
-    <q-item-section>
+  <!-- <q-item>
+    <q-item-section> -->
+  <div class="row">
+    <div class="col q-mr-xs">
       <q-select
+        filled
         v-model="regardingType"
         :options="metaTypeOptions"
         label="Regarding"
@@ -80,9 +83,12 @@ watch(regardingType, (newValue) => {
         option-label="name"
         option-value="id"
       />
-    </q-item-section>
-    <q-item-section>
+    </div>
+    <!-- </q-item-section>
+    <q-item-section> -->
+    <div class="col q-ml-xs">
       <q-select
+        filled
         v-model="selectedRegItem"
         :disable="regardingType.id == '-1'"
         :options="regardingItems"
@@ -97,6 +103,8 @@ watch(regardingType, (newValue) => {
           </q-item>
         </template>
       </q-select>
-    </q-item-section>
-  </q-item>
+    </div>
+  </div>
+  <!-- </q-item-section>
+  </q-item> -->
 </template>
