@@ -26,7 +26,7 @@ const cancelLogOut = () => {
   <q-btn @click="logOut" flat round class="q-pa-sm">
     <div class="column items-center">
       <q-icon name="logout" />
-      <span class="text-caption">Logout</span>
+      <!-- <span class="text-caption">Logout</span> -->
     </div>
   </q-btn>
 

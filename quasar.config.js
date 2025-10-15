@@ -81,6 +81,7 @@ export default configure(function (/* ctx */) {
           spinnerColor: 'primary',
           backgroundColor: 'white',
         },
+        dark: 'auto',
       },
       plugins: ['Notify', 'SessionStorage', 'Dialog', 'Loading'],
     },

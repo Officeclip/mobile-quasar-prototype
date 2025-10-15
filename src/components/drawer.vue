@@ -11,12 +11,16 @@ import SettingsComponent from './settingsPage.vue';
 import { defineExpose } from 'vue';
 import uploadphoto from 'src/components/general/UploadPhoto.vue';
 import { useImageDetailStore } from 'src/stores/ImageDetail';
+import { useQuasar } from 'quasar';
 
 const sessionStore = useSessionStore();
 const leftDrawerOpen = ref(false);
 const router = useRouter();
 const profileListsStore = useProfileListsStore();
 const userPhoto = ref();
+
+const $q = useQuasar();
+const dark = ref($q.dark.isActive);
 
 //save the updated image detail
 const imageDetailStore = useImageDetailStore();
@@ -98,7 +102,7 @@ function onPhotoUpdated(newPhoto: string) {
   imageDetailStore.constructImageObjectAndSave(
     session.value.userId,
     'Users',
-    newPhoto,
+    newPhoto
   );
 }
 
@@ -140,21 +144,26 @@ function handleEditPhotoClick() {
             {{ session?.userEmail }}
           </q-item-label>
         </q-item-section>
-
-        <q-item-section side top>
-          <q-btn
-            icon="settings"
-            flat
-            round
-            dense
-            color="white"
-            size="sm"
-            @click="openSettings('left')"
-          >
-            <q-tooltip class="bg-grey-8">Settings</q-tooltip>
-          </q-btn>
-        </q-item-section>
       </q-item>
+
+      <div class="row justify-end">
+        <q-btn
+          icon="settings"
+          flat
+          round
+          dense
+          color="white"
+          size="sm"
+          @click="openSettings('left')"
+        >
+        </q-btn>
+        <q-toggle
+          color="blue"
+          v-model="dark"
+          icon="dark_mode"
+          @update:model-value="$q.dark.set"
+        />
+      </div>
     </div>
 
     <!-- Navigation Section - Scrollable -->
