@@ -102,7 +102,7 @@ function onPhotoUpdated(newPhoto: string) {
   imageDetailStore.constructImageObjectAndSave(
     session.value.userId,
     'Users',
-    newPhoto
+    newPhoto,
   );
 }
 
@@ -140,7 +140,7 @@ function handleEditPhotoClick() {
           <q-item-label class="text-subtitle1 text-weight-medium">
             {{ session?.userName }}
           </q-item-label>
-          <q-item-label class="text-caption opacity-70">
+          <q-item-label class="text-caption">
             {{ session?.userEmail }}
           </q-item-label>
         </q-item-section>
@@ -158,16 +158,16 @@ function handleEditPhotoClick() {
         >
         </q-btn>
         <q-toggle
-          color="blue"
+          color="orange"
           v-model="dark"
-          icon="dark_mode"
+          :icon="dark ? 'light_mode' : 'dark_mode'"
           @update:model-value="$q.dark.set"
         />
       </div>
     </div>
 
     <!-- Navigation Section - Scrollable -->
-    <q-scroll-area class="col bg-white">
+    <q-scroll-area class="col">
       <q-list class="q-py-sm">
         <q-item
           v-for="item in filteredHomeIcons"
@@ -189,13 +189,13 @@ function handleEditPhotoClick() {
           <q-item-section>
             <q-item-label
               class="text-weight-medium"
-              :class="item.url === '' ? 'text-grey-6' : 'text-grey-8'"
+              :class="item.url === '' ? 'text-grey-6' : ''"
             >
               {{ item.name }}
             </q-item-label>
           </q-item-section>
           <q-item-section side v-if="item.url !== ''">
-            <q-icon name="chevron_right" color="grey-5" size="sm" />
+            <q-icon name="chevron_right" size="sm" />
           </q-item-section>
           <q-item-section side v-else>
             <q-chip size="sm" color="orange" text-color="white" label="Soon" />
@@ -205,19 +205,17 @@ function handleEditPhotoClick() {
     </q-scroll-area>
 
     <!-- Footer Section -->
-    <div class="bg-grey-2 q-pa-md">
+    <div class="q-pa-md">
       <!-- Version Information -->
-      <q-item dense class="q-pa-sm bg-white rounded-borders q-mb-sm">
+      <q-item dense class="q-pa-sm rounded-borders q-mb-sm">
         <q-item-section>
           <div class="row justify-between items-center text-caption q-mb-xs">
-            <span class="text-weight-medium text-grey-7">App Version:</span>
-            <span class="text-weight-bold text-grey-9">{{
-              packageJson.version
-            }}</span>
+            <span class="text-weight-medium">App Version:</span>
+            <span class="text-weight-bold">{{ packageJson.version }}</span>
           </div>
           <div class="row justify-between items-center text-caption">
-            <span class="text-weight-medium text-grey-7">OC Version:</span>
-            <span class="text-weight-bold text-grey-9">{{
+            <span class="text-weight-medium">OC Version:</span>
+            <span class="text-weight-bold">{{
               Constants.getRestApiVersionFromSession()
             }}</span>
           </div>

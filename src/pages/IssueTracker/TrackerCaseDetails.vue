@@ -163,7 +163,7 @@ onMounted(async () => {
                   :key="prop.label"
                   class="col-6 flex items-center"
                 >
-                  <q-item-label caption class="q-my-sm"
+                  <q-item-label caption class="q-my-sm" style="color: inherit"
                     >{{ prop.label }}:
                     <q-chip
                       v-if="prop.value?.id !== '-1'"
@@ -173,7 +173,7 @@ onMounted(async () => {
                         prop.value?.name
                       }}</q-item-label>
                     </q-chip>
-                    <span v-else class="text-grey-7 q-mx-md">-- none --</span>
+                    <span v-else class="q-mx-md">-- none --</span>
                   </q-item-label>
                 </div>
               </div>
@@ -190,13 +190,19 @@ onMounted(async () => {
                 >
                   <div v-if="prop.value">
                     <div v-if="prop.label != 'Description'">
-                      <q-item-label caption class="q-my-sm"
+                      <q-item-label
+                        caption
+                        class="q-my-sm"
+                        style="color: inherit"
                         >{{ prop.label }}:</q-item-label
                       >
                       <q-item-label> {{ prop.value }} </q-item-label>
                     </div>
                     <div v-else>
-                      <q-item-label caption class="q-my-sm"
+                      <q-item-label
+                        caption
+                        class="q-my-sm"
+                        style="color: inherit"
                         >{{ prop.label }}:</q-item-label
                       >
                       <q-item-label>
@@ -268,10 +274,5 @@ onMounted(async () => {
   line-height: 1.5rem;
   letter-spacing: 0.00937em;
   word-break: break-word;
-}
-
-.q-item__label--caption {
-  font-size: 0.85rem;
-  font-weight: 500;
 }
 </style>
