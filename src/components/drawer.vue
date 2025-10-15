@@ -175,7 +175,6 @@ function handleEditPhotoClick() {
           clickable
           v-ripple
           class="q-mx-sm q-my-xs rounded-borders"
-          :class="item.url === '' ? 'disabled' : ''"
           @click="goToApp(item.url)"
         >
           <q-item-section avatar>
@@ -205,7 +204,8 @@ function handleEditPhotoClick() {
     </q-scroll-area>
 
     <!-- Footer Section -->
-    <div class="q-pa-md">
+    <q-separator />
+    <div class="q-px-md q-mb-md">
       <!-- Version Information -->
       <q-item dense class="q-pa-sm rounded-borders q-mb-sm">
         <q-item-section>
@@ -278,19 +278,19 @@ function handleEditPhotoClick() {
 
 <style scoped>
 /* Minimal custom styles - using mostly Quasar classes */
-.disabled {
+/* .disabled {
   opacity: 0.6;
   pointer-events: none;
-}
+} */
 
 /* Hover effect for navigation items */
-.q-item.q-item--clickable:not(.disabled):hover {
+/* .q-item.q-item--clickable:not(.disabled):hover {
   background-color: #f5f5f5;
-}
+} */
 
 /* Active state for current route */
-.q-item.q-item--active {
+/* .q-item.q-item--active {
   background-color: #e3f2fd;
   color: #1976d2;
-}
+} */
 </style>
