@@ -178,7 +178,7 @@ onMounted(async () => {
 
           <q-toolbar-title
             class="text-weight-medium"
-            style="min-width: 0; flex: 1 1 auto; white-space: normal"
+            style="min-width: 0; flex: 1 1 auto"
           >
             OfficeClip Suite
           </q-toolbar-title>
@@ -193,7 +193,6 @@ onMounted(async () => {
             @click="refreshDashboard"
             :loading="isLoadingData"
           >
-            <q-tooltip>Refresh</q-tooltip>
           </q-btn>
 
           <logOutButton />

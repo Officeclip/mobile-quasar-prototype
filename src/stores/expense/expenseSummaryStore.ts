@@ -50,7 +50,12 @@ export const useExpenseSummaryStore = defineStore('expenseSummaryStore', {
 
         if (response.status === 204) {
           if (this.expenseSummary.length === 0) {
-            this.errorMsg = 'No Content';
+            this.errorMsg =
+              category === 'inbox'
+                ? 'No Expenses are created yet.'
+                : category === 'outbox'
+                  ? 'No Outbox Expense Reports Found.'
+                  : 'No Archived Expense Reports Found.';
           }
           return true; // No content, so we've reached the end.
         }

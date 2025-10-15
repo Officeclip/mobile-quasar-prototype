@@ -130,8 +130,13 @@ async function filterTagFn(val: string, update: any) {
 
 const ruleDueDateGreaterThanStartDate = (val: string) => {
   if (!task.value.startDate || task.value.startDate.length === 0) return true;
-  const isGreater = new Date(val) > new Date(task.value.startDate);
-  return isGreater ? true : 'Due Date should be more than start date';
+  const start = new Date(task.value.startDate);
+  const due = new Date(val);
+  // Compare only the date part (ignore time)
+  start.setHours(0, 0, 0, 0);
+  due.setHours(0, 0, 0, 0);
+  const isValid = due.getTime() >= start.getTime();
+  return isValid ? true : 'Due Date should not be less than Start Date';
 };
 
 const validateAll = () => {

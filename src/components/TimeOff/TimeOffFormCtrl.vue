@@ -145,6 +145,13 @@ const totalHours = computed({
   },
 });
 
+const formattedDates = computed(() => {
+  if (Array.isArray(timeOffData.value.datesRequested)) {
+    return timeOffData.value.datesRequested.join(', ');
+  }
+  return timeOffData.value.datesRequested;
+});
+
 const readonly = computed(() => {
   return (
     timeOffData.value.requestedFor === 'full_day' ||
@@ -217,7 +224,7 @@ defineExpose({
     <q-list>
       <q-item>
         <q-item-section>
-          <div class="q-pa-sm rounded-borders bg-grey-3">
+          <div class="q-pa-sm">
             Request For:
             <q-option-group
               v-model="timeOffData.requestedFor"
@@ -252,11 +259,7 @@ defineExpose({
         "
       >
         <q-item-section>
-          <q-input
-            v-model="timeOffData.datesRequested"
-            label="Request Dates"
-            readonly
-          >
+          <q-input :model-value="formattedDates" label="Request Dates" readonly>
             <template v-slot:append>
               <q-icon
                 name="event"
@@ -264,8 +267,9 @@ defineExpose({
                 @click="showDatePicker = true"
               />
             </template>
-          </q-input> </q-item-section
-      ></q-item>
+          </q-input>
+        </q-item-section>
+      </q-item>
 
       <q-item
         v-if="

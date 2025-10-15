@@ -128,7 +128,7 @@ const goBack = () => {
       />
 
       <!-- Middle -->
-      <q-toolbar-title>
+      <q-toolbar-title style="min-width: 0; flex: 1 1 auto">
         {{ title }}
       </q-toolbar-title>
 

@@ -67,7 +67,7 @@ function goToApp(url: string) {
 }
 
 function logout() {
-  router.push({ path: '/loginPage' });
+  router.push({ path: '/' });
   setTimeout(() => {
     window.location.reload();
   }, 400);

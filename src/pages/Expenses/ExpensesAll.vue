@@ -5,15 +5,14 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { isAllowed } from 'src/helpers/security';
 import { QInfiniteScroll, useQuasar } from 'quasar';
-import { useRouter } from 'vue-router';
 import drawer from '../../components/drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
+import { storeToRefs } from 'pinia';
 
 const expensesDetailsStore = useExpenseSummaryStore();
 
 const $q = useQuasar();
-const router = useRouter();
 
 const tab = ref(expensesDetailsStore.selectedTab);
 const title = ref(capitalize(tab.value));
@@ -24,7 +23,8 @@ const infiniteScrollRef = ref<QInfiniteScroll | null>(null); // <-- Add ref for 
 
 // --- Computed Properties ---
 const allExpenses = computed(() => expensesDetailsStore.ExpenseSummary);
-const errorMsg = computed(() => expensesDetailsStore.errorMsg);
+// const errorMsg = computed(() => expensesDetailsStore.errorMsg);
+const { errorMsg } = storeToRefs(expensesDetailsStore);
 
 const loadMore = async (index: number, done: () => void) => {
   loading.value = true;
@@ -114,30 +114,36 @@ function toggleLeftDrawer() {
     </q-footer>
     <q-page-container>
       <q-page>
-        <div v-if="errorMsg !== ''">
-          <q-list class="flex flex-center">
-            <q-item v-if="title === 'Inbox'">
-              <q-item-section>
-                <q-item-label class="text-h6 q-py-md">
-                  {{ errorMsg }}
-                </q-item-label>
-                <q-item-label class="text-h6 q-py-sm">
-                  Create your first Expense
-                </q-item-label>
-                <q-item-label>
-                  An Expense report is used to track employee's expenses on
-                  projects and tasks.
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item v-else>
-              <q-item-section>
-                <q-item-label class="text-h6 q-py-md">
-                  {{ errorMsg }}
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
+        <div
+          v-if="errorMsg !== ''"
+          class="items-center column"
+          style="
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            z-index: 10;
+          "
+        >
+          <q-icon name="error_outline" size="100px" color="grey-5" />
+          <div class="text-h6 q-mt-sm q-py-md">{{ errorMsg }}</div>
+
+          <div v-if="title === 'Inbox'" class="text-center">
+            <div class="text-body1 text-grey-7">
+              An Expense report is used to track employee's expenses on projects
+              and tasks.
+            </div>
+            <!-- <q-btn
+              class="q-mt-lg"
+              color="primary"
+              unelevated
+              size="lg"
+              :to="{ name: 'newPeriodExpense' }"
+              label="Create your first Expense"
+              no-caps
+            /> -->
+          </div>
         </div>
         <OC_Loader :visible="loading" />
         <q-infinite-scroll
