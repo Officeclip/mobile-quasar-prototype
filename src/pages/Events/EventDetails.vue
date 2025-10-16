@@ -101,10 +101,14 @@ const eventProperties = computed(() => [
     label: 'Reminder',
     value: `${event.value?.reminder?.to} ${selectedTime.value.label} Before`,
   },
-  { label: 'Created UserName', value: event.value?.createdUserName },
-  { label: 'Created Date', value: event.value?.createdDate },
-  { label: 'Modified UserName', value: event.value?.modifiedUserName },
-  { label: 'Modified Date', value: event.value?.modifiedDate },
+  {
+    label: 'Created On',
+    value: `${dateTimeHelper.formatDateTimeFromRestAPIForUI(event.value?.createdDate, false)} by ${event.value?.createdUserName} `,
+  },
+  {
+    label: 'Last Modified',
+    value: `${dateTimeHelper.formatDateTimeFromRestAPIForUI(event.value?.modifiedDate, false)} by ${event.value?.modifiedUserName}`,
+  },
 ]);
 
 const filteredEventProperties = computed(() =>
