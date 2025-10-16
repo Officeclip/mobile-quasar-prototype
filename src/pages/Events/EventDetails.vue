@@ -4,11 +4,11 @@ import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useReminderDataStore } from '../../stores/reminder/reminderData';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-import OCItem from '../../components/OCcomponents/OC-Item.vue';
+// import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
-import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
+// import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 import drawer from '../../components/drawer.vue';
 import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
@@ -52,6 +52,66 @@ onMounted(async () => {
 const event = computed(() => {
   return eventDetailsStore?.eventDetails;
 });
+const selectedTime = computed(() => {
+  const reminderTimes = reminderDataStore.ReminderTimes;
+  const obj = reminderTimes.find(
+    (time: any) => time.value === event.value?.reminder?.beforeMinutes,
+  );
+  return obj ? obj : 'null';
+});
+
+const eventProperties = computed(() => [
+  { label: 'Event Name', value: event.value?.eventName },
+  { label: 'Description', value: event.value?.eventDescription },
+  { label: 'Location', value: event.value?.eventLocation },
+  {
+    label: event.value.isAllDayEvent ? 'StartDate' : 'StartDate Time',
+    value: dateTimeHelper.formatDateTimeFromRestAPIForUI(
+      event.value?.startDateTime,
+      event.value?.isAllDayEvent,
+    ),
+  },
+  {
+    label: event.value.isAllDayEvent ? 'EndDate' : 'EndDate Time',
+    value: dateTimeHelper.formatDateTimeFromRestAPIForUI(
+      event.value?.endDateTime,
+      event.value?.isAllDayEvent,
+    ),
+  },
+  {
+    label: 'is AllDay Event',
+    value: event.value?.isAllDayEvent ? 'Yes' : 'No',
+  },
+  {
+    label: 'MeetingAttendees',
+    value: event.value?.meetingAttendees
+      ? event.value.meetingAttendees
+          .map((a: any) => a.name?.trim())
+          .filter((name: string | undefined | null) => !!name)
+          .join(', ')
+      : null,
+  },
+  { label: 'EventType', value: event.value?.eventType?.name },
+  { label: 'Regarding', value: projectServiceItem.value },
+  { label: 'Url', value: event.value?.url },
+  { label: 'Label', value: event.value?.label?.name },
+  { label: 'ShowTimeAs', value: event.value?.showTimeAs?.name },
+  { label: 'Recurrence', value: event.value?.recurrence?.text },
+  {
+    label: 'Reminder',
+    value: `${event.value?.reminder?.to} ${selectedTime.value.label} Before`,
+  },
+  { label: 'Created UserName', value: event.value?.createdUserName },
+  { label: 'Created Date', value: event.value?.createdDate },
+  { label: 'Modified UserName', value: event.value?.modifiedUserName },
+  { label: 'Modified Date', value: event.value?.modifiedDate },
+]);
+
+const filteredEventProperties = computed(() =>
+  eventProperties.value.filter((prop) => prop.value),
+);
+
+// -----------------------------
 
 const isAllowEdit = computed(() => {
   return isAllowed({
@@ -73,62 +133,6 @@ const canDelete = computed(() => {
   return isAllowDelete.value && event.value?.eventType?.id !== '4';
 });
 
-const selectedTime = computed(() => {
-  const reminderTimes = reminderDataStore.ReminderTimes;
-  const obj = reminderTimes.find(
-    (time: any) => time.value === event.value?.reminder?.beforeMinutes,
-  );
-  return obj ? obj : 'null';
-});
-
-const startDate = computed(() => {
-  if (event.value?.startDateTime) {
-    const formattedDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
-      event.value?.startDateTime,
-      event.value?.isAllDayEvent,
-    );
-    return formattedDate;
-  }
-  return null;
-});
-
-const endDate = computed(() => {
-  if (event.value?.endDateTime) {
-    const formattedDate = dateTimeHelper.formatDateTimeFromRestAPIForUI(
-      event.value?.endDateTime,
-      event.value?.isAllDayEvent,
-    );
-    return formattedDate;
-  }
-  return null;
-});
-
-const createdDate = computed(() => {
-  if (event.value?.createdDate) {
-    const data = dateTimeHelper.formatDateandTimeFromUtc(
-      event.value?.createdDate,
-    );
-    return data;
-  }
-  return null;
-});
-
-const lastModifiedDate = computed(() => {
-  if (event.value?.modifiedDate) {
-    const data = dateTimeHelper.formatDateandTimeFromUtc(
-      event.value?.modifiedDate,
-    );
-    return data;
-  }
-  return null;
-});
-const attendeesList = computed(() => {
-  if (event.value?.meetingAttendees) {
-    const data = event.value?.meetingAttendees;
-    return data;
-  }
-  return null;
-});
 const title = ref('Confirm');
 const message = ref('Are you sure you want to delete this event?');
 const showConfirmationDialog = ref(false);
@@ -153,11 +157,8 @@ const confirmDeletion = async () => {
     });
   }
 };
-const openUrl = () => {
-  const url = event.value?.url;
-  window.open('http://' + url, '_blank');
-};
 const projectServiceItem = computed(() => {
+  if (!event.value?.parent?.value?.id) return '';
   return `${event.value?.parent.type?.name} : ${event.value?.parent.value?.name}`;
 });
 
@@ -170,12 +171,6 @@ function editEvent() {
   router.push({ name: 'editEvent', params: { id: id, appName: appName } });
 }
 </script>
-
-<style>
-.q-dialog__backdrop {
-  backdrop-filter: blur(7px);
-}
-</style>
 
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -193,123 +188,27 @@ function editEvent() {
     <q-page-container>
       <q-page>
         <OC_Loader :visible="loading" />
-        <q-list>
-          <OCItem
-            :value="event?.eventName"
-            class="text-weight-regular text-h6"
-          />
-          <!-- <OCItem
-            v-if="event?.eventDescription !== ''"
-            :value="event?.eventDescription"
-          /> -->
-          <q-item>
-            <q-item-section>
-              <q-item-label>
-                <div v-html="event?.eventDescription"></div>
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-          <OCItem
-            v-if="event?.eventLocation"
-            title="Location"
-            :value="event?.eventLocation"
-          />
-          <!-- TODO CR: 2024-05-17: nk: Fix the below type errors. -->
-          <OCItem title="Start Date" :value="startDate" />
-          <OCItem title="End Date" :value="endDate" />
-          <OCItem
-            title="Is All Day Event ?"
-            :value="event?.isAllDayEvent ? 'Yes' : 'No'"
-          />
-          <q-item v-if="event?.meetingAttendees?.length">
-            <q-item-section>
-              <q-item-label caption> Attendees </q-item-label>
-              <div style="display: inline-flex; align-items: baseline">
-                <q-item-label
-                  v-for="attendee in attendeesList"
-                  :key="attendee.id"
+        <div v-if="!loading && event" class="q-gutter-y-md">
+          <q-card flat>
+            <q-card-section>
+              <div class="row q-col-gutter-md">
+                <div
+                  class="col-12 col-md-6"
+                  v-for="(property, index) in filteredEventProperties"
+                  :key="index"
                 >
-                  <q-chip dense class="q-px-sm">{{ attendee?.name }}</q-chip>
-                  <q-tooltip>{{ attendee?.email }}</q-tooltip>
-                </q-item-label>
+                  <q-item-label class="q-my-sm" style="color: inherit"
+                    >{{ property.label }}:</q-item-label
+                  >
+                  <q-item-label class="text-body1">{{
+                    property.value
+                  }}</q-item-label>
+                </div>
               </div>
-            </q-item-section>
-          </q-item>
-          <!-- <q-item v-else>
-          <q-item-section> No Attendees selected </q-item-section>
-        </q-item> -->
-          <q-item v-if="event?.url">
-            <q-item-section>
-              <q-item-label caption>Url </q-item-label>
-              <q-item-label class="cursor-pointer" @click="openUrl"
-                >{{ event?.url }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item v-if="event?.label?.id !== '-1'">
-            <q-item-section>
-              <q-item-label caption> Label </q-item-label>
-              <q-item-label>
-                <span
-                  class="q-py-xs q-px-sm"
-                  :style="{ backgroundColor: event?.label?.backColor }"
-                  >{{ event?.label?.name }}</span
-                >
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item v-if="event?.showTimeAs?.id !== '-1'">
-            <q-item-section>
-              <q-item-label caption> Show Time As </q-item-label>
-              <q-item-label>
-                <span
-                  class="q-pa-xs"
-                  :style="{
-                    backgroundColor: getEventShowTimeAsColor(
-                      event?.showTimeAs?.name,
-                    ) as string,
-                  }"
-                  >{{ event?.showTimeAs?.name }}</span
-                >
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-          <OCItem
-            v-if="event?.recurrence?.rule"
-            title="Repeat"
-            :value="event?.recurrence?.text"
-          />
-          <OCItem
-            v-if="event?.reminder?.to"
-            title="Reminder"
-            :value="`${event?.reminder?.to} ${selectedTime?.label} Before`"
-          />
-          <q-item>
-            <q-item-section>
-              <q-item-label caption> Created </q-item-label>
-              <q-item-label>
-                {{ createdDate }}
-                <span class="text-italic q-mr-xs">by</span>
-                {{ event?.createdUserName }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-item-label caption> Last Modified </q-item-label>
-              <q-item-label>
-                {{ lastModifiedDate }}
-                <span class="text-italic q-mr-xs">by</span>
-                {{ event?.modifiedUserName }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-          <OCItem
-            v-if="event?.parent?.value?.id"
-            title="Regarding"
-            :value="projectServiceItem"
-          /> </q-list
-      ></q-page>
+            </q-card-section>
+          </q-card>
+        </div>
+      </q-page>
     </q-page-container>
   </q-layout>
 
