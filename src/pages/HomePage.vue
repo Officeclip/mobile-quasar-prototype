@@ -136,7 +136,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <q-layout view="lHh Lpr lFf" class="bg-grey-1">
+  <q-layout view="lHh Lpr lFf">
     <!-- Loading Screen -->
     <div v-if="isLoadingData" class="fixed-full flex flex-center bg-primary">
       <div class="text-center text-white">
