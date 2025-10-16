@@ -63,7 +63,12 @@ export const useTimesheetsStore = defineStore('timesheetsStore', {
 
         if (response.status === 204) {
           if (this.timesheets.length === 0) {
-            this.errorMsg = 'No Content';
+            this.errorMsg =
+              category === 'inbox'
+                ? 'No Timesheets are created yet.'
+                : category === 'outbox'
+                  ? 'No Outbox Timesheet Reports Found.'
+                  : 'No Archived Timesheet Reports Found.';
           }
           return true; // No content, so we've reached the end.
         }

@@ -9,6 +9,7 @@ import { useTECommentsStore } from 'src/stores/TECommentsStore';
 import drawer from 'src/components/drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
+import { storeToRefs } from 'pinia';
 
 const timesheetsStore = useTimesheetsStore();
 const teCommentsStore = useTECommentsStore();
@@ -24,7 +25,7 @@ const infiniteScrollRef = ref<QInfiniteScroll | null>(null); // <-- Add ref for 
 // --- Computed Properties ---
 const timesheetsAll = computed(() => timesheetsStore.Timesheets);
 const timesheetDCAA = computed(() => teCommentsStore.TimesheetDCAA);
-const errorMsg = computed(() => timesheetsStore.errorMsg);
+const errorMsg = storeToRefs(timesheetsStore).errorMsg;
 
 const loadTEGroupProfile = async () => {
   await teCommentsStore.getTimesheetGroupProfile();
@@ -121,7 +122,38 @@ function toggleLeftDrawer() {
     </q-footer>
     <q-page-container>
       <q-page>
-        <div v-if="errorMsg !== ''">
+        <div
+          v-if="errorMsg !== ''"
+          class="items-center column"
+          style="
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            z-index: 10;
+          "
+        >
+          <q-icon name="error_outline" size="100px" color="grey-5" />
+          <div class="text-h6 q-mt-sm q-py-md">{{ errorMsg }}</div>
+
+          <div v-if="title === 'Inbox'" class="text-center">
+            <div class="text-body1 text-grey-7">
+              A timesheet is used to track employee's time spent on projects and
+              tasks.
+            </div>
+            <!-- <q-btn
+              class="q-mt-lg"
+              color="primary"
+              unelevated
+              size="lg"
+              :to="{ name: 'newPeriodExpense' }"
+              label="Create your first Expense"
+              no-caps
+            /> -->
+          </div>
+        </div>
+        <!-- <div v-if="errorMsg !== ''">
           <q-list class="flex flex-center">
             <q-item v-if="title === 'Inbox'">
               <q-item-section>
@@ -145,7 +177,7 @@ function toggleLeftDrawer() {
               </q-item-section>
             </q-item>
           </q-list>
-        </div>
+        </div> -->
         <OC_Loader :visible="loading" />
         <q-infinite-scroll
           ref="infiniteScrollRef"
