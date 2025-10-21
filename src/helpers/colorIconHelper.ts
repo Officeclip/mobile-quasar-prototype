@@ -75,16 +75,16 @@ export function getEventShowTimeAsColor(name = '') {
   if (name) {
     switch (name) {
       case 'Busy':
-        return 'Salmon';
+        return 'bg-red-4'; // Using Quasar's color classes for better dark mode handling
       case 'Free':
-        return '#FFFFFF';
+        return 'bg-white';
       case 'Tentative':
-        return 'SkyBlue';
+        return 'bg-blue-4';
       case 'Out of Office':
-        return '#006699';
+        return 'bg-blue-grey-8';
     }
   } else {
-    return ['#ff6666', '#FFFFFF', '#EFB505', '#87CEEB'];
+    return ['bg-red-4', 'bg-white', 'bg-amber-5', 'bg-blue-4']; // Quasar color classes
   }
 }
 

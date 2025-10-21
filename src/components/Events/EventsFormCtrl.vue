@@ -545,12 +545,12 @@ const reminderValue = computed(() => {
             <template #option="scope">
               <q-item
                 class="q-my-xs"
+                :class="
+                  $q.dark.isActive
+                    ? 'bg-grey-9'
+                    : (showTimeAsBackColor as string[])[scope.opt.id]
+                "
                 v-bind="scope.itemProps"
-                v-bind:style="{
-                  backgroundColor: (showTimeAsBackColor as string[])[
-                    scope.opt.id
-                  ],
-                }"
               >
                 {{ scope.opt.name }}
               </q-item>
@@ -559,11 +559,11 @@ const reminderValue = computed(() => {
               <q-item
                 dense
                 class="q-selectedItem"
-                v-bind:style="{
-                  backgroundColor: (showTimeAsBackColor as string[])[
-                    scope.opt.id
-                  ],
-                }"
+                :class="
+                  $q.dark.isActive
+                    ? 'bg-grey-9'
+                    : (showTimeAsBackColor as string[])[scope.opt.id]
+                "
               >
                 {{ scope.opt.name }}
               </q-item>
@@ -585,7 +585,11 @@ const reminderValue = computed(() => {
                 dense
                 class="q-my-xs"
                 v-bind="scope.itemProps"
-                v-bind:style="{ backgroundColor: scope.opt.backColor }"
+                v-bind:style="
+                  $q.dark.isActive
+                    ? 'background-color: #1d1d1d'
+                    : { backgroundColor: scope.opt.backColor }
+                "
               >
                 {{ scope.opt.name }}
               </q-item>
@@ -594,9 +598,11 @@ const reminderValue = computed(() => {
               <q-item
                 dense
                 class="q-selectedItem"
-                v-bind:style="{
-                  backgroundColor: scope.opt.backColor,
-                }"
+                v-bind:style="
+                  $q.dark.isActive
+                    ? 'background-color: #1d1d1d'
+                    : { backgroundColor: scope.opt.backColor }
+                "
               >
                 {{ scope.opt.name }}
               </q-item>
