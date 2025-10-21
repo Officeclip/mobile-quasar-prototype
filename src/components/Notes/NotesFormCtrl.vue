@@ -59,6 +59,8 @@ defineExpose({
           <template #label>Description</template>
           <template #control>
             <q-editor
+              min-height="6rem"
+              dense
               class="q-mt-md full-width"
               v-model="notesDetail.description"
               paragraph-tag="div"
@@ -66,13 +68,11 @@ defineExpose({
               :toolbar="[
                 [
                   {
-                    label: $q.lang.editor.formatting,
                     icon: $q.iconSet.editor.formatting,
                     list: 'no-icons',
                     options: ['h5', 'h6', 'p', 'code'],
                   },
                   {
-                    label: $q.lang.editor.fontSize,
                     icon: $q.iconSet.editor.fontSize,
                     fixedLabel: true,
                     fixedIcon: true,
@@ -80,11 +80,13 @@ defineExpose({
                     options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5'],
                   },
                   'removeFormat',
-                ],
-                ['link', 'bold', 'italic', 'unordered', 'ordered'],
-                [
+                  'link',
+                  'bold',
+                  'italic',
+                  'unordered',
+                  'ordered',
+
                   {
-                    label: $q.lang.editor.align,
                     icon: $q.iconSet.editor.align,
                     fixedLabel: true,
                     list: 'only-icons',
