@@ -191,7 +191,7 @@ function editTask() {
         <q-card-section class="text-h5">{{
           taskDetail?.subject
         }}</q-card-section>
-        <q-card-section>
+        <q-card-section v-if="taskDetail?.description">
           <div v-html="taskDetail?.description"></div>
         </q-card-section>
         <q-separator inset />

@@ -174,11 +174,7 @@ function toggleLeftDrawer() {
         :key="expenseDetail.id"
         class="q-ma-sm"
       >
-        <q-expansion-item
-          expand-separator
-          expand-icon-class="text-primary"
-          class="bg-white"
-        >
+        <q-expansion-item expand-separator expand-icon-class="text-primary">
           <template v-slot:header>
             <q-item-section>
               <q-item-label v-if="expenseDetail.accountName !== ''">

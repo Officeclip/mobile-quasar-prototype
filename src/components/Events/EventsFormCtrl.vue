@@ -26,6 +26,13 @@ const sessionStore = useSessionStore();
 const session = sessionStore.Session;
 
 const props = defineProps(['eventFromParent', 'appNameFromParent']);
+
+// Define eventTypes
+const eventTypes = ref([
+  { id: '1', label: 'Group', color: 'blue' },
+  { id: '2', label: 'Meeting', color: 'green' },
+  { id: '3', label: 'Personal', color: 'orange' },
+]);
 const emit = defineEmits([
   'rrule-generated',
   'reminder-generated',
@@ -274,33 +281,13 @@ const reminderValue = computed(() => {
   <div class="q-mb-sm">
     <q-list>
       <q-item>
-        <q-item-section>
+        <q-item-section v-for="type in eventTypes" :key="type.id">
           <q-radio
             v-model="event.eventType.id"
-            color="red"
+            :color="type.color"
             keep-color
-            label="Group"
-            val="1"
-            size="sm"
-          />
-        </q-item-section>
-        <q-item-section>
-          <q-radio
-            v-model="event.eventType.id"
-            color="secondary"
-            keep-color
-            label="Meeting"
-            val="2"
-            size="sm"
-          />
-        </q-item-section>
-        <q-item-section>
-          <q-radio
-            v-model="event.eventType.id"
-            color="primary"
-            keep-color
-            label="Personal"
-            val="3"
+            :label="type.label"
+            :val="type.id"
             size="sm"
           />
         </q-item-section>

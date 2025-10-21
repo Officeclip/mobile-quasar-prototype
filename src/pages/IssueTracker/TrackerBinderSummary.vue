@@ -64,7 +64,7 @@ const binderList = computed(() => {
                 {{ title }}</q-item-section
               >
             </q-item>
-            <q-separator spaced inset color="yellow-6"></q-separator>
+            <q-separator spaced inset></q-separator>
           </q-list>
           <div v-if="binderList">
             <q-list v-for="binder in binderList" :key="binder.id">
@@ -91,14 +91,26 @@ const binderList = computed(() => {
               <q-separator spaced inset></q-separator>
             </q-list>
           </div>
-          <div v-else>
-            <q-item>
-              <q-item-section>
-                <q-item-label class="text-subtitle2">
-                  No Binders has been created yet please contact your Admin.
-                </q-item-label>
-              </q-item-section>
-            </q-item>
+          <div
+            v-else
+            class="items-center column"
+            style="
+              position: absolute;
+              top: 40%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 100%;
+              z-index: 10;
+            "
+          >
+            <q-icon name="error_outline" size="100px" color="grey-5" />
+            <!-- <div class="text-h6 q-mt-sm q-py-md">{{ errorMsg }}</div> -->
+
+            <div class="text-center">
+              <div class="text-body1 text-grey-7">
+                No Binders has been created yet please contact your Admin.
+              </div>
+            </div>
           </div>
         </div>
       </q-page>

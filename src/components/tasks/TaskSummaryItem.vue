@@ -49,21 +49,20 @@ function toggleTaskStatus() {
 
 <template>
   <q-item
+    class="q-py-md"
     v-ripple
     :to="{ name: 'taskDetails', params: { id: task.id, appName: appName } }"
-    class="TaskCard"
   >
-    <q-item-section class="TaskDetails">
+    <q-item-section>
       <q-item-label
-        class="TaskTitle"
+        class="text-subtitle1 text-weight-medium"
         :class="{ StrikeThrough: task.taskStatusName === 'Completed' }"
       >
         {{ task.subject }}
       </q-item-label>
-      <div class="DueDate">
-        <q-icon class="DueIcon" name="event" />
-        <q-item-label>
-          Due:
+      <div class="flex items-center q-mt-sm">
+        <div><q-icon name="event" class="q-mr-sm" /><span>Due:</span></div>
+        <q-item-label class="q-ml-xs text-subtitle2">
           {{
             dateTimeHelper.formatDateTimeFromRestAPIForUI(task.dueDate, true)
           }}
@@ -102,38 +101,38 @@ function toggleTaskStatus() {
 </template>
 
 <style>
-.TaskCard {
+/* .TaskCard {
   background-color: #f4f4fa;
   border-radius: 10px;
   padding: 10px;
   margin: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-}
+} */
 
-.TaskTitle {
+/* .TaskTitle {
   font-size: 18px;
   font-weight: 600;
-}
+} */
 
 .StrikeThrough {
   text-decoration: line-through;
 }
 
-.DueDate {
+/* .DueDate {
   display: flex;
   align-items: center;
-}
+} */
 
-.DueIcon {
+/* .DueIcon {
   margin-right: 5px;
-}
+} */
 
-.TaskDetails > * {
+/* .TaskDetails > * {
   margin-bottom: 5px;
 }
 
 .TaskDetails > :last-child {
   margin-bottom: 0;
-}
+} */
 </style>

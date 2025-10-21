@@ -26,7 +26,7 @@ const loadMore = async (index: any, done: () => void) => {
   try {
     reachedEnd.value = await issueSummaryStore.getIssuesUpdated(
       false,
-      props.binderId
+      props.binderId,
     );
     //https://quasar.dev/vue-components/infinite-scroll/#usage
     done();
@@ -77,18 +77,6 @@ defineExpose({ infinteScrollReset });
         @click="viewDetails(issue.id, binderName, parent.appName)"
         class="clickable-card q-py-md"
       >
-        <!-- <q-item
-        clickable
-        v-ripple
-        :to="{
-          name: 'trackerCaseDetails',
-          params: {
-            id: issue.id,
-            binderId: binderId,
-            appName: parent.appName,
-          },
-        }"
-      > -->
         <q-item>
           <q-item-section>
             <q-item-label class="ellipsis"
@@ -118,7 +106,7 @@ defineExpose({ infinteScrollReset });
                 <span class="q-mx-sm">{{
                   dateTimeHelper.formatDateTimeFromRestAPIForUI(
                     issue.createdDate,
-                    false
+                    false,
                   )
                 }}</span>
               </q-item-label>
@@ -142,22 +130,24 @@ defineExpose({ infinteScrollReset });
 @import '../../css/status.scss';
 
 .clickable-card {
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   cursor: pointer;
 }
 
 .clickable-card:hover {
-  // transform: translateY(-5px);
-  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  background-color: rgb(
-    231,
-    231,
-    231
-  ); // Add your desired background color here
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: rgb(231, 231, 231); // Default background color
 }
 
-.clickable-card:active {
-  transform: translateY(-2px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+.clickable-card.q-dark:hover {
+  background-color: rgb(50, 50, 50); // Background color for dark mode
 }
+
+// .clickable-card:active {
+//   transform: translateY(-2px);
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+// }
 </style>

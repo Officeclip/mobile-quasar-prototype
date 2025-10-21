@@ -184,7 +184,6 @@ function createValue(val: string, done: any) {
           <template #label>Description</template>
           <template #control>
             <q-editor
-              style="color: black"
               class="q-mt-md full-width"
               v-model="task.description"
               paragraph-tag="div"
@@ -194,7 +193,7 @@ function createValue(val: string, done: any) {
                     label: $q.lang.editor.formatting,
                     icon: $q.iconSet.editor.formatting,
                     list: 'no-icons',
-                    options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code'],
+                    options: ['h5', 'h6', 'p', 'code'],
                   },
                   {
                     label: $q.lang.editor.fontSize,
@@ -202,19 +201,11 @@ function createValue(val: string, done: any) {
                     fixedLabel: true,
                     fixedIcon: true,
                     list: 'no-icons',
-                    options: [
-                      'size-1',
-                      'size-2',
-                      'size-3',
-                      'size-4',
-                      'size-5',
-                      'size-6',
-                      'size-7',
-                    ],
+                    options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5'],
                   },
                   'removeFormat',
                 ],
-                ['link', 'bold', 'italic', 'underline', 'unordered', 'ordered'],
+                ['link', 'bold', 'italic', 'unordered', 'ordered'],
                 [
                   {
                     label: $q.lang.editor.align,
@@ -223,7 +214,6 @@ function createValue(val: string, done: any) {
                     list: 'only-icons',
                     options: ['left', 'center', 'right', 'justify'],
                   },
-                  'fullscreen',
                 ],
               ]"
             ></q-editor>
