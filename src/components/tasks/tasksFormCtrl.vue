@@ -11,6 +11,7 @@ import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import OCItem from '../../components/OCcomponents/OC-Item.vue';
+import oc_editor from 'src/components/OCcomponents/oc_editor.vue';
 
 const props = defineProps({
   taskFromParent: {
@@ -183,42 +184,7 @@ function createValue(val: string, done: any) {
         <q-field v-model="task.description" label-slot borderless>
           <template #label>Description</template>
           <template #control>
-            <q-editor
-              min-height="6rem"
-              dense
-              class="q-mt-md full-width"
-              v-model="task.description"
-              paragraph-tag="div"
-              :toolbar="[
-                [
-                  {
-                    icon: $q.iconSet.editor.formatting,
-                    list: 'no-icons',
-                    options: ['h5', 'h6', 'p', 'code'],
-                  },
-                  {
-                    icon: $q.iconSet.editor.fontSize,
-                    fixedLabel: true,
-                    fixedIcon: true,
-                    list: 'no-icons',
-                    options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5'],
-                  },
-                  'removeFormat',
-                  'link',
-                  'bold',
-                  'italic',
-                  'unordered',
-                  'ordered',
-
-                  {
-                    icon: $q.iconSet.editor.align,
-                    fixedLabel: true,
-                    list: 'only-icons',
-                    options: ['left', 'center', 'right', 'justify'],
-                  },
-                ],
-              ]"
-            ></q-editor>
+            <oc_editor v-model="task.description" />
           </template> </q-field
       ></q-item>
       <q-item class="column">
