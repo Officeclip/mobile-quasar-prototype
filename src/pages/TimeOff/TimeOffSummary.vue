@@ -7,6 +7,7 @@ import { useQuasar } from 'quasar';
 import oc_drawer from 'src/components/oc_drawer.vue';
 import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
+import OC_Footer from 'src/components/OCcomponents/OC_Footer.vue';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
@@ -30,6 +31,12 @@ const title = computed(() =>
       : 'Archived',
 );
 const timeOffSummaries = computed(() => timeOffStore.TimeOffSummaries);
+
+const footerTabs = [
+  { name: 'mylist', label: 'My Requests', icon: 'outbox' },
+  { name: 'inbox', label: 'Inbox', icon: 'inbox' },
+  { name: 'archived', label: 'Archived', icon: 'archive' },
+];
 
 const loadTimeOffSummaries = async (tabValue: string) => {
   timeOffStore.resetTimeOffSummaryList(); // Clear previous data
@@ -129,20 +136,7 @@ const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
       @toggle-drawer="toggleLeftDrawer"
     />
     <oc_drawer ref="myDrawer" />
-    <q-footer bordered class="bg-grey-3">
-      <q-tabs
-        v-model="tab"
-        active-color="primary"
-        align="justify"
-        dense
-        class="text-grey-8"
-        indicator-color="transparent"
-      >
-        <q-tab name="mylist" label="My Requests" icon="outbox" />
-        <q-tab name="inbox" label="Inbox" icon="inbox" />
-        <q-tab name="archived" label="Archived" icon="archive" />
-      </q-tabs>
-    </q-footer>
+    <OC_Footer :tabs="footerTabs" v-model:tab="tab" />
     <q-page-container>
       <q-page>
         <div v-if="timeOffSummaries">
