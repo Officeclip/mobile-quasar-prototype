@@ -9,7 +9,8 @@ import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import WorkFlow from '../../components/general/WorkFlow.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
-import drawer from '../../components/drawer.vue';
+// import drawer from '../../components/drawer.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
@@ -170,7 +171,7 @@ function toggleLeftDrawer() {
         </q-btn>
       </template> -->
     </OC_Header>
-    <drawer ref="myDrawer" />
+    <oc_drawer ref="myDrawer" />
     <q-page-container>
       <q-page>
         <OC_Loader :visible="loading" />

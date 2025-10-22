@@ -4,9 +4,10 @@ import { useRouter } from 'vue-router';
 import { useSessionStore } from '../stores/SessionStore';
 import { useProfileListsStore } from '../stores/profileListsStore';
 import { useQuasar } from 'quasar';
-import drawer from '../components/drawer.vue';
+// import drawer from '../components/drawer.vue';
 import SelectOrganizations from 'src/components/general/SelectOrganizations.vue';
 import logOutButton from '../components/general/logOutButton.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 
 // Store and router initialization
 const router = useRouter();
@@ -200,7 +201,7 @@ onMounted(async () => {
       </q-header>
 
       <!-- Navigation Drawer -->
-      <drawer ref="myDrawer" />
+      <oc_drawer ref="myDrawer" />
 
       <!-- Page Container -->
       <q-page-container>

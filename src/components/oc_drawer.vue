@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useSessionStore } from '../stores/SessionStore';
@@ -288,22 +287,3 @@ function handleEditPhotoClick() {
     </q-dialog>
   </q-drawer>
 </template>
-
-<style scoped>
-/* Minimal custom styles - using mostly Quasar classes */
-/* .disabled {
-  opacity: 0.6;
-  pointer-events: none;
-} */
-
-/* Hover effect for navigation items */
-/* .q-item.q-item--clickable:not(.disabled):hover {
-  background-color: #f5f5f5;
-} */
-
-/* Active state for current route */
-/* .q-item.q-item--active {
-  background-color: #e3f2fd;
-  color: #1976d2;
-} */
-</style>

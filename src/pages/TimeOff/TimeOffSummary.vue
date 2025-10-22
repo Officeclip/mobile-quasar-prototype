@@ -3,7 +3,8 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useTimeOffStore } from 'src/stores/timeOff/timeOffStore';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
-import drawer from '../../components/drawer.vue';
+// import drawer from '../../components/drawer.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
@@ -127,7 +128,7 @@ const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
     />
-    <drawer ref="myDrawer" />
+    <oc_drawer ref="myDrawer" />
     <q-footer bordered class="bg-grey-3">
       <q-tabs
         v-model="tab"

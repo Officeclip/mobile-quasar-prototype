@@ -4,7 +4,8 @@ import { ref, computed, onMounted } from 'vue';
 import NoteList from '../../components/Notes/NotesListCtrl.vue';
 import { useNotesStore } from '../../stores/NotesStore';
 import { useRouter } from 'vue-router';
-import drawer from '../../components/drawer.vue';
+// import drawer from '../../components/drawer.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 import { useQuasar } from 'quasar';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
@@ -77,7 +78,7 @@ function toggleLeftDrawer() {
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
     />
-    <drawer ref="myDrawer" />
+    <oc_drawer ref="myDrawer" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
       <q-page>

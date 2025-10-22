@@ -7,7 +7,8 @@ import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import { computed, ref } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper.js';
 import { format } from 'date-fns';
-import drawer from '../../components/drawer.vue';
+// import drawer from '../../components/drawer.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const eventSummaryStore = useEventSummaryStore();
@@ -87,7 +88,7 @@ function toggleLeftDrawer() {
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
     />
-    <drawer ref="myDrawer" />
+    <oc_drawer ref="myDrawer" />
     <q-page-container>
       <q-page>
         <div class="q-ma-md">

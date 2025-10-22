@@ -9,7 +9,8 @@ import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 // import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
-import drawer from '../../components/drawer.vue';
+// import drawer from '../../components/drawer.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
@@ -188,7 +189,7 @@ function editEvent() {
       @delete="displayConfirmationDialog"
     >
     </OC_Header>
-    <drawer ref="myDrawer" />
+    <oc_drawer ref="myDrawer" />
     <q-page-container>
       <q-page>
         <OC_Loader :visible="loading" />

@@ -4,7 +4,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { useTimeOffStore } from '../../stores/timeOff/timeOffStore';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
-import Drawer from '../../components/drawer.vue';
+// import Drawer from '../../components/drawer.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 import { isAllowed } from 'src/helpers/security';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import WorkFlow from '../../components/general/WorkFlow.vue';
@@ -177,7 +178,7 @@ const getDaysOrHrs = () => {
         />
       </template> -->
     </OC_Header>
-    <Drawer ref="myDrawer" />
+    <oc_drawer ref="myDrawer" />
     <!-- <q-space class="q-mt-sm" /> -->
     <q-page-container class="q-mb-md"
       ><q-page>

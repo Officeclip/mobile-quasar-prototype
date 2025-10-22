@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Ref, ref, watch } from 'vue';
-import drawer from '../../components/drawer.vue';
+// import drawer from '../../components/drawer.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 import OC_Header from '../../components/OCcomponents/OC_Header.vue';
 import { useIssueSummaryStore } from 'src/stores/issueTracker/issueSummaryStore';
 import { useRoute } from 'vue-router';
@@ -122,7 +123,7 @@ const advanceFilters = async () => {
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
     />
-    <drawer ref="myDrawer" />
+    <oc_drawer ref="myDrawer" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
       <q-page>

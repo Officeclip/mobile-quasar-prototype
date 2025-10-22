@@ -1,7 +1,3 @@
-<!--
-TODO: skd: Provide a way to edit the image also [1.5h]
-TODO: skd: Implement child events the same way as implemented in OfficeClip. Do at least the UI [2h]
--->
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
@@ -16,7 +12,8 @@ import TaskMetaSummary from '../../components/tasks/TaskMetaSummaryItem.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
-import drawer from '../../components/drawer.vue';
+// import drawer from '../../components/drawer.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
@@ -193,7 +190,7 @@ const handleEditClick = () => {
       :show-delete-button="isAllowDelete"
       @delete="displayConfirmationDialog"
     ></OC_Header>
-    <drawer ref="myDrawer" />
+    <oc_drawer ref="myDrawer" />
     <q-page-container>
       <OC_Loader :visible="loading" />
       <q-card class="relative-position card-example" flat>

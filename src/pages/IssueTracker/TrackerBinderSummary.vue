@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import drawer from '../../components/drawer.vue';
+// import drawer from '../../components/drawer.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 import { useTrackerBinderSummaryStore } from 'src/stores/issueTracker/trackerBinderSummaryStore';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
@@ -52,7 +53,7 @@ const binderList = computed(() => {
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
     />
-    <drawer ref="myDrawer" />
+    <oc_drawer ref="myDrawer" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
       <q-page>

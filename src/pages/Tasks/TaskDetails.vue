@@ -16,7 +16,8 @@ import {
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import { useQuasar } from 'quasar';
-import drawer from '../../components/drawer.vue';
+// import drawer from '../../components/drawer.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 
 const taskDetailsStore = useTaskDetailsStore();
 const $q = useQuasar();
@@ -185,7 +186,7 @@ function editTask() {
       @delete="displayConfirmationDialog"
     >
     </OC_Header>
-    <drawer ref="myDrawer" />
+    <oc_drawer ref="myDrawer" />
     <q-page-container>
       <q-card class="q-ma-md" flat>
         <q-card-section class="text-h5">{{

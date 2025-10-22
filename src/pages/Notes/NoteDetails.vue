@@ -5,7 +5,8 @@ import { useNotesStore } from '../../stores/NotesStore';
 import { useRoute, useRouter } from 'vue-router';
 import ConfirmDelete from '../../components/general/ConfirmDelete.vue';
 import { useQuasar } from 'quasar';
-import drawer from '../../components/drawer.vue';
+// import drawer from '../../components/drawer.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
@@ -116,7 +117,7 @@ function editNote() {
       @delete="displayConfirmationDialog"
     >
     </OC_Header>
-    <drawer ref="myDrawer" />
+    <oc_drawer ref="myDrawer" />
     <q-page-container>
       <q-page>
         <OC_Loader :visible="loading" />

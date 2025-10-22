@@ -6,7 +6,8 @@ import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { QInfiniteScroll, useQuasar } from 'quasar';
 import { isAllowed } from 'src/helpers/security';
 import { useTECommentsStore } from 'src/stores/TECommentsStore';
-import drawer from 'src/components/drawer.vue';
+// import drawer from 'src/components/drawer.vue';
+import oc_drawer from 'src/components/oc_drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import { storeToRefs } from 'pinia';
@@ -105,7 +106,7 @@ function toggleLeftDrawer() {
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
     ></OC_Header>
-    <drawer ref="myDrawer" />
+    <oc_drawer ref="myDrawer" />
     <q-footer bordered class="bg-grey-3">
       <q-tabs
         v-model="tab"
