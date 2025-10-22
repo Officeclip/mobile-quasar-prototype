@@ -61,7 +61,9 @@ function toggleTaskStatus() {
         {{ task.subject }}
       </q-item-label>
       <div class="flex items-center q-mt-sm">
-        <div><q-icon name="event" class="q-mr-sm" /><span>Due:</span></div>
+        <div class="flex items-center">
+          <q-icon name="event" class="q-mr-sm" /><span>Due:</span>
+        </div>
         <q-item-label class="q-ml-xs text-subtitle2">
           {{
             dateTimeHelper.formatDateTimeFromRestAPIForUI(task.dueDate, true)

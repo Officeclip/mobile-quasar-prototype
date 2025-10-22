@@ -22,6 +22,13 @@ const userPhoto = ref();
 const $q = useQuasar();
 const dark = ref($q.dark.isActive);
 
+const cardStyle = computed(() => {
+  return {
+    width: $q.screen.lt.sm ? '90vw' : '350px',
+    maxWidth: '90vw',
+  };
+});
+
 //save the updated image detail
 const imageDetailStore = useImageDetailStore();
 
@@ -237,22 +244,28 @@ function handleEditPhotoClick() {
 
     <!-- Photo View Dialog -->
     <q-dialog v-model="showViewPhoto">
-      <q-card class="text-center q-pa-md" style="min-width: 300px">
+      <q-card class="column no-wrap" :style="cardStyle">
         <q-card-section>
-          <q-avatar size="140px">
-            <q-img v-if="userPhoto" :src="userPhoto" />
-            <q-icon v-else name="person" size="120px" color="grey-5" />
-          </q-avatar>
+          <q-img v-if="userPhoto" :src="userPhoto" />
+          <div
+            v-else
+            class="flex flex-center bg-grey-3"
+            style="min-height: 200px"
+          >
+            <q-icon name="person" size="120px" color="grey-6" />
+          </div>
         </q-card-section>
 
-        <q-card-section class="q-pt-none">
+        <div class="text-center">
           <div class="text-h6 text-weight-medium q-mb-xs">
             {{ session?.userName }}
           </div>
-          <div class="text-caption text-grey-9">{{ session?.userEmail }}</div>
-        </q-card-section>
+          <div class="text-caption">{{ session?.userEmail }}</div>
+        </div>
 
-        <q-card-actions align="center" class="q-pt-none">
+        <!-- <q-space /> -->
+
+        <q-card-actions align="center">
           <q-btn
             flat
             color="primary"
