@@ -11,6 +11,7 @@ import oc_drawer from 'src/components/oc_drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import { storeToRefs } from 'pinia';
+import OC_Footer from 'src/components/OCcomponents/OC_Footer.vue';
 
 const timesheetsStore = useTimesheetsStore();
 const teCommentsStore = useTECommentsStore();
@@ -22,6 +23,12 @@ const loading = ref(false); // <-- Change this from 'true' to 'false'
 let reachedEnd = ref(false);
 const myDrawer = ref();
 const infiniteScrollRef = ref<QInfiniteScroll | null>(null); // <-- Add ref for the component
+
+const footerTabs = [
+  { name: 'inbox', label: 'Inbox', icon: 'inbox' },
+  { name: 'outbox', label: 'Outbox', icon: 'outbox' },
+  { name: 'archived', label: 'Archived', icon: 'archive' },
+];
 
 // --- Computed Properties ---
 const timesheetsAll = computed(() => timesheetsStore.Timesheets);
@@ -107,20 +114,7 @@ function toggleLeftDrawer() {
       @toggle-drawer="toggleLeftDrawer"
     ></OC_Header>
     <oc_drawer ref="myDrawer" />
-    <q-footer bordered class="bg-grey-3">
-      <q-tabs
-        v-model="tab"
-        active-color="primary"
-        align="justify"
-        dense
-        class="text-grey-8"
-        indicator-color="transparent"
-      >
-        <q-tab name="inbox" label="Inbox" icon="inbox" />
-        <q-tab name="outbox" label="Outbox" icon="outbox" />
-        <q-tab name="archived" label="Archived" icon="archive" />
-      </q-tabs>
-    </q-footer>
+    <OC_Footer v-model:tab="tab" :tabs="footerTabs" />
     <q-page-container>
       <q-page>
         <div
