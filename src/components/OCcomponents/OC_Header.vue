@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();
+const headerClass = computed(() =>
+  $q.dark && $q.dark.isActive ? 'bg-grey-9' : 'bg-primary',
+);
 
 const props = defineProps({
   /**
@@ -105,7 +111,7 @@ const goBack = () => {
 </script>
 
 <template>
-  <q-header reveal bordered class="bg-primary text-white" height-hint="98">
+  <q-header reveal bordered :class="headerClass" height-hint="98">
     <q-toolbar>
       <!-- Left Side -->
       <q-btn
@@ -113,7 +119,6 @@ const goBack = () => {
         flat
         round
         dense
-        color="white"
         icon="arrow_back"
         @click="goBack"
       />
@@ -141,7 +146,6 @@ const goBack = () => {
           flat
           round
           dense
-          color="white"
           icon="edit"
           :to="editButtonTo"
           @click="!editButtonTo ? emit('edit') : null"
@@ -157,7 +161,6 @@ const goBack = () => {
           flat
           round
           dense
-          color="white"
           icon="delete"
           @click="emit('delete')"
           :disable="disableDelete"
