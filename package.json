@@ -1,8 +1,8 @@
 {
   "name": "mobile",
-  "version": "0.7.2",
+  "version": "1.0.9",
   "description": "Quasar Prototype of OfficeClip Mobile",
-  "productName": "OfficeClip Mobile",
+  "productName": "OfficeClip Suite",
   "author": "SK Dutta <skd@officeclip.com>",
   "private": true,
   "scripts": {
