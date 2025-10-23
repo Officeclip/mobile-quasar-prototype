@@ -17,9 +17,7 @@ function redirectToSignup() {
               Welcome to OfficeClip Mobile
             </div> -->
             <h6 class="q-ma-sm">Welcome to OfficeClip</h6>
-            <div class="text-body2 text-blue-2">
-              Your business management companion
-            </div>
+            <div class="text-body2">Your business management companion</div>
           </q-card-section>
 
           <q-card-section class="q-pa-md">

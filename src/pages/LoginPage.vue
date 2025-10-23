@@ -38,6 +38,12 @@ const mPin = ref<string | null>(null);
 // Computed properties
 const isFormValid = computed(() => !v$.value.$invalid);
 const hasEndpointUrl = computed(() => !!util.getEndPointUrl());
+const subtitleClass = computed(() =>
+  $q.dark && $q.dark.isActive ? 'text-body2' : 'text-body2 text-grey-8',
+);
+const textColor = computed(() =>
+  $q.dark && $q.dark.isActive ? 'text-white' : 'primary',
+);
 
 // Validation rules
 const rules = {
@@ -194,7 +200,7 @@ onBeforeUnmount(() => {
                 <!-- <q-icon name="business" size="28px" /> -->
               </q-avatar>
               <h1 class="login-title">Welcome to OfficeClip</h1>
-              <p class="login-subtitle">
+              <p :class="subtitleClass">
                 Sign in to access your account and continue your journey
               </p>
             </q-card-section>
@@ -257,14 +263,13 @@ onBeforeUnmount(() => {
                   <q-checkbox
                     v-model="rememberMe"
                     label="Remember me"
-                    class="remember-checkbox"
                     color="primary"
                   />
                   <q-btn
+                    class="q-pa-none"
                     flat
                     no-caps
-                    color="primary"
-                    class="forgot-password-btn"
+                    :color="textColor"
                     @click="
                       $q.notify('Forgot password functionality coming soon!')
                     "
@@ -463,15 +468,7 @@ onBeforeUnmount(() => {
   font-size: 1.75rem;
   font-weight: 700;
   margin: 0;
-  color: #1a202c;
   letter-spacing: -0.025em;
-}
-
-.login-subtitle {
-  color: #64748b;
-  margin: 0;
-  font-size: 0.9rem;
-  /* line-height: 1.5; */
 }
 
 /* Form Styles */
@@ -512,16 +509,10 @@ onBeforeUnmount(() => {
   /* margin-top: 1rem; */
 }
 
-.remember-checkbox :deep(.q-checkbox__label) {
+/* .remember-checkbox :deep(.q-checkbox__label) {
   font-size: 0.875rem;
   color: #4b5563;
-}
-
-.forgot-password-btn {
-  font-size: 0.875rem;
-  padding: 4px 8px;
-  min-height: auto;
-}
+} */
 
 /* Submit Section */
 .submit-section {
