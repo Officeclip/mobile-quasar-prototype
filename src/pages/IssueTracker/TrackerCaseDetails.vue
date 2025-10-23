@@ -10,7 +10,7 @@ import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 // import drawer from 'src/components/drawer.vue';
-import oc_drawer from 'src/components/oc_drawer.vue';
+import OC_Drawer from 'src/components/OC_Drawer.vue';
 import ConfirmDelete from 'src/components/general/ConfirmDelete.vue';
 import NoteList from 'src/components/Notes/NotesListCtrl.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
@@ -135,7 +135,7 @@ onMounted(async () => {
       @delete="showDeleteConfirmation = true"
     />
 
-    <oc_drawer ref="myDrawer" />
+    <OC_Drawer ref="myDrawer" />
 
     <q-page-container>
       <q-page padding>

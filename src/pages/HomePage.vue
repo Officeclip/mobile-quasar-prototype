@@ -5,7 +5,7 @@ import { useSessionStore } from '../stores/SessionStore';
 import { useProfileListsStore } from '../stores/profileListsStore';
 import { useQuasar } from 'quasar';
 import SelectOrganizations from 'src/components/general/SelectOrganizations.vue';
-import oc_drawer from 'src/components/oc_drawer.vue';
+import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 // Constants
@@ -178,7 +178,7 @@ onMounted(async () => {
       />
 
       <!-- Navigation Drawer -->
-      <oc_drawer ref="myDrawer" />
+      <OC_Drawer ref="myDrawer" />
 
       <!-- Page Container -->
       <q-page-container>

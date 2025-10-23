@@ -13,7 +13,7 @@ import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 // import drawer from '../../components/drawer.vue';
-import oc_drawer from 'src/components/oc_drawer.vue';
+import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
@@ -190,7 +190,7 @@ const handleEditClick = () => {
       :show-delete-button="isAllowDelete"
       @delete="displayConfirmationDialog"
     ></OC_Header>
-    <oc_drawer ref="myDrawer" />
+    <OC_Drawer ref="myDrawer" />
     <q-page-container>
       <OC_Loader :visible="loading" />
       <q-card class="relative-position card-example" flat>

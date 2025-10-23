@@ -4,7 +4,7 @@ import { computed, ref, watch, onMounted, Ref, nextTick } from 'vue';
 import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar } from 'quasar';
 // import drawer from 'src/components/drawer.vue';
-import oc_drawer from 'src/components/oc_drawer.vue';
+import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import { onBeforeRouteLeave } from 'vue-router';
@@ -252,7 +252,7 @@ onBeforeRouteLeave((to, from) => {
       @toggle-drawer="toggleLeftDrawer"
     ></OC_Header>
 
-    <oc_drawer ref="myDrawer" />
+    <OC_Drawer ref="myDrawer" />
 
     <q-page-container>
       <q-page>

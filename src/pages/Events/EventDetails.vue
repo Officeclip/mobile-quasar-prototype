@@ -10,7 +10,7 @@ import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 // import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
 // import drawer from '../../components/drawer.vue';
-import oc_drawer from 'src/components/oc_drawer.vue';
+import OC_Drawer from 'src/components/OC_Drawer.vue';
 import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
@@ -189,7 +189,7 @@ function editEvent() {
       @delete="displayConfirmationDialog"
     >
     </OC_Header>
-    <oc_drawer ref="myDrawer" />
+    <OC_Drawer ref="myDrawer" />
     <q-page-container>
       <q-page>
         <OC_Loader :visible="loading" />

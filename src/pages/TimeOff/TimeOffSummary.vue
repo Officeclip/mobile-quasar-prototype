@@ -4,7 +4,7 @@ import { useTimeOffStore } from 'src/stores/timeOff/timeOffStore';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 // import drawer from '../../components/drawer.vue';
-import oc_drawer from 'src/components/oc_drawer.vue';
+import OC_Drawer from 'src/components/OC_Drawer.vue';
 import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Footer from 'src/components/OCcomponents/OC_Footer.vue';
@@ -135,7 +135,7 @@ const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
     />
-    <oc_drawer ref="myDrawer" />
+    <OC_Drawer ref="myDrawer" />
     <OC_Footer :tabs="footerTabs" v-model:tab="tab" />
     <q-page-container>
       <q-page>

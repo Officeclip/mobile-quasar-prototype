@@ -7,7 +7,7 @@ import { searchFilter } from 'src/models/task/searchFilter';
 import { useSessionStore } from '../../stores/SessionStore';
 import TasksListCtrl from 'components/tasks/tasksListCtrl.vue';
 // import drawer from '../../components/drawer.vue';
-import oc_drawer from 'src/components/oc_drawer.vue';
+import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const myDrawer = ref();
@@ -144,7 +144,7 @@ function toggleLeftDrawer() {
       :show-menu-button="true"
       @toggle-drawer="toggleLeftDrawer"
     />
-    <oc_drawer ref="myDrawer" />
+    <OC_Drawer ref="myDrawer" />
     <q-space class="q-mt-sm" />
     <q-page-container>
       <q-page>
