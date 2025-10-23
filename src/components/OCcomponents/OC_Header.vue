@@ -2,6 +2,7 @@
 import { defineProps, defineEmits, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
+import logOutButton from '../general/logOutButton.vue';
 
 const $q = useQuasar();
 const headerClass = computed(() =>
@@ -96,9 +97,31 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showLogOutButton: {
+    type: Boolean,
+    default: false,
+  },
+  logOutButtonTo: {
+    type: [String, Object],
+    default: '/',
+  },
+  showRefreshButton: {
+    type: Boolean,
+    default: false,
+  },
+  refreshButtonTo: {
+    type: [String, Object],
+    default: null,
+  },
 });
 
-const emit = defineEmits(['toggle-drawer', 'edit', 'delete', 'save']);
+const emit = defineEmits([
+  'toggle-drawer',
+  'edit',
+  'delete',
+  'save',
+  'refresh',
+]);
 const router = useRouter();
 
 const goBack = () => {
@@ -182,6 +205,17 @@ const goBack = () => {
           :disable="disableSave"
           @click="emit('save')"
         />
+
+        <q-btn
+          v-if="showRefreshButton"
+          flat
+          round
+          dense
+          icon="refresh"
+          :to="refreshButtonTo"
+          @click="!refreshButtonTo ? emit('refresh') : null"
+        />
+        <logOutButton v-if="showLogOutButton" />
       </slot>
     </q-toolbar>
   </q-header>

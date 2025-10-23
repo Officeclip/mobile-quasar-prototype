@@ -21,6 +21,12 @@ const userPhoto = ref();
 const $q = useQuasar();
 const dark = ref($q.dark.isActive);
 
+const drawerClass = computed(() =>
+  $q.dark && $q.dark.isActive
+    ? 'bg-grey-9 text-white q-pa-md'
+    : 'bg-primary text-white q-pa-md',
+);
+
 const cardStyle = computed(() => {
   return {
     width: $q.screen.lt.sm ? '90vw' : '350px',
@@ -129,7 +135,7 @@ function handleEditPhotoClick() {
     class="column"
   >
     <!-- Header Section with User Info -->
-    <div class="bg-primary text-white q-pa-md">
+    <div :class="drawerClass">
       <q-item class="q-pa-none">
         <q-item-section side>
           <q-avatar

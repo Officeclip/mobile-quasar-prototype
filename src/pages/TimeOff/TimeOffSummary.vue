@@ -253,12 +253,4 @@ const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
 </template>
 <style scopped lang="scss">
 @import '../../css/status.scss';
-
-.text-captionm {
-  font-size: 0.75rem;
-  font-weight: 400;
-  line-height: 1.25rem;
-  letter-spacing: 0.03333em;
-  color: #616161 !important;
-}
 </style>

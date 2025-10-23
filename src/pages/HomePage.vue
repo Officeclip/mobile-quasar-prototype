@@ -4,11 +4,13 @@ import { useRouter } from 'vue-router';
 import { useSessionStore } from '../stores/SessionStore';
 import { useProfileListsStore } from '../stores/profileListsStore';
 import { useQuasar } from 'quasar';
-// import drawer from '../components/drawer.vue';
 import SelectOrganizations from 'src/components/general/SelectOrganizations.vue';
-import logOutButton from '../components/general/logOutButton.vue';
 import oc_drawer from 'src/components/oc_drawer.vue';
+import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
+// Constants
+
+const title = 'OfficeClip Suite';
 // Store and router initialization
 const router = useRouter();
 const sessionStore = useSessionStore();
@@ -165,40 +167,15 @@ onMounted(async () => {
 
     <!-- Main Layout -->
     <template v-else-if="isSessionLoaded">
-      <!-- Header -->
-      <q-header elevated class="bg-primary">
-        <q-toolbar>
-          <q-btn
-            flat
-            dense
-            round
-            icon="menu"
-            aria-label="Menu"
-            @click="toggleLeftDrawer"
-          />
-
-          <q-toolbar-title
-            class="text-weight-medium"
-            style="min-width: 0; flex: 1 1 auto"
-          >
-            OfficeClip Suite
-          </q-toolbar-title>
-
-          <q-space />
-
-          <q-btn
-            flat
-            dense
-            round
-            icon="refresh"
-            @click="refreshDashboard"
-            :loading="isLoadingData"
-          >
-          </q-btn>
-
-          <logOutButton />
-        </q-toolbar>
-      </q-header>
+      <OC_Header
+        :title="title"
+        :show-back-button="false"
+        :show-menu-button="true"
+        @toggle-drawer="toggleLeftDrawer"
+        :show-refresh-button="true"
+        @refresh="refreshDashboard"
+        :show-log-out-button="true"
+      />
 
       <!-- Navigation Drawer -->
       <oc_drawer ref="myDrawer" />
