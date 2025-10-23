@@ -21,6 +21,20 @@ const userPhoto = ref();
 const $q = useQuasar();
 const dark = ref($q.dark.isActive);
 
+onMounted(() => {
+  const darkMode = localStorage.getItem('darkMode');
+  if (darkMode) {
+    const isDark = JSON.parse(darkMode);
+    dark.value = isDark;
+    $q.dark.set(isDark);
+  }
+});
+
+const toggleDarkMode = (value: boolean) => {
+  $q.dark.set(value);
+  localStorage.setItem('darkMode', JSON.stringify(value));
+};
+
 const drawerClass = computed(() =>
   $q.dark && $q.dark.isActive
     ? 'bg-grey-9 text-white q-pa-md'
@@ -173,7 +187,7 @@ function handleEditPhotoClick() {
           color="orange"
           v-model="dark"
           :icon="dark ? 'light_mode' : 'dark_mode'"
-          @update:model-value="$q.dark.set"
+          @update:model-value="toggleDarkMode"
         />
       </div>
     </div>
