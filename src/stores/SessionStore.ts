@@ -5,6 +5,10 @@ import { SessionStorage } from 'quasar';
 import { HomeIcon } from 'src/models/homeIcon';
 import util from 'src/helpers/util';
 
+import { useTokenStore } from './tokenStore';
+import { useProfileListsStore } from './profileListsStore';
+import { useImageDetailStore } from './ImageDetail';
+
 export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
     session: {} as Session,
@@ -21,6 +25,21 @@ export const useSessionStore = defineStore('sessionStore', {
   },
 
   actions: {
+    logout() {
+      const tokenStore = useTokenStore();
+      const profileListsStore = useProfileListsStore();
+      const imageDetailStore = useImageDetailStore();
+
+      this.clearSession();
+      tokenStore.clearToken();
+      profileListsStore.clearProfileLists();
+      imageDetailStore.resetImageDetail();
+    },
+
+    clearSession() {
+      this.session = {} as Session;
+      SessionStorage.remove('oc-session');
+    },
     // Enhanced URL validation function
     isValidUrlFormat(urlString: string): boolean {
       if (typeof urlString !== 'string' || !urlString.trim()) {

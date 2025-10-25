@@ -28,7 +28,7 @@ const rememberMe = ref(false);
 const addressBarUrl = window.location.href;
 
 const login: Ref<Login> = ref({
-  userName: Constants.defaultLogin,
+  userName: Constants.getDefaultLogin(),
   password: '',
   mpin: '',
 });
@@ -161,8 +161,12 @@ onMounted(async () => {
   }
   clearStorageData();
 
+  login.value.userName = Constants.getDefaultLogin();
+
   if (login.value.userName) {
     rememberMe.value = true;
+  } else {
+    rememberMe.value = false;
   }
   mPin.value = getMpin();
   if (mPin.value) {

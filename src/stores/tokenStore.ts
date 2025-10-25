@@ -14,6 +14,10 @@ export const useTokenStore = defineStore('loginStore', {
   },
 
   actions: {
+    clearToken() {
+      this.token = {} as Token;
+      LocalStorage.remove('X-Token');
+    },
     async validateLogin(login: Login, mpin: string | null) {
       // We will assume that the login is successful and it returns the token in the body
       // this will happen in the actual call, so we will bypass this for now as json-server

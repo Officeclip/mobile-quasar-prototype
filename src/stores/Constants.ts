@@ -6,9 +6,11 @@ import { responseError } from 'src/models/responseError';
 import { Session } from 'src/models/session';
 
 export class Constants {
-  static readonly defaultLogin = LocalStorage.has('userName')
-    ? String(LocalStorage.getItem('userName'))
-    : '';
+  static getDefaultLogin(): string {
+    return LocalStorage.has('userName')
+      ? String(LocalStorage.getItem('userName'))
+      : '';
+  }
 
   static getAxiosInstance() {
     const instance = axios.create({

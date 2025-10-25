@@ -15,6 +15,10 @@ export const useProfileListsStore = defineStore('profileListsStore', {
   },
 
   actions: {
+    clearProfileLists() {
+      this.profileLists = {} as profileLists;
+    },
+
     async getProfileLists(): Promise<void> {
       try {
         const instance = Constants.getAxiosInstance();

@@ -1,7 +1,9 @@
 <script setup>
+import { useSessionStore } from '../../stores/SessionStore';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 
+const sessionStore = useSessionStore();
 const router = useRouter();
 const showDialog = ref(false);
 
@@ -10,11 +12,8 @@ const logOut = () => {
 };
 
 const confirmLogOut = () => {
-  showDialog.value = false;
   router.push({ path: '/' });
-  setTimeout(() => {
-    window.location.reload();
-  }, 400); // 400 milliseconds
+  sessionStore.logout();
 };
 
 const cancelLogOut = () => {
