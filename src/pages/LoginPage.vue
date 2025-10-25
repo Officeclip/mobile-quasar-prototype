@@ -155,6 +155,10 @@ function togglePasswordVisibility(): void {
 
 // Lifecycle hooks
 onMounted(async () => {
+  const darkMode = localStorage.getItem('darkMode');
+  if (darkMode) {
+    $q.dark.set(JSON.parse(darkMode));
+  }
   clearStorageData();
 
   if (login.value.userName) {
