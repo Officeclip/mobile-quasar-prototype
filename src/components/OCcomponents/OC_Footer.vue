@@ -6,6 +6,7 @@ const $q = useQuasar();
 const footerClass = computed(() =>
   $q.dark && $q.dark.isActive ? 'bg-grey-9' : 'bg-primary',
 );
+
 interface Tab {
   name: string;
   label: string;
@@ -21,13 +22,14 @@ defineEmits(['update:tab']);
 </script>
 
 <template>
-  <q-footer bordered>
+  <q-footer>
     <q-tabs
       :model-value="tab"
       @update:model-value="$emit('update:tab', $event)"
       align="justify"
       dense
       :class="footerClass"
+      indicator-color="warning"
     >
       <q-tab
         v-for="t in tabs"

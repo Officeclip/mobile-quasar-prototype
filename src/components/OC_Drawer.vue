@@ -169,7 +169,6 @@ function handleEditPhotoClick() {
           round
           dense
           color="white"
-          size="sm"
           @click="openSettings('left')"
         >
         </q-btn>

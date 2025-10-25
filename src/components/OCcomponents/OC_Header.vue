@@ -142,7 +142,7 @@ const goBack = () => {
         flat
         round
         dense
-        icon="arrow_back"
+        icon="west"
         @click="goBack"
       />
       <q-btn
