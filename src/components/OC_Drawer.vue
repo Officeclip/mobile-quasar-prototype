@@ -78,14 +78,6 @@ const filteredHomeIcons = computed(() => {
   return newHomeIcons;
 });
 
-function getColor(url: string) {
-  return url !== '' ? 'primary' : 'grey-6';
-}
-
-function getClass(url: string) {
-  return url !== '' ? 'cursor-pointer' : 'cursor-not-allowed';
-}
-
 function goToApp(url: string) {
   if (url !== '') {
     router.push({ path: url });
@@ -198,27 +190,27 @@ function handleEditPhotoClick() {
           :key="item.name"
           clickable
           v-ripple
-          class="q-mx-sm q-my-xs rounded-borders"
+          :class="[
+            'q-mx-sm q-my-xs rounded-borders',
+            item.url === '' ? 'opacity-60' : '',
+          ]"
           @click="goToApp(item.url)"
         >
           <q-item-section avatar>
-            <q-icon
-              :class="getClass(item.url)"
-              :color="getColor(item.url)"
-              :name="item.icon"
-              size="md"
-            />
+            <q-avatar
+              :color="item.color || (item.url !== '' ? 'primary' : 'grey-4')"
+              text-color="white"
+            >
+              <q-icon :name="item.icon" />
+            </q-avatar>
           </q-item-section>
           <q-item-section>
-            <q-item-label
-              class="text-weight-medium"
-              :class="item.url === '' ? 'text-grey-6' : ''"
-            >
+            <q-item-label class="text-weight-medium">
               {{ item.name }}
             </q-item-label>
           </q-item-section>
           <q-item-section side v-if="item.url !== ''">
-            <q-icon name="chevron_right" size="sm" />
+            <q-icon name="chevron_right" size="sm" color="grey-6" />
           </q-item-section>
           <q-item-section side v-else>
             <q-chip size="sm" color="orange" text-color="white" label="Soon" />

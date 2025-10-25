@@ -281,28 +281,38 @@ onMounted(async () => {
                         @click="handleAppClick(item)"
                       >
                         <q-card-section class="text-center q-pa-md">
-                          <div class="relative-position q-mb-sm">
-                            <q-icon
-                              :name="item.icon"
-                              :color="item.url !== '' ? 'primary' : 'grey-5'"
-                              size="2rem"
-                            />
-                            <q-badge
-                              v-if="item.url === ''"
-                              color="orange"
-                              floating
-                              rounded
-                              class="text-caption"
-                            >
-                              Soon
-                            </q-badge>
-                          </div>
+                          <q-avatar
+                            :color="
+                              item.color ||
+                              (item.url !== '' ? 'primary' : 'grey-4')
+                            "
+                            text-color="white"
+                            :icon="item.icon"
+                            size="2.5rem"
+                            class="q-mb-sm"
+                          />
                           <div
                             class="text-subtitle2 text-weight-medium ellipsis"
                           >
                             {{ item.name }}
                           </div>
                         </q-card-section>
+
+                        <q-chip
+                          v-if="item.url === ''"
+                          size="sm"
+                          color="orange"
+                          text-color="white"
+                          label="Soon"
+                          class="absolute"
+                          style="
+                            top: 4px;
+                            right: 4px;
+                            font-size: 10px;
+                            padding: 2px 6px;
+                            height: auto;
+                          "
+                        />
 
                         <!-- Hover Overlay -->
                         <div
