@@ -145,9 +145,9 @@ async function handleAutoLogin(): Promise<void> {
 }
 
 // Navigation handlers
-async function redirectToSetUpAccount(): Promise<void> {
-  await Browser.open({ url: 'https://app.officeclip.com/setupsite.aspx' });
-}
+// async function redirectToSetUpAccount(): Promise<void> {
+//   await Browser.open({ url: 'https://app.officeclip.com/setupsite.aspx' });
+// }
 
 function togglePasswordVisibility(): void {
   showPassword.value = !showPassword.value;
@@ -322,7 +322,7 @@ onBeforeUnmount(() => {
                 </div> -->
 
                 <!-- Sign Up Link -->
-                <div class="signup-link">
+                <!-- <div class="signup-link">
                   <span class="text-body2 text-grey-7"
                     >Don't have an account?</span
                   >
@@ -335,7 +335,7 @@ onBeforeUnmount(() => {
                   >
                     Create Account
                   </q-btn>
-                </div>
+                </div> -->
 
                 <!-- Test Page Button (Development) -->
                 <div v-if="util.isHideTestPage()" class="test-page-section">

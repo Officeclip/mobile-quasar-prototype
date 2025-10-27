@@ -1,7 +1,7 @@
 <script setup lang="ts">
-function redirectToSignup() {
-  window.open('https://app.officeclip.com', '_blank');
-}
+// function redirectToSignup() {
+//   window.open('https://app.officeclip.com', '_blank');
+// }
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -27,7 +27,7 @@ function redirectToSignup() {
               Outlook, and other enterprise systems.
             </div>
 
-            <div class="text-subtitle2 text-weight-medium q-mb-md text-primary">
+            <!-- <div class="text-subtitle2 text-weight-medium q-mb-md text-primary">
               Available Editions:
             </div>
             <q-list>
@@ -43,12 +43,20 @@ function redirectToSignup() {
                 </q-item-section>
                 <q-item-section> Enterprise edition </q-item-section>
               </q-item>
-            </q-list>
+            </q-list> -->
+          </q-card-section>
+          <q-separator />
+          <q-card-section class="q-pa-md">
+            <div class="text-caption items-center text-grey-8">
+              <q-icon name="info_outline" size="xs" class="q-mr-sm" />
+              <span>
+                This app is campanion to your OfficeClip web account. An
+                existing account is required to use this app.
+              </span>
+            </div>
           </q-card-section>
 
-          <q-separator />
-
-          <q-card-section class="text-center q-pa-md">
+          <!-- <q-card-section class="text-center q-pa-md">
             <div class="q-mb-md">
               <span class="text-body2 text-grey-7">
                 Learn more and create your account at
@@ -63,9 +71,9 @@ function redirectToSignup() {
                 officeclip.com
               </q-btn>
             </div>
-          </q-card-section>
+          </q-card-section> -->
 
-          <q-card-actions align="right" class="q-px-lg">
+          <q-card-actions align="center">
             <q-btn
               color="primary"
               unelevated
