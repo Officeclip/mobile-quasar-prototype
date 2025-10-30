@@ -13,7 +13,8 @@
     "backend": "json-server -p 4000 --w ./data/mock_data.json",
     "build": "quasar build",
     "test-android": "quasar dev -m capacitor -T android",
-    "production-android": "quasar build -m capacitor -T android"
+    "production-android": "quasar build -m capacitor -T android",
+    "icons": "icongenie generate -i AppIcon.png --skip-trim"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.2",

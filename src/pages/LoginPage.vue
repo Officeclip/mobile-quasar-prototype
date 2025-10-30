@@ -204,7 +204,7 @@ onBeforeUnmount(() => {
             <!-- Header Section -->
             <q-card-section class="login-header">
               <q-avatar size="84px">
-                <q-img src="/icon.png" />
+                <q-img src="/AppIcon.png" />
                 <!-- <q-icon name="business" size="28px" /> -->
               </q-avatar>
               <h1 class="login-title">Welcome to OfficeClip</h1>

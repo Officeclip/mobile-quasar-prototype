@@ -5,7 +5,7 @@
   "author": "SK Dutta <skd@officeclip.com>",
   "private": true,
   "dependencies": {
-    "@capacitor/android": "^7.4.2",
+    "@capacitor/android": "^7.4.4",
     "@capacitor/app": "^7.0.0",
     "@capacitor/browser": "^7.0.2",
     "@capacitor/camera": "^7.0.1",

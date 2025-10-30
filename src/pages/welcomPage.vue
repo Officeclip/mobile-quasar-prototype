@@ -10,7 +10,7 @@
         <q-card flat class="q-ma-md col-10 col-md-6">
           <q-card-section class="bg-primary text-white text-center">
             <q-avatar size="56px">
-              <q-img src="/icon.png" />
+              <q-img src="/AppIcon.png" />
               <!-- <q-icon name="business" size="28px" /> -->
             </q-avatar>
             <!-- <div class="text-h5 text-weight-bold q-mb-xs">
