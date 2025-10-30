@@ -229,7 +229,7 @@ onMounted(async () => {
               </q-card>
 
               <!-- Apps Container -->
-              <q-card flat bordered>
+              <q-card flat>
                 <!-- No Results -->
                 <div v-if="!hasSearchResults" class="q-pa-xl text-center">
                   <q-icon name="search_off" size="3rem" color="grey-5" />
@@ -328,7 +328,7 @@ onMounted(async () => {
 
                 <!-- List View -->
                 <div v-else>
-                  <q-list separator>
+                  <q-list separator padding>
                     <q-item
                       v-for="item in filteredHomeIcons"
                       :key="item.id"
