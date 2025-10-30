@@ -20,19 +20,34 @@ const userPhoto = ref();
 
 const $q = useQuasar();
 const dark = ref($q.dark.isActive);
+const userPreferredDarkMode = ref<boolean | null>(null); // null means no explicit user preference
 
 onMounted(() => {
-  const darkMode = localStorage.getItem('darkMode');
-  if (darkMode) {
-    const isDark = JSON.parse(darkMode);
-    dark.value = isDark;
-    $q.dark.set(isDark);
+  const storedUserPreference = localStorage.getItem('userPreferredDarkMode');
+  if (storedUserPreference !== null) {
+    userPreferredDarkMode.value = JSON.parse(storedUserPreference);
+    dark.value = userPreferredDarkMode.value;
+    $q.dark.set(userPreferredDarkMode.value);
+  } else {
+    // No explicit user preference, follow device settings
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    dark.value = prefersDark;
+    $q.dark.set(prefersDark);
   }
+
+  // Listen for changes in device dark mode settings
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+    if (userPreferredDarkMode.value === null) { // Only update if no explicit user preference
+      dark.value = event.matches;
+      $q.dark.set(event.matches);
+    }
+  });
 });
 
 const toggleDarkMode = (value: boolean) => {
+  userPreferredDarkMode.value = value; // User has now explicitly set a preference
   $q.dark.set(value);
-  localStorage.setItem('darkMode', JSON.stringify(value));
+  localStorage.setItem('userPreferredDarkMode', JSON.stringify(value));
 };
 
 const drawerClass = computed(() =>

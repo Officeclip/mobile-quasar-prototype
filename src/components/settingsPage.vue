@@ -16,7 +16,7 @@ const removeLocalData = () => {
       console.log('>>>> OK');
       localStorage.clear();
       sessionStorage.clear();
-      router.push({ path: '/loginPage' });
+      router.push({ path: '/' });
       setTimeout(() => {
         window.location.reload();
       }, 400); // 2000 milliseconds = 2 seconds

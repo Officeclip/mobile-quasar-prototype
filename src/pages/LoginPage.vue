@@ -12,7 +12,7 @@ import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
 import { useNotification } from '../composables/useNotification';
 import welcomePage from 'src/pages/welcomPage.vue';
-import { Browser } from '@capacitor/browser';
+// import { Browser } from '@capacitor/browser';
 
 // Store and router initialization
 const sessionStore = useSessionStore();
@@ -155,7 +155,7 @@ function togglePasswordVisibility(): void {
 
 // Lifecycle hooks
 onMounted(async () => {
-  const darkMode = localStorage.getItem('darkMode');
+  const darkMode = localStorage.getItem('userPreferredDarkMode');
   if (darkMode) {
     $q.dark.set(JSON.parse(darkMode));
   }
