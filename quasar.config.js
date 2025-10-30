@@ -45,7 +45,10 @@ export default configure(function (/* ctx */) {
         node: 'node20', // UPDATED to reflect Node.js 20
       },
       // env: dotenv.parsed, // Use the parsed environment variables
-
+      env: {
+        PACKAGE_VERSION: process.env.npm_package_version,
+      },
+      pwa: {},
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       publicPath: '',
 
