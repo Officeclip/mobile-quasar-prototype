@@ -22,7 +22,6 @@ const isLoadingData = ref<boolean>(false);
 const hasError = ref<boolean>(false);
 const errorMessage = ref<string>('');
 const myDrawer = ref();
-const searchQuery = ref<string>('');
 const viewMode = ref<'grid' | 'list'>('grid');
 
 // Computed properties
@@ -31,20 +30,11 @@ const filteredHomeIcons = computed(() => {
     const icons = sessionStore.getHomeIcons();
     if (!icons || icons.length === 0) return [];
 
-    if (searchQuery.value.trim()) {
-      const query = searchQuery.value.toLowerCase().trim();
-      return icons.filter((item) => item.name.toLowerCase().includes(query));
-    }
-
     return icons;
   } catch (error) {
     console.error('Error filtering home icons:', error);
     return [];
   }
-});
-
-const hasSearchResults = computed(() => {
-  return searchQuery.value.trim() === '' || filteredHomeIcons.value.length > 0;
 });
 
 const isSessionLoaded = computed(() => {
@@ -120,10 +110,6 @@ function toggleLeftDrawer(): void {
   }
 }
 
-function clearSearch(): void {
-  searchQuery.value = '';
-}
-
 function toggleViewMode(): void {
   viewMode.value = viewMode.value === 'grid' ? 'list' : 'grid';
 }
@@ -188,29 +174,10 @@ onMounted(async () => {
               <!-- Organization Selection -->
               <q-card flat>
                 <q-card-section class="q-pa-md">
-                  <SelectOrganizations />
-                </q-card-section>
-              </q-card>
-
-              <!-- Search and View Controls -->
-              <q-card flat class="q-mb-md">
-                <q-card-section class="q-pa-md">
                   <div class="row items-center q-col-gutter-md">
                     <div class="col">
-                      <q-input
-                        v-model="searchQuery"
-                        outlined
-                        dense
-                        placeholder="Search applications..."
-                        clearable
-                        @clear="clearSearch"
-                      >
-                        <template v-slot:prepend>
-                          <q-icon name="search" />
-                        </template>
-                      </q-input>
+                      <SelectOrganizations />
                     </div>
-
                     <div class="col-auto">
                       <q-btn
                         flat
@@ -230,28 +197,9 @@ onMounted(async () => {
 
               <!-- Apps Container -->
               <q-card flat>
-                <!-- No Results -->
-                <div v-if="!hasSearchResults" class="q-pa-xl text-center">
-                  <q-icon name="search_off" size="3rem" color="grey-5" />
-                  <div class="text-h6 q-mt-md q-mb-sm text-grey-7">
-                    No applications found
-                  </div>
-                  <div class="text-body2 text-grey-5 q-mb-md">
-                    Try adjusting your search terms
-                  </div>
-                  <q-btn
-                    v-if="searchQuery.trim()"
-                    flat
-                    color="primary"
-                    @click="clearSearch"
-                  >
-                    Clear Search
-                  </q-btn>
-                </div>
-
                 <!-- No Apps Available -->
                 <div
-                  v-else-if="filteredHomeIcons.length === 0"
+                  v-if="filteredHomeIcons.length === 0"
                   class="q-pa-xl text-center"
                 >
                   <q-icon name="apps" size="3rem" color="grey-5" />
