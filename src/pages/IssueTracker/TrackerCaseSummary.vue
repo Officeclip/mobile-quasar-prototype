@@ -95,9 +95,9 @@ const filterCount = ref(0);
 function updateFilterCount(val: number) {
   filterCount.value = val;
 }
-const position = ref('top');
+const position = ref<'top' | 'right' | 'bottom' | 'left' | 'standard'>('top');
 
-function open(pos: string) {
+function open(pos: 'top' | 'right' | 'bottom' | 'left' | 'standard') {
   position.value = pos;
   showAdvOptions.value = true;
 }

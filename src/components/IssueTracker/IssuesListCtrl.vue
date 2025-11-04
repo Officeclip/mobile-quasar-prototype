@@ -150,4 +150,7 @@ defineExpose({ infinteScrollReset });
 //   transform: translateY(-2px);
 //   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 // }
+.required {
+  color: red;
+}
 </style>
