@@ -181,6 +181,13 @@ export const useSessionStore = defineStore('sessionStore', {
           url: '/timeOffSummary',
           color: 'light-blue', // Represents relaxation & freedom
         },
+        {
+          id: 3,
+          icon: 'account_balance',
+          name: 'Accounts',
+          url: '/accountSummary',
+          color: 'indigo', // Represents finance and stability
+        },
       ];
       return defaultHomeIcons.slice().sort((a, b) => {
         const nameA = a.name.toLowerCase();
