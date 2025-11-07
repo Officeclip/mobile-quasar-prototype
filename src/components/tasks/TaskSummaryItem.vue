@@ -60,7 +60,7 @@ function toggleTaskStatus() {
       >
         {{ task.subject }}
       </q-item-label>
-      <div class="flex items-center q-mt-sm">
+      <div v-if="task.dueDate" class="flex items-center q-mt-sm">
         <div class="flex items-center">
           <q-icon name="event" class="q-mr-sm" /><span>Due:</span>
         </div>
@@ -71,8 +71,9 @@ function toggleTaskStatus() {
         </q-item-label>
       </div>
 
-      <div class="StatusAndPriority">
+      <div>
         <q-chip
+          v-if="task.taskStatusName"
           :color="getTaskStatusColor(task.taskStatusCategory)"
           :icon-right="getTaskStatusIcon(task.taskStatusCategory)"
           square
@@ -82,6 +83,7 @@ function toggleTaskStatus() {
         </q-chip>
 
         <q-chip
+          v-if="task.taskPriorityName"
           :color="getPriorityColor(task.taskPriorityName)"
           :icon-right="getPriorityIcon(task.taskPriorityName)"
           square
