@@ -3,7 +3,6 @@ import { useContactSummaryStore } from '../../stores/contact/ContactSummaryStore
 import { computed, ref, watch, onMounted, Ref, nextTick } from 'vue';
 import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar } from 'quasar';
-// import drawer from 'src/components/drawer.vue';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
@@ -220,30 +219,6 @@ onBeforeRouteLeave((to, from) => {
 });
 </script>
 
-<style>
-.q-dialog__backdrop {
-  backdrop-filter: blur(7px);
-}
-.q-chip--small {
-  font-size: 0.75rem;
-  padding: 4px 8px;
-  height: 24px;
-}
-.search-history-container {
-  overflow-x: auto;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 5px;
-}
-.search-history-container::-webkit-scrollbar {
-  display: none;
-}
-.search-history-container {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-</style>
-
 <template>
   <q-layout view="lHh Lpr lFf">
     <OC_Header
@@ -381,3 +356,26 @@ onBeforeRouteLeave((to, from) => {
     </q-page-container>
   </q-layout>
 </template>
+<style>
+.q-dialog__backdrop {
+  backdrop-filter: blur(7px);
+}
+.q-chip--small {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  height: 24px;
+}
+.search-history-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 5px;
+}
+.search-history-container::-webkit-scrollbar {
+  display: none;
+}
+.search-history-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+</style>
