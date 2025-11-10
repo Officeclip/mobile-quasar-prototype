@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { accountSummary } from '../../models/account/accountSummary';
 import util from 'src/helpers/util';
 import { searchFilter } from 'src/models/account/searchFilter';
-import axios from 'axios';
+import { Constants } from '../Constants';
 
 // Define a key for local storage
 const SEARCH_HISTORY_LS_KEY = 'accountSearchHistory';
@@ -65,8 +65,7 @@ export const useAccountSummaryStore = defineStore('accountSummaryStore', {
 
     buildUrl(): string {
       // we will use this when the prototype is pointed to a real endpoint
-      // const baseUrl = `${util.getEndPointUrl()}/account-summary`;
-      const baseUrl = 'http://localhost:3000/account-summary';
+      const baseUrl = `${util.getEndPointUrl()}/account-summary`;
       const params = new URLSearchParams({
         pagenumber: this.pageNum.toString(),
         pagesize: this.pageSize.toString(),
@@ -189,7 +188,8 @@ export const useAccountSummaryStore = defineStore('accountSummaryStore', {
       const urlToFetch = this.nextPageUrl || this.buildUrl();
 
       try {
-        const response = await axios.get(urlToFetch);
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(urlToFetch);
 
         if (response.status === 204) {
           if (this.pageNum === 1) {
@@ -200,9 +200,9 @@ export const useAccountSummaryStore = defineStore('accountSummaryStore', {
           return true;
         }
 
-        if (response.status === 200 && response.data) {
+        if (response.status === 200 && response.data?.data) {
           // Mockoon typically returns the data directly, not nested under a 'data' property
-          const data = response.data;
+          const data = response.data.data;
 
           if (data.length === 0) {
             if (this.pageNum === 1 && this.filter.searchString) {
