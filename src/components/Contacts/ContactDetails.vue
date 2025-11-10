@@ -3,117 +3,88 @@ import { computed } from 'vue';
 
 const props = defineProps(['params']);
 const contactDetails = computed(() => props.params.contactDetails);
-const stateName = computed(() => props.params.stateName);
-const countryName = computed(() => props.params.countryName);
+const contactDetailProperties = computed(() => {
+  const details = contactDetails.value;
+  if (!details) return [];
+  return [
+    {
+      label: 'First Name',
+      value: details.first_name,
+      show: !!details.first_name,
+    },
+    {
+      label: 'Last Name',
+      value: details.last_name,
+      show: !!details.last_name,
+    },
+    {
+      label: 'Title',
+      value: details.title,
+      show: !!details.title,
+    },
+    {
+      label: 'Email',
+      value: details.email,
+      show: !!details.email,
+    },
+    {
+      label: 'Country',
+      value: details.country_name,
+      show: !!details.country_name,
+    },
+    {
+      label: 'Work Phone',
+      value: details.work_phone,
+      show: !!details.work_phone,
+    },
+    {
+      label: 'Home Phone',
+      value: details.home_phone,
+      show: !!details.home_phone,
+    },
+
+    {
+      label: 'Address',
+      value: details.street_address,
+      show: !!details.street_address,
+    },
+  ];
+});
+
+const filterContactDetails = computed(() => {
+  return contactDetailProperties.value.filter((prop) => prop.show);
+});
 </script>
 <template>
   <q-card-section class="q-pb-none">
-    <q-list>
-      <q-item class="q-mt-md">
-        <q-item-section class="rowItems">
-          <q-item-label caption>First Name</q-item-label>
-          <q-item-label class="q-mb-sm">
-            <span v-if="contactDetails?.first_name">{{
-              contactDetails?.first_name
-            }}</span>
-            <span v-else style="opacity: 0.3; font-style: italic"
-              >-- none --</span
-            ></q-item-label
-          >
-          <q-item-label caption>Title</q-item-label>
-          <q-item-label class="q-mb-sm">
-            <span v-if="contactDetails?.title">{{
-              contactDetails?.title
-            }}</span>
-            <span v-else style="opacity: 0.3; font-style: italic"
-              >-- none --</span
-            ></q-item-label
-          >
-          <q-item-label caption>Country</q-item-label>
-          <q-item-label class="q-mb-sm">
-            <span v-if="countryName">{{ countryName }}</span>
-            <span v-else style="opacity: 0.3; font-style: italic"
-              >-- none --</span
-            ></q-item-label
-          >
-
-          <q-item-label v-if="contactDetails?.street_address" caption
-            >Address</q-item-label
-          >
-          <q-item-label>
-            <span v-if="contactDetails?.street_address">{{
-              contactDetails?.street_address
-            }}</span>
-            <!-- <span v-else style="opacity: 0.3; font-style: italic"
-              >-- none --</span
-            > -->
-          </q-item-label>
-          <q-item-label v-if="contactDetails?.city">
-            <span v-if="contactDetails?.city">{{ contactDetails?.city }}</span>
-            , {{ stateName }}</q-item-label
-          >
-          <q-item-label
-            ><span v-if="countryName">{{ countryName }},</span>
-            <span v-if="contactDetails?.postal_code">{{
-              contactDetails?.postal_code
-            }}</span>
-            <!-- <span v-else style="opacity: 0.3; font-style: italic"
-              >-- none --</span
-            > -->
-          </q-item-label>
-        </q-item-section>
-        <q-item-section class="rowItems">
-          <q-item-label caption>Last Name</q-item-label>
-          <q-item-label class="q-mb-sm">
-            <span v-if="contactDetails?.last_name">{{
-              contactDetails?.last_name
-            }}</span>
-            <span v-else style="opacity: 0.3; font-style: italic"
-              >-- none --</span
-            ></q-item-label
-          >
-
-          <q-item-label caption>Email</q-item-label>
-          <q-item-label class="q-mb-sm">
-            <span v-if="contactDetails?.email">{{
-              contactDetails?.email
-            }}</span>
-            <span v-else style="opacity: 0.3; font-style: italic"
-              >-- none --</span
-            ></q-item-label
-          >
-
-          <q-item-label caption>Work Phone</q-item-label>
-          <q-item-label class="q-mb-sm">
-            <span v-if="contactDetails?.work_phone">{{
-              contactDetails?.work_phone
-            }}</span>
-            <span v-else style="opacity: 0.3; font-style: italic"
-              >-- none --</span
-            ></q-item-label
-          >
-          <q-item-label caption>Home Phone</q-item-label>
-          <q-item-label class="q-mb-sm">
-            <span v-if="contactDetails?.home_phone">{{
-              contactDetails?.home_phone
-            }}</span>
-            <span v-else style="opacity: 0.3; font-style: italic"
-              >-- none --</span
-            ></q-item-label
-          >
-        </q-item-section>
-      </q-item>
-    </q-list>
+    <div class="row q-col-gutter-md">
+      <div
+        v-for="prop in filterContactDetails"
+        :key="prop.label"
+        class="col-xs-6 flex items-center"
+      >
+        <q-item v-if="prop.show">
+          <q-item-section>
+            <q-item-label caption>{{ prop.label }}: </q-item-label>
+            <div v-if="prop.label === 'Address'">
+              <q-item-label class="text-body1"> {{ prop.value }} </q-item-label>
+              <q-item-label v-if="contactDetails?.city" class="text-body1">
+                {{ contactDetails?.city }}, {{ contactDetails?.state_name }}
+              </q-item-label>
+              <q-item-label
+                v-if="contactDetails?.country_name"
+                class="text-body1"
+              >
+                {{ contactDetails?.country_name }},
+                {{ contactDetails?.postal_code }}
+              </q-item-label>
+            </div>
+            <div v-else>
+              <q-item-label class="text-body1">{{ prop.value }}</q-item-label>
+            </div>
+          </q-item-section>
+        </q-item>
+      </div>
+    </div>
   </q-card-section>
 </template>
-
-<style scoped>
-.rowItems {
-  display: flex;
-  align-content: center;
-}
-
-.justify-center {
-  justify-content: flex-start;
-}
-</style>

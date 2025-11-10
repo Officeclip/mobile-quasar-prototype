@@ -12,7 +12,6 @@ import TaskMetaSummary from '../../components/tasks/TaskMetaSummaryItem.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
-// import drawer from '../../components/drawer.vue';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
@@ -59,28 +58,9 @@ onMounted(async () => {
 const children = computed(() => {
   return contactListsStore.Children;
 });
-
-const stateName = computed(() => {
-  const item = contactDetailsStore.States.find(
-    (state) => state.id === contactDetails.value?.state_id,
-  );
-  const stateItem = item ? item.name : '';
-  return stateItem;
-});
-
-const countryName = computed(() => {
-  const item = contactDetailsStore.Countries.find(
-    (country) => country.id === contactDetails.value?.country_id,
-  );
-  const countryItem = item ? item.name : '';
-  return countryItem;
-});
-
 const params = computed(() => {
   return {
     contactDetails: contactDetails.value,
-    stateName: stateName.value,
-    countryName: countryName.value,
   };
 });
 
@@ -173,12 +153,6 @@ const handleEditClick = () => {
 };
 </script>
 
-<style>
-.q-dialog__backdrop {
-  backdrop-filter: blur(7px);
-}
-</style>
-
 <template>
   <q-layout view="lHh Lpr lFf">
     <OC_Header
@@ -193,10 +167,15 @@ const handleEditClick = () => {
     <OC_Drawer ref="myDrawer" />
     <q-page-container>
       <OC_Loader :visible="loading" />
-      <q-card class="relative-position card-example" flat>
-        <q-card-section class="q-pb-none">
-          <div class="center">
-            <q-avatar color="grey-3" size="120px" class="q-mb-sm">
+      <q-card flat>
+        <q-card-section class="q-pb-none flex flex-center">
+          <div>
+            <q-avatar
+              color="grey-3"
+              size="120px"
+              class="q-mb-sm"
+              style="color: inherit"
+            >
               <q-img
                 v-if="contactDetails?.picture"
                 v-bind:src="contactDetails?.picture"
@@ -348,7 +327,7 @@ const handleEditClick = () => {
   />
 </template>
 
-<style scoped>
+<!-- <style scoped>
 .center {
   display: flex;
   flex-direction: column;
@@ -358,4 +337,4 @@ const handleEditClick = () => {
 .oc-custom-toggle {
   border: 1px solid var(--q-primary);
 }
-</style>
+</style> -->
