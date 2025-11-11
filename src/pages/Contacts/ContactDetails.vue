@@ -58,6 +58,17 @@ onMounted(async () => {
 const children = computed(() => {
   return contactListsStore.Children;
 });
+
+const tab = ref('notes');
+
+const showNotes = computed(() => {
+  return children.value.some((c) => c.id === ObjectType.Note);
+});
+
+const showActivities = computed(() => {
+  return children.value.some((c) => c.id === ObjectType.ActivityTabForCrm);
+});
+
 const params = computed(() => {
   return {
     contactDetails: contactDetails.value,
@@ -186,133 +197,110 @@ const handleEditClick = () => {
         </q-card-section>
         <ContactDetails v-if="model === '1'" :params="params" />
         <MetaDetails v-if="model === '2'" :params="parent" />
-        <div v-for="child in children" :key="child.id">
-          <q-card-section v-if="child.id == ObjectType.Note">
-            <q-list bordered class="rounded-borders">
-              <q-expansion-item
-                expand-separator
-                expand-icon-class="text-primary"
-                dense
-              >
-                <template v-slot:header>
-                  <q-item-section side>
-                    <div class="row items-center">
-                      <q-icon name="subject" size="sm"></q-icon>
-                    </div>
-                  </q-item-section>
-                  <q-item-section>
-                    Notes ({{ notesCount.value }})</q-item-section
-                  >
+        <div v-if="children.length > 0" class="q-mt-md">
+          <q-tabs
+            v-model="tab"
+            dense
+            class="text-grey"
+            active-color="primary"
+            indicator-color="primary"
+            align="justify"
+            narrow-indicator
+          >
+            <q-tab
+              v-if="showNotes"
+              name="notes"
+              icon="subject"
+              :label="`Notes (${notesCount.value})`"
+            />
+            <q-tab
+              v-if="showActivities"
+              name="events"
+              icon="calendar_month"
+              :label="`Events (${eventsCount})`"
+            />
+            <q-tab
+              v-if="showActivities"
+              name="tasks"
+              icon="checklist"
+              :label="`Tasks (${tasksCount})`"
+            />
+          </q-tabs>
 
-                  <q-item-section side>
-                    <q-btn
-                      :to="{
-                        name: 'newNotes',
-                        params: {
-                          id: -1,
-                          objectTypeId: ObjectType.Contact,
-                          objectId: contactDetails?.id,
-                        },
-                      }"
-                      size="sm"
-                      flat
-                      round
-                      dense
-                      icon="add"
-                    >
-                    </q-btn>
-                  </q-item-section>
-                </template>
-                <q-separator></q-separator>
-                <NoteList @numberOfNotes="handleNoteCount" :params="parent" />
-              </q-expansion-item>
-            </q-list>
-          </q-card-section>
-          <q-card-section v-if="child.id == ObjectType.ActivityTabForCrm">
-            <q-list bordered class="rounded-borders">
-              <q-expansion-item
-                expand-separator
-                expand-icon-class="text-primary"
-                dense
-              >
-                <template v-slot:header>
-                  <q-item-section side>
-                    <div class="row items-center">
-                      <q-icon name="calendar_month" size="sm"></q-icon>
-                    </div>
-                  </q-item-section>
-                  <q-item-section> Events ({{ eventsCount }})</q-item-section>
-                  <q-item-section side>
-                    <q-btn
-                      :to="{
-                        name: 'newEvent',
-                        params: {
-                          id: -1,
-                          objectTypeId: ObjectType.Contact,
-                          objectId: contactDetails?.id,
-                          appName: 'contact',
-                        },
-                      }"
-                      size="sm"
-                      flat
-                      round
-                      dense
-                      icon="add"
-                    >
-                    </q-btn>
-                  </q-item-section>
-                </template>
-                <q-separator></q-separator>
-                <EventsList
-                  @numberOfEvents="handleEventCount"
-                  :params="parent2"
-                />
-              </q-expansion-item>
-            </q-list>
-          </q-card-section>
-          <q-card-section v-if="child.id == ObjectType.ActivityTabForCrm">
-            <q-list bordered class="rounded-borders">
-              <q-expansion-item
-                expand-separator
-                expand-icon-class="text-primary"
-                dense
-              >
-                <template v-slot:header>
-                  <q-item-section side>
-                    <div class="row items-center">
-                      <q-icon name="checklist" size="sm"></q-icon>
-                    </div>
-                  </q-item-section>
-                  <q-item-section>Tasks ({{ tasksCount }})</q-item-section>
+          <q-separator />
 
-                  <q-item-section side>
-                    <q-btn
-                      :to="{
-                        name: 'newTask',
-                        params: {
-                          id: -1,
-                          objectTypeId: ObjectType.Contact,
-                          objectId: contactDetails?.id,
-                          appName: 'contact',
-                        },
-                      }"
-                      size="sm"
-                      flat
-                      round
-                      dense
-                      icon="add"
-                    >
-                    </q-btn>
-                  </q-item-section>
-                </template>
-                <q-separator></q-separator>
-                <TaskMetaSummary
-                  @numberOfTasks="handleTaskCount"
-                  :parent="parent2"
+          <q-tab-panels v-model="tab" animated>
+            <q-tab-panel name="notes" v-if="showNotes">
+              <div class="row justify-end q-mb-sm">
+                <q-btn
+                  :to="{
+                    name: 'newNotes',
+                    params: {
+                      id: -1,
+                      objectTypeId: ObjectType.Contact,
+                      objectId: contactDetails?.id,
+                    },
+                  }"
+                  size="sm"
+                  flat
+                  round
+                  dense
+                  icon="add"
                 />
-              </q-expansion-item>
-            </q-list>
-          </q-card-section>
+              </div>
+              <NoteList @numberOfNotes="handleNoteCount" :params="parent" />
+            </q-tab-panel>
+
+            <q-tab-panel name="events" v-if="showActivities">
+              <div class="row justify-end q-mb-sm">
+                <q-btn
+                  :to="{
+                    name: 'newEvent',
+                    params: {
+                      id: -1,
+                      objectTypeId: ObjectType.Contact,
+                      objectId: contactDetails?.id,
+                      appName: 'contact',
+                    },
+                  }"
+                  size="sm"
+                  flat
+                  round
+                  dense
+                  icon="add"
+                />
+              </div>
+              <EventsList
+                @numberOfEvents="handleEventCount"
+                :params="parent2"
+              />
+            </q-tab-panel>
+
+            <q-tab-panel name="tasks" v-if="showActivities">
+              <div class="row justify-end q-mb-sm">
+                <q-btn
+                  :to="{
+                    name: 'newTask',
+                    params: {
+                      id: -1,
+                      objectTypeId: ObjectType.Contact,
+                      objectId: contactDetails?.id,
+                      appName: 'contact',
+                    },
+                  }"
+                  size="sm"
+                  flat
+                  round
+                  dense
+                  icon="add"
+                />
+              </div>
+              <TaskMetaSummary
+                @numberOfTasks="handleTaskCount"
+                :parent="parent2"
+              />
+            </q-tab-panel>
+          </q-tab-panels>
         </div>
       </q-card>
     </q-page-container>
