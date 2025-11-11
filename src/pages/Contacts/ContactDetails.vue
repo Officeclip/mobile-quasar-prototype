@@ -252,25 +252,34 @@ const handleEditClick = () => {
             align="justify"
             narrow-indicator
             dense
-            :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
+            inline-label
+            :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-4'"
+            style="border-radius: 8px"
           >
-            <q-tab v-if="showNotes" name="notes">
-              <div class="row items-center no-wrap">
-                <q-icon name="subject" class="q-mr-sm" />
-                <div>Notes ({{ notesCount }})</div>
-              </div>
+            <q-tab v-if="showNotes" name="notes" label="Notes" icon="subject">
+              <q-badge v-if="notesCount > 0" class="q-ml-sm">{{
+                notesCount
+              }}</q-badge>
             </q-tab>
-            <q-tab v-if="showActivities" name="events">
-              <div class="row items-center no-wrap">
-                <q-icon name="calendar_month" class="q-mr-sm" />
-                <div>Events ({{ eventsCount }})</div>
-              </div>
+            <q-tab
+              v-if="showActivities"
+              name="events"
+              label="Events"
+              icon="calendar_month"
+            >
+              <q-badge v-if="eventsCount > 0" class="q-ml-sm">{{
+                eventsCount
+              }}</q-badge>
             </q-tab>
-            <q-tab v-if="showActivities" name="tasks">
-              <div class="row items-center no-wrap">
-                <q-icon name="checklist" class="q-mr-sm" />
-                <div>Tasks ({{ tasksCount }})</div>
-              </div>
+            <q-tab
+              v-if="showActivities"
+              name="tasks"
+              label="Tasks"
+              icon="checklist"
+            >
+              <q-badge v-if="tasksCount > 0" class="q-ml-sm">{{
+                tasksCount
+              }}</q-badge>
             </q-tab>
           </q-tabs>
 
@@ -321,15 +330,3 @@ const handleEditClick = () => {
     @confirm="confirmDeletion"
   />
 </template>
-
-<!-- <style scoped>
-.center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.oc-custom-toggle {
-  border: 1px solid var(--q-primary);
-}
-</style> -->
