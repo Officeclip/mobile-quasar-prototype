@@ -197,34 +197,34 @@ const handleEditClick = () => {
         </q-card-section>
         <ContactDetails v-if="model === '1'" :params="params" />
         <MetaDetails v-if="model === '2'" :params="parent" />
-        <div v-if="children.length > 0" class="q-mt-md">
+        <div v-if="children.length > 0" class="q-mt-lg">
           <q-tabs
             v-model="tab"
-            dense
-            class="text-grey"
             active-color="primary"
             indicator-color="primary"
             align="justify"
             narrow-indicator
+            dense
+            :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
           >
-            <q-tab
-              v-if="showNotes"
-              name="notes"
-              icon="subject"
-              :label="`Notes (${notesCount.value})`"
-            />
-            <q-tab
-              v-if="showActivities"
-              name="events"
-              icon="calendar_month"
-              :label="`Events (${eventsCount})`"
-            />
-            <q-tab
-              v-if="showActivities"
-              name="tasks"
-              icon="checklist"
-              :label="`Tasks (${tasksCount})`"
-            />
+            <q-tab v-if="showNotes" name="notes">
+              <div class="row items-center no-wrap">
+                <q-icon name="subject" class="q-mr-sm" />
+                <div>Notes ({{ notesCount.value }})</div>
+              </div>
+            </q-tab>
+            <q-tab v-if="showActivities" name="events">
+              <div class="row items-center no-wrap">
+                <q-icon name="calendar_month" class="q-mr-sm" />
+                <div>Events ({{ eventsCount }})</div>
+              </div>
+            </q-tab>
+            <q-tab v-if="showActivities" name="tasks">
+              <div class="row items-center no-wrap">
+                <q-icon name="checklist" class="q-mr-sm" />
+                <div>Tasks ({{ tasksCount }})</div>
+              </div>
+            </q-tab>
           </q-tabs>
 
           <q-separator />
@@ -243,9 +243,10 @@ const handleEditClick = () => {
                   }"
                   size="sm"
                   flat
-                  round
+                  square
                   dense
                   icon="add"
+                  label="Add"
                 />
               </div>
               <NoteList @numberOfNotes="handleNoteCount" :params="parent" />
