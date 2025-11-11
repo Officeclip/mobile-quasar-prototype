@@ -15,7 +15,7 @@ const parentObjectId = computed(() => {
   return props.params.parentObjectId;
 });
 const parentObjectServiceType = computed(
-  () => props.params.parentObjectServiceType
+  () => props.params.parentObjectServiceType,
 );
 const noteBookId = computed(() => props.params.selectedNoteBook);
 const emit = defineEmits(['numberOfNotes']);
@@ -34,9 +34,9 @@ const loadNotesList = async () => {
     await notesStore.getNotes(
       parentObjectServiceType.value,
       parentObjectId.value,
-      noteBookId.value
+      noteBookId.value,
     );
-    emit('numberOfNotes', getNotesCount);
+    emit('numberOfNotes', getNotesCount.value);
   } catch (error) {
     $q.dialog({
       title: 'Alert',

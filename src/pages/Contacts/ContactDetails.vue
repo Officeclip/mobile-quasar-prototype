@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, nextTick } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import { useContactListsStore } from '../../stores/contact/ContactListsStore';
 import { useRoute, useRouter } from 'vue-router';
@@ -53,13 +53,34 @@ const contactDetails = computed(() => {
 
 onMounted(async () => {
   await loadContactDetails();
+
+  const tabsToLoad = [];
+  if (showNotes.value) {
+    tabsToLoad.push('notes');
+  }
+  if (showActivities.value) {
+    tabsToLoad.push('events');
+    tabsToLoad.push('tasks');
+  }
+
+  if (tabsToLoad.length > 0) {
+    const initialTab = tabsToLoad[0];
+    tab.value = initialTab;
+    await nextTick();
+
+    for (let i = 1; i < tabsToLoad.length; i++) {
+      tab.value = tabsToLoad[i];
+      await nextTick();
+    }
+    tab.value = initialTab;
+  }
 });
 
 const children = computed(() => {
   return contactListsStore.Children;
 });
 
-const tab = ref('notes');
+const tab = ref('');
 
 const showNotes = computed(() => {
   return children.value.some((c) => c.id === ObjectType.Note);
@@ -147,6 +168,32 @@ const confirmDeletion = async () => {
   }
 };
 
+const getAddRoute = (tabName: string) => {
+  const baseParams = {
+    id: -1,
+    objectTypeId: ObjectType.Contact,
+    objectId: contactDetails.value?.id,
+  };
+
+  let routeName = '';
+  const extraParams: { appName?: string } = {};
+
+  if (tabName === 'notes') {
+    routeName = 'newNotes';
+  } else if (tabName === 'events') {
+    routeName = 'newEvent';
+    extraParams.appName = 'contact';
+  } else if (tabName === 'tasks') {
+    routeName = 'newTask';
+    extraParams.appName = 'contact';
+  }
+
+  return {
+    name: routeName,
+    params: { ...baseParams, ...extraParams },
+  };
+};
+
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
@@ -210,7 +257,7 @@ const handleEditClick = () => {
             <q-tab v-if="showNotes" name="notes">
               <div class="row items-center no-wrap">
                 <q-icon name="subject" class="q-mr-sm" />
-                <div>Notes ({{ notesCount.value }})</div>
+                <div>Notes ({{ notesCount }})</div>
               </div>
             </q-tab>
             <q-tab v-if="showActivities" name="events">
@@ -229,48 +276,25 @@ const handleEditClick = () => {
 
           <q-separator />
 
-          <q-tab-panels v-model="tab" animated>
+          <div class="row justify-end q-mt-sm q-mr-sm">
+            <q-btn
+              :to="getAddRoute(tab)"
+              size="sm"
+              outline
+              rounded
+              dense
+              icon="add"
+              label="Add"
+              class="q-px-sm"
+            />
+          </div>
+
+          <q-tab-panels v-model="tab" animated keep-alive>
             <q-tab-panel name="notes" v-if="showNotes">
-              <div class="row justify-end q-mb-sm">
-                <q-btn
-                  :to="{
-                    name: 'newNotes',
-                    params: {
-                      id: -1,
-                      objectTypeId: ObjectType.Contact,
-                      objectId: contactDetails?.id,
-                    },
-                  }"
-                  size="sm"
-                  flat
-                  square
-                  dense
-                  icon="add"
-                  label="Add"
-                />
-              </div>
               <NoteList @numberOfNotes="handleNoteCount" :params="parent" />
             </q-tab-panel>
 
             <q-tab-panel name="events" v-if="showActivities">
-              <div class="row justify-end q-mb-sm">
-                <q-btn
-                  :to="{
-                    name: 'newEvent',
-                    params: {
-                      id: -1,
-                      objectTypeId: ObjectType.Contact,
-                      objectId: contactDetails?.id,
-                      appName: 'contact',
-                    },
-                  }"
-                  size="sm"
-                  flat
-                  round
-                  dense
-                  icon="add"
-                />
-              </div>
               <EventsList
                 @numberOfEvents="handleEventCount"
                 :params="parent2"
@@ -278,24 +302,6 @@ const handleEditClick = () => {
             </q-tab-panel>
 
             <q-tab-panel name="tasks" v-if="showActivities">
-              <div class="row justify-end q-mb-sm">
-                <q-btn
-                  :to="{
-                    name: 'newTask',
-                    params: {
-                      id: -1,
-                      objectTypeId: ObjectType.Contact,
-                      objectId: contactDetails?.id,
-                      appName: 'contact',
-                    },
-                  }"
-                  size="sm"
-                  flat
-                  round
-                  dense
-                  icon="add"
-                />
-              </div>
               <TaskMetaSummary
                 @numberOfTasks="handleTaskCount"
                 :parent="parent2"
