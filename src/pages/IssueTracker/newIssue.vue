@@ -21,29 +21,14 @@ const appName = route.params.appName.toString()
 
 const newIssue: Ref<trackerCaseDetails> = ref({
   id: '',
-  binderId: binderId,
+  binderId: binderId as string,
   caseId: '',
   name: '',
-  status: {
-    id: '-1',
-    name: '--select--',
-  },
-  criticality: {
-    id: '-1',
-    name: '--select--',
-  },
-  category: {
-    id: '-1',
-    name: '--select--',
-  },
-  kind: {
-    id: '-1',
-    name: '--select--',
-  },
-  assignedTo: {
-    id: '',
-    name: '--select--',
-  },
+  status: { id: '', name: '--Select--', is_default: false },
+  criticality: { id: '', name: '--Select--', is_default: false },
+  category: { id: '', name: '--Select--', is_default: false },
+  kind: { id: '', name: '--Select--', is_default: false },
+  assignedTo: { id: '', name: '--Select--', email: '' },
   parent: {
     type: {
       id: parentObjectServiceType as string,
@@ -61,7 +46,7 @@ const newIssue: Ref<trackerCaseDetails> = ref({
   description: '',
   resolution: '',
   comments: '',
-  security: {},
+  security: { read: false, write: false, append: false, delete: false },
 });
 
 const issueDetailsStore = useIssueDetailsStore();

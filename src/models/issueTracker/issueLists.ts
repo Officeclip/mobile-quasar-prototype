@@ -10,21 +10,25 @@ export interface trackerLists {
 export interface issueCategory {
   id: string;
   name: string;
+  is_default: boolean;
 }
 
 export interface issueCriticality {
   id: string;
   name: string;
+  is_default: boolean;
 }
 
 export interface issueStatus {
   id: string;
   name: string;
+  is_default: boolean;
 }
 
 export interface issueKind {
   id: string;
   name: string;
+  is_default: boolean;
 }
 
 export interface user {

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, Ref, defineProps, onBeforeMount } from 'vue';
+import { ref, Ref, defineProps, onMounted } from 'vue';
 import { useIssueListsStore } from '../../stores/issueTracker/issueListsStore';
 import { trackerCaseDetails } from 'src/models/issueTracker/trackerCaseDetails';
 import Regarding from 'components/general/regardingComponent.vue';
@@ -13,18 +13,38 @@ const props = defineProps({
     type: String,
   },
 });
+const binderId = props.issueFromParent.binderId;
 
 const trackerCaseDetail: Ref<trackerCaseDetails> = ref(props.issueFromParent);
 
 const issueListsStore = useIssueListsStore();
 
-onBeforeMount(async () => {
-  if (props.issueFromParent?.binderId) {
-    await issueListsStore.getTrackerLists(
-      props.issueFromParent.binderId.toString(),
-    );
+onMounted(async () => {
+  if (binderId) {
+    await issueListsStore.getTrackerLists(binderId);
+  }
+
+  if (!trackerCaseDetail.value.id) {
+    // New Issue - set default values
+    setDefaultValues();
   }
 });
+
+function setDefaultValues() {
+  const findDefaultOption = (options: any[]) =>
+    options.find((option) => option.is_default);
+
+  trackerCaseDetail.value.status =
+    findDefaultOption(issueListsStore.Status) || trackerCaseDetail.value.status;
+  trackerCaseDetail.value.category =
+    findDefaultOption(issueListsStore.Category) ||
+    trackerCaseDetail.value.category;
+  trackerCaseDetail.value.criticality =
+    findDefaultOption(issueListsStore.Criticality) ||
+    trackerCaseDetail.value.criticality;
+  trackerCaseDetail.value.kind =
+    findDefaultOption(issueListsStore.Kind) || trackerCaseDetail.value.kind;
+}
 </script>
 
 <template>
