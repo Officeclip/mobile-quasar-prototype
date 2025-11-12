@@ -25,6 +25,7 @@ const router = useRouter();
 const $q = useQuasar();
 const id = ref<string | string[]>('0');
 id.value = route.params.id;
+const tab = ref('');
 
 const myDrawer = ref();
 
@@ -33,7 +34,7 @@ const loadContactDetails = async () => {
   try {
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
     await contactDetailsStore.getContactDetails(route.params.id as string);
-    await contactDetailsStore.getContactLists();
+    await contactListsStore.getContactLists();
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -79,8 +80,6 @@ onMounted(async () => {
 const children = computed(() => {
   return contactListsStore.Children;
 });
-
-const tab = ref('');
 
 const showNotes = computed(() => {
   return children.value.some((c) => c.id === ObjectType.Note);

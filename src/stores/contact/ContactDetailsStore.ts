@@ -1,27 +1,27 @@
 import { defineStore } from 'pinia';
 import { ContactDetails } from '../../models/Contact/contactDetails';
-import { State, Country, Children } from '../../models/Contact/contactsList';
+// import { State, Country, Children } from '../../models/Contact/contactsList';
 import { Constants } from '../Constants';
-import { useContactListsStore } from './ContactListsStore';
+// import { useContactListsStore } from './ContactListsStore';
 import util from 'src/helpers/util';
 import { useImageDetailStore } from '../ImageDetail';
 
 export const useContactDetailsStore = defineStore('contactDetailsStore', {
   state: () => ({
     contactDetailsList: [] as ContactDetails[],
-    states: [] as State[],
-    countries: [] as Country[],
-    children: [] as Children[],
+    // states: [] as State[],
+    // countries: [] as Country[],
+    // children: [] as Children[],
     contactDetails: {} as ContactDetails,
     contact_Id: '' as string,
   }),
 
   getters: {
     ContactDetailsList: (state) => state.contactDetailsList,
-    States: (state) => state.states,
-    Countries: (state) => state.countries,
+    // States: (state) => state.states,
+    // Countries: (state) => state.countries,
     ContactDetails: (state) => state.contactDetails,
-    Children: (state) => state.children,
+    // Children: (state) => state.children,
     ContactId: (state) => state.contact_Id,
   },
 
@@ -38,17 +38,17 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
       }
     },
 
-    async getContactLists() {
-      try {
-        const contactListsStore = useContactListsStore();
-        await contactListsStore.getContactList();
-        this.states = contactListsStore.States;
-        this.countries = contactListsStore.Countries;
-        this.children = contactListsStore.Children;
-      } catch (error) {
-        Constants.throwError(error);
-      }
-    },
+    // async getContactLists() {
+    //   try {
+    //     const contactListsStore = useContactListsStore();
+    //     await contactListsStore.getContactLists();
+    //     this.states = contactListsStore.States;
+    //     this.countries = contactListsStore.Countries;
+    //     this.children = contactListsStore.Children;
+    //   } catch (error) {
+    //     Constants.throwError(error);
+    //   }
+    // },
 
     //   ----getting single user details by id----
     async getContactDetails(id: string) {
