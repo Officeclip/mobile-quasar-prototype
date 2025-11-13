@@ -226,7 +226,7 @@ function editTask() {
     </OC_Header>
     <OC_Drawer ref="myDrawer" />
     <q-page-container>
-      <q-card class="q-ma-md" flat>
+      <q-card class="q-ma-sm q-mb-lg" flat>
         <q-item class="q-mb-sm">
           <q-item-section>
             <q-item-label class="text-subtitle1 text-weight-medium q-mb-sm">{{
@@ -275,7 +275,11 @@ function editTask() {
         </q-item>
         <q-separator class="q-mb-sm" inset />
         <q-list>
-          <q-item v-for="(detail, index) in details" :key="index">
+          <q-item
+            v-for="(detail, index) in details"
+            :key="index"
+            class="q-mb-md"
+          >
             <q-item-section avatar>
               <q-icon :name="detail.icon" />
             </q-item-section>
@@ -291,7 +295,7 @@ function editTask() {
 
         <div v-if="taskDetail?.tags?.length > 0">
           <q-separator class="q-mt-sm" inset />
-          <q-item>
+          <q-item class="q-mb-md">
             <q-item-section avatar>
               <q-icon name="label" />
             </q-item-section>
@@ -347,7 +351,7 @@ function editTask() {
             </q-item-label>
           </q-list>
         </div>
-        <div class="q-ma-md" v-else>
+        <div class="q-mx-md" v-else>
           <q-btn
             color="primary"
             label="Add subtask"

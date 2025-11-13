@@ -446,24 +446,22 @@ const reminderValue = computed(() => {
         </q-input>
       </q-item>
 
-      <!-- while edit the event making the recurrence filed readOnly -->
-      <q-item v-if="event.id" v-ripple>
+      <q-item
+        v-ripple
+        :clickable="!event.id"
+        @click="!event.id && (recurrenceDialogOpened = true)"
+        :class="{ 'cursor-not-allowed': event.id }"
+      >
         <q-item-section avatar>
           <q-icon color="primary" name="repeat" size="sm" />
         </q-item-section>
-        <q-item-section> {{ repeatString }}</q-item-section>
+        <q-item-section>{{ repeatString }}</q-item-section>
         <q-item-section side>
-          <q-icon color="primary" name="chevron_right" />
-        </q-item-section>
-      </q-item>
-
-      <q-item v-else v-ripple clickable @click="recurrenceDialogOpened = true">
-        <q-item-section avatar>
-          <q-icon color="primary" name="repeat" size="sm" />
-        </q-item-section>
-        <q-item-section> {{ repeatString }}</q-item-section>
-        <q-item-section side>
-          <q-icon color="primary" name="chevron_right" />
+          <q-icon
+            color="primary"
+            name="chevron_right"
+            :class="{ 'opacity-50': event.id }"
+          />
         </q-item-section>
       </q-item>
       <q-item v-if="event.eventType.id == '2'" class="column">

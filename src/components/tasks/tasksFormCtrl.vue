@@ -35,7 +35,11 @@ const selectedTaskTypeId = ref(task.value.taskTypeId);
 const nameRef = ref();
 const dateRef = ref();
 
-const repeatString = ref('Does not repeat');
+const repeatString =
+  !task.value?.recurrence.text.startsWith('None') &&
+  task.value?.recurrence.text !== ''
+    ? ref(task.value?.recurrence.text)
+    : ref('Does not repeat');
 const recurrenceDialogOpened = ref(false);
 
 const dateMask = 'YYYY-MM-DD';
@@ -168,7 +172,7 @@ function createValue(val: string, done: any) {
 </script>
 
 <template>
-  <div>
+  <div class="q-mb-lg">
     <q-list>
       <q-item class="column">
         <q-input
@@ -345,11 +349,16 @@ function createValue(val: string, done: any) {
         title="Regarding"
         :value="regarding"
       />
-      <q-item v-ripple clickable @click="recurrenceDialogOpened = true">
+      <q-item
+        v-ripple
+        :clickable="!task.id"
+        @click="!task.id && (recurrenceDialogOpened = true)"
+        :class="{ 'cursor-not-allowed': task.id }"
+      >
         <q-item-section avatar>
           <q-icon color="primary" name="repeat" size="sm" />
         </q-item-section>
-        <q-item-section> {{ repeatString }}</q-item-section>
+        <q-item-section> <div v-html="repeatString"></div></q-item-section>
         <q-item-section side>
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
