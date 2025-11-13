@@ -272,8 +272,8 @@ function editTask() {
               </q-chip>
             </div>
           </q-item-section>
+          <q-separator class="q-mb-sm" inset />
         </q-item>
-        <q-separator class="q-mb-sm" inset />
         <q-list>
           <q-item
             v-for="(detail, index) in details"

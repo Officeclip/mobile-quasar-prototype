@@ -100,7 +100,10 @@ const eventProperties = computed(() => [
   { label: 'Recurrence', value: event.value?.recurrence?.text },
   {
     label: 'Reminder',
-    value: `${event.value?.reminder?.to} ${selectedTime.value.label} Before`,
+    value:
+      event.value?.reminder?.to != ''
+        ? `${event.value?.reminder?.to} ${selectedTime.value.label} Before`
+        : '',
   },
   {
     label: 'Created On',
