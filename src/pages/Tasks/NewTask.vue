@@ -55,7 +55,7 @@ const task: Ref<taskDetails> = ref({
   security: {},
   reminder: {
     to: '',
-    beforeMinutes: 0,
+    beforeMinutes: '',
   },
   recurrence: {
     text: '',
