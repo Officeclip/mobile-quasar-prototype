@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, nextTick } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useAccountDetailsStore } from '../../stores/account/accountDetailsStore';
 import { useAccountListsStore } from '../../stores/account/accountListsStore';
 import { useRoute, useRouter } from 'vue-router';
@@ -21,7 +22,7 @@ const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
 const id = route.params.id as string;
-const tab = ref('');
+const { selectedTab: tab } = storeToRefs(accountDetailsStore);
 
 const myDrawer = ref();
 
@@ -86,25 +87,33 @@ const filterAccountDetails = computed(() => {
 
 onMounted(async () => {
   await loadAccountDetails();
-  const tabsToLoad = [];
+
+  const availableTabs = [];
   if (showNotes.value) {
-    tabsToLoad.push('notes');
+    availableTabs.push('notes');
   }
   if (showActivities.value) {
-    tabsToLoad.push('events');
-    tabsToLoad.push('tasks');
+    availableTabs.push('events');
+    availableTabs.push('tasks');
   }
 
-  if (tabsToLoad.length > 0) {
-    const initialTab = tabsToLoad[0];
-    tab.value = initialTab;
-    await nextTick();
+  if (availableTabs.length > 0) {
+    let desiredTab = tab.value;
 
-    for (let i = 1; i < tabsToLoad.length; i++) {
-      tab.value = tabsToLoad[i];
+    // If the stored tab is not available, default to the first one.
+    if (!availableTabs.includes(desiredTab)) {
+      desiredTab = availableTabs[0];
+    }
+
+    // To pre-load all tabs for their counts, we can cycle through them.
+    // This ensures they are rendered once. `keep-alive` will cache them.
+    for (const tabName of availableTabs) {
+      tab.value = tabName;
       await nextTick();
     }
-    tab.value = initialTab;
+
+    // Finally, set the tab to the one we actually want to show.
+    tab.value = desiredTab;
   }
 });
 
@@ -282,6 +291,7 @@ const handleEditClick = () => {
         <div v-if="children.length > 0" class="q-mt-lg">
           <q-tabs
             v-model="tab"
+            @update:model-value="accountDetailsStore.setSelectedTab"
             active-color="primary"
             indicator-color="primary"
             align="justify"
@@ -334,23 +344,26 @@ const handleEditClick = () => {
           </div>
 
           <q-tab-panels v-model="tab" animated keep-alive>
-            <q-tab-panel name="notes" v-if="showNotes">
+            <q-tab-panel name="notes">
               <NotesList
+                v-if="showNotes"
                 :parent-object-id="parent.parentObjectId"
                 :parent-object-service-type="parent.parentObjectServiceType"
                 @notes-loaded="handleNoteCount"
               />
             </q-tab-panel>
 
-            <q-tab-panel name="events" v-if="showActivities">
+            <q-tab-panel name="events">
               <EventsList
+                v-if="showActivities"
                 @numberOfEvents="handleEventCount"
                 :params="parent2"
               />
             </q-tab-panel>
 
-            <q-tab-panel name="tasks" v-if="showActivities">
+            <q-tab-panel name="tasks">
               <TaskMetaSummary
+                v-if="showActivities"
                 @numberOfTasks="handleTaskCount"
                 :parent="parent2"
               />

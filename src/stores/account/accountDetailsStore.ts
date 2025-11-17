@@ -8,12 +8,14 @@ export const useAccountDetailsStore = defineStore('accountDetailsStore', {
     accountDetailsList: [] as AccountDetails[],
     accountDetails: {} as AccountDetails,
     account_Id: '' as string,
+    selectedTab: '' as string,
   }),
 
   getters: {
     AccountDetailsList: (state) => state.accountDetailsList,
     AccountDetails: (state) => state.accountDetails,
     AccountId: (state) => state.account_Id,
+    SelectedTab: (state) => state.selectedTab,
   },
 
   actions: {
@@ -88,6 +90,10 @@ export const useAccountDetailsStore = defineStore('accountDetailsStore', {
       } catch (error) {
         Constants.throwError(error);
       }
+    },
+
+    setSelectedTab(tab: string) {
+      this.selectedTab = tab;
     },
   },
 });
