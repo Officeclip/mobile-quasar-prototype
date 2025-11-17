@@ -93,7 +93,7 @@ function editNote() {
 </script>
 
 <style>
-.q-dialog__backdrop {
+/* .q-dialog__backdrop {
   backdrop-filter: blur(7px);
 }
 .note-description {
@@ -102,7 +102,7 @@ function editNote() {
   white-space: pre-line;
   max-width: 100%;
   overflow-x: hidden;
-}
+} */
 </style>
 
 <template>
@@ -136,10 +136,7 @@ function editNote() {
 
                   <q-item-label caption>Description</q-item-label>
                   <q-item-label class="q-mb-sm">
-                    <div
-                      class="note-description"
-                      v-html="note?.description"
-                    ></div>
+                    <div v-html="note?.description"></div>
                   </q-item-label>
 
                   <q-item-label caption>Private</q-item-label>

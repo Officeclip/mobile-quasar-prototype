@@ -3,7 +3,7 @@ import { ref, onMounted, computed, nextTick } from 'vue';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import { useContactListsStore } from '../../stores/contact/ContactListsStore';
 import { useRoute, useRouter } from 'vue-router';
-import NoteList from '../../components/Notes/NotesListCtrl.vue';
+import NotesList from '../../components/Notes/NotesList.vue';
 import EventsList from '../../components/Events/EventsListCtrl.vue';
 import ContactDetails from '../../components/Contacts/ContactDetails.vue';
 import MetaDetails from '../../components/Meta/MetaDetails.vue';
@@ -23,8 +23,8 @@ const contactListsStore = useContactListsStore();
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
-const id = ref<string | string[]>('0');
-id.value = route.params.id;
+const id = route.params.id as string;
+// id.value = route.params.id;
 const tab = ref('');
 
 const myDrawer = ref();
@@ -96,13 +96,13 @@ const params = computed(() => {
 });
 
 const parent = ref({
-  parentObjectId: id.value,
+  parentObjectId: id,
   parentObjectServiceType: ObjectType.Contact.toString(),
   selectedNoteBook: '',
 });
 
 const parent2 = ref({
-  parentObjectId: id.value,
+  parentObjectId: id,
   parentObjectServiceType: ObjectType.Contact.toString(),
   appName: 'contact',
 });
@@ -202,10 +202,10 @@ const handleEditClick = () => {
   if (model.value === '1') {
     router.push({
       name: 'editContactDetails',
-      params: { id: id.value },
+      params: { id: id },
     });
   } else {
-    router.push({ name: 'editMetaDetail', params: { id: id.value } });
+    router.push({ name: 'editMetaDetail', params: { id: id } });
   }
 };
 </script>
@@ -299,7 +299,11 @@ const handleEditClick = () => {
 
           <q-tab-panels v-model="tab" animated keep-alive>
             <q-tab-panel name="notes" v-if="showNotes">
-              <NoteList @numberOfNotes="handleNoteCount" :params="parent" />
+              <NotesList
+                :parent-object-id="parent.parentObjectId"
+                :parent-object-service-type="parent.parentObjectServiceType"
+                @notes-loaded="handleNoteCount"
+              />
             </q-tab-panel>
 
             <q-tab-panel name="events" v-if="showActivities">
