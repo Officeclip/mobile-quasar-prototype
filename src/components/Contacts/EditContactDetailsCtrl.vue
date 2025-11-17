@@ -1,54 +1,63 @@
 <script setup lang="ts">
-import { defineProps, ref, onBeforeMount } from 'vue';
+import { defineProps, ref, onBeforeMount, Ref } from 'vue';
 import { useContactListsStore } from '../../stores/contact/ContactListsStore';
 import util from '../../helpers/util';
 import UploadPhoto from '../general/UploadPhoto.vue';
+
+// Define a common interface for select options
+interface SelectOption {
+  id: string | number;
+  name: string;
+  is_default?: boolean;
+}
 
 const props = defineProps(['fromParentData']);
 const emit = defineEmits(['photo-updated']);
 const contactDetails = ref(props?.fromParentData);
 
-const getStates = ref(null);
+// Use clearer, typed variable names
+const stateOptions = ref<SelectOption[]>([]);
+const countryOptions = ref<SelectOption[]>([]);
 
-const getCountries = ref(null);
-
-const filterCountries = ref(null);
-const filterStates = ref(null);
+const filteredStateOptions = ref<SelectOption[]>([]);
+const filteredCountryOptions = ref<SelectOption[]>([]);
 
 const usecontactListsStore = useContactListsStore();
 
 onBeforeMount(async () => {
   await usecontactListsStore.getContactLists();
-  getCountries.value = usecontactListsStore.Countries;
-  getStates.value = usecontactListsStore.States;
+  countryOptions.value = usecontactListsStore.Countries;
+  stateOptions.value = usecontactListsStore.States;
 
-  filterCountries.value = getCountries.value;
-  filterStates.value = getStates.value;
+  // Initialize filtered lists with all options
+  filteredCountryOptions.value = countryOptions.value;
+  filteredStateOptions.value = stateOptions.value;
+
   if (!contactDetails.value?.id) {
     setDefaultValues();
   }
 });
 
 function setDefaultValues() {
-  const findDefaultOption = (options: any[]) => {
+  const findDefaultOption = (options: SelectOption[]) => {
     const defaultObj = options.find((option) => option.is_default);
     return defaultObj ? defaultObj.id : null;
   };
   contactDetails.value.state_id =
-    findDefaultOption(getStates.value) || contactDetails.value.state_id;
+    findDefaultOption(stateOptions.value) || contactDetails.value.state_id;
   contactDetails.value.country_id =
-    findDefaultOption(getCountries.value) || contactDetails.value.country_id;
+    findDefaultOption(countryOptions.value) || contactDetails.value.country_id;
 }
 
-const lastNameRef = ref(null);
-const emailRef = ref('');
+const lastNameRef = ref<any>(null);
+const emailRef = ref<any>('');
 
 const isLastNameValid = () => {
   const condition = contactDetails.value.last_name !== '';
   return condition ? true : 'Please enter your last name';
 };
 
-const isValidEmail = (val) => {
+const isValidEmail = (val: string) => {
   const condition = util.isValidEmail(val, false);
   return condition ? true : 'Please enter a valid email address';
 };
@@ -59,23 +68,31 @@ const validateAll = () => {
   return !lastNameRef.value.hasError && !emailRef.value.hasError;
 };
 
-function filterCountriesFn(val, update) {
-  update(() => {
-    const needle = val.toLowerCase();
-    filterCountries.value = getCountries.value.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1,
-    );
-  });
-}
+// Generic function to create a filter handler for q-select
+const createFilterFn = (
+  sourceOptions: Ref<SelectOption[]>,
+  filteredOptions: Ref<SelectOption[]>,
+) => {
+  return (val: string, update: (callback: () => void) => void) => {
+    update(() => {
+      if (val === '') {
+        filteredOptions.value = sourceOptions.value;
+      } else {
+        const needle = val.toLowerCase();
+        filteredOptions.value = sourceOptions.value.filter(
+          (v) => v.name.toLowerCase().indexOf(needle) > -1,
+        );
+      }
+    });
+  };
+};
 
-function filterStatesFn(val, update) {
-  update(() => {
-    const needle = val.toLowerCase();
-    filterStates.value = getStates.value.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1,
-    );
-  });
-}
+// Create specific filter functions using the generic creator
+const filterCountriesFn = createFilterFn(
+  countryOptions,
+  filteredCountryOptions,
+);
+const filterStatesFn = createFilterFn(stateOptions, filteredStateOptions);
 
 defineExpose({
   validateAll,
@@ -83,7 +100,7 @@ defineExpose({
 
 // Function to handle photo upload dialog
 const showPhotoCtrl = ref(false);
-const onPhotoSaved = (image) => {
+const onPhotoSaved = (image: string) => {
   contactDetails.value.picture = image;
   emit('photo-updated', image);
   showPhotoCtrl.value = false;
@@ -141,7 +158,7 @@ const onPhotoSaved = (image) => {
       ></q-input>
       <q-select
         v-model="contactDetails.country_id"
-        :options="filterCountries"
+        :options="filteredCountryOptions"
         label="Country"
         dense
         option-value="id"
@@ -186,7 +203,7 @@ const onPhotoSaved = (image) => {
       ></q-input>
       <q-select
         v-model="contactDetails.state_id"
-        :options="filterStates"
+        :options="filteredStateOptions"
         label="State"
         dense
         option-value="id"
