@@ -3,7 +3,7 @@ import { security } from '../security';
 export interface AccountDetails {
   id: string;
   account_name?: string;
-  account_number?: number;
+  account_number?: string;
   email_address?: string;
   main_phone?: string;
   street_address?: string;

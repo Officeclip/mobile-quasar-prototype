@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, nextTick } from 'vue';
 import { useAccountDetailsStore } from '../../stores/account/accountDetailsStore';
+import { useAccountListsStore } from '../../stores/account/accountListsStore';
 import { useRoute, useRouter } from 'vue-router';
-// import NoteList from '../../components/Notes/NotesListCtrl.vue';
-// import EventsList from '../../components/Events/EventsListCtrl.vue';
-// import { ObjectType } from '../../helpers/util';
-// import TaskMetaSummary from '../../components/tasks/TaskMetaSummaryItem.vue';
+import NotesList from '../../components/Notes/NotesList.vue';
+import EventsList from '../../components/Events/EventsListCtrl.vue';
+import { ObjectType } from '../../helpers/util';
+import TaskMetaSummary from '../../components/tasks/TaskMetaSummaryItem.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
@@ -15,11 +16,12 @@ import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const loading = ref(true);
 const accountDetailsStore = useAccountDetailsStore();
+const accountsListsStore = useAccountListsStore();
 const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
-const id = ref<string | string[]>('0');
-id.value = route.params.id;
+const id = route.params.id as string;
+const tab = ref('');
 
 const myDrawer = ref();
 
@@ -27,7 +29,7 @@ const loadAccountDetails = async () => {
   loading.value = true;
   try {
     await accountDetailsStore.getAccountDetails(route.params.id as string);
-    await accountDetailsStore.getAccountLists();
+    await accountsListsStore.getAccountLists();
   } catch (error) {
     $q.dialog({
       title: 'Alert',
@@ -84,7 +86,69 @@ const filterAccountDetails = computed(() => {
 
 onMounted(async () => {
   await loadAccountDetails();
+  const tabsToLoad = [];
+  if (showNotes.value) {
+    tabsToLoad.push('notes');
+  }
+  if (showActivities.value) {
+    tabsToLoad.push('events');
+    tabsToLoad.push('tasks');
+  }
+
+  if (tabsToLoad.length > 0) {
+    const initialTab = tabsToLoad[0];
+    tab.value = initialTab;
+    await nextTick();
+
+    for (let i = 1; i < tabsToLoad.length; i++) {
+      tab.value = tabsToLoad[i];
+      await nextTick();
+    }
+    tab.value = initialTab;
+  }
 });
+
+const children = computed(() => {
+  return accountsListsStore.Children;
+});
+
+const showNotes = computed(() => {
+  return children.value.some((c) => c.id === ObjectType.Note);
+});
+
+const showActivities = computed(() => {
+  return children.value.some((c) => c.id === ObjectType.ActivityTabForCrm);
+});
+
+const parent = ref({
+  parentObjectId: id,
+  parentObjectServiceType: ObjectType.Account.toString(),
+  selectedNoteBook: '',
+});
+
+const parent2 = ref({
+  parentObjectId: id,
+  parentObjectServiceType: ObjectType.Account.toString(),
+  appName: 'account',
+});
+
+const notesCount = ref<any>('0');
+
+const handleNoteCount = (value: string) => {
+  notesCount.value = value;
+};
+
+const eventsCount = ref<any>('0');
+
+const handleEventCount = (value: string) => {
+  eventsCount.value = value;
+};
+
+const tasksCount = ref<any>('0');
+
+const handleTaskCount = (value: string) => {
+  tasksCount.value = value;
+};
 
 const isAllowEdit = computed(() => {
   const data = accountDetails.value?.security;
@@ -113,9 +177,7 @@ const cancelConfirmation = () => {
 
 const confirmDeletion = async () => {
   try {
-    await accountDetailsStore.deleteAccountDetails(
-      accountDetails.value?.id as string,
-    );
+    await accountDetailsStore.deleteAccount(accountDetails.value?.id as string);
     showConfirmationDialog.value = false;
     router.go(-1);
   } catch (error) {
@@ -128,6 +190,32 @@ const confirmDeletion = async () => {
   }
 };
 
+const getAddRoute = (tabName: string) => {
+  const baseParams = {
+    id: -1,
+    objectTypeId: ObjectType.Account,
+    objectId: accountDetails.value?.id,
+  };
+
+  let routeName = '';
+  const extraParams: { appName?: string } = {};
+
+  if (tabName === 'notes') {
+    routeName = 'newNotes';
+  } else if (tabName === 'events') {
+    routeName = 'newEvent';
+    extraParams.appName = 'contact';
+  } else if (tabName === 'tasks') {
+    routeName = 'newTask';
+    extraParams.appName = 'contact';
+  }
+
+  return {
+    name: routeName,
+    params: { ...baseParams, ...extraParams },
+  };
+};
+
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
   myDrawer.value.toggleLeftDrawer();
@@ -136,7 +224,7 @@ function toggleLeftDrawer() {
 const handleEditClick = () => {
   router.push({
     name: 'editAccountDetails',
-    params: { id: id.value },
+    params: { id: id },
   });
 };
 </script>
@@ -190,6 +278,84 @@ const handleEditClick = () => {
               </q-item>
             </div>
           </div>
+        </div>
+        <div v-if="children.length > 0" class="q-mt-lg">
+          <q-tabs
+            v-model="tab"
+            active-color="primary"
+            indicator-color="primary"
+            align="justify"
+            narrow-indicator
+            dense
+            inline-label
+            :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-4'"
+            style="border-radius: 8px"
+          >
+            <q-tab v-if="showNotes" name="notes" label="Notes" icon="subject">
+              <q-badge v-if="notesCount > 0" class="q-ml-sm">{{
+                notesCount
+              }}</q-badge>
+            </q-tab>
+            <q-tab
+              v-if="showActivities"
+              name="events"
+              label="Events"
+              icon="calendar_month"
+            >
+              <q-badge v-if="eventsCount > 0" class="q-ml-sm">{{
+                eventsCount
+              }}</q-badge>
+            </q-tab>
+            <q-tab
+              v-if="showActivities"
+              name="tasks"
+              label="Tasks"
+              icon="checklist"
+            >
+              <q-badge v-if="tasksCount > 0" class="q-ml-sm">{{
+                tasksCount
+              }}</q-badge>
+            </q-tab>
+          </q-tabs>
+
+          <q-separator />
+
+          <div class="row justify-end q-mt-sm q-mr-sm">
+            <q-btn
+              :to="getAddRoute(tab)"
+              size="sm"
+              outline
+              rounded
+              dense
+              icon="add"
+              label="Add"
+              class="q-px-sm"
+            />
+          </div>
+
+          <q-tab-panels v-model="tab" animated keep-alive>
+            <q-tab-panel name="notes" v-if="showNotes">
+              <NotesList
+                :parent-object-id="parent.parentObjectId"
+                :parent-object-service-type="parent.parentObjectServiceType"
+                @notes-loaded="handleNoteCount"
+              />
+            </q-tab-panel>
+
+            <q-tab-panel name="events" v-if="showActivities">
+              <EventsList
+                @numberOfEvents="handleEventCount"
+                :params="parent2"
+              />
+            </q-tab-panel>
+
+            <q-tab-panel name="tasks" v-if="showActivities">
+              <TaskMetaSummary
+                @numberOfTasks="handleTaskCount"
+                :parent="parent2"
+              />
+            </q-tab-panel>
+          </q-tab-panels>
         </div>
       </q-card>
     </q-page-container>

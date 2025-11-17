@@ -20,6 +20,7 @@ const ocSession = () => SessionStorage.getItem('oc-session') as Session;
 export enum ObjectType {
   Task = 1,
   Contact = 14,
+  Account = 23,
   Event = 4,
   Note = 20,
   ActivityTabForCrm = 35,

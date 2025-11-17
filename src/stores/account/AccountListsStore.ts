@@ -17,11 +17,11 @@ export const useAccountListsStore = defineStore('accountListsStore', {
   },
 
   actions: {
-    async getAccountList() {
+    async getAccountLists() {
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
-          `${util.getEndPointUrl()}/account-lists`
+          `${util.getEndPointUrl()}/account-lists`,
         );
         const accountList = response.data[0];
         this.states = accountList.states;
