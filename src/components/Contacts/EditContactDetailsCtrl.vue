@@ -1,51 +1,44 @@
-<script setup>
+<script setup lang="ts">
 import { defineProps, ref, onBeforeMount } from 'vue';
-import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
+import { useContactListsStore } from '../../stores/contact/ContactListsStore';
 import util from '../../helpers/util';
 import UploadPhoto from '../general/UploadPhoto.vue';
-// import { useImageDetailStore } from '../../stores/ImageDetail';
 
 const props = defineProps(['fromParentData']);
 const emit = defineEmits(['photo-updated']);
 const contactDetails = ref(props?.fromParentData);
 
 const getStates = ref(null);
-const defaultState = ref(null);
 
 const getCountries = ref(null);
-const defaultCountry = ref(null);
 
 const filterCountries = ref(null);
 const filterStates = ref(null);
 
-const usecontactDetailsStore = useContactDetailsStore();
-// const imageDetailStore = useImageDetailStore();
+const usecontactListsStore = useContactListsStore();
 
 onBeforeMount(async () => {
-  await usecontactDetailsStore.getContactLists();
-  getCountries.value = usecontactDetailsStore.countries;
-  defaultCountry.value = getCountries.value.find(
-    (country) => country.is_default
-  );
-  getStates.value = usecontactDetailsStore.states;
-  defaultState.value = getStates.value.find((state) => state.is_default);
+  await usecontactListsStore.getContactLists();
+  getCountries.value = usecontactListsStore.Countries;
+  getStates.value = usecontactListsStore.States;
 
   filterCountries.value = getCountries.value;
   filterStates.value = getStates.value;
-
-  if (
-    contactDetails.value?.id == '' &&
-    defaultState.value?.is_default == true
-  ) {
-    contactDetails.value.state_id = defaultState.value.id;
-  }
-  if (
-    contactDetails.value?.id == '' &&
-    defaultCountry.value?.is_default == true
-  ) {
-    contactDetails.value.country_id = defaultCountry.value?.id;
+  if (!contactDetails.value?.id) {
+    setDefaultValues();
   }
 });
+
+function setDefaultValues() {
+  const findDefaultOption = (options: any[]) => {
+    const defaultObj = options.find((option) => option.is_default);
+    return defaultObj ? defaultObj.id : null;
+  };
+  contactDetails.value.state_id =
+    findDefaultOption(getStates.value) || contactDetails.value.state_id;
+  contactDetails.value.country_id =
+    findDefaultOption(getCountries.value) || contactDetails.value.country_id;
+}
 
 const lastNameRef = ref(null);
 const emailRef = ref('');
@@ -70,7 +63,7 @@ function filterCountriesFn(val, update) {
   update(() => {
     const needle = val.toLowerCase();
     filterCountries.value = getCountries.value.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }
@@ -79,7 +72,7 @@ function filterStatesFn(val, update) {
   update(() => {
     const needle = val.toLowerCase();
     filterStates.value = getStates.value.filter(
-      (v) => v.name.toLowerCase().indexOf(needle) > -1
+      (v) => v.name.toLowerCase().indexOf(needle) > -1,
     );
   });
 }
