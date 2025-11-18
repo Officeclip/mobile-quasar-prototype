@@ -221,13 +221,11 @@ export const useAccountSummaryStore = defineStore('accountSummaryStore', {
           }
 
           this.accountSummary.push(...data);
-
-          // Mockoon doesn't send pagination, so we'll handle it simply
-          // Assuming we get all data at once
-          this.nextPageUrl = null;
+          const nextUrl = response.data.pagination.next;
+          this.nextPageUrl = nextUrl && nextUrl !== 'null' ? nextUrl : null;
           this.pageNum++;
 
-          return true; // Stop infinite scroll
+          return this.nextPageUrl === null;
         }
       } catch (error: any) {
         console.error('Failed to fetch accounts:', error);

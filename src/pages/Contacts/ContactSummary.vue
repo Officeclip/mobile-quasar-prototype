@@ -29,7 +29,7 @@ const canCreateContact = computed(() => {
   if (!session.value) return false;
   if (session.value.isAdmin) return true;
   return session.value.roleAccess?.some(
-    (x) => x.name === 'TimeExpensesCreateTimeSheet' && x.access,
+    (x) => x.name === 'CreateContact' && x.access,
   );
 });
 

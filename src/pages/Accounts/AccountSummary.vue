@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, Ref, nextTick, watch } from 'vue';
+import { ref, onMounted, Ref, nextTick, watch, computed } from 'vue';
 import { useAccountSummaryStore } from 'src/stores/account/accountSummaryStore';
 import { storeToRefs } from 'pinia';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
@@ -7,12 +7,24 @@ import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { useQuasar } from 'quasar';
+import { useSessionStore } from 'src/stores/SessionStore';
 
 // --- Store and Router Initialization ---
 
 const accountSummaryStore = useAccountSummaryStore();
-const { accounts, errorMsg, searchHistory } = storeToRefs(accountSummaryStore);
+const sessionStore = useSessionStore();
 const $q = useQuasar();
+
+const { accounts, errorMsg, searchHistory } = storeToRefs(accountSummaryStore);
+const { session } = storeToRefs(sessionStore);
+const canCreateAccount = computed(() => {
+  const userInfo = session.value;
+  if (!userInfo) return false;
+  if (userInfo.isAdmin) return true;
+  return userInfo.roleAccess?.some(
+    (x) => x.name === 'CreateAccount' && x.access === true,
+  );
+});
 
 // --- Component State ---
 const loading = ref(false);
@@ -22,30 +34,10 @@ const myDrawer = ref();
 
 const infiniteScrollRef = ref(null);
 
-// const searchHistory = computed(() => contactSummaryStore.searchHistory);
-
-// const onSearch = async (value: string | null | number) => {
-//   accountSummaryStore.setFilter({ searchString: value as string });
-//   await accountSummaryStore.fetchAccounts();
-// };
-
-const refresh = async (done: () => void) => {
-  accountSummaryStore.$reset();
-  await accountSummaryStore.fetchAccounts();
-  done();
-};
-
-// const onLoad = async (index: number, done: (stop: boolean) => void) => {
-//   const stop = await accountSummaryStore.fetchAccounts();
-//   done(stop);
-// };
-
-// onMounted(async () => {
-//   accountSummaryStore.$reset();
-//   await accountSummaryStore.fetchAccounts();
+// const searchHistory = computed(() => {
+//   return accountSummaryStore.searchHistory;
 // });
 
-// ///////////////////////////////////////
 const loadMore = async (index: number, done: () => void) => {
   // Prevent loading if we are already loading or if the current pageNum is 1 (initial load handled elsewhere)
   if (loading.value || accountSummaryStore.pageNum === 1) {
@@ -224,6 +216,12 @@ onBeforeRouteLeave((to, from) => {
     accountSummaryStore.$reset(); // Otherwise, reset the store for a clean slate
   }
 });
+
+const refresh = async (done: () => void) => {
+  accountSummaryStore.$reset();
+  await accountSummaryStore.fetchAccounts();
+  done();
+};
 </script>
 
 <template>
@@ -346,7 +344,13 @@ onBeforeRouteLeave((to, from) => {
           </q-infinite-scroll>
 
           <q-page-sticky position="bottom-right" :offset="[18, 18]">
-            <q-btn fab icon="add" color="accent" :to="{ name: 'newAccount' }" />
+            <q-btn
+              v-if="canCreateAccount"
+              fab
+              icon="add"
+              color="accent"
+              :to="{ name: 'newAccount' }"
+            />
           </q-page-sticky>
         </q-page>
       </q-pull-to-refresh>

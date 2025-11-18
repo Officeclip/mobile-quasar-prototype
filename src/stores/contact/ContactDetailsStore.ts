@@ -1,28 +1,22 @@
 import { defineStore } from 'pinia';
 import { ContactDetails } from '../../models/Contact/contactDetails';
-// import { State, Country, Children } from '../../models/Contact/contactsList';
 import { Constants } from '../Constants';
-// import { useContactListsStore } from './ContactListsStore';
 import util from 'src/helpers/util';
 import { useImageDetailStore } from '../ImageDetail';
 
 export const useContactDetailsStore = defineStore('contactDetailsStore', {
   state: () => ({
     contactDetailsList: [] as ContactDetails[],
-    // states: [] as State[],
-    // countries: [] as Country[],
-    // children: [] as Children[],
     contactDetails: {} as ContactDetails,
     contact_Id: '' as string,
+    selectedTab: '' as string,
   }),
 
   getters: {
     ContactDetailsList: (state) => state.contactDetailsList,
-    // States: (state) => state.states,
-    // Countries: (state) => state.countries,
     ContactDetails: (state) => state.contactDetails,
-    // Children: (state) => state.children,
     ContactId: (state) => state.contact_Id,
+    SelectedTab: (state) => state.selectedTab,
   },
 
   actions: {
@@ -37,18 +31,6 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
         Constants.throwError(error);
       }
     },
-
-    // async getContactLists() {
-    //   try {
-    //     const contactListsStore = useContactListsStore();
-    //     await contactListsStore.getContactLists();
-    //     this.states = contactListsStore.States;
-    //     this.countries = contactListsStore.Countries;
-    //     this.children = contactListsStore.Children;
-    //   } catch (error) {
-    //     Constants.throwError(error);
-    //   }
-    // },
 
     //   ----getting single user details by id----
     async getContactDetails(id: string) {
@@ -65,11 +47,6 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
           if (base64Obj) {
             contactDetails.picture = `data:image/${base64Obj.srcType};base64,${base64Obj.src}`;
           }
-
-          // const { data: image } = await instance.get(
-          //   `${util.getEndPointUrl()}/image-detail?id=${contactDetails.picture}`
-          // );
-          // contactDetails.picture = `data:image/${image.srcType};base64,${image.src}`;
         }
         this.contactDetails = contactDetails;
         return contactDetails;
@@ -77,21 +54,6 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
         Constants.throwError(error);
       }
     },
-
-    // async getContactsByBatch(limit: number, page: number) {
-    //   const callStr = `${util.getEndPointUrl()}/contact-summary?_limit=${limit}&_page=${page}`;
-    //   const res = await fetch(callStr);
-    //   const data = await res.json();
-    //   this.contactDetailsList.push(...data);
-    // },
-
-    // async getContactsWithFilter(limit: number, page: number, filter: string) {
-    //   const callStr = `${util.getEndPointUrl()}/contact-summary?_limit=${limit}&_page=${page}&first_name_like=${filter}`;
-    //   const res = await fetch(callStr);
-    //   const data = await res.json();
-    //   this.contactDetailsList.push(...data);
-    // },
-
     async editContactDetails(contactDetails: ContactDetails) {
       const callStr = `${util.getEndPointUrl()}/contact-detail/${
         contactDetails.id
@@ -136,6 +98,9 @@ export const useContactDetailsStore = defineStore('contactDetailsStore', {
       } catch (error) {
         Constants.throwError(error);
       }
+    },
+    setSelectedTab(tab: string) {
+      this.selectedTab = tab;
     },
   },
 });

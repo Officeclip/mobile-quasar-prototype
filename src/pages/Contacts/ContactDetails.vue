@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, nextTick } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useContactDetailsStore } from '../../stores/contact/ContactDetailsStore';
 import { useContactListsStore } from '../../stores/contact/ContactListsStore';
 import { useRoute, useRouter } from 'vue-router';
@@ -15,6 +16,7 @@ import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
+import { store } from 'quasar/wrappers';
 
 const loading = ref(true);
 const model = ref('1');
@@ -24,8 +26,8 @@ const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
 const id = route.params.id as string;
-// id.value = route.params.id;
-const tab = ref('');
+
+const { selectedTab: tab } = storeToRefs(contactDetailsStore);
 
 const myDrawer = ref();
 
@@ -55,25 +57,32 @@ const contactDetails = computed(() => {
 onMounted(async () => {
   await loadContactDetails();
 
-  const tabsToLoad = [];
+  const availableTabs = [];
   if (showNotes.value) {
-    tabsToLoad.push('notes');
+    availableTabs.push('notes');
   }
   if (showActivities.value) {
-    tabsToLoad.push('events');
-    tabsToLoad.push('tasks');
+    availableTabs.push('events');
+    availableTabs.push('tasks');
   }
 
-  if (tabsToLoad.length > 0) {
-    const initialTab = tabsToLoad[0];
-    tab.value = initialTab;
-    await nextTick();
+  if (availableTabs.length > 0) {
+    let desiredTab = tab.value;
 
-    for (let i = 1; i < tabsToLoad.length; i++) {
-      tab.value = tabsToLoad[i];
+    // If the stored tab is not available, default to the first one.
+    if (!availableTabs.includes(desiredTab)) {
+      desiredTab = availableTabs[0];
+    }
+
+    // To pre-load all tabs for their counts, we can cycle through them.
+    // This ensures they are rendered once. `keep-alive` will cache them.
+    for (const tabName of availableTabs) {
+      tab.value = tabName;
       await nextTick();
     }
-    tab.value = initialTab;
+
+    // Finally, set the tab to the one we actually want to show.
+    tab.value = desiredTab;
   }
 });
 
@@ -246,6 +255,7 @@ const handleEditClick = () => {
         <div v-if="children.length > 0" class="q-mt-lg">
           <q-tabs
             v-model="tab"
+            @update:model-value="contactDetailsStore.setSelectedTab($event)"
             active-color="primary"
             indicator-color="primary"
             align="justify"
