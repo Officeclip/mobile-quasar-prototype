@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
-import { onBeforeRouteLeave } from 'vue-router';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { useSessionStore } from 'src/stores/SessionStore';
 
@@ -14,6 +14,7 @@ import { useSessionStore } from 'src/stores/SessionStore';
 const accountSummaryStore = useAccountSummaryStore();
 const sessionStore = useSessionStore();
 const $q = useQuasar();
+const router = useRouter();
 
 const { accounts, errorMsg, searchHistory } = storeToRefs(accountSummaryStore);
 const { session } = storeToRefs(sessionStore);
@@ -312,28 +313,59 @@ const refresh = async (done: () => void) => {
             :offset="250"
             ref="infiniteScrollRef"
           >
-            <q-list separator>
-              <q-item
+            <q-list separator padding>
+              <q-expansion-item
+                class="q-pt-sm"
                 v-for="account in accounts"
                 :key="account.id"
-                clickable
-                v-ripple
-                :to="{ name: 'accountDetails', params: { id: account.id } }"
+                group="accounts"
+                expand-separator
               >
-                <q-item-section>
-                  <q-item-label>{{ account.account_number }} </q-item-label>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>{{ account.account_name }} </q-item-label>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>{{ account.email }} </q-item-label>
-                </q-item-section>
+                <template v-slot:header>
+                  <q-item-section>
+                    <q-item-label>{{ account.account_name }}</q-item-label>
+                    <q-item-label caption>{{
+                      account.email_address
+                    }}</q-item-label>
+                  </q-item-section>
+                </template>
 
-                <q-item-section side>
-                  <q-icon name="chevron_right" color="primary" />
-                </q-item-section>
-              </q-item>
+                <q-card>
+                  <q-card-section>
+                    <div class="row q-col-gutter-md">
+                      <div class="col-6">
+                        <q-item-label caption>Account Number</q-item-label>
+                        <q-item-label>{{
+                          account.account_number
+                        }}</q-item-label>
+                      </div>
+                      <div class="col-6">
+                        <q-item-label caption>Main Phone</q-item-label>
+                        <q-item-label>{{
+                          account.main_phone || 'N/A'
+                        }}</q-item-label>
+                      </div>
+                    </div>
+                  </q-card-section>
+                  <!-- <q-separator /> -->
+                  <q-card-section align="right">
+                    <q-btn
+                      size="sm"
+                      outline
+                      rounded
+                      dense
+                      color="primary"
+                      label="More Details"
+                      no-caps
+                      @click="
+                        router.push({
+                          name: 'accountDetails',
+                          params: { id: account.id },
+                        })
+                      "
+                  /></q-card-section>
+                </q-card>
+              </q-expansion-item>
             </q-list>
 
             <template v-slot:loading>
