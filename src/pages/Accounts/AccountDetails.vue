@@ -258,7 +258,7 @@ const handleEditClick = () => {
             <div
               v-for="(item, index) in filterAccountDetails"
               :key="index"
-              class="col-12 col-sm-6 col-md-4"
+              class="col-xs-6 flex items-start"
             >
               <q-item v-if="item.show">
                 <q-item-section>
