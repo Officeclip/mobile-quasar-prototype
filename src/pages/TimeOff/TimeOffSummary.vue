@@ -1,28 +1,26 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { useTimeOffStore } from 'src/stores/timeOff/timeOffStore';
 import { useRouter } from 'vue-router';
-import { useQuasar } from 'quasar';
-// import drawer from '../../components/drawer.vue';
+import { QInfiniteScroll, useQuasar } from 'quasar';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
-import NoItemsMsg from 'src/components/general/noItemsMsg.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Footer from 'src/components/OCcomponents/OC_Footer.vue';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 import { isAllowed } from 'src/helpers/security';
+import { storeToRefs } from 'pinia';
 
 const timeOffStore = useTimeOffStore();
 const router = useRouter();
 const $q = useQuasar();
 const myDrawer = ref();
-const loading = ref(true);
+const loading = ref(false); // <-- Change this from 'true' to 'false'
+let reachedEnd = ref(false);
+const infiniteScrollRef = ref<QInfiniteScroll | null>(null);
 
 const tab = ref(timeOffStore.selectedTab);
-watch(tab, (newTab) => {
-  timeOffStore.selectedTab = newTab;
-});
 const title = computed(() =>
   tab.value === 'mylist'
     ? 'My Requests'
@@ -30,7 +28,6 @@ const title = computed(() =>
       ? 'Inbox'
       : 'Archived',
 );
-const timeOffSummaries = computed(() => timeOffStore.TimeOffSummaries);
 
 const footerTabs = [
   { name: 'mylist', label: 'My Requests', icon: 'outbox' },
@@ -38,31 +35,47 @@ const footerTabs = [
   { name: 'archived', label: 'Archived', icon: 'archive' },
 ];
 
-const loadTimeOffSummaries = async (tabValue: string) => {
-  timeOffStore.resetTimeOffSummaryList(); // Clear previous data
+const timeOffSummaries = computed(() => timeOffStore.TimeOffSummaries);
+const errorMsg = storeToRefs(timeOffStore).errorMsg;
+
+const loadMore = async (index: number, done: () => void) => {
   loading.value = true;
   try {
-    await timeOffStore.getTimeOffByCategory(tabValue);
+    reachedEnd.value = await timeOffStore.fetchMoreTimeOffSummaries(tab.value);
+    if (reachedEnd.value) {
+      infiniteScrollRef.value?.stop(); // Stop infinite scroll if all data is loaded
+    }
+    done();
   } catch (error) {
+    reachedEnd.value = true; // Stop on error
+    done();
     $q.dialog({
       title: 'Alert',
       message: error as string,
-    }).onOk(async () => {
-      await router.push({ path: '/homePage' });
-      router.go(0);
     });
   } finally {
     loading.value = false;
   }
 };
+watch(tab, async (newTab) => {
+  timeOffStore.selectedTab = newTab;
+  await timeOffStore.resetTimeOffSummaryList(); // Clear previous data
+  reachedEnd.value = false; // Reset the q-infinite-scroll and EXPLICITLY trigger a new load.
+  if (infiniteScrollRef.value) {
+    infiniteScrollRef.value.reset();
+  }
+  infiniteScrollRef.value?.trigger(); // Now that the component is mounted and the list is empty, explicitly trigger the infinite scroll to fetch the first page.
+});
 
 onMounted(async () => {
-  await loadTimeOffSummaries(tab.value);
+  await timeOffStore.resetTimeOffSummaryList();
+  await nextTick();
+  if (infiniteScrollRef.value) {
+    infiniteScrollRef.value.trigger();
+  }
 });
 
-watch(tab, async (newTab) => {
-  await loadTimeOffSummaries(newTab);
-});
+const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
 
 const toggleLeftDrawer = () => {
   if (myDrawer.value == null) return;
@@ -124,8 +137,6 @@ const getDaysOrHrs = (item: any) => {
   }
   return '';
 };
-
-const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -139,8 +150,34 @@ const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
     <OC_Footer :tabs="footerTabs" v-model:tab="tab" />
     <q-page-container>
       <q-page>
-        <div v-if="timeOffSummaries">
-          <OC_Loader :visible="loading" />
+        <div
+          v-if="errorMsg !== ''"
+          class="items-center column"
+          style="
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            z-index: 10;
+          "
+        >
+          <q-icon name="error_outline" size="100px" color="grey-5" />
+          <div class="text-h6 q-mt-sm q-py-md">{{ errorMsg }}</div>
+          <div v-if="title === 'My Requests'" class="text-center">
+            <div class="text-body1 text-grey-7">
+              A time off request is used to track employee's leave and time off
+              from work.
+            </div>
+          </div>
+        </div>
+
+        <OC_Loader :visible="loading" />
+        <q-infinite-scroll
+          ref="infiniteScrollRef"
+          :disable="reachedEnd"
+          @load="loadMore"
+        >
           <q-list v-for="item in timeOffSummaries" :key="item.id">
             <q-item
               clickable
@@ -189,49 +226,10 @@ const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
               v-if="item !== timeOffSummaries[timeOffSummaries.length - 1]"
             />
           </q-list>
-          <!-- <q-table
-          :rows="timeOffSummaries"
-          :columns="columns"
-          row-key="id"
-          flat
-          bordered
-          separator="horizontal"
-          rows-per-page-label="Timeoff list"
-          :rows-per-page-options="[10, 15, 20]"
-        >
-          <template v-slot:body="props">
-            <q-tr
-              :props="props"
-              @click="viewDetails(props.row)"
-              class="cursor-pointer"
-            >
-              <q-td key="createdBy" :props="props">
-                <q-item-section>
-                  <q-item-label class="text-subtitle1">{{
-                    props.row.createdByUserName
-                  }}</q-item-label>
-                </q-item-section>
-              </q-td>
-              <td key="dateRange" :props="props">
-                <q-item-section>
-                  {{ props.row.startDate }} - {{ props.row.endDate }}
-                </q-item-section>
-              </td>
-              <td key="totalHours" :props="props">
-                <q-item-section>{{ props.row.totalHours }} hrs</q-item-section>
-              </td>
-              <td key="status" :props="props">
-                <q-item-section>
-                  <q-chip dense>{{ props.row.status }}</q-chip>
-                </q-item-section>
-              </td>
-            </q-tr>
+          <template v-slot:loading>
+            <q-spinner-dots color="primary" size="40px"></q-spinner-dots>
           </template>
-        </q-table> -->
-        </div>
-        <div v-else>
-          <NoItemsMsg />
-        </div>
+        </q-infinite-scroll>
         <q-page-sticky
           v-if="isAllow"
           position="bottom-right"

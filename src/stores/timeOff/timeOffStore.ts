@@ -10,8 +10,10 @@ export const useTimeOffStore = defineStore('timeOffStore', {
     timeOffSummary: [] as TimeOffSummary[],
     timeOffDetail: {} as TimeOffDetails,
     categoryLists: [] as Categories[],
-    errorMsg: '' as string,
     selectedTab: 'inbox' as string,
+    pageSize: 15,
+    nextPageUrl: null as string | null, // Stores the 'next' URL from the API
+    errorMsg: '' as string,
   }),
 
   getters: {
@@ -21,34 +23,63 @@ export const useTimeOffStore = defineStore('timeOffStore', {
   },
 
   actions: {
+    /**
+     * Resets the timesheet list and pagination.
+     * Call this before loading data for a new category.
+     */
+    async resetTimeOffSummaryList() {
+      this.timeOffSummary = [];
+      this.nextPageUrl = null;
+      this.errorMsg = '';
+    },
+
     // getting the time off summary by category
-    async getTimeOffByCategory(category: string) {
-      const callStr = `${util.getEndPointUrl()}/timeoff-summary?category=${category}`;
-      // const callStr = `http://localhost:3000/timeoff-summary?category=${category}`;
+    async fetchMoreTimeOffSummaries(category: string): Promise<boolean> {
+      // Use the next page URL from the previous API call, or construct the initial URL.
+      const isFirstPageLoad = this.timeOffSummary.length === 0;
+      const requestUrl =
+        isFirstPageLoad || !this.nextPageUrl
+          ? `${util.getEndPointUrl()}/timeoff-summary?category=${category}&pagesize=${this.pageSize}`
+          : this.nextPageUrl;
+
       try {
         const instance = Constants.getAxiosInstance();
-        const response = await instance.get(callStr ?? '');
-        this.timeOffSummary = response.data.data;
-        if (response.status === 204) {
-          //this.errorMsg = response.statusText;
-          this.errorMsg = 'No Content';
-          return true;
+        const response = await instance.get(requestUrl);
+
+        if (response.status === 200) {
+          const summaries = response.data.data;
+          this.timeOffSummary.push(...summaries);
+          const nextLink = response.data.pagination.next;
+          // Store the next page URL from the API's pagination object. If it's null, we've reached the end.
+          this.nextPageUrl = nextLink && nextLink !== 'null' ? nextLink : null;
+
+          return this.nextPageUrl === null; // Return true if end is reached
         }
+        if (response.status === 204) {
+          if (this.timeOffSummary.length === 0) {
+            this.errorMsg =
+              category === 'mylist'
+                ? 'No TimeOffs are created yet.'
+                : category === 'inbox'
+                  ? 'No TimeOffs sent yet.'
+                  : 'No Archived TimeOffs found.';
+          }
+          return true; // No content, so we've reached the end.
+        }
+        return true; // For any other status, stop loading.
       } catch (error) {
         Constants.throwError(error);
+        return true; // Stop loading on error.
       }
     },
 
     // getting the time off details by id
     async getTimeOffDetails(id: string) {
-      // const callStr = `${util.getEndPointUrl()}/timeoff-detail/${id}`;
-      // const callStr = `http://localhost:3000/timeoff-detail/${id}`;
       try {
         const instance = Constants.getAxiosInstance();
         const response = await instance.get(
           `${util.getEndPointUrl()}/timeoff-detail/${id}`,
         );
-        // const response = await instance.get(callStr ?? '');
         this.timeOffDetail = response.data;
       } catch (error) {
         Constants.throwError(error);
@@ -108,15 +139,11 @@ export const useTimeOffStore = defineStore('timeOffStore', {
         const response = await instance.get(
           `${util.getEndPointUrl()}/timeoff-lists?userId=${userId}`,
         );
-        // const response = await instance.get(callStr ?? '');
         const newData = response.data[0];
         this.categoryLists = newData.category;
       } catch (error) {
         Constants.throwError(error);
       }
-    },
-    async resetTimeOffSummaryList() {
-      this.timeOffSummary = [];
     },
   },
 });
