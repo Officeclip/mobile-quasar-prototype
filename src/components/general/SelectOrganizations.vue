@@ -59,12 +59,12 @@ const organizationModel = computed(() => {
     @update:model-value="updateOrganizations"
   >
     <template #option="scope">
-      <q-item class="text-body1" v-bind="scope.itemProps">
+      <q-item class="text-subtitle2" v-bind="scope.itemProps">
         {{ scope.opt.name }}
       </q-item>
     </template>
     <template #selected-item="scope">
-      <q-item dense class="text-body1 text-weight-medium">
+      <q-item dense class="text-subtitle1 text-weight-medium">
         {{ scope.opt.name }}
       </q-item>
     </template>
