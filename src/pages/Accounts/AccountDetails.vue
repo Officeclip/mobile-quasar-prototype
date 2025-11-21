@@ -48,8 +48,9 @@ const accountDetails = computed(() => {
   return accountDetailsStore.AccountDetails;
 });
 
-const filterAccountDetails = computed(() => {
-  const details = accountDetailsStore.AccountDetails;
+const accountDetailProperties = computed(() => {
+  // const details = accountDetailsStore.AccountDetails;
+  const details = accountDetails.value;
   if (!details) return [];
   return [
     {
@@ -83,6 +84,9 @@ const filterAccountDetails = computed(() => {
       show: !!details.street_address,
     },
   ];
+});
+const filterAccountDetails = computed(() => {
+  return accountDetailProperties.value.filter((prop) => prop.show);
 });
 
 onMounted(async () => {
