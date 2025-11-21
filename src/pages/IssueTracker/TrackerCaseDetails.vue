@@ -9,12 +9,10 @@ import { getIssueTrackerLabelColor } from 'src/helpers/colorIconHelper';
 import dateTimeHelper from 'src/helpers/dateTimeHelper';
 
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
-// import drawer from 'src/components/drawer.vue';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
 import ConfirmDelete from 'src/components/general/ConfirmDelete.vue';
-import NoteList from 'src/components/Notes/NotesListCtrl.vue';
+import NoteList from 'src/components/Notes/NotesList.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
-// import OCItem from 'src/components/OCcomponents/OC-Item.vue';
 
 // --- State ---
 const loading = ref(true);

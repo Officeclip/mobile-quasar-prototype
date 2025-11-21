@@ -299,7 +299,6 @@ const handleEditClick = () => {
             dense
             inline-label
             :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-4'"
-            style="border-radius: 8px"
           >
             <q-tab v-if="showNotes" name="notes" label="Notes" icon="subject">
               <q-badge v-if="notesCount > 0" class="q-ml-sm">{{

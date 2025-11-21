@@ -182,7 +182,7 @@ export const useSessionStore = defineStore('sessionStore', {
           color: 'light-blue', // Represents relaxation & freedom
         },
         {
-          id: 3,
+          id: 23,
           icon: 'account_balance',
           name: 'Accounts',
           url: '/accountSummary',
