@@ -1,4 +1,5 @@
 export interface NoteBook {
   id: number;
-  name: string;
+  notebookName: string;
+  isSelected: boolean;
 }
