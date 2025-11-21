@@ -16,7 +16,6 @@ import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
-import { store } from 'quasar/wrappers';
 
 const loading = ref(true);
 const model = ref('1');
@@ -36,7 +35,7 @@ const loadContactDetails = async () => {
   try {
     // See: https://github.com/vuejs/pinia/discussions/1078#discussioncomment-4240994
     await contactDetailsStore.getContactDetails(route.params.id as string);
-    await contactListsStore.getContactLists();
+    await contactListsStore.getChildren();
   } catch (error) {
     $q.dialog({
       title: 'Alert',

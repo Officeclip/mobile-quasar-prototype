@@ -61,7 +61,7 @@ const filterContactDetails = computed(() => {
       <div
         v-for="prop in filterContactDetails"
         :key="prop.label"
-        class="col-xs-6 flex items-center"
+        class="col-xs-6 flex items-start"
       >
         <q-item v-if="prop.show">
           <q-item-section>

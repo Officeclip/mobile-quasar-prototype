@@ -26,7 +26,18 @@ export const useContactListsStore = defineStore('contactListsStore', {
         const contactList = response.data[0];
         this.states = contactList.states;
         this.countries = contactList.countries;
-        this.children = contactList.children;
+        // this.children = contactList.children;
+      } catch (error) {
+        Constants.throwError(error);
+      }
+    },
+    async getChildren() {
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${util.getEndPointUrl()}/contact-children`,
+        );
+        this.children = response.data[0].children;
       } catch (error) {
         Constants.throwError(error);
       }

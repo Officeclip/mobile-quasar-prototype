@@ -30,7 +30,7 @@ const loadAccountDetails = async () => {
   loading.value = true;
   try {
     await accountDetailsStore.getAccountDetails(route.params.id as string);
-    await accountsListsStore.getAccountLists();
+    await accountsListsStore.getChildren();
   } catch (error) {
     $q.dialog({
       title: 'Alert',

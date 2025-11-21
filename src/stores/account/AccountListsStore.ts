@@ -26,7 +26,18 @@ export const useAccountListsStore = defineStore('accountListsStore', {
         const accountList = response.data[0];
         this.states = accountList.states;
         this.countries = accountList.countries;
-        this.children = accountList.children;
+        // this.children = accountList.children;
+      } catch (error) {
+        Constants.throwError(error);
+      }
+    },
+    async getChildren() {
+      try {
+        const instance = Constants.getAxiosInstance();
+        const response = await instance.get(
+          `${util.getEndPointUrl()}/account-children`,
+        );
+        this.children = response.data[0].children;
       } catch (error) {
         Constants.throwError(error);
       }
