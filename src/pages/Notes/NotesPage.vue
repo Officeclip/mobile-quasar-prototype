@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import NotesList from '../../components/Notes/NotesList.vue';
 import { useNotesStore } from '../../stores/NotesStore';
 import { useRouter } from 'vue-router';
@@ -7,18 +7,21 @@ import OC_Drawer from 'src/components/OC_Drawer.vue';
 import { useQuasar } from 'quasar';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
+import { storeToRefs } from 'pinia';
 
-const router = useRouter();
-const selectedNotebookId = ref('');
 const notesStore = useNotesStore();
+const { selectedNotebook, noteBooks } = storeToRefs(notesStore);
+const router = useRouter();
+// const selectedNotebookId = ref('');
+// const notesStore = useNotesStore();
 const myDrawer = ref();
 const $q = useQuasar();
 const loading = ref(true);
-const errorMessageVisible = ref(false);
+// const errorMessageVisible = ref(false);
 
-const noteBooks = computed(() => {
-  return notesStore.NoteBooks;
-});
+// const noteBooks = computed(() => {
+//   return notesStore.NoteBooks;
+// });
 
 const loadNoteBooks = async () => {
   loading.value = true;
@@ -41,19 +44,20 @@ onMounted(async () => {
 });
 
 function navigateToNewNotes() {
-  if (selectedNotebookId.value) {
-    errorMessageVisible.value = false;
+  if (selectedNotebook.value) {
+    // errorMessageVisible.value = false;
     router.push({
       name: 'newNotes',
       params: {
-        id: selectedNotebookId.value,
+        id: selectedNotebook.value.id,
         objectTypeId: '-1',
         objectId: '-1',
       },
     });
-  } else {
-    errorMessageVisible.value = true;
   }
+  // else {
+  //   errorMessageVisible.value = true;
+  // }
 }
 function toggleLeftDrawer() {
   if (myDrawer.value == null) return;
@@ -77,25 +81,19 @@ function toggleLeftDrawer() {
         <div class="q-pa-lg text-center">
           <q-select
             outlined
-            v-model="selectedNotebookId"
+            v-model="selectedNotebook"
             :options="noteBooks"
             option-label="notebookName"
-            option-value="id"
             label="Select Notebook"
-            emit-value
-            map-options
           />
         </div>
-        <span
-          v-if="errorMessageVisible === true && !selectedNotebookId"
-          class="q-pa-lg text-red"
-        >
+        <!-- <span v-if="errorMessageVisible" class="q-pa-lg text-red">
           Please select the notebook
-        </span>
+        </span> -->
         <NotesList
-          v-if="selectedNotebookId"
-          :notebook-id="selectedNotebookId"
-          :key="selectedNotebookId"
+          v-if="selectedNotebook"
+          :notebook-id="selectedNotebook.id"
+          :key="selectedNotebook.id"
         />
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">

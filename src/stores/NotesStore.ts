@@ -9,6 +9,7 @@ export const useNotesStore = defineStore('notesStore', {
     notes: [] as Note[],
     note: {} as Note,
     noteBooks: [] as NoteBook[],
+    selectedNotebook: null as NoteBook | null,
     errorMsg: '' as string,
   }),
 
@@ -18,6 +19,7 @@ export const useNotesStore = defineStore('notesStore', {
     Note: (state) => state.note,
     NoteBooks: (state) => state.noteBooks,
     NoteBooksCount: (state) => state.noteBooks.length,
+    SelectedNotebook: (state) => state.selectedNotebook,
   },
 
   actions: {
@@ -28,6 +30,8 @@ export const useNotesStore = defineStore('notesStore', {
           `${util.getEndPointUrl()}/notebook`,
         );
         this.noteBooks = response.data;
+        this.selectedNotebook =
+          this.noteBooks.find((nb) => nb.isSelected) || this.noteBooks[0];
       } catch (error) {
         Constants.throwError(error);
       }
