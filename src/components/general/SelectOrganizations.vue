@@ -64,9 +64,9 @@ const organizationModel = computed(() => {
       </q-item>
     </template>
     <template #selected-item="scope">
-      <q-item dense class="text-subtitle1 text-weight-medium">
+      <div dense class="text-subtitle1 text-weight-medium q-py-xs">
         {{ scope.opt.name }}
-      </q-item>
+      </div>
     </template>
   </q-select>
 </template>

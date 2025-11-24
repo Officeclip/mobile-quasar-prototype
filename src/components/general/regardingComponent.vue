@@ -82,7 +82,18 @@ watch(regardingType, (newValue) => {
         map-options
         option-label="name"
         option-value="id"
-      />
+      >
+        <template #option="scope">
+          <q-item v-bind="scope.itemProps">
+            {{ scope.opt.name }}
+          </q-item>
+        </template>
+        <template #selected-item="scope">
+          <div dense class="text-subtitle2 q-py-xs">
+            {{ scope.opt.name }}
+          </div>
+        </template>
+      </q-select>
     </div>
     <!-- </q-item-section>
     <q-item-section> -->
@@ -97,6 +108,16 @@ watch(regardingType, (newValue) => {
         use-input
         @filter="filterItems"
       >
+        <template #option="scope">
+          <q-item v-bind="scope.itemProps">
+            {{ scope.opt.name }}
+          </q-item>
+        </template>
+        <template #selected-item="scope">
+          <div dense class="text-subtitle2 q-py-xs ellipsis text-no-wrap">
+            {{ scope.opt.name }}
+          </div>
+        </template>
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey">No results</q-item-section>

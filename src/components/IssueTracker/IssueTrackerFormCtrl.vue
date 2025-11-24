@@ -95,7 +95,18 @@ function setDefaultValues() {
               option-value="id"
               filled
               class="full-width"
-            />
+            >
+              <template #option="scope">
+                <q-item v-bind="scope.itemProps">
+                  {{ scope.opt.name }}
+                </q-item>
+              </template>
+              <template #selected-item="scope">
+                <div dense class="text-subtitle2 q-py-xs">
+                  {{ scope.opt.name }}
+                </div>
+              </template>
+            </q-select>
             <q-select
               label="Assigned To"
               v-model="trackerCaseDetail.assignedTo"
@@ -105,7 +116,18 @@ function setDefaultValues() {
               option-value="id"
               filled
               class="full-width"
-            />
+            >
+              <template #option="scope">
+                <q-item v-bind="scope.itemProps">
+                  {{ scope.opt.name }}
+                </q-item>
+              </template>
+              <template #selected-item="scope">
+                <div dense class="text-subtitle2 q-py-xs">
+                  {{ scope.opt.name }}
+                </div>
+              </template>
+            </q-select>
           </div>
 
           <!-- Right Column -->
@@ -119,7 +141,18 @@ function setDefaultValues() {
               option-value="id"
               filled
               class="full-width"
-            />
+            >
+              <template #option="scope">
+                <q-item v-bind="scope.itemProps">
+                  {{ scope.opt.name }}
+                </q-item>
+              </template>
+              <template #selected-item="scope">
+                <div dense class="text-subtitle2 q-py-xs">
+                  {{ scope.opt.name }}
+                </div>
+              </template>
+            </q-select>
             <q-select
               label="Criticality"
               v-model="trackerCaseDetail.criticality"
@@ -129,7 +162,18 @@ function setDefaultValues() {
               option-value="id"
               filled
               class="full-width"
-            />
+            >
+              <template #option="scope">
+                <q-item v-bind="scope.itemProps">
+                  {{ scope.opt.name }}
+                </q-item>
+              </template>
+              <template #selected-item="scope">
+                <div dense class="text-subtitle2 q-py-xs">
+                  {{ scope.opt.name }}
+                </div>
+              </template>
+            </q-select>
             <q-select
               label="Kind"
               v-model="trackerCaseDetail.kind"
@@ -139,7 +183,18 @@ function setDefaultValues() {
               option-value="id"
               filled
               class="full-width"
-            />
+            >
+              <template #option="scope">
+                <q-item v-bind="scope.itemProps">
+                  {{ scope.opt.name }}
+                </q-item>
+              </template>
+              <template #selected-item="scope">
+                <div dense class="text-subtitle2 q-py-xs">
+                  {{ scope.opt.name }}
+                </div>
+              </template>
+            </q-select>
             <Regarding
               v-if="appName === 'issueTracker'"
               v-model="trackerCaseDetail.parent"

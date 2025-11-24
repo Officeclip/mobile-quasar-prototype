@@ -350,10 +350,8 @@ const refresh = async (done: () => void) => {
                   <!-- <q-separator /> -->
                   <q-card-section align="right">
                     <q-btn
-                      size="sm"
                       outline
                       rounded
-                      dense
                       color="primary"
                       label="More Details"
                       no-caps
