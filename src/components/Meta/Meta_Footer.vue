@@ -10,10 +10,7 @@ const footerClass = computed(() =>
 
 interface Tab {
   name: string;
-  label: string;
-  icon: string;
   count: number;
-  show: boolean;
 }
 
 defineProps<{
@@ -23,6 +20,16 @@ defineProps<{
 }>();
 
 defineEmits(['update:tab']);
+
+const tabDetails: { [key: string]: { label: string; icon: string } } = {
+  notes: { label: 'Notes', icon: 'subject' },
+  events: { label: 'Events', icon: 'calendar_month' },
+  tasks: { label: 'Tasks', icon: 'checklist' },
+};
+
+const getTabDetail = (tabName: string) => {
+  return tabDetails[tabName] || { label: tabName, icon: 'help' };
+};
 </script>
 
 <template>
@@ -38,14 +45,17 @@ defineEmits(['update:tab']);
         align="justify"
         dense
         :class="footerClass"
-        indicator-color="warning"
         inline-label
       >
-        <template v-for="t in tabs" :key="t.name">
-          <q-tab v-if="t.show" :name="t.name" :label="t.label" :icon="t.icon">
-            <q-badge v-if="t.count > 0" class="q-ml-sm">{{ t.count }}</q-badge>
-          </q-tab>
-        </template>
+        <q-tab
+          v-for="t in tabs"
+          :key="t.name"
+          :name="t.name"
+          :label="getTabDetail(t.name).label"
+          :icon="getTabDetail(t.name).icon"
+        >
+          <q-badge v-if="t.count > 0" class="q-ml-sm">{{ t.count }}</q-badge>
+        </q-tab>
       </q-tabs>
     </q-footer>
   </div>

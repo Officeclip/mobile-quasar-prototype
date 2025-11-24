@@ -28,29 +28,24 @@ const { selectedTab: tab } = storeToRefs(accountDetailsStore);
 const myDrawer = ref();
 
 const childTabs = computed(() => {
-  return [
-    {
+  const tabs = [];
+  if (showNotes.value) {
+    tabs.push({
       name: 'notes',
-      label: 'Notes',
-      icon: 'subject',
       count: parseInt(notesCount.value),
-      show: showNotes.value,
-    },
-    {
+    });
+  }
+  if (showActivities.value) {
+    tabs.push({
       name: 'events',
-      label: 'Events',
-      icon: 'calendar_month',
       count: parseInt(eventsCount.value),
-      show: showActivities.value,
-    },
-    {
+    });
+    tabs.push({
       name: 'tasks',
-      label: 'Tasks',
-      icon: 'checklist',
       count: parseInt(tasksCount.value),
-      show: showActivities.value,
-    },
-  ];
+    });
+  }
+  return tabs;
 });
 
 const loadAccountDetails = async () => {
@@ -119,26 +114,19 @@ const filterAccountDetails = computed(() => {
 onMounted(async () => {
   await loadAccountDetails();
 
-  const availableTabs = [];
-  if (showNotes.value) {
-    availableTabs.push('notes');
-  }
-  if (showActivities.value) {
-    availableTabs.push('events');
-    availableTabs.push('tasks');
-  }
+  const availableTabNames = childTabs.value.map((t) => t.name);
 
-  if (availableTabs.length > 0) {
+  if (availableTabNames.length > 0) {
     let desiredTab = tab.value;
 
     // If the stored tab is not available, default to the first one.
-    if (!availableTabs.includes(desiredTab)) {
-      desiredTab = availableTabs[0];
+    if (!availableTabNames.includes(desiredTab)) {
+      desiredTab = availableTabNames[0];
     }
 
     // To pre-load all tabs for their counts, we can cycle through them.
     // This ensures they are rendered once. `keep-alive` will cache them.
-    for (const tabName of availableTabs) {
+    for (const tabName of availableTabNames) {
       tab.value = tabName;
       await nextTick();
     }
