@@ -14,6 +14,7 @@ import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
+import Meta_Footer from 'src/components/Meta/Meta_Footer.vue';
 
 const loading = ref(true);
 const accountDetailsStore = useAccountDetailsStore();
@@ -25,6 +26,32 @@ const id = route.params.id as string;
 const { selectedTab: tab } = storeToRefs(accountDetailsStore);
 
 const myDrawer = ref();
+
+const childTabs = computed(() => {
+  return [
+    {
+      name: 'notes',
+      label: 'Notes',
+      icon: 'subject',
+      count: parseInt(notesCount.value),
+      show: showNotes.value,
+    },
+    {
+      name: 'events',
+      label: 'Events',
+      icon: 'calendar_month',
+      count: parseInt(eventsCount.value),
+      show: showActivities.value,
+    },
+    {
+      name: 'tasks',
+      label: 'Tasks',
+      icon: 'checklist',
+      count: parseInt(tasksCount.value),
+      show: showActivities.value,
+    },
+  ];
+});
 
 const loadAccountDetails = async () => {
   loading.value = true;
@@ -293,59 +320,6 @@ const handleEditClick = () => {
           </div>
         </div>
         <div v-if="children.length > 0" class="q-mt-lg">
-          <q-tabs
-            v-model="tab"
-            @update:model-value="accountDetailsStore.setSelectedTab"
-            active-color="primary"
-            indicator-color="primary"
-            align="justify"
-            narrow-indicator
-            dense
-            inline-label
-            :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-4'"
-          >
-            <q-tab v-if="showNotes" name="notes" label="Notes" icon="subject">
-              <q-badge v-if="notesCount > 0" class="q-ml-sm">{{
-                notesCount
-              }}</q-badge>
-            </q-tab>
-            <q-tab
-              v-if="showActivities"
-              name="events"
-              label="Events"
-              icon="calendar_month"
-            >
-              <q-badge v-if="eventsCount > 0" class="q-ml-sm">{{
-                eventsCount
-              }}</q-badge>
-            </q-tab>
-            <q-tab
-              v-if="showActivities"
-              name="tasks"
-              label="Tasks"
-              icon="checklist"
-            >
-              <q-badge v-if="tasksCount > 0" class="q-ml-sm">{{
-                tasksCount
-              }}</q-badge>
-            </q-tab>
-          </q-tabs>
-
-          <q-separator />
-
-          <div class="row justify-end q-mt-sm q-mr-sm">
-            <q-btn
-              :to="getAddRoute(tab)"
-              size="sm"
-              outline
-              rounded
-              dense
-              icon="add"
-              label="Add"
-              class="q-px-sm"
-            />
-          </div>
-
           <q-tab-panels v-model="tab" animated keep-alive>
             <q-tab-panel name="notes">
               <NotesList
@@ -375,6 +349,13 @@ const handleEditClick = () => {
         </div>
       </q-card>
     </q-page-container>
+    <Meta_Footer
+      v-if="children.length > 0"
+      :tabs="childTabs"
+      :tab="tab"
+      @update:tab="accountDetailsStore.setSelectedTab"
+      :add-route="getAddRoute(tab)"
+    />
   </q-layout>
   <ConfirmationDialog
     v-if="showConfirmationDialog"

@@ -16,6 +16,7 @@ import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
+import Meta_Footer from 'src/components/Meta/Meta_Footer.vue';
 
 const loading = ref(true);
 const model = ref('1');
@@ -29,6 +30,31 @@ const id = route.params.id as string;
 const { selectedTab: tab } = storeToRefs(contactDetailsStore);
 
 const myDrawer = ref();
+const childTabs = computed(() => {
+  return [
+    {
+      name: 'notes',
+      label: 'Notes',
+      icon: 'subject',
+      count: parseInt(notesCount.value),
+      show: showNotes.value,
+    },
+    {
+      name: 'events',
+      label: 'Events',
+      icon: 'calendar_month',
+      count: parseInt(eventsCount.value),
+      show: showActivities.value,
+    },
+    {
+      name: 'tasks',
+      label: 'Tasks',
+      icon: 'checklist',
+      count: parseInt(tasksCount.value),
+      show: showActivities.value,
+    },
+  ];
+});
 
 const loadContactDetails = async () => {
   loading.value = true;
@@ -252,7 +278,7 @@ const handleEditClick = () => {
         <ContactDetails v-if="model === '1'" :params="params" />
         <MetaDetails v-if="model === '2'" :params="parent" />
         <div v-if="children.length > 0" class="q-mt-lg">
-          <q-tabs
+          <!-- <q-tabs
             v-model="tab"
             @update:model-value="contactDetailsStore.setSelectedTab($event)"
             active-color="primary"
@@ -303,7 +329,7 @@ const handleEditClick = () => {
               label="Add"
               class="q-px-sm"
             />
-          </div>
+          </div> -->
 
           <q-tab-panels v-model="tab" animated keep-alive>
             <q-tab-panel name="notes" v-if="showNotes">
@@ -331,6 +357,13 @@ const handleEditClick = () => {
         </div>
       </q-card>
     </q-page-container>
+    <Meta_Footer
+      v-if="children.length > 0"
+      :tabs="childTabs"
+      :tab="tab"
+      @update:tab="contactDetailsStore.setSelectedTab"
+      :add-route="getAddRoute(tab)"
+    />
   </q-layout>
   <ConfirmationDialog
     v-if="showConfirmationDialog"
