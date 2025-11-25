@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineProps, ref, Ref, computed, onMounted, watch } from 'vue';
+import { ref, Ref, computed, onMounted, watch } from 'vue';
 import { useTaskListsStore } from '../../stores/task/taskListsStore';
 import { taskDetails } from 'src/models/task/taskDetails';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';

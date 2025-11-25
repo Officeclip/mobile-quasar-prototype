@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineProps, ref } from 'vue';
+import { ref } from 'vue';
 import oc_editor from 'src/components/OCcomponents/oc_editor.vue';
 
 const props = defineProps(['note']);

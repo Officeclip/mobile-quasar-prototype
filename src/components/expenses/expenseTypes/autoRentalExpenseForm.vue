@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import { defineProps, ref } from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps(['autoRental', 'isDetailRequired']);
 import { QInput } from 'quasar';

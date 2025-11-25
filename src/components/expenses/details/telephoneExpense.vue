@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { defineProps, ref, Ref } from 'vue';
+import { ref, Ref } from 'vue';
 import { telephoneExpense } from '../../../models/expense/expenseDetails';
 
 const props = defineProps(['expense']);
 const telephone: Ref<telephoneExpense | undefined> = ref();
-// eslint-disable-next-line vue/no-setup-props-destructure
+
 telephone.value = props.expense;
 </script>
 

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { defineProps, ref, Ref } from 'vue';
+import { ref, Ref } from 'vue';
 import { hotelExpense } from '../../../models/expense/expenseDetails';
 import dateTimeHelper from '../../../helpers/dateTimeHelper';
 
 const props = defineProps(['expense']);
 const hotel: Ref<hotelExpense | undefined> = ref();
-// eslint-disable-next-line vue/no-setup-props-destructure
+
 hotel.value = props.expense;
 </script>
 

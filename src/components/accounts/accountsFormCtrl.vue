@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, ref, onBeforeMount, Ref, watch } from 'vue';
+import { ref, onBeforeMount, Ref, watch } from 'vue';
 import { useAccountListsStore } from '../../stores/account/accountListsStore';
 import util from '../../helpers/util';
 import { AccountDetails } from 'src/models/account/accountDetails';

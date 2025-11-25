@@ -7,7 +7,7 @@ import { useProfileListsStore } from '../stores/profileListsStore';
 import { Constants } from '../stores/Constants';
 import util from 'src/helpers/util';
 import SettingsComponent from './settingsPage.vue';
-import { defineExpose } from 'vue';
+// import { defineExpose } from 'vue';
 import uploadphoto from 'src/components/general/UploadPhoto.vue';
 import { useImageDetailStore } from 'src/stores/ImageDetail';
 import { useQuasar } from 'quasar';
@@ -30,18 +30,23 @@ onMounted(() => {
     $q.dark.set(userPreferredDarkMode.value);
   } else {
     // No explicit user preference, follow device settings
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches;
     dark.value = prefersDark;
     $q.dark.set(prefersDark);
   }
 
   // Listen for changes in device dark mode settings
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
-    if (userPreferredDarkMode.value === null) { // Only update if no explicit user preference
-      dark.value = event.matches;
-      $q.dark.set(event.matches);
-    }
-  });
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', (event) => {
+      if (userPreferredDarkMode.value === null) {
+        // Only update if no explicit user preference
+        dark.value = event.matches;
+        $q.dark.set(event.matches);
+      }
+    });
 });
 
 const toggleDarkMode = (value: boolean) => {

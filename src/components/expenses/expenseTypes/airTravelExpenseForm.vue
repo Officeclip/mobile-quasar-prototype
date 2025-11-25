@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-setup-props-destructure -->
 <script lang="ts" setup>
-import { defineProps, ref } from 'vue';
+import { ref } from 'vue';
 import { date, QInput } from 'quasar';
 
 const props = defineProps(['airTravel', 'isDetailRequired']);

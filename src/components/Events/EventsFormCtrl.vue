@@ -2,7 +2,6 @@
 import { computed, onMounted, ref, Ref, watch } from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
-// import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useEventListsStore } from '../../stores/event/eventListsStore';
 import { useReminderDataStore } from '../../stores/reminder/reminderData';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
@@ -13,11 +12,9 @@ import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar, QInput } from 'quasar';
 import { useRouter } from 'vue-router';
 import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
-// import OCItem from '../../components/OCcomponents/OC-Item.vue';
 
 const $q = useQuasar();
 const router = useRouter();
-// const eventDetailsStore = useEventDetailsStore();
 const eventListsStore = useEventListsStore();
 const reminderDataStore = useReminderDataStore();
 const userSummaryStore = useUserSummaryStore();

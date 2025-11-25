@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-side-effects-in-computed-properties -->
 <script lang="ts" setup>
-import { defineProps, onMounted, ref, computed, watch } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import { useTimeOffStore } from '../../stores/timeOff/timeOffStore';
 import { useTimeOffgroupProfile } from 'src/stores/timeOff/timeOffGroupProfile';
 import { useQuasar, QInput } from 'quasar';

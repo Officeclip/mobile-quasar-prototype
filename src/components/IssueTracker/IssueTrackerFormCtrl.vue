@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, Ref, defineProps, onMounted } from 'vue';
+import { ref, Ref, onMounted } from 'vue';
 import { useIssueListsStore } from '../../stores/issueTracker/issueListsStore';
 import { trackerCaseDetails } from 'src/models/issueTracker/trackerCaseDetails';
 import Regarding from 'components/general/regardingComponent.vue';

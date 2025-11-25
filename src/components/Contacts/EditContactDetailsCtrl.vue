@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, ref, onBeforeMount, Ref } from 'vue';
+import { ref, onBeforeMount, Ref } from 'vue';
 import { useContactListsStore } from '../../stores/contact/ContactListsStore';
 import util from '../../helpers/util';
 import UploadPhoto from '../general/UploadPhoto.vue';

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { defineProps, ref, Ref } from 'vue';
+import { ref, Ref } from 'vue';
 import { airTravelExpense } from '../../../models/expense/expenseDetails';
 import dateTimeHelper from '../../../helpers/dateTimeHelper';
 
 const props = defineProps(['expense']);
 const airTravel: Ref<airTravelExpense | undefined> = ref();
-// eslint-disable-next-line vue/no-setup-props-destructure
+
 airTravel.value = props.expense;
 </script>
 
@@ -23,7 +23,7 @@ airTravel.value = props.expense;
     {{
       dateTimeHelper.formatDateTimeFromRestAPIForUI(
         airTravel?.departureDate as string,
-        true
+        true,
       )
     }}
   </q-item-label>
@@ -32,7 +32,7 @@ airTravel.value = props.expense;
     {{
       dateTimeHelper.formatDateTimeFromRestAPIForUI(
         airTravel?.arrivalDate as string,
-        true
+        true,
       )
     }}
   </q-item-label>
