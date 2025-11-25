@@ -246,80 +246,37 @@ const handleEditClick = () => {
     <OC_Drawer ref="myDrawer" />
     <q-page-container>
       <OC_Loader :visible="loading" />
-      <q-card flat>
-        <q-card-section class="q-pb-none flex flex-center">
-          <div>
-            <q-avatar
-              color="grey-3"
-              size="120px"
-              class="q-mb-sm"
-              style="color: inherit"
-            >
-              <q-img
-                v-if="contactDetails?.picture"
-                v-bind:src="contactDetails?.picture"
-              />
-              <q-icon name="person" v-else />
-            </q-avatar>
-          </div>
-        </q-card-section>
-        <ContactDetails v-if="model === '1'" :params="params" />
-        <MetaDetails v-if="model === '2'" :params="parent" />
-        <div v-if="children.length > 0" class="q-mt-lg">
-          <!-- <q-tabs
+      <q-page class="column">
+        <div>
+          <q-card flat>
+            <q-card-section class="q-pb-none flex flex-center">
+              <div>
+                <q-avatar
+                  color="grey-3"
+                  size="120px"
+                  class="q-mb-sm"
+                  style="color: inherit"
+                >
+                  <q-img
+                    v-if="contactDetails?.picture"
+                    v-bind:src="contactDetails?.picture"
+                  />
+                  <q-icon name="person" v-else />
+                </q-avatar>
+              </div>
+            </q-card-section>
+            <ContactDetails v-if="model === '1'" :params="params" />
+            <MetaDetails v-if="model === '2'" :params="parent" />
+          </q-card>
+        </div>
+        <q-space />
+        <div v-if="children.length > 0">
+          <q-tab-panels
             v-model="tab"
-            @update:model-value="contactDetailsStore.setSelectedTab($event)"
-            active-color="primary"
-            indicator-color="primary"
-            align="justify"
-            narrow-indicator
-            dense
-            inline-label
-            :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-4'"
+            animated
+            keep-alive
+            class="shadow-2 rounded-borders"
           >
-            <q-tab v-if="showNotes" name="notes" label="Notes" icon="subject">
-              <q-badge v-if="notesCount > 0" class="q-ml-sm">{{
-                notesCount
-              }}</q-badge>
-            </q-tab>
-            <q-tab
-              v-if="showActivities"
-              name="events"
-              label="Events"
-              icon="calendar_month"
-            >
-              <q-badge v-if="eventsCount > 0" class="q-ml-sm">{{
-                eventsCount
-              }}</q-badge>
-            </q-tab>
-            <q-tab
-              v-if="showActivities"
-              name="tasks"
-              label="Tasks"
-              icon="checklist"
-            >
-              <q-badge v-if="tasksCount > 0" class="q-ml-sm">{{
-                tasksCount
-              }}</q-badge>
-            </q-tab>
-          </q-tabs>
-
-          <q-separator />
-
-          <div class="row justify-end q-mt-sm q-mr-sm">
-            <q-btn
-              :to="getAddRoute(tab)"
-              size="sm"
-              outline
-              rounded
-              dense
-              icon="add"
-              label="Add"
-              class="q-px-sm"
-            />
-          </div> -->
-
-          <q-tab-panels v-model="tab" animated keep-alive>
             <q-tab-panel name="notes" v-if="showNotes">
               <NotesList
                 :parent-object-id="parent.parentObjectId"
@@ -343,7 +300,7 @@ const handleEditClick = () => {
             </q-tab-panel>
           </q-tab-panels>
         </div>
-      </q-card>
+      </q-page>
     </q-page-container>
     <Meta_Footer
       v-if="children.length > 0"
