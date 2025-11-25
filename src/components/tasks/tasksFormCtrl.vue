@@ -36,9 +36,8 @@ const nameRef = ref();
 const dateRef = ref();
 
 const repeatString =
-  // !task.value?.recurrence.text.startsWith('None') &&
-  // task.value?.recurrence.text !== ''
-  task.value?.recurrence !== null && task.value?.recurrence.text !== ''
+  !task.value?.recurrence.text.startsWith('None') &&
+  task.value?.recurrence.text !== ''
     ? ref(task.value?.recurrence.text)
     : ref('Does not repeat');
 const recurrenceDialogOpened = ref(false);

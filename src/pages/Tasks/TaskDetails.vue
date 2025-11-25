@@ -91,7 +91,10 @@ const details = computed(() => {
     },
     {
       label: 'Repeating',
-      value: task.recurrence?.text,
+      value:
+        task.recurrence?.rule !== ''
+          ? task.recurrence?.text
+          : 'Does not repeat',
       icon: 'repeat',
       show: !!task.recurrence?.text,
     },
@@ -285,10 +288,7 @@ function editTask() {
             </q-item-section>
             <q-item-section>
               <q-item-label caption>{{ detail.label }}</q-item-label>
-              <q-item-label v-if="detail.label === 'Repeating'"
-                ><div v-html="detail.value"></div
-              ></q-item-label>
-              <q-item-label v-else>{{ detail.value }}</q-item-label>
+              <q-item-label>{{ detail.value }}</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>

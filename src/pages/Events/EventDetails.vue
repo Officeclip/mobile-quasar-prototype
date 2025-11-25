@@ -4,12 +4,9 @@ import { useEventDetailsStore } from '../../stores/event/eventDetailsStore';
 import { useReminderDataStore } from '../../stores/reminder/reminderData';
 import { useRoute, useRouter } from 'vue-router';
 import dateTimeHelper from '../../helpers/dateTimeHelper';
-// import OCItem from '../../components/OCcomponents/OC-Item.vue';
 import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import { isAllowed } from 'src/helpers/security';
 import { useQuasar } from 'quasar';
-// import { getEventShowTimeAsColor } from 'src/helpers/colorIconHelper';
-// import drawer from '../../components/drawer.vue';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
 import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
@@ -97,7 +94,13 @@ const eventProperties = computed(() => [
   { label: 'Url', value: event.value?.url },
   { label: 'Label', value: event.value?.label?.name },
   { label: 'ShowTimeAs', value: event.value?.showTimeAs?.name },
-  { label: 'Recurrence', value: event.value?.recurrence?.text },
+  {
+    label: 'Recurrence',
+    value:
+      event.value?.recurrence?.rule !== ''
+        ? event.value?.recurrence?.text
+        : 'Does not repeat',
+  },
   {
     label: 'Reminder',
     value:
