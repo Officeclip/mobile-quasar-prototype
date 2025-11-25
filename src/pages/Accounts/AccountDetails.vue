@@ -271,71 +271,84 @@ const handleEditClick = () => {
     <OC_Drawer ref="myDrawer" />
     <q-page-container>
       <OC_Loader :visible="loading" />
-      <q-card flat>
-        <div class="q-pa-md">
-          <div class="row q-col-gutter-md">
-            <div
-              v-for="(item, index) in filterAccountDetails"
-              :key="index"
-              class="col-xs-6 flex items-start"
-            >
-              <q-item v-if="item.show">
-                <q-item-section>
-                  <q-item-label caption>
-                    {{ item.label }}
-                  </q-item-label>
-                  <div v-if="item.label === 'Address'">
-                    <q-item-label class="text-body1">
-                      {{ item.value || 'N/A' }}
+      <q-page class="column">
+        <q-card flat>
+          <div class="q-pa-md">
+            <div class="row q-col-gutter-md">
+              <div
+                v-for="(item, index) in filterAccountDetails"
+                :key="index"
+                class="col-xs-6 flex items-start"
+              >
+                <q-item v-if="item.show">
+                  <q-item-section>
+                    <q-item-label caption>
+                      {{ item.label }}
                     </q-item-label>
-                    <q-item-label v-if="accountDetails?.city">
-                      {{ accountDetails?.city }},
-                      {{ accountDetails?.state_name }}
-                    </q-item-label>
-                    <q-item-label v-if="accountDetails?.country_name">
-                      {{ accountDetails?.country_name }},
-                      {{ accountDetails?.postal_code }}
-                    </q-item-label>
-                  </div>
-                  <div v-else>
-                    <q-item-label class="text-body1">
-                      {{ item.value || 'N/A' }}
-                    </q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
+                    <div v-if="item.label === 'Address'">
+                      <q-item-label class="text-body1">
+                        {{ item.value || 'N/A' }}
+                      </q-item-label>
+                      <q-item-label v-if="accountDetails?.city">
+                        {{ accountDetails?.city }},
+                        {{ accountDetails?.state_name }}
+                      </q-item-label>
+                      <q-item-label v-if="accountDetails?.country_name">
+                        {{ accountDetails?.country_name }},
+                        {{ accountDetails?.postal_code }}
+                      </q-item-label>
+                    </div>
+                    <div v-else>
+                      <q-item-label class="text-body1">
+                        {{ item.value || 'N/A' }}
+                      </q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+              </div>
             </div>
           </div>
-        </div>
-        <div v-if="children.length > 0" class="q-mt-lg">
-          <q-tab-panels v-model="tab" animated keep-alive>
-            <q-tab-panel name="notes">
-              <NotesList
-                v-if="showNotes"
-                :parent-object-id="parent.parentObjectId"
-                :parent-object-service-type="parent.parentObjectServiceType"
-                @notes-loaded="handleNoteCount"
-              />
-            </q-tab-panel>
+        </q-card>
+        <q-space />
+        <div v-if="children.length > 0">
+          <q-card
+            class="col-shrink bg-grey-3"
+            style="border-radius: 20px 20px 0 0"
+          >
+            <q-card-section class="q-pa-none">
+              <div class="row justify-center">
+                <q-icon name="drag_handle" size="sm" color="grey-5" />
+              </div>
+            </q-card-section>
+            <q-tab-panels v-model="tab" animated keep-alive>
+              <q-tab-panel name="notes" v-if="showNotes">
+                <NotesList
+                  v-if="showNotes"
+                  :parent-object-id="parent.parentObjectId"
+                  :parent-object-service-type="parent.parentObjectServiceType"
+                  @notes-loaded="handleNoteCount"
+                />
+              </q-tab-panel>
 
-            <q-tab-panel name="events">
-              <EventsList
-                v-if="showActivities"
-                @numberOfEvents="handleEventCount"
-                :params="parent2"
-              />
-            </q-tab-panel>
+              <q-tab-panel name="events" v-if="showActivities">
+                <EventsList
+                  v-if="showActivities"
+                  @numberOfEvents="handleEventCount"
+                  :params="parent2"
+                />
+              </q-tab-panel>
 
-            <q-tab-panel name="tasks">
-              <TaskMetaSummary
-                v-if="showActivities"
-                @numberOfTasks="handleTaskCount"
-                :parent="parent2"
-              />
-            </q-tab-panel>
-          </q-tab-panels>
+              <q-tab-panel name="tasks" v-if="showActivities">
+                <TaskMetaSummary
+                  v-if="showActivities"
+                  @numberOfTasks="handleTaskCount"
+                  :parent="parent2"
+                />
+              </q-tab-panel>
+            </q-tab-panels>
+          </q-card>
         </div>
-      </q-card>
+      </q-page>
     </q-page-container>
     <Meta_Footer
       v-if="children.length > 0"

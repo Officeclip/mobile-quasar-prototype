@@ -45,7 +45,6 @@ const getTabDetail = (tabName: string) => {
         align="justify"
         dense
         :class="footerClass"
-        inline-label
       >
         <q-tab
           v-for="t in tabs"
@@ -54,7 +53,9 @@ const getTabDetail = (tabName: string) => {
           :label="getTabDetail(t.name).label"
           :icon="getTabDetail(t.name).icon"
         >
-          <q-badge v-if="t.count > 0" class="q-ml-sm">{{ t.count }}</q-badge>
+          <q-badge v-if="t.count > 0" floating color="red">{{
+            t.count
+          }}</q-badge>
         </q-tab>
       </q-tabs>
     </q-footer>

@@ -271,34 +271,39 @@ const handleEditClick = () => {
         </div>
         <q-space />
         <div v-if="children.length > 0">
-          <q-tab-panels
-            v-model="tab"
-            animated
-            keep-alive
-            class="shadow-2 rounded-borders"
+          <q-card
+            class="col-shrink bg-grey-3"
+            style="border-radius: 20px 20px 0 0"
           >
-            <q-tab-panel name="notes" v-if="showNotes">
-              <NotesList
-                :parent-object-id="parent.parentObjectId"
-                :parent-object-service-type="parent.parentObjectServiceType"
-                @notes-loaded="handleNoteCount"
-              />
-            </q-tab-panel>
+            <q-card-section class="q-pa-none">
+              <div class="row justify-center">
+                <q-icon name="drag_handle" size="sm" color="grey-5" />
+              </div>
+            </q-card-section>
+            <q-tab-panels v-model="tab" animated keep-alive>
+              <q-tab-panel name="notes" v-if="showNotes">
+                <NotesList
+                  :parent-object-id="parent.parentObjectId"
+                  :parent-object-service-type="parent.parentObjectServiceType"
+                  @notes-loaded="handleNoteCount"
+                />
+              </q-tab-panel>
 
-            <q-tab-panel name="events" v-if="showActivities">
-              <EventsList
-                @numberOfEvents="handleEventCount"
-                :params="parent2"
-              />
-            </q-tab-panel>
+              <q-tab-panel name="events" v-if="showActivities">
+                <EventsList
+                  @numberOfEvents="handleEventCount"
+                  :params="parent2"
+                />
+              </q-tab-panel>
 
-            <q-tab-panel name="tasks" v-if="showActivities">
-              <TaskMetaSummary
-                @numberOfTasks="handleTaskCount"
-                :parent="parent2"
-              />
-            </q-tab-panel>
-          </q-tab-panels>
+              <q-tab-panel name="tasks" v-if="showActivities">
+                <TaskMetaSummary
+                  @numberOfTasks="handleTaskCount"
+                  :parent="parent2"
+                />
+              </q-tab-panel>
+            </q-tab-panels>
+          </q-card>
         </div>
       </q-page>
     </q-page-container>
