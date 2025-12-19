@@ -12,7 +12,7 @@ const router = useRouter();
 const { showNotification } = useNotification();
 const sessionStore = useSessionStore();
 
-const cloudUrl = import.meta.env.VITE_API_ENDPOINT_DEFAULT;
+const cloudUrl = 'https://app.officeclip.com';
 
 watch(selectedEdition, (newEdition) => {
   apiUrl.value = newEdition === 'cloud' ? cloudUrl : '';
@@ -21,10 +21,14 @@ watch(selectedEdition, (newEdition) => {
 apiUrl.value = cloudUrl;
 
 async function connectApi(): Promise<void> {
-  const url = apiUrl.value.trim();
+  let url = apiUrl.value.trim();
   if (!url) {
     showNotification('API URL cannot be empty.', 'warning');
     return;
+  }
+
+  if (!url.endsWith('/api')) {
+    url = `${url}/api`;
   }
 
   loading.value = true;
@@ -33,7 +37,7 @@ async function connectApi(): Promise<void> {
     if (isValid) {
       util.setEndPointUrlInLocalStorage(url);
       showNotification('Connection successful!', 'positive', 'top', () =>
-        router.push('/'),
+        router.push('/')
       );
     } else {
       showNotification('Please enter valid Rest Api Url', 'negative');
