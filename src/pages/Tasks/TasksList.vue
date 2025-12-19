@@ -66,21 +66,32 @@ function receiveAdvFilters(advancedOptions: searchFilter) {
     advancedOptions.assignedToId === sessionStore.Session.userId;
 }
 
-async function filterFn(val: string) {
-  if (val.length > 2) {
-    filterOptions.value.filterString = val.toLowerCase();
-    taskSummaryStore.resetPageNumber();
-    taskSummaryStore.setFilter(filterOptions.value);
-    await taskSummaryStore.getTasksUpdated(true);
-    infinteScroll.value.infinteScrollReset();
-  }
-}
-
 watch(
   () => filterOptions.value.filterString,
-  async (newValue) => {
-    await filterFn(newValue);
-  },
+  async (newValue, oldValue) => {
+    const newLength = newValue ? newValue.length : 0;
+    const oldLength = oldValue ? oldValue.length : 0;
+
+    if (newLength > 2) {
+      filterOptions.value.filterString = newValue.toLowerCase();
+      taskSummaryStore.resetPageNumber();
+      taskSummaryStore.setFilter(filterOptions.value);
+      await taskSummaryStore.getTasksUpdated(true);
+      if (infinteScroll.value) {
+        infinteScroll.value.infinteScrollReset();
+      }
+    } else if (newLength < 3 && oldLength > 2) {
+      // Reset and fetch all if search term is no longer long enough
+      taskSummaryStore.resetPageNumber();
+      // We keep other filters, just clear the search string
+      filterOptions.value.filterString = '';
+      taskSummaryStore.setFilter(filterOptions.value);
+      await taskSummaryStore.getTasksUpdated(true);
+      if (infinteScroll.value) {
+        infinteScroll.value.infinteScrollReset();
+      }
+    }
+  }
 );
 
 watch(assignedToMe, async () => {
