@@ -184,7 +184,12 @@ onBeforeUnmount(() => {
 <template>
   <q-layout view="lHh Lpr lFf" class="login-layout">
     <q-page-container>
-      <q-page class="flex flex-center login-page">
+      <q-page v-if="!hasEndpointUrl">
+        <div class="api-link-container">
+          <welcomePage />
+        </div>
+      </q-page>
+      <q-page v-else class="flex flex-center login-page">
         <!-- Background decorative elements -->
         <div class="background-decoration">
           <div class="decoration-circle circle-1"></div>
@@ -192,14 +197,8 @@ onBeforeUnmount(() => {
           <div class="decoration-circle circle-3"></div>
         </div>
 
-        <!-- API Link Page -->
-        <div v-if="!hasEndpointUrl" class="api-link-container">
-          <!-- <apiLinkPage /> -->
-          <welcomePage />
-        </div>
-
         <!-- Main Login Card -->
-        <div v-else class="login-container">
+        <div class="login-container">
           <q-card flat class="q-mx-sm">
             <!-- Header Section -->
             <q-card-section class="login-header">
