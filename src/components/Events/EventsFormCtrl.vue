@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Browser } from '@capacitor/browser';
 import { computed, onMounted, ref, Ref, watch } from 'vue';
 import EventsRecurrenceDialog from 'components/Events/EventsRecurrenceDialog.vue';
 import EventsReminderDialog from 'components/Events/EventsReminderDialog.vue';
@@ -168,21 +169,26 @@ if (event.value?.id == '' && event.value?.eventType?.id == '2') {
   ];
 }
 
-const testUrl = () => {
-  const url = event.value.url;
+const testUrl = async () => {
+  let url = event.value.url;
   if (!url) {
     alert('URL cannot be empty');
-  } else if (isValidURL(url)) {
-    window.open('http://' + url, '_blank');
-  } else {
-    alert('Invalid URL');
+    return;
+  }
+
+  if (!/^(https?:\/\/)/i.test(url)) {
+    url = 'http://' + url;
+  }
+
+  try {
+    // We don't need isValidURL anymore, as Browser.open will handle it.
+    // Invalid URLs will throw an exception.
+    await Browser.open({ url });
+  } catch (error) {
+    alert('Could not open the URL. Please check if it is valid.');
+    console.error('Failed to open URL', error);
   }
 };
-
-function isValidURL(url: string) {
-  const pattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
-  return pattern.test(url);
-}
 
 function changeEndDateWhenStartDateChanged(val: string | number | null) {
   if (val == null) return;
