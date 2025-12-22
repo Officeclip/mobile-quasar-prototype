@@ -13,6 +13,7 @@ import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
+import OC_AddButton from 'src/components/OCcomponents/OC_AddButton.vue';
 
 const loading = ref(true);
 const accountDetailsStore = useAccountDetailsStore();
@@ -264,7 +265,7 @@ const handleEditClick = () => {
             </div>
           </div>
         </q-card>
-        <q-space />
+        <!-- <q-space /> -->
         <div v-if="children.length > 0" class="q-pa-md">
           <q-expansion-item
             v-if="showNotes"
@@ -289,21 +290,14 @@ const handleEditClick = () => {
               </q-item-section>
 
               <q-item-section side>
-                <q-btn
-                  flat
-                  round
-                  icon="add"
-                  @click.stop="router.push(getAddRoute('notes'))"
-                />
+                <OC_AddButton :route-to="getAddRoute('notes')" />
               </q-item-section>
             </template>
             <q-card>
               <q-card-section>
                 <NotesList
                   :parent-object-id="parent.parentObjectId"
-                  :parent-object-service-type="
-                    parent.parentObjectServiceType
-                  "
+                  :parent-object-service-type="parent.parentObjectServiceType"
                   @notes-loaded="handleNoteCount"
                 />
               </q-card-section>
@@ -333,12 +327,7 @@ const handleEditClick = () => {
               </q-item-section>
 
               <q-item-section side>
-                <q-btn
-                  flat
-                  round
-                  icon="add"
-                  @click.stop="router.push(getAddRoute('events'))"
-                />
+                <OC_AddButton :route-to="getAddRoute('events')" />
               </q-item-section>
             </template>
             <q-card>
@@ -374,12 +363,7 @@ const handleEditClick = () => {
               </q-item-section>
 
               <q-item-section side>
-                <q-btn
-                  flat
-                  round
-                  icon="add"
-                  @click.stop="router.push(getAddRoute('tasks'))"
-                />
+                <OC_AddButton :route-to="getAddRoute('tasks')" />
               </q-item-section>
             </template>
             <q-card>
