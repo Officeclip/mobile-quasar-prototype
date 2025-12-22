@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, nextTick } from 'vue';
-import { storeToRefs } from 'pinia';
+import { ref, onMounted, computed } from 'vue';
 import { useAccountDetailsStore } from '../../stores/account/accountDetailsStore';
 import { useAccountListsStore } from '../../stores/account/accountListsStore';
 import { useRoute, useRouter } from 'vue-router';
@@ -14,7 +13,6 @@ import ConfirmationDialog from '../../components/general/ConfirmDelete.vue';
 import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
-import Meta_Footer from 'src/components/Meta/Meta_Footer.vue';
 
 const loading = ref(true);
 const accountDetailsStore = useAccountDetailsStore();
@@ -23,30 +21,8 @@ const route = useRoute();
 const router = useRouter();
 const $q = useQuasar();
 const id = route.params.id as string;
-const { selectedTab: tab } = storeToRefs(accountDetailsStore);
 
 const myDrawer = ref();
-
-const childTabs = computed(() => {
-  const tabs = [];
-  if (showNotes.value) {
-    tabs.push({
-      name: 'notes',
-      count: parseInt(notesCount.value),
-    });
-  }
-  if (showActivities.value) {
-    tabs.push({
-      name: 'events',
-      count: parseInt(eventsCount.value),
-    });
-    tabs.push({
-      name: 'tasks',
-      count: parseInt(tasksCount.value),
-    });
-  }
-  return tabs;
-});
 
 const loadAccountDetails = async () => {
   loading.value = true;
@@ -113,27 +89,6 @@ const filterAccountDetails = computed(() => {
 
 onMounted(async () => {
   await loadAccountDetails();
-
-  const availableTabNames = childTabs.value.map((t) => t.name);
-
-  if (availableTabNames.length > 0) {
-    let desiredTab = tab.value;
-
-    // If the stored tab is not available, default to the first one.
-    if (!availableTabNames.includes(desiredTab)) {
-      desiredTab = availableTabNames[0];
-    }
-
-    // To pre-load all tabs for their counts, we can cycle through them.
-    // This ensures they are rendered once. `keep-alive` will cache them.
-    for (const tabName of availableTabNames) {
-      tab.value = tabName;
-      await nextTick();
-    }
-
-    // Finally, set the tab to the one we actually want to show.
-    tab.value = desiredTab;
-  }
 });
 
 const children = computed(() => {
@@ -310,53 +265,135 @@ const handleEditClick = () => {
           </div>
         </q-card>
         <q-space />
-        <div v-if="children.length > 0">
-          <q-card
-            class="col-shrink bg-grey-3"
-            style="border-radius: 20px 20px 0 0"
+        <div v-if="children.length > 0" class="q-pa-md">
+          <q-expansion-item
+            v-if="showNotes"
+            group="children"
+            icon="notes"
+            :label="`Notes`"
+            header-class="text-primary"
+            class="q-mb-md shadow-1 rounded-borders"
           >
-            <q-card-section class="q-pa-none">
-              <div class="row justify-center">
-                <q-icon name="drag_handle" size="sm" color="grey-5" />
-              </div>
-            </q-card-section>
-            <q-tab-panels v-model="tab" animated keep-alive>
-              <q-tab-panel name="notes" v-if="showNotes">
+            <template v-slot:header>
+              <q-item-section avatar>
+                <q-icon name="description" />
+              </q-item-section>
+
+              <q-item-section>
+                <div class="flex items-center">
+                  <span>Notes</span>
+                  <q-badge color="secondary" class="q-ml-sm">{{
+                    notesCount
+                  }}</q-badge>
+                </div>
+              </q-item-section>
+
+              <q-item-section side>
+                <q-btn
+                  flat
+                  round
+                  icon="add"
+                  @click.stop="router.push(getAddRoute('notes'))"
+                />
+              </q-item-section>
+            </template>
+            <q-card>
+              <q-card-section>
                 <NotesList
-                  v-if="showNotes"
                   :parent-object-id="parent.parentObjectId"
-                  :parent-object-service-type="parent.parentObjectServiceType"
+                  :parent-object-service-type="
+                    parent.parentObjectServiceType
+                  "
                   @notes-loaded="handleNoteCount"
                 />
-              </q-tab-panel>
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
 
-              <q-tab-panel name="events" v-if="showActivities">
+          <q-expansion-item
+            v-if="showActivities"
+            group="children"
+            icon="event"
+            label="Events"
+            header-class="text-primary"
+            class="q-mb-md shadow-1 rounded-borders"
+          >
+            <template v-slot:header>
+              <q-item-section avatar>
+                <q-icon name="event" />
+              </q-item-section>
+
+              <q-item-section>
+                <div class="flex items-center">
+                  <span>Events</span>
+                  <q-badge color="secondary" class="q-ml-sm">{{
+                    eventsCount
+                  }}</q-badge>
+                </div>
+              </q-item-section>
+
+              <q-item-section side>
+                <q-btn
+                  flat
+                  round
+                  icon="add"
+                  @click.stop="router.push(getAddRoute('events'))"
+                />
+              </q-item-section>
+            </template>
+            <q-card>
+              <q-card-section>
                 <EventsList
-                  v-if="showActivities"
                   @numberOfEvents="handleEventCount"
                   :params="parent2"
                 />
-              </q-tab-panel>
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
 
-              <q-tab-panel name="tasks" v-if="showActivities">
+          <q-expansion-item
+            v-if="showActivities"
+            group="children"
+            icon="task"
+            label="Tasks"
+            header-class="text-primary"
+            class="shadow-1 rounded-borders"
+          >
+            <template v-slot:header>
+              <q-item-section avatar>
+                <q-icon name="task" />
+              </q-item-section>
+
+              <q-item-section>
+                <div class="flex items-center">
+                  <span>Tasks</span>
+                  <q-badge color="secondary" class="q-ml-sm">{{
+                    tasksCount
+                  }}</q-badge>
+                </div>
+              </q-item-section>
+
+              <q-item-section side>
+                <q-btn
+                  flat
+                  round
+                  icon="add"
+                  @click.stop="router.push(getAddRoute('tasks'))"
+                />
+              </q-item-section>
+            </template>
+            <q-card>
+              <q-card-section>
                 <TaskMetaSummary
-                  v-if="showActivities"
                   @numberOfTasks="handleTaskCount"
                   :parent="parent2"
                 />
-              </q-tab-panel>
-            </q-tab-panels>
-          </q-card>
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
         </div>
       </q-page>
     </q-page-container>
-    <Meta_Footer
-      v-if="children.length > 0"
-      :tabs="childTabs"
-      :tab="tab"
-      @update:tab="accountDetailsStore.setSelectedTab"
-      :add-route="getAddRoute(tab)"
-    />
   </q-layout>
   <ConfirmationDialog
     v-if="showConfirmationDialog"
