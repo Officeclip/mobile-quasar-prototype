@@ -227,98 +227,106 @@ const handleEditClick = () => {
         </div>
         <!-- <q-space /> -->
         <div v-if="children.length > 0" class="q-pa-md">
-          <q-expansion-item
-            v-if="showNotes"
-            group="children"
-            icon="notes"
-            :label="`Notes`"
-            header-class="text-primary"
-            class="q-mb-md rounded-borders"
-          >
-            <template v-slot:header>
-              <q-item-section avatar>
-                <q-icon name="description" />
-              </q-item-section>
+          <q-list bordered class="rounded-borders q-mb-md">
+            <q-expansion-item
+              dense
+              v-if="showNotes"
+              group="children"
+              icon="notes"
+              :label="`Notes`"
+              header-class="text-primary"
+            >
+              <template v-slot:header>
+                <q-item-section avatar>
+                  <q-icon name="description" />
+                </q-item-section>
 
-              <q-item-section>
-                <div class="flex items-center">
-                  <span>Notes</span>
-                  <q-badge color="secondary" class="q-ml-sm">{{
-                    notesCount
-                  }}</q-badge>
-                </div>
-              </q-item-section>
+                <q-item-section>
+                  <div class="flex items-center">
+                    <span>Notes</span>
+                    <q-badge color="secondary" class="q-ml-sm">{{
+                      notesCount
+                    }}</q-badge>
+                  </div>
+                </q-item-section>
 
-              <q-item-section side>
-                <OC_AddButton :route-to="getAddRoute('notes')" />
-              </q-item-section>
-            </template>
-            <NotesList
-              :parent-object-id="parent.parentObjectId"
-              :parent-object-service-type="parent.parentObjectServiceType"
-              @notes-loaded="handleNoteCount"
-            />
-          </q-expansion-item>
+                <q-item-section side>
+                  <OC_AddButton :route-to="getAddRoute('notes')" />
+                </q-item-section>
+              </template>
+              <NotesList
+                :parent-object-id="parent.parentObjectId"
+                :parent-object-service-type="parent.parentObjectServiceType"
+                @notes-loaded="handleNoteCount"
+              />
+            </q-expansion-item>
+          </q-list>
 
-          <q-expansion-item
-            v-if="showActivities"
-            group="children"
-            icon="event"
-            label="Events"
-            header-class="text-primary"
-            class="q-mb-md"
-          >
-            <template v-slot:header>
-              <q-item-section avatar>
-                <q-icon name="event" />
-              </q-item-section>
+          <q-list bordered class="rounded-borders q-mb-md">
+            <q-expansion-item
+              dense
+              v-if="showActivities"
+              group="children"
+              icon="event"
+              label="Events"
+              header-class="text-primary"
+            >
+              <template v-slot:header>
+                <q-item-section avatar>
+                  <q-icon name="event" />
+                </q-item-section>
 
-              <q-item-section>
-                <div class="flex items-center">
-                  <span>Events</span>
-                  <q-badge color="secondary" class="q-ml-sm">{{
-                    eventsCount
-                  }}</q-badge>
-                </div>
-              </q-item-section>
+                <q-item-section>
+                  <div class="flex items-center">
+                    <span>Events</span>
+                    <q-badge color="secondary" class="q-ml-sm">{{
+                      eventsCount
+                    }}</q-badge>
+                  </div>
+                </q-item-section>
 
-              <q-item-section side>
-                <OC_AddButton :route-to="getAddRoute('events')" />
-              </q-item-section>
-            </template>
-            <EventsList @numberOfEvents="handleEventCount" :params="parent2" />
-          </q-expansion-item>
+                <q-item-section side>
+                  <OC_AddButton :route-to="getAddRoute('events')" />
+                </q-item-section>
+              </template>
+              <EventsList
+                @numberOfEvents="handleEventCount"
+                :params="parent2"
+              />
+            </q-expansion-item>
+          </q-list>
+          <q-list bordered class="rounded-borders q-mb-md">
+            <q-expansion-item
+              dense
+              v-if="showActivities"
+              group="children"
+              icon="task"
+              label="Tasks"
+              header-class="text-primary"
+            >
+              <template v-slot:header>
+                <q-item-section avatar>
+                  <q-icon name="task" />
+                </q-item-section>
 
-          <q-expansion-item
-            v-if="showActivities"
-            group="children"
-            icon="task"
-            label="Tasks"
-            header-class="text-primary"
-          >
-            <template v-slot:header>
-              <q-item-section avatar>
-                <q-icon name="task" />
-              </q-item-section>
+                <q-item-section>
+                  <div class="flex items-center">
+                    <span>Tasks</span>
+                    <q-badge color="secondary" class="q-ml-sm">{{
+                      tasksCount
+                    }}</q-badge>
+                  </div>
+                </q-item-section>
 
-              <q-item-section>
-                <div class="flex items-center">
-                  <span>Tasks</span>
-                  <q-badge color="secondary" class="q-ml-sm">{{
-                    tasksCount
-                  }}</q-badge>
-                </div>
-              </q-item-section>
-
-              <q-item-section side>
-                <OC_AddButton :route-to="getAddRoute('tasks')" />
-              </q-item-section>
-            </template>
-            <TaskMetaSummary
-              @numberOfTasks="handleTaskCount"
-              :parent="parent2"
-            />
-          </q-expansion-item>
+                <q-item-section side>
+                  <OC_AddButton :route-to="getAddRoute('tasks')" />
+                </q-item-section>
+              </template>
+              <TaskMetaSummary
+                @numberOfTasks="handleTaskCount"
+                :parent="parent2"
+              /> </q-expansion-item
+          ></q-list>
         </div>
       </q-page>
     </q-page-container>
