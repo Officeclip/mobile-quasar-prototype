@@ -96,8 +96,8 @@ const slide = ref('crm');
     <!-- SECTION: Footer Button -->
     <div class="q-pa-lg full-width" style="max-width: 420px">
       <q-btn
-        size="lg"
-        class="full-width"
+        class="full-width text-weight-bold shadow-2"
+        style="height: 50px; border-radius: 25px"
         color="primary"
         unelevated
         rounded

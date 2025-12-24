@@ -158,8 +158,6 @@ onMounted(async () => {
         :show-back-button="false"
         :show-menu-button="true"
         @toggle-drawer="toggleLeftDrawer"
-        :show-refresh-button="true"
-        @refresh="refreshDashboard"
         :show-log-out-button="true"
       />
 

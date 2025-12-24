@@ -17,6 +17,7 @@
     "icons": "icongenie generate -i AppIcon.png --skip-trim"
   },
   "dependencies": {
+    "@capacitor-mlkit/barcode-scanning": "^7.0.0",
     "@capacitor/android": "^7.4.2",
     "@capacitor/app": "^7.0.1",
     "@capacitor/browser": "^7.0.2",
@@ -30,6 +31,7 @@
     "@vuelidate/validators": "^2.0.4",
     "axios": "^1.7.2",
     "cropperjs": "^1.5.13",
+    "html5-qrcode": "^2.3.8",
     "pinia": "^2.1.7",
     "quasar": "^2.16.0",
     "rrule": "^2.8.0",

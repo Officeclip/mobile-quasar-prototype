@@ -233,7 +233,7 @@ const handleEditClick = () => {
             icon="notes"
             :label="`Notes`"
             header-class="text-primary"
-            class="q-mb-md shadow-1 rounded-borders"
+            class="q-mb-md rounded-borders"
           >
             <template v-slot:header>
               <q-item-section avatar>
@@ -253,15 +253,11 @@ const handleEditClick = () => {
                 <OC_AddButton :route-to="getAddRoute('notes')" />
               </q-item-section>
             </template>
-            <q-card>
-              <q-card-section>
-                <NotesList
-                  :parent-object-id="parent.parentObjectId"
-                  :parent-object-service-type="parent.parentObjectServiceType"
-                  @notes-loaded="handleNoteCount"
-                />
-              </q-card-section>
-            </q-card>
+            <NotesList
+              :parent-object-id="parent.parentObjectId"
+              :parent-object-service-type="parent.parentObjectServiceType"
+              @notes-loaded="handleNoteCount"
+            />
           </q-expansion-item>
 
           <q-expansion-item
@@ -270,7 +266,7 @@ const handleEditClick = () => {
             icon="event"
             label="Events"
             header-class="text-primary"
-            class="q-mb-md shadow-1 rounded-borders"
+            class="q-mb-md"
           >
             <template v-slot:header>
               <q-item-section avatar>
@@ -290,14 +286,7 @@ const handleEditClick = () => {
                 <OC_AddButton :route-to="getAddRoute('events')" />
               </q-item-section>
             </template>
-            <q-card>
-              <q-card-section>
-                <EventsList
-                  @numberOfEvents="handleEventCount"
-                  :params="parent2"
-                />
-              </q-card-section>
-            </q-card>
+            <EventsList @numberOfEvents="handleEventCount" :params="parent2" />
           </q-expansion-item>
 
           <q-expansion-item
@@ -306,7 +295,6 @@ const handleEditClick = () => {
             icon="task"
             label="Tasks"
             header-class="text-primary"
-            class="shadow-1 rounded-borders"
           >
             <template v-slot:header>
               <q-item-section avatar>
@@ -326,14 +314,10 @@ const handleEditClick = () => {
                 <OC_AddButton :route-to="getAddRoute('tasks')" />
               </q-item-section>
             </template>
-            <q-card>
-              <q-card-section>
-                <TaskMetaSummary
-                  @numberOfTasks="handleTaskCount"
-                  :parent="parent2"
-                />
-              </q-card-section>
-            </q-card>
+            <TaskMetaSummary
+              @numberOfTasks="handleTaskCount"
+              :parent="parent2"
+            />
           </q-expansion-item>
         </div>
       </q-page>

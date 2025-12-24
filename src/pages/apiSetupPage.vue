@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import { useSessionStore } from '../stores/SessionStore';
 import util from 'src/helpers/util';
 import { useRouter } from 'vue-router';
 import { useNotification } from 'src/composables/useNotification';
+import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+import { Html5Qrcode, Html5QrcodeScanner } from 'html5-qrcode';
+import { useQuasar } from 'quasar';
 
 const selectedEdition = ref('cloud');
 const apiUrl = ref('');
@@ -11,6 +14,10 @@ const loading = ref(false);
 const router = useRouter();
 const { showNotification } = useNotification();
 const sessionStore = useSessionStore();
+const $q = useQuasar();
+const isPwa = ref(false);
+const showScanner = ref(false);
+let html5QrcodeScanner: Html5QrcodeScanner | null = null;
 
 const cloudUrl = 'https://app.officeclip.com';
 
@@ -18,8 +25,13 @@ watch(selectedEdition, (newEdition) => {
   apiUrl.value = newEdition === 'cloud' ? cloudUrl : '';
 });
 
-// Initialize
-apiUrl.value = cloudUrl;
+onMounted(() => {
+  isPwa.value = $q.platform.is.pwa || $q.platform.is.mobile === false;
+});
+
+onBeforeUnmount(() => {
+  stopScan();
+});
 
 async function connectApi(): Promise<void> {
   let url = apiUrl.value.trim();
@@ -38,7 +50,7 @@ async function connectApi(): Promise<void> {
     if (isValid) {
       util.setEndPointUrlInLocalStorage(url);
       showNotification('Connection successful!', 'positive', 'top', () =>
-        router.push('/'),
+        router.push('/')
       );
     } else {
       showNotification('Please enter valid Rest Api Url', 'negative');
@@ -49,6 +61,67 @@ async function connectApi(): Promise<void> {
     loading.value = false;
   }
 }
+
+const stopScan = () => {
+  if (isPwa.value) {
+    showScanner.value = false;
+    if (html5QrcodeScanner) {
+      html5QrcodeScanner.clear();
+      html5QrcodeScanner = null;
+    }
+  }
+};
+
+const startScan = async () => {
+  if (isPwa.value) {
+    showScanner.value = true;
+    // Delay to ensure the DOM is updated
+    setTimeout(() => {
+      html5QrcodeScanner = new Html5QrcodeScanner(
+        'qr-reader',
+        {
+          fps: 10,
+          qrbox: { width: 250, height: 250 },
+          rememberLastUsedCamera: true,
+        },
+        false
+      );
+      html5QrcodeScanner.render(
+        (decodedText: string) => {
+          apiUrl.value = decodedText;
+          selectedEdition.value = 'self-hosted';
+          stopScan();
+        },
+        () => {
+          // ignore errors
+        }
+      );
+    }, 100);
+  } else {
+    try {
+      const { supported } = await BarcodeScanner.isSupported();
+      if (!supported) {
+        showNotification('QR code scanning is not supported on this device.');
+        return;
+      }
+
+      const { camera } = await BarcodeScanner.requestPermissions();
+      if (camera !== 'granted') {
+        showNotification('Camera permission is required to scan QR codes.');
+        return;
+      }
+
+      const { barcodes } = await BarcodeScanner.scan();
+      if (barcodes.length > 0) {
+        apiUrl.value = barcodes[0].displayValue;
+        selectedEdition.value = 'self-hosted';
+      }
+    } catch (e) {
+      console.error(e);
+      showNotification('Unable to scan QR code.', 'negative');
+    }
+  }
+};
 </script>
 
 <template>
@@ -149,6 +222,7 @@ async function connectApi(): Promise<void> {
             color="primary"
             class="qr-btn full-width q-py-md"
             no-caps
+            @click="startScan"
           >
             <div class="row items-center justify-center">
               <q-icon name="qr_code_scanner" size="sm" class="q-mr-md" />
@@ -175,8 +249,33 @@ async function connectApi(): Promise<void> {
         </div>
       </q-page>
     </q-page-container>
+
+    <div v-if="showScanner" class="qr-reader-container">
+      <div id="qr-reader"></div>
+      <q-btn @click="stopScan" label="Close" class="q-mt-md" />
+    </div>
   </q-layout>
 </template>
+
+<style>
+.qr-reader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#qr-reader {
+  width: 90%;
+  max-width: 500px;
+}
+</style>
 
 <style scoped>
 /* Segmented Control Styling */

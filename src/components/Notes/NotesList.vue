@@ -92,17 +92,19 @@ const getNoteRoute = (note: Note) => {
       }}</span>
     </div>
   </q-item-section>
-  <q-list v-for="note in notes" :key="note.id">
-    <q-item :to="getNoteRoute(note)" clickable v-ripple>
-      <q-item-section>
-        <q-item-label>
-          {{ note.title }}
-        </q-item-label>
-      </q-item-section>
-      <q-item-section side>
-        <q-icon color="primary" name="chevron_right" />
-      </q-item-section>
-    </q-item>
-    <q-separator></q-separator>
+  <q-list>
+    <template v-for="(note, index) in notes" :key="note.id">
+      <q-item :to="getNoteRoute(note)" clickable v-ripple>
+        <q-item-section>
+          <q-item-label>
+            {{ note.title }}
+          </q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <q-icon color="primary" name="chevron_right" />
+        </q-item-section>
+      </q-item>
+      <q-separator v-if="index < notes.length - 1"></q-separator>
+    </template>
   </q-list>
 </template>
