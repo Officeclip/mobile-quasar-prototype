@@ -8,7 +8,8 @@ const router = useRouter();
 const removeLocalData = () => {
   $q.dialog({
     title: 'Confirm',
-    message: 'Would you like to remove all local data?',
+    message:
+      'This will remove your login details and local data from this device. It will not delete your data from the OfficeClip server.',
     cancel: true,
     // persistent: true,
   })
@@ -43,7 +44,7 @@ const removeLocalData = () => {
         <q-list>
           <q-item clickable v-ripple @click="removeLocalData">
             <q-item-section>
-              <q-item-label>Reset data</q-item-label>
+              <q-item-label>Disconnect Account</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-icon name="refresh" />

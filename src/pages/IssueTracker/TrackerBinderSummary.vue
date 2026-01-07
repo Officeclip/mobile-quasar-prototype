@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-// import drawer from '../../components/drawer.vue';
-import OC_Drawer from 'src/components/OC_Drawer.vue';
 import { useTrackerBinderSummaryStore } from 'src/stores/issueTracker/trackerBinderSummaryStore';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
@@ -10,14 +8,9 @@ import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const router = useRouter();
 const title = ref('Binders');
-const myDrawer = ref();
 const $q = useQuasar();
 const loading = ref(true);
 
-function toggleLeftDrawer() {
-  if (myDrawer.value == null) return;
-  myDrawer.value.toggleLeftDrawer();
-}
 const trackerBinderSummaryStore = useTrackerBinderSummaryStore();
 
 const loadBindersList = async () => {
@@ -47,13 +40,7 @@ const binderList = computed(() => {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <OC_Header
-      title="Issue Tracker"
-      back-button-to="/homepage"
-      :show-menu-button="true"
-      @toggle-drawer="toggleLeftDrawer"
-    />
-    <OC_Drawer ref="myDrawer" />
+    <OC_Header title="Issue Tracker" back-button-to="/homepage" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
       <q-page>

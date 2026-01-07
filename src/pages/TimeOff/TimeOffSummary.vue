@@ -3,7 +3,6 @@ import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { useTimeOffStore } from 'src/stores/timeOff/timeOffStore';
 import { useRouter } from 'vue-router';
 import { QInfiniteScroll, useQuasar } from 'quasar';
-import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Footer from 'src/components/OCcomponents/OC_Footer.vue';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
@@ -15,7 +14,6 @@ import { storeToRefs } from 'pinia';
 const timeOffStore = useTimeOffStore();
 const router = useRouter();
 const $q = useQuasar();
-const myDrawer = ref();
 const loading = ref(false); // <-- Change this from 'true' to 'false'
 let reachedEnd = ref(false);
 const infiniteScrollRef = ref<QInfiniteScroll | null>(null);
@@ -77,11 +75,6 @@ onMounted(async () => {
 
 const isAllow = isAllowed({ roleAccess: 'CreateTimeOff' });
 
-const toggleLeftDrawer = () => {
-  if (myDrawer.value == null) return;
-  myDrawer.value.toggleLeftDrawer();
-};
-
 const viewDetails = async (
   id: string,
   status: string,
@@ -140,13 +133,7 @@ const getDaysOrHrs = (item: any) => {
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
-    <OC_Header
-      :title="'Time Off: ' + title"
-      back-button-to="/homepage"
-      :show-menu-button="true"
-      @toggle-drawer="toggleLeftDrawer"
-    />
-    <OC_Drawer ref="myDrawer" />
+    <OC_Header :title="'Time Off: ' + title" back-button-to="/homepage" />
     <OC_Footer :tabs="footerTabs" v-model:tab="tab" />
     <q-page-container>
       <q-page>

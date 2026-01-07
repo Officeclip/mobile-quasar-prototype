@@ -6,11 +6,8 @@ import TaskAdvancedFilters from 'components/tasks/taskAdvancedFilters.vue';
 import { searchFilter } from 'src/models/task/searchFilter';
 import { useSessionStore } from '../../stores/SessionStore';
 import TasksListCtrl from 'components/tasks/tasksListCtrl.vue';
-// import drawer from '../../components/drawer.vue';
-import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
-const myDrawer = ref();
 const infinteScroll = ref(null);
 
 const defaultFilterOptions: searchFilter = {
@@ -91,7 +88,7 @@ watch(
         infinteScroll.value.infinteScrollReset();
       }
     }
-  }
+  },
 );
 
 watch(assignedToMe, async () => {
@@ -141,21 +138,11 @@ function showNotif() {
 onBeforeMount(() => {
   showNotif();
 });
-function toggleLeftDrawer() {
-  if (myDrawer.value == null) return;
-  myDrawer.value.toggleLeftDrawer();
-}
 </script>
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <OC_Header
-      title="Tasks"
-      back-button-to="/homepage"
-      :show-menu-button="true"
-      @toggle-drawer="toggleLeftDrawer"
-    />
-    <OC_Drawer ref="myDrawer" />
+    <OC_Header title="Tasks" back-button-to="/homepage" />
     <q-space class="q-mt-sm" />
     <q-page-container>
       <q-page>

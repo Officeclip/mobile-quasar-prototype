@@ -2,7 +2,6 @@
 import { ref, onMounted, Ref, nextTick, watch, computed } from 'vue';
 import { useAccountSummaryStore } from 'src/stores/account/accountSummaryStore';
 import { storeToRefs } from 'pinia';
-import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import { onBeforeRouteLeave, useRouter } from 'vue-router';
@@ -31,7 +30,6 @@ const canCreateAccount = computed(() => {
 const loading = ref(false);
 const searchString: Ref<string> = ref('');
 const reachedEnd = ref(false);
-const myDrawer = ref();
 
 const infiniteScrollRef = ref(null);
 
@@ -126,10 +124,6 @@ const applySearchFilter = async () => {
 function clearSearch() {
   searchString.value = '';
   // applySearchFilter(); // Trigger new search with empty string
-}
-
-function toggleLeftDrawer() {
-  myDrawer.value?.toggleLeftDrawer();
 }
 
 const selectHistoryItem = (item: string) => {
@@ -227,13 +221,7 @@ const refresh = async (done: () => void) => {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <OC_Header
-      title="Accounts List"
-      :show-menu-button="true"
-      @toggle-drawer="toggleLeftDrawer"
-    ></OC_Header>
-
-    <OC_Drawer ref="myDrawer" />
+    <OC_Header title="Accounts List" back-button-to="/homepage"></OC_Header>
 
     <q-page-container>
       <q-pull-to-refresh @refresh="refresh">

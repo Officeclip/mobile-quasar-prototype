@@ -6,7 +6,6 @@ import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { QInfiniteScroll, useQuasar } from 'quasar';
 import { isAllowed } from 'src/helpers/security';
 import { useTECommentsStore } from 'src/stores/TECommentsStore';
-import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import { storeToRefs } from 'pinia';
@@ -20,7 +19,6 @@ const tab = ref(timesheetsStore.selectedTab);
 const title = ref(capitalize(tab.value));
 const loading = ref(false); // <-- Change this from 'true' to 'false'
 let reachedEnd = ref(false);
-const myDrawer = ref();
 const infiniteScrollRef = ref<QInfiniteScroll | null>(null); // <-- Add ref for the component
 
 const footerTabs = [
@@ -98,21 +96,13 @@ const showWarningMsg = () => {
     'Add new time entry is not available in mobile app for Check-in, Check-out mode, please visit the web app to add the new timesheet',
   );
 };
-
-function toggleLeftDrawer() {
-  if (myDrawer.value == null) return;
-  myDrawer.value.toggleLeftDrawer();
-}
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
     <OC_Header
       :title="`Timesheets: ${title}`"
       back-button-to="/homepage"
-      :show-menu-button="true"
-      @toggle-drawer="toggleLeftDrawer"
     ></OC_Header>
-    <OC_Drawer ref="myDrawer" />
     <OC_Footer v-model:tab="tab" :tabs="footerTabs" />
     <q-page-container>
       <q-page>

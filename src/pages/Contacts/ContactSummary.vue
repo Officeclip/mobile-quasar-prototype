@@ -3,7 +3,6 @@ import { useContactSummaryStore } from '../../stores/contact/ContactSummaryStore
 import { computed, ref, watch, onMounted, Ref, nextTick } from 'vue';
 import { useSessionStore } from 'src/stores/SessionStore';
 import { useQuasar } from 'quasar';
-import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import { onBeforeRouteLeave } from 'vue-router';
@@ -17,7 +16,6 @@ const $q = useQuasar();
 const loading = ref(false);
 const searchString: Ref<string> = ref('');
 const reachedEnd = ref(false);
-const myDrawer = ref();
 
 const infiniteScrollRef = ref(null);
 
@@ -128,10 +126,6 @@ function clearSearch() {
   // applySearchFilter(); // Trigger new search with empty string
 }
 
-function toggleLeftDrawer() {
-  myDrawer.value?.toggleLeftDrawer();
-}
-
 const selectHistoryItem = (item: string) => {
   searchString.value = item;
   // applySearchFilter(); // Trigger new search with history item
@@ -221,13 +215,7 @@ onBeforeRouteLeave((to, from) => {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <OC_Header
-      title="Contact List"
-      :show-menu-button="true"
-      @toggle-drawer="toggleLeftDrawer"
-    ></OC_Header>
-
-    <OC_Drawer ref="myDrawer" />
+    <OC_Header title="Contact List" back-button-to="/homepage"></OC_Header>
 
     <q-page-container>
       <q-page>

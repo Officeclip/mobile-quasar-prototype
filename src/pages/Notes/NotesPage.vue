@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue';
 import NotesList from '../../components/Notes/NotesList.vue';
 import { useNotesStore } from '../../stores/NotesStore';
 import { useRouter } from 'vue-router';
-import OC_Drawer from 'src/components/OC_Drawer.vue';
 import { useQuasar } from 'quasar';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
@@ -12,16 +11,8 @@ import { storeToRefs } from 'pinia';
 const notesStore = useNotesStore();
 const { selectedNotebook, noteBooks } = storeToRefs(notesStore);
 const router = useRouter();
-// const selectedNotebookId = ref('');
-// const notesStore = useNotesStore();
-const myDrawer = ref();
 const $q = useQuasar();
 const loading = ref(true);
-// const errorMessageVisible = ref(false);
-
-// const noteBooks = computed(() => {
-//   return notesStore.NoteBooks;
-// });
 
 const loadNoteBooks = async () => {
   loading.value = true;
@@ -59,21 +50,11 @@ function navigateToNewNotes() {
   //   errorMessageVisible.value = true;
   // }
 }
-function toggleLeftDrawer() {
-  if (myDrawer.value == null) return;
-  myDrawer.value.toggleLeftDrawer();
-}
 </script>
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <OC_Header
-      title="All Notes"
-      back-button-to="/homepage"
-      :show-menu-button="true"
-      @toggle-drawer="toggleLeftDrawer"
-    />
-    <OC_Drawer ref="myDrawer" />
+    <OC_Header title="All Notes" back-button-to="/homepage" />
     <q-space class="q-mt-sm"></q-space>
     <q-page-container>
       <q-page>

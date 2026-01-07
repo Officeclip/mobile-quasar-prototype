@@ -7,8 +7,6 @@ import { useEventSummaryStore } from '../../stores/event/eventSummaryStore';
 import { computed, ref } from 'vue';
 import dateTimeHelper from '../../helpers/dateTimeHelper.js';
 import { format } from 'date-fns';
-// import drawer from '../../components/drawer.vue';
-import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
 const eventSummaryStore = useEventSummaryStore();
@@ -17,7 +15,6 @@ const selectedDate = ref('');
 selectedDate.value = format(new Date(), 'yyyy/MM/dd');
 
 const yearAndMonth = ref(null);
-const myDrawer = ref();
 
 const calendarEventDates = computed(() => {
   return eventSummaryStore.getEventSummaryDates();
@@ -68,11 +65,6 @@ const getYearandMonth = (newvalue: any) => {
   yearAndMonth.value = newvalue;
   eventSummaryStore.getAllEventSummary(yearAndMonth.value);
 };
-
-function toggleLeftDrawer() {
-  if (myDrawer.value == null) return;
-  myDrawer.value.toggleLeftDrawer();
-}
 </script>
 <style>
 .q-dialog__backdrop {
@@ -82,13 +74,7 @@ function toggleLeftDrawer() {
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <OC_Header
-      title="OfficeClip Calendar"
-      back-button-to="/homepage"
-      :show-menu-button="true"
-      @toggle-drawer="toggleLeftDrawer"
-    />
-    <OC_Drawer ref="myDrawer" />
+    <OC_Header title="OfficeClip Calendar" back-button-to="/homepage" />
     <q-page-container>
       <q-page>
         <div class="q-ma-md">

@@ -5,8 +5,6 @@ import dateTimeHelper from '../../helpers/dateTimeHelper';
 import { getExpenseOrTimesheetStatusColor } from 'src/helpers/colorIconHelper';
 import { isAllowed } from 'src/helpers/security';
 import { QInfiniteScroll, useQuasar } from 'quasar';
-// import drawer from '../../components/drawer.vue';
-import OC_Drawer from 'src/components/OC_Drawer.vue';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 import OC_Loader from 'src/components/general/OC_Loader.vue';
 import { storeToRefs } from 'pinia';
@@ -20,7 +18,6 @@ const tab = ref(expensesDetailsStore.selectedTab);
 const title = ref(capitalize(tab.value));
 const loading = ref(false); // <-- Change this from 'true' to 'false'
 let reachedEnd = ref(false);
-const myDrawer = ref();
 const infiniteScrollRef = ref<QInfiniteScroll | null>(null); // <-- Add ref for the component
 
 const footerTabs = [
@@ -86,26 +83,13 @@ onMounted(async () => {
 });
 
 const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
-
-function toggleLeftDrawer() {
-  if (myDrawer.value == null) return;
-  myDrawer.value.toggleLeftDrawer();
-}
 </script>
-<style>
-.q-dialog__backdrop {
-  backdrop-filter: blur(7px);
-}
-</style>
 <template>
   <q-layout view="lHh Lpr lFf">
     <OC_Header
       :title="`${title} Expenses`"
       back-button-to="/homepage"
-      :show-menu-button="true"
-      @toggle-drawer="toggleLeftDrawer"
     ></OC_Header>
-    <OC_Drawer ref="myDrawer" />
     <OC_Footer v-model:tab="tab" :tabs="footerTabs" />
     <q-page-container>
       <q-page>

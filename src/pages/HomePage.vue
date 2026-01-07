@@ -158,7 +158,6 @@ onMounted(async () => {
         :show-back-button="false"
         :show-menu-button="true"
         @toggle-drawer="toggleLeftDrawer"
-        :show-log-out-button="true"
       />
 
       <!-- Navigation Drawer -->
