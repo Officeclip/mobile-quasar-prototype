@@ -50,7 +50,7 @@ async function connectApi(): Promise<void> {
     if (isValid) {
       util.setEndPointUrlInLocalStorage(url);
       showNotification('Connection successful!', 'positive', 'top', () =>
-        router.push('/')
+        router.push('/'),
       );
     } else {
       showNotification('Please enter valid Rest Api Url', 'negative');
@@ -84,17 +84,17 @@ const startScan = async () => {
           qrbox: { width: 250, height: 250 },
           rememberLastUsedCamera: true,
         },
-        false
+        false,
       );
       html5QrcodeScanner.render(
         (decodedText: string) => {
-          apiUrl.value = decodedText;
+          apiUrl.value = util.processScannedUrl(decodedText);
           selectedEdition.value = 'self-hosted';
           stopScan();
         },
         () => {
           // ignore errors
-        }
+        },
       );
     }, 100);
   } else {
@@ -113,7 +113,7 @@ const startScan = async () => {
 
       const { barcodes } = await BarcodeScanner.scan();
       if (barcodes.length > 0) {
-        apiUrl.value = barcodes[0].displayValue;
+        apiUrl.value = util.processScannedUrl(barcodes[0].displayValue);
         selectedEdition.value = 'self-hosted';
       }
     } catch (e) {

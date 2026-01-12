@@ -124,6 +124,16 @@ function getEndPointUrl() {
 function isObjectNullOrEmpty(obj: object) {
   return !obj || Object.keys(obj).length == 0; // see: https://stackoverflow.com/a/65028055
 }
+function processScannedUrl(url: string): string {
+  if (!url) {
+    return '';
+  }
+  const mIndex = url.indexOf('/m');
+  if (mIndex !== -1) {
+    return url.substring(0, mIndex);
+  }
+  return url;
+}
 
 // This is used because iphone is giving error like: json.stringify cannot serialize cyclic structures
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -161,5 +171,6 @@ export default {
   isObjectNullOrEmpty,
   decycle,
   getEndPointUrlFromUri,
+  processScannedUrl,
   // endPointUrlsObj,
 };
