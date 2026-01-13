@@ -27,6 +27,9 @@ watch(selectedEdition, (newEdition) => {
 
 onMounted(() => {
   isPwa.value = $q.platform.is.pwa || $q.platform.is.mobile === false;
+  if (selectedEdition.value === 'cloud') {
+    apiUrl.value = cloudUrl;
+  }
 });
 
 onBeforeUnmount(() => {
