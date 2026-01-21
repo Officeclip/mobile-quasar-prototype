@@ -86,6 +86,7 @@ const timeOffCategoryLists = computed(() => {
     return {
       ...category,
       name: `${category.name} (${category.balance} ${category.balanceType})`,
+      disable: category.balance <= 0,
     };
   });
 });
@@ -248,6 +249,7 @@ defineExpose({
             option-label="name"
             option-value="id"
             map-options
+            option-disable="disable"
           />
         </q-item-section>
       </q-item>
