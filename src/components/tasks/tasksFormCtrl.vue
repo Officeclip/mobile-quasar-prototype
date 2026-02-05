@@ -33,6 +33,7 @@ const selectedTaskStatusId = ref(task.value.taskStatusId);
 const selectedTaskTypeId = ref(task.value.taskTypeId);
 
 const nameRef = ref();
+const assignedToRef = ref();
 const dateRef = ref();
 
 const repeatString =
@@ -146,8 +147,13 @@ const ruleDueDateGreaterThanStartDate = (val: string) => {
 
 const validateAll = () => {
   nameRef.value.validate();
+  assignedToRef.value.validate();
   dateRef.value.validate();
-  return !(nameRef.value.hasError || dateRef.value.hasError);
+  return !(
+    nameRef.value.hasError ||
+    assignedToRef.value.hasError ||
+    dateRef.value.hasError
+  );
 };
 
 const ruleNotEmpty = (val: string) => {
@@ -295,6 +301,8 @@ function createValue(val: string, done: any) {
       >
       <q-item class="column">
         <q-select
+          ref="assignedToRef"
+          :rules="[ruleNotEmpty]"
           v-model="task.assignees"
           :options="filterUsersList"
           @filter="filterUsersFn"
