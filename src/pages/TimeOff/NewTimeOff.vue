@@ -3,7 +3,7 @@ import { ref, Ref } from 'vue';
 import { useTimeOffStore } from '../../stores/timeOff/timeOffStore';
 import { useRouter } from 'vue-router';
 import TimeOffForm from '../../components/TimeOff/TimeOffFormCtrl.vue';
-import { useQuasar } from 'quasar';
+import { useQuasar, date } from 'quasar';
 import { TimeOffDetails } from 'src/models/TimeOff/timeOffDetails';
 import OC_Header from 'src/components/OCcomponents/OC_Header.vue';
 
@@ -18,9 +18,9 @@ const timeOffStore = useTimeOffStore();
 const timeOff: Ref<TimeOffDetails> = ref({
   id: '',
   description: '',
-  startDate: new Date().toISOString().slice(0, 10),
-  startTime: new Date().toISOString().slice(11, 16),
-  endDate: new Date().toISOString().slice(0, 10),
+  startDate: date.formatDate(Date.now(), 'YYYY-MM-DD'),
+    startTime: date.formatDate(Date.now(), 'h:mm A'),
+  endDate: date.formatDate(Date.now(), 'YYYY-MM-DD'),
   requestedFor: 'full_day', //full day, half day, hourly
   datesRequested: [],
   totalHours: Number(),

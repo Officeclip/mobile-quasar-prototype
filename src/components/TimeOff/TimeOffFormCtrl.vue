@@ -10,6 +10,34 @@ const props = defineProps(['timeOff']);
 const timeOffData = ref(props.timeOff);
 const $q = useQuasar();
 const showDatePicker = ref(false);
+const datePickerTarget = ref<'startDate' | 'endDate' | 'datesRequested' | null>(
+  null,
+);
+
+const openDatePicker = (
+  target: 'startDate' | 'endDate' | 'datesRequested',
+) => {
+  datePickerTarget.value = target;
+  showDatePicker.value = true;
+};
+
+const datePickerModel = computed({
+  get: () => {
+    if (datePickerTarget.value) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return timeOffData.value[datePickerTarget.value];
+    }
+    return null;
+  },
+  set: (value) => {
+    if (datePickerTarget.value) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      timeOffData.value[datePickerTarget.value] = value;
+    }
+  },
+});
 const router = useRouter();
 const userId = ref();
 
@@ -266,7 +294,7 @@ defineExpose({
               <q-icon
                 name="event"
                 class="cursor-pointer"
-                @click="showDatePicker = true"
+                @click="openDatePicker('datesRequested')"
               />
             </template>
           </q-input>
@@ -284,11 +312,19 @@ defineExpose({
           <q-input
             v-model="timeOffData.startDate"
             label="Start Date*"
-            type="date"
+            readonly
             required
             :rules="[ruleNotEmpty]"
             ref="startDateRef"
-          />
+          >
+            <template v-slot:append>
+              <q-icon
+                name="event"
+                class="cursor-pointer"
+                @click="openDatePicker('startDate')"
+              />
+            </template>
+          </q-input>
         </q-item-section>
       </q-item>
 
@@ -303,11 +339,20 @@ defineExpose({
             v-model="timeOffData.endDate"
             label="End Date*"
             :rules="[ruleNotEmpty, ruleEndDateGreaterThanStartDate]"
-            type="date"
+            readonly
             required
             ref="endDateRef"
-          /> </q-item-section
-      ></q-item>
+          >
+            <template v-slot:append>
+              <q-icon
+                name="event"
+                class="cursor-pointer"
+                @click="openDatePicker('endDate')"
+              />
+            </template>
+          </q-input>
+        </q-item-section>
+      </q-item>
       <q-item
         v-if="
           timeOffData.requestedFor === 'half_day' ||
@@ -318,11 +363,27 @@ defineExpose({
           <q-input
             v-model="timeOffData.startTime"
             label="Start Time"
-            type="time"
-            mask="##:## am"
+            readonly
             required
-          /> </q-item-section
-      ></q-item>
+          >
+            <template v-slot:append>
+              <q-icon name="access_time" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-time v-model="timeOffData.startTime" mask="h:mm A">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </q-item-section>
+      </q-item>
       <q-item
         v-if="
           profileData.timeoffUnit === 'Days' &&
@@ -362,7 +423,10 @@ defineExpose({
       ></q-item>
     </q-list>
     <q-dialog v-model="showDatePicker">
-      <q-date v-model="timeOffData.datesRequested" multiple
+      <q-date
+        v-model="datePickerModel"
+        :multiple="datePickerTarget === 'datesRequested'"
+        mask="YYYY-MM-DD"
         ><div class="row items-center justify-end">
           <q-btn v-close-popup color="primary" flat label="Close" /></div
       ></q-date>
