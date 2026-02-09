@@ -367,7 +367,7 @@ function createValue(val: string, done: any) {
           <q-icon color="primary" name="repeat" size="sm" />
         </q-item-section>
         <q-item-section> <div v-html="repeatString"></div></q-item-section>
-        <q-item-section side>
+        <q-item-section side v-if="!task.id">
           <q-icon color="primary" name="chevron_right" />
         </q-item-section>
       </q-item>

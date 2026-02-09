@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import NotesList from '../../components/Notes/NotesList.vue';
 import { useNotesStore } from '../../stores/NotesStore';
 import { useRouter } from 'vue-router';
@@ -32,6 +32,10 @@ const loadNoteBooks = async () => {
 
 onMounted(async () => {
   await loadNoteBooks();
+});
+
+watch(selectedNotebook, (newNotebook) => {
+  notesStore.setSelectedNotebook(newNotebook);
 });
 
 function navigateToNewNotes() {

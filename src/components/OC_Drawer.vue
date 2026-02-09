@@ -11,6 +11,7 @@ import SettingsComponent from './settingsPage.vue';
 import uploadphoto from 'src/components/general/UploadPhoto.vue';
 import { useImageDetailStore } from 'src/stores/ImageDetail';
 import { useQuasar } from 'quasar';
+import logoutButton from '../components/general/logOutButton.vue';
 
 const sessionStore = useSessionStore();
 const leftDrawerOpen = ref(false);
@@ -104,10 +105,10 @@ function goToApp(url: string) {
   }
 }
 
-function logout() {
-  router.push({ path: '/' });
-  sessionStore.logout();
-}
+// function logout() {
+//   router.push({ path: '/' });
+//   sessionStore.logout();
+// }
 
 const loadProfileLists = async () => {
   if (util.isObjectNullOrEmpty(profileListsStore.ProfileLists)) {
@@ -258,7 +259,7 @@ function handleEditPhotoClick() {
       </q-item>
 
       <!-- Logout Button -->
-      <q-btn
+      <!-- <q-btn
         icon="logout"
         label="Log out"
         class="full-width"
@@ -267,7 +268,8 @@ function handleEditPhotoClick() {
         color="negative"
         text-color="white"
         @click="logout"
-      />
+      /> -->
+      <logoutButton />
     </div>
 
     <!-- Photo View Dialog -->

@@ -22,13 +22,21 @@ const cancelLogOut = () => {
 </script>
 
 <template>
-  <q-btn @click="logOut" flat round class="q-pa-sm">
+  <!-- <q-btn @click="logOut" flat round class="q-pa-sm">
     <div class="column items-center">
       <q-icon name="logout" />
-      <!-- <span class="text-caption">Logout</span> -->
     </div>
-  </q-btn>
-
+  </q-btn> -->
+  <q-btn
+    icon="logout"
+    label="Log out"
+    class="full-width"
+    unelevated
+    rounded
+    color="negative"
+    text-color="white"
+    @click="logOut"
+  />
   <q-dialog v-model="showDialog" persistent>
     <q-card>
       <q-card-section class="row items-center">

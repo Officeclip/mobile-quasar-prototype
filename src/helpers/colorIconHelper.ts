@@ -1,7 +1,7 @@
 export function getTaskStatusIcon(status: string) {
   switch (status) {
     case 'Active':
-      return 'lock_open';
+      return 'folder_open';
     case 'Pending':
       return 'hourglass_top';
     case 'Completed':

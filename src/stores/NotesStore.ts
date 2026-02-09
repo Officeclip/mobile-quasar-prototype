@@ -23,6 +23,14 @@ export const useNotesStore = defineStore('notesStore', {
   },
 
   actions: {
+    setSelectedNotebook(notebook: NoteBook | null) {
+      this.selectedNotebook = notebook;
+      if (notebook) {
+        localStorage.setItem('selectedNotebookId', notebook.id);
+      } else {
+        localStorage.removeItem('selectedNotebookId');
+      }
+    },
     async getNoteBooks() {
       try {
         const instance = Constants.getAxiosInstance();
@@ -30,6 +38,16 @@ export const useNotesStore = defineStore('notesStore', {
           `${util.getEndPointUrl()}/notebook`,
         );
         this.noteBooks = response.data;
+        const savedNotebookId = localStorage.getItem('selectedNotebookId');
+        if (savedNotebookId) {
+          const savedNotebook = this.noteBooks.find(
+            (nb) => nb.id === savedNotebookId,
+          );
+          if (savedNotebook) {
+            this.selectedNotebook = savedNotebook;
+            return;
+          }
+        }
         this.selectedNotebook =
           this.noteBooks.find((nb) => nb.isSelected) || this.noteBooks[0];
       } catch (error) {
