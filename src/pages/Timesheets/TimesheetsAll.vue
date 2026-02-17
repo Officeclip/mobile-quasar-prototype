@@ -126,42 +126,8 @@ const showWarningMsg = () => {
               A timesheet is used to track employee's time spent on projects and
               tasks.
             </div>
-            <!-- <q-btn
-              class="q-mt-lg"
-              color="primary"
-              unelevated
-              size="lg"
-              :to="{ name: 'newPeriodExpense' }"
-              label="Create your first Expense"
-              no-caps
-            /> -->
           </div>
         </div>
-        <!-- <div v-if="errorMsg !== ''">
-          <q-list class="flex flex-center">
-            <q-item v-if="title === 'Inbox'">
-              <q-item-section>
-                <q-item-label class="text-h6 q-py-md">
-                  {{ errorMsg }}
-                </q-item-label>
-                <q-item-label class="text-h6 q-py-sm">
-                  Create your first Timesheet
-                </q-item-label>
-                <q-item-label>
-                  A timesheet is used to track employee's time spent on projects
-                  and tasks.
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item v-else>
-              <q-item-section>
-                <q-item-label class="text-h6 q-py-md">
-                  {{ errorMsg }}
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </div> -->
         <OC_Loader :visible="loading" />
         <q-infinite-scroll
           ref="infiniteScrollRef"
@@ -185,11 +151,11 @@ const showWarningMsg = () => {
               clickable
               v-ripple
             >
-              <q-item-section class="col-grow q-mr-lg">
-                <q-item-label>
+              <q-item-section>
+                <q-item-label class="q-my-xs text-weight-medium">
                   {{ item.createdByUserName }}
                 </q-item-label>
-                <q-item-label caption class="text-grey-8">
+                <q-item-label caption>
                   {{
                     item.fromDate
                       ? dateTimeHelper.formatDateForTE(item.fromDate)
@@ -197,14 +163,17 @@ const showWarningMsg = () => {
                   }}
                 </q-item-label>
               </q-item-section>
-              <q-item-section>
+              <q-item-section style="align-items: end">
                 <q-item-label>
-                  {{ item.totalHours }}
-                  <span class="text-caption q-pl-xs">hrs</span>
+                  <span class="text-weight-medium text-body1 q-mr-xs">
+                    {{ item.totalHours }}</span
+                  >
+                  <span>hrs</span>
                 </q-item-label>
               </q-item-section>
-              <q-item-section style="align-items: end">
+              <q-item-section side>
                 <q-chip
+                  style="min-width: 84px !important"
                   dense
                   :class="getExpenseOrTimesheetStatusColor(item.status)"
                 >
