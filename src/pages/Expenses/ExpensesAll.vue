@@ -113,15 +113,6 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
               An Expense report is used to track employee's expenses on projects
               and tasks.
             </div>
-            <!-- <q-btn
-              class="q-mt-lg"
-              color="primary"
-              unelevated
-              size="lg"
-              :to="{ name: 'newPeriodExpense' }"
-              label="Create your first Expense"
-              no-caps
-            /> -->
           </div>
         </div>
         <OC_Loader :visible="loading" />
@@ -147,7 +138,7 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
               v-ripple
             >
               <q-item-section>
-                <q-item-label>
+                <q-item-label class="q-my-xs text-weight-medium">
                   {{ expense.createdByUserName }}
                 </q-item-label>
                 <q-item-label caption>{{
@@ -156,16 +147,17 @@ const isAllow = isAllowed({ roleAccess: 'TimeExpensesCreateTimeSheet' });
                     : 'No Specific Date'
                 }}</q-item-label>
               </q-item-section>
-              <q-item-section>
+              <q-item-section style="align-items: end">
                 <q-item-label>
-                  {{ expense.totalAmount.toFixed(2) }}
-                  <span class="text-caption q-pl-xs">{{
-                    expense.currency
-                  }}</span>
+                  <span class="text-weight-medium text-body1 q-mr-xs">
+                    {{ expense.totalAmount.toFixed(2) }}</span
+                  >
+                  <span>{{ expense.currency }}</span>
                 </q-item-label>
               </q-item-section>
-              <q-item-section style="align-items: end">
+              <q-item-section side>
                 <q-chip
+                  style="min-width: 84px !important"
                   dense
                   :class="getExpenseOrTimesheetStatusColor(expense.status)"
                   ><q-item-label caption class="q-px-sm">{{
