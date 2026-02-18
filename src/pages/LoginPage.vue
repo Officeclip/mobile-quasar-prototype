@@ -11,7 +11,7 @@ import { Constants } from '../stores/Constants';
 import logger from 'src/helpers/logger';
 import util from 'src/helpers/util';
 import { useNotification } from '../composables/useNotification';
-import welcomePage from 'src/pages/welcomPage.vue';
+import welcomePage from 'src/pages/welcomePage.vue';
 // import { Browser } from '@capacitor/browser';
 
 // Store and router initialization
