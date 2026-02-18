@@ -1,20 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();
 
 const slide = ref('crm');
 </script>
 
 <template>
-  <q-page class="column items-center welcome-page-bg">
+  <q-page class="column items-center">
     <!-- SECTION: Header -->
     <div class="header-decoration text-white text-center q-pt-md q-pb-xl">
-      <q-avatar
-        size="60px"
-        font-size="52px"
-        color="white"
-        text-color="primary"
-        class="shadow-3"
-      >
+      <q-avatar size="60px" font-size="52px">
         <img src="/AppIcon.png" />
       </q-avatar>
       <h5 class="text-weight-bold q-mt-md q-mb-xs">OfficeClip</h5>
@@ -47,7 +44,10 @@ const slide = ref('crm');
               class="column flex-center text-center q-px-md slide-content"
             >
               <div class="text-h6 text-weight-medium">Manage Contacts</div>
-              <p class="text-body2 text-grey-8 q-mt-sm">
+              <p
+                class="text-body2 q-mt-sm"
+                :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-7'"
+              >
                 Access your CRM database<br />from anywhere, anytime.
               </p>
             </q-carousel-slide>
@@ -57,7 +57,10 @@ const slide = ref('crm');
               class="column flex-center text-center q-px-md slide-content"
             >
               <div class="text-h6 text-weight-medium">Track Time</div>
-              <p class="text-body2 text-grey-8 q-mt-sm">
+              <p
+                class="text-body2 q-mt-sm"
+                :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-7'"
+              >
                 Log hours and expenses<br />straight from your device.
               </p>
             </q-carousel-slide>
@@ -67,17 +70,21 @@ const slide = ref('crm');
               class="column flex-center text-center q-px-md slide-content"
             >
               <div class="text-h6 text-weight-medium">Project Tasks</div>
-              <p class="text-body2 text-grey-8 q-mt-sm">
+              <p
+                class="text-body2 q-mt-sm"
+                :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-7'"
+              >
                 Keep your team in sync<br />and meet every deadline.
               </p>
             </q-carousel-slide>
           </q-carousel>
         </q-card>
-        <div>
+        <div class="q-mt-lg">
           <q-banner
+            rounded
             dense
-            class="bg-blue-1 text-primary rounded-borders q-mt-lg"
             style="max-width: 420px"
+            :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-9 bg-blue-1'"
           >
             <template v-slot:avatar>
               <q-icon name="info_outline" />
@@ -110,9 +117,9 @@ const slide = ref('crm');
 </template>
 
 <style scoped>
-.welcome-page-bg {
+/* .welcome-page-bg {
   background-color: #f0f4f8;
-}
+} */
 
 .header-decoration {
   background: #1976d2;
@@ -140,4 +147,9 @@ const slide = ref('crm');
   padding-bottom: 32px;
   /* Adds space for carousel navigation dots */
 }
+
+/* .border-primary {
+  border: 1px solid var(--q-primary);
+  border-radius: 16px;
+} */
 </style>

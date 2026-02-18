@@ -128,7 +128,7 @@ const startScan = async () => {
 </script>
 
 <template>
-  <q-layout view="lHh Lpr lFf" class="bg-grey-1">
+  <q-layout view="lHh Lpr lFf" class="bg-surface">
     <q-header class="bg-primary text-white">
       <q-toolbar style="height: 60px">
         <q-btn flat round icon="west" :to="{ name: 'loginPage' }" />
@@ -142,7 +142,12 @@ const startScan = async () => {
     <q-page-container>
       <q-page class="q-pa-lg column no-wrap">
         <div class="toggle-container q-mb-xl">
-          <div class="custom-toggle row no-wrap">
+          <div
+            class="custom-toggle row no-wrap"
+            :class="
+              $q.dark.isActive ? 'bg-dark-container' : 'bg-light-container'
+            "
+          >
             <div
               class="toggle-option col-6 flex flex-center"
               :class="{ active: selectedEdition === 'cloud' }"
@@ -168,8 +173,8 @@ const startScan = async () => {
             <q-avatar
               size="140px"
               font-size="80px"
-              color="blue-1"
-              text-color="primary"
+              :color="$q.dark.isActive ? 'primary' : 'blue-1'"
+              :text-color="$q.dark.isActive ? 'white' : 'primary'"
               icon="cloud"
             >
               <q-badge floating color="positive" rounded class="check-badge">
@@ -179,25 +184,44 @@ const startScan = async () => {
           </div>
 
           <div class="text-center">
-            <div class="text-h6 text-weight-bold text-grey-9">
+            <div
+              class="text-h6 text-weight-bold"
+              :class="$q.dark.isActive ? 'text-white' : 'text-grey-9'"
+            >
               OfficeClip Hosted
             </div>
-            <div class="text-body2 text-grey-7 q-px-md">
+            <div
+              class="text-body2 q-px-md"
+              :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-7'"
+            >
               You are connecting to our secure<br />
               cloud servers. No setup required.
             </div>
           </div>
 
-          <div
+          <!-- <div
             class="url-preview row items-center justify-center q-px-md q-py-xs"
+            :class="$q.dark.isActive ? 'bg-dark-container' : 'bg-grey-2'"
           >
-            <q-icon name="lock" size="xs" color="grey-6" class="q-mr-xs" />
-            <span class="text-caption text-grey-6">{{ cloudUrl }}</span>
-          </div>
+            <q-icon
+              name="lock"
+              size="xs"
+              :color="$q.dark.isActive ? 'grey-5' : 'grey-6'"
+              class="q-mr-xs"
+            />
+            <span
+              class="text-caption"
+              :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-6'"
+              >{{ cloudUrl }}</span
+            >
+          </div> -->
         </div>
 
         <div v-else class="column">
-          <div class="text-subtitle2 text-weight-bold text-grey-9 q-mb-xs">
+          <div
+            class="text-subtitle2 text-weight-bold q-mb-xs"
+            :class="$q.dark.isActive ? 'text-white' : 'text-grey-9'"
+          >
             Server Address
           </div>
           <q-input
@@ -208,13 +232,19 @@ const startScan = async () => {
             class="custom-input q-mb-sm"
             @keyup.enter="connectApi"
           />
-          <div class="text-caption text-grey-7 q-mb-xl">
+          <div
+            class="text-caption q-mb-xl"
+            :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-7'"
+          >
             We will automatically configure the API URL.
           </div>
 
           <div class="row items-center q-mb-xl">
             <q-separator class="col" />
-            <div class="q-px-md text-caption text-grey-6 text-weight-bold">
+            <div
+              class="q-px-md text-caption text-weight-bold"
+              :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-6'"
+            >
               OR
             </div>
             <q-separator class="col" />
@@ -267,7 +297,7 @@ const startScan = async () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: white;
+  background: var(--q-color-surface);
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -283,11 +313,16 @@ const startScan = async () => {
 <style scoped>
 /* Segmented Control Styling */
 .custom-toggle {
-  background: #e3f2fd;
   border-radius: 25px;
   height: 44px;
   padding: 4px;
   cursor: pointer;
+}
+.bg-light-container {
+  background: #e3f2fd;
+}
+.bg-dark-container {
+  background: #1976d2;
 }
 
 .toggle-option {
@@ -297,10 +332,16 @@ const startScan = async () => {
   transition: all 0.3s ease;
   color: #1976d2;
 }
-
+.bg-dark-container .toggle-option {
+  color: white;
+}
 .toggle-option.active {
   background: #1976d2;
   color: white;
+}
+.bg-dark-container .toggle-option.active {
+  background: white;
+  color: #1976d2;
 }
 
 /* Cloud Illustration Badge */
@@ -321,7 +362,6 @@ const startScan = async () => {
 
 /* URL Preview Pill */
 .url-preview {
-  background: rgba(0, 0, 0, 0.05);
   border-radius: 4px;
   min-width: 200px;
 }
