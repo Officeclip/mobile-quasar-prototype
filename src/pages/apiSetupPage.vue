@@ -250,10 +250,18 @@ const startScan = async () => {
             <q-separator class="col" />
           </div>
 
+          <div
+            class="text-caption q-mb-md text-center"
+            :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-7'"
+          >
+            To quickly set up your self-hosted server, scan the QR code
+            available on your product's login page.
+          </div>
+
           <q-btn
             outline
             color="primary"
-            class="qr-btn full-width q-py-md"
+            class="qr-btn full-width q-py-sm q-mb-md"
             no-caps
             @click="startScan"
           >
